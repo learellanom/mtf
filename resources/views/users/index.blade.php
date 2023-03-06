@@ -27,6 +27,7 @@
                                         <th>#</th>
                                         <th>Nombre</th>
                                         <th>E-mail</th>
+                                        <th></th>
                                         <th class="text-center">Editar</th>
                                         <th class="text-center">Eliminar</th>
                                         
@@ -38,8 +39,14 @@
                                             <td>{{ $usuario->id }}</td>
                                             <td>{{ $usuario->name }}</td>
                                             <td>{{ $usuario->email }}</td>
+                                            <td></td>
                                             <td class="text-center"><a class="btn btn-primary" href={{route('users.edit', $usuario)}}><i class='fas fa-edit'></i></a></td>
-                                            <td class="text-center"><button class="btn btn-danger"><i class='fas fa-trash'></i></button></td>
+                                            
+                                            <form action={{route("users.destroy", $usuario)}} method="POST" id="eliminar_usuario">
+                                            @csrf
+                                            @method('delete')
+                                            <td class="text-center"><a class="btn btn-danger borrar_users" onclick="return confirm('Desea borrar?')" id='borrar_users'><i class='fas fa-trash'></i></a></td>
+                                            </form>
                                         </tr>
                                     @endforeach
                                    
@@ -48,8 +55,51 @@
                         </div>
                     </div>
                 </div>
-            </div>
+                 <div class="bg-white">
+             {{$users->links()}}
+          </div>
+    </div>
 
      </div>
 </div>
+@endsection
+
+@section('js')
+<script type="text/javascript">
+ $(".borrar_users").attr("onclick", "").unbind("click"); //remove function onclick button
+
+$(document).on('click', '.borrar_users', function () {
+    let delete_form = $(this).parent().find('#eliminar_usuario');
+    swal.fire({
+        title: "¿Desea eliminar al usuario?",
+        text: "Una vez eliminado/a, no se podra recuperar a este usuario.",
+        icon: "warning",
+        confirmButtonText: 'Si, eliminar',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        cancelButtonText: 'Cancelar',
+
+    }).then((result) => {
+            if (result.value) {
+
+                /* swal.fire(
+                    '¡Eliminado!',
+                    'El recipe ha sido eliminado.',
+                    'success'
+                ) */
+                delete_form.submit();
+
+            }else{
+
+                    swal.fire(
+                    'Cancelado',
+                    'La eliminación del usuario ha sido cancelada.',
+                    'error'
+                )
+
+            }
+        });
+});
+</script>
 @endsection
