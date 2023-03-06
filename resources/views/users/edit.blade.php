@@ -14,17 +14,57 @@
     <div class="card-body">
 <form action={{ route('users.update', $user)}} method="POST">
 @method('PUT')
-<div class="form-group">
-    <label for="">Nombre</label>
-    <input type="text" class="form-control" name="name" placeholder="Nombre del usuario">
+        <div class="form-group">
+            <label for="">Nombre</label>
+            <input required type="text" name="name" id="name" class="form-control" value={{old('name') }}>
+            
 
-    @error('name')
+            @error('name')
 
-    <span class="text-danger">{{$message}}</span>
+            <span class="text-danger">{{$message}}</span>
 
-    @enderror
-</div>
-    </form>
+            @enderror
+
+
+        <div class="form-group">
+            <label for="">Correo Electronico</label>
+            <input required type="text" name="email" id="email" class="form-control" value={{ old('email') }}>
+            
+
+            @error('email')
+
+            <span class="text-danger">{{$message}}</span>
+
+            @enderror
+        </div>
+        </div>
+
+        <div class="form-group">
+            <label for="">Contraseña</label>
+            <input required type="text" name="password" id="password" class="form-control" value={{ old('password') }}>
+            
+
+            @error('password')
+
+            <span class="text-danger">{{$message}}</span>
+
+            @enderror
+        </div>
+        <div class="form-group">
+            <label for="">Confirma Contraseña</label>
+            <input required type="text" name="password" id="password" class="form-control" value={{ old('password') }}>
+            
+
+            @error('password')
+
+            <span class="text-danger">{{$message}}</span>
+
+            @enderror
+        </div>
+
+            <button class="btn btn-primary">Actualizar</button> 
+
+       </form>
     </div>
 </div>
 @endsection

@@ -21,13 +21,12 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-12">
-                            <table id="example" class="table table-bordered table-striped">
+                            <table id="usuarios" class="table table-bordered table-striped">
                                 <thead>
                                     <tr>
                                         <th>#</th>
                                         <th>Nombre</th>
                                         <th>E-mail</th>
-                                        <th></th>
                                         <th class="text-center">Editar</th>
                                         <th class="text-center">Eliminar</th>
                                         
@@ -39,10 +38,9 @@
                                             <td>{{ $usuario->id }}</td>
                                             <td>{{ $usuario->name }}</td>
                                             <td>{{ $usuario->email }}</td>
-                                            <td></td>
                                             <td class="text-center"><a class="btn btn-primary" href={{route('users.edit', $usuario)}}><i class='fas fa-edit'></i></a></td>
                                             
-                                            <form action={{route("users.destroy", $usuario)}} method="POST" id="eliminar_usuario">
+                                            <form action={{route("users.destroy", $usuario)}} method="POST">
                                             @csrf
                                             @method('delete')
                                             <td class="text-center"><a class="btn btn-danger borrar_users" onclick="return confirm('Desea borrar?')" id='borrar_users'><i class='fas fa-trash'></i></a></td>
@@ -69,7 +67,7 @@
  $(".borrar_users").attr("onclick", "").unbind("click"); //remove function onclick button
 
 $(document).on('click', '.borrar_users', function () {
-    let delete_form = $(this).parent().find('#eliminar_usuario');
+    let delete_form = $(this).parent().find();
     swal.fire({
         title: "¿Desea eliminar al usuario?",
         text: "Una vez eliminado/a, no se podra recuperar a este usuario.",
@@ -83,11 +81,11 @@ $(document).on('click', '.borrar_users', function () {
     }).then((result) => {
             if (result.value) {
 
-                /* swal.fire(
+                 swal.fire(
                     '¡Eliminado!',
-                    'El recipe ha sido eliminado.',
+                    'El usuario ha sido eliminado.',
                     'success'
-                ) */
+                ) 
                 delete_form.submit();
 
             }else{
@@ -101,5 +99,9 @@ $(document).on('click', '.borrar_users', function () {
             }
         });
 });
+$(document).ready( function () {
+$('#usuarios').DataTable();
+    
+} );
 </script>
 @endsection

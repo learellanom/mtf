@@ -27,10 +27,6 @@ Route::get('/home', function () {
 
 
 
-Route::resource('usuarios', UserController::class)->except('show')->names('users');
-
-
-
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -44,5 +40,6 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
+Route::resource('usuarios', UserController::class)->except('show')->names('users');
 
 
