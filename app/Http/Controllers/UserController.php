@@ -14,7 +14,7 @@ class UserController extends Controller
     public function index()
     {
         $users = User::all();
-        return view('user.index', compact('users'));
+        return view('users.index', compact('users'));
     }
 
     /**
@@ -44,9 +44,10 @@ class UserController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(User $user)
     {
-        //
+        //$role = Role::all();
+        return view('admin.users.edit', compact('user', 'role'));
     }
 
     /**
