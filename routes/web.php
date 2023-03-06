@@ -26,11 +26,9 @@ Route::get('/home', function () {
 
 
 
-Route::middleware('auth')->group(function (){
-    Route::get('/usuarios', [UserController::class, 'index'])->name('users.index');
-    Route::post('/usuarios', [UserController::class, 'edit'])->name('users.edit');
-    Route::post('/usuarios', [UserController::class, 'destroy'])->name('users.destroy');
-});
+
+Route::resource('usuarios', UserController::class)->except('show')->names('users');
+
 
 
 
