@@ -312,7 +312,7 @@ return [
             'can'  => 'manage-blog',
         ],
         ['header' => 'Master',
-        'classes' =>'text-uppercase font-weight-bold',],
+        'classes' =>'text-uppercase font-weight-bold text-light',],
         [
             'text'        => 'Comandas',
             'url'         => 'admin/pages',
@@ -329,7 +329,7 @@ return [
             'label_color' => 'success',
         ],
         ['header' => 'Estadisticas',
-        'classes' =>'text-uppercase font-weight-bold',],
+        'classes' =>'text-uppercase font-weight-bold text-light',],
         
         [
             'text' => 'Dashboard',
@@ -338,7 +338,7 @@ return [
         ], 
        
         ['header' => 'Operaciones',
-        'classes' =>'text-uppercase font-weight-bold',],
+        'classes' =>'text-uppercase font-weight-bold text-light',],
         [
             'text'        => 'Movimientos',
             'url'         => 'admin/settings',
@@ -354,7 +354,7 @@ return [
             'label_color' =>'success',
         ],
         ['header' => 'Configuración',
-        'classes' =>'text-uppercase font-weight-bold',],
+        'classes' =>'text-uppercase font-weight-bold text-light',],
         [
             'text'    => 'Administraciones',
             'icon'    => 'fas fa-fw fa-share',

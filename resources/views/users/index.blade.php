@@ -16,7 +16,7 @@
         <div class="col-md-12">
             <div class="card mb-4">
                 <div class="card-header">
-                    <h3 class="card-title">Lista Usuario</h3>
+                    <h3 class="card-title">USUARIOS</h3>
                 </div>
                 <div class="card-body">
                     <div class="row">
@@ -31,13 +31,14 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($users as $user)
+                                    
+                                    
                                         <tr>
-                                            <td>{{ $user->id }}</td>
-                                            <td>{{ $user->name }}</td>
-                                            <td>{{ $user->email }}</td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
                                         </tr>  
-                                    @endforeach
+                                    
                                 </tbody>
                             </table>
                         </div>
@@ -47,3 +48,4 @@
 
      </div>
 </div>
+@endsection
