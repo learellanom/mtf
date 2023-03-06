@@ -27,7 +27,7 @@ Route::get('/home', function () {
 
 
 
-Route::resource('usuarios', UserController::class)->except('show')->names('users');
+
 
 
 
@@ -44,5 +44,6 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
+Route::resource('usuarios', UserController::class)->except('show')->names('users');
 
 
