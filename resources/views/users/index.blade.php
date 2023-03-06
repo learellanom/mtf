@@ -27,18 +27,22 @@
                                         <th>#</th>
                                         <th>Nombre</th>
                                         <th>E-mail</th>
+                                        <th class="text-center">Editar</th>
+                                        <th class="text-center">Eliminar</th>
                                         
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    
-                                    
+                                    @foreach ($users as $usuario)
                                         <tr>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                        </tr>  
-                                    
+                                            <td>{{ $usuario->id }}</td>
+                                            <td>{{ $usuario->name }}</td>
+                                            <td>{{ $usuario->email }}</td>
+                                            <td class="text-center"><a class="btn btn-primary" href={{route('users.edit', $usuario)}}><i class='fas fa-edit'></i></a></td>
+                                            <td class="text-center"><button class="btn btn-danger"><i class='fas fa-trash'></i></button></td>
+                                        </tr>
+                                    @endforeach
+                                   
                                 </tbody>
                             </table>
                         </div>

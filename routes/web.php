@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -23,9 +24,13 @@ Route::get('/home', function () {
     return view('home');
 })->middleware(['auth', 'verified']);
 
-Route::get('/usuarios', function () {
-    return view('users.index');
-})->middleware(['auth', 'verified']);
+
+
+
+Route::resource('usuarios', UserController::class)->except('show')->names('users');
+
+
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
