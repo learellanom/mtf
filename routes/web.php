@@ -58,3 +58,6 @@ Route::get('caja', function () {
     return view('caja');
 });
 
+Route::get('dashboardest', function () {
+    return view('dashboardest');
+});
