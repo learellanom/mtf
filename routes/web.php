@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\TransactionController;
+use App\Http\Controllers\ClientController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -43,5 +45,5 @@ Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::resource('usuarios', UserController::class)->except('show')->names('users');
-
-
+Route::resource('movimientos', TransactionController::class)->names('transactions');
+Route::resource('clientes', ClientController::class)->except('show')->names('clients');

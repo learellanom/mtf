@@ -62,7 +62,7 @@
             @enderror
         </div>
 
-            <button class="btn btn-primary">Actualizar</button> 
+        <button class="btn btn-primary text-uppercase font-weight-bold btn-block">Actualizar</button> 
 
        </form>
     </div>

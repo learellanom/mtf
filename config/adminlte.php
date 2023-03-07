@@ -341,7 +341,8 @@ return [
         'classes' =>'text-uppercase font-weight-bold text-light',],
         [
             'text'        => 'Movimientos',
-            'url'         => 'admin/settings',
+            'url'         => 'movimientos',
+            'active'      => ['movimientos*'],
             'icon'        => 'fas fa-cogs',
             'label'       => 4,
             'label_color' =>'success',
@@ -362,11 +363,17 @@ return [
                 [
                     'text' => 'Usuarios',
                     'url'  => 'usuarios',
+                    'active'      => ['usuarios*'],
                 ],
               
                 [
                     'text' => 'Roles',
                     'url'  => '#',
+                ],
+                [
+                    'text' => 'Clientes',
+                    'url'  => 'clientes',
+                    'active'      => ['clientes*'],
                 ],
            
             ],
