@@ -43,6 +43,11 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::resource('usuarios', UserController::class)->except('show')->names('users');
 
 
+Route::get('comanda', function () {
+    return view('comanda');
+});
+
+
 Route::get('caja', function () {
     return view('caja');
 });

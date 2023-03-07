@@ -315,14 +315,14 @@ return [
         'classes' =>'text-uppercase font-weight-bold text-light',],
         [
             'text'        => 'Comandas',
-            'url'         => 'admin/pages',
+            'url'         => 'comanda',
             'icon'        => 'fas fa-chart-line',
             'label'       => 4,
             'label_color' => 'success',
         ],
         
         [
-            'text'        => 'Cajas (test 2)',
+            'text'        => 'Caja',
             'url'         => 'caja',
             'icon'        => 'fas fa-wallet',
             'label'       => 4,
