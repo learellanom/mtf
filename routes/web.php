@@ -47,3 +47,14 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::resource('usuarios', UserController::class)->except('show')->names('users');
 Route::resource('movimientos', TransactionController::class)->names('transactions');
 Route::resource('clientes', ClientController::class)->except('show')->names('clients');
+
+
+Route::get('comanda', function () {
+    return view('comanda');
+});
+
+
+Route::get('caja', function () {
+    return view('caja');
+});
+
