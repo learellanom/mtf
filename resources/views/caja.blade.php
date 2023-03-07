@@ -6,8 +6,17 @@
 @php
 $heads = [
     'ID',
-    'Name',
-    ['label' => 'Phone', 'width' => 40],
+    'Fecha',
+    'Descripcion',
+    'Numero',
+    'Monto',
+    'Total',
+    '%',
+    'Monto $',
+    'Total Monto', 
+    'Entrada',
+    'Salida',
+    'Total',
     ['label' => 'Actions', 'no-export' => true, 'width' => 5],
 ];
 
@@ -23,17 +32,29 @@ $btnDetails = '<button class="btn btn-xs btn-default text-teal mx-1 shadow" titl
 
 $config = [
     'data' => [
-        [22, 'John Bender', '+02 (123) 123456789', '<nobr>'.$btnEdit.$btnDelete.$btnDetails.'</nobr>'],
-        [19, 'Sophia Clemens', '+99 (987) 987654321', '<nobr>'.$btnEdit.$btnDelete.$btnDetails.'</nobr>'],
-        [3, 'Peter Sousa', '+69 (555) 12367345243', '<nobr>'.$btnEdit.$btnDelete.$btnDetails.'</nobr>'],
+        [22, '07-03-2023', 'John Bender',    '4,00', '500.00', '501.00', '2%', '503.00', '504.00', '', '', '505.00', '<nobr>'.$btnEdit.$btnDelete.$btnDetails.'</nobr>'],
+        [19, '07-03-2023', 'Sophia Clemens', '4.00', '500.00', '501.00', '2%', '503.00', '504.00', '', '', '505.00', '<nobr>'.$btnEdit.$btnDelete.$btnDetails.'</nobr>'],
+        [3,  '07-03-2023', 'Peter Sousa',    '4.00', '500.00', '501.00', '2%', '503.00', '504.00', '', '', '505.00', '<nobr>'.$btnEdit.$btnDelete.$btnDetails.'</nobr>'],
     ],
     'order' => [[1, 'asc']],
-    'columns' => [null, null, null, ['orderable' => false]],
+    'columns' => [null, null, null, null, null, null, null, null, null, null, null, null, ['orderable' => false]],
 ];
 @endphp
 
+<br>
+<br>
+<h1></h1>
+<br>
+<br>
+{{-- Disabled --}}
+<x-adminlte-button label="Añadir" theme="dark" />
+
+<br>
+<br>
+
+
 {{-- Minimal example / fill data using the component slot --}}
-<x-adminlte-datatable id="table1" :heads="$heads">
+<!-- <x-adminlte-datatable id="table1" :heads="$heads">
     @foreach($config['data'] as $row)
         <tr>
             @foreach($row as $cell)
@@ -41,9 +62,10 @@ $config = [
             @endforeach
         </tr>
     @endforeach
-</x-adminlte-datatable>
+</x-adminlte-datatable> -->
 
 {{-- Compressed with style options / fill data using the plugin config --}}
 <x-adminlte-datatable id="table2" :heads="$heads" head-theme="dark" :config="$config"
     striped hoverable bordered compressed/>
+
 @endsection

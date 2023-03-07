@@ -43,7 +43,7 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::resource('usuarios', UserController::class)->except('show')->names('users');
 
 
-Route::get('test', function () {
-    return view('test');
+Route::get('caja', function () {
+    return view('caja');
 });
 
