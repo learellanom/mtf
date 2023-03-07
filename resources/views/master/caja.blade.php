@@ -43,7 +43,7 @@ $config = [
 
 <br>
 <br>
-<h1>Comandas</h1>
+<h1 class="text-center text-dark font-weight-bold">Caja</h1>
 <br>
 <br>
 {{-- Disabled --}}

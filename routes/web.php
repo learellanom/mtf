@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\ClientController;
+use App\Http\Controllers\AgenteController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -48,14 +49,20 @@ Route::resource('usuarios', UserController::class)->except('show')->names('users
 Route::resource('movimientos', TransactionController::class)->names('transactions');
 Route::resource('clientes', ClientController::class)->except('show')->names('clients');
 
+Route::resource('agentes', AgenteController::class)->except('show')->names('agentes');
+
+Route::get('agentes', function () {
+    return view('agentes.index');
+});
+
 
 Route::get('comanda', function () {
-    return view('comanda');
+    return view('master.comanda');
 });
 
 
 Route::get('caja', function () {
-    return view('caja');
+    return view('master.caja');
 });
 
 Route::get('dashboardest', function () {
