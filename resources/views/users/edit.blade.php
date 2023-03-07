@@ -12,11 +12,11 @@
 @section('content')
 <div class="card">
     <div class="card-body">
-<form action={{ route('users.update', $user)}} method="POST">
-@method('PUT')
+<form action={{ route('users.update', [$user])}} method="POST">
+@csrf @method('PATCH')
         <div class="form-group">
             <label for="">Nombre</label>
-            <input required type="text" name="name" id="name" class="form-control" value={{old('name') }}>
+            <input required type="text" name="name" id="name" class="form-control">
             
 
             @error('name')
@@ -41,7 +41,7 @@
 
         <div class="form-group">
             <label for="">Contraseña</label>
-            <input required type="text" name="password" id="password" class="form-control" value={{ old('password') }}>
+            <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
             
 
             @error('password')
@@ -52,17 +52,11 @@
         </div>
         <div class="form-group">
             <label for="">Confirma Contraseña</label>
-            <input required type="text" name="password" id="password" class="form-control" value={{ old('password') }}>
+            <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
             
-
-            @error('password')
-
-            <span class="text-danger">{{$message}}</span>
-
-            @enderror
         </div>
 
-        <button class="btn btn-primary text-uppercase font-weight-bold btn-block">Actualizar</button> 
+            <button class="btn btn-primary text-uppercase font-weight-bold btn-block" type="submit">Guardar</button> 
 
        </form>
     </div>

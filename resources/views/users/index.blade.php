@@ -11,6 +11,16 @@
 
 @section('content')
 
+<a class="btn btn-dark" title="Crear usuarios" href={{ route('users.create') }}>
+    <i class="fas fa-plus-circle"></i>
+    <span class="d-none d-lg-inline-block">Crear</span>
+    <span class="d-none d-md-inline-block">Usuario</span>
+</a>
+
+<br><br>
+
+
+
     <div class="row">
          
         <div class="col-md-12">
