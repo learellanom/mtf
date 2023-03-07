@@ -322,8 +322,8 @@ return [
         ],
         
         [
-            'text'        => 'Cajas',
-            'url'         => 'admin/pages',
+            'text'        => 'Cajas (test)',
+            'url'         => 'test',
             'icon'        => 'fas fa-wallet',
             'label'       => 4,
             'label_color' => 'success',
