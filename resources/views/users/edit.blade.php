@@ -12,11 +12,13 @@
 @section('content')
 <div class="card">
     <div class="card-body">
-<form action={{ route('users.update', [$user])}} method="POST">
-@csrf @method('PATCH')
+<form method="post" action={{ route('users.update', $user)}} >
+    @csrf
+    @method('patch')
+        
         <div class="form-group">
             <label for="">Nombre</label>
-            <input required type="text" name="name" id="name" class="form-control">
+            <input required type="text" name="name" id="name" class="form-control" value={{ old('name', $user->name) }}>
             
 
             @error('name')
@@ -28,7 +30,7 @@
 
         <div class="form-group">
             <label for="">Correo Electronico</label>
-            <input required type="text" name="email" id="email" class="form-control" value={{ old('email') }}>
+            <input required type="text" name="email" id="email" class="form-control" value={{ old('email', $user->email) }}>
             
 
             @error('email')
@@ -38,9 +40,10 @@
             @enderror
         </div>
         </div>
+        
 
         <div class="form-group">
-            <label for="">Contraseña</label>
+            <label for="">Nueva Contraseña</label>
             <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
             
 
@@ -59,6 +62,7 @@
             <button class="btn btn-primary text-uppercase font-weight-bold btn-block" type="submit">Guardar</button> 
 
        </form>
+       
     </div>
 </div>
 @endsection

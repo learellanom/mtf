@@ -3,12 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use App\Models\Role;
+use Spatie\Permission\Models\Role;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Auth\Events\Registered;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
+use Illuminate\Support\Facades\Redirect;
+
 
 
 class UserController extends Controller
@@ -49,7 +52,7 @@ class UserController extends Controller
 
         event(new Registered($user));
 
-        return redirect()->route('users.index');
+        return redirect()->route('users.index')->with('success', 'Successfully created');
     }
 
     /**
@@ -63,35 +66,42 @@ class UserController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(User $user)
+    public function edit($user)
     {
-        $role = Role::all();
+       
+        //$roles = Role::find();
         $user = User::find($user);
-        return view('users.edit', compact('user', 'role'));
+
+        return view('users.edit', compact('user'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, User $user)
+    public function update(Request $request, $user)
     {
         $request->validate([
-            'name'=> 'required',
-            'slug'=> 'required|unique:categories',
+            'name' => ['required','string','max:255'],
+            'email' => ['required','string', 'email','max:255', 'unique:'.User::class],
+            'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
-
-        $user->update($request->all());
-        return redirect()->route('users.index')->with('info','El usuario se actualizo con exito! ');
+        
+        User::findOrFail($user)->update($request->all());
+        return Redirect::route('users.index')->with('update', 'ok');
+    
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(User $user)
+    public function destroy($usuario): RedirectResponse
     {
-        $users = User::find($user->id);
-        $users->delete();
-        return Redirect()->route('users.index')->with('info','Se elimino con extio al usuario');
+        
+        $usuario = User::find($usuario);
+
+        $usuario->delete();
+
+        return Redirect::route('users.index')->with('destroy','ok');
     }
 }
 

@@ -368,7 +368,8 @@ return [
               
                 [
                     'text' => 'Roles',
-                    'url'  => '#',
+                    'url'  => 'roles',
+                    'active'      => ['roles*'],
                 ],
                 [
                     'text' => 'Clientes',
