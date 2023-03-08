@@ -66,34 +66,29 @@ class UserController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(User $user)
+    public function edit($user)
     {
-        $role = Role::all();
+       
+        //$roles = Role::find();
         $user = User::find($user);
-        return view('users.edit', [
-            'user' => $user,
-            'role' => $role
-        ]);
+
+        return view('users.edit', compact('user'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, User $user)
+    public function update(Request $request, $user)
     {
-    
-        //$request->user()->fill($request->validated());
-
-        $validated = $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:'.User::class],
+        $request->validate([
+            'name' => ['required','string','max:255'],
+            'email' => ['required','string', 'email','max:255', 'unique:'.User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
- 
-        $user->update($validated);
-    
         
-        return Redirect::route('users.index')->with('info','El usuario se actualizo con exito! ');
+        User::findOrFail($user)->update($request->all());
+        return Redirect::route('users.index')->with('update', 'ok');
+    
     }
 
     /**

@@ -18,7 +18,7 @@
         
         <div class="form-group">
             <label for="">Nombre</label>
-            <input required type="text" name="name" id="name" class="form-control">
+            <input required type="text" name="name" id="name" class="form-control" value={{ old('name', $user->name) }}>
             
 
             @error('name')
@@ -30,7 +30,7 @@
 
         <div class="form-group">
             <label for="">Correo Electronico</label>
-            <input required type="text" name="email" id="email" class="form-control" value={{ old('email') }}>
+            <input required type="text" name="email" id="email" class="form-control" value={{ old('email', $user->email) }}>
             
 
             @error('email')
@@ -43,7 +43,7 @@
         
 
         <div class="form-group">
-            <label for="">Contraseña</label>
+            <label for="">Nueva Contraseña</label>
             <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
             
 

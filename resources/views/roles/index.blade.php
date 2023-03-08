@@ -53,7 +53,7 @@
                                                 @method('delete')
 
                                              <td class="text-center">
-                                                <a class="btn btn-danger borrar_users" onclick="event.preventDefault(); this.closest('form').submit();"  href="{{ route('roles.destroy', $role->id) }}"><i class='fas fa-trash'></i></a>
+                                                <button class="btn btn-danger borrar_users" type="submit"><i class='fas fa-trash'></i></button>
                                             </td>
                                             </form>
                                         </tr>
@@ -75,10 +75,11 @@
 
 @section('js')
 <script type="text/javascript">
- $(".borrar_users").attr("onclick", "").unbind("click"); //remove function onclick button
-
-$(document).on('click', '.borrar_users', function () {
+ 
+$(document).on('submit', '.borrar_users', function (e) {
     let delete_form = $(this).parent().find();
+    e.preventDefault();
+    
     swal.fire({
         title: "¿Desea eliminar al usuario?",
         text: "Una vez eliminado/a, no se podra recuperar a este usuario.",
