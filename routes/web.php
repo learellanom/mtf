@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\RoleController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\ClientController;
 use Illuminate\Support\Facades\Auth;
@@ -39,16 +40,17 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+
 require __DIR__.'/auth.php';
 
-Auth::routes();
+//Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::resource('usuarios', UserController::class)->except('show')->names('users');
 Route::resource('movimientos', TransactionController::class)->names('transactions');
 Route::resource('clientes', ClientController::class)->except('show')->names('clients');
-
+Route::resource('roles', RoleController::class)->except('show')->names('roles');
 
 Route::get('comanda', function () {
     return view('comanda');

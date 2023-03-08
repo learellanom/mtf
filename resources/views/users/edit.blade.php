@@ -12,8 +12,10 @@
 @section('content')
 <div class="card">
     <div class="card-body">
-<form action={{ route('users.update', [$user])}} method="POST">
-@csrf @method('PATCH')
+<form method="post" action={{ route('users.update', $user)}} >
+    @csrf
+    @method('patch')
+        
         <div class="form-group">
             <label for="">Nombre</label>
             <input required type="text" name="name" id="name" class="form-control">
@@ -38,6 +40,7 @@
             @enderror
         </div>
         </div>
+        
 
         <div class="form-group">
             <label for="">Contraseña</label>
@@ -59,6 +62,7 @@
             <button class="btn btn-primary text-uppercase font-weight-bold btn-block" type="submit">Guardar</button> 
 
        </form>
+       
     </div>
 </div>
 @endsection

@@ -49,12 +49,13 @@
                                             <td>{{ $usuario->name }}</td>
                                             <td>{{ $usuario->email }}</td>
                                             <td class="text-center"><a class="btn btn-primary" href={{route('users.edit', $usuario)}}><i class='fas fa-edit'></i></a></td>
-                                            
-                                            <form action={{route("users.destroy", $usuario)}} method="POST">
-                                            @csrf
-                                            @method('delete')
-                                            <td class="text-center"><a class="btn btn-danger borrar_users" onclick="return confirm('Desea borrar?')" id='borrar_users'><i class='fas fa-trash'></i></a></td>
+                                            <td class="text-center">
+                                            <form method="post" action="{{ route('users.destroy', $usuario->id) }}" class="p-6">
+                                                @csrf
+                                                @method('delete')
+                                                <button class="btn btn-danger borrar_users" type="submit"><i class='fas fa-trash'></i></button>
                                             </form>
+                                        </td>
                                         </tr>
                                     @endforeach
                                    
@@ -72,46 +73,62 @@
 </div>
 @endsection
 
+
+
 @section('js')
+
+@if (session('destroy') == 'ok')
+    <script>
+        Swal.fire
+        ({
+            title = 'Eliminado',
+            text = 'Usuario eliminado',
+            type = "success",
+            allowOutsideClick = false,
+            allowEscapeKey = false,
+            allowEnterKey = false,
+            width = "300",
+            icon = "success"
+        })
+    </script>
+@endif
+
 <script type="text/javascript">
- $(".borrar_users").attr("onclick", "").unbind("click"); //remove function onclick button
+$(document).ready(function () {
+  $('.borrar_users').submit(function (e) {
+            e.preventDefault();
+            //e.stopImmediatePropagation();
+            swal.fire({
+                title: "¿Desea eliminar al usuario?",
+                text: "Una vez eliminado/a, no se podra recuperar a este usuario.",
+                icon: "warning",
+                confirmButtonText: 'Si, eliminar',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                cancelButtonText: 'Cancelar',
 
-$(document).on('click', '.borrar_users', function () {
-    let delete_form = $(this).parent().find();
-    swal.fire({
-        title: "¿Desea eliminar al usuario?",
-        text: "Una vez eliminado/a, no se podra recuperar a este usuario.",
-        icon: "warning",
-        confirmButtonText: 'Si, eliminar',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        cancelButtonText: 'Cancelar',
+            }).then((result) => {
+                    if (result.value) {
 
-    }).then((result) => {
-            if (result.value) {
+                        
+                        this.submit();
 
-                 swal.fire(
-                    '¡Eliminado!',
-                    'El usuario ha sido eliminado.',
-                    'success'
-                ) 
-                delete_form.submit();
+                    }else{
 
-            }else{
+                            swal.fire(
+                            'Cancelado',
+                            'La eliminación del usuario ha sido cancelada.',
+                            'error'
+                        )
 
-                    swal.fire(
-                    'Cancelado',
-                    'La eliminación del usuario ha sido cancelada.',
-                    'error'
-                )
-
-            }
+                    }
+                });
         });
-});
+    });
 $(document).ready( function () {
 $('#usuarios').DataTable();
-    
-} );
+      
+});
 </script>
 @endsection
