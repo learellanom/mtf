@@ -47,7 +47,14 @@ $config = [
 <br>
 <br>
 {{-- Disabled --}}
-<x-adminlte-button label="Añadir" theme="dark" />
+<!-- <x-adminlte-button label="Añadir" theme="dark" /> -->
+
+
+<a class="btn btn-dark" title="Agregar movimientos" href={{ route('transactions.create') }}>
+    <i class="fas fa-plus-circle"></i>
+    <span class="d-none d-lg-inline-block">Agregar</span>
+    <span class="d-none d-md-inline-block">Movimientos</span>
+</a>
 
 <br>
 <br>

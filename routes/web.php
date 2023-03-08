@@ -58,12 +58,12 @@ Route::get('agentes', function () {
 
 Route::get('comanda', function () {
     return view('master.comanda');
-});
+})->name('comanda');
 
 
 Route::get('caja', function () {
     return view('master.caja');
-});
+})->name('caja');
 
 Route::get('dashboardest', function () {
     return view('dashboardest');
