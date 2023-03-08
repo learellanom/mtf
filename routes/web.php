@@ -50,15 +50,25 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::resource('usuarios', UserController::class)->except('show')->names('users');
 Route::resource('movimientos', TransactionController::class)->names('transactions');
 Route::resource('clientes', ClientController::class)->except('show')->names('clients');
+<<<<<<< HEAD
 Route::resource('roles', RoleController::class)->except('show')->names('roles');
+=======
+
+Route::resource('agentes', AgenteController::class)->except('show')->names('agentes');
+
+Route::get('agentes', function () {
+    return view('agentes.index');
+});
+
+>>>>>>> 63a84d9766318e1634721bf7c3d286142235512a
 
 Route::get('comanda', function () {
-    return view('comanda');
+    return view('master.comanda');
 });
 
 
 Route::get('caja', function () {
-    return view('caja');
+    return view('master.caja');
 });
 
 Route::get('dashboardest', function () {

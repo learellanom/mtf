@@ -349,7 +349,7 @@ return [
         ],
         [
             'text'        => 'Agentes',
-            'url'         => 'admin/settings',
+            'url'         => 'agentes',
             'icon'        => 'fas fa-cogs',
             'label'       => 4,
             'label_color' =>'success',
