@@ -13,7 +13,7 @@ class User extends Authenticatable implements Auditable
 {
     use \OwenIt\Auditing\Auditable;
     use HasApiTokens, HasFactory, Notifiable;
-    
+
     /**
      * The attributes that are mass assignable.
      *
@@ -52,3 +52,6 @@ class User extends Authenticatable implements Auditable
         ];
     }
 }
+
+
+?>

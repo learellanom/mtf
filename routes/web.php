@@ -45,14 +45,18 @@ require __DIR__.'/auth.php';
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->middleware('auth')->name('home');
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::resource('usuarios', UserController::class)->middleware('auth')->except('show')->names('users');
-Route::resource('movimientos', TransactionController::class)->middleware('auth')->names('transactions');
-Route::resource('clientes', ClientController::class)->middleware('auth')->except('show')->names('clients');
-Route::resource('roles', RoleController::class)->middleware('auth')->except('show')->names('roles');
+Route::resource('usuarios', UserController::class)->except('show')->names('users');
+Route::resource('movimientos', TransactionController::class)->names('transactions');
+Route::resource('clientes', ClientController::class)->except('show')->names('clients');
+Route::resource('roles', RoleController::class)->except('show')->names('roles');
 
-Route::resource('agentes', AgenteController::class)->middleware('auth')->except('show')->names('agentes');
+Route::resource('agentes', AgenteController::class)->except('show')->names('agentes');
+
+Route::get('agentes', function () {
+    return view('agentes.index');
+});
 
 
 Route::get('comanda', function () {
@@ -67,3 +71,5 @@ Route::get('caja', function () {
 Route::get('dashboardest', function () {
     return view('dashboardest');
 });
+
+?>

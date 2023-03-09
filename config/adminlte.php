@@ -320,7 +320,7 @@ return [
             'label'       => 4,
             'label_color' => 'success',
         ],
-        
+
         [
             'text'        => 'Caja',
             'url'         => 'caja',
@@ -330,13 +330,13 @@ return [
         ],
         ['header' => 'Estadisticas',
         'classes' =>'text-uppercase font-weight-bold text-light',],
-        
+
         [
             'text' => 'Dashboard',
             'url'  => 'dashboardest',
             'icon' => 'fas fa-tachometer',
-        ], 
-       
+        ],
+
         ['header' => 'Operaciones',
         'classes' =>'text-uppercase font-weight-bold text-light',],
         [
@@ -365,7 +365,7 @@ return [
                     'url'  => 'usuarios',
                     'active'      => ['usuarios*'],
                 ],
-              
+
                 [
                     'text' => 'Roles',
                     'url'  => 'roles',
@@ -376,9 +376,9 @@ return [
                     'url'  => 'clientes',
                     'active'      => ['clientes*'],
                 ],
-           
+
             ],
-                
+
             ],
         ],
         ['header' => 'labels'],
@@ -397,7 +397,7 @@ return [
             'icon_color' => 'cyan',
             'url'        => '#',
         ],
-    
+
 
     /*
     |--------------------------------------------------------------------------
@@ -476,7 +476,7 @@ return [
                     'type' => 'js',
                     'asset' => false,
                     // 'location' => 'cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.0/Chart.bundle.min.js',
-                    'location' => '../public/vendor/chart.js/Chart.js',                    
+                    'location' => '../public/vendor/chart.js/Chart.js',
                 ],
             ],
         ],
