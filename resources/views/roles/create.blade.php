@@ -10,7 +10,8 @@
 @stop
 
 @section('content')
-<div class="card">
+<div class="d-flex justify-content-center">
+<div class="card col-md-3">
     <div class="card-body">
 <form action={{ route('roles.store')}} method="POST">
 @csrf
@@ -31,6 +32,7 @@
             <button class="btn btn-primary text-uppercase font-weight-bold btn-block" type="submit">Guardar</button> 
 
        </form>
+         </div>
     </div>
 </div>
 @endsection

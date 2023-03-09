@@ -34,17 +34,15 @@
                             <table id="usuarios" class="table table-bordered table-striped">
                                 <thead>
                                     <tr>
-                                        <th>#</th>
                                         <th>Nombre</th>
                                         <th class="text-center">Editar</th>
                                         <th class="text-center">Eliminar</th>
-                                        
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach ($roles as $role)
                                         <tr>
-                                            <td>{{ $role->id }}</td>
+                                        
                                             <td>{{ $role->name }}</td>
                                             <td class="text-center"><a class="btn btn-primary" href={{route('roles.edit', $role->id)}}><i class='fas fa-edit'></i></a></td>
                                             
@@ -79,7 +77,7 @@
 $(document).on('submit', '.borrar_users', function (e) {
     let delete_form = $(this).parent().find();
     e.preventDefault();
-    
+
     swal.fire({
         title: "¿Desea eliminar al usuario?",
         text: "Una vez eliminado/a, no se podra recuperar a este usuario.",

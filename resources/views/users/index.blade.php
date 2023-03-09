@@ -32,9 +32,9 @@
                     <div class="row">
                         <div class="col-md-12">
                             <table id="usuarios" class="table table-bordered table-striped">
-                                <thead>
+                                <thead> 
                                     <tr>
-                                        <th>#</th>
+                                        
                                         <th>Nombre</th>
                                         <th>E-mail</th>
                                         <th class="text-center">Editar</th>
@@ -45,7 +45,7 @@
                                 <tbody>
                                     @foreach ($users as $usuario)
                                         <tr>
-                                            <td>{{ $usuario->id }}</td>
+                                            
                                             <td>{{ $usuario->name }}</td>
                                             <td>{{ $usuario->email }}</td>
                                             <td class="text-center"><a class="btn btn-primary" href={{route('users.edit', $usuario)}}><i class='fas fa-edit'></i></a></td>
@@ -64,12 +64,10 @@
                         </div>
                     </div>
                 </div>
-                 <div class="bg-white">
-             {{$users->links()}}
-          </div>
+               
     </div>
 
-     </div>
+</div>
 </div>
 @endsection
 

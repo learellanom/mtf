@@ -56,7 +56,21 @@ $config = [
 </a>
 <br><br>
 {{-- Compressed with style options / fill data using the plugin config --}}
-<x-adminlte-datatable id="table2" :heads="$heads" head-theme="dark" :config="$config"
-    striped hoverable bordered compressed/>
 
+<div class="row">
+         
+    <div class="col-md-12">
+        <div class="card mb-4">
+            <div class="card-header">
+                <h3 class="card-title">CLIENTES</h3>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-12">
+<x-adminlte-datatable id="table" :heads="$heads" head-theme="light" :config="$config"
+    striped hoverable bordered compressed/>
+   </div>
+  </div>
+ </div>
+</div>
 @endsection 

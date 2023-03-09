@@ -142,6 +142,7 @@ return [
         'driver' => 'file',
         // 'store'  => 'redis',
     ],
+    
 
     /*
     |--------------------------------------------------------------------------
@@ -182,6 +183,7 @@ return [
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
         Spatie\Permission\PermissionServiceProvider::class,
+        OwenIt\Auditing\AuditingServiceProvider::class,
 
         /*
          * Package Service Providers...

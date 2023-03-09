@@ -11,9 +11,9 @@
 
 @section('content')
 
-
-<div class="card">
-<div class="card-body">
+<div class="d-flex justify-content-center">
+ <div class="card col-md-6">
+  <div class="card-body">
 
     <div class="form-row">
     <div class="form-group col-md-6">
@@ -64,7 +64,7 @@
         </x-adminlte-input>
     </div>
     <div class="form-group col-md-6">
-        <x-adminlte-input name="iUser" label="Monto de comision" placeholder="" label-class="text-lightblue">
+        <x-adminlte-input name="iUser" label="Monto de comision" placeholder="" label-class="text-lightblue" type='number'>
             <x-slot name="prependSlot">
                 <div class="input-group-text">
                     <i class="fas fa-dollar-sign"></i>
@@ -79,7 +79,7 @@
 
 
   <div class="form-group">
-    <x-adminlte-input name="iUser" label="Monto" placeholder="" label-class="text-lightblue">
+    <x-adminlte-input name="iUser" label="Monto" placeholder="" label-class="text-lightblue" type='number'>
         <x-slot name="prependSlot">
             <div class="input-group-text">
                 <i class="fas fa-dollar-sign"></i>
@@ -97,7 +97,7 @@
     </x-adminlte-textarea>
   </div>
   <div class="form-row">
-    <div class="form-group col-md-6">
+    <div class="form-group col-md-4">
         <x-adminlte-input name="iUser" label="Suift" placeholder="" label-class="text-lightblue" type='number'>
             <x-slot name="prependSlot">
                 <div class="input-group-text">
@@ -120,7 +120,7 @@
         <option>Luis Jose</option>
     </x-adminlte-select>
     </div>
-    <div class="form-group col-md-2">
+    <div class="form-group col-md-4">
         <x-adminlte-input name="iUser" label="Saldo" placeholder="" label-class="text-lightblue" type="number">
             <x-slot name="prependSlot">
                 <div class="input-group-text">
@@ -132,11 +132,11 @@
   </div>
  
 
-  <button type="submit" class="btn btn-primary text-uppercase font-weight-bold btn-block">Guardar</button>
-</form>
-</div>
-</div>
-
+            <button type="submit" class="btn btn-primary text-uppercase font-weight-bold btn-block">Guardar</button>
+        </form>
+       </div>
+      </div>
+    </div>
 
 
 

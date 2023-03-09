@@ -30,10 +30,14 @@
         </div>
     </div>
 </div> -->
-<h1 class="text-center text-dark font-weight-bold">Dashboard</h1></a>
-<br>
+
+<br><br>
 
 <div class="container">
+    <div class="card">
+        <h1 class="text-center text-dark font-weight-bold text-uppercase">Estadisticas</h1>
+        <hr>
+        <div class="card-body">
     <div class="row justify-content-center">
         <div class="col col-sm-6">
             <h3 class="text-center">Comparativo de Movimientos</h3>
@@ -55,8 +59,9 @@
             <canvas id="myChartLine"></canvas>
         </div>      
     </div>
+   </div>
+  </div>
 </div>
-
 <br>
 <br>
 <br>

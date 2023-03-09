@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', 'Usuarios')
+@section('title', 'MTF|Clientes')
 
 @section('content_header')
 
@@ -10,8 +10,9 @@
 @stop
 
 @section('content')
-<div class="card">
-    <div class="card-body">
+<div class="d-flex justify-content-center">
+        <div class="card col-md-4">
+            <div class="card-body">
 
 @method('PUT')
         <div class="form-group">
@@ -55,6 +56,8 @@
             <button class="btn btn-primary text-uppercase font-weight-bold btn-block">Guardar</button> 
 
        </form>
+            </div>
+        </div>
     </div>
 </div>
 @endsection
