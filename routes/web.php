@@ -53,6 +53,8 @@ Route::resource('movimientos', TransactionController::class)->middleware('auth')
 Route::resource('clientes', ClientController::class)->middleware('auth')->except('show')->names('clients');
 Route::resource('grupos', GroupController::class)->middleware('auth')->except('show')->names('groups');
 Route::resource('roles', RoleController::class)->middleware('auth')->except('show')->names('roles');
+//Route::resource('cajas', WalletController::class)->middleware('auth')->except('show')->names('wallets');
+
 
 //Route::resource('agentes', AgenteController::class)->middleware('auth')->except('show')->names('agentes');
 
@@ -64,11 +66,6 @@ Route::get('agentes', function () {
 Route::get('comanda', function () {
     return view('master.comanda');
 })->name('comanda');
-
-
-Route::get('caja', function () {
-    return view('master.caja');
-})->name('caja');
 
 Route::get('dashboardest', function () {
     return view('dashboardest');

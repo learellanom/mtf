@@ -4,7 +4,7 @@
 
 @section('content_header')
 
-    <h1 class="text-center text-dark font-weight-bold">NUEVO ROLE <i class="fas fa-users"></i> </h1></a>
+    <h1 class="text-center text-dark font-weight-bold">NUEVO ROLE <i class="fas fa-user-shield"></i> </h1></a>
 
 
 @stop
@@ -18,7 +18,7 @@
         <div class="form-group">
             <label for="">Nombre del rol</label>
             <input required type="text" name="name" id="name" class="form-control">
-            
+
 
             @error('name')
 
@@ -29,7 +29,7 @@
         </div>
 
 
-            <button class="btn btn-primary text-uppercase font-weight-bold btn-block" type="submit">Guardar</button> 
+            <button class="btn btn-primary text-uppercase font-weight-bold btn-block" type="submit">Guardar</button>
 
        </form>
          </div>

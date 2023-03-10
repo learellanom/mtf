@@ -4,7 +4,7 @@
 
 @section('content_header')
 
-    <h1 class="text-center text-dark font-weight-bold">LISTA DE GRUPOS <i class="fas fa-users"></i> </h1></a>
+    <h1 class="text-center text-dark font-weight-bold">LISTA DE GRUPOS <i class="fab fa-whatsapp-square"></i> </h1></a>
 
 
 @stop
@@ -25,6 +25,7 @@ $heads = [
     ['label' => 'Telefono', 'width' => 40],
     ['label' => 'Descripcion', 'width' => 40],
     ['label' => 'Opciones', 'no-export' => true, 'width' => 5],
+    ['label' => 'Eliminar', 'no-export' => true, 'width' => 5],
 ];
 
 
@@ -75,14 +76,15 @@ $config = [
                 <i class="fa fa-lg fa-fw fa-pen"></i>
             </a>
 
-            <form method="post" action="{{ route('groups.destroy', $group->id) }}">
-                @csrf
-                @method('delete')
-            <button class="btn btn-xl text-danger mx-1 shadow" type="submit" title="Borrar">
-                <i class="fa fa-lg fa-fw fa-trash"></i>
-            </button>
-            </form>
-
+            </td>
+            <td class="text-center">
+                <form method="post" action="{{ route('groups.destroy', $group->id) }}">
+                    @csrf
+                    @method('delete')
+                <button class="btn btn-xl text-danger mx-1 shadow" type="submit" title="Borrar">
+                    <i class="fa fa-lg fa-fw fa-trash"></i>
+                </button>
+                </form>
             </td>
 
         </tr>

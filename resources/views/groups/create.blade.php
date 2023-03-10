@@ -4,7 +4,7 @@
 
 @section('content_header')
 
-    <h1 class="text-center text-dark font-weight-bold">CREAR GRUPOS <i class="fas fa-users"></i> </h1></a>
+    <h1 class="text-center text-dark font-weight-bold">CREAR GRUPOS <i class="fab fa-whatsapp-square"></i> </h1></a>
 
 
 @stop

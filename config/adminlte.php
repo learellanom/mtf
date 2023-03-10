@@ -322,8 +322,9 @@ return [
         ],
 
         [
-            'text'        => 'Caja',
-            'url'         => 'caja',
+            'text'        => 'Cajas',
+            'url'         => 'cajas',
+            'active'      => ['cajas*'],
             'icon'        => 'fas fa-wallet',
             'label'       => 4,
             'label_color' => 'success',

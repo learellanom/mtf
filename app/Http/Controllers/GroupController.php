@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Group;
+use App\Models\Client;
 use Illuminate\Support\Facades\Redirect;
 class GroupController extends Controller
 {
@@ -49,10 +50,14 @@ class GroupController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show($groups)
     {
-        //
+
+        $group = Group::all($groups);
+
+        return view('groups.show', compact('group'));
     }
+
 
     /**
      * Show the form for editing the specified resource.
