@@ -52,7 +52,7 @@ Route::resource('movimientos', TransactionController::class)->middleware('auth')
 Route::resource('clientes', ClientController::class)->middleware('auth')->except('show')->names('clients');
 Route::resource('roles', RoleController::class)->middleware('auth')->except('show')->names('roles');
 
-Route::resource('agentes', AgenteController::class)->middleware('auth')->except('show')->names('agentes');
+//Route::resource('agentes', AgenteController::class)->middleware('auth')->except('show')->names('agentes');
 
 Route::get('agentes', function () {
     return view('agentes.index');

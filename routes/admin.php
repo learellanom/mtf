@@ -42,7 +42,7 @@ Auth::routes();
     Route::resource('clientes', ClientController::class)->middleware('auth')->except('show')->names('admin.clients');
     Route::resource('roles', RoleController::class)->middleware('auth')->except('show')->names('admin.roles');
 
-    Route::resource('agentes', AgenteController::class)->middleware('auth')->except('show')->names('admin.agentes');
+    //Route::resource('agentes', AgenteController::class)->middleware('auth')->except('show')->names('admin.agentes');
 
 
 

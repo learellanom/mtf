@@ -15,8 +15,10 @@ return new class extends Migration
             $table->bigIncrements('id');
             $table->double('amount');
             $table->string('percentage');
+            $table->string('type_coins');
             $table->foreignId('user_id')->references('id')->on('users')->nullable();
             $table->foreignId('client_id')->references('id')->on('clients')->nullable();
+            $table->foreignId('wallet_id')->references('id')->on('wallets')->nullable();
             $table->string('status');
             $table->timestamps();
         });
