@@ -4,7 +4,7 @@
 
 @section('content_header')
 
-    <h1 class="text-center text-dark font-weight-bold">LISTA DE CAJAS <i class="fab fa-whatsapp-square"></i> </h1></a>
+    <h1 class="text-center text-dark font-weight-bold">LISTA DE CAJAS <i class="fas fa-wallet"></i> </h1></a>
 
 
 @stop
@@ -22,8 +22,8 @@
 
 $heads = [
     'Nombre',
-    ['label' => 'Telefono', 'width' => 40],
-    ['label' => 'Descripcion', 'width' => 40],
+    ['label' => 'Observación', 'width' => 40],
+    ['label' => 'Dirección', 'width' => 40],
     ['label' => 'Opciones', 'no-export' => true, 'width' => 5],
     ['label' => 'Eliminar', 'no-export' => true, 'width' => 5],
 ];
@@ -40,7 +40,7 @@ $config = [
 
 @endphp
 
-<a class="btn btn-dark" title="Crear cliente" href={{ route('wallets.create') }}>
+<a class="btn btn-dark" title="Crear Caja" href={{ route('wallets.create') }}>
     <i class="fas fa-plus-circle"></i>
     <span class="d-none d-lg-inline-block">Crear</span>
     <span class="d-none d-md-inline-block">Caja</span>
@@ -65,6 +65,8 @@ $config = [
         <tr>
 
             <td>{!! $wallet->name !!}</td>
+            <td>{!! $wallet->description !!}</td>
+            <td>{!! $wallet->direction !!}</td>
 
             <td class="pagination">
             <button class="btn btn-xl text-teal mx-auto shadow" title="Detalles">

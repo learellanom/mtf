@@ -6,6 +6,7 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\GroupController;
+use App\Http\Controllers\WalletController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -53,7 +54,7 @@ Route::resource('movimientos', TransactionController::class)->middleware('auth')
 Route::resource('clientes', ClientController::class)->middleware('auth')->except('show')->names('clients');
 Route::resource('grupos', GroupController::class)->middleware('auth')->except('show')->names('groups');
 Route::resource('roles', RoleController::class)->middleware('auth')->except('show')->names('roles');
-//Route::resource('cajas', WalletController::class)->middleware('auth')->except('show')->names('wallets');
+Route::resource('cajas', WalletController::class)->middleware('auth')->except('show')->names('wallets');
 
 
 //Route::resource('agentes', AgenteController::class)->middleware('auth')->except('show')->names('agentes');
