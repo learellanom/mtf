@@ -17,36 +17,26 @@
 @php
 
 
+    # code...
 
 
 $heads = [
-    'ID',
-    'Nombre del Cliente',
+    'Nombre',
     ['label' => 'Telefono', 'width' => 40],
+    ['label' => 'Email', 'width' => 40],
     ['label' => 'Opciones', 'no-export' => true, 'width' => 5],
 ];
 
 
 
-$btnEdit = '<button class="btn btn-xl text-primary mx-1 shadow" title="Edit">
-                <i class="fa fa-lg fa-fw fa-pen"></i>
-            </button>';
-$btnDelete = '<button class="btn btn-xl text-danger mx-1 shadow" title="Delete">
-                  <i class="fa fa-lg fa-fw fa-trash"></i>
-              </button>';
-$btnDetails = '<button class="btn btn-xl text-teal mx-1 shadow" title="Details">
-                   <i class="fa fa-lg fa-fw fa-eye"></i>
-               </button>';
 
 $config = [
-    'data' => [
-        [22, 'John Bender', '+58 424275899', '<nobr>'.$btnEdit.$btnDelete.$btnDetails.'</nobr>'],
-        [19, 'Sophia Clemens', '+1 555-555888', '<nobr>'.$btnEdit.$btnDelete.$btnDetails.'</nobr>'],
-        [3, 'Peter Sousa', '+1 552 5558 88', '<nobr>'.$btnEdit.$btnDelete.$btnDetails.'</nobr>'],
-    ],
+
     'order' => [[1, 'asc']],
     'columns' => [null, null, null, ['orderable' => false]],
 ];
+
+
 @endphp
 
 <a class="btn btn-dark" title="Crear cliente" href={{ route('clients.create') }}>
@@ -58,7 +48,7 @@ $config = [
 {{-- Compressed with style options / fill data using the plugin config --}}
 
 <div class="row">
-         
+
     <div class="col-md-12">
         <div class="card mb-4">
             <div class="card-header">
@@ -67,10 +57,39 @@ $config = [
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-12">
-<x-adminlte-datatable id="table" :heads="$heads" head-theme="light" :config="$config"
-    striped hoverable bordered compressed/>
+<x-adminlte-datatable id="table" :heads="$heads" head-theme="light"
+    striped hoverable bordered compressed>
+
+    @foreach($clients as $clientes)
+        <tr>
+
+            <td>{!! $clientes->name !!}</td>
+            <td>{!! $clientes->phone !!}</td>
+            <td>{!! $clientes->email !!}</td>
+
+            <td class="pagination">
+            <button class="btn btn-xl text-teal mx-auto shadow" title="Detalles">
+                    <i class="fa fa-lg fa-fw fa-eye"></i>
+            </button>
+            <a class="btn btn-xl text-primary mx-1 shadow" href="{{ route('clients.edit', $clientes) }}" title="Editar">
+                <i class="fa fa-lg fa-fw fa-pen"></i>
+            </a>
+
+            <form method="post" action="{{ route('clients.destroy', $clientes->id) }}">
+                @csrf
+                @method('delete')
+            <button class="btn btn-xl text-danger mx-1 shadow" type="submit" title="Borrar">
+                <i class="fa fa-lg fa-fw fa-trash"></i>
+            </button>
+            </form>
+
+            </td>
+
+        </tr>
+    @endforeach
+</x-adminlte-datatable>
    </div>
   </div>
  </div>
 </div>
-@endsection 
+@endsection

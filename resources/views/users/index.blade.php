@@ -22,7 +22,7 @@
 
 
     <div class="row">
-         
+
         <div class="col-md-12">
             <div class="card mb-4">
                 <div class="card-header">
@@ -32,20 +32,20 @@
                     <div class="row">
                         <div class="col-md-12">
                             <table id="usuarios" class="table table-bordered table-striped">
-                                <thead> 
+                                <thead>
                                     <tr>
-                                        
+
                                         <th>Nombre</th>
                                         <th>E-mail</th>
                                         <th class="text-center">Editar</th>
                                         <th class="text-center">Eliminar</th>
-                                        
+
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach ($users as $usuario)
                                         <tr>
-                                            
+
                                             <td>{{ $usuario->name }}</td>
                                             <td>{{ $usuario->email }}</td>
                                             <td class="text-center"><a class="btn btn-primary" href={{route('users.edit', $usuario)}}><i class='fas fa-edit'></i></a></td>
@@ -58,13 +58,13 @@
                                         </td>
                                         </tr>
                                     @endforeach
-                                   
+
                                 </tbody>
                             </table>
                         </div>
                     </div>
                 </div>
-               
+
     </div>
 
 </div>
@@ -109,7 +109,7 @@ $(document).ready(function () {
             }).then((result) => {
                     if (result.value) {
 
-                        
+
                         this.submit();
 
                     }else{
@@ -126,7 +126,7 @@ $(document).ready(function () {
     });
 $(document).ready( function () {
 $('#usuarios').DataTable();
-      
+
 });
 </script>
 @endsection
