@@ -5,6 +5,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\ClientController;
+use App\Http\Controllers\GroupController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -50,7 +51,10 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::resource('usuarios', UserController::class)->middleware('auth')->except('show')->names('users');
 Route::resource('movimientos', TransactionController::class)->middleware('auth')->names('transactions');
 Route::resource('clientes', ClientController::class)->middleware('auth')->except('show')->names('clients');
+Route::resource('grupos', GroupController::class)->middleware('auth')->except('show')->names('groups');
 Route::resource('roles', RoleController::class)->middleware('auth')->except('show')->names('roles');
+//Route::resource('cajas', WalletController::class)->middleware('auth')->except('show')->names('wallets');
+
 
 //Route::resource('agentes', AgenteController::class)->middleware('auth')->except('show')->names('agentes');
 
@@ -62,11 +66,6 @@ Route::get('agentes', function () {
 Route::get('comanda', function () {
     return view('master.comanda');
 })->name('comanda');
-
-
-Route::get('caja', function () {
-    return view('master.caja');
-})->name('caja');
 
 Route::get('dashboardest', function () {
     return view('dashboardest');

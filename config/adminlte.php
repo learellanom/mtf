@@ -322,8 +322,9 @@ return [
         ],
 
         [
-            'text'        => 'Caja',
-            'url'         => 'caja',
+            'text'        => 'Cajas',
+            'url'         => 'cajas',
+            'active'      => ['cajas*'],
             'icon'        => 'fas fa-wallet',
             'label'       => 4,
             'label_color' => 'success',
@@ -375,6 +376,11 @@ return [
                     'text' => 'Clientes',
                     'url'  => 'clientes',
                     'active'      => ['clientes*'],
+                ],
+                [
+                    'text' => 'Grupos',
+                    'url'  => 'grupos',
+                    'active'      => ['grupos*'],
                 ],
 
             ],

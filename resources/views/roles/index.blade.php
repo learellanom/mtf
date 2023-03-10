@@ -4,7 +4,7 @@
 
 @section('content_header')
 
-    <h1 class="text-center text-dark font-weight-bold">LISTA DE ROLES <i class="fas fa-users"></i> </h1></a>
+    <h1 class="text-center text-dark font-weight-bold">LISTA DE ROLES <i class="fas fa-user-shield"></i> </h1></a>
 
 
 @stop
@@ -22,7 +22,7 @@
 
 
     <div class="row">
-         
+
         <div class="col-md-12">
             <div class="card mb-4">
                 <div class="card-header">
@@ -42,10 +42,10 @@
                                 <tbody>
                                     @foreach ($roles as $role)
                                         <tr>
-                                        
+
                                             <td>{{ $role->name }}</td>
                                             <td class="text-center"><a class="btn btn-primary" href={{route('roles.edit', $role->id)}}><i class='fas fa-edit'></i></a></td>
-                                            
+
                                             <form method="post" action="{{ route('roles.destroy', $role->id) }}" class="p-6">
                                                 @csrf
                                                 @method('delete')
@@ -56,14 +56,14 @@
                                             </form>
                                         </tr>
                                     @endforeach
-                                   
+
                                 </tbody>
                             </table>
                         </div>
                     </div>
                 </div>
                  <div class="bg-white">
-             
+
           </div>
     </div>
 
@@ -73,7 +73,7 @@
 
 @section('js')
 <script type="text/javascript">
- 
+
 $(document).on('submit', '.borrar_users', function (e) {
     let delete_form = $(this).parent().find();
     e.preventDefault();
@@ -95,7 +95,7 @@ $(document).on('submit', '.borrar_users', function (e) {
                     '¡Eliminado!',
                     'El usuario ha sido eliminado.',
                     'success'
-                ) 
+                )
                 delete_form.submit();
 
             }else{
@@ -113,7 +113,7 @@ $(document).on('submit', '.borrar_users', function (e) {
 
 $(document).ready( function () {
 $('#usuarios').DataTable();
-    
+
 } );
 </script>
 @endsection

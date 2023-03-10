@@ -1,10 +1,10 @@
 @extends('adminlte::page')
 
-@section('title', 'MTF|Clientes')
+@section('title', 'MTF|Grupos')
 
 @section('content_header')
 
-    <h1 class="text-center text-dark font-weight-bold">CREAR CLIENTE <i class="fas fa-user-tag"></i> </h1></a>
+    <h1 class="text-center text-dark font-weight-bold">CREAR GRUPOS <i class="fab fa-whatsapp-square"></i> </h1></a>
 
 
 @stop
@@ -20,7 +20,7 @@
 
 
         <div class="form-group">
-            <label for="">Nombre</label>
+            <label for="">Nombre del grupo</label>
             <input required type="text" name="name" id="name" class="form-control">
 
 
@@ -32,20 +32,7 @@
 
 
         <div class="form-group">
-            <label for="">Correo Electronico</label>
-            <input required type="text" name="email" id="email" class="form-control">
-
-
-            @error('email')
-
-            <span class="text-danger">{{$message}}</span>
-
-            @enderror
-        </div>
-        </div>
-
-        <div class="form-group">
-            <label for="">Telefono</label>
+            <label for="">Telefono administrador</label>
             <input required type="text" name="phone" id="phone" class="form-control">
 
 
@@ -55,17 +42,16 @@
 
             @enderror
         </div>
+        </div>
+
 
         <div class="form-group">
-            {!! Form::Label('group_id', "Grupos:") !!}
-            {!! Form::select('group_id', $group, null,['class' => 'form-control'])!!}
+            {!! Form::Label('description', "Observación:") !!}
+        {!! Form::textarea('description', null, ['class' => 'form-control']) !!}
 
-
-            @error('group_id')
-
-            <span class="text-danger">{{$message}}</span>
-
-            @enderror
+        @error('description')
+           <small class="text-danger">{{$message}}</small>
+        @enderror
         </div>
 
 

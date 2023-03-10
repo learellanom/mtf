@@ -1,10 +1,10 @@
 @extends('adminlte::page')
 
-@section('title', 'Clientes')
+@section('title', 'MTF | CAJAS')
 
 @section('content_header')
 
-    <h1 class="text-center text-dark font-weight-bold">LISTA DE CLIENTES <i class="fas fa-user-tag"></i> </h1></a>
+    <h1 class="text-center text-dark font-weight-bold">LISTA DE CAJAS <i class="fab fa-whatsapp-square"></i> </h1></a>
 
 
 @stop
@@ -23,7 +23,7 @@
 $heads = [
     'Nombre',
     ['label' => 'Telefono', 'width' => 40],
-    ['label' => 'Email', 'width' => 40],
+    ['label' => 'Descripcion', 'width' => 40],
     ['label' => 'Opciones', 'no-export' => true, 'width' => 5],
     ['label' => 'Eliminar', 'no-export' => true, 'width' => 5],
 ];
@@ -40,10 +40,10 @@ $config = [
 
 @endphp
 
-<a class="btn btn-dark" title="Crear cliente" href={{ route('clients.create') }}>
+<a class="btn btn-dark" title="Crear cliente" href={{ route('wallets.create') }}>
     <i class="fas fa-plus-circle"></i>
     <span class="d-none d-lg-inline-block">Crear</span>
-    <span class="d-none d-md-inline-block">Cliente</span>
+    <span class="d-none d-md-inline-block">Caja</span>
 </a>
 <br><br>
 {{-- Compressed with style options / fill data using the plugin config --}}
@@ -53,7 +53,7 @@ $config = [
     <div class="col-md-12">
         <div class="card mb-4">
             <div class="card-header">
-                <h3 class="card-title">CLIENTES</h3>
+                <h3 class="card-title">CAJAS | WALLETS</h3>
             </div>
             <div class="card-body">
                 <div class="row">
@@ -61,24 +61,22 @@ $config = [
 <x-adminlte-datatable id="table" :heads="$heads" head-theme="light"
     striped hoverable bordered compressed>
 
-    @foreach($clients as $clientes)
+    @foreach($wallets as $wallet)
         <tr>
 
-            <td>{!! $clientes->name !!}</td>
-            <td>{!! $clientes->phone !!}</td>
-            <td>{!! $clientes->email !!}</td>
+            <td>{!! $wallet->name !!}</td>
 
             <td class="pagination">
             <button class="btn btn-xl text-teal mx-auto shadow" title="Detalles">
                     <i class="fa fa-lg fa-fw fa-eye"></i>
             </button>
-            <a class="btn btn-xl text-primary mx-1 shadow" href="{{ route('clients.edit', $clientes) }}" title="Editar">
+            <a class="btn btn-xl text-primary mx-1 shadow" href="{{ route('wallets.edit', $wallet) }}" title="Editar">
                 <i class="fa fa-lg fa-fw fa-pen"></i>
             </a>
 
             </td>
-            <td>
-                <form method="post" action="{{ route('clients.destroy', $clientes->id) }}">
+            <td class="text-center">
+                <form method="post" action="{{ route('wallets.destroy', $wallet->id) }}">
                     @csrf
                     @method('delete')
                 <button class="btn btn-xl text-danger mx-1 shadow" type="submit" title="Borrar">
