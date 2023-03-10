@@ -376,6 +376,11 @@ return [
                     'url'  => 'clientes',
                     'active'      => ['clientes*'],
                 ],
+                [
+                    'text' => 'Grupos',
+                    'url'  => 'grupos',
+                    'active'      => ['grupos*'],
+                ],
 
             ],
 
