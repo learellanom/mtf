@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('percentage');
             $table->foreignId('user_id')->references('id')->on('users')->nullable();
             $table->foreignId('client_id')->references('id')->on('clients')->nullable();
+            $table->string('status');
             $table->timestamps();
         });
     }
