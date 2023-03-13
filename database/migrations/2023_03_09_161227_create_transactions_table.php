@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('transactions', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->bigIncrements('id'); // IDENTIFICADOR DE LA TABLA
             $table->double('amount');  //MONTO
             $table->double('amount_total');  //MONTO TOTAL
             $table->double('amount_total_transaction');  //MONTO TOTAL TRANSACCION
@@ -24,6 +24,7 @@ return new class extends Migration
             $table->foreignId('client_id')->references('id')->on('clients')->nullable(); //CLIENTE DE LA TRANSFERENCIA
             $table->foreignId('wallet_id')->references('id')->on('wallets')->nullable(); // MONEDERO O CUENTA DE DONDE SALE EL DINERO
             $table->string('status'); //ESTATUS
+            $table->string('description'); //DESCRIPCION DE LA TRANSFERENCIA
             $table->date('transaction_date'); //FECHA DE LA TRANSACCIÓN
             $table->timestamps(); //CREACION Y MODIFICACION POR DEFECTO (TOMADO POR EL SERVIDOR)
         });

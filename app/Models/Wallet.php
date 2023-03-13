@@ -18,5 +18,8 @@ class Wallet extends Model  implements Auditable
 
     protected $guarded = ['id', 'created_at', 'updated_at'];
 
-
+        //Relación uno a muchos
+        public function transaction(){
+            return $this->hasMany(Transaction::class);
+        }
 }

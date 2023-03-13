@@ -311,16 +311,67 @@ return [
             'url'  => 'admin/blog',
             'can'  => 'manage-blog',
         ],
-        ['header' => 'Master',
+       // ['header' => 'Master',
+        //'classes' =>'text-uppercase font-weight-bold text-light',],
+        //[
+          //  'text'        => 'Comandas',
+            //'url'         => 'comanda',
+            //'icon'        => 'fas fa-chart-line',
+            //'label'       => 4,
+            //'label_color' => 'success',
+        //],
+
+        ['header' => 'Estadisticas',
         'classes' =>'text-uppercase font-weight-bold text-light',],
+
         [
-            'text'        => 'Comandas',
-            'url'         => 'comanda',
-            'icon'        => 'fas fa-chart-line',
-            'label'       => 4,
-            'label_color' => 'success',
+            'text' => 'Estadisticas',
+            'url'  => 'dashboardest',
+            'icon' => 'fas fa-fw fas fa-chart-bar',
+        ],
+        [
+            'text' => 'Estadisticas por agentes',
+            'url'  => 'agentes',
+            'icon' => 'fas fa-fw fas fa-chart-bar',
         ],
 
+        ['header' => 'Operaciones',
+        'classes' =>'text-uppercase font-weight-bold text-light',],
+        [
+            'text'        => 'Transacciónes',
+            'url'         => 'movimientos',
+            'active'      => ['movimientos*'],
+            'icon'        => 'fas fa-fw fas fa-retweet',
+            'label'       => 4,
+            'label_color' =>'success',
+        ],
+
+        ['header' => 'Configuración',
+        'classes' =>'text-uppercase font-weight-bold text-light',],
+        [
+            'text'    => 'Usuarios',
+            'url'  => 'usuarios',
+            'active'      => ['usuarios*'],
+            'icon'    => 'fas fa-fw fa-users',
+        ],
+        [
+            'text' => 'Roles',
+            'url'  => 'roles',
+            'active'      => ['roles*'],
+            'icon'    => 'fas fa-fw fa-id-card-alt',
+        ],
+        [
+            'text' => 'Clientes',
+            'url'  => 'clientes',
+            'active'      => ['clientes*'],
+            'icon'    => 'fas fa-fw fa-user-tag',
+        ],
+        [
+            'text' => 'Grupos',
+            'url'  => 'grupos',
+            'active'      => ['grupos*'],
+            'icon' => 'fab fa-whatsapp'
+        ],
         [
             'text'        => 'Cajas',
             'url'         => 'cajas',
@@ -329,63 +380,20 @@ return [
             'label'       => 4,
             'label_color' => 'success',
         ],
-        ['header' => 'Estadisticas',
-        'classes' =>'text-uppercase font-weight-bold text-light',],
-
         [
-            'text' => 'Dashboard',
-            'url'  => 'dashboardest',
-            'icon' => 'fas fa-tachometer',
-        ],
-
-        ['header' => 'Operaciones',
-        'classes' =>'text-uppercase font-weight-bold text-light',],
-        [
-            'text'        => 'Movimientos',
-            'url'         => 'movimientos',
-            'active'      => ['movimientos*'],
-            'icon'        => 'fas fa-cogs',
-            'label'       => 4,
-            'label_color' =>'success',
+            'text' => 'Tipo de movimiento',
+            'url'  => 'tipo_transaccion',
+            'active'      => ['tipo_transaccion*'],
+            'icon'    => 'fas fa-exchange-alt',
         ],
         [
-            'text'        => 'Agentes',
-            'url'         => 'agentes',
-            'icon'        => 'fas fa-cogs',
-            'label'       => 4,
-            'label_color' =>'success',
+            'text' => 'Tipo de monedas',
+            'url'  => 'tipo_moneda',
+            'active'      => ['tipo_moneda*'],
+            'icon'    => 'fas fa-file-invoice-dollar',
         ],
-        ['header' => 'Configuración',
-        'classes' =>'text-uppercase font-weight-bold text-light',],
-        [
-            'text'    => 'Administraciones',
-            'icon'    => 'fas fa-fw fa-share',
-            'submenu' => [
-                [
-                    'text' => 'Usuarios',
-                    'url'  => 'usuarios',
-                    'active'      => ['usuarios*'],
-                ],
 
-                [
-                    'text' => 'Roles',
-                    'url'  => 'roles',
-                    'active'      => ['roles*'],
-                ],
-                [
-                    'text' => 'Clientes',
-                    'url'  => 'clientes',
-                    'active'      => ['clientes*'],
-                ],
-                [
-                    'text' => 'Grupos',
-                    'url'  => 'grupos',
-                    'active'      => ['grupos*'],
-                ],
 
-            ],
-
-            ],
         ],
         ['header' => 'labels'],
         [

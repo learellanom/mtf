@@ -52,6 +52,11 @@ class User extends Authenticatable implements Auditable
              auth()->user()->email
         ];
     }
+
+     //Relación uno a muchos
+     public function transaction(){
+        return $this->hasMany(Transaction::class);
+    }
 }
 
 
