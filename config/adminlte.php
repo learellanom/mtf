@@ -382,6 +382,16 @@ return [
                     'url'  => 'grupos',
                     'active'      => ['grupos*'],
                 ],
+                [
+                    'text' => 'Tipo de movimiento',
+                    'url'  => 'tipo_transaccion',
+                    'active'      => ['tipo_transaccion*'],
+                ],
+                [
+                    'text' => 'Tipo de monedas',
+                    'url'  => 'tipo_moneda',
+                    'active'      => ['tipo_moneda*'],
+                ],
 
             ],
 

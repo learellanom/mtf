@@ -7,6 +7,8 @@ use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\GroupController;
 use App\Http\Controllers\WalletController;
+use App\Http\Controllers\Type_transactionController;
+use App\Http\Controllers\Type_coinController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -55,9 +57,9 @@ Route::resource('clientes', ClientController::class)->middleware('auth')->except
 Route::resource('grupos', GroupController::class)->middleware('auth')->except('show')->names('groups');
 Route::resource('roles', RoleController::class)->middleware('auth')->except('show')->names('roles');
 Route::resource('cajas', WalletController::class)->middleware('auth')->except('show')->names('wallets');
+Route::resource('tipo_transaccion', Type_transactionController::class)->middleware('auth')->except('show')->names('type_transactions');
+Route::resource('tipo_moneda', Type_coinController::class)->middleware('auth')->except('show')->names('type_coins');
 
-
-//Route::resource('agentes', AgenteController::class)->middleware('auth')->except('show')->names('agentes');
 
 Route::get('agentes', function () {
     return view('agentes.index');
