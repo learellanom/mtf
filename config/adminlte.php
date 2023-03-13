@@ -358,44 +358,43 @@ return [
         ['header' => 'Configuración',
         'classes' =>'text-uppercase font-weight-bold text-light',],
         [
-            'text'    => 'Administraciones',
-            'icon'    => 'fas fa-fw fa-share',
-            'submenu' => [
-                [
-                    'text' => 'Usuarios',
-                    'url'  => 'usuarios',
-                    'active'      => ['usuarios*'],
-                ],
+            'text'    => 'Usuarios',
+            'url'  => 'usuarios',
+            'active'      => ['usuarios*'],
+            'icon'    => 'fas fa-fw fa-users',
+        ],
+        [
+            'text' => 'Roles',
+            'url'  => 'roles',
+            'active'      => ['roles*'],
+            'icon'    => 'fas fa-fw fa-id-card-alt',
+        ],
+        [
+            'text' => 'Clientes',
+            'url'  => 'clientes',
+            'active'      => ['clientes*'],
+            'icon'    => 'fas fa-fw fa-user-tag',
+        ],
+        [
+            'text' => 'Grupos',
+            'url'  => 'grupos',
+            'active'      => ['grupos*'],
+            'icon' => 'fab fa-whatsapp'
+        ],
+        [
+            'text' => 'Tipo de movimiento',
+            'url'  => 'tipo_transaccion',
+            'active'      => ['tipo_transaccion*'],
+            'icon'    => 'fas fa-exchange-alt',
+        ],
+        [
+            'text' => 'Tipo de monedas',
+            'url'  => 'tipo_moneda',
+            'active'      => ['tipo_moneda*'],
+            'icon'    => 'fas fa-file-invoice-dollar',
+        ],
 
-                [
-                    'text' => 'Roles',
-                    'url'  => 'roles',
-                    'active'      => ['roles*'],
-                ],
-                [
-                    'text' => 'Clientes',
-                    'url'  => 'clientes',
-                    'active'      => ['clientes*'],
-                ],
-                [
-                    'text' => 'Grupos',
-                    'url'  => 'grupos',
-                    'active'      => ['grupos*'],
-                ],
-                [
-                    'text' => 'Tipo de movimiento',
-                    'url'  => 'tipo_transaccion',
-                    'active'      => ['tipo_transaccion*'],
-                ],
-                [
-                    'text' => 'Tipo de monedas',
-                    'url'  => 'tipo_moneda',
-                    'active'      => ['tipo_moneda*'],
-                ],
 
-            ],
-
-            ],
         ],
         ['header' => 'labels'],
         [

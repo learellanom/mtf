@@ -21,7 +21,7 @@
 
 
 $heads = [
-    'Nombre',
+    'Moneda',
     ['label' => 'Descripcion', 'width' => 40],
     ['label' => 'Editar', 'no-export' => true, 'width' => 5],
     ['label' => 'Eliminar', 'no-export' => true, 'width' => 5],
