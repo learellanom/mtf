@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Wallet;
+use Illuminate\Support\Facades\Redirect;
 
 class WalletController extends Controller
 {
@@ -47,24 +48,27 @@ class WalletController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit($wallet)
     {
-        //
+        $wallet = Wallet::find($wallet);
+        return view('wallets.edit', compact('wallet'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, string $wallet)
     {
-        //
+        Wallet::findOrFail($wallet)->update($request->all());
+        return Redirect::route('wallets.index')->with('update', 'ok');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy($wallet)
     {
-        //
+        Wallet::destroy($wallet);
+        return Redirect::route('wallets.index')->with('delete', 'ok');
     }
 }
