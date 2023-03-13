@@ -47,7 +47,38 @@ $config = [
 <br>
 <br>
 {{-- Disabled --}}
-<x-adminlte-button label="Añadir" theme="dark" />
+<!-- <x-adminlte-button label="Añadir" theme="dark" /> -->
+
+<div class+"container">
+    <div class="row col-12">
+        <div class ="col-12 col-sm-3">
+            <x-adminlte-select2 name="optionsVehicles" 
+                                igroup-size="sm" 
+                                label-class="text-lightblue"
+                                data-placeholder="Select an option..."
+                                style="height:38px;"
+                                >
+                <x-slot name="prependSlot">
+                    <div class="input-group-text bg-gradient-info">
+                        <!-- <i class="fas fa-car-side"></i> -->
+                        <i class="fas fa-user-tie"></i>
+                    </div>
+                </x-slot>
+                <x-adminlte-options :options="['Car', 'Truck', 'Motorcycle']" empty-option/>
+            </x-adminlte-select2>
+        </div>
+
+        <div class ="col-12 col-sm-3">
+            <x-adminlte-date-range name="drCustomRanges" enable-default-ranges="Last 30 Days">
+                <x-slot name="prependSlot">
+                    <div class="input-group-text bg-gradient-info">
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                </x-slot>
+            </x-adminlte-date-range>
+        </div>
+    </div>
+</div>
 
 <br>
 <br>
