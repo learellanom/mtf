@@ -311,50 +311,41 @@ return [
             'url'  => 'admin/blog',
             'can'  => 'manage-blog',
         ],
-        ['header' => 'Master',
-        'classes' =>'text-uppercase font-weight-bold text-light',],
-        [
-            'text'        => 'Comandas',
-            'url'         => 'comanda',
-            'icon'        => 'fas fa-chart-line',
-            'label'       => 4,
-            'label_color' => 'success',
-        ],
+       // ['header' => 'Master',
+        //'classes' =>'text-uppercase font-weight-bold text-light',],
+        //[
+          //  'text'        => 'Comandas',
+            //'url'         => 'comanda',
+            //'icon'        => 'fas fa-chart-line',
+            //'label'       => 4,
+            //'label_color' => 'success',
+        //],
 
-        [
-            'text'        => 'Cajas',
-            'url'         => 'cajas',
-            'active'      => ['cajas*'],
-            'icon'        => 'fas fa-wallet',
-            'label'       => 4,
-            'label_color' => 'success',
-        ],
         ['header' => 'Estadisticas',
         'classes' =>'text-uppercase font-weight-bold text-light',],
 
         [
-            'text' => 'Dashboard',
+            'text' => 'Estadisticas',
             'url'  => 'dashboardest',
-            'icon' => 'fas fa-tachometer',
+            'icon' => 'fas fa-fw fas fa-chart-bar',
+        ],
+        [
+            'text' => 'Estadisticas por agentes',
+            'url'  => 'agentes',
+            'icon' => 'fas fa-fw fas fa-chart-bar',
         ],
 
         ['header' => 'Operaciones',
         'classes' =>'text-uppercase font-weight-bold text-light',],
         [
-            'text'        => 'Movimientos',
+            'text'        => 'Transacciónes',
             'url'         => 'movimientos',
             'active'      => ['movimientos*'],
-            'icon'        => 'fas fa-cogs',
+            'icon'        => 'fas fa-fw fas fa-retweet',
             'label'       => 4,
             'label_color' =>'success',
         ],
-        [
-            'text'        => 'Agentes',
-            'url'         => 'agentes',
-            'icon'        => 'fas fa-cogs',
-            'label'       => 4,
-            'label_color' =>'success',
-        ],
+
         ['header' => 'Configuración',
         'classes' =>'text-uppercase font-weight-bold text-light',],
         [
@@ -380,6 +371,14 @@ return [
             'url'  => 'grupos',
             'active'      => ['grupos*'],
             'icon' => 'fab fa-whatsapp'
+        ],
+        [
+            'text'        => 'Cajas',
+            'url'         => 'cajas',
+            'active'      => ['cajas*'],
+            'icon'        => 'fas fa-wallet',
+            'label'       => 4,
+            'label_color' => 'success',
         ],
         [
             'text' => 'Tipo de movimiento',

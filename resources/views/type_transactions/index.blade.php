@@ -4,7 +4,7 @@
 
 @section('content_header')
 
-    <h1 class="text-center text-dark font-weight-bold">TIPO DE TRANSACCIÓN <i class="fab fa-whatsapp-square"></i> </h1></a>
+    <h1 class="text-center text-dark font-weight-bold">TIPO DE TRANSACCIÓN <i class="fas fa-exchange-alt"></i> </h1></a>
 
 
 @stop
