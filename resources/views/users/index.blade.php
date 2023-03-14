@@ -17,7 +17,7 @@
     <span class="d-none d-md-inline-block text-uppercase font-weight-bold">Usuario</span>
 </a>
 
-
+<br><br>
     <div class="row">
 
         <div class="col-md-12">
@@ -34,6 +34,7 @@
 
                                         <th>Nombre</th>
                                         <th>E-mail</th>
+                                        <th class="text-center">Contraseña</th>
                                         <th class="text-center">Editar</th>
                                         <th class="text-center">Eliminar</th>
 
@@ -45,6 +46,8 @@
 
                                             <td>{{ $usuario->name }}</td>
                                             <td>{{ $usuario->email }}</td>
+                                            <td class="text-center"><a class="btn btn-primary" href={{route('users.password', $usuario)}}><i class='fas fa-lock'></i></a></td>
+
                                             <td class="text-center"><a class="btn btn-primary" href={{route('users.edit', $usuario)}}><i class='fas fa-edit'></i></a></td>
                                             <td class="text-center">
                                             <form method="post" action="{{ route('users.destroy', $usuario->id) }}" class="p-6">
