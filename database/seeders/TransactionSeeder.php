@@ -7,7 +7,7 @@ use Illuminate\Database\Seeder;
 use App\Models\Transaction;
 use Database\Factories\TransactionFactory;
 
-class TransactionsSeeder extends Seeder
+class TransactionSeeder extends Seeder
 {
     /**
      * Run the database seeds.
