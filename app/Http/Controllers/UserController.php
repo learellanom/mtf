@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Transaction;
 use Spatie\Permission\Models\Role;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -36,6 +37,36 @@ class UserController extends Controller
         }
         // echo "<br>";
        //  dd($userole);
+
+        // $Transacciones = Transaction::select(
+        //     'Transactions.user_id',
+        //     'Transactions.amount_total_transaction',
+        //     'Transactions.type_transaction_id',
+        //     'Transactions.client_id',
+        //     'transactions.wallet_id',
+        //     'transactions.transaction_date',
+        //     'users.name',
+        //     'type_transactions.name'
+        // )->leftJoin(
+        //     'users','users.id', '=', 'transactions.user_id'
+        // )->leftJoin(
+        //     'type_transactions', 'type_transactions.id', '=', '.transactions.type_transaction_id'
+        // )->get();
+
+
+
+        $Transacciones = Transaction::select(
+            'Transactions.user_id',
+            'Transactions.amount_total_transaction',
+            'Transactions.type_transaction_id',
+            'Transactions.client_id',
+            'transactions.wallet_id',
+            'transactions.transaction_date',
+        )->get();
+
+
+
+        dd($Transacciones);
 
         return view('agentes.index', compact('userole'));
 
