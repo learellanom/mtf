@@ -42,8 +42,8 @@ $config = [
 
 <a class="btn btn-dark" title="Crear Caja" href={{ route('wallets.create') }}>
     <i class="fas fa-plus-circle"></i>
-    <span class="d-none d-lg-inline-block">Crear</span>
-    <span class="d-none d-md-inline-block">Caja</span>
+    <span class="d-none d-lg-inline-block text-uppercase font-weight-bold">Crear</span>
+    <span class="d-none d-md-inline-block text-uppercase font-weight-bold">Caja</span>
 </a>
 <br><br>
 {{-- Compressed with style options / fill data using the plugin config --}}

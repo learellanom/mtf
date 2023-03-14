@@ -17,6 +17,7 @@ return new class extends Migration
             $table->double('amount_total');  //MONTO TOTAL
             $table->double('amount_total_transaction');  //MONTO TOTAL TRANSACCION
             $table->boolean('exonerate'); // EXONERADO SI|NO
+            $table->boolean('discount'); //DESCUENTO EN LA TRANSFERENCIA
             $table->string('percentage'); //PORCENTAJE DE LA TRANSFERENCIA
             $table->foreignId('type_coin_id')->references('id')->on('type_coins')->nullable(); // TIPO DE MONEDA DE LA TRANSFERENCIA
             $table->foreignId('type_transaction_id')->references('id')->on('type_transactions')->nullable();  //TIPO DE LA TRANSFERENCIA

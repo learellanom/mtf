@@ -12,14 +12,12 @@
 @section('content')
 <div class="card">
     <div class="card-body">
-<form method="post" action={{ route('users.update', $user)}} >
-    @csrf
-    @method('patch')
-        
+        {!! Form::model($user,['route' => ['users.update', $user], 'method' => 'put', 'autocomplete' => 'off', 'files' => true]) !!}
+
         <div class="form-group">
             <label for="">Nombre</label>
             <input required type="text" name="name" id="name" class="form-control" value={{ old('name', $user->name) }}>
-            
+
 
             @error('name')
 
@@ -30,8 +28,8 @@
 
         <div class="form-group">
             <label for="">Correo Electronico</label>
-            <input required type="text" name="email" id="email" class="form-control" value={{ old('email', $user->email) }}>
-            
+            <input required type="text" name="email" id="email" class="form-control" value={{ old('email', $user->email) }} required>
+
 
             @error('email')
 
@@ -40,29 +38,21 @@
             @enderror
         </div>
         </div>
-        
 
-        <div class="form-group">
-            <label for="">Nueva Contraseña</label>
-            <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
-            
 
-            @error('password')
+        @foreach($roles as $role)
+            <div>
+                <label>
+                    {!! Form::checkbox('roles[]', $role->id, null, ['class'=>'mr-1']) !!}
+                    {{$role->name}}
 
-            <span class="text-danger">{{$message}}</span>
+                </label>
+            </div>
+        @endforeach
+            <button class="btn btn-primary text-uppercase font-weight-bold btn-block" type="submit">Actualizar</button>
 
-            @enderror
-        </div>
-        <div class="form-group">
-            <label for="">Confirma Contraseña</label>
-            <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
-            
-        </div>
+            {!! Form::close() !!}
 
-            <button class="btn btn-primary text-uppercase font-weight-bold btn-block" type="submit">Guardar</button> 
-
-       </form>
-       
     </div>
 </div>
 @endsection
