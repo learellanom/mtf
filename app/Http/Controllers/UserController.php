@@ -18,6 +18,31 @@ class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
+    */
+    public function index_all()
+    {
+
+        $userole2 = User::select('users.id', 'users.name', 'model_has_roles.role_id')
+                ->join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
+                ->join('roles', 'roles.id', '=', 'model_has_roles.role_id')
+                ->get();
+
+        // echo $userole;
+        $userole = array();
+        foreach($userole2 as $user){
+                // $user2 = json_decode($user);
+                // print_r($user2,true);
+                $userole [$user->id] =  $user->name;
+        }
+        // echo "<br>";
+       //  dd($userole);
+
+        return view('agentes.index', compact('userole'));
+
+    }
+
+    /**
+     * Display a listing of the resource.
      */
     public function index()
     {

@@ -1,9 +1,14 @@
 @extends('adminlte::page')
 
 
+
+
 @section('content')
 {{-- Setup data for datatables --}}
 @php
+
+
+
 $heads = [
     'ID',
     'Fecha',
@@ -39,6 +44,8 @@ $config = [
     'order' => [[1, 'asc']],
     'columns' => [null, null, null, null, null, null, null, null, null, null, null, null, ['orderable' => false]],
 ];
+
+
 @endphp
 
 <br>
@@ -52,7 +59,7 @@ $config = [
 <div class+"container">
     <div class="row col-12">
         <div class ="col-12 col-sm-3">
-            <x-adminlte-select2 name="optionsVehicles" 
+            <x-adminlte-select2 name="optionsUsers" 
                                 igroup-size="sm" 
                                 label-class="text-lightblue"
                                 data-placeholder="Select an option..."
@@ -64,7 +71,8 @@ $config = [
                         <i class="fas fa-user-tie"></i>
                     </div>
                 </x-slot>
-                <x-adminlte-options :options="['Car', 'Truck', 'Motorcycle']" empty-option/>
+                <!-- <x-adminlte-options :options="['Car', 'Truck', 'Motorcycle']" empty-option/> -->
+                <x-adminlte-options :options="$userole" empty-option="Selecciona un Agente.."/>                
             </x-adminlte-select2>
         </div>
 
