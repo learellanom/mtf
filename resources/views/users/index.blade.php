@@ -17,9 +17,6 @@
     <span class="d-none d-md-inline-block text-uppercase font-weight-bold">Usuario</span>
 </a>
 
-<br><br>
-
-
 
     <div class="row">
 
@@ -67,8 +64,10 @@
 
     </div>
 
+  </div>
 </div>
-</div>
+
+
 @endsection
 
 
