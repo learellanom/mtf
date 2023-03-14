@@ -38,6 +38,28 @@ class UserController extends Controller
         // echo "<br>";
        //  dd($userole);
 
+        $Transacciones = Transaction::select(
+        //    'Transactions.user_id as Id',
+            'users.name as AgenteName',
+            'Transactions.amount_total_transaction as Monto',
+        //    'Transactions.type_transaction_id as TransactionId',
+            'type_transactions.name as TipoTransaccion',      
+        //    'Transactions.client_id as ClienteId',
+        //    'transactions.wallet_id As WalletId',
+            'wallets.name As WalletName',            
+            'transactions.transaction_date as FechaTransaccion',
+            'clients.name as ClientName',
+        )->leftJoin(
+            'users','users.id', '=', 'transactions.user_id'
+        )->leftJoin(
+            'type_transactions', 'type_transactions.id', '=', 'transactions.type_transaction_id'
+        )->leftJoin(
+            'wallets', 'wallets.id', '=', 'transactions.wallet_id'
+        )->leftJoin(
+            'clients', 'clients.id', '=', 'transactions.client_id'    
+        )->get();
+
+  
         // $Transacciones = Transaction::select(
         //     'Transactions.user_id',
         //     'Transactions.amount_total_transaction',
@@ -53,23 +75,24 @@ class UserController extends Controller
         //     'type_transactions', 'type_transactions.id', '=', '.transactions.type_transaction_id'
         // )->get();
 
-    
-
-        $Transacciones = Transaction::select(
-            'Transactions.user_id',
-            'Transactions.amount_total_transaction',
-            'Transactions.type_transaction_id',
-            'Transactions.client_id',
-            'transactions.wallet_id',
-            'transactions.transaction_date',
-        )->get();
 
 
-        //    $transacciones = Transaction::all();
+        // $Transacciones = Transaction::select(
+        //     'Transactions.user_id',
+        //     'Transactions.amount_total_transaction',
+        //     'Transactions.type_transaction_id',
+        //     'Transactions.client_id',
+        //     'transactions.wallet_id',
+        //     'transactions.transaction_date',
+        // )->get();
 
-         // dd($Transacciones);
 
-        return view('agentes.index', compact('userole'));
+        //    $Transacciones = Transaction::all();
+
+        //echo $Transacciones;
+        //die();
+
+        return view('agentes.index', compact('userole','Transacciones'));
 
     }
 

@@ -45,6 +45,42 @@ $config = [
     'columns' => [null, null, null, null, null, null, null, null, null, null, null, null, ['orderable' => false]],
 ];
 
+<!--  -->
+
+
+<!-- 
+
+$heads = [
+    'Agente',
+    'Cliente',
+    'Monto Transaccion',
+    'Fecha Transaccion',
+    'Wallet',
+    'Transaccion',
+    ['label' => 'Actions', 'no-export' => true, 'width' => 5],
+];
+
+$btnEdit = '<button class="btn btn-xs btn-default text-primary mx-1 shadow" title="Edit">
+                <i class="fa fa-lg fa-fw fa-pen"></i>
+            </button>';
+$btnDelete = '<button class="btn btn-xs btn-default text-danger mx-1 shadow" title="Delete">
+                  <i class="fa fa-lg fa-fw fa-trash"></i>
+              </button>';
+$btnDetails = '<button class="btn btn-xs btn-default text-teal mx-1 shadow" title="Details">
+                   <i class="fa fa-lg fa-fw fa-eye"></i>
+               </button>';
+
+$config = [
+    'data' => [
+        [22, '07-03-2023', 'John Bender',    '4,00', '500.00', '501.00', '2%', '503.00', '504.00', '', '', '505.00', '<nobr>'.$btnEdit.$btnDelete.$btnDetails.'</nobr>'],
+        [19, '07-03-2023', 'Sophia Clemens', '4.00', '500.00', '501.00', '2%', '503.00', '504.00', '', '', '505.00', '<nobr>'.$btnEdit.$btnDelete.$btnDetails.'</nobr>'],
+        [3,  '07-03-2023', 'Peter Sousa',    '4.00', '500.00', '501.00', '2%', '503.00', '504.00', '', '', '505.00', '<nobr>'.$btnEdit.$btnDelete.$btnDetails.'</nobr>'],
+    ],
+    'order' => [[1, 'asc']],
+    'columns' => [null, null, null, null, null, null, null, null, null, null, null, null, ['orderable' => false]],
+];
+ -->
+
 
 @endphp
 
