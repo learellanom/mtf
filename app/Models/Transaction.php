@@ -9,7 +9,7 @@ use Laravel\Sanctum\HasApiTokens;
 use OwenIt\Auditing\Contracts\Auditable;
 use Spatie\Permission\Traits\HasRoles;
 
-class Transaction extends Model
+class Transaction extends Model implements Auditable
 {
     use \OwenIt\Auditing\Auditable;
     use HasFactory, HasFactory, Notifiable, HasRoles;

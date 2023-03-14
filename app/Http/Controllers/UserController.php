@@ -53,7 +53,7 @@ class UserController extends Controller
         //     'type_transactions', 'type_transactions.id', '=', '.transactions.type_transaction_id'
         // )->get();
 
-
+    
 
         $Transacciones = Transaction::select(
             'Transactions.user_id',
@@ -65,8 +65,9 @@ class UserController extends Controller
         )->get();
 
 
+        //    $transacciones = Transaction::all();
 
-        dd($Transacciones);
+         // dd($Transacciones);
 
         return view('agentes.index', compact('userole'));
 
