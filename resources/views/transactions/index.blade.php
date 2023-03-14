@@ -4,10 +4,12 @@
 
 @section('content_header')
 
-    <h1 class="text-center text-dark font-weight-bold">LISTA DE MOVIMIENTOS <i class="fas fa-users"></i> </h1></a>
+    <h1 class="text-center text-dark font-weight-bold">LISTA DE MOVIMIENTOS <i class="fas fa-exchange-alt"></i> </h1></a>
 
 
 @stop
+
+
 
 @section('content')
 
@@ -54,12 +56,12 @@ $config = [
 
 <a class="btn btn-dark" title="Agregar movimientos" href={{ route('transactions.create') }}>
     <i class="fas fa-plus-circle"></i>
-    <span class="d-none d-lg-inline-block">Agregar</span>
-    <span class="d-none d-md-inline-block">Movimientos</span>
+    <span class="d-none d-lg-inline-block text-uppercase font-weight-bold">Agregar</span>
+    <span class="d-none d-md-inline-block text-uppercase font-weight-bold">Movimientos</span>
 </a>
 <br><br>
 {{-- Compressed with style options / fill data using the plugin config --}}
 <x-adminlte-datatable id="table2" :heads="$heads" head-theme="dark" :config="$config"
     striped hoverable bordered compressed/>
 
-@endsection 
+@endsection

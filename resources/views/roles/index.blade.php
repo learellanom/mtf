@@ -13,8 +13,8 @@
 
 <a class="btn btn-dark" title="Crear Roles" href={{ route('roles.create') }}>
     <i class="fas fa-plus-circle"></i>
-    <span class="d-none d-lg-inline-block">Crear</span>
-    <span class="d-none d-md-inline-block">Role</span>
+    <span class="d-none d-lg-inline-block text-uppercase font-weight-bold">Crear</span>
+    <span class="d-none d-md-inline-block text-uppercase font-weight-bold">Role</span>
 </a>
 
 <br><br>

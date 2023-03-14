@@ -75,9 +75,11 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
      */
+
+
     public function index()
     {
-        $users = User::paginate(5);
+        $users = User::all();
         return view('users.index', compact('users'));
     }
 
@@ -86,7 +88,8 @@ class UserController extends Controller
      */
     public function create()
     {
-        return view('users.create');
+        $role = Role::all();
+        return view('users.create', compact('role'));
     }
 
     /**
@@ -100,13 +103,13 @@ class UserController extends Controller
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
-        $user = User::create([
+        User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-        ]);
+        ])->assignRole($request->roles);
 
-        event(new Registered($user));
+
 
         return redirect()->route('users.index')->with('success', 'Successfully created');
     }
@@ -124,11 +127,11 @@ class UserController extends Controller
      */
     public function edit($user)
     {
-       
+
         //$roles = Role::find();
         $user = User::find($user);
-
-        return view('users.edit', compact('user'));
+        $roles = Role::all();
+        return view('users.edit', compact('user', 'roles'));
     }
 
     /**
@@ -136,15 +139,14 @@ class UserController extends Controller
      */
     public function update(Request $request, $user)
     {
-        $request->validate([
-            'name' => ['required','string','max:255'],
-            'email' => ['required','string', 'email','max:255', 'unique:'.User::class],
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
-        ]);
-        
+
         User::findOrFail($user)->update($request->all());
+
+        $user = User::find($user);
+        $user->syncRoles($request->roles);
+
         return Redirect::route('users.index')->with('update', 'ok');
-    
+
     }
 
     /**
@@ -152,7 +154,7 @@ class UserController extends Controller
      */
     public function destroy($usuario): RedirectResponse
     {
-        
+
         $usuario = User::find($usuario);
 
         $usuario->delete();

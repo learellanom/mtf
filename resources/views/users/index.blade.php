@@ -13,8 +13,8 @@
 
 <a class="btn btn-dark" title="Crear usuarios" href={{ route('users.create') }}>
     <i class="fas fa-plus-circle"></i>
-    <span class="d-none d-lg-inline-block">Crear</span>
-    <span class="d-none d-md-inline-block">Usuario</span>
+    <span class="d-none d-lg-inline-block text-uppercase font-weight-bold">Crear</span>
+    <span class="d-none d-md-inline-block text-uppercase font-weight-bold">Usuario</span>
 </a>
 
 <br><br>

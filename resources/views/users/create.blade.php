@@ -18,7 +18,7 @@
         <div class="form-group">
             <label for="">Nombre</label>
             <input required type="text" name="name" id="name" class="form-control">
-            
+
 
             @error('name')
 
@@ -30,7 +30,7 @@
         <div class="form-group">
             <label for="">Correo Electronico</label>
             <input required type="text" name="email" id="email" class="form-control">
-            
+
 
             @error('email')
 
@@ -43,7 +43,7 @@
         <div class="form-group">
             <label for="">Contraseña</label>
             <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
-            
+
 
             @error('password')
 
@@ -54,10 +54,19 @@
         <div class="form-group">
             <label for="">Confirma Contraseña</label>
             <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
-            
+
         </div>
 
-            <button class="btn btn-primary text-uppercase font-weight-bold btn-block" type="submit">Guardar</button> 
+        @foreach($role as $roles)
+        <label>
+
+            {!! Form::radio('roles[]', $roles->id, null, ['class'=>'mr-1', 'required' => true]) !!}
+            {{$roles->name}}
+
+        </label>
+        @endforeach
+
+            <button class="btn btn-primary text-uppercase font-weight-bold btn-block" type="submit">Guardar</button>
 
        </form>
       </div>

@@ -20,8 +20,8 @@
 
 
         <div class="form-group">
-            <label for="">Nombre del grupo</label>
-            <input required type="text" name="name" id="name" class="form-control">
+            {!! Form::Label('name', "Nombre del grupo:") !!}
+            {!! Form::text('name', null, ['class' => 'form-control']) !!}
 
 
             @error('name')
@@ -32,8 +32,8 @@
 
 
         <div class="form-group">
-            <label for="">Telefono administrador</label>
-            <input required type="text" name="phone" id="phone" class="form-control">
+            {!! Form::Label('phone', "Telefono del administrador:") !!}
+            {!! Form::text('phone', null, ['class' => 'form-control']) !!}
 
 
             @error('phone')
