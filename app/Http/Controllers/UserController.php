@@ -31,12 +31,9 @@ class UserController extends Controller
         // echo $userole;
         $userole = array();
         foreach($userole2 as $user){
-                // $user2 = json_decode($user);
-                // print_r($user2,true);
+
                 $userole [$user->id] =  $user->name;
         }
-        // echo "<br>";
-       //  dd($userole);
 
         $Transacciones = Transaction::select(
         //    'Transactions.user_id as Id',
@@ -59,21 +56,16 @@ class UserController extends Controller
             'clients', 'clients.id', '=', 'transactions.client_id'    
         )->get();
 
+        $Transacciones2 = array();
+        foreach($Transacciones as $tran){
+            // echo " trans " . json_decode($tran);
+            $value1 = json_decode($tran);
+
+            $value2 = array_values(json_decode(json_encode($tran), true));
+
+            array_push($Transacciones2, $value2);
+        }
   
-        // $Transacciones = Transaction::select(
-        //     'Transactions.user_id',
-        //     'Transactions.amount_total_transaction',
-        //     'Transactions.type_transaction_id',
-        //     'Transactions.client_id',
-        //     'transactions.wallet_id',
-        //     'transactions.transaction_date',
-        //     'users.name',
-        //     'type_transactions.name'
-        // )->leftJoin(
-        //     'users','users.id', '=', 'transactions.user_id'
-        // )->leftJoin(
-        //     'type_transactions', 'type_transactions.id', '=', '.transactions.type_transaction_id'
-        // )->get();
 
 
 
@@ -87,12 +79,12 @@ class UserController extends Controller
         // )->get();
 
 
-        //    $Transacciones = Transaction::all();
+        //   $Transacciones = Transaction::all();
 
-        //echo $Transacciones;
-        //die();
+        // print_r( $Transacciones2);
+        // die();
 
-        return view('agentes.index', compact('userole','Transacciones'));
+        return view('agentes.index', compact('userole','Transacciones2'));
 
     }
 
