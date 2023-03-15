@@ -18,18 +18,18 @@ class TransactionFactory extends Factory
     {
         return [
             //
-            'type_coin_id' => '1',               // tipo moneda
+            'type_coin_id' => 1,               // tipo moneda
             'amount' => '0',                     // monto en moneda tipo
             'exchange_rate' => '0',                     // monto en moneda tipo
 
-            'amount_total' => 100,               // monto transaccion en dorales       
+            'amount_total' => 100,               // monto transaccion en dorales
             'percentage' => 10,                  // comision
             'exonerate' => 0,                     // indicador de exoneracion
             'amount_total_transaction' => 110,   // monto transaccion en dorales + monto comision
             'discount' => 0,                     // indicador de descuento de comision
 
             'type_transaction_id' => 1,          // tipo de transaccion
-            
+
             'description' => fake()->text(),          // tipo de transaccion
 
             'user_id' => 1,                      // user o agente
@@ -40,6 +40,6 @@ class TransactionFactory extends Factory
             'created_at' => now(),
             'updated_at' => now(),
         ];
-        
+
     }
 }

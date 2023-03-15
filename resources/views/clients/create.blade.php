@@ -57,11 +57,11 @@
         </div>
 
         <div class="form-group">
-            {!! Form::Label('group_id', "Grupos:") !!}
-            {!! Form::select('group_id', $group, null,['class' => 'form-control'])!!}
+            {!! Form::Label('user_id', "Agentes:") !!}
+            {!! Form::select('user_id', $user, null,['class' => 'form-control'])!!}
 
 
-            @error('group_id')
+            @error('user_id')
 
             <span class="text-danger">{{$message}}</span>
 

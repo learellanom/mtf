@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Client;
-use App\Models\Group;
+use App\Models\User;
 use Illuminate\Support\Facades\Redirect;
 
 class ClientController extends Controller
@@ -25,9 +25,14 @@ class ClientController extends Controller
      */
     public function create()
     {
-        $group = Group::pluck('name', 'id');
+        //$user = User::where('role', auth()->user()->role)->pluck('name', 'id');
+        $user = User::select('users.id', 'users.name', 'model_has_roles.role_id')
+        ->join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
+        ->join('roles', 'roles.id', '=', 'model_has_roles.role_id')
+        ->where('role_id', 2)
+        ->get()->pluck('name', 'id');
 
-        return view('clients.create', compact('group'));
+        return view('clients.create', compact('user'));
     }
 
     public function store(Request $request)
@@ -40,9 +45,13 @@ class ClientController extends Controller
     public function edit($client)
     {
         $clients = Client::find($client);
-        $group = Group::pluck('name', 'id');
+        $user = User::select('users.id', 'users.name', 'model_has_roles.role_id')
+        ->join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
+        ->join('roles', 'roles.id', '=', 'model_has_roles.role_id')
+        ->where('role_id', 2)
+        ->get()->pluck('name', 'id');
 
-        return view('clients.edit', compact('clients', 'group'));
+        return view('clients.edit', compact('clients', 'user'));
     }
 
     public function update(Request $request, $clients)

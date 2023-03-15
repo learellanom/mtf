@@ -53,7 +53,7 @@ class UserController extends Controller
         //     'type_transactions', 'type_transactions.id', '=', '.transactions.type_transaction_id'
         // )->get();
 
-    
+
 
         $Transacciones = Transaction::select(
             'Transactions.user_id',
@@ -144,6 +144,7 @@ class UserController extends Controller
         User::findOrFail($user)->update($request->all());
 
         $user = User::find($user);
+
         $user->syncRoles($request->roles);
 
         return Redirect::route('users.index')->with('update', 'ok');
@@ -161,9 +162,7 @@ class UserController extends Controller
         return view('users.password', compact('user'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
+
     public function password_update(Request $request, $user)
     {
         $request->validate([

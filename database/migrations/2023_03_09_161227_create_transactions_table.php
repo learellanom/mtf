@@ -13,9 +13,10 @@ return new class extends Migration
     {
         Schema::create('transactions', function (Blueprint $table) {
             $table->bigIncrements('id'); // IDENTIFICADOR DE LA TABLA
-            $table->double('amount');  //MONTO
+            $table->double('amount');  //MONTO EN DOLARES
+            $table->double('amount_foreign_currency');  //MONTO MONEDA EXTRANJERA
             $table->double('amount_total');  //MONTO TOTAL
-            $table->double('amount_total_transaction');  //MONTO TOTAL TRANSACCION
+            $table->double('amount_commission');  //MONTO COMISION
             $table->double('exchange_rate'); // TAZA DE CAMBIO
             $table->boolean('exonerate'); // EXONERADO SI|NO
             $table->boolean('discount'); //DESCUENTO EN LA TRANSFERENCIA
