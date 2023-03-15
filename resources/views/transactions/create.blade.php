@@ -12,7 +12,7 @@
 @section('content')
 
 <div class="d-flex justify-content-center">
- <div class="card col-md-8">
+ <div class="card col-md-6">
   <div class="card-body">
 
     {!! Form::open(['route' => 'transactions.store', 'autocomplete' => 'off', 'files' => true]) !!}
@@ -22,12 +22,22 @@
 
 
             <div class="form-row">
+                <div class="form-group col-md-6">
                 {!! Form::Label('type_transaction_id', "Tipo de Movimiento:") !!}
                 <div class="input-group-text col-md-12">
                     <i class="fa-fw fas fa-random"></i>
                 {!! Form::select('type_transaction_id',$type_transaction, null, ['class' => 'form-control typetrasnferencia', 'required' => true]) !!}
                 </div>
-
+            </div>
+                <div class="form-group col-md-6">
+                    {!! Form::Label('client_id', "Cliente:") !!}
+                    <div class="input-group-text">
+                        <i class="fa-fw fas fas fa-user-friends mr-2"></i>
+                    {!! Form::select('client_id',$client, null, ['class' => 'form-control clientes', 'required' => true, 'id' => 'clientes']) !!}
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
             <div class="form-group col-md-4">
                 {!! Form::Label('type_coin_id', "Tipo de moneda:") !!}
                 <div class="input-group-text">
@@ -57,23 +67,6 @@
 
 
 
-        <hr>
-        <div class="form-group col-md-12">
-
-                <label class="form-check-label" for="radio1">
-                    {!! Form::radio('exonerate',true, null, ['id' => 'radio1', 'name'=>'optradio']) !!}
-                    Exonerar comisión
-                </label>
-
-
-                <label class="float-right" for="radio2">
-                    Descontar comisión
-                    {!! Form::radio('discount',true, null, ['id' => 'radio2', 'name'=>'optradio']) !!}
-                </label>
-
-        </div>
-        <hr>
-
         <div class="form-group col-md-14">
                 {!! Form::Label('amount', "Monto en dolares:") !!}
                 <div class="input-group-text">
@@ -102,6 +95,28 @@
             </div>
         </div>
 
+<hr>
+        <div class="form-group col-md-12 d-flex justify-content-center">
+
+                <label class="form-check-label mx-auto" for="radio1">
+                    {!! Form::radio('exonerate',false, null, ['id' => 'radio1', 'name'=>'optradio']) !!}
+                    Exonerar comisión
+                </label>
+
+                <label class="form-check-label mx-auto" for="radio3">
+                    {!! Form::radio('exonerate',true, null, ['id' => 'radio3', 'name'=>'optradio']) !!}
+                    Incluir comisión
+                </label>
+
+
+                <label class="form-check-label mx-auto" for="radio2">
+                    Descontar comisión
+                    {!! Form::radio('discount',true, null, ['id' => 'radio2', 'name'=>'optradio']) !!}
+                </label>
+
+        </div>
+        <hr>
+
 
         <div class="form-group">
             {!! Form::Label('amount_total', "Monto Total:") !!}
@@ -112,7 +127,7 @@
         </div>
 
         <div class="form-row">
-            <div class="form-group col-md-4">
+            <div class="form-group col-md-6">
                 {!! Form::Label('status', "Estatus:") !!}
                 <div class="input-group-text">
                     <i class="fa-fw fas fas fa-stream mr-2"></i>
@@ -120,15 +135,8 @@
 
                 </div>
             </div>
-            <div class="form-group col-md-4">
-                {!! Form::Label('client_id', "Cliente:") !!}
-                <div class="input-group-text">
-                    <i class="fa-fw fas fas fa-user-friends mr-2"></i>
-                {!! Form::select('client_id',$client, null, ['class' => 'form-control clientes', 'required' => true, 'id' => 'clientes']) !!}
-                </div>
-            </div>
 
-            <div class="form-group col-md-4">
+            <div class="form-group col-md-6">
                 {!! Form::Label('transaction_date', "Fecha:") !!}
                 <div class="input-group-text">
                     <i class="fa-fw fas fas fa-calendar-week mr-2"></i>
@@ -143,7 +151,7 @@
             {!! Form::Label('description', "Descripción:") !!}
                 <div class="input-group-text">
                     <i class="fa-fw fas fa-text-width mr-2"></i>
-                {!! Form::textarea('description',null, ['class' => 'form-control', 'required' => true]) !!}
+                {!! Form::textarea('description',null, ['rows' => 1, 'class' => 'form-control', 'required' => true]) !!}
                 </div>
         </div>
 
