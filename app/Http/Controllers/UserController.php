@@ -20,8 +20,16 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
     */
-    public function index_all()
+    public function index_all($myUser = 0)
     {
+
+        $myUserDesde = 0;
+        $myUserHasta = 9999;
+
+        if ($myUser != 0){
+            $myUserDesde = $myUser;
+            $myUserHasta = $myUser;
+        }
 
         $userole2 = User::select('users.id', 'users.name', 'model_has_roles.role_id')
                 ->join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
@@ -31,8 +39,7 @@ class UserController extends Controller
         // echo $userole;
         $userole = array();
         foreach($userole2 as $user){
-
-                $userole [$user->id] =  $user->name;
+            $userole [$user->id] =  $user->name;
         }
 
         $Transacciones = Transaction::select(
@@ -53,9 +60,10 @@ class UserController extends Controller
         )->leftJoin(
             'wallets', 'wallets.id', '=', 'transactions.wallet_id'
         )->leftJoin(
-            'clients', 'clients.id', '=', 'transactions.client_id'    
+            'clients', 'clients.id', '=', 'transactions.client_id'  
+        )->whereBetween('Transactions.user_id', [$myUserDesde, $myUserHasta]
         )->get();
-
+    
         $Transacciones2 = array();
         foreach($Transacciones as $tran){
             // echo " trans " . json_decode($tran);
@@ -66,9 +74,6 @@ class UserController extends Controller
             array_push($Transacciones2, $value2);
         }
   
-
-
-
         // $Transacciones = Transaction::select(
         //     'Transactions.user_id',
         //     'Transactions.amount_total_transaction',
@@ -77,8 +82,6 @@ class UserController extends Controller
         //     'transactions.wallet_id',
         //     'transactions.transaction_date',
         // )->get();
-
-
 
           $Transacciones3 = Transaction::all();
 

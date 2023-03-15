@@ -57,7 +57,7 @@ Route::resource('usuarios', UserController::class)->middleware('auth')->except('
 
 Route::middleware('auth')->group(function () {
 Route::get('/usuarios/{usuario}/cambio_contraseña', [UserController::class, 'password'])->name('users.password');
-Route::get('/usuarios/{usuario}', [UserController::class, 'password_update'])->name('users.paswordupdate');
+Route::put('/usuarios/{usuario}', [UserController::class, 'password_update'])->name('users.paswordupdate');
 });
 
 Route::resource('clientes', ClientController::class)->middleware('auth')->except('show')->names('clients');
@@ -68,10 +68,8 @@ Route::resource('tipo_transaccion', Type_transactionController::class)->middlewa
 Route::resource('tipo_moneda', Type_coinController::class)->middleware('auth')->except('show')->names('type_coins');
 
 
-// Route::get('agentes', function () {
-//     return view('agentes.index');
-// });
- Route::get('agentes',[App\Http\Controllers\UserController::class, 'index_all'])->name('agentes');
+Route::get('agentes',[App\Http\Controllers\UserController::class, 'index_all'])->name('agentes');
+
 
 Route::get('comanda', function () {
     return view('master.comanda');

@@ -34,7 +34,7 @@ $config = [
         [3,  '07-03-2023', 'Peter Sousa',    '4.00', '500.00', '501.00', '2%', '503.00', '504.00', '', '', '505.00', '<nobr>'.$btnEdit.$btnDelete.$btnDetails.'</nobr>'],
     ],
     'order' => [[1, 'asc']],
-    'columns' => [null, null, null, null, null, null, null, null, null, null, null, null, ['orderable' => false]],
+    'columns' => [null, null, null, null, null, null, null, null, null, null, null, null, ['orderable' => false]]
 ];
 
 
@@ -53,7 +53,8 @@ $config = [
 <div class="container">
     <div class="row col-12">
         <div class ="col-12 col-sm-3">
-            <x-adminlte-select2 name="optionsUsers" 
+            <x-adminlte-select2 id="userole"
+                                name="optionsUsers" 
                                 igroup-size="sm" 
                                 label-class="text-lightblue"
                                 data-placeholder="Select an option..."
@@ -110,8 +111,7 @@ $config = [
             <td>{!! $row->FechaTransaccion !!}</td>            
             <td>{!! $row->WalletName !!}</td> 
             <td>{!! $row->TipoTransaccion !!}</td>                          
-<!-- 
-            <td class="text-center"><a class="btn btn-primary" href=""><i class='fas fa-edit'></i></a></td> -->
+
             <td class="text-center">
                 <button class="btn btn-xl text-teal mx-auto shadow" title="Detalles">
                     <i class="fa fa-lg fa-fw fa-eye"></i>
@@ -121,4 +121,17 @@ $config = [
     @endforeach
 </x-adminlte-datatable>
 
+
+    
+@push('js')
+    <script>
+        $(() => {
+            
+            $('#userole').on('change', function (){
+                 alert('iii' +  $('#userole').val());
+            });
+
+        })
+    </script>
+@endpush
 @endsection
