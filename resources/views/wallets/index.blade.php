@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', 'MTF | CAJAS')
+@section('title', 'CAJAS')
 
 @section('content_header')
 

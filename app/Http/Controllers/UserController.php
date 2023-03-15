@@ -40,10 +40,10 @@ class UserController extends Controller
             'users.name as AgenteName',
             'Transactions.amount as Monto',
         //  'Transactions.type_transaction_id as TransactionId',
-            'type_transactions.name as TipoTransaccion',      
+            'type_transactions.name as TipoTransaccion',
         //  'Transactions.client_id as ClienteId',
         //  'transactions.wallet_id As WalletId',
-            'wallets.name As WalletName',            
+            'wallets.name As WalletName',
             'transactions.transaction_date as FechaTransaccion',
             'clients.name as ClientName',
         )->leftJoin(
@@ -53,7 +53,7 @@ class UserController extends Controller
         )->leftJoin(
             'wallets', 'wallets.id', '=', 'transactions.wallet_id'
         )->leftJoin(
-            'clients', 'clients.id', '=', 'transactions.client_id'    
+            'clients', 'clients.id', '=', 'transactions.client_id'
         )->get();
 
         $Transacciones2 = array();
@@ -65,7 +65,7 @@ class UserController extends Controller
 
             array_push($Transacciones2, $value2);
         }
-  
+
 
 
 
@@ -149,51 +149,45 @@ class UserController extends Controller
         return view('users.edit', compact('user', 'roles'));
     }
 
+    public function password($user)
+    {
+
+        //$roles = Role::find();
+        $user = User::find($user);
+
+        return view('users.password', compact('user'));
+    }
+
     /**
      * Update the specified resource in storage.
      */
     public function update(Request $request, $user)
     {
 
-        User::findOrFail($user)->update($request->all());
+        $password = view('users.password');
+        $roles = view('users.edit');
 
-        $user = User::find($user);
-
-        $user->syncRoles($request->roles);
-
-        return Redirect::route('users.index')->with('update', 'ok');
-
-    }
-
-
-    public function password($user)
-    {
-        //$roles = Role::find();
-        $user = User::find($user);
-
-
-       // $roles = Role::all();
-        return view('users.password', compact('user'));
-    }
-
-
-    public function password_update(Request $request, $user)
-    {
-        $request->validate([
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
-        ]);
-
-        $users = User::findOrFail($user);
-
-        //$users->setRememberToken(Str::random(60))->update($request->password);
-
-         $users->password = Hash::make($request->password);
-         $users->setRememberToken(Str::random(60));
-         $users->update();
+        if($password == true){
+        $user = User::findOrFail($user);
+        $user->password = Hash::make($request->password);
+        $user->setRememberToken(Str::random(60));
+        $user->update();
 
         return Redirect::route('users.index')->with('update', 'ok');
+        }
+
+        elseif($roles == true){
+
+         User::findOrFail($user)->update($request->all());
+         $user = User::find($user);
+         $user->syncRoles($request->roles);
+
+         return Redirect::route('users.index')->with('update', 'ok');
+         }
+
 
     }
+
 
     /**
      * Remove the specified resource from storage.

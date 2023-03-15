@@ -1,5 +1,5 @@
 @extends('adminlte::auth.passwords.email')
-
+@section('title', 'Resetear contraseña')
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
