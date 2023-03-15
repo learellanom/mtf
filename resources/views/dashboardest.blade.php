@@ -1,5 +1,5 @@
 @extends('adminlte::page')
-
+@section('title', 'Estadisticas')
 <!-- @section('plugins.chartJs', true) -->
 @section('content')
 
@@ -10,7 +10,7 @@
         <canvas id="myChart1" width="400" height="150"></canvas>
     </div>
 </div> -->
-<!-- 
+<!--
 <div class="container">
     <div class="row justify-content-center">
         <div class="col col-sm-8">
@@ -46,7 +46,7 @@
         <div class="col col-sm-6">
             <h3 class="text-center">Movimientos por Agente</h3>
             <canvas id="myChartDoughnut"></canvas>
-        </div>        
+        </div>
     </div>
 </div>
 <br>
@@ -57,7 +57,7 @@
         <div class="col col-sm-6">
             <h3 class="text-center">Historico de Movimientos</h3>
             <canvas id="myChartLine"></canvas>
-        </div>      
+        </div>
     </div>
    </div>
   </div>
@@ -71,7 +71,7 @@
 <script>
 
 
-    
+
     // var myChart = new Chart();
 
 
@@ -121,12 +121,12 @@ document.addEventListener('DOMContentLoaded', function () {
                 ],
                 hoverOffset: 4
             }]
-        }       
+        }
     });
 
 
 
-        
+
         const ctx3 = document.getElementById('myChartLine');
         const myChart3 = new Chart(ctx3, {
             type: 'line',

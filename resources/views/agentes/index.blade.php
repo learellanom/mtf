@@ -1,4 +1,5 @@
 @extends('adminlte::page')
+@section('title', 'Estadisticas por agentes')
 @section('content')
 {{-- Setup data for datatables --}}
 
@@ -53,9 +54,14 @@ $config = [
 <div class="container">
     <div class="row col-12">
         <div class ="col-12 col-sm-3">
+<<<<<<< HEAD
             <x-adminlte-select2 id="userole"
                                 name="optionsUsers" 
                                 igroup-size="sm" 
+=======
+            <x-adminlte-select2 name="optionsUsers"
+                                igroup-size="sm"
+>>>>>>> 8c47733b5470d3d83e6f6af613771ec7b7410b26
                                 label-class="text-lightblue"
                                 data-placeholder="Select an option..."
                                 style="height:45px;"
@@ -67,7 +73,7 @@ $config = [
                     </div>
                 </x-slot>
                 <!-- <x-adminlte-options :options="['Car', 'Truck', 'Motorcycle']" empty-option/> -->
-                <x-adminlte-options :options="$userole" empty-option="Selecciona un Agente.."/>                
+                <x-adminlte-options :options="$userole" empty-option="Selecciona un Agente.."/>
             </x-adminlte-select2>
         </div>
 
@@ -108,10 +114,18 @@ $config = [
             <td>{!! $row->AgenteName !!}</td>
             <td>{!! $row->ClientName !!}</td>
             <td>{!! $row->Monto !!}</td>
+<<<<<<< HEAD
             <td>{!! $row->FechaTransaccion !!}</td>            
             <td>{!! $row->WalletName !!}</td> 
             <td>{!! $row->TipoTransaccion !!}</td>                          
 
+=======
+            <td>{!! $row->FechaTransaccion !!}</td>
+            <td>{!! $row->WalletName !!}</td>
+            <td>{!! $row->TipoTransaccion !!}</td>
+<!--
+            <td class="text-center"><a class="btn btn-primary" href=""><i class='fas fa-edit'></i></a></td> -->
+>>>>>>> 8c47733b5470d3d83e6f6af613771ec7b7410b26
             <td class="text-center">
                 <button class="btn btn-xl text-teal mx-auto shadow" title="Detalles">
                     <i class="fa fa-lg fa-fw fa-eye"></i>

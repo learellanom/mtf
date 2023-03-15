@@ -39,7 +39,6 @@
         </div>
         </div>
 
-
         @foreach($roles as $role)
             <div>
                 <label>

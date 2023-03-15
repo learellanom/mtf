@@ -53,11 +53,16 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 
 Route::resource('movimientos', TransactionController::class)->middleware('auth')->names('transactions');
-Route::resource('usuarios', UserController::class)->middleware('auth')->except('show')->names('users');
+Route::pattern('usuarios', '[0-9]+');
+Route::resource('usuarios', UserController::class)->middleware('auth')->except('show')->names('users')->parameters(['user'=>'usuario']);
 
 Route::middleware('auth')->group(function () {
 Route::get('/usuarios/{usuario}/cambio_contraseña', [UserController::class, 'password'])->name('users.password');
+<<<<<<< HEAD
 Route::put('/usuarios/{usuario}', [UserController::class, 'password_update'])->name('users.paswordupdate');
+=======
+
+>>>>>>> 8c47733b5470d3d83e6f6af613771ec7b7410b26
 });
 
 Route::resource('clientes', ClientController::class)->middleware('auth')->except('show')->names('clients');

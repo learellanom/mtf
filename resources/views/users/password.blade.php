@@ -13,12 +13,13 @@
 <div class="d-flex justify-content-center">
   <div class="card col-md-4">
     <div class="card-body">
-        {!! Form::model($user,['route' => ['users.paswordupdate', $user], 'method' => 'put', 'autocomplete' => 'off', 'files' => true]) !!}
+        {!! Form::model($user,['route' => ['users.update', $user], 'method' => 'put', 'autocomplete' => 'off', 'files' => true]) !!}
+
 
         <div class="form-group">
             <div class="form-group">
                 <label for="">Nueva Contraseña</label>
-                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password" placeholder="********">
+                <input id="password" type="password" class="form-control"  name="password" autocomplete="new-password" placeholder="********">
 
 
                 @error('password')
@@ -29,14 +30,13 @@
             </div>
             <div class="form-group">
                 <label for="">Confirma Contraseña</label>
-                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password" placeholder="********">
+                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" autocomplete="new-password" placeholder="********">
 
             </div>
         </div>
 
 
-
-            <button class="btn btn-primary text-uppercase font-weight-bold btn-block" type="submit">Guardar</button>
+            <button class="btn btn-primary text-uppercase font-weight-bold btn-block" type="submit">Actualizar</button>
 
             {!! Form::close() !!}
 
