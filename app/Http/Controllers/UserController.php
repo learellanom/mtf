@@ -12,7 +12,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Illuminate\Support\Facades\Redirect;
-
+use Pest\Support\Str;
 
 
 class UserController extends Controller
@@ -77,6 +77,7 @@ class UserController extends Controller
         //     'transactions.wallet_id',
         //     'transactions.transaction_date',
         // )->get();
+
 
 
         //   $Transacciones = Transaction::all();
@@ -159,7 +160,38 @@ class UserController extends Controller
         User::findOrFail($user)->update($request->all());
 
         $user = User::find($user);
+
         $user->syncRoles($request->roles);
+
+        return Redirect::route('users.index')->with('update', 'ok');
+
+    }
+
+
+    public function password($user)
+    {
+        //$roles = Role::find();
+        $user = User::find($user);
+
+
+       // $roles = Role::all();
+        return view('users.password', compact('user'));
+    }
+
+
+    public function password_update(Request $request, $user)
+    {
+        $request->validate([
+            'password' => ['required', 'confirmed', Rules\Password::defaults()],
+        ]);
+
+        $users = User::findOrFail($user);
+
+        //$users->setRememberToken(Str::random(60))->update($request->password);
+
+         $users->password = Hash::make($request->password);
+         $users->setRememberToken(Str::random(60));
+         $users->update();
 
         return Redirect::route('users.index')->with('update', 'ok');
 

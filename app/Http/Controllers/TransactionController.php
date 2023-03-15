@@ -64,8 +64,16 @@ class TransactionController extends Controller
         $type_coin = Type_coin::pluck('name', 'id');
         $type_transaction = Type_transaction::pluck('name', 'id');
         $wallet = Wallet::pluck('name', 'id');
-        $client = Client::pluck('name', 'id');
+        $client = Client::select('clients.id', 'clients.name', 'model_has_roles.role_id')
+        ->join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
+        ->join('roles', 'roles.id', '=', 'model_has_roles.role_id')
+        ->where('role_id', 2)->pluck('name', 'id');
+
+
+
         $user = User::pluck('name', 'id');
+
+
 
         return view('transactions.edit', compact('transactions','type_coin', 'type_transaction', 'wallet', 'client', 'user'));
     }

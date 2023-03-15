@@ -49,7 +49,7 @@ class User extends Authenticatable implements Auditable
     public function generateTags(): array
     {
         return [
-             auth()->user()->name,
+             //auth()->user()->name,
              auth()->user()->email
         ];
     }

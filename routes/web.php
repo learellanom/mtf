@@ -54,6 +54,12 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 Route::resource('movimientos', TransactionController::class)->middleware('auth')->names('transactions');
 Route::resource('usuarios', UserController::class)->middleware('auth')->except('show')->names('users');
+
+Route::middleware('auth')->group(function () {
+Route::get('/usuarios/{usuario}/cambio_contraseña', [UserController::class, 'password'])->name('users.password');
+Route::put('/usuarios/{usuario}', [UserController::class, 'password_update'])->name('users.paswordupdate');
+});
+
 Route::resource('clientes', ClientController::class)->middleware('auth')->except('show')->names('clients');
 Route::resource('grupos', GroupController::class)->middleware('auth')->except('show')->names('groups');
 Route::resource('roles', RoleController::class)->middleware('auth')->except('show')->names('roles');
