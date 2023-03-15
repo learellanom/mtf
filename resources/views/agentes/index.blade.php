@@ -54,9 +54,6 @@ $config = [
 
 
 
-var_dump($Transacciones2,true);
-die()
-
 @endphp
 
 <br>
@@ -119,12 +116,15 @@ die()
     striped hoverable bordered compressed/> -->
 
 <x-adminlte-datatable id="table1" :heads="$heads3">
-    @foreach($Transacciones2 as $row)
+    @foreach($Transacciones as $row)
         <tr>
-            @foreach($row as $cell)
+            <td>{!! $row->AgenteName !!}</td>
+            <td>{!! $row->ClientName !!}</td>
+            <td>{!! $row->Monto !!}</td>
+            <td>{!! $row->FechaTransaccion !!}</td>            
+            <td>{!! $row->WalletName !!}</td> 
+            <td>{!! $row->TipoTransaccion !!}</td>                          
 
-                <td>{!! $cell !!}</td>
-            @endforeach
             <td class="text-center"><a class="btn btn-primary" href=""><i class='fas fa-edit'></i></a></td>
                 <td class="text-center">
                     <form method="post" action="" class="p-6">

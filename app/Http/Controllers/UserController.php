@@ -36,13 +36,13 @@ class UserController extends Controller
         }
 
         $Transacciones = Transaction::select(
-        //    'Transactions.user_id as Id',
+        //  'Transactions.user_id as Id',
             'users.name as AgenteName',
-            'Transactions.amount_total_transaction as Monto',
-        //    'Transactions.type_transaction_id as TransactionId',
+            'Transactions.amount as Monto',
+        //  'Transactions.type_transaction_id as TransactionId',
             'type_transactions.name as TipoTransaccion',      
-        //    'Transactions.client_id as ClienteId',
-        //    'transactions.wallet_id As WalletId',
+        //  'Transactions.client_id as ClienteId',
+        //  'transactions.wallet_id As WalletId',
             'wallets.name As WalletName',            
             'transactions.transaction_date as FechaTransaccion',
             'clients.name as ClientName',
@@ -80,12 +80,10 @@ class UserController extends Controller
 
 
 
-        //   $Transacciones = Transaction::all();
+          $Transacciones3 = Transaction::all();
 
-        // print_r( $Transacciones2);
-        // die();
 
-        return view('agentes.index', compact('userole','Transacciones2'));
+        return view('agentes.index', compact('userole','Transacciones'));
 
     }
 

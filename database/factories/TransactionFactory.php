@@ -19,14 +19,18 @@ class TransactionFactory extends Factory
         return [
             //
             'type_coin_id' => 1,               // tipo moneda
-            'amount' => '0',                     // monto en moneda tipo
+            'amount_foreign_currency' => '0',                     // monto en moneda tipo
             'exchange_rate' => '0',                     // monto en moneda tipo
 
-            'amount_total' => 100,               // monto transaccion en dorales
-            'percentage' => 10,                  // comision
-            'exonerate' => 0,                     // indicador de exoneracion
-            'amount_total_transaction' => 110,   // monto transaccion en dorales + monto comision
+            'amount' => 100,                     // monto transaccion en dorales
+
+            'percentage' => 10,                  // porcentaje comision
+            'exonerate' => 0,                    // indicador de exoneracion
+            'amount_commission' => 110,            // monto comision
             'discount' => 0,                     // indicador de descuento de comision
+
+            'amount_total' => 100,               // monto transaccion en dorales + monto comision
+
 
             'type_transaction_id' => 1,          // tipo de transaccion
 
