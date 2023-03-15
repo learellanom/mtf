@@ -4,7 +4,7 @@
 
 @php
 
-$heads3 = [
+$heads = [
     'Agente',
     'Cliente',
     'Monto Transaccion',
@@ -15,21 +15,7 @@ $heads3 = [
 ];
 
 
-$heads = [
-    'ID',
-    'Fecha',
-    'Descripcion',
-    'Numero',
-    'Monto',
-    'Total',
-    '%',
-    'Monto $',
-    'Total Monto', 
-    'Entrada',
-    'Salida',
-    'Total',
-    ['label' => 'Actions', 'no-export' => true, 'width' => 5],
-];
+
 
 $btnEdit = '<button class="btn btn-xs btn-default text-primary mx-1 shadow" title="Edit">
                 <i class="fa fa-lg fa-fw fa-pen"></i>
@@ -115,7 +101,7 @@ $config = [
 <!-- <x-adminlte-datatable id="table2" :heads="$heads" head-theme="dark" :config="$config"
     striped hoverable bordered compressed/> -->
 
-<x-adminlte-datatable id="table1" :heads="$heads3">
+<x-adminlte-datatable id="table3" :heads="$heads">
     @foreach($Transacciones as $row)
         <tr>
             <td>{!! $row->AgenteName !!}</td>
@@ -124,15 +110,13 @@ $config = [
             <td>{!! $row->FechaTransaccion !!}</td>            
             <td>{!! $row->WalletName !!}</td> 
             <td>{!! $row->TipoTransaccion !!}</td>                          
-
-            <td class="text-center"><a class="btn btn-primary" href=""><i class='fas fa-edit'></i></a></td>
-                <td class="text-center">
-                    <form method="post" action="" class="p-6">
-                        @csrf
-                        @method('delete')
-                        <button class="btn btn-danger borrar_users" type="submit"><i class='fas fa-trash'></i></button>
-                    </form>
-                </td>
+<!-- 
+            <td class="text-center"><a class="btn btn-primary" href=""><i class='fas fa-edit'></i></a></td> -->
+            <td class="text-center">
+                <button class="btn btn-xl text-teal mx-auto shadow" title="Detalles">
+                    <i class="fa fa-lg fa-fw fa-eye"></i>
+                </button>
+            </td>
         </tr>
     @endforeach
 </x-adminlte-datatable>
