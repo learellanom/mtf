@@ -57,7 +57,7 @@ Route::resource('usuarios', UserController::class)->middleware('auth')->except('
 
 Route::middleware('auth')->group(function () {
 Route::get('/usuarios/{usuario}/cambio_contraseña', [UserController::class, 'password'])->name('users.password');
-Route::put('/usuarios/{usuario}', [UserController::class, 'password_update'])->name('users.paswordupdate');
+Route::get('/usuarios/{usuario}', [UserController::class, 'password_update'])->name('users.paswordupdate');
 });
 
 Route::resource('clientes', ClientController::class)->middleware('auth')->except('show')->names('clients');

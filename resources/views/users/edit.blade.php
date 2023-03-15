@@ -49,7 +49,7 @@
                 </label>
             </div>
         @endforeach
-            <button class="btn btn-primary text-uppercase font-weight-bold btn-block" type="submit">Actualizar</button>
+            {!! Form::Submit('GUARDAR', ['class' => 'btn btn-primary btn-block font-weight-bold']) !!}
 
             {!! Form::close() !!}
 

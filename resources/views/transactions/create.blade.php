@@ -71,7 +71,7 @@
                 {!! Form::Label('amount', "Monto en dolares:") !!}
                 <div class="input-group-text">
                     <i class="fa-fw fas fas fa-funnel-dollar mr-2"></i>
-                {!! Form::number('amount', null, ['class' => 'form-control', 'required' => true, 'readonly' => true]) !!}
+                {!! Form::number('amount', null, ['class' => 'form-control', 'required' => true]) !!}
                 </div>
         </div>
 
