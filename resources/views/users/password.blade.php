@@ -13,7 +13,7 @@
 <div class="d-flex justify-content-center">
   <div class="card col-md-4">
     <div class="card-body">
-        {!! Form::model($user,['route' => ['users.update', $user], 'method' => 'put', 'autocomplete' => 'off', 'files' => true]) !!}
+        {!! Form::model($user,['route' => ['users.update_password', $user], 'method' => 'put', 'autocomplete' => 'off', 'files' => true]) !!}
 
 
         <div class="form-group">

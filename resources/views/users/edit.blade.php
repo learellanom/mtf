@@ -12,11 +12,11 @@
 @section('content')
 <div class="card">
     <div class="card-body">
-        {!! Form::model($user,['route' => ['users.update', $user], 'method' => 'put', 'autocomplete' => 'off', 'files' => true]) !!}
+        {!! Form::model($user,['route' => ['users.update_users', $user], 'method' => 'put', 'autocomplete' => 'off', 'files' => true]) !!}
 
         <div class="form-group">
-            <label for="">Nombre</label>
-            <input required type="text" name="name" id="name" class="form-control" value={{ old('name', $user->name) }}>
+            {!! Form::Label('name', "Tipo de moneda:") !!}
+            {!! Form::text('name', null, ['class' => 'form-control', 'required' => true]) !!}
 
 
             @error('name')
@@ -27,8 +27,8 @@
 
 
         <div class="form-group">
-            <label for="">Correo Electronico</label>
-            <input required type="text" name="email" id="email" class="form-control" value={{ old('email', $user->email) }} required>
+            {!! Form::Label('email', "Correo Electronico:") !!}
+            {!! Form::text('email', null, ['class' => 'form-control', 'required' => true]) !!}
 
 
             @error('email')

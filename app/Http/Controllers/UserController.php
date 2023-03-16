@@ -142,8 +142,6 @@ class UserController extends Controller
      */
     public function edit($user)
     {
-
-        //$roles = Role::find();
         $user = User::find($user);
         $roles = Role::all();
         return view('users.edit', compact('user', 'roles'));
@@ -151,8 +149,6 @@ class UserController extends Controller
 
     public function password($user)
     {
-
-        //$roles = Role::find();
         $user = User::find($user);
 
         return view('users.password', compact('user'));
@@ -161,31 +157,26 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $user)
+    public function update_password(Request $request, $user)
     {
-
-        $password = view('users.password');
-        $roles = view('users.edit');
-
-        if($password == true){
         $user = User::findOrFail($user);
         $user->password = Hash::make($request->password);
         $user->setRememberToken(Str::random(60));
         $user->update();
 
         return Redirect::route('users.index')->with('update', 'ok');
-        }
+    }
 
-        elseif($roles == true){
+    public function update_users(Request $request, $user)
+    {
 
-         User::findOrFail($user)->update($request->all());
-         $user = User::find($user);
-         $user->syncRoles($request->roles);
+            User::findOrFail($user)->update($request->all());
 
-         return Redirect::route('users.index')->with('update', 'ok');
-         }
+            $user = User::find($user);
+            $user->syncRoles($request->roles);
 
 
+            return Redirect::route('users.index')->with('update', 'ok');
     }
 
 
