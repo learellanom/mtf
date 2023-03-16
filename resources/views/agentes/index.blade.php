@@ -50,18 +50,15 @@ $config = [
 <br>
 {{-- Disabled --}}
 <!-- <x-adminlte-button label="Añadir" theme="dark" /> -->
+<!-- <a id="myRef"  href={{ route('agentes','3')}}>Ver</a> -->
+<!-- <a id="myRef"  href="">Ver</a> -->
 
 <div class="container">
     <div class="row col-12">
         <div class ="col-12 col-sm-3">
-<<<<<<< HEAD
             <x-adminlte-select2 id="userole"
                                 name="optionsUsers" 
                                 igroup-size="sm" 
-=======
-            <x-adminlte-select2 name="optionsUsers"
-                                igroup-size="sm"
->>>>>>> 8c47733b5470d3d83e6f6af613771ec7b7410b26
                                 label-class="text-lightblue"
                                 data-placeholder="Select an option..."
                                 style="height:45px;"
@@ -114,18 +111,10 @@ $config = [
             <td>{!! $row->AgenteName !!}</td>
             <td>{!! $row->ClientName !!}</td>
             <td>{!! $row->Monto !!}</td>
-<<<<<<< HEAD
             <td>{!! $row->FechaTransaccion !!}</td>            
             <td>{!! $row->WalletName !!}</td> 
             <td>{!! $row->TipoTransaccion !!}</td>                          
 
-=======
-            <td>{!! $row->FechaTransaccion !!}</td>
-            <td>{!! $row->WalletName !!}</td>
-            <td>{!! $row->TipoTransaccion !!}</td>
-<!--
-            <td class="text-center"><a class="btn btn-primary" href=""><i class='fas fa-edit'></i></a></td> -->
->>>>>>> 8c47733b5470d3d83e6f6af613771ec7b7410b26
             <td class="text-center">
                 <button class="btn btn-xl text-teal mx-auto shadow" title="Detalles">
                     <i class="fa fa-lg fa-fw fa-eye"></i>
@@ -137,15 +126,34 @@ $config = [
 
 
     
-@push('js')
+
+
+@endsection
+
+
+@section('js')
+    @routes
     <script>
         $(() => {
-            
+           
             $('#userole').on('change', function (){
-                 alert('iii' +  $('#userole').val());
+                 
+                 const usuario = $('#userole').val();
+                 // alert('iii theUser ' +  usuario);
+                 let myRoute = "";
+                     myRoute = "{{ route('agentes', 'usuario') }}";
+                     myRoute = myRoute.replace('usuario',usuario);
+                 console.log(myRoute);
+                 location.href = myRoute;
+
+                
+            });
+
+
+            $('#drCustomRanges').on('change', function () {
+                alert('ggggg ' + $('#drCustomRanges').val());
             });
 
         })
     </script>
-@endpush
 @endsection

@@ -58,11 +58,8 @@ Route::resource('usuarios', UserController::class)->middleware('auth')->except('
 
 Route::middleware('auth')->group(function () {
 Route::get('/usuarios/{usuario}/cambio_contraseña', [UserController::class, 'password'])->name('users.password');
-<<<<<<< HEAD
 Route::put('/usuarios/{usuario}', [UserController::class, 'password_update'])->name('users.paswordupdate');
-=======
 
->>>>>>> 8c47733b5470d3d83e6f6af613771ec7b7410b26
 });
 
 Route::resource('clientes', ClientController::class)->middleware('auth')->except('show')->names('clients');
@@ -74,7 +71,7 @@ Route::resource('tipo_moneda', Type_coinController::class)->middleware('auth')->
 
 
 Route::get('agentes',[App\Http\Controllers\UserController::class, 'index_all'])->name('agentes');
-
+Route::get('agentes/{usuario}',[App\Http\Controllers\UserController::class, 'index_all'])->name('agentes');
 
 Route::get('comanda', function () {
     return view('master.comanda');
@@ -82,6 +79,6 @@ Route::get('comanda', function () {
 
 Route::get('dashboardest', function () {
     return view('dashboardest');
-});
+})->name('dashboardtest');
 
 ?>

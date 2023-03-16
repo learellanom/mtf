@@ -30,6 +30,9 @@ class UserController extends Controller
             $myUserDesde = $myUser;
             $myUserHasta = $myUser;
         }
+        
+        // print_r($myUser);
+        // die();
 
         $userole2 = User::select('users.id', 'users.name', 'model_has_roles.role_id')
                 ->join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
@@ -60,12 +63,8 @@ class UserController extends Controller
         )->leftJoin(
             'wallets', 'wallets.id', '=', 'transactions.wallet_id'
         )->leftJoin(
-<<<<<<< HEAD
             'clients', 'clients.id', '=', 'transactions.client_id'  
         )->whereBetween('Transactions.user_id', [$myUserDesde, $myUserHasta]
-=======
-            'clients', 'clients.id', '=', 'transactions.client_id'
->>>>>>> 8c47733b5470d3d83e6f6af613771ec7b7410b26
         )->get();
     
         $Transacciones2 = array();
@@ -77,14 +76,7 @@ class UserController extends Controller
 
             array_push($Transacciones2, $value2);
         }
-<<<<<<< HEAD
   
-=======
-
-
-
-
->>>>>>> 8c47733b5470d3d83e6f6af613771ec7b7410b26
         // $Transacciones = Transaction::select(
         //     'Transactions.user_id',
         //     'Transactions.amount_total_transaction',
@@ -97,7 +89,7 @@ class UserController extends Controller
           $Transacciones3 = Transaction::all();
 
 
-        return view('agentes.index', compact('userole','Transacciones'));
+        return view('agentes.index', compact('myUser','userole','Transacciones'));
 
     }
 
