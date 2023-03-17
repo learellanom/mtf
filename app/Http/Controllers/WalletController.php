@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Wallet;
+use App\Models\User;
 use Illuminate\Support\Facades\Redirect;
 
 class WalletController extends Controller
@@ -24,7 +25,13 @@ class WalletController extends Controller
      */
     public function create()
     {
-        return view('wallets.create');
+        $user = User::select('users.id', 'users.name', 'model_has_roles.role_id')
+        ->join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
+        ->join('roles', 'roles.id', '=', 'model_has_roles.role_id')
+        ->where('roles.id', 2)
+        ->pluck('name', 'id');
+
+        return view('wallets.create', compact('user'));
     }
 
     /**
@@ -51,7 +58,8 @@ class WalletController extends Controller
     public function edit($wallet)
     {
         $wallet = Wallet::find($wallet);
-        return view('wallets.edit', compact('wallet'));
+        $user = User::pluck('name', 'id');
+        return view('wallets.edit', compact('wallet', 'user'));
     }
 
     /**

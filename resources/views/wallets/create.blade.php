@@ -20,15 +20,25 @@
 
 
         <div class="form-group">
-            <label for="">Nombre de la caja</label>
-            <input required type="text" name="name" id="name" class="form-control">
-
+            <div class="form-group">
+                {!! Form::Label('name', "Nombre:") !!}
+            {!! Form::text('name', null, ['class' => 'form-control']) !!}
 
             @error('name')
-
-            <span class="text-danger">{{$message}}</span>
-
+               <small class="text-danger">{{$message}}</small>
             @enderror
+            </div>
+
+
+            <div class="form-group">
+                {!! Form::Label('base', "Base de la caja:") !!}
+            {!! Form::number('base', null, ['class' => 'form-control', 'min' => 0]) !!}
+
+            @error('base')
+               <small class="text-danger">{{$message}}</small>
+            @enderror
+            </div>
+
 
             <div class="form-group">
                 {!! Form::Label('direction', "Dirección:") !!}
@@ -39,6 +49,15 @@
             @enderror
             </div>
 
+            <div class="form-group">
+                {!! Form::Label('user_id', "Agente:") !!}
+                {!! Form::select('user_id', $user, null, ['class' => 'form-control user']) !!}
+
+                @error('user_id')
+                <small class="text-danger">{{$message}}</small>
+                @enderror
+            </div>
+
         <div class="form-group">
             {!! Form::Label('description', "Observación:") !!}
             {!! Form::textarea('description', null, ['class' => 'form-control']) !!}
@@ -47,6 +66,8 @@
             <small class="text-danger">{{$message}}</small>
             @enderror
         </div>
+
+
 
         </div>
 
@@ -61,4 +82,15 @@
         </div>
     </div>
 </div>
+@endsection
+
+@section('js')
+<script>
+$(".user").select2({
+    allowClear: true,
+    placeholder: "Seleccionar Agente",
+    theme: 'bootstrap4',
+
+  });
+</script>
 @endsection

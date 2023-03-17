@@ -20,15 +20,25 @@
 
 
         <div class="form-group">
-            {!! Form::Label('name', "Nombre de la caja:") !!}
+            <div class="form-group">
+                {!! Form::Label('name', "Nombre:") !!}
             {!! Form::text('name', null, ['class' => 'form-control']) !!}
 
-
             @error('name')
-
-            <span class="text-danger">{{$message}}</span>
-
+               <small class="text-danger">{{$message}}</small>
             @enderror
+            </div>
+
+
+            <div class="form-group">
+                {!! Form::Label('base', "Base de la caja:") !!}
+            {!! Form::number('base', null, ['class' => 'form-control','min' => 0]) !!}
+
+            @error('base')
+               <small class="text-danger">{{$message}}</small>
+            @enderror
+            </div>
+
 
             <div class="form-group">
             {!! Form::Label('direction', "Dirección:") !!}
@@ -37,6 +47,15 @@
             @error('direction')
                <small class="text-danger">{{$message}}</small>
             @enderror
+            </div>
+
+            <div class="form-group">
+                {!! Form::Label('user_id', "Agente:") !!}
+                {!! Form::select('user_id', $user, null, ['class' => 'form-control user']) !!}
+
+                @error('user_id')
+                <small class="text-danger">{{$message}}</small>
+                @enderror
             </div>
 
         <div class="form-group">
@@ -48,11 +67,9 @@
             @enderror
         </div>
 
+
+
         </div>
-
-
-
-
 
         {!! Form::Submit('GUARDAR', ['class' => 'btn btn-primary btn-block font-weight-bold']) !!}
 
@@ -61,4 +78,15 @@
         </div>
     </div>
 </div>
+@endsection
+
+@section('js')
+<script>
+$(".user").select2({
+    allowClear: true,
+    empty: true,
+    placeholder: "Seleccionar Agente",
+    theme: 'bootstrap4',
+  });
+</script>
 @endsection

@@ -26,7 +26,7 @@ return new class extends Migration
             $table->foreignId('user_id')->references('id')->on('users')->nullable();  // USUARIO QUE REALIZO LA TRANSFERENCIA
             $table->foreignId('client_id')->references('id')->on('clients')->nullable(); //CLIENTE DE LA TRANSFERENCIA
             $table->foreignId('wallet_id')->references('id')->on('wallets')->nullable(); // MONEDERO O CUENTA DE DONDE SALE EL DINERO
-            $table->string('status'); //ESTATUS
+            $table->enum('status', ['Activo', 'Anulado'])->nullable()->default('Activo'); //ESTATUS
             $table->string('description'); //DESCRIPCION DE LA TRANSFERENCIA
             $table->date('transaction_date'); //FECHA DE LA TRANSACCIÓN
             $table->timestamps(); //CREACION Y MODIFICACION POR DEFECTO (TOMADO POR EL SERVIDOR)
