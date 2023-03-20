@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Transaction;
+use App\Models\Client;
+use App\Models\Wallet;
 use Spatie\Permission\Models\Role;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -20,8 +22,63 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
     */
-    public function index_all()
+    public function index_all(Request $request)
     {
+
+        $myUser = 0;
+        if ($request->usuario) {
+            $myUser = $request->usuario;
+        }     
+        
+        $myCliente = 0;
+        if ($request->cliente) {
+            $myCliente = $request->cliente;
+        }     
+
+
+        $myWallet = 0;
+        if ($request->wallet) {
+            $myWallet = $request->wallet;
+        }     
+
+        \Log::info('leam usuario *** -> ' . $request->usuario);
+        \Log::info('leam cliente *** -> ' . $request->cliente);
+        \Log::info('leam wallet *** -> ' . $request->wallet);
+
+        /*
+        echo "<br>con el request";
+        echo "<br>usuariox -> " . $request->usuario;
+        echo "<br>Cliente  -> " . $request->cliente;      
+          
+        echo "<br>Wallet  -> "  . $request->wallet;                
+        echo "<br>";
+        var_dump($request);
+        die(); 
+        */
+
+
+        $myUserDesde = 0;
+        $myUserHasta = 9999;
+        $myClienteDesde = 0;
+        $myClienteHasta = 9999;
+        $myWalletDesde = 0;
+        $myWalletHasta = 9999;
+
+        if ($myUser != 0){
+            $myUserDesde = $myUser;
+            $myUserHasta = $myUser;
+        }
+        if ($myCliente != 0){
+            $myClienteDesde = $myCliente;
+            $myClienteHasta = $myCliente;
+        }
+        if ($myWallet != 0){
+            $myWalletDesde = $myWallet;
+            $myWalletHasta = $myWallet;
+        }                
+
+        // print_r($myUser);
+        // die();
 
         $userole2 = User::select('users.id', 'users.name', 'model_has_roles.role_id')
                 ->join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
@@ -31,8 +88,7 @@ class UserController extends Controller
         // echo $userole;
         $userole = array();
         foreach($userole2 as $user){
-
-                $userole [$user->id] =  $user->name;
+            $userole [$user->id] =  $user->name;
         }
 
         $Transacciones = Transaction::select(
@@ -53,9 +109,12 @@ class UserController extends Controller
         )->leftJoin(
             'wallets', 'wallets.id', '=', 'transactions.wallet_id'
         )->leftJoin(
-            'clients', 'clients.id', '=', 'transactions.client_id'
+            'clients', 'clients.id', '=', 'transactions.client_id'  
+        )->whereBetween('Transactions.user_id', [$myUserDesde, $myUserHasta]
+        )->whereBetween('Transactions.client_id', [$myClienteDesde, $myClienteHasta]
+        )->whereBetween('Transactions.wallet_id', [$myWalletDesde, $myWalletHasta]        
         )->get();
-
+    
         $Transacciones2 = array();
         foreach($Transacciones as $tran){
             // echo " trans " . json_decode($tran);
@@ -65,10 +124,7 @@ class UserController extends Controller
 
             array_push($Transacciones2, $value2);
         }
-
-
-
-
+  
         // $Transacciones = Transaction::select(
         //     'Transactions.user_id',
         //     'Transactions.amount_total_transaction',
@@ -78,12 +134,35 @@ class UserController extends Controller
         //     'transactions.transaction_date',
         // )->get();
 
-
-
           $Transacciones3 = Transaction::all();
 
+          $cliente = Client::select('clients.id', 'clients.name')
+          ->get();
 
-        return view('agentes.index', compact('userole','Transacciones'));
+          //dd($cliente);
+
+          //*********************************************************
+
+          $cliente2 = array();
+          foreach($cliente as $cliente){
+              $cliente2 [$cliente->id] =  $cliente->name;
+          }
+          $cliente = $cliente2;
+
+          //***********************************************************
+
+          $wallet = Wallet::select('wallets.id', 'wallets.name')
+          ->get();
+
+          //dd($wallet);
+
+          $wallet2 = array();
+          foreach($wallet as $wallet){
+              $wallet22 [$wallet->id] =  $wallet->name;
+          }
+          $wallet = $wallet22;
+
+        return view('agentes.index', compact('myUser','userole','Transacciones','cliente','wallet','myCliente','myUser','myWallet'));
 
     }
 

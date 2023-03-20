@@ -78,8 +78,8 @@ Route::resource('tipo_transaccion', Type_transactionController::class)->middlewa
 Route::resource('tipo_moneda', Type_coinController::class)->middleware('auth')->except('show')->names('type_coins');
 
 
-
 Route::get('agentes',[App\Http\Controllers\UserController::class, 'index_all'])->name('agentes');
+Route::get('agentes/{usuario}/{cliente?}/{wallet?}',[App\Http\Controllers\UserController::class, 'index_all'])->name('agentes');
 
 Route::get('comanda', function () {
     return view('master.comanda');
@@ -87,7 +87,7 @@ Route::get('comanda', function () {
 
 Route::get('dashboardest', function () {
     return view('dashboardest');
-});
+})->name('dashboardtest');
 
 
 Route::post('/darkmode/toggle', [DarkModeController::class, 'toggle'])
