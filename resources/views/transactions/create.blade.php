@@ -26,7 +26,7 @@
                 {!! Form::Label('type_transaction_id', "Tipo de Movimiento:") !!}
                 <div class="input-group-text col-md-12">
                     <i class="fa-fw fas fa-random"></i>
-                {!! Form::select('type_transaction_id',$type_transaction, null, ['class' => 'form-control typetrasnferencia', 'required' => true, 'id'=>'typetrasnferencia']) !!}
+                {!! Form::select('type_transaction_id',$type_transaction, null, ['class' => 'form-control typetrasnferencia', 'required' => true, 'id'=>'typetrasnferencia', 'readonly' => false]) !!}
                 </div>
                 </div>
 
@@ -34,7 +34,7 @@
                     {!! Form::Label('wallet_id', "Tipo de caja:") !!}
                     <div class="input-group-text col-md-12">
                         <i class="fa-fw fas fa-random"></i>
-                    {!! Form::select('wallet_id', $wallet, null, ['class' => 'form-control wallet', 'required' => true, 'id'=>'wallet']) !!}
+                    {!! Form::select('wallet_id', $wallet, null, ['class' => 'form-control wallet', 'required' => true, 'id'=>'wallet', 'readonly' => false]) !!}
                     </div>
                 </div>
 
@@ -42,7 +42,7 @@
                     {!! Form::Label('client_id', "Cliente:") !!}
                     <div class="input-group-text">
                         <i class="fa-fw fas fas fa-user-friends mr-2"></i>
-                    {!! Form::select('client_id',$client, null,['class' => 'form-control clientes', 'required' => true, 'id' => 'clientes' ]) !!}
+                    {!! Form::select('client_id',$client, null,['class' => 'form-control clientes', 'required' => true, 'id' => 'clientes', 'readonly' => false]) !!}
                     </div>
                 </div>
             </div>
@@ -51,23 +51,23 @@
                 {!! Form::Label('type_coin_id', "Tipo de moneda:") !!}
                 <div class="input-group-text">
                     <i class="fa-fw fas fa-dollar-sign mr-2"></i>
-                {!! Form::select('type_coin_id',$type_coin, null, ['class' => 'form-control typecoin', 'required' => true, 'id' => 'typecoin']) !!}
+                {!! Form::select('type_coin_id',$type_coin, null, ['class' => 'form-control typecoin', 'required' => true, 'id' => 'typecoin', 'readonly' => false]) !!}
                 </div>
             </div>
             <div class="form-group col-md-4">
                 {!! Form::Label('exchange_rate', "Tasa:") !!}
                 <div class="input-group-text">
                     <i class="fa-fw fas fa-random mr-2"></i>
-                {!! Form::number('exchange_rate',null, ['class' => 'form-control', 'required' => true, 'id' => 'tasa', 'min' => 0, 'disabled' => true]) !!}
+                {!! Form::number('exchange_rate',null, ['class' => 'form-control', 'required' => true, 'id' => 'tasa', 'min' => 0, 'readonly' => true]) !!}
                 </div>
             </div>
 
             <div class="form-group col-md-4">
 
-                {!! Form::Label('amount_foreign_currency', "Monto:") !!}
+                {!! Form::Label('amount_foreign_currency', "Monto en moneda extranjera:") !!}
                 <div class="input-group-text">
                     <i class="fa-fw fas fa-coins mr-2"></i>
-                {!! Form::number('amount_foreign_currency',null, ['class' => 'form-control', 'required' => true, 'id' => 'monto', 'min' => 0, 'disabled' => true]) !!}
+                {!! Form::number('amount_foreign_currency',null, ['class' => 'form-control', 'required' => true, 'id' => 'monto', 'min' => 0, 'readonly' => true]) !!}
                 </div>
 
             </div>
@@ -84,7 +84,7 @@
                 {!! Form::Label('amount', "Monto en dolares:") !!}
                 <div class="input-group-text">
                     <i class="fa-fw fas fas fa-funnel-dollar mr-2"></i>
-                {!! Form::number('amount', null, ['class' => 'form-control', 'required' => true, 'id' => 'monto_dolares', 'min' => 0, 'disabled' => true]) !!}
+                {!! Form::number('amount', null, ['class' => 'form-control', 'required' => true, 'id' => 'monto_dolares', 'min' => 0, 'readonly' => true]) !!}
                 </div>
             </div>
 
@@ -101,7 +101,7 @@
                 {!! Form::Label('amount_commission', "Monto Comisión:") !!}
                 <div class="input-group-text">
                     <i class="fa-fw fas fa-coins mr-2"></i>
-                {!! Form::number('amount_commission',null, ['class' => 'form-control comision', 'required' => true, 'min' => 0, 'disabled' => true, 'id' => 'comision']) !!}
+                {!! Form::number('amount_commission',null, ['class' => 'form-control comision', 'required' => true, 'min' => 0, 'readonly' => true, 'id' => 'comision']) !!}
                 </div>
 
             </div>
@@ -134,7 +134,7 @@
             {!! Form::Label('amount_total', "Monto Total:") !!}
                 <div class="input-group-text">
                     <i class="fa-fw fas fa-coins mr-2"></i>
-                {!! Form::number('amount_total',null, ['class' => 'form-control montototal', 'required' => true, 'min' => 0, 'id' => 'montototal']) !!}
+                {!! Form::number('amount_total',null, ['class' => 'form-control montototal', 'required' => true, 'min' => 0, 'id' => 'montototal', 'readonly' => true]) !!}
                 </div>
         </div>
 
@@ -224,13 +224,18 @@ $(document).ready(function() {
   //$('#monto_dolares').toFixed(2);
 
   $('.typecoin').change(function(e) {
-    if ($(this).val() == 1) {
-      $('#tasa').prop("disabled", true);
-      $('#monto').prop("disabled", true);
-      $('#monto_dolares').prop("disabled", false);
 
-      $('#tasa').val("");
-      $('#monto').val("");
+      $('#tasa').val(""); // LIMPIAR TASA DE CAMBIO
+      $('#monto').val(""); // LIMPIAR MONTO DE MONEDA EXTRANJERA
+
+      $('#comision').val(""); // LIMPIAR COMISION
+      $('#percentage').val("");  // LIMPIAR PORCENTAJE
+      $('#monto_dolares').val(""); // LIMPIAR MONTO EN DOLARES
+
+    if ($(this).val() == 1) {
+      $('#tasa').attr("readonly", true);
+      $('#monto').attr("readonly", true);
+      $('#monto_dolares').attr("readonly", false);
 
             tasa = document.getElementById("tasa");
             monto = document.getElementById("monto");
@@ -245,9 +250,9 @@ $(document).ready(function() {
     }
     else if ($(this).val() == null)
     {
-      $('#tasa').prop("disabled", true);
-      $('#monto').prop("disabled", true);
-      $('#monto_dolares').prop("disabled", true);
+      $('#tasa').attr("readonly", true);
+      $('#monto').attr("readonly", true);
+      $('#monto_dolares').prop('readonly', true);
 
       $('#tasa').val("");
       $('#monto').val("");
@@ -258,9 +263,9 @@ $(document).ready(function() {
 
     }
     else {
-        $('#tasa').prop("disabled", false);
-        $('#monto').prop("disabled", false);
-        $('#monto_dolares').prop("disabled", true);
+        $('#tasa').prop("readonly", false);
+        $('#monto').prop("readonly", false);
+        $('#monto_dolares').prop('readonly', true);
 
 
             tasa = document.getElementById("tasa");
@@ -298,24 +303,31 @@ $(document).ready(function() {
 
   $('.percentage').change(function(e) {
 
-      $('#comision').prop("disabled", false);
-      $('#monto').prop("disabled", true);
-      //$('#montodolares').prop("disabled", true);
-
-      $('#tasa').val("");
-      $('#monto').val("");
+      $('#comision').prop('readonly', true);
+      $('#montototal').prop('readonly', true);
 
             comision = document.getElementById("comision");
             porcentage = document.getElementById("percentage");
             montototal = document.getElementById("monto_dolares");
 
+            monto_real = document.getElementById("montototal");
             onmousemove = function(){
                 if(porcentage.value > 0){
-                    montottotal = (montotototal * porcentage);
-                    montototal.value =  montottotal.toFixed(2);
-                }
-        }
-     })
+                    montottotal = (montototal.value * porcentage.value / 100);
+                    comision.value =  montottotal.toFixed(2);
+
+                     if(montototal.value > 0 && comision.value > 0 ){
+                        montoreal = (parseFloat(montototal.value) + parseFloat(comision.value));
+                        monto_real.value =  montoreal;
+                    }
+
+                }/* else if(montototal.value > 0 && comision.value > 0 ){
+                    montoreal = (montototal.value + comision.value);
+                    monto_real.value =  montoreal;
+                } */
+             }
+
+         })
 
 
 

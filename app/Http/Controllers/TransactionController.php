@@ -19,7 +19,9 @@ class TransactionController extends Controller
      */
     public function index()
     {
-        return view('transactions.index');
+        $transferencia = Transaction::all();
+
+        return view('transactions.index', compact('transferencia'));
     }
 
      /**
@@ -44,7 +46,7 @@ class TransactionController extends Controller
     {
         Transaction::create($request->all());
 
-        return Redirect::route(route('transactions.index'));
+        return Redirect::route('transactions.index');
     }
 
     /**
@@ -64,10 +66,8 @@ class TransactionController extends Controller
         $type_coin = Type_coin::pluck('name', 'id');
         $type_transaction = Type_transaction::pluck('name', 'id');
         $wallet = Wallet::pluck('name', 'id');
-        $client = Client::select('clients.id', 'clients.name', 'model_has_roles.role_id')
-        ->join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
-        ->join('roles', 'roles.id', '=', 'model_has_roles.role_id')
-        ->where('role_id', 2)->pluck('name', 'id');
+        $client = Client::select('clients.id', 'clients.name', )
+        ->where('user_id', auth()->id())->pluck('name', 'id');
 
 
 

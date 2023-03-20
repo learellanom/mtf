@@ -13,7 +13,7 @@
 <div class="d-flex justify-content-center">
         <div class="card col-md-4">
             <div class="card-body">
-            {!! Form::model($wallet,['route' => ['wallets.update', $wallet], 'method' => 'put', 'autocomplete' => 'off', 'files' => true]) !!}
+            {!! Form::model($wallet, ['route' => ['wallets.update', $wallet], 'method' => 'put', 'autocomplete' => 'off', 'files' => true]) !!}
 
 
 

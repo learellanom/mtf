@@ -67,10 +67,10 @@ class WalletController extends Controller
      */
     public function update(Request $request, $wallet)
     {
-        $wallets = Wallet::findOrFail($wallet)->update($request->all());
+        $wallets = Wallet::find($wallet)->update($request->all());
 
         if($request->user){
-
+            $wallets = Wallet::find($wallet);
             $wallets->user()->sync($request->user);
          }
 

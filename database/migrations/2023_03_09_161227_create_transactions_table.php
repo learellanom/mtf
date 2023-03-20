@@ -14,12 +14,12 @@ return new class extends Migration
         Schema::create('transactions', function (Blueprint $table) {
             $table->bigIncrements('id'); // IDENTIFICADOR DE LA TABLA
             $table->double('amount');  //MONTO EN DOLARES
-            $table->double('amount_foreign_currency');  //MONTO MONEDA EXTRANJERA
+            $table->double('amount_foreign_currency')->nullable();  //MONTO MONEDA EXTRANJERA
             $table->double('amount_total');  //MONTO TOTAL
             $table->double('amount_commission');  //MONTO COMISION
-            $table->double('exchange_rate'); // TAZA DE CAMBIO
-            $table->boolean('exonerate'); // EXONERADO SI|NO
-            $table->boolean('discount'); //DESCUENTO EN LA TRANSFERENCIA
+            $table->double('exchange_rate')->nullable(); // TAZA DE CAMBIO
+            $table->boolean('exonerate')->default(False); // EXONERADO SI|NO
+            $table->boolean('discount')->default(False); //DESCUENTO EN LA TRANSFERENCIA
             $table->double('percentage'); //PORCENTAJE DE LA TRANSFERENCIA
             $table->foreignId('type_coin_id')->references('id')->on('type_coins')->nullable(); // TIPO DE MONEDA DE LA TRANSFERENCIA
             $table->foreignId('type_transaction_id')->references('id')->on('type_transactions')->nullable();  //TIPO DE LA TRANSFERENCIA

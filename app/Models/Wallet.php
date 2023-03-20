@@ -21,6 +21,10 @@ class Wallet extends Model  implements Auditable
 
 
               //Relación muchos a muchos
+          /*   public function user(){
+                return $this->belongsToMany(User::class);
+            } */
+            //Relación muchos a muchos
             public function user(){
                 return $this->belongsToMany(User::class);
             }

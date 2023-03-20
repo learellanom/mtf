@@ -9,6 +9,7 @@ use App\Http\Controllers\GroupController;
 use App\Http\Controllers\WalletController;
 use App\Http\Controllers\Type_transactionController;
 use App\Http\Controllers\Type_coinController;
+use JeroenNoten\LaravelAdminLte\Http\Controllers\DarkModeController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -51,6 +52,7 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 
 Route::resource('movimientos', TransactionController::class)->middleware('auth')->names('transactions');
+
 Route::pattern('usuarios', '[0-9]+');
 
 Route::group(['middleware' => 'auth'], function () {
@@ -86,6 +88,10 @@ Route::get('comanda', function () {
 Route::get('dashboardest', function () {
     return view('dashboardest');
 });
+
+
+Route::post('/darkmode/toggle', [DarkModeController::class, 'toggle'])
+    ->name('darkmode.toggle');
 
 
 ?>

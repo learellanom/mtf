@@ -1,15 +1,13 @@
 @extends('adminlte::page')
 
-@section('title', 'Movimientos')
+@section('title', 'Transferencias')
 
 @section('content_header')
 
-    <h1 class="text-center text-dark font-weight-bold">LISTA DE MOVIMIENTOS <i class="fas fa-exchange-alt"></i> </h1></a>
+    <h1 class="text-center text-dark font-weight-bold">LISTA DE MOVIMIENTOS <i class="fas fa-people-arrows"></i> </h1></a>
 
 
 @stop
-
-
 
 @section('content')
 
@@ -19,62 +17,84 @@
 @php
 
 
+    # code...
 
 
 $heads = [
-    'Cliente',
-    ['label' => 'Agente', 'width' => 20],
-    ['label' => 'Tipo de moneda', 'no-export' => true, 'width' => 20],
-    ['label' => 'Comision', 'no-export' => true, 'width' => 10],
-    ['label' => 'Monto Total', 'no-export' => true, 'width' => 20],
-    ['label' => 'Opciones', 'no-export' => true, 'width' => 5],
+    ['label' =>'Agente', 'width' => 10],
+    ['label' => 'Cliente', 'width' => 15],
+    ['label' => 'Caja usada', 'no-export' => true, 'width' => 10],
+    ['label' => 'Tipo de transacción', 'no-export' => true, 'width' => 20],
+    ['label' => 'Porcentaje %', 'no-export' => true, 'width' => 20],
+    ['label' => 'Monto Total', 'width' => 50],
+    ['label' => 'Fecha del movimiento', 'width' => 50],
+    ['label' => 'Editar', 'no-export' => true, 'width' => 5],
+    ['label' => 'Activar/Inactivar', 'no-export' => true, 'width' => 5],
 ];
 
 
 
-$btnEdit = '<button class="btn btn-xl text-primary mx-1 shadow" title="Edit">
-                <i class="fa fa-lg fa-fw fa-pen"></i>
-            </button>';
-$btnDelete = '<button class="btn btn-xl text-danger mx-1 shadow" title="Delete">
-                  <i class="fa fa-lg fa-fw fa-trash"></i>
-              </button>';
-$btnDetails = '<button class="btn btn-xl text-teal mx-1 shadow" title="Details">
-                   <i class="fa fa-lg fa-fw fa-eye"></i>
-               </button>';
 
 $config = [
-    'data' => [
-        ['Grupo I', '100.000.00', 'EUR', '5,00', '110.000.000', '<nobr>'.$btnEdit.$btnDelete.$btnDetails.'</nobr>'],
-        ['Grupo II', '200.000.00','EUR','6,00', '210.000.000', '<nobr>'.$btnEdit.$btnDelete.$btnDetails.'</nobr>'],
-        ['Grupo III', '220.000.00','BRM','5,00', '120.000.000', '<nobr>'.$btnEdit.$btnDelete.$btnDetails.'</nobr>'],
-    ],
+
     'order' => [[1, 'asc']],
-    'columns' => [null, null, null, null, null, ['orderable' => false]],
+    'columns' => [null, null, null, ['orderable' => false]],
 ];
+
+
 @endphp
 
-<a class="btn btn-dark" title="Agregar movimientos" href={{ route('transactions.create') }}>
+<a class="btn btn-dark" title="Crear cliente" href={{ route('transactions.create') }}>
     <i class="fas fa-plus-circle"></i>
-    <span class="d-none d-lg-inline-block text-uppercase font-weight-bold">Agregar</span>
-    <span class="d-none d-md-inline-block text-uppercase font-weight-bold">Movimientos</span>
+    <span class="d-none d-lg-inline-block text-uppercase font-weight-bold">Añadir</span>
+    <span class="d-none d-md-inline-block text-uppercase font-weight-bold">Transferencia</span>
 </a>
 <br><br>
+{{-- Compressed with style options / fill data using the plugin config --}}
+
 <div class="row">
 
     <div class="col-md-12">
         <div class="card mb-4">
             <div class="card-header">
-                <h3 class="card-title">MOVIMIENTOS</h3>
+                <h3 class="card-title">Transferencias|Movimientos</h3>
             </div>
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-12">
+<x-adminlte-datatable id="table" :heads="$heads" head-theme="light"
+    striped hoverable bordered compressed>
 
-<x-adminlte-datatable id="table2" :heads="$heads" head-theme="light" :config="$config"
-    striped hoverable bordered compressed/>
-            </div>
-        </div>
-    </div>
+    @foreach($transferencia as $transferencias)
+        <tr>
+
+            <td class="font-weight-bold">{!! $transferencias->user->name !!}</td>
+            <td>{!! $transferencias->client->name !!}</td>
+            <td>{!! $transferencias->wallet->name !!}</td>
+            <td>{!! $transferencias->type_transaction->name !!}</td>
+            <td class="font-weight-bold">{!! $transferencias->percentage !!}%</td>
+            <td class="font-weight-bold">{!! $transferencias->amount_total !!} $</td>
+
+            <td class="font-weight-bold">{!! $transferencias->transaction_date !!}</td>
+
+            <td class="text-center">
+                <a href="{{ route('transactions.edit', $transferencias->id) }}" class="btn btn-xl text-primary mx-1 shadow text-center"><i class="fa fa-lg fa-fw fas fa-edit"></i></a>
+            </td>
+            <td class="text-center">
+                <form method="post" action="{{ route('transactions.destroy', $transferencias->id) }}">
+                    @csrf
+                    @method('delete')
+                <button class="btn btn-xl text-danger mx-1 shadow text-center" type="submit" title="Borrar">
+                    <i class="fa fa-lg fa-fw fas fa-times"></i>
+                </button>
+                </form>
+            </td>
+
+        </tr>
+    @endforeach
+</x-adminlte-datatable>
+   </div>
+  </div>
+ </div>
 </div>
-
 @endsection

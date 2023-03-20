@@ -10,6 +10,7 @@
 @stop
 
 @section('content')
+
 <div class="d-flex justify-content-center">
 <div class="card col-md-4">
     <div class="card-body">
