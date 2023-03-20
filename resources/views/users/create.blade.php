@@ -16,8 +16,8 @@
 <form action={{ route('users.store')}} method="POST">
 @csrf
         <div class="form-group">
-            <label for="">Nombre</label>
-            <input required type="text" name="name" id="name" class="form-control">
+            {!! Form::Label('name', "Tipo de moneda:") !!}
+            {!! Form::text('name', null, ['class' => 'form-control', 'required' => true]) !!}
 
 
             @error('name')
@@ -26,10 +26,9 @@
 
             @enderror
 
-
         <div class="form-group">
-            <label for="">Correo Electronico</label>
-            <input required type="text" name="email" id="email" class="form-control">
+            {!! Form::Label('email', "Correo Electronico:") !!}
+            {!! Form::text('email', null, ['class' => 'form-control', 'required' => true]) !!}
 
 
             @error('email')

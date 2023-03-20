@@ -53,15 +53,15 @@ $config = [
 <!-- <a id="myRef"  href={{ route('agentes','3')}}>Ver</a> -->
 <!-- <a id="myRef"  href="">Ver</a> -->
 
-<div class="container">
+<div class="container-left">
     <div class="row col-12">
-        <div class ="col-12 col-sm-3">
+        <div class ="col-12 col-sm-2">  
             <x-adminlte-select2 id="userole"
                                 name="optionsUsers" 
                                 igroup-size="sm" 
                                 label-class="text-lightblue"
                                 data-placeholder="Select an option..."
-                                style="height:45px;"
+                                
                                 >
                 <x-slot name="prependSlot">
                     <div class="input-group-text bg-gradient-info">
@@ -74,8 +74,29 @@ $config = [
             </x-adminlte-select2>
         </div>
 
-        <div class ="col-12 col-sm-3">
-            <x-adminlte-date-range name="drCustomRanges" enable-default-ranges="Last 30 Days">
+        <div class ="col-12 col-sm-2">  
+            <x-adminlte-select2 id="cliente"
+                                name="optionsCliente" 
+                                igroup-size="sm" 
+                                label-class="text-lightblue"
+                                data-placeholder="Select an option..."
+                                
+                                >
+                <x-slot name="prependSlot">
+                    <div class="input-group-text bg-gradient-info">
+                        <!-- <i class="fas fa-car-side"></i> -->
+                        <i class="fas fa-user-tie"></i>
+                    </div>
+                </x-slot>
+                
+                <x-adminlte-options :options="$cliente" empty-option="Selecciona un Cliente.."/>
+            </x-adminlte-select2>
+        </div>
+
+        <div class ="col-12 col-sm-2">
+        </div>          
+        <div class ="col-12 col-sm-2">
+            <x-adminlte-date-range name="drCustomRanges" enable-default-ranges="Last 30 Days" style="height: 30px;">
                 <x-slot name="prependSlot">
                     <div class="input-group-text bg-gradient-info">
                         <i class="fas fa-calendar-alt"></i>
@@ -83,6 +104,27 @@ $config = [
                 </x-slot>
             </x-adminlte-date-range>
         </div>
+        <div class ="col-12 col-sm-2">  
+            <x-adminlte-select2 id="wallet"
+                                name="optionsWallets" 
+                                igroup-size="sm" 
+                                label-class="text-lightblue"
+                                data-placeholder="Selecciona un Wallet..."
+                                
+                                >
+                <x-slot name="prependSlot">
+                    <div class="input-group-text bg-gradient-info">
+                        <!-- <i class="fas fa-car-side"></i> -->
+                        <i class="fas fa-user-tie"></i>
+                    </div>
+                </x-slot>
+                <!-- <x-adminlte-options :options="['Car', 'Truck', 'Motorcycle']" empty-option/> -->
+                <x-adminlte-options :options="$wallet" empty-option="Selecciona un Wallet.."/>
+            </x-adminlte-select2>
+        </div>        
+      
+        <div class ="col-12 col-sm-2">
+        </div>              
     </div>
 </div>
 
@@ -149,6 +191,18 @@ $config = [
                 
             });
 
+            $('#cliente').on('change', function (){
+                 
+                 const cliente = $('#cliente').val();
+                  alert('***** cliente ' +  cliente);
+                //  let myRoute = "";
+                //      myRoute = "{{ route('agentes', 'usuario') }}";
+                //      myRoute = myRoute.replace('usuario',usuario);
+                //  console.log(myRoute);
+                //  location.href = myRoute;
+
+                
+            });
 
             $('#drCustomRanges').on('change', function () {
                 alert('ggggg ' + $('#drCustomRanges').val());

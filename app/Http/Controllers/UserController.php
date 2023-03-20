@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Transaction;
+use App\Models\Client;
+use App\Models\Wallet;
 use Spatie\Permission\Models\Role;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -20,8 +22,19 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
     */
-    public function index_all($myUser = 0)
+    public function index_all(Request $request)
     {
+        if (!$request->usuario) {
+            $myUser = 0;
+        }else{
+            $myUser = $request->usuario;
+        }        
+/*         echo "con el request";
+        echo "usuariox -> " . $request->usuario;
+        echo "<br>";
+        var_dump($request);
+        die(); */
+
 
         $myUserDesde = 0;
         $myUserHasta = 9999;
@@ -88,8 +101,33 @@ class UserController extends Controller
 
           $Transacciones3 = Transaction::all();
 
+          $cliente = Client::select('clients.id', 'clients.name')
+          ->get();
 
-        return view('agentes.index', compact('myUser','userole','Transacciones'));
+          //dd($cliente);
+
+          //*********************************************************
+
+          $cliente2 = array();
+          foreach($cliente as $cliente){
+              $cliente2 [$cliente->id] =  $cliente->name;
+          }
+          $cliente = $cliente2;
+
+          //***********************************************************
+
+          $wallet = Wallet::select('wallets.id', 'wallets.name')
+          ->get();
+
+          //dd($wallet);
+
+          $wallet2 = array();
+          foreach($wallet as $wallet){
+              $wallet22 [$wallet->id] =  $wallet->name;
+          }
+          $wallet = $wallet22;
+
+        return view('agentes.index', compact('myUser','userole','Transacciones','cliente','wallet'));
 
     }
 
@@ -148,8 +186,6 @@ class UserController extends Controller
      */
     public function edit($user)
     {
-
-        //$roles = Role::find();
         $user = User::find($user);
         $roles = Role::all();
         return view('users.edit', compact('user', 'roles'));
@@ -157,8 +193,6 @@ class UserController extends Controller
 
     public function password($user)
     {
-
-        //$roles = Role::find();
         $user = User::find($user);
 
         return view('users.password', compact('user'));
@@ -167,31 +201,26 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $user)
+    public function update_password(Request $request, $user)
     {
-
-        $password = view('users.password');
-        $roles = view('users.edit');
-
-        if($password == true){
         $user = User::findOrFail($user);
         $user->password = Hash::make($request->password);
         $user->setRememberToken(Str::random(60));
         $user->update();
 
         return Redirect::route('users.index')->with('update', 'ok');
-        }
+    }
 
-        elseif($roles == true){
+    public function update_users(Request $request, $user)
+    {
 
-         User::findOrFail($user)->update($request->all());
-         $user = User::find($user);
-         $user->syncRoles($request->roles);
+            User::findOrFail($user)->update($request->all());
 
-         return Redirect::route('users.index')->with('update', 'ok');
-         }
+            $user = User::find($user);
+            $user->syncRoles($request->roles);
 
 
+            return Redirect::route('users.index')->with('update', 'ok');
     }
 
 

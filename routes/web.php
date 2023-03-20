@@ -54,13 +54,21 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 Route::resource('movimientos', TransactionController::class)->middleware('auth')->names('transactions');
 Route::pattern('usuarios', '[0-9]+');
-Route::resource('usuarios', UserController::class)->middleware('auth')->except('show')->names('users')->parameters(['user'=>'usuario']);
 
-Route::middleware('auth')->group(function () {
-Route::get('/usuarios/{usuario}/cambio_contraseña', [UserController::class, 'password'])->name('users.password');
-Route::put('/usuarios/{usuario}', [UserController::class, 'password_update'])->name('users.paswordupdate');
+Route::group(['middleware' => 'auth'], function () {
+
+    Route::resource('usuarios', UserController::class)->middleware('auth')->except('show', 'update', 'edit')->names('users');
+
+    Route::get('/usuarios/editar/{usuario}/', [UserController::class, 'edit'])->name('users.edit');
+
+    Route::get('/usuarios/cambio_contraseña/{usuario}/', [UserController::class, 'password'])->name('users.password');
+
+    Route::match(['put', 'patch'], '/usuarios/cambio_contraseña/{usuario}', [UserController::class, 'update_password'])->name('users.update_password');
+
+    Route::match(['put', 'patch'], '/usuarios/editar/{usuario}', [UserController::class, 'update_users'])->name('users.update_users');
 
 });
+
 
 Route::resource('clientes', ClientController::class)->middleware('auth')->except('show')->names('clients');
 Route::resource('grupos', GroupController::class)->middleware('auth')->except('show')->names('groups');
@@ -80,5 +88,6 @@ Route::get('comanda', function () {
 Route::get('dashboardest', function () {
     return view('dashboardest');
 })->name('dashboardtest');
+
 
 ?>
