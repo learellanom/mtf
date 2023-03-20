@@ -24,26 +24,59 @@ class UserController extends Controller
     */
     public function index_all(Request $request)
     {
-        if (!$request->usuario) {
-            $myUser = 0;
-        }else{
+
+        $myUser = 0;
+        if ($request->usuario) {
             $myUser = $request->usuario;
-        }        
-/*         echo "con el request";
-        echo "usuariox -> " . $request->usuario;
+        }     
+        
+        $myCliente = 0;
+        if ($request->cliente) {
+            $myCliente = $request->cliente;
+        }     
+
+
+        $myWallet = 0;
+        if ($request->wallet) {
+            $myWallet = $request->wallet;
+        }     
+
+        \Log::info('leam usuario *** -> ' . $request->usuario);
+        \Log::info('leam cliente *** -> ' . $request->cliente);
+        \Log::info('leam wallet *** -> ' . $request->wallet);
+
+        /*
+        echo "<br>con el request";
+        echo "<br>usuariox -> " . $request->usuario;
+        echo "<br>Cliente  -> " . $request->cliente;      
+          
+        echo "<br>Wallet  -> "  . $request->wallet;                
         echo "<br>";
         var_dump($request);
-        die(); */
+        die(); 
+        */
 
 
         $myUserDesde = 0;
         $myUserHasta = 9999;
+        $myClienteDesde = 0;
+        $myClienteHasta = 9999;
+        $myWalletDesde = 0;
+        $myWalletHasta = 9999;
 
         if ($myUser != 0){
             $myUserDesde = $myUser;
             $myUserHasta = $myUser;
         }
-        
+        if ($myCliente != 0){
+            $myClienteDesde = $myCliente;
+            $myClienteHasta = $myCliente;
+        }
+        if ($myWallet != 0){
+            $myWalletDesde = $myWallet;
+            $myWalletHasta = $myWallet;
+        }                
+
         // print_r($myUser);
         // die();
 
@@ -78,6 +111,8 @@ class UserController extends Controller
         )->leftJoin(
             'clients', 'clients.id', '=', 'transactions.client_id'  
         )->whereBetween('Transactions.user_id', [$myUserDesde, $myUserHasta]
+        )->whereBetween('Transactions.client_id', [$myClienteDesde, $myClienteHasta]
+        )->whereBetween('Transactions.wallet_id', [$myWalletDesde, $myWalletHasta]        
         )->get();
     
         $Transacciones2 = array();
@@ -127,7 +162,7 @@ class UserController extends Controller
           }
           $wallet = $wallet22;
 
-        return view('agentes.index', compact('myUser','userole','Transacciones','cliente','wallet'));
+        return view('agentes.index', compact('myUser','userole','Transacciones','cliente','wallet','myCliente','myUser','myWallet'));
 
     }
 

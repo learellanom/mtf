@@ -77,7 +77,7 @@ Route::resource('tipo_moneda', Type_coinController::class)->middleware('auth')->
 
 
 Route::get('agentes',[App\Http\Controllers\UserController::class, 'index_all'])->name('agentes');
-Route::get('agentes/{usuario}',[App\Http\Controllers\UserController::class, 'index_all'])->name('agentes');
+Route::get('agentes/{usuario}/{cliente?}/{wallet?}',[App\Http\Controllers\UserController::class, 'index_all'])->name('agentes');
 
 Route::get('comanda', function () {
     return view('master.comanda');

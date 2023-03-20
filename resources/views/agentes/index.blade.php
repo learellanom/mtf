@@ -39,29 +39,45 @@ $config = [
 ];
 
 
+$config1 = 
+[
+    "allowClear" => true,
+];
 
+$config2 = 
+[
+    "allowClear" => true,
+];
+
+$config4 = [
+    "placeHolder" => "selecciona...",
+    "allowClear" => true,
+];
 
 @endphp
 
+<script>
+
+
+</script>
 <br>
 <br>
-<h1 class="text-center text-dark font-weight-bold">Movientos por Agente</h1>
+<h1 class="text-center text-dark font-weight-bold">Detalles de Movimiento</h1>
 <br>
 <br>
 {{-- Disabled --}}
-<!-- <x-adminlte-button label="Añadir" theme="dark" /> -->
-<!-- <a id="myRef"  href={{ route('agentes','3')}}>Ver</a> -->
-<!-- <a id="myRef"  href="">Ver</a> -->
 
 <div class="container-left">
     <div class="row col-12">
         <div class ="col-12 col-sm-2">  
             <x-adminlte-select2 id="userole"
+                                class="mySelect"
                                 name="optionsUsers" 
                                 igroup-size="sm" 
                                 label-class="text-lightblue"
-                                data-placeholder="Select an option..."
-                                
+
+                                data-placeholder="Agente..."
+                                :config="$config1"
                                 >
                 <x-slot name="prependSlot">
                     <div class="input-group-text bg-gradient-info">
@@ -79,8 +95,8 @@ $config = [
                                 name="optionsCliente" 
                                 igroup-size="sm" 
                                 label-class="text-lightblue"
-                                data-placeholder="Select an option..."
-                                
+                                data-placeholder="Cliente ..."
+                                :config="$config1"
                                 >
                 <x-slot name="prependSlot">
                     <div class="input-group-text bg-gradient-info">
@@ -104,13 +120,14 @@ $config = [
                 </x-slot>
             </x-adminlte-date-range>
         </div>
+     
         <div class ="col-12 col-sm-2">  
             <x-adminlte-select2 id="wallet"
                                 name="optionsWallets" 
                                 igroup-size="sm" 
                                 label-class="text-lightblue"
-                                data-placeholder="Selecciona un Wallet..."
-                                
+                                data-placeholder="Wallet..."
+                                :config="$config4"                                
                                 >
                 <x-slot name="prependSlot">
                     <div class="input-group-text bg-gradient-info">
@@ -119,13 +136,17 @@ $config = [
                     </div>
                 </x-slot>
                 <!-- <x-adminlte-options :options="['Car', 'Truck', 'Motorcycle']" empty-option/> -->
-                <x-adminlte-options :options="$wallet" empty-option="Selecciona un Wallet.."/>
+                <x-adminlte-options :options="$wallet" empty-option="Wallet.."/>
             </x-adminlte-select2>
         </div>        
       
         <div class ="col-12 col-sm-2">
-        </div>              
+        </div>   
+  
     </div>
+
+  
+
 </div>
 
 <br>
@@ -166,48 +187,132 @@ $config = [
     @endforeach
 </x-adminlte-datatable>
 
-
-    
-
-
 @endsection
-
 
 @section('js')
     @routes
     <script>
+
+    const miCliente = {!! $myCliente !!};
+    const miUsuario = {!! $myUser !!};
+    const miWallet  = {!! $myWallet !!};
+
+    // console.log(miCliente);
+
+    // alert('miCLiente -> ' + miCliente);
+    // alert('miUser    -> ' + miUsuario);
+    // alert('miWallet  -> ' + miWallet);
+
+    BuscaCliente(miCliente);
+    BuscaUsuario(miUsuario);
+    BuscaWallet(miWallet);
+
         $(() => {
-           
+            
+
             $('#userole').on('change', function (){
                  
-                 const usuario = $('#userole').val();
-                 // alert('iii theUser ' +  usuario);
-                 let myRoute = "";
-                     myRoute = "{{ route('agentes', 'usuario') }}";
-                     myRoute = myRoute.replace('usuario',usuario);
-                 console.log(myRoute);
-                 location.href = myRoute;
+                const usuario = $('#userole').val();
+                const cliente = $('#cliente').val();
+                const wallet = $('#wallet').val();
+                 theRoute(usuario,cliente,wallet);
 
-                
             });
 
             $('#cliente').on('change', function (){
-                 
-                 const cliente = $('#cliente').val();
-                  alert('***** cliente ' +  cliente);
-                //  let myRoute = "";
-                //      myRoute = "{{ route('agentes', 'usuario') }}";
-                //      myRoute = myRoute.replace('usuario',usuario);
-                //  console.log(myRoute);
-                //  location.href = myRoute;
+                const usuario = $('#userole').val();
+                const cliente = $('#cliente').val();
+                const wallet = $('#wallet').val();
+                const seleccionado = $('#cliente').prop('selectedIndex');
+                // alert('***** cliente ' +  cliente + " --- selected index --- " + seleccionado);
+                theRoute(usuario,cliente,wallet);
 
                 
             });
+
+            $('#wallet').on('change', function (){
+                 
+                const usuario = $('#userole').val();
+                const cliente = $('#cliente').val();
+                const wallet = $('#wallet').val();
+                // alert('***** wallet ' +  wallet);
+                 theRoute(usuario,cliente,wallet);
+                 
+             });
 
             $('#drCustomRanges').on('change', function () {
                 alert('ggggg ' + $('#drCustomRanges').val());
             });
 
         })
+
+        function theRoute(usuario = 0, cliente = 0, wallet = 0){
+
+            if (usuario === "") usuario = 0;
+            if (cliente === "") cliente = 0;
+            if (wallet  === "") wallet  = 0;
+
+            let myRoute = "";
+                myRoute = "{{ route('agentes', ['usuario' => 'usuario2', 'cliente' => 'cliente2', 'wallet' => 'wallet2']) }}";
+                myRoute = myRoute.replace('cliente2',cliente);
+                myRoute = myRoute.replace('usuario2',usuario);
+                myRoute = myRoute.replace('wallet2',wallet);
+            console.log(myRoute);
+            // alert(myRoute);
+            location.href = myRoute;        
+
+        }
+
+        function BuscaCliente(miCliente){
+            //alert("BuscaCliente - miCliente -> " + miCliente);
+            $('#cliente').each( function(index, element){
+                //alert ("Buscacliente -> " + $(this).val() + " text -> " + $(this).text()+ " y con index -> " + $(this).prop('selectedIndex'));
+                $(this).children("option").each(function(){
+                    if ($(this).val() === miCliente.toString()){
+                        //alert('BUscaCliente - encontro');
+                        $("#cliente option[value="+ miCliente +"]").attr("selected",true);
+                    }
+                    //alert("BuscaClienteaqui ->  the val " + $(this).val() + " text -> " + $(this).text());
+                });
+            });
+            //
+        }
+
+        function BuscaUsuario(miUsuario){
+            if (miUsuario===0){
+                return;
+            }
+            // alert("BuscaUsuario - miUsuario -> " + miUsuario);
+            $('#userole').each( function(index, element){
+                // alert ("BuscaUsuario -> " + $(this).val() + " text -> " + $(this).text()+ " y con index -> " + $(this).prop('selectedIndex'));
+                $(this).children("option").each(function(){
+                    if ($(this).val() === miUsuario.toString()){
+                        // alert('BuscaUsuario - encontro');
+                        $("#userole option[value="+ miUsuario +"]").attr("selected",true);
+                    }
+                    // alert("BuscaUsuario aqui ->  the val " + $(this).val() + " text -> " + $(this).text());
+                });
+            });
+            //
+        }
+
+        function BuscaWallet(miWallet){
+            if (miWallet===0){
+                return;
+            }
+            // alert("BuscaWallet - miWallet -> " + miWallet);
+            $('#wallet').each( function(index, element){
+                // alert ("BuscaWallet -> " + $(this).val() + " text -> " + $(this).text()+ " y con index -> " + $(this).prop('selectedIndex'));
+                $(this).children("option").each(function(){
+                    if ($(this).val() === miWallet.toString()){
+                        // alert('BuscaWallet - encontro');
+                        $("#wallet option[value="+ miWallet +"]").attr("selected",true);
+                    }
+                    // alert("BuscaWallet aqui ->  the val " + $(this).val() + " text -> " + $(this).text());
+                });
+            });
+            //
+        }
+
     </script>
 @endsection

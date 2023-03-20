@@ -332,7 +332,7 @@ return [
             'icon' => 'fas fa-fw fas fa-chart-bar',
         ],
         [
-            'text' => 'Estadisticas por agentes',
+            'text' => 'Detalles de movimiento',
             'url'  => 'agentes',
             'icon' => 'fas fa-fw fas fa-chart-bar',
         ],
