@@ -22,9 +22,7 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-Route::get('/offline', function(){
-    return view('vendor.laravelpwa.offline');
-});
+Route::get('/offline', function () {     return view('vendor/laravelpwa/offline'); });
 
 Route::get('/', function () {
     return view('auth.login');

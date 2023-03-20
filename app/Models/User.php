@@ -58,6 +58,13 @@ class User extends Authenticatable implements Auditable
      public function transaction(){
         return $this->hasMany(Transaction::class);
     }
+
+     //Relación uno a muchos
+     public function wallet(){
+        return $this->belongsToMany(Wallet::class);
+    }
+
+
 }
 
 

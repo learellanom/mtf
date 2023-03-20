@@ -9,6 +9,7 @@ use Spatie\Permission\Traits\HasRoles;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 
+
 class Wallet extends Model  implements Auditable
 {
     use \OwenIt\Auditing\Auditable;
@@ -18,8 +19,18 @@ class Wallet extends Model  implements Auditable
 
     protected $guarded = ['id', 'created_at', 'updated_at'];
 
-        //Relación uno a muchos
-        public function transaction(){
-            return $this->hasMany(Transaction::class);
-        }
+
+              //Relación muchos a muchos
+            public function user(){
+                return $this->belongsToMany(User::class);
+            }
+
+            //Relación uno a muchos
+            public function transaction(){
+                return $this->hasMany(Transaction::class);
+            }
+
+
+
+
 }

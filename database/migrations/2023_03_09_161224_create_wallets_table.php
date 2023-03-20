@@ -13,9 +13,10 @@ return new class extends Migration
     {
         Schema::create('wallets', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('name');
-            $table->string('description');
-            $table->string('direction');
+            $table->string('name'); // NOMBRE DE LA CAJA
+            $table->string('description'); // DESCRIPCION DE LA CAJA
+            $table->string('direction'); //UBICACION DE LA CAJA
+            $table->float('base')->nullable()->default('0'); // INICIO DE LA CAJA
             $table->timestamps();
         });
     }
