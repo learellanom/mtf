@@ -22,14 +22,23 @@
 
 
             <div class="form-row">
-                <div class="form-group col-md-6">
+                <div class="form-group col-md-4">
                 {!! Form::Label('type_transaction_id', "Tipo de Movimiento:") !!}
                 <div class="input-group-text col-md-12">
                     <i class="fa-fw fas fa-random"></i>
                 {!! Form::select('type_transaction_id',$type_transaction, null, ['class' => 'form-control typetrasnferencia', 'required' => true, 'id'=>'typetrasnferencia']) !!}
                 </div>
-            </div>
-                <div class="form-group col-md-6">
+                </div>
+
+                <div class="form-group col-md-4">
+                    {!! Form::Label('wallet_id', "Tipo de caja:") !!}
+                    <div class="input-group-text col-md-12">
+                        <i class="fa-fw fas fa-random"></i>
+                    {!! Form::select('wallet_id', $wallet, null, ['class' => 'form-control wallet', 'required' => true, 'id'=>'wallet']) !!}
+                    </div>
+                </div>
+
+                <div class="form-group col-md-4">
                     {!! Form::Label('client_id', "Cliente:") !!}
                     <div class="input-group-text">
                         <i class="fa-fw fas fas fa-user-friends mr-2"></i>
@@ -67,29 +76,32 @@
 
 
 
-        <div class="form-group col-md-14">
+
+
+        <div class="form-row">
+
+            <div class="form-group col-md-4">
                 {!! Form::Label('amount', "Monto en dolares:") !!}
                 <div class="input-group-text">
                     <i class="fa-fw fas fas fa-funnel-dollar mr-2"></i>
                 {!! Form::number('amount', null, ['class' => 'form-control', 'required' => true, 'id' => 'monto_dolares', 'min' => 0, 'disabled' => true]) !!}
                 </div>
-        </div>
+            </div>
 
-        <div class="form-row">
-            <div class="form-group col-md-6">
+            <div class="form-group col-md-4">
                 {!! Form::Label('percentage', "Porcentaje:") !!}
                 <div class="input-group-text">
                     <i class="fa-fw fas fa-percentage mr-2"></i>
-                {!! Form::number('percentage',null, ['class' => 'form-control', 'required' => true, 'min' => 0]) !!}
+                {!! Form::number('percentage',null, ['class' => 'form-control percentage', 'required' => true, 'min' => 0, 'id' => 'percentage']) !!}
                 </div>
             </div>
 
-            <div class="form-group col-md-6">
+            <div class="form-group col-md-4">
 
                 {!! Form::Label('amount_commission', "Monto Comisión:") !!}
                 <div class="input-group-text">
                     <i class="fa-fw fas fa-coins mr-2"></i>
-                {!! Form::number('amount_commission',null, ['class' => 'form-control', 'required' => true, 'min' => 0]) !!}
+                {!! Form::number('amount_commission',null, ['class' => 'form-control comision', 'required' => true, 'min' => 0, 'disabled' => true, 'id' => 'comision']) !!}
                 </div>
 
             </div>
@@ -122,7 +134,7 @@
             {!! Form::Label('amount_total', "Monto Total:") !!}
                 <div class="input-group-text">
                     <i class="fa-fw fas fa-coins mr-2"></i>
-                {!! Form::number('amount_total',null, ['class' => 'form-control', 'required' => true, 'min' => 0]) !!}
+                {!! Form::number('amount_total',null, ['class' => 'form-control montototal', 'required' => true, 'min' => 0, 'id' => 'montototal']) !!}
                 </div>
         </div>
 
@@ -194,6 +206,12 @@ $(".status").select2({
   search: false
 });
 
+$(".wallet").select2({
+  placeholder: "Seleccionar Caja | Wallet",
+  theme: 'bootstrap4',
+  search: false
+});
+
 $(".typetrasnferencia").select2({
   placeholder: "Seleccionar tipo de movimiento",
   theme: 'bootstrap4',
@@ -236,6 +254,8 @@ $(document).ready(function() {
       $('#monto_dolares').val("");
 
 
+
+
     }
     else {
         $('#tasa').prop("disabled", false);
@@ -275,6 +295,29 @@ $(document).ready(function() {
 
      }
   })
+
+  $('.percentage').change(function(e) {
+
+      $('#comision').prop("disabled", false);
+      $('#monto').prop("disabled", true);
+      //$('#montodolares').prop("disabled", true);
+
+      $('#tasa').val("");
+      $('#monto').val("");
+
+            comision = document.getElementById("comision");
+            porcentage = document.getElementById("percentage");
+            montototal = document.getElementById("monto_dolares");
+
+            onmousemove = function(){
+                if(porcentage.value > 0){
+                    montottotal = (montotototal * porcentage);
+                    montototal.value =  montottotal.toFixed(2);
+                }
+        }
+     })
+
+
 
 });
 

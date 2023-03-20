@@ -50,13 +50,16 @@
             </div>
 
             <div class="form-group">
-                {!! Form::Label('user_id', "Agente:") !!}
-                {!! Form::select('user_id', $user, null, ['class' => 'form-control user']) !!}
 
-                @error('user_id')
+                {!! Form::Label('user[]', "Agente:") !!}
+                {!! Form::select('user[]', $users, null, ['class' => 'form-control user', 'multiple' => 'multiple']) !!}
+
+                @error('user[]')
                 <small class="text-danger">{{$message}}</small>
                 @enderror
             </div>
+
+
 
         <div class="form-group">
             {!! Form::Label('description', "Observación:") !!}
@@ -90,6 +93,7 @@ $(".user").select2({
     allowClear: true,
     placeholder: "Seleccionar Agente",
     theme: 'bootstrap4',
+    maximumSelectionLength: 5
 
   });
 </script>

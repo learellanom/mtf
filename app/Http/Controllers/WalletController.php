@@ -25,13 +25,9 @@ class WalletController extends Controller
      */
     public function create()
     {
-        $user = User::select('users.id', 'users.name', 'model_has_roles.role_id')
-        ->join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
-        ->join('roles', 'roles.id', '=', 'model_has_roles.role_id')
-        ->where('roles.id', 2)
-        ->pluck('name', 'id');
+        $users = User::all()->pluck('name', 'id');
 
-        return view('wallets.create', compact('user'));
+        return view('wallets.create', compact('users'));
     }
 
     /**
@@ -39,9 +35,13 @@ class WalletController extends Controller
      */
     public function store(Request $request)
     {
-        Wallet::create($request->all());
+        $wallets = Wallet::create($request->all());
 
-        return redirect('wallets.index');
+        if($request->user){
+            $wallets->user()->attach($request->user);
+         }
+
+         return Redirect::route('wallets.index', $wallets);
     }
 
     /**
@@ -58,17 +58,23 @@ class WalletController extends Controller
     public function edit($wallet)
     {
         $wallet = Wallet::find($wallet);
-        $user = User::pluck('name', 'id');
-        return view('wallets.edit', compact('wallet', 'user'));
+        $users = User::all()->pluck('name', 'id');
+        return view('wallets.edit', compact('wallet', 'users'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $wallet)
+    public function update(Request $request, $wallet)
     {
-        Wallet::findOrFail($wallet)->update($request->all());
-        return Redirect::route('wallets.index')->with('update', 'ok');
+        $wallets = Wallet::findOrFail($wallet)->update($request->all());
+
+        if($request->user){
+
+            $wallets->user()->sync($request->user);
+         }
+
+        return Redirect::route('wallets.index', $wallets)->with('update', 'ok');
     }
 
     /**
