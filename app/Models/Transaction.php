@@ -37,4 +37,9 @@ class Transaction extends Model implements Auditable
         return $this->belongsTo(client::class);
     }
 
+    //Relación uno a uno Polimorfica
+    public function image(){
+        return $this->morphOne(Image::class,'imageable');
+    }
+
 }

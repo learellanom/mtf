@@ -10,6 +10,7 @@ use App\Models\Type_transaction;
 use App\Models\Wallet;
 use App\Models\Client;
 use App\Models\User;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Redirect;
 
 class TransactionController extends Controller
@@ -44,7 +45,15 @@ class TransactionController extends Controller
      */
     public function store(Request $request)
     {
-        Transaction::create($request->all());
+        $transaction = Transaction::create($request->all());
+
+        if($request->file('file')){
+            $url = Storage::put('transactions', $request->file('file'));
+            $transaction->image()->create([
+                'url' => $url
+            ]);
+          }
+
 
         return Redirect::route('transactions.index');
     }
@@ -83,13 +92,33 @@ class TransactionController extends Controller
      */
     public function update(Request $request, $transaction)
     {
-        Transaction::findOrFail($transaction)->update($request->all());
+        $transaction = Transaction::find($transaction)->update($request->all());
+
+        if($request->file('file')){
+            $transaction = Transaction::find($transaction);
+            $url = Storage::put('transactions', $request->file('file'));
+          if($transaction->image){
+              //$transaction = Transaction::find($transaction);
+              Storage::delete($transaction->image->url);
+
+              $transaction->image()->update([
+               'url' => $url
+           ]);
+          }
+          else{
+            $transaction->image()->create([
+                  'url' => $url
+              ]);
+          }
+        }
+
         return Redirect::route('transactions.index');
     }
 
     /**
      * Remove the specified resource from storage.
      */
+
     public function destroy($transaction)
     {
         $transactions = Transaction::find($transaction);
