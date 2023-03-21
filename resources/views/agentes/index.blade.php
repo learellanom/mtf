@@ -39,12 +39,12 @@ $config = [
 ];
 
 
-$config1 = 
+$config1 =
 [
     "allowClear" => true,
 ];
 
-$config2 = 
+$config2 =
 [
     "allowClear" => true,
 ];
@@ -69,11 +69,11 @@ $config4 = [
 
 <div class="container-left">
     <div class="row col-12">
-        <div class ="col-12 col-sm-2">  
+        <div class ="col-12 col-sm-2">
             <x-adminlte-select2 id="userole"
                                 class="mySelect"
-                                name="optionsUsers" 
-                                igroup-size="sm" 
+                                name="optionsUsers"
+                                igroup-size="sm"
                                 label-class="text-lightblue"
 
                                 data-placeholder="Agente..."
@@ -90,10 +90,10 @@ $config4 = [
             </x-adminlte-select2>
         </div>
 
-        <div class ="col-12 col-sm-2">  
+        <div class ="col-12 col-sm-2">
             <x-adminlte-select2 id="cliente"
-                                name="optionsCliente" 
-                                igroup-size="sm" 
+                                name="optionsCliente"
+                                igroup-size="sm"
                                 label-class="text-lightblue"
                                 data-placeholder="Cliente ..."
                                 :config="$config1"
@@ -104,13 +104,13 @@ $config4 = [
                         <i class="fas fa-user-tie"></i>
                     </div>
                 </x-slot>
-                
+
                 <x-adminlte-options :options="$cliente" empty-option="Selecciona un Cliente.."/>
             </x-adminlte-select2>
         </div>
 
         <div class ="col-12 col-sm-2">
-        </div>          
+        </div>
         <div class ="col-12 col-sm-2">
             <x-adminlte-date-range name="drCustomRanges" enable-default-ranges="Last 30 Days" style="height: 30px;">
                 <x-slot name="prependSlot">
@@ -120,14 +120,14 @@ $config4 = [
                 </x-slot>
             </x-adminlte-date-range>
         </div>
-     
-        <div class ="col-12 col-sm-2">  
+
+        <div class ="col-12 col-sm-2">
             <x-adminlte-select2 id="wallet"
-                                name="optionsWallets" 
-                                igroup-size="sm" 
+                                name="optionsWallets"
+                                igroup-size="sm"
                                 label-class="text-lightblue"
                                 data-placeholder="Wallet..."
-                                :config="$config4"                                
+                                :config="$config4"
                                 >
                 <x-slot name="prependSlot">
                     <div class="input-group-text bg-gradient-info">
@@ -138,14 +138,14 @@ $config4 = [
                 <!-- <x-adminlte-options :options="['Car', 'Truck', 'Motorcycle']" empty-option/> -->
                 <x-adminlte-options :options="$wallet" empty-option="Wallet.."/>
             </x-adminlte-select2>
-        </div>        
-      
+        </div>
+
         <div class ="col-12 col-sm-2">
-        </div>   
-  
+        </div>
+
     </div>
 
-  
+
 
 </div>
 
@@ -167,16 +167,25 @@ $config4 = [
 {{-- Compressed with style options / fill data using the plugin config --}}
 <!-- <x-adminlte-datatable id="table2" :heads="$heads" head-theme="dark" :config="$config"
     striped hoverable bordered compressed/> -->
+    <div class="row">
 
+        <div class="col-md-12">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h3 class="card-title">Estadisticas| Movimientos por Agentes</h3>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-12">
 <x-adminlte-datatable id="table3" :heads="$heads">
     @foreach($Transacciones as $row)
         <tr>
             <td>{!! $row->AgenteName !!}</td>
             <td>{!! $row->ClientName !!}</td>
             <td>{!! $row->Monto !!}</td>
-            <td>{!! $row->FechaTransaccion !!}</td>            
-            <td>{!! $row->WalletName !!}</td> 
-            <td>{!! $row->TipoTransaccion !!}</td>                          
+            <td>{!! $row->FechaTransaccion !!}</td>
+            <td>{!! $row->WalletName !!}</td>
+            <td>{!! $row->TipoTransaccion !!}</td>
 
             <td class="text-center">
                 <button class="btn btn-xl text-teal mx-auto shadow" title="Detalles">
@@ -186,7 +195,12 @@ $config4 = [
         </tr>
     @endforeach
 </x-adminlte-datatable>
-
+        </div>
+    </div>
+</div>
+</div>
+</div>
+</div>
 @endsection
 
 @section('js')
@@ -208,10 +222,10 @@ $config4 = [
     BuscaWallet(miWallet);
 
         $(() => {
-            
+
 
             $('#userole').on('change', function (){
-                 
+
                 const usuario = $('#userole').val();
                 const cliente = $('#cliente').val();
                 const wallet = $('#wallet').val();
@@ -227,17 +241,17 @@ $config4 = [
                 // alert('***** cliente ' +  cliente + " --- selected index --- " + seleccionado);
                 theRoute(usuario,cliente,wallet);
 
-                
+
             });
 
             $('#wallet').on('change', function (){
-                 
+
                 const usuario = $('#userole').val();
                 const cliente = $('#cliente').val();
                 const wallet = $('#wallet').val();
                 // alert('***** wallet ' +  wallet);
                  theRoute(usuario,cliente,wallet);
-                 
+
              });
 
             $('#drCustomRanges').on('change', function () {
@@ -259,7 +273,7 @@ $config4 = [
                 myRoute = myRoute.replace('wallet2',wallet);
             console.log(myRoute);
             // alert(myRoute);
-            location.href = myRoute;        
+            location.href = myRoute;
 
         }
 

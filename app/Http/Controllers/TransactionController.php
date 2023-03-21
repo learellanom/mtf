@@ -10,6 +10,7 @@ use App\Models\Type_transaction;
 use App\Models\Wallet;
 use App\Models\Client;
 use App\Models\User;
+use Database\Factories\TransactionFactory;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Redirect;
 
@@ -28,15 +29,16 @@ class TransactionController extends Controller
      /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(transaction $transaction)
     {
+
         $type_coin = Type_coin::pluck('name', 'id');
         $type_transaction = Type_transaction::pluck('name', 'id');
         $wallet = Wallet::pluck('name', 'id');
         $client = Client::pluck('name', 'id');
         $user = User::pluck('name', 'id');
 
-        return view('transactions.create', compact('type_coin', 'type_transaction', 'wallet', 'client', 'user'));
+        return view('transactions.create', compact('type_coin', 'type_transaction', 'wallet', 'client', 'user', 'transaction'));
     }
 
 
@@ -69,9 +71,9 @@ class TransactionController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit($transaction)
+    public function edit($transactions)
     {
-        $transactions = Transaction::find($transaction);
+        $transactions = Transaction::find($transactions);
         $type_coin = Type_coin::pluck('name', 'id');
         $type_transaction = Type_transaction::pluck('name', 'id');
         $wallet = Wallet::pluck('name', 'id');

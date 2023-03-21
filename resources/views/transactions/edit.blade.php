@@ -160,6 +160,14 @@
                 <i class="fa-fw fas fa-file-image mr-2"></i>
                 {!! Form::file('file', ['class' => 'form-file-input', 'accept' => 'image/*']) !!}
               </div>
+              <div class="col">
+                <div class="image-wrapper">
+                   @if($transactions->image)  <img id="random" src="{{Storage::url($transactions->image->url)}}"> @else <img id="random" src="/storage/image/interrogacion.jpg"> @endif
+                </div>
+
+              </div>
+
+
             @error('file')
                 <small class="text-danger">{{$message}}</small>
             @enderror
