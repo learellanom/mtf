@@ -138,26 +138,44 @@
                 </div>
         </div>
 
+
+                {!! Form::hidden('status', null, ['class' => 'form-control', 'value' => 'Activo']) !!}
+
+
         <div class="form-row">
-            <div class="form-group col-md-6">
-                {!! Form::Label('status', "Estatus:") !!}
-                <div class="input-group-text">
-                    <i class="fa-fw fas fas fa-stream mr-2"></i>
-                {!! Form::select('status',['Activo'=>'Activo','Anulado'=>'Anulado'], null, ['class' => 'form-control status', 'required' => true]) !!}
-
-                </div>
-            </div>
-
-            <div class="form-group col-md-6">
+            <div class="custom-file col-md-6">
                 {!! Form::Label('transaction_date', "Fecha:") !!}
                 <div class="input-group-text">
                     <i class="fa-fw fas fas fa-calendar-week mr-2"></i>
                 {!! Form::date('transaction_date', null, ['class' => 'form-control', 'required' => true, 'id' => 'fecha']) !!}
                 </div>
             </div>
+
+
+            <div class="form-group">
+                <div class="custom-file col-md-12">
+                {!! Form::label('file', 'Referencia:') !!}
+
+              <div class="input-group-text">
+                <i class="fa-fw fas fa-file-image mr-2"></i>
+                {!! Form::file('file', ['class' => 'form-file-input', 'accept' => 'image/*']) !!}
+              </div>
+              <div class="col">
+                <div class="image-wrapper">
+                   @if($transaction->image)  <img id="random" src="{{Storage::url($transaction->image->url)}}"> @else <img id="random" src="/storage/image/interrogacion.jpg"> @endif
+                </div>
+
+              </div>
+            @error('file')
+                <small class="text-danger">{{$message}}</small>
+            @enderror
+            </div>
+
+
+            </div>
         </div>
 
-
+<br>
 
         <div class="form-group">
             {!! Form::Label('description', "Descripción:") !!}
@@ -209,8 +227,11 @@ $(".status").select2({
 $(".wallet").select2({
   placeholder: "Seleccionar Caja | Wallet",
   theme: 'bootstrap4',
-  search: false
+  search: false,
+  allowClear: true
 });
+$("#wallet").val("")
+$("#wallet").trigger("change");
 
 $(".typetrasnferencia").select2({
   placeholder: "Seleccionar tipo de movimiento",
