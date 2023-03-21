@@ -41,6 +41,17 @@ class UserController extends Controller
             $myWallet = $request->wallet;
         }     
 
+        $myFechaDesde = "2001-01-01";
+        $myFechaHasta = "9999-12-31";
+        if ($request->fechaDesde){
+            $myFechaDesde = $request->fechaDesde;
+            $myFechaHasta = $request->fechaHasta;
+        }
+
+        if ($request->fechaHasta){
+            $myFechaHasta = $request->fechaHasta;
+        }
+
         \Log::info('leam usuario *** -> ' . $request->usuario);
         \Log::info('leam cliente *** -> ' . $request->cliente);
         \Log::info('leam wallet *** -> ' . $request->wallet);
@@ -113,6 +124,7 @@ class UserController extends Controller
         )->whereBetween('Transactions.user_id', [$myUserDesde, $myUserHasta]
         )->whereBetween('Transactions.client_id', [$myClienteDesde, $myClienteHasta]
         )->whereBetween('Transactions.wallet_id', [$myWalletDesde, $myWalletHasta]        
+        )->whereBetween('Transactions.transaction_date', [$myFechaDesde, $myFechaHasta]       
         )->get();
     
         $Transacciones2 = array();

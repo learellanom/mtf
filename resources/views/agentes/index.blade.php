@@ -49,6 +49,10 @@ $config2 =
     "allowClear" => true,
 ];
 
+$config3 = [
+    "locale" => ["format" => "DD-MM-YYYY"],
+];
+
 $config4 = [
     "placeHolder" => "selecciona...",
     "allowClear" => true,
@@ -112,7 +116,7 @@ $config4 = [
         <div class ="col-12 col-sm-2">
         </div>          
         <div class ="col-12 col-sm-2">
-            <x-adminlte-date-range name="drCustomRanges" enable-default-ranges="Last 30 Days" style="height: 30px;">
+            <x-adminlte-date-range name="drCustomRanges" enable-default-ranges="Last 30 Days" style="height: 30px;" :config="$config3">
                 <x-slot name="prependSlot">
                     <div class="input-group-text bg-gradient-info">
                         <i class="fas fa-calendar-alt"></i>
@@ -168,7 +172,13 @@ $config4 = [
 <!-- <x-adminlte-datatable id="table2" :heads="$heads" head-theme="dark" :config="$config"
     striped hoverable bordered compressed/> -->
 
-<x-adminlte-datatable id="table3" :heads="$heads">
+<x-adminlte-datatable id="table3" :heads="$heads"
+    head-theme="light"
+    striped 
+    hoverable 
+    bordered 
+    compressed
+>
     @foreach($Transacciones as $row)
         <tr>
             <td>{!! $row->AgenteName !!}</td>
@@ -241,22 +251,45 @@ $config4 = [
              });
 
             $('#drCustomRanges').on('change', function () {
-                alert('ggggg ' + $('#drCustomRanges').val());
+                // alert('ggggg ' + $('#drCustomRanges').val());
+                let myFechaDesde, myFechaHasta;
+
+                myFechaDesde =  ($('#drCustomRanges').val()).substr(6,4) +
+                                '-' +
+                                ($('#drCustomRanges').val()).substr(3,2) +
+                                '-' +
+                                ($('#drCustomRanges').val()).substr(0,2)
+                                ;
+
+                myFechaHasta =  ($('#drCustomRanges').val()).substr(19,4) +
+                                '-' +
+                                ($('#drCustomRanges').val()).substr(16,2) +
+                                '-' +
+                                ($('#drCustomRanges').val()).substr(13,2)
+                                ;
+
+                alert('Fecha Desde ' + myFechaDesde + 'Fecha Hasta ' + myFechaHasta);
+                const usuario = $('#userole').val();
+                const cliente = $('#cliente').val();
+                const wallet = $('#wallet').val();
+                theRoute(usuario,cliente,wallet,myFechaDesde,myFechaHasta);
             });
 
         })
 
-        function theRoute(usuario = 0, cliente = 0, wallet = 0){
+        function theRoute(usuario = 0, cliente = 0, wallet = 0, fechaDesde = 0, fechaHasta = 0){
 
             if (usuario === "") usuario = 0;
             if (cliente === "") cliente = 0;
             if (wallet  === "") wallet  = 0;
 
             let myRoute = "";
-                myRoute = "{{ route('agentes', ['usuario' => 'usuario2', 'cliente' => 'cliente2', 'wallet' => 'wallet2']) }}";
+                myRoute = "{{ route('agentes', ['usuario' => 'usuario2', 'cliente' => 'cliente2', 'wallet' => 'wallet2', 'fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2']) }}";
                 myRoute = myRoute.replace('cliente2',cliente);
                 myRoute = myRoute.replace('usuario2',usuario);
                 myRoute = myRoute.replace('wallet2',wallet);
+                myRoute = myRoute.replace('fechaDesde2',fechaDesde);                
+                myRoute = myRoute.replace('fechaHasta2',fechaHasta); 
             console.log(myRoute);
             // alert(myRoute);
             location.href = myRoute;        
