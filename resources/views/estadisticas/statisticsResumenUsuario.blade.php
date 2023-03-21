@@ -7,16 +7,14 @@
 
 $heads = [
     'Agente',
-    'Cliente',
-    'Monto Transaccion',
-    'Fecha Transaccion',
     'Wallet',
     'Transaccion',
+    'Cant',    
+    'Monto transacciones',
+    'Monto comision',
+    'Monto total',
     ['label' => 'Actions', 'no-export' => true, 'width' => 5],
 ];
-
-
-
 
 $btnEdit = '<button class="btn btn-xs btn-default text-primary mx-1 shadow" title="Edit">
                 <i class="fa fa-lg fa-fw fa-pen"></i>
@@ -293,7 +291,7 @@ $config4 = [
             if (wallet  === "") wallet  = 0;
 
             let myRoute = "";
-                myRoute = "{{ route('agentes', ['usuario' => 'usuario2', 'cliente' => 'cliente2', 'wallet' => 'wallet2', 'fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2']) }}";
+                myRoute = "{{ route('estadisticasDetalle', ['usuario' => 'usuario2', 'cliente' => 'cliente2', 'wallet' => 'wallet2', 'fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2']) }}";
                 myRoute = myRoute.replace('cliente2',cliente);
                 myRoute = myRoute.replace('usuario2',usuario);
                 myRoute = myRoute.replace('wallet2',wallet);

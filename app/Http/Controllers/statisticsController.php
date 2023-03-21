@@ -8,6 +8,7 @@ use App\Models\Client;
 use App\Models\Wallet;
 use Spatie\Permission\Models\Role;
 use App\Http\Controllers\Controller;
+
 use Illuminate\Http\Request;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
@@ -16,13 +17,16 @@ use Illuminate\Validation\Rules;
 use Illuminate\Support\Facades\Redirect;
 use Pest\Support\Str;
 
+use Illuminate\Support\Facades\DB;
 
-class UserController extends Controller
+class statisticsController extends Controller
 {
-    /**
-     * Display a listing of the resource.
+    /*
+
+    * Display a listing of the resource.
+
     */
-    public function index_all(Request $request)
+    public function userDetail(Request $request)
     {
 
         $myUser = 0;
@@ -123,8 +127,8 @@ class UserController extends Controller
             'clients', 'clients.id', '=', 'transactions.client_id'  
         )->whereBetween('Transactions.user_id', [$myUserDesde, $myUserHasta]
         )->whereBetween('Transactions.client_id', [$myClienteDesde, $myClienteHasta]
-        )->whereBetween('Transactions.wallet_id', [$myWalletDesde, $myWalletHasta]        
-        )->whereBetween('Transactions.transaction_date', [$myFechaDesde, $myFechaHasta]       
+        )->whereBetween('Transactions.wallet_id', [$myWalletDesde, $myWalletHasta]
+        )->whereBetween('Transactions.transaction_date', [$myFechaDesde, $myFechaHasta]
         )->get();
     
         $Transacciones2 = array();
@@ -178,111 +182,65 @@ class UserController extends Controller
 
     }
 
-    /**
-     * Display a listing of the resource.
-     */
 
-
-    public function index()
-    {
-        $users = User::all();
-        return view('users.index', compact('users'));
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        $role = Role::all();
-        return view('users.create', compact('role'));
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:'.User::class],
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
-        ]);
-
-        User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-        ])->assignRole($request->roles);
-
-
-
-        return redirect()->route('users.index')->with('success', 'Successfully created');
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit($user)
-    {
-        $user = User::find($user);
-        $roles = Role::all();
-        return view('users.edit', compact('user', 'roles'));
-    }
-
-    public function password($user)
-    {
-        $user = User::find($user);
-
-        return view('users.password', compact('user'));
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update_password(Request $request, $user)
-    {
-        $user = User::findOrFail($user);
-        $user->password = Hash::make($request->password);
-        $user->setRememberToken(Str::random(60));
-        $user->update();
-
-        return Redirect::route('users.index')->with('update', 'ok');
-    }
-
-    public function update_users(Request $request, $user)
+    public function userSummary(Request $request)
     {
 
-            User::findOrFail($user)->update($request->all());
+        $myUserDesde = 0;
+        $myUserHasta = 9999;  
+        if ($request->usuario) {
+            $myUserDesde = $request->usuario;
+            $myUserHasta = $request->usuario;           
+        }
 
-            $user = User::find($user);
-            $user->syncRoles($request->roles);
+        $myFechaDesde = "2001-01-01";
+        $myFechaHasta = "9999-12-31";
+        if ($request->fechaDesde){
+            $myFechaDesde = $request->fechaDesde;
+            $myFechaHasta = $request->fechaHasta;
+        }
+
+        if ($request->fechaHasta){
+            $myFechaHasta = $request->fechaHasta;
+        }
 
 
-            return Redirect::route('users.index')->with('update', 'ok');
+
+        $myUsers = DB::table('transactions')
+            ->select(DB::raw(' 
+                user_id,
+                users.name as AgenteName,
+                wallet_id, 
+                wallets.name As WalletName,
+                type_transaction_id, 
+                type_transactions.name as TipoTransaccion,
+                count(*) as 
+                cant_transactions, 
+                sum(amount) as total_amount, 
+                sum(amount_commission) as total_commission, 
+                sum(amount_total) as total'))
+            ->leftJoin('users','users.id', '=', 'transactions.user_id')
+            ->leftJoin('wallets', 'wallets.id', '=', 'transactions.wallet_id')    
+            ->leftJoin('type_transactions', 'type_transactions.id', '=', 'transactions.type_transaction_id')                    
+            ->whereBetween('Transactions.user_id', [$myUserDesde, $myUserHasta])
+            ->whereBetween('Transactions.transaction_date', [$myFechaDesde, $myFechaHasta])   
+            ->groupBy('user_id', 'AgenteName', 'wallet_id', 'WalletName', 'type_transaction_id', 'TipoTransaccion')
+            ->get();
+
+            $myUsers2 = array();
+            foreach($myUsers as $myValue){
+    
+                $value2 = array_values(json_decode(json_encode($myValue), true));
+    
+                array_push($myUsers2, $value2);
+            }
+
+            print_r($myUsers2);
+
+        die();
+        return '';
     }
 
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy($usuario): RedirectResponse
-    {
-
-        $usuario = User::find($usuario);
-
-        $usuario->delete();
-
-        return Redirect::route('users.index')->with('destroy','ok');
-    }
 }
 
 ?>
