@@ -338,9 +338,19 @@ return [
         ],
         [
             'text' => 'Resumen por Agente',
-            'url'  => 'estadisticasDetalleUsuario',
+            'url'  => 'estadisticasResumenUsuario',
             'icon' => 'fas fa-fw fas fa-chart-bar',
         ],
+        [
+            'text' => 'Resumen por Cliente',
+            'url'  => 'estadisticasResumenCliente',
+            'icon' => 'fas fa-fw fas fa-chart-bar',
+        ],       
+        [
+            'text' => 'Resumen por Wallet',
+            'url'  => 'estadisticasResumenWallet',
+            'icon' => 'fas fa-fw fas fa-chart-bar',
+        ],          
         ['header' => 'Operaciones',
         'classes' =>'text-uppercase font-weight-bold text-light',],
         [
