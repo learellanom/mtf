@@ -333,10 +333,14 @@ return [
         ],
         [
             'text' => 'Detalles de movimiento',
-            'url'  => 'agentes',
+            'url'  => 'estadisticasDetalle',
             'icon' => 'fas fa-fw fas fa-chart-bar',
         ],
-
+        [
+            'text' => 'Resumen por Agente',
+            'url'  => 'estadisticasDetalleUsuario',
+            'icon' => 'fas fa-fw fas fa-chart-bar',
+        ],
         ['header' => 'Operaciones',
         'classes' =>'text-uppercase font-weight-bold text-light',],
         [

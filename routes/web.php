@@ -78,8 +78,16 @@ Route::resource('tipo_transaccion', Type_transactionController::class)->middlewa
 Route::resource('tipo_moneda', Type_coinController::class)->middleware('auth')->except('show')->names('type_coins');
 
 
-Route::get('agentes',[App\Http\Controllers\UserController::class, 'index_all'])->name('agentes');
-Route::get('agentes/{usuario}/{cliente?}/{wallet?}',[App\Http\Controllers\UserController::class, 'index_all'])->name('agentes');
+Route::get('estadisticasDetalle',[App\Http\Controllers\UserController::class, 'index_all'])->name('estadisticasDetalle');
+Route::get('estadisticasDetalle/{usuario}/{cliente?}/{wallet?}/{fechaDesde?}/{fechaHasta?}',[App\Http\Controllers\UserController::class, 'index_all'])->name('estadisticasDetalle');
+
+Route::get('estadisticasDetalleUsuario',[App\Http\Controllers\statisticsController::class, 'userDetail'])->name('estadisticasDetalleUsuario');
+Route::get('estadisticasDetalleUsuario/{usuario}/{fechaDesde?}/{fechaHasta?}',[App\Http\Controllers\statisticsController::class, 'userDetail'])->name('estadisticasDetalleUsuario');
+
+
+// Route::get('estadisticasDetalleUsuario',[App\Http\Controllers\statisticsController::class, 'userSummary'])->name('estadisticasDetalleUsuario');
+// Route::get('estadisticasDetalleUsuario/{usuario}/{fechaDesde?}/{fechaHasta?}',[App\Http\Controllers\statisticsController::class, 'userSummary'])->name('estadisticasDetalleUsuario');
+
 
 Route::get('comanda', function () {
     return view('master.comanda');
