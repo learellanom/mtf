@@ -12,7 +12,7 @@ class Image extends Model
     use HasFactory;
 
      //Relación Polimorfica
-    public function Imageable(){
+    public function imageable(){
         return $this->morphTo();
     }
 

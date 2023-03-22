@@ -158,13 +158,14 @@
 
               <div class="input-group-text">
                 <i class="fa-fw fas fa-file-image mr-2"></i>
-                {!! Form::file('file', ['class' => 'form-file-input', 'accept' => 'image/*']) !!}
+                {!! Form::file('file', ['class' => 'form-file-input', 'accept' => 'image/*', 'multiple' => 'multiple']) !!}
               </div>
               <div class="col">
+                @foreach($transactions->image as $imagen)
                 <div class="image-wrapper">
-                   @if($transactions->image)  <img id="random" src="{{Storage::url($transactions->image->url)}}"> @else <img id="random" src="/storage/image/interrogacion.jpg"> @endif
+                   @if($imagen)  <img id="random" src="{{Storage::url($imagen->url)}}"> @else <img id="random" src="/MTF/public/storage/image/interrogacion.jpg"> @endif
                 </div>
-
+                @endforeach
               </div>
 
 
@@ -196,8 +197,26 @@
     </div>
 </div>
 
+
+
 @endsection
 
+@section('css')
+
+<style>
+.image-wrapper{
+position: relative;
+padding-bottom: 56.25%;
+}
+.image-wrapper img{
+position: absolute;
+object-fit: cover;
+width: 25%;
+height: 50%;
+margin-left: 400px;
+}
+</style>
+@stop
 
 @section('js')
 
@@ -352,6 +371,30 @@ $(document).ready(function() {
 
 
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+//Cambiar imagen
+document.getElementById('file').addEventListener('change', cambiarimagen);
+function cambiarimagen(event){
+    var file = event.target.files[0];
+    var reader = new FileReader();
+    reader.onload = (event) => {
+        document.getElementById("random").setAttribute('src', event.target.result);
+    };
+    reader.readAsDataURL(file);
+}
+
 
 
 </script>
