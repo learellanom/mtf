@@ -29,8 +29,8 @@ return new class extends Migration
             $table->enum('status', ['Activo', 'Anulado'])->nullable()->default('Activo'); //ESTATUS
             $table->string('description'); //DESCRIPCION DE LA TRANSFERENCIA
             $table->date('transaction_date'); //FECHA DE LA TRANSACCIÓN
-            $table->integer('percentage_winner')->nullable(); //PORCENTAJE DE LA GANANCIA
-            $table->double('comission_winner')->nullable(); //GANANCIA DE LA COMOSION
+            $table->integer('percentage_base')->nullable(); //PORCENTAJE DE LA GANANCIA
+            $table->double('comission_base')->nullable(); //GANANCIA DE LA COMOSION
             $table->timestamps(); //CREACION Y MODIFICACION POR DEFECTO (TOMADO POR EL SERVIDOR)
         });
     }

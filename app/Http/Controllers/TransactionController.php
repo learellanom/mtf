@@ -9,6 +9,7 @@ use App\Models\Type_coin;
 use App\Models\Type_transaction;
 use App\Models\Wallet;
 use App\Models\Client;
+use App\Models\Image;
 use App\Models\User;
 use Database\Factories\TransactionFactory;
 use Illuminate\Support\Facades\Storage;
@@ -37,7 +38,7 @@ class TransactionController extends Controller
         $wallet = Wallet::pluck('name', 'id');
         $client = Client::pluck('name', 'id');
         $user = User::pluck('name', 'id');
-
+        //$transaction = Transaction::find('all');
         return view('transactions.create', compact('type_coin', 'type_transaction', 'wallet', 'client', 'user', 'transaction'));
     }
 
@@ -45,18 +46,24 @@ class TransactionController extends Controller
     /**
      * Store a newly created resource in storage.
      */
+
     public function store(Request $request)
     {
         $transaction = Transaction::create($request->all());
+        $files = [];
+       if($request->hasFile('file')){
+        foreach($request->file('file') as $file)
+        {
+            $url = Storage::put($request->id, $file);
 
-        if($request->file('file')){
-            $url = Storage::put('transactions', $request->file('file'));
+            $files= new Image();
+            $files->file = $files;
+
             $transaction->image()->create([
                 'url' => $url
             ]);
           }
-
-
+     }
         return Redirect::route('transactions.index');
     }
 
@@ -98,20 +105,24 @@ class TransactionController extends Controller
 
         if($request->file('file')){
             $transaction = Transaction::find($transaction);
-            $url = Storage::put('transactions', $request->file('file'));
-          if($transaction->image){
-              //$transaction = Transaction::find($transaction);
-              Storage::delete($transaction->image->url);
 
-              $transaction->image()->update([
-               'url' => $url
-           ]);
-          }
+            $url = Storage::put('transactions', $request->file('file'));
+
+            if($transaction->image){
+                foreach($transaction->image as $imagen){
+                  Storage::delete($imagen->url);
+
+                  $transaction->image()->update([
+                  'url' => $url
+                 ]);
+                }
+             }
           else{
             $transaction->image()->create([
-                  'url' => $url
-              ]);
+                'url' => $url
+            ]);
           }
+
         }
 
         return Redirect::route('transactions.index');
@@ -124,7 +135,10 @@ class TransactionController extends Controller
     public function destroy($transaction)
     {
         $transactions = Transaction::find($transaction);
+        $url = Storage::delete($transaction);
         $transactions->delete();
+
+        $transactions->image()->delete($url);
 
         return Redirect::route('transactions.index');
     }
