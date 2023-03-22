@@ -208,11 +208,11 @@ class statisticsController extends Controller
 
         $myUsers = DB::table('transactions')
             ->select(DB::raw(' 
-                user_id,
+                // user_id,
                 users.name as AgenteName,
-                wallet_id, 
+                // wallet_id, 
                 wallets.name As WalletName,
-                type_transaction_id, 
+                // type_transaction_id, 
                 type_transactions.name as TipoTransaccion,
                 count(*) as 
                 cant_transactions, 
