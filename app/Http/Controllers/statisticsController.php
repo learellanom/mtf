@@ -6,6 +6,8 @@ use App\Models\User;
 use App\Models\Transaction;
 use App\Models\Client;
 use App\Models\Wallet;
+use App\Models\Type_transaction;
+
 use Spatie\Permission\Models\Role;
 use App\Http\Controllers\Controller;
 
@@ -376,6 +378,67 @@ class statisticsController extends Controller
     }
 
 
+        
+    public function transactionSummary(Request $request)
+    {
+
+        //
+        $myTypeTransaction      = 0;
+        $myTypeTransactionDesde = 0;
+        $myTypeTransactionHasta = 9999;        
+        if ($request->type_transaction) {
+            $myTypeTransaction      = $request->type_transaction;
+            $myTypeTransactionDesde = $request->type_transaction;
+            $myTypeTransactionHasta = $request->type_transaction;        
+    
+        }
+
+        //
+
+        $myFechaDesde = "2001-01-01";
+        $myFechaHasta = "9999-12-31";
+        if ($request->fechaDesde){
+            $myFechaDesde = $request->fechaDesde;
+            $myFechaHasta = $request->fechaHasta;
+        }
+
+        if ($request->fechaHasta){
+            $myFechaHasta = $request->fechaHasta;
+        }
+       //
+
+
+
+       $Type_transactions = Type_transaction::select('type_transactions.id', 'type_transactions.name')
+       ->get();
+       $Type_transactions2 = array();
+       foreach($Type_transactions as $Type_transactions){
+           $Type_transactions2 [$Type_transactions->id] =  $Type_transactions->name;
+       }
+       $Type_transactions = $Type_transactions2;
+
+
+        $Transacciones = DB::table('transactions')
+            ->select(DB::raw(' 
+                type_transactions.name as TipoTransaccion,                
+                count(*)    as cant_transactions, 
+                sum(amount) as total_amount, 
+                sum(amount_commission) as total_commission,
+                sum(amount_total) as total'))
+            ->leftJoin('type_transactions', 'type_transactions.id', '=', 'transactions.type_transaction_id')             
+            ->whereBetween('Transactions.type_transaction_id', [$myTypeTransactionDesde, $myTypeTransactionHasta])
+            ->whereBetween('Transactions.transaction_date', [$myFechaDesde, $myFechaHasta])
+            ->groupBy('TipoTransaccion')
+            ->get();
+  
+  
+            // dd($Transacciones);
+        
+        return view('estadisticas.statisticsResumenTransaccion', compact('myTypeTransaction', 'Type_transactions', 'Transacciones'));   
+        return $myUsers2;
+    }
+
+    
 }
 
 ?>

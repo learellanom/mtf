@@ -96,6 +96,10 @@ Route::get('estadisticasResumenWallet',[App\Http\Controllers\statisticsControlle
 Route::get('estadisticasResumenWallet/{wallet}/{fechaDesde?}/{fechaHasta?}',[App\Http\Controllers\statisticsController::class, 'walletSummary'])->name('estadisticasResumenWallet');
 
 
+Route::get('estadisticasResumenTransaccion',[App\Http\Controllers\statisticsController::class, 'transactionSummary'])->name('estadisticasResumenTransaccion');
+Route::get('estadisticasResumenTransaccion/{type_transaction?}/{fechaDesde?}/{fechaHasta?}',[App\Http\Controllers\statisticsController::class, 'transactionSummary'])->name('estadisticasResumenTransaccion');
+
+
 
 Route::get('comanda', function () {
     return view('master.comanda');

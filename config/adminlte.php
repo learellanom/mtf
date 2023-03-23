@@ -347,10 +347,15 @@ return [
             'icon' => 'fas fa-fw fas fa-chart-bar',
         ],       
         [
-            'text' => 'Resumen por Wallet',
+            'text' => 'Resumen por Caja',
             'url'  => 'estadisticasResumenWallet',
             'icon' => 'fas fa-fw fas fa-chart-bar',
         ],          
+        [
+            'text' => 'Resumen por Transaccion',
+            'url'  => 'estadisticasResumenTransaccion',
+            'icon' => 'fas fa-fw fas fa-chart-bar',
+        ],         
         ['header' => 'Operaciones',
         'classes' =>'text-uppercase font-weight-bold text-light',],
         [
