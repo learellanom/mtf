@@ -49,6 +49,13 @@ class TransactionController extends Controller
 
     public function store(Request $request)
     {
+
+       /*  $realname = str_slug(pathinfo($request->file('file')->getClientOriginalName(), PATHINFO_FILENAME));
+        $extension = $request->file('file')->getClientOriginalExtension();
+        $new_name = $realname."-".time().".".$extension;
+        $request->file('file')->move(public_path('uploads/'.str_slug($new_name))); */
+
+
         $transaction = Transaction::create($request->all());
         $files = [];
        if($request->hasFile('file')){
