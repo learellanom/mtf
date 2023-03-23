@@ -56,20 +56,9 @@ class statisticsController extends Controller
             $myFechaHasta = $request->fechaHasta;
         }
 
-        \Log::info('leam usuario *** -> ' . $request->usuario);
-        \Log::info('leam cliente *** -> ' . $request->cliente);
-        \Log::info('leam wallet *** -> ' . $request->wallet);
-
-        /*
-        echo "<br>con el request";
-        echo "<br>usuariox -> " . $request->usuario;
-        echo "<br>Cliente  -> " . $request->cliente;      
-          
-        echo "<br>Wallet  -> "  . $request->wallet;                
-        echo "<br>";
-        var_dump($request);
-        die(); 
-        */
+        // \Log::info('leam usuario *** -> ' . $request->usuario);
+        // \Log::info('leam cliente *** -> ' . $request->cliente);
+        // \Log::info('leam wallet *** -> ' . $request->wallet);
 
 
         $myUserDesde = 0;
@@ -141,17 +130,7 @@ class statisticsController extends Controller
             array_push($Transacciones2, $value2);
         }
   
-        // $Transacciones = Transaction::select(
-        //     'Transactions.user_id',
-        //     'Transactions.amount_total_transaction',
-        //     'Transactions.type_transaction_id',
-        //     'Transactions.client_id',
-        //     'transactions.wallet_id',
-        //     'transactions.transaction_date',
-        // )->get();
-
-          $Transacciones3 = Transaction::all();
-
+ 
           $cliente = Client::select('clients.id', 'clients.name')
           ->get();
 
@@ -186,6 +165,11 @@ class statisticsController extends Controller
     public function userSummary(Request $request)
     {
 
+        $myUser = 0;
+        if ($request->usuario) {
+            $myUser = $request->usuario;
+        }  
+
         $myUserDesde = 0;
         $myUserHasta = 9999;  
         if ($request->usuario) {
@@ -204,18 +188,23 @@ class statisticsController extends Controller
             $myFechaHasta = $request->fechaHasta;
         }
 
+        $userole2 = User::select('users.id', 'users.name', 'model_has_roles.role_id')
+                ->join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
+                ->join('roles', 'roles.id', '=', 'model_has_roles.role_id')
+                ->get();
 
+        // echo $userole;
+        $userole = array();
+        foreach($userole2 as $user){
+            $userole [$user->id] =  $user->name;
+        }
 
         $myUsers = DB::table('transactions')
             ->select(DB::raw(' 
-                user_id,
                 users.name as AgenteName,
-                wallet_id, 
                 wallets.name As WalletName,
-                type_transaction_id, 
                 type_transactions.name as TipoTransaccion,
-                count(*) as 
-                cant_transactions, 
+                count(*)    as cant_transactions, 
                 sum(amount) as total_amount, 
                 sum(amount_commission) as total_commission, 
                 sum(amount_total) as total'))
@@ -226,20 +215,166 @@ class statisticsController extends Controller
             ->whereBetween('Transactions.transaction_date', [$myFechaDesde, $myFechaHasta])   
             ->groupBy('user_id', 'AgenteName', 'wallet_id', 'WalletName', 'type_transaction_id', 'TipoTransaccion')
             ->get();
-
-            $myUsers2 = array();
+  
+       
+            // dd($myUsers);
+        
+            $Transacciones = array();
             foreach($myUsers as $myValue){
     
-                $value2 = array_values(json_decode(json_encode($myValue), true));
+                $value2 = json_encode($myValue);
     
-                array_push($myUsers2, $value2);
+                array_push($Transacciones, $value2);
             }
+            
+            $Transacciones = $myUsers;
 
-            print_r($myUsers2);
-
-        die();
-        return '';
+            // dd($Transacciones);
+        
+        return view('estadisticas.statisticsResumenUsuario', compact('myUser','userole','Transacciones'));            
+        return $myUsers2;
     }
+
+    public function clientSummary(Request $request)
+    {
+
+        $myCliente = 0;
+        if ($request->cliente) {
+            $myCliente = $request->cliente;
+        }     
+
+
+
+        $myClienteDesde = 0;
+        $myClienteHasta = 9999;
+
+
+        if ($myCliente != 0){
+            $myClienteDesde = $myCliente;
+            $myClienteHasta = $myCliente;
+        }
+
+        $myFechaDesde = "2001-01-01";
+        $myFechaHasta = "9999-12-31";
+        if ($request->fechaDesde){
+            $myFechaDesde = $request->fechaDesde;
+            $myFechaHasta = $request->fechaHasta;
+        }
+
+        if ($request->fechaHasta){
+            $myFechaHasta = $request->fechaHasta;
+        }
+
+        $userole2 = User::select('users.id', 'users.name', 'model_has_roles.role_id')
+                ->join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
+                ->join('roles', 'roles.id', '=', 'model_has_roles.role_id')
+                ->get();
+
+        // echo $userole;
+        $userole = array();
+        foreach($userole2 as $user){
+            $userole [$user->id] =  $user->name;
+        }
+
+        //
+
+        $cliente = Client::select('clients.id', 'clients.name')
+        ->get();
+
+        $cliente2 = array();
+        foreach($cliente as $cliente){
+            $cliente2 [$cliente->id] =  $cliente->name;
+        }
+        $cliente = $cliente2;
+
+        //
+
+        $Transacciones = DB::table('transactions')
+            ->select(DB::raw(' 
+                clients.name as ClientName,
+                type_transactions.name as TipoTransaccion,
+                count(*)    as cant_transactions, 
+                sum(amount) as total_amount, 
+                sum(amount_commission) as total_commission, 
+                sum(amount_total) as total'))
+            ->leftJoin('clients','clients.id', '=', 'transactions.client_id')                
+            ->leftJoin('type_transactions', 'type_transactions.id', '=', 'transactions.type_transaction_id')                    
+            ->whereBetween('Transactions.client_id', [$myClienteDesde, $myClienteHasta])
+            ->whereBetween('Transactions.transaction_date', [$myFechaDesde, $myFechaHasta])   
+            ->groupBy('ClientName', 'TipoTransaccion')
+            ->get();
+  
+  
+            // dd($Transacciones);
+        
+        return view('estadisticas.statisticsResumenCliente', compact('myCliente','cliente','Transacciones'));            
+        return $myUsers2;
+    }
+    
+    
+    public function walletSummary(Request $request)
+    {
+
+        
+        $myWallet = 0;
+        if ($request->wallet) {
+            $myWallet = $request->wallet;
+        }
+
+        $myWalletDesde = 0;
+        $myWalletHasta = 9999;
+
+        if ($myWallet != 0){
+            $myWalletDesde = $myWallet;
+            $myWalletHasta = $myWallet;
+        }
+
+        $myFechaDesde = "2001-01-01";
+        $myFechaHasta = "9999-12-31";
+        if ($request->fechaDesde){
+            $myFechaDesde = $request->fechaDesde;
+            $myFechaHasta = $request->fechaHasta;
+        }
+
+        if ($request->fechaHasta){
+            $myFechaHasta = $request->fechaHasta;
+        }
+       //
+
+       
+       $wallet = Wallet::select('wallets.id', 'wallets.name')
+       ->get();
+
+       //dd($wallet);
+
+       $wallet2 = array();
+       foreach($wallet as $wallet){
+           $wallet22 [$wallet->id] =  $wallet->name;
+       }
+       $wallet = $wallet22;
+
+        $Transacciones = DB::table('transactions')
+            ->select(DB::raw(' 
+                wallets.name as WalletName,
+                type_transactions.name as TipoTransaccion,                
+                count(*)    as cant_transactions, 
+                sum(amount) as total_amount, 
+                sum(amount_commission) as total_commission,
+                sum(amount_total) as total'))
+            ->leftJoin('wallets', 'wallets.id', '=', 'transactions.wallet_id')
+            ->leftJoin('type_transactions', 'type_transactions.id', '=', 'transactions.type_transaction_id')             
+            ->whereBetween('Transactions.wallet_id', [$myWalletDesde, $myWalletHasta])
+            ->whereBetween('Transactions.transaction_date', [$myFechaDesde, $myFechaHasta])
+            ->groupBy('WalletName','TipoTransaccion')
+            ->get();
+  
+  
+            // dd($Transacciones);
+        
+        return view('estadisticas.statisticsResumenWallet', compact('myWallet', 'wallet', 'Transacciones'));   
+        return $myUsers2;
+    }
+
 
 }
 

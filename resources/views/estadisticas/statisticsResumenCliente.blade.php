@@ -6,8 +6,7 @@
 @php
 
 $heads = [
-    'Agente',
-    'Wallet',
+    'Cliente',
     'Transaccion',
     'Cant',    
     'Monto transacciones',
@@ -64,21 +63,20 @@ $config4 = [
 </script>
 <br>
 <br>
-<h1 class="text-center text-dark font-weight-bold">Resumen de Movimiento por Agente</h1>
+<h1 class="text-center text-dark font-weight-bold">Resumen de Movimiento por Cliente</h1>
 <br>
 <br>
 {{-- Disabled --}}
 
 <div class="container-left">
     <div class="row col-12">
+
         <div class ="col-12 col-sm-2">
-            <x-adminlte-select2 id="userole"
-                                class="mySelect"
-                                name="optionsUsers"
+            <x-adminlte-select2 id="cliente"
+                                name="optionsCliente"
                                 igroup-size="sm"
                                 label-class="text-lightblue"
-
-                                data-placeholder="Agente..."
+                                data-placeholder="Cliente ..."
                                 :config="$config1"
                                 >
                 <x-slot name="prependSlot">
@@ -87,12 +85,10 @@ $config4 = [
                         <i class="fas fa-user-tie"></i>
                     </div>
                 </x-slot>
-                <!-- <x-adminlte-options :options="['Car', 'Truck', 'Motorcycle']" empty-option/> -->
-                <x-adminlte-options :options="$userole" empty-option="Selecciona un Agente.."/>
+
+                <x-adminlte-options :options="$cliente" empty-option="Selecciona un Cliente.."/>
             </x-adminlte-select2>
         </div>
-
-
 
         <div class ="col-12 col-sm-2">
         </div>
@@ -140,7 +136,7 @@ $config4 = [
     <div class="col-md-12">
         <div class="card mb-4">
             <div class="card-header">
-                <h3 class="card-title">Estadisticas| Resumen por Agente</h3>
+                <h3 class="card-title">Estadisticas| Resumen por Cliente</h3>
             </div>
             <div class="card-body">
                 <div class="row">
@@ -148,8 +144,7 @@ $config4 = [
                         <x-adminlte-datatable id="table3" :heads="$heads">
                             @foreach($Transacciones as $row)
                                 <tr>
-                                    <td>{!! $row->AgenteName !!}</td>
-                                    <td>{!! $row->WalletName !!}</td>
+                                    <td>{!! $row->ClientName !!}</td>
                                     <td>{!! $row->TipoTransaccion !!}</td>
                                     <td>{!! $row->cant_transactions !!}</td>
                                     <td>{!! $row->total_amount !!}</td>
@@ -178,19 +173,19 @@ $config4 = [
 <script>
 
     
-    const miUsuario = {!! $myUser !!};
+    const miUsuario = {!! $myCliente !!};
 
-    BuscaUsuario(miUsuario);
+    BuscaCliente(miUsuario);
 
     $(() => {
 
 
-        $('#userole').on('change', function (){
+        $('#cliente').on('change', function (){
 
             const usuario = $('#userole').val();
             const cliente = $('#cliente').val();
             const wallet = $('#wallet').val();
-                theRoute(usuario,cliente,wallet);
+            theRoute(usuario,cliente,wallet);
 
         });
 
@@ -228,8 +223,8 @@ $config4 = [
         if (wallet  === "") wallet  = 0;
 
         let myRoute = "";
-            myRoute = "{{ route('estadisticasResumenUsuario', ['usuario' => 'usuario2', 'fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2']) }}";
-            myRoute = myRoute.replace('usuario2',usuario);
+            myRoute = "{{ route('estadisticasResumenCliente', ['cliente' => 'cliente2', 'fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2']) }}";
+            myRoute = myRoute.replace('cliente2',cliente);
             myRoute = myRoute.replace('fechaDesde2',fechaDesde);                
             myRoute = myRoute.replace('fechaHasta2',fechaHasta); 
         // console.log(myRoute);
@@ -256,6 +251,20 @@ $config4 = [
         //
     }
 
+    function BuscaCliente(miCliente){
+            //alert("BuscaCliente - miCliente -> " + miCliente);
+            $('#cliente').each( function(index, element){
+                //alert ("Buscacliente -> " + $(this).val() + " text -> " + $(this).text()+ " y con index -> " + $(this).prop('selectedIndex'));
+                $(this).children("option").each(function(){
+                    if ($(this).val() === miCliente.toString()){
+                        //alert('BUscaCliente - encontro');
+                        $("#cliente option[value="+ miCliente +"]").attr("selected",true);
+                    }
+                    //alert("BuscaClienteaqui ->  the val " + $(this).val() + " text -> " + $(this).text());
+                });
+            });
+            //
+        }
 
 </script>
 

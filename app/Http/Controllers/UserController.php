@@ -56,18 +56,6 @@ class UserController extends Controller
         \Log::info('leam cliente *** -> ' . $request->cliente);
         \Log::info('leam wallet *** -> ' . $request->wallet);
 
-        /*
-        echo "<br>con el request";
-        echo "<br>usuariox -> " . $request->usuario;
-        echo "<br>Cliente  -> " . $request->cliente;      
-          
-        echo "<br>Wallet  -> "  . $request->wallet;                
-        echo "<br>";
-        var_dump($request);
-        die(); 
-        */
-
-
         $myUserDesde = 0;
         $myUserHasta = 9999;
         $myClienteDesde = 0;
@@ -127,6 +115,9 @@ class UserController extends Controller
         )->whereBetween('Transactions.transaction_date', [$myFechaDesde, $myFechaHasta]       
         )->get();
     
+            // var_dump($Transacciones);
+            // die();
+
         $Transacciones2 = array();
         foreach($Transacciones as $tran){
             // echo " trans " . json_decode($tran);
@@ -137,17 +128,6 @@ class UserController extends Controller
             array_push($Transacciones2, $value2);
         }
   
-        // $Transacciones = Transaction::select(
-        //     'Transactions.user_id',
-        //     'Transactions.amount_total_transaction',
-        //     'Transactions.type_transaction_id',
-        //     'Transactions.client_id',
-        //     'transactions.wallet_id',
-        //     'transactions.transaction_date',
-        // )->get();
-
-          $Transacciones3 = Transaction::all();
-
           $cliente = Client::select('clients.id', 'clients.name')
           ->get();
 
