@@ -345,12 +345,12 @@ return [
             'text' => 'Resumen por Cliente',
             'url'  => 'estadisticasResumenCliente',
             'icon' => 'fas fa-fw fas fa-chart-bar',
-        ],       
+        ],
         [
             'text' => 'Resumen por Wallet',
             'url'  => 'estadisticasResumenWallet',
             'icon' => 'fas fa-fw fas fa-chart-bar',
-        ],          
+        ],
         ['header' => 'Operaciones',
         'classes' =>'text-uppercase font-weight-bold text-light',],
         [
@@ -515,6 +515,43 @@ return [
                 ],
             ],
         ],
+        'Fileinput' => [
+            'active' => true,
+            'files' => [
+                [
+                    'type' => 'js',
+                    'asset' => true,
+                    'location' => 'vendor/fileinput/purify.js',
+                ],
+                [
+                    'type' => 'js',
+                    'asset' => true,
+                    'location' => 'vendor/fileinput/sortable.js',
+                ],
+                [
+                    'type' => 'js',
+                    'asset' => true,
+                    'location' => 'vendor/fileinput/fileinput.js',
+                ],
+                [
+                    'type' => 'js',
+                    'asset' => true,
+                    'location' => 'vendor/fileinput/theme.js',
+                ],
+                [
+                    'type' => 'js',
+                    'asset' => true,
+                    'location' => 'vendor/fileinput/es.js',
+                ],
+                [
+                    'type' => 'css',
+                    'asset' => true,
+                    'location' => 'vendor/fileinput/fileinput.css',
+                ],
+            ],
+        ],
+
+
         'Sweetalert2' => [
             'active' => true,
             'files' => [

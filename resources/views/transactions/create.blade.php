@@ -14,7 +14,7 @@
 @section('content')
 
 <div class="d-flex justify-content-center">
- <div class="card col-md-6" style="min-height: 800px !important;">
+ <div class="card col-md-6" style="min-height: 500px !important; max-height:800px; height:1200px;">
   <div class="card-body">
 
     {!! Form::open(['route' => 'transactions.store', 'autocomplete' => 'off', 'files' => true, 'enctype' =>'multipart/form-data']) !!}
@@ -187,8 +187,8 @@
                         </div>
                 </div>
 
+                {!! Form::Submit('GUARDAR', ['class' => 'btn btn-primary btn-block font-weight-bold', 'style' => "max-height: 400px;" , 'id' => 'publish']) !!}
 
-                {!! Form::Submit('GUARDAR', ['class' => 'btn btn-primary btn-block font-weight-bold', 'style' => "max-height: 400px;", 'id' => 'publish']) !!}
                 </div>
 
 
@@ -199,49 +199,36 @@
                         {!! Form::label('file', 'Referencia:') !!}
 
 
-                        <div class="fv-row">
-                            <!--begin::Dropzone-->
-                            <div class="dropzone" id="kt_dropzonejs_example_1">
-                                <!--begin::Message-->
-                                <div class="dz-message needsclick">
-                                    <!--begin::Icon-->
-                                    <i class="bi bi-file-earmark-arrow-up text-primary fs-3x"></i>
-                                    <!--end::Icon-->
-
-                                    <!--begin::Info-->
-                                    <div class="ms-4">
-                                        <h3 class="fs-5 fw-bold text-gray-900 mb-1">Arrastre una imagen al recuadro para subirlo</h3>
-                                        <span class="fs-7 fw-semibold text-gray-400">No subir mas de 10</span>
-                                    </div>
-                                    <!--end::Info-->
-                                </div>
-                            </div>
-                            <!--end::Dropzone-->
-                        </div>
-
-                       {{-- <div id="fileuploader">Upload</div> --}}
 
 
-                      {{-- <div class="input-group-text content-icon-camera">
-                        <i class="fa-fw fas fa-file-image mr-2"></i>
-                        {!! Form::file('file[]', ['class' => 'form-file-input clone', 'accept' => 'image/*', 'multiple' => 'multiple', 'id' => 'file']) !!}
-                      </div> --}}
+                        {{-- {!! Form::file('file[]', ['class' => 'form-file-input clone', 'accept' => 'image/*', 'multiple' => 'multiple', 'id' => 'file']) !!} --}}
 
 
-                      {!! Form::Submit('GUARDAR', ['class' => 'btn btn-primary btn-block font-weight-bold', 'style' => "max-height: 400px;" , 'id' => 'publish']) !!}
+                      {{-- <img id="imagenPrevisualizacion"> --}}
+
+
+
+                      <div class="file-loading">
+                            {!! Form::file('file[]', ['class' => 'form-file-input file', 'accept' => 'image/*', 'multiple' => 'multiple', 'id' => 'file', 'data-allowed-file-extensions' => '["pdf","jpg","jpeg","png","gif"]']) !!}
+
+
+                      </div>
+
                     @error('file')
                         <small class="text-danger">{{$message}}</small>
                     @enderror
 
 
                 </div>
+            </div>
 
-                    </div>
 
 
+                    {!! Form::Submit('GUARDAR', ['class' => 'btn btn-primary btn-block font-weight-bold', 'style' => "max-height: 400px; margin-top:550px;" , 'id' => 'publish']) !!}
                 </div>
 
               </div>
+
 
 
 
@@ -258,58 +245,24 @@
 
 
 @section('css')
-<link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-file-upload/4.0.11/uploadfile.css" integrity="sha512-zLt+aG0li6PQEHzXHC8Mb/Od1GCHcBqspouOw2xa35COi5U61ZjN/lRcizPR9TYDy0wrqQEb261mssGcMSM2qA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <meta name="csrf-token" content="{{ csrf_token() }}">
-<style>
 
+
+
+<style>
+.file-preview-thumbnails{
+    overflow-y: scroll;
+    height: 550px;
+	width: 750px;
+
+
+}
 
 </style>
 @endsection
 
 @section('js')
-<script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-file-upload/4.0.11/jquery.uploadfile.js" integrity="sha512-kHQelWbKDm6MpUkhEofa7KZZ9ptiVijVs3Ck/TFi0Z8CeX5BrFMryD0uqAcv/JjGCD0HfRVuMtHaYZFBMYwglw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script>
-
-
-var myDropzone = new Dropzone("#kt_dropzonejs_example_1", {
-    /* $('#publish').click(function () {
- */
- url: "{{ route("transactions.store") }}", // Set the url for your upload script location
-    //headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
-    headers:{
-                'X-CSRF-TOKEN' : "{{csrf_token()}}"
-            },
-    paramName: "file[]", // The name that will be used to transfer the file
-    acceptedFiles: "image/*",
-    maxFiles: 10,
-    //maxFilesize: 10, // MB
-    addRemoveLinks: true,
-    method:"post",
-    autoProcessQueue: false
-    });
-
-    $('#publish').click(function(){
-        myDropzone.processQueue();
-    });
-
-Dropzone.autoDiscover = false;
-
-
-
-
-
-
-
-/* $("#fileuploader").uploadFile({
-	url:"/store",
-	fileName:"file[]",
-    showCancel: true,
-    showDownload: true
-	});
- */
-
 $(".clientes").select2({
   placeholder: "Seleccionar cliente",
   theme: 'bootstrap4',
@@ -452,85 +405,135 @@ $(document).ready(function() {
                         monto_real.value =  montoreal;
                     }
 
-                }/* else if(montototal.value > 0 && comision.value > 0 ){
-                    montoreal = (montototal.value + comision.value);
-                    monto_real.value =  montoreal;
-                } */
+                }
+
              }
 
          })
 
+});
 
+
+
+     $("#file").fileinput({
+        uploadUrl: '{{ route('transactions.store') }}'
+        , language: 'es'
+        , showUpload: false
+        , dropZoneEnabled: false
+        , theme:"fas"
+        , mainClass: "input-group-md"
+        , overwriteInitial: false
+        , initialPreviewAsData: true
+        , allowedPreviewTypes: ['text', 'image']
+        , uploadExtraData: function () {  // callback example
+
+            var documentos = [];
+
+            $.each($(this)[0].filenames, function (i, v) {
+                var nombre = v;
+                //Busco la extension
+                var lastPoint = nombre.lastIndexOf(".");
+                var extension = nombre.substring(lastPoint + 1);
+
+                var b;
+
+                switch (extension.toUpperCase()) {
+                    case "ZIP":
+                    case "RAR":
+                    case "JPG":
+                    case "PNG":
+                    case "JPEG":
+                        b = {
+                            'id': i + 1,
+                            'nombre': nombre,
+                            'mensaje': '',
+                            'tipo': extension.toUpperCase(),
+                            'procesado': false
+                        };
+                        documentos.push(b);
+                        break;
+
+                    case "PDF":
+                        b = {
+                            'id': i + 1,
+                            'nombre': nombre,
+                            'mensaje': '',
+                            'tipo': extension.toUpperCase(),
+                            'procesado': false
+                        };
+                        pdf.push(b);
+                        documentos.push(b);
+                        break;
+                    case "XML":
+                        b = {
+                            'id': i + 1,
+                            'nombre': nombre,
+                            'mensaje': '',
+                            'tipo': extension.toUpperCase(),
+                            'procesado': false
+                        };
+                        xml.push(b);
+                        documentos.push(b);
+                        break;
+                    default:
+                        b = {
+                            'id': i + 1,
+                            'nombre': nombre,
+                            'mensaje': msgWrongFileType,
+                            'tipo': extension.toUpperCase(),
+                            'procesado': false
+                        };
+                        documentos.push(b);
+                        break;
+                }
+            });
+
+            //Recorro todos los xmls y pdfs, los que no tenga par se marcaran como bad
+            $.each(xml, function (i, v) {
+                if (v.tienePar == false) {
+                    v.mensaje = msgNoPdf;
+                    //bad.push(v);
+                }
+            });
+
+
+            var data = {
+                Documentos: documentos
+                , DatoExtra: "Información EXTRA"
+            }
+
+            alert(JSON.stringify(data));
+            return { datos: JSON.stringify(data) }; //Este objeto mandarias al SERVER al presionar upload
+          }
+        });
+
+
+
+$('#file').on('filebatchpreupload', function (event, data) {
+    //Si quieres que haga algo antes de enviar la informacion
+    $("#divResult").text("Enviando...");
+});
+
+//Para procesar los archivos despues de haberlos subido
+$('#file').on('filebatchuploadsuccess', function (event, data) {
+    var response = data.response;
+    $("#divResult").text("Procesados...");
+    //Despues de procesar la informacion el servidor respondera con esto... puedes decidir que hacer.. ya se mostrar un mensaje al usuairo
+});
+
+$('#file').on('filecleared', function () {
+    //Si queires que haga algo al limpiar los archivos
+    //alert('0 archivos');
+    Swal.fire(
+    'Cancelada la subida de archivos',
+    '',
+    'error'
+    )
 
 });
 
 
 
-
-
-/* (function () {
-
-'use strict'
-
-var file = document.getElementById('file');
-//var preload = document.querySelector('.preload');
-var publish = document.getElementById('publish');
-//var formData = new FormData();
-
- file.addEventListener('change', function (e) {
-
-    for ( var i = 0; i < file.files.length; i++ ) {
-        var thumbnail_id = Math.floor( Math.random() * 30000 ) + '_' + Date.now();
-        createThumbnail(file, i, thumbnail_id);
-        file.value = file.append(thumbnail_id, file.files[i]);
-    }
-
-    e.target.value = '';
-
-});
-
-
-
-
-var createThumbnail = function (file, iterator, thumbnail_id) {
-    var thumbnail = document.createElement('div');
-    thumbnail.classList.add('thumbnail', thumbnail_id);
-    thumbnail.dataset.id = thumbnail_id;
-
-    thumbnail.setAttribute('style', `max-width: 100%; background-image: url(${ URL.createObjectURL( file.files[iterator] ) })`);
-    //thumbnail.setAttribute();
-    document.getElementById('preview-images').appendChild(thumbnail);
-    createCloseButton(thumbnail_id);
-}
-
-var createCloseButton = function (thumbnail_id) {
-    var closeButton = document.createElement('div');
-    closeButton.classList.add('close-button');
-    closeButton.innerText = 'x';
-    document.getElementsByClassName(thumbnail_id)[0].appendChild(closeButton);
-}
-
-var clearFormDataAndThumbnails = function () {
-    for ( var key of file.keys() ) {
-        file.delete(key);
-        //file.value = "";
-    }
-
-    document.querySelectorAll('.thumbnail').forEach(function (thumbnail) {
-        thumbnail.remove();
-    });
-}
-
-document.body.addEventListener('click', function (e) {
-    if ( e.target.classList.contains('close-button') ) {
-        file.value = "";
-        e.target.parentNode.remove();
-        //file.delete(e.target.parentNode.dataset.id);
-
-    }
-});
-
-})(); */
 
 
 </script>

@@ -69,6 +69,7 @@ class TransactionController extends Controller
             $transaction->image()->create([
                 'url' => $url
             ]);
+            //return response()->json(['url' => $url]);
           }
      }
         return Redirect::route('transactions.index');
