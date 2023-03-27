@@ -1,5 +1,7 @@
 @extends('adminlte::page')
 
+
+
 @section('title', 'Movimientos')
 @section('content_header')
 
@@ -12,7 +14,7 @@
 @section('content')
 
 <div class="d-flex justify-content-center">
- <div class="card col-md-6" style="min-height: 800px !important;">
+ <div class="card col-md-6" style="min-height: 500px !important; max-height:800px; height:1200px;">
   <div class="card-body">
 
     {!! Form::open(['route' => 'transactions.store', 'autocomplete' => 'off', 'files' => true, 'enctype' =>'multipart/form-data']) !!}
@@ -185,48 +187,44 @@
                         </div>
                 </div>
 
-
+                {!! Form::Submit('GUARDAR', ['class' => 'btn btn-primary btn-block font-weight-bold', 'style' => "max-height: 400px;" , 'id' => 'publish']) !!}
 
                 </div>
 
 
                 <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
 
-
                     <div class="form-group">
                         <div class="custom-file col-md-12">
                         {!! Form::label('file', 'Referencia:') !!}
 
-                      <div class="input-group-text content-icon-camera">
-                        <i class="fa-fw fas fa-file-image mr-2"></i>
-                        {!! Form::file('file[]', ['class' => 'form-file-input clone', 'accept' => 'image/*', 'multiple' => 'multiple', 'id' => 'file']) !!}
-
-                    </div>
 
 
+
+                        {{-- {!! Form::file('file[]', ['class' => 'form-file-input clone', 'accept' => 'image/*', 'multiple' => 'multiple', 'id' => 'file']) !!} --}}
+
+
+                      {{-- <img id="imagenPrevisualizacion"> --}}
+
+
+
+                      <div class="file-loading">
+                            {!! Form::file('file[]', ['class' => 'form-file-input file', 'accept' => 'image/*', 'multiple' => 'multiple', 'id' => 'file', 'data-allowed-file-extensions' => '["pdf","jpg","jpeg","png","gif"]']) !!}
+
+
+                      </div>
 
                     @error('file')
                         <small class="text-danger">{{$message}}</small>
                     @enderror
 
-                    <div class="card">
-                    <div class="card-header" id="preview-images" style="max-height: 400px;">
-                        {{-- @foreach($transaction->image as $imagen) --}}
-                            <div class="image-wrapper" style="max-height: 400px;">
-                                 {{-- <img id="random" src="/MTF/public/storage/image/interrogacion.jpg" style="height:50px; width:50px;"> --}}
 
-                            </div>
+                </div>
+            </div>
 
 
 
-                        {{-- @endforeach --}}
-                      </div>
-                    </div>
-
-
-                    </div>
-
-
+                    {!! Form::Submit('GUARDAR', ['class' => 'btn btn-primary btn-block font-weight-bold', 'style' => "max-height: 400px; margin-top:550px;" , 'id' => 'publish']) !!}
                 </div>
 
               </div>
@@ -234,7 +232,8 @@
 
 
 
-                {!! Form::Submit('GUARDAR', ['class' => 'btn btn-primary btn-block font-weight-bold']) !!}
+
+
 
                 {!! Form::close() !!}
 
@@ -246,18 +245,16 @@
 
 
 @section('css')
+<meta name="csrf-token" content="{{ csrf_token() }}">
+
+
 
 <style>
+.file-preview-thumbnails{
+    overflow-y: scroll;
+    height: 550px;
+	width: 750px;
 
-.image-wrapper{
-position: relative !important;
-padding-bottom: 56.25%;
-}
-.image-wrapper img{
-position: absolute;
-object-fit: cover;
-width: 300%;
-height: 300%;
 
 }
 
@@ -265,11 +262,7 @@ height: 300%;
 @endsection
 
 @section('js')
-
 <script>
-
-
-
 $(".clientes").select2({
   placeholder: "Seleccionar cliente",
   theme: 'bootstrap4',
@@ -412,97 +405,132 @@ $(document).ready(function() {
                         monto_real.value =  montoreal;
                     }
 
-                }/* else if(montototal.value > 0 && comision.value > 0 ){
-                    montoreal = (montototal.value + comision.value);
-                    monto_real.value =  montoreal;
-                } */
+                }
+
              }
 
          })
 
-
-
 });
 
 
-//CAMBIO DE IMAGEN
-document.getElementById('file').addEventListener('change', cambiarimagen);
-function cambiarimagen(event){
-    var file = event.target.files[0];
-    var reader = new FileReader();
-    reader.onload = (event) => {
-        document.getElementById("random").setAttribute('src', event.target.result);
-    };
-    reader.readAsDataURL(file);
-}
-//CAMBIO DE IMAGEN
+
+     $("#file").fileinput({
+        uploadUrl: '{{ route('transactions.store') }}'
+        , language: 'es'
+        , showUpload: false
+        , dropZoneEnabled: false
+        , theme:"fas"
+        , mainClass: "input-group-md"
+        , overwriteInitial: false
+        , initialPreviewAsData: true
+        , allowedPreviewTypes: ['text', 'image']
+        , uploadExtraData: function () {  // callback example
+
+            var documentos = [];
+
+            $.each($(this)[0].filenames, function (i, v) {
+                var nombre = v;
+                //Busco la extension
+                var lastPoint = nombre.lastIndexOf(".");
+                var extension = nombre.substring(lastPoint + 1);
+
+                var b;
+
+                switch (extension.toUpperCase()) {
+                    case "ZIP":
+                    case "RAR":
+                    case "JPG":
+                    case "PNG":
+                    case "JPEG":
+                        b = {
+                            'id': i + 1,
+                            'nombre': nombre,
+                            'mensaje': '',
+                            'tipo': extension.toUpperCase(),
+                            'procesado': false
+                        };
+                        documentos.push(b);
+                        break;
+
+                    case "PDF":
+                        b = {
+                            'id': i + 1,
+                            'nombre': nombre,
+                            'mensaje': '',
+                            'tipo': extension.toUpperCase(),
+                            'procesado': false
+                        };
+                        pdf.push(b);
+                        documentos.push(b);
+                        break;
+                    case "XML":
+                        b = {
+                            'id': i + 1,
+                            'nombre': nombre,
+                            'mensaje': '',
+                            'tipo': extension.toUpperCase(),
+                            'procesado': false
+                        };
+                        xml.push(b);
+                        documentos.push(b);
+                        break;
+                    default:
+                        b = {
+                            'id': i + 1,
+                            'nombre': nombre,
+                            'mensaje': msgWrongFileType,
+                            'tipo': extension.toUpperCase(),
+                            'procesado': false
+                        };
+                        documentos.push(b);
+                        break;
+                }
+            });
+
+            //Recorro todos los xmls y pdfs, los que no tenga par se marcaran como bad
+            $.each(xml, function (i, v) {
+                if (v.tienePar == false) {
+                    v.mensaje = msgNoPdf;
+                    //bad.push(v);
+                }
+            });
+
+
+            var data = {
+                Documentos: documentos
+                , DatoExtra: "Información EXTRA"
+            }
+
+            alert(JSON.stringify(data));
+            return { datos: JSON.stringify(data) }; //Este objeto mandarias al SERVER al presionar upload
+          }
+        });
 
 
 
-(function () {
-
-'use strict'
-
-var file = document.getElementById('file');
-var preload = document.querySelector('.preload');
-var publish = document.getElementById('publish');
-var formData = new FormData();
-
-file.addEventListener('change', function (e) {
-
-    for ( var i = 0; i < file.files.length; i++ ) {
-        var thumbnail_id = Math.floor( Math.random() * 30000 ) + '_' + Date.now();
-        createThumbnail(file, i, thumbnail_id);
-        formData.append(thumbnail_id, file.files[i]);
-    }
-
-    e.target.value = '';
-
+$('#file').on('filebatchpreupload', function (event, data) {
+    //Si quieres que haga algo antes de enviar la informacion
+    $("#divResult").text("Enviando...");
 });
 
-var createThumbnail = function (file, iterator, thumbnail_id) {
-    var thumbnail = document.createElement('div');
-    thumbnail.classList.add('thumbnail', thumbnail_id);
-    thumbnail.dataset.id = thumbnail_id;
-
-    thumbnail.setAttribute('style', `height:400px; width:400px; max-width: 100%; background-image: url(${ URL.createObjectURL( file.files[iterator] ) })`);
-    //thumbnail.setAttribute();
-    document.getElementById('preview-images').appendChild(thumbnail);
-    createCloseButton(thumbnail_id);
-}
-
-var createCloseButton = function (thumbnail_id) {
-    var closeButton = document.createElement('div');
-    closeButton.classList.add('close-button');
-    closeButton.innerText = 'x';
-    document.getElementsByClassName(thumbnail_id)[0].appendChild(closeButton);
-}
-
-var clearFormDataAndThumbnails = function () {
-    for ( var key of formData.keys() ) {
-        formData.delete(key);
-    }
-
-    document.querySelectorAll('.thumbnail').forEach(function (thumbnail) {
-        thumbnail.remove();
-    });
-}
-
-document.body.addEventListener('click', function (e) {
-    if ( e.target.classList.contains('close-button') ) {
-        e.target.parentNode.remove();
-        formData.delete(e.target.parentNode.dataset.id);
-    }
+//Para procesar los archivos despues de haberlos subido
+$('#file').on('filebatchuploadsuccess', function (event, data) {
+    var response = data.response;
+    $("#divResult").text("Procesados...");
+    //Despues de procesar la informacion el servidor respondera con esto... puedes decidir que hacer.. ya se mostrar un mensaje al usuairo
 });
 
-})();
+$('#file').on('filecleared', function () {
+    //Si queires que haga algo al limpiar los archivos
+    //alert('0 archivos');
+    Swal.fire(
+    'Cancelada la subida de archivos',
+    '',
+    'error'
+    )
 
-
-
-
-
-
-
+});
 
 
 
