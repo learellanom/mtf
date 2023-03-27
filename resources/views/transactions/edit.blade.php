@@ -74,10 +74,6 @@
 
         </div>
 
-
-
-
-
         <div class="form-row">
 
             <div class="form-group col-md-4">
@@ -107,7 +103,8 @@
             </div>
         </div>
 
-<hr>
+        <hr>
+
         <div class="form-group col-md-12 d-flex justify-content-center">
 
                 <label class="form-check-label mx-auto" for="radio1">
@@ -127,8 +124,8 @@
                 </label>
 
         </div>
-        <hr>
 
+        <hr>
 
         <div class="form-group">
             {!! Form::Label('amount_total', "Monto Total:") !!}
@@ -139,7 +136,7 @@
         </div>
 
 
-                {!! Form::hidden('status', null, ['class' => 'form-control', 'value' => 'Activo']) !!}
+        {!! Form::hidden('status', null, ['class' => 'form-control', 'value' => 'Activo']) !!}
 
 
         <div class="form-row">
@@ -178,7 +175,7 @@
             </div>
         </div>
 
-<br>
+        <br>
 
         <div class="form-group">
             {!! Form::Label('description', "Descripción:") !!}
@@ -189,9 +186,9 @@
         </div>
 
 
-                {!! Form::Submit('GUARDAR', ['class' => 'btn btn-primary btn-block font-weight-bold']) !!}
+        {!! Form::Submit('GUARDAR', ['class' => 'btn btn-primary btn-block font-weight-bold']) !!}
 
-                {!! Form::close() !!}
+        {!! Form::close() !!}
 
         </div>
     </div>
