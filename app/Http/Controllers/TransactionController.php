@@ -14,6 +14,7 @@ use App\Models\User;
 use Database\Factories\TransactionFactory;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Redirect;
+use Nette\Utils\Finder;
 
 class TransactionController extends Controller
 {
@@ -71,7 +72,7 @@ class TransactionController extends Controller
             ]);
             //return response()->json(['url' => $url]);
           }
-     }
+        }
         return Redirect::route('transactions.index');
     }
 
@@ -86,9 +87,15 @@ class TransactionController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit($transactions)
+    public function edit($transaction)
     {
-        $transactions = Transaction::find($transactions);
+
+        $transactions = Transaction::find($transaction);
+
+        $imagen = Transaction::findOrFail($transaction)->image;
+        //$image = $transactions->image()->find($transactions);
+        //$image = Transaction::find($transactions)
+
         $type_coin = Type_coin::pluck('name', 'id');
         $type_transaction = Type_transaction::pluck('name', 'id');
         $wallet = Wallet::pluck('name', 'id');
@@ -101,7 +108,7 @@ class TransactionController extends Controller
 
 
 
-        return view('transactions.edit', compact('transactions','type_coin', 'type_transaction', 'wallet', 'client', 'user'));
+        return view('transactions.edit', compact('transactions', 'imagen', 'type_coin', 'type_transaction', 'wallet', 'client', 'user'));
     }
 
     /**
@@ -110,6 +117,7 @@ class TransactionController extends Controller
     public function update(Request $request, $transaction)
     {
         $transaction = Transaction::find($transaction)->update($request->all());
+        $files = [];
 
         if($request->file('file')){
             $transaction = Transaction::find($transaction);
@@ -119,6 +127,9 @@ class TransactionController extends Controller
             if($transaction->image){
                 foreach($transaction->image as $imagen){
                   Storage::delete($imagen->url);
+
+                  $files= new Image();
+                  $files->file = $files;
 
                   $transaction->image()->update([
                   'url' => $url
@@ -140,6 +151,7 @@ class TransactionController extends Controller
      * Remove the specified resource from storage.
      */
 
+
     public function destroy($transaction)
     {
         $transactions = Transaction::find($transaction);
@@ -149,6 +161,18 @@ class TransactionController extends Controller
         $transactions->image()->delete($url);
 
         return Redirect::route('transactions.index');
+    }
+
+
+    public function destroyImg($transaction){
+        $transactions = Transaction::find($transaction);
+
+        $url = Storage::delete($transaction);
+        $transactions->image()->delete($url);
+
+        return true;
+
+
     }
 
 }

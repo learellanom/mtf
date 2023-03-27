@@ -1,5 +1,7 @@
 @extends('adminlte::page')
 
+
+
 @section('title', 'Movimientos')
 @section('content_header')
 
@@ -12,184 +14,231 @@
 @section('content')
 
 <div class="d-flex justify-content-center">
- <div class="card col-md-6">
+ <div class="card col-md-6" style="min-height: 500px !important; max-height:800px; height:1200px;">
   <div class="card-body">
+
 
     {!! Form::model($transactions, ['route' => ['transactions.update', $transactions],'method' => 'put', 'autocomplete' => 'off', 'files' => true]) !!}
 
 
-            {!! Form::hidden('user_id',auth()->id(), null, ['class' => 'form-control', 'required' => true]) !!}
 
+            <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+                <li class="nav-item" role="presentation">
+                  <button class="nav-link active" id="pills-home-tab" data-toggle="pill" data-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">Movimiento</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                  <button class="nav-link" id="pills-profile-tab" data-toggle="pill" data-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">Referencias</button>
+                </li>
+              </ul>
 
-            <div class="form-row">
-                <div class="form-group col-md-4">
-                {!! Form::Label('type_transaction_id', "Tipo de Movimiento:") !!}
-                <div class="input-group-text col-md-12">
-                    <i class="fa-fw fas fa-random"></i>
-                {!! Form::select('type_transaction_id',$type_transaction, null, ['class' => 'form-control typetrasnferencia', 'required' => true, 'id'=>'typetrasnferencia', 'readonly' => false]) !!}
+              <div class="tab-content" id="pills-tabContent">
+                <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+                    {!! Form::hidden('user_id',auth()->id(), null, ['class' => 'form-control', 'required' => true]) !!}
+
+                    <div class="form-row">
+                        <div class="form-group col-md-4">
+                        {!! Form::Label('type_transaction_id', "Tipo de Movimiento:") !!}
+                        <div class="input-group-text col-md-12">
+                            <i class="fa-fw fas fa-random"></i>
+                        {!! Form::select('type_transaction_id',$type_transaction, null, ['class' => 'form-control typetrasnferencia', 'required' => true, 'id'=>'typetrasnferencia', 'readonly' => false]) !!}
+                        </div>
+                        </div>
+
+                        <div class="form-group col-md-4">
+                            {!! Form::Label('wallet_id', "Tipo de caja:") !!}
+                            <div class="input-group-text col-md-12">
+                                <i class="fa-fw fas fa-random"></i>
+                            {!! Form::select('wallet_id', $wallet, null, ['class' => 'form-control wallet', 'required' => true, 'id'=>'wallet', 'readonly' => false]) !!}
+                            </div>
+                        </div>
+
+                        <div class="form-group col-md-4">
+                            {!! Form::Label('client_id', "Cliente:") !!}
+                            <div class="input-group-text">
+                                <i class="fa-fw fas fas fa-user-friends mr-2"></i>
+                            {!! Form::select('client_id',$client, null,['class' => 'form-control clientes', 'required' => true, 'id' => 'clientes', 'readonly' => false]) !!}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                    <div class="form-group col-md-4">
+                        {!! Form::Label('type_coin_id', "Tipo de moneda:") !!}
+                        <div class="input-group-text">
+                            <i class="fa-fw fas fa-dollar-sign mr-2"></i>
+                        {!! Form::select('type_coin_id',$type_coin, null, ['class' => 'form-control typecoin', 'required' => true, 'id' => 'typecoin', 'readonly' => false]) !!}
+                        </div>
+                    </div>
+                    <div class="form-group col-md-4">
+                        {!! Form::Label('exchange_rate', "Tasa:") !!}
+                        <div class="input-group-text">
+                            <i class="fa-fw fas fa-random mr-2"></i>
+                        {!! Form::number('exchange_rate',null, ['class' => 'form-control', 'required' => true, 'id' => 'tasa', 'min' => 0, 'readonly' => true]) !!}
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-4">
+
+                        {!! Form::Label('amount_foreign_currency', "Monto en moneda extranjera:") !!}
+                        <div class="input-group-text">
+                            <i class="fa-fw fas fa-coins mr-2"></i>
+                        {!! Form::number('amount_foreign_currency',null, ['class' => 'form-control', 'required' => true, 'id' => 'monto', 'min' => 0, 'readonly' => true]) !!}
+                        </div>
+
+                    </div>
+
                 </div>
-                </div>
 
-                <div class="form-group col-md-4">
-                    {!! Form::Label('wallet_id', "Tipo de caja:") !!}
-                    <div class="input-group-text col-md-12">
-                        <i class="fa-fw fas fa-random"></i>
-                    {!! Form::select('wallet_id', $wallet, null, ['class' => 'form-control wallet', 'required' => true, 'id'=>'wallet', 'readonly' => false]) !!}
+
+
+
+
+                <div class="form-row">
+
+                    <div class="form-group col-md-4">
+                        {!! Form::Label('amount', "Monto en dolares:") !!}
+                        <div class="input-group-text">
+                            <i class="fa-fw fas fas fa-funnel-dollar mr-2"></i>
+                        {!! Form::number('amount', null, ['class' => 'form-control', 'required' => true, 'id' => 'monto_dolares', 'min' => 0, 'readonly' => true]) !!}
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-4">
+                        {!! Form::Label('percentage', "Porcentaje:") !!}
+                        <div class="input-group-text">
+                            <i class="fa-fw fas fa-percentage mr-2"></i>
+                        {!! Form::number('percentage',null, ['class' => 'form-control percentage', 'required' => true, 'min' => 0, 'id' => 'percentage']) !!}
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-4">
+
+                        {!! Form::Label('amount_commission', "Monto Comisión:") !!}
+                        <div class="input-group-text">
+                            <i class="fa-fw fas fa-coins mr-2"></i>
+                        {!! Form::number('amount_commission',null, ['class' => 'form-control comision', 'required' => true, 'min' => 0, 'readonly' => true, 'id' => 'comision']) !!}
+                        </div>
+
                     </div>
                 </div>
 
-                <div class="form-group col-md-4">
-                    {!! Form::Label('client_id', "Cliente:") !!}
-                    <div class="input-group-text">
-                        <i class="fa-fw fas fas fa-user-friends mr-2"></i>
-                    {!! Form::select('client_id',$client, null,['class' => 'form-control clientes', 'required' => true, 'id' => 'clientes', 'readonly' => false]) !!}
-                    </div>
-                </div>
-            </div>
-            <div class="form-row">
-            <div class="form-group col-md-4">
-                {!! Form::Label('type_coin_id', "Tipo de moneda:") !!}
-                <div class="input-group-text">
-                    <i class="fa-fw fas fa-dollar-sign mr-2"></i>
-                {!! Form::select('type_coin_id',$type_coin, null, ['class' => 'form-control typecoin', 'required' => true, 'id' => 'typecoin', 'readonly' => false]) !!}
-                </div>
-            </div>
-            <div class="form-group col-md-4">
-                {!! Form::Label('exchange_rate', "Tasa:") !!}
-                <div class="input-group-text">
-                    <i class="fa-fw fas fa-random mr-2"></i>
-                {!! Form::number('exchange_rate',null, ['class' => 'form-control', 'required' => true, 'id' => 'tasa', 'min' => 0, 'readonly' => true]) !!}
-                </div>
-            </div>
-
-            <div class="form-group col-md-4">
-
-                {!! Form::Label('amount_foreign_currency', "Monto en moneda extranjera:") !!}
-                <div class="input-group-text">
-                    <i class="fa-fw fas fa-coins mr-2"></i>
-                {!! Form::number('amount_foreign_currency',null, ['class' => 'form-control', 'required' => true, 'id' => 'monto', 'min' => 0, 'readonly' => true]) !!}
-                </div>
-
-            </div>
-
-        </div>
-
-
-
-
-
-        <div class="form-row">
-
-            <div class="form-group col-md-4">
-                {!! Form::Label('amount', "Monto en dolares:") !!}
-                <div class="input-group-text">
-                    <i class="fa-fw fas fas fa-funnel-dollar mr-2"></i>
-                {!! Form::number('amount', null, ['class' => 'form-control', 'required' => true, 'id' => 'monto_dolares', 'min' => 0, 'readonly' => true]) !!}
-                </div>
-            </div>
-
-            <div class="form-group col-md-4">
-                {!! Form::Label('percentage', "Porcentaje:") !!}
-                <div class="input-group-text">
-                    <i class="fa-fw fas fa-percentage mr-2"></i>
-                {!! Form::number('percentage',null, ['class' => 'form-control percentage', 'required' => true, 'min' => 0, 'id' => 'percentage']) !!}
-                </div>
-            </div>
-
-            <div class="form-group col-md-4">
-
-                {!! Form::Label('amount_commission', "Monto Comisión:") !!}
-                <div class="input-group-text">
-                    <i class="fa-fw fas fa-coins mr-2"></i>
-                {!! Form::number('amount_commission',null, ['class' => 'form-control comision', 'required' => true, 'min' => 0, 'readonly' => true, 'id' => 'comision']) !!}
-                </div>
-
-            </div>
-        </div>
-
-<hr>
-        <div class="form-group col-md-12 d-flex justify-content-center">
-
-                <label class="form-check-label mx-auto" for="radio1">
-                    {!! Form::radio('exonerate',false, null, ['id' => 'radio1', 'name'=>'optradio']) !!}
-                    Exonerar comisión
-                </label>
-
-                <label class="form-check-label mx-auto" for="radio3">
-                    {!! Form::radio('exonerate',true, null, ['id' => 'radio3', 'name'=>'optradio']) !!}
-                    Incluir comisión
-                </label>
-
-
-                <label class="form-check-label mx-auto" for="radio2">
-                    Descontar comisión
-                    {!! Form::radio('discount',true, null, ['id' => 'radio2', 'name'=>'optradio']) !!}
-                </label>
-
-        </div>
         <hr>
+                <div class="form-group col-md-12 d-flex justify-content-center">
+
+                        <label class="form-check-label mx-auto" for="radio1">
+                            {!! Form::radio('exonerate',false, null, ['id' => 'radio1', 'name'=>'optradio']) !!}
+                            Exonerar comisión
+                        </label>
+
+                        <label class="form-check-label mx-auto" for="radio3">
+                            {!! Form::radio('exonerate',true, null, ['id' => 'radio3', 'name'=>'optradio']) !!}
+                            Incluir comisión
+                        </label>
 
 
-        <div class="form-group">
-            {!! Form::Label('amount_total', "Monto Total:") !!}
-                <div class="input-group-text">
-                    <i class="fa-fw fas fa-coins mr-2"></i>
-                {!! Form::number('amount_total',null, ['class' => 'form-control montototal', 'required' => true, 'min' => 0, 'id' => 'montototal', 'readonly' => true]) !!}
+                        <label class="form-check-label mx-auto" for="radio2">
+                            Descontar comisión
+                            {!! Form::radio('discount',true, null, ['id' => 'radio2', 'name'=>'optradio']) !!}
+                        </label>
+
                 </div>
-        </div>
+                <hr>
 
 
-                {!! Form::hidden('status', null, ['class' => 'form-control', 'value' => 'Activo']) !!}
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                    {!! Form::Label('amount_total', "Monto Total:") !!}
+                        <div class="input-group-text">
+                            <i class="fa-fw fas fa-coins mr-2"></i>
+                        {!! Form::number('amount_total',null, ['class' => 'form-control montototal', 'required' => true, 'min' => 0, 'id' => 'montototal', 'readonly' => true]) !!}
+                        </div>
+                    </div>
 
 
-        <div class="form-row">
-            <div class="custom-file col-md-6">
-                {!! Form::Label('transaction_date', "Fecha:") !!}
-                <div class="input-group-text">
-                    <i class="fa-fw fas fas fa-calendar-week mr-2"></i>
-                {!! Form::date('transaction_date', null, ['class' => 'form-control', 'required' => true, 'id' => 'fecha']) !!}
+                            <div class="form-group col-md-6">
+                                {!! Form::Label('transaction_date', "Fecha:") !!}
+                                <div class="input-group-text">
+                                    <i class="fa-fw fas fas fa-calendar-week mr-2"></i>
+                                {!! Form::date('transaction_date', null, ['class' => 'form-control', 'required' => true, 'id' => 'fecha']) !!}
+                                </div>
+                            </div>
+
+
+
+                        </div>
+
+
+
+
+
+
+
+                        {!! Form::hidden('status', null, ['class' => 'form-control', 'value' => 'Activo']) !!}
+
+
+
+
+        <br>
+
+                <div class="form-group">
+                    {!! Form::Label('description', "Descripción:") !!}
+                        <div class="input-group-text">
+                            <i class="fa-fw fas fa-text-width mr-2"></i>
+                        {!! Form::textarea('description',null, ['rows' => 1, 'class' => 'form-control', 'required' => true]) !!}
+                        </div>
+                </div>
+
+                {!! Form::Submit('GUARDAR', ['class' => 'btn btn-primary btn-block font-weight-bold', 'style' => "max-height: 400px;" , 'id' => 'publish']) !!}
+
+                </div>
+
+
+                <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+
+                    <div class="form-group">
+                        <div class="custom-file col-md-12">
+                        {!! Form::label('file', 'Referencia:') !!}
+
+
+
+
+                        {{-- {!! Form::file('file[]', ['class' => 'form-file-input clone', 'accept' => 'image/*', 'multiple' => 'multiple', 'id' => 'file']) !!} --}}
+
+
+                      {{-- <img id="imagenPrevisualizacion"> --}}
+
+
+
+                      <div class="file-loading">
+
+
+                        @foreach($imagen as $image)
+                        {{-- {{ dd($image->url) }} --}}
+                            {!! Form::file('file[]', ['class' => 'form-file-input file',  'value' => '$image->url',  'accept' => 'image/*', 'multiple' => 'multiple', 'id' => 'file', 'data-allowed-file-extensions' => '["pdf","jpg","jpeg","png","gif"]']) !!}
+                        @endforeach
+
+                      </div>
+
+                    @error('file')
+                        <small class="text-danger">{{$message}}</small>
+                    @enderror
+
+
                 </div>
             </div>
 
 
-            <div class="form-group">
-                <div class="custom-file col-md-12">
-                {!! Form::label('file', 'Referencia') !!}
 
-              <div class="input-group-text">
-                <i class="fa-fw fas fa-file-image mr-2"></i>
-                {!! Form::file('file', ['class' => 'form-file-input', 'accept' => 'image/*', 'multiple' => 'multiple']) !!}
+                    {!! Form::Submit('GUARDAR', ['class' => 'btn btn-primary btn-block font-weight-bold', 'style' => "max-height: 400px;" , 'id' => 'publish']) !!}
+
+                </div>
+
               </div>
-              <div class="col">
-                @foreach($transactions->image as $imagen)
-                <div class="image-wrapper">
-                   @if($imagen)  <img id="random" src="{{Storage::url($imagen->url)}}"> @else <img id="random" src="/MTF/public/storage/image/interrogacion.jpg"> @endif
-                </div>
-                @endforeach
-              </div>
 
 
-            @error('file')
-                <small class="text-danger">{{$message}}</small>
-            @enderror
-            </div>
 
 
-            </div>
-        </div>
-
-<br>
-
-        <div class="form-group">
-            {!! Form::Label('description', "Descripción:") !!}
-                <div class="input-group-text">
-                    <i class="fa-fw fas fa-text-width mr-2"></i>
-                {!! Form::textarea('description',null, ['rows' => 1, 'class' => 'form-control', 'required' => true]) !!}
-                </div>
-        </div>
 
 
-                {!! Form::Submit('GUARDAR', ['class' => 'btn btn-primary btn-block font-weight-bold']) !!}
 
                 {!! Form::close() !!}
 
@@ -197,29 +246,27 @@
     </div>
 </div>
 
-
-
 @endsection
 
+
 @section('css')
+<meta name="csrf-token" content="{{ csrf_token() }}">
+
+
 
 <style>
-.image-wrapper{
-position: relative;
-padding-bottom: 56.25%;
+.file-preview-thumbnails{
+    overflow-y: scroll;
+    height: 550px;
+	width: 750px;
+
+
 }
-.image-wrapper img{
-position: absolute;
-object-fit: cover;
-width: 25%;
-height: 50%;
-margin-left: 400px;
-}
+
 </style>
-@stop
+@endsection
 
 @section('js')
-
 <script>
 $(".clientes").select2({
   placeholder: "Seleccionar cliente",
@@ -228,16 +275,16 @@ $(".clientes").select2({
   allowClear: true,
   clearing: true
 });
-/* $("#clientes").val("")
-$("#clientes").trigger("change"); */
+//$("#clientes").val("")
+//$("#clientes").trigger("change");
 
 $(".typecoin").select2({
-  placeholder: "Seleccionar Moneda",
+  //placeholder: "Seleccionar Moneda",
   theme: 'bootstrap4',
   allowClear: true
 });
-/* $("#typecoin").val("")
-$("#typecoin").trigger("change"); */
+//$("#typecoin").val("")
+//$("#typecoin").trigger("change");
 
 $(".status").select2({
   placeholder: "Seleccionar estatus",
@@ -248,16 +295,19 @@ $(".status").select2({
 $(".wallet").select2({
   placeholder: "Seleccionar Caja | Wallet",
   theme: 'bootstrap4',
-  search: false
+  search: false,
+  allowClear: true
 });
+//$("#wallet").val("")
+//$("#wallet").trigger("change");
 
 $(".typetrasnferencia").select2({
   placeholder: "Seleccionar tipo de movimiento",
   theme: 'bootstrap4',
   allowClear: true
 });
-/* $("#typetrasnferencia").val("")
-$("#typetrasnferencia").trigger("change"); */
+//$("#typetrasnferencia").val("")
+//$("#typetrasnferencia").trigger("change");
 
 $(document).ready(function() {
   //$('#monto_dolares').toFixed(2);
@@ -360,40 +410,168 @@ $(document).ready(function() {
                         monto_real.value =  montoreal;
                     }
 
-                }/* else if(montototal.value > 0 && comision.value > 0 ){
-                    montoreal = (montototal.value + comision.value);
-                    monto_real.value =  montoreal;
-                } */
+                }
+
              }
 
          })
 
+});
 
+
+
+     $("#file").fileinput({
+
+        uploadUrl: '{{ route('transactions.update', $transactions) }}'
+        , language: 'es'
+        , showUpload: false
+        , showRemove: false
+        , dropZoneEnabled: false
+        , theme:"fas"
+        , mainClass: "input-group-md"
+        , overwriteInitial: false
+        , fileActionSettings: {
+            showRemove: true,
+            showUpload: false,
+            showZoom: true,
+            showDrag: false,
+        }
+        , initialPreview: [
+                @foreach($imagen as $img)
+                    "{{ asset('/'.$img->url)}}",
+                @endforeach
+        ]
+        ,initialPreviewConfig: [
+                @foreach($imagen as $img)
+                    {key: "$img->id"},
+
+                @endforeach
+        ]
+        , deleteUrl: '{{ route('transactions.destroyimg', ['$img->id', '_token' => csrf_token()] )}}'
+        , deleteExtraData: {'_token':$("#csrf_token").val(), '_method':'delete'}
+        , initialPreviewAsData: true
+        , allowedPreviewTypes: ['text', 'image']
+        , uploadExtraData: function () {  // callback example
+
+            var documentos = [];
+
+            $.each($(this)[0].filenames, function (i, v) {
+                var nombre = v;
+                //Busco la extension
+                var lastPoint = nombre.lastIndexOf(".");
+                var extension = nombre.substring(lastPoint + 1);
+
+                var b;
+
+                switch (extension.toUpperCase()) {
+                    case "ZIP":
+                    case "RAR":
+                    case "JPG":
+                    case "PNG":
+                    case "JPEG":
+                        b = {
+                            'id': i + 1,
+                            'nombre': nombre,
+                            'mensaje': '',
+                            'tipo': extension.toUpperCase(),
+                            'procesado': false
+                        };
+                        documentos.push(b);
+                        break;
+
+                    case "PDF":
+                        b = {
+                            'id': i + 1,
+                            'nombre': nombre,
+                            'mensaje': '',
+                            'tipo': extension.toUpperCase(),
+                            'procesado': false
+                        };
+                        pdf.push(b);
+                        documentos.push(b);
+                        break;
+                    case "XML":
+                        b = {
+                            'id': i + 1,
+                            'nombre': nombre,
+                            'mensaje': '',
+                            'tipo': extension.toUpperCase(),
+                            'procesado': false
+                        };
+                        xml.push(b);
+                        documentos.push(b);
+                        break;
+                    default:
+                        b = {
+                            'id': i + 1,
+                            'nombre': nombre,
+                            'mensaje': msgWrongFileType,
+                            'tipo': extension.toUpperCase(),
+                            'procesado': false
+                        };
+                        documentos.push(b);
+                        break;
+                }
+            });
+
+            //Recorro todos los xmls y pdfs, los que no tenga par se marcaran como bad
+            $.each(xml, function (i, v) {
+                if (v.tienePar == false) {
+                    v.mensaje = msgNoPdf;
+                    //bad.push(v);
+                }
+            });
+
+
+            var data = {
+                Documentos: documentos
+                , DatoExtra: "Información EXTRA"
+            }
+
+            alert(JSON.stringify(data));
+            return { datos: JSON.stringify(data) }; //Este objeto mandarias al SERVER al presionar upload
+          }
+        });
+
+
+
+$('#file').on('filebatchpreupload', function (event, data) {
+    //Si quieres que haga algo antes de enviar la informacion
+    $("#divResult").text("Enviando...");
+});
+
+//Para procesar los archivos despues de haberlos subido
+$('#file').on('filebatchuploadsuccess', function (event, data) {
+    var response = data.response;
+    $("#divResult").text("Procesados...");
+    //Despues de procesar la informacion el servidor respondera con esto... puedes decidir que hacer.. ya se mostrar un mensaje al usuairo
+});
+
+$('#file').on('filecleared', function () {
+    //Si queires que haga algo al limpiar los archivos
+    //alert('0 archivos');
+    Swal.fire(
+    'Cancelada la subida de archivos',
+    '',
+    'error'
+    )
+    $('#file').val('');
+
+});
+
+$('#file').on('filepredelete',  function(jqXHR) {
+
+    var abort = true;
+    if (confirm("Are you sure you want to delete this image?")) {
+        abort = false;
+    }
+    return abort;
 
 });
 
 
 
 
-
-
-
-
-
-
-
-
-
-//Cambiar imagen
-document.getElementById('file').addEventListener('change', cambiarimagen);
-function cambiarimagen(event){
-    var file = event.target.files[0];
-    var reader = new FileReader();
-    reader.onload = (event) => {
-        document.getElementById("random").setAttribute('src', event.target.result);
-    };
-    reader.readAsDataURL(file);
-}
 
 
 

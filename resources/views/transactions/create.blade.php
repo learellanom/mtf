@@ -224,7 +224,7 @@
 
 
 
-                    {!! Form::Submit('GUARDAR', ['class' => 'btn btn-primary btn-block font-weight-bold', 'style' => "max-height: 400px; margin-top:550px;" , 'id' => 'publish']) !!}
+                    {!! Form::Submit('GUARDAR', ['class' => 'btn btn-primary btn-block font-weight-bold', 'style' => "max-height: 400px;" , 'id' => 'publish']) !!}
                 </div>
 
               </div>
@@ -423,6 +423,12 @@ $(document).ready(function() {
         , theme:"fas"
         , mainClass: "input-group-md"
         , overwriteInitial: false
+        , fileActionSettings: {
+            showRemove: true,
+            showUpload: false,
+            showZoom: true,
+            showDrag: false,
+        }
         , initialPreviewAsData: true
         , allowedPreviewTypes: ['text', 'image']
         , uploadExtraData: function () {  // callback example
