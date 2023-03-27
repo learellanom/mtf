@@ -30,7 +30,7 @@ return new class extends Migration
             $table->string('description'); //DESCRIPCION DE LA TRANSFERENCIA
             $table->date('transaction_date'); //FECHA DE LA TRANSACCIÓN
             $table->integer('percentage_base')->nullable(); //PORCENTAJE DE LA GANANCIA
-            $table->double('comission_base')->nullable(); //GANANCIA DE LA COMOSION
+            $table->double('amount_commission_base')->nullable(); //GANANCIA DE LA COMOSION
             $table->timestamps(); //CREACION Y MODIFICACION POR DEFECTO (TOMADO POR EL SERVIDOR)
         });
     }
