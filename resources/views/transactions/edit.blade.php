@@ -209,12 +209,18 @@
 
 
                       <div class="file-loading">
+                    @foreach($imagen as $image)
+                        @if($image->url == null)
+                        {!! Form::file('file[]', ['class' => 'form-file-input file',  'accept' => 'image/*', 'multiple' => 'multiple', 'id' => 'file_old', 'data-allowed-file-extensions' => '["pdf","jpg","jpeg","png","gif"]']) !!}
+                         @else
+                        {!! Form::file('file[]', ['class' => 'form-file-input file',  'value' => '$image->url',  'accept' => 'image/*', 'multiple' => 'multiple', 'id' => 'file', 'data-allowed-file-extensions' => '["pdf","jpg","jpeg","png","gif"]']) !!}
+                        @endif
+                      @endforeach
 
 
-                        @foreach($imagen as $image)
-                        {{-- {{ dd($image->url) }} --}}
-                            {!! Form::file('file[]', ['class' => 'form-file-input file',  'value' => '$image->url',  'accept' => 'image/*', 'multiple' => 'multiple', 'id' => 'file', 'data-allowed-file-extensions' => '["pdf","jpg","jpeg","png","gif"]']) !!}
-                        @endforeach
+                        {!! Form::file('file[]', ['class' => 'form-file-input file',  'value' => '$image->url',  'accept' => 'image/*', 'multiple' => 'multiple', 'id' => 'file', 'data-allowed-file-extensions' => '["pdf","jpg","jpeg","png","gif"]']) !!}
+
+
 
                       </div>
 
@@ -436,19 +442,24 @@ $(document).ready(function() {
             showZoom: true,
             showDrag: false,
         }
+        , deleteExtraData:{'_token': "{{csrf_token()}}",'_method':'delete'}
         , initialPreview: [
+
                 @foreach($imagen as $img)
-                    "{{ asset('/'.$img->url)}}",
+
+                    "{{Storage::url($img->url)}}",
+
                 @endforeach
+
         ]
+        ,initialPreviewAsData: true
+        ,initialPreviewFileType: 'image'
         ,initialPreviewConfig: [
                 @foreach($imagen as $img)
-                    {key: "$img->id"},
+                    {url: "{{ url('movimientos/eliminar',$img->id) }}" },
 
                 @endforeach
         ]
-        , deleteUrl: '{{ route('transactions.destroyimg', ['$img->id', '_token' => csrf_token()] )}}'
-        , deleteExtraData: {'_token':$("#csrf_token").val(), '_method':'delete'}
         , initialPreviewAsData: true
         , allowedPreviewTypes: ['text', 'image']
         , uploadExtraData: function () {  // callback example
@@ -569,9 +580,24 @@ $('#file').on('filepredelete',  function(jqXHR) {
 
 });
 
+$("#file_old").fileinput({
 
+uploadUrl: '{{ route('transactions.update', $transactions) }}'
+, language: 'es'
+, showUpload: false
+, showRemove: false
+, dropZoneEnabled: false
+, theme:"fas"
+, mainClass: "input-group-md"
+, overwriteInitial: false
+, fileActionSettings: {
+    showRemove: true,
+    showUpload: false,
+    showZoom: true,
+    showDrag: false,
+}
 
-
+});
 
 
 

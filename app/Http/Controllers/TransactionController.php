@@ -51,18 +51,13 @@ class TransactionController extends Controller
     public function store(Request $request)
     {
 
-       /*  $realname = str_slug(pathinfo($request->file('file')->getClientOriginalName(), PATHINFO_FILENAME));
-        $extension = $request->file('file')->getClientOriginalExtension();
-        $new_name = $realname."-".time().".".$extension;
-        $request->file('file')->move(public_path('uploads/'.str_slug($new_name))); */
-
-
         $transaction = Transaction::create($request->all());
         $files = [];
        if($request->hasFile('file')){
         foreach($request->file('file') as $file)
         {
-            $url = Storage::put($request->id, $file);
+
+            $url = Storage::put('transactions/'.$transaction->id, $file);
 
             $files= new Image();
             $files->file = $files;
@@ -114,34 +109,32 @@ class TransactionController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $transaction)
+    public function update(Request $request, transaction $transaction)
     {
-        $transaction = Transaction::find($transaction)->update($request->all());
+        $transaction->update($request->all());
         $files = [];
 
-        if($request->file('file')){
-            $transaction = Transaction::find($transaction);
+        if($request->hasFile('file')){
+            foreach($request->file('file') as $file)
+            {
 
-            $url = Storage::put('transactions', $request->file('file'));
+                    $url = Storage::put('transactions/'.$transaction->id, $file);
 
-            if($transaction->image){
-                foreach($transaction->image as $imagen){
-                  Storage::delete($imagen->url);
+                     if($transaction->image){
 
-                  $files= new Image();
-                  $files->file = $files;
+                       Storage::delete($transaction);
 
-                  $transaction->image()->update([
-                  'url' => $url
-                 ]);
-                }
-             }
-          else{
-            $transaction->image()->create([
-                'url' => $url
-            ]);
-          }
+                        $transaction->image()->update([
+                            'url' => $url
+                            ]);
+                        }
 
+                    else{
+                        $transaction->image()->create([
+                            'url' => $url
+                        ]);
+                    }
+            }
         }
 
         return Redirect::route('transactions.index');
@@ -165,12 +158,29 @@ class TransactionController extends Controller
 
 
     public function destroyImg($transaction){
+
         $transactions = Transaction::find($transaction);
 
-        $url = Storage::delete($transaction);
-        $transactions->image()->delete($url);
+        $img=Image::whereId($transaction)->first();
 
-        return true;
+
+        // check image in database
+        if(!$img){
+            return response()
+                    ->json(['error'=>'Sorry, the image is not in the database']);
+        }
+        // check image in files
+        if(!Image::exists('/'.$img->url)){
+            return response()
+                    ->json(['error'=>'Sorry, the image is not in the file folder']);
+        }
+
+        unlink(storage_path('app\\'.$img->url));
+
+        $img->delete();
+
+
+        return view('transactions.edit', $transaction);
 
 
     }

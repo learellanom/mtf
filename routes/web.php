@@ -52,7 +52,7 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 Route::group(['middleware' => 'auth'], function () {
 Route::resource('movimientos', TransactionController::class)->middleware('auth')->names('transactions');
-Route::delete('movimientos', [TransactionController::class, 'destroyImg'])->name('transactions.destroyimg');
+Route::delete('movimientos/eliminar/{movimiento}', [TransactionController::class, 'destroyImg'])->name('transactions.destroyimg');
 });
 
 
