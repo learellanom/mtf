@@ -262,14 +262,11 @@
 
 
 <style>
-.file-preview-thumbnails{
-    overflow-y: scroll;
-    height: 550px;
-	width: 750px;
-
-
-}
-
+    .file-preview-thumbnails{
+        overflow-y: scroll;
+        height: 550px;
+        width: 750px;
+    }
 </style>
 @endsection
 
