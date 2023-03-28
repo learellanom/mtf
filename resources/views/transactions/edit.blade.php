@@ -447,7 +447,7 @@ $(document).ready(function() {
 
                 @foreach($imagen as $img)
 
-                    "{{Storage::url($img->url)}}",
+                    "{{asset('../storage/app/'.$img->url)}}",
 
                 @endforeach
 
