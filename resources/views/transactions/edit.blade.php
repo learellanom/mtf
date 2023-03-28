@@ -5,7 +5,7 @@
 @section('title', 'Movimientos')
 @section('content_header')
 
-    <h1 class="text-center text-dark font-weight-bold">NUEVO MOVIMIENTO <i class="fas fa-exchange-alt"></i> </h1></a>
+    <h1 class="text-center text-dark font-weight-bold">MODIFICAR MOVIMIENTO <i class="fas fa-exchange-alt"></i> </h1></a>
 
 
 @stop
