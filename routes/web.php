@@ -50,8 +50,11 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-
+Route::group(['middleware' => 'auth'], function () {
 Route::resource('movimientos', TransactionController::class)->middleware('auth')->names('transactions');
+Route::delete('movimientos/eliminar/{movimiento}', [TransactionController::class, 'destroyImg'])->name('transactions.destroyimg');
+});
+
 
 Route::pattern('usuarios', '[0-9]+');
 
