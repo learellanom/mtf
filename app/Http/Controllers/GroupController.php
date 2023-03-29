@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Group;
 use App\Models\Client;
+use App\Models\User;
 use Illuminate\Support\Facades\Redirect;
 class GroupController extends Controller
 {
@@ -24,7 +25,10 @@ class GroupController extends Controller
      */
     public function create()
     {
-        return view('groups.create');
+        $users = User::all()->pluck('name', 'id');
+        $clients = Client::all()->pluck('name', 'id');
+
+        return view('groups.create', compact('users', 'clients'));
     }
 
     /**
@@ -32,19 +36,13 @@ class GroupController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'name' =>'required|max:255',
-            'phone' =>'required',
-            'description' =>'required|max:255',
-        ]);
+        $groups = Group::create($request->all());
 
-        Group::create([
-            'name' => $request->name,
-            'phone' => $request->phone,
-            'description' => $request->description,
-        ]);
+        if($request->user){
+            $groups->user()->attach($request->user);
+         }
 
-        return redirect(route('groups.index'));
+         return redirect(route('groups.index'));
     }
 
     /**
@@ -62,11 +60,15 @@ class GroupController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $groups)
+    public function edit($groups)
     {
        $group = Group::find($groups);
+       $users = User::all()->pluck('name', 'id');
+       $clients = Client::all()->pluck('name', 'id');
 
-        return view('groups.edit', compact('group'));
+
+
+        return view('groups.edit', compact('group', 'clients', 'users'));
 
     }
 
@@ -75,8 +77,17 @@ class GroupController extends Controller
      */
     public function update(Request $request, $groups)
     {
-        Group::findOrFail($groups)->update($request->all());
-        return Redirect::route('groups.index');
+
+        $group = Group::find($groups)->update($request->all());
+
+        if($request->user){
+            $group = Group::find($groups);
+
+            $group->user()->sync($request->user);
+         }
+
+
+         return Redirect::route('groups.index');
     }
 
     /**

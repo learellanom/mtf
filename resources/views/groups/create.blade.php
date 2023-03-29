@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', 'MTF|Grupos')
+@section('title', 'Grupos')
 
 @section('content_header')
 
@@ -13,7 +13,7 @@
 <div class="d-flex justify-content-center">
         <div class="card col-md-4">
             <div class="card-body">
-            {!! Form::open(['route' => 'clients.store', 'autocomplete' => 'off', 'files' => true]) !!}
+            {!! Form::open(['route' => 'groups.store', 'autocomplete' => 'off', 'files' => true]) !!}
 
 
 
@@ -44,6 +44,25 @@
         </div>
         </div>
 
+        <div class="form-group">
+
+            {!! Form::Label('client_id', "Cliente:") !!}
+            {!! Form::select('client_id', $clients, null, ['class' => 'form-control client']) !!}
+
+            @error('client_id')
+            <small class="text-danger">{{$message}}</small>
+            @enderror
+        </div>
+
+        <div class="form-group">
+
+            {!! Form::Label('user[]', "Agente:") !!}
+            {!! Form::select('user[]', $users, null, ['class' => 'form-control user', 'multiple' => 'multiple']) !!}
+
+            @error('user[]')
+            <small class="text-danger">{{$message}}</small>
+            @enderror
+        </div>
 
         <div class="form-group">
             {!! Form::Label('description', "Observación:") !!}
@@ -62,4 +81,26 @@
         </div>
     </div>
 </div>
+@endsection
+
+@section('js')
+<script>
+    $(".user").select2({
+        allowClear: true,
+        placeholder: "Seleccionar Agentes",
+        theme: 'bootstrap4',
+        maximumSelectionLength: 5
+
+      });
+
+      $(".client").select2({
+        allowClear: true,
+        placeholder: "Seleccionar Cliente",
+        theme: 'bootstrap4'
+        //maximumSelectionLength: 5
+
+      });
+      $(".client").val("")
+      $(".client").trigger("change");
+</script>
 @endsection
