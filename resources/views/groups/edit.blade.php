@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', 'MTF| Grupos')
+@section('title', 'Grupos')
 
 @section('content_header')
 
@@ -16,47 +16,87 @@
             {!! Form::model($group,['route' => ['groups.update',$group], 'method' => 'put', 'autocomplete' => 'off', 'files' => true]) !!}
 
 
-        <div class="form-group">
-            {!! Form::Label('name', "Nombre del grupo:") !!}
-            {!! Form::text('name', null, ['class' => 'form-control']) !!}
+            <div class="form-group">
+                {!! Form::Label('name', "Nombre del grupo:") !!}
+                {!! Form::text('name', null, ['class' => 'form-control']) !!}
 
 
-            @error('name')
+                @error('name')
 
-            <span class="text-danger">{{$message}}</span>
+                <span class="text-danger">{{$message}}</span>
 
+                @enderror
+
+
+            <div class="form-group">
+                {!! Form::Label('phone', "Telefono del administrador:") !!}
+                {!! Form::text('phone', null, ['class' => 'form-control']) !!}
+
+
+                @error('phone')
+
+                <span class="text-danger">{{$message}}</span>
+
+                @enderror
+            </div>
+            </div>
+
+            <div class="form-group">
+
+                {!! Form::Label('client_id', "Cliente:") !!}
+                {!! Form::select('client_id', $clients, null, ['class' => 'form-control client']) !!}
+
+                @error('client_id')
+                <small class="text-danger">{{$message}}</small>
+                @enderror
+            </div>
+
+            <div class="form-group">
+
+                {!! Form::Label('user[]', "Agente:") !!}
+                {!! Form::select('user[]', $users, null, ['class' => 'form-control user', 'multiple' => 'multiple']) !!}
+
+                @error('user[]')
+                <small class="text-danger">{{$message}}</small>
+                @enderror
+            </div>
+
+            <div class="form-group">
+                {!! Form::Label('description', "Observación:") !!}
+            {!! Form::textarea('description', null, ['class' => 'form-control']) !!}
+
+            @error('description')
+               <small class="text-danger">{{$message}}</small>
             @enderror
+            </div>
 
 
-        <div class="form-group">
-            {!! Form::Label('phone', "Telefono del administrador:") !!}
-            {!! Form::text('phone', null, ['class' => 'form-control']) !!}
+            {!! Form::Submit('MODIFICAR', ['class' => 'btn btn-primary btn-block font-weight-bold']) !!}
 
-
-            @error('phone')
-
-            <span class="text-danger">{{$message}}</span>
-
-            @enderror
-        </div>
-        </div>
-
-
-        <div class="form-group">
-            {!! Form::Label('description', "Observación:") !!}
-        {!! Form::textarea('description', null, ['class' => 'form-control']) !!}
-
-        @error('description')
-           <small class="text-danger">{{$message}}</small>
-        @enderror
-        </div>
-
-
-        {!! Form::Submit('ACTUALIZAR', ['class' => 'btn btn-primary btn-block font-weight-bold']) !!}
-
-        {!! Form::close() !!}
+            {!! Form::close() !!}
+                </div>
             </div>
         </div>
     </div>
-</div>
-@endsection
+    @endsection
+
+    @section('js')
+    <script>
+        $(".user").select2({
+            allowClear: true,
+            empty: true,
+            placeholder: "Seleccionar Agente",
+            theme: 'bootstrap4',
+            maximumSelectionLength: 5
+        });
+
+          $(".client").select2({
+            allowClear: true,
+            empty: true,
+            placeholder: "Seleccionar Cliente",
+            theme: 'bootstrap4',
+            maximumSelectionLength: 5
+
+          });
+    </script>
+    @endsection
