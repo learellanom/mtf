@@ -347,6 +347,11 @@ return [
             'icon' => 'fas fa-fw fas fa-chart-bar',
         ],
         [
+            'text' => 'Resumen por grupo',
+            'url'  => 'estadisticasResumenCliente',
+            'icon' => 'fas fa-fw fas fa-chart-bar',
+        ],        
+        [
             'text' => 'Resumen por Caja',
             'url'  => 'estadisticasResumenWallet',
             'icon' => 'fas fa-fw fas fa-chart-bar',
