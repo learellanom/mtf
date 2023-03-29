@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('phone');
             $table->string('description');
+            $table->foreignId('client_id')->references('id')->on('clients')->nullable(); //USUARIO RELACIONADO CON EL CLIENTE
             $table->timestamps();
         });
     }

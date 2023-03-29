@@ -22,7 +22,7 @@ class TransactionFactory extends Factory
             'amount_foreign_currency' => '0',                     // monto en moneda tipo
             'exchange_rate' => '0',                     // monto en moneda tipo
 
-            'amount' => 100,                     // monto transaccion en dorales
+            'amount' => 1500,                     // monto transaccion en dorales
 
             'percentage' => 10,                  // porcentaje comision
             'exonerate' => 0,                    // indicador de exoneracion
@@ -37,7 +37,8 @@ class TransactionFactory extends Factory
             'description' => fake()->text(),          // tipo de transaccion
 
             'user_id' => 1,                      // user o agente
-            'client_id' => 1,                    // cliente al que se hace la transaccion
+            'client_id' => 1,
+            'group_id' => 1,                      // Grupo al que se hace la transaccion
             'wallet_id' => 1,                    // wallet de la transaccion
             'status' => '1',                     // estado de la transaccion
             'transaction_date' => now(),

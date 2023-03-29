@@ -111,20 +111,26 @@ class TransactionController extends Controller
      */
     public function update(Request $request, $transaction)
     {
-        Transaction::findOrFail($transaction)->update($request->all());
+        $transactions = Transaction::find($transaction)->update($request->all());
         $movimientos = Transaction::findOrFail($transaction);
         $files = [];
 
         if($request->file('file')){
-             foreach($request->file('file') as $files){
+           foreach($request->file('file') as $files){
               $url = Storage::put('transactions/'.$transaction, $files);
-             }
-        //dd($movimientos);
-        foreach($movimientos->image as $comandas) {
-         if($comandas){
-            dd($comandas);
-             Storage::delete($comandas);
-              $transaction->image()->update([
+
+        //dd();
+
+         if($movimientos->image){
+            dd($movimientos);
+             Storage::delete($movimientos->image);
+
+             $files = [];
+
+             $files= new Image();
+             $files->file = $files;
+               // dd($transactions->image());
+              $transactions->image()->update([
                 'url' => $url
             ]);
 
@@ -132,17 +138,18 @@ class TransactionController extends Controller
 
         else{
 
-            $files = [];
-            //$url = Storage::put('transactions/'.$transaction->id, $request->file('file'));
+            //$files = [];
+
             $files= new Image();
             $files->file = $files;
 
-            $transaction->image()->create([
+            $transactions->image()->create([
                 'url' => $url
             ]);
-         }
-        }
+            dd($movimientos->image);
+          }
 
+        }
       }
         return Redirect::route('transactions.index');
     }

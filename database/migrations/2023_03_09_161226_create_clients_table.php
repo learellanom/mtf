@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('name'); // NOMBRE DEL CLIENTE
             $table->string('email')->unique(); //EMAIL DEL CLIENTE
             $table->string('phone')->nullable(); //TELEFONO
-            $table->foreignId('user_id')->references('id')->on('users')->nullable(); //USUARIO RELACIONADO CON EL CLIENTE
+            //$table->foreignId('user_id')->references('id')->on('users')->nullable(); //USUARIO RELACIONADO CON EL CLIENTE
             $table->timestamps();
         });
     }

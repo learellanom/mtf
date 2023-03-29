@@ -22,7 +22,6 @@ class ClientFactory extends Factory
             'name' => fake()->name(),
             'email' => fake()->email(),
             'phone' => fake()->phoneNumber(),
-            'user_id' => 1
         ];
     }
 }
