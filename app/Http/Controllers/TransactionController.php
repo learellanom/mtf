@@ -109,34 +109,48 @@ class TransactionController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, transaction $transaction)
+    public function update(Request $request, $transaction)
     {
-        $transaction->update($request->all());
+        $transactions = Transaction::find($transaction)->update($request->all());
+        $movimientos = Transaction::findOrFail($transaction);
         $files = [];
 
-        if($request->hasFile('file')){
-            foreach($request->file('file') as $file)
-            {
+        if($request->file('file')){
+           foreach($request->file('file') as $files){
+              $url = Storage::put('transactions/'.$transaction, $files);
 
-                    $url = Storage::put('transactions/'.$transaction->id, $file);
+        //dd();
 
-                     if($transaction->image){
+         if($movimientos->image){
+            dd($movimientos);
+             Storage::delete($movimientos->image);
 
-                       Storage::delete($transaction);
+             $files = [];
 
-                        $transaction->image()->update([
-                            'url' => $url
-                            ]);
-                        }
+             $files= new Image();
+             $files->file = $files;
+               // dd($transactions->image());
+              $transactions->image()->update([
+                'url' => $url
+            ]);
 
-                    else{
-                        $transaction->image()->create([
-                            'url' => $url
-                        ]);
-                    }
-            }
+         }
+
+        else{
+
+            //$files = [];
+
+            $files= new Image();
+            $files->file = $files;
+
+            $transactions->image()->create([
+                'url' => $url
+            ]);
+            dd($movimientos->image);
+          }
+
         }
-
+      }
         return Redirect::route('transactions.index');
     }
 
@@ -159,28 +173,29 @@ class TransactionController extends Controller
 
     public function destroyImg($transaction){
 
-        $transactions = Transaction::find($transaction);
+
 
         $img=Image::whereId($transaction)->first();
 
 
-        // check image in database
+        // Busca la imagen en base de datos
         if(!$img){
             return response()
-                    ->json(['error'=>'Sorry, the image is not in the database']);
+                    ->json(['error'=>'Lo sentimos, la imagen no esta en nuetra base de datos.']);
         }
-        // check image in files
+        // Comprobar imagen en archivos
         if(!Image::exists('/'.$img->url)){
             return response()
-                    ->json(['error'=>'Sorry, the image is not in the file folder']);
+                    ->json(['error'=>'Lo sentimos, la imagen no está en la carpeta de transacciones']);
         }
 
         unlink(storage_path('app\\'.$img->url));
 
+
         $img->delete();
 
 
-        return view('transactions.edit', $transaction);
+        return true;
 
 
     }

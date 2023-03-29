@@ -16,12 +16,14 @@ class Client extends Model implements Auditable
 
     protected $guarded = ['id', 'created_at', 'updated_at'];
 
-    public function users(){
-        return $this->belongsTo(User::class);
-    }
     //Relación uno a muchos
     public function transaction(){
         return $this->hasMany(Transaction::class);
+    }
+
+     //Relación uno a muchos
+     public function group(){
+        return $this->hasMany(Group::class);
     }
 
 
