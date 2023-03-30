@@ -348,9 +348,9 @@ return [
         ],
         [
             'text' => 'Resumen por grupo',
-            'url'  => 'estadisticasResumenCliente',
+            'url'  => 'estadisticasResumenGrupo',
             'icon' => 'fas fa-fw fas fa-chart-bar',
-        ],        
+        ],
         [
             'text' => 'Resumen por Caja',
             'url'  => 'estadisticasResumenWallet',
@@ -371,7 +371,22 @@ return [
             'label'       => 4,
             'label_color' =>'success',
         ],
-
+        [
+            'text'        => 'Master',
+            'url'         => 'movimientos',
+            
+            'icon'        => 'fas fa-fw fas fa-retweet',
+            'label'       => 4,
+            'label_color' =>'success',
+        ],
+        [
+            'text'        => 'Creditos a Caja',
+            'url'         => '/home',
+            'active'      => ['home*'],
+            'icon'        => 'fas fa-fw fas fa-retweet',
+            
+            'label_color' =>'success',
+        ],        
         ['header' => 'Configuración',
         'classes' =>'text-uppercase font-weight-bold text-light',],
         [

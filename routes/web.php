@@ -94,6 +94,9 @@ Route::get('estadisticasResumenUsuario/{usuario}/{fechaDesde?}/{fechaHasta?}',[A
 Route::get('estadisticasResumenCliente',[App\Http\Controllers\statisticsController::class, 'clientSummary'])->name('estadisticasResumenCliente');
 Route::get('estadisticasResumenCliente/{cliente}/{fechaDesde?}/{fechaHasta?}',[App\Http\Controllers\statisticsController::class, 'clientSummary'])->name('estadisticasResumenCliente');
 
+Route::get('estadisticasResumenGrupo',[App\Http\Controllers\statisticsController::class, 'groupSummary'])->name('estadisticasResumenGrupo');
+Route::get('estadisticasResumenGrupo/{grupo}/{fechaDesde?}/{fechaHasta?}',[App\Http\Controllers\statisticsController::class, 'groupSummary'])->name('estadisticasResumenGrupo');
+
 
 Route::get('estadisticasResumenWallet',[App\Http\Controllers\statisticsController::class, 'walletSummary'])->name('estadisticasResumenWallet');
 Route::get('estadisticasResumenWallet/{wallet}/{fechaDesde?}/{fechaHasta?}',[App\Http\Controllers\statisticsController::class, 'walletSummary'])->name('estadisticasResumenWallet');
