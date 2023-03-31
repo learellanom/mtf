@@ -25,9 +25,8 @@ class TransactionFactory extends Factory
             'amount' => 1500,                     // monto transaccion en dorales
 
             'percentage' => 10,                  // porcentaje comision
-            'exonerate' => 0,                    // indicador de exoneracion
+            'exonerate' => 1,                    // indicador de exoneracion
             'amount_commission' => 110,            // monto comision
-            'discount' => 0,                     // indicador de descuento de comision
 
             'amount_total' => 100,               // monto transaccion en dorales + monto comision
 

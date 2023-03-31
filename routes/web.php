@@ -48,11 +48,14 @@ require __DIR__.'/auth.php';
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->middleware('can:home')->name('home');
 
 Route::group(['middleware' => 'auth'], function () {
+
+Route::get('movimientos/credito', [TransactionController::class, 'credit'])->name('transactions.credit');
 Route::resource('movimientos', TransactionController::class)->middleware('auth')->names('transactions');
 Route::delete('movimientos/eliminar/{movimiento}', [TransactionController::class, 'destroyImg'])->name('transactions.destroyimg');
+
 });
 
 
@@ -73,29 +76,29 @@ Route::group(['middleware' => 'auth'], function () {
 });
 
 
-Route::resource('clientes', ClientController::class)->middleware('auth')->except('show')->names('clients');
-Route::resource('grupos', GroupController::class)->middleware('auth')->except('show')->names('groups');
-Route::resource('roles', RoleController::class)->middleware('auth')->except('show')->names('roles');
-Route::resource('cajas', WalletController::class)->middleware('auth')->except('show')->names('wallets');
-Route::resource('tipo_transaccion', Type_transactionController::class)->middleware('auth')->except('show')->names('type_transactions');
-Route::resource('tipo_moneda', Type_coinController::class)->middleware('auth')->except('show')->names('type_coins');
+Route::resource('clientes', ClientController::class)->middleware('auth')->except('show')->middleware('can:clients.index')->names('clients');
+Route::resource('grupos', GroupController::class)->middleware('auth')->except('show')->middleware('can:groups.index')->names('groups');
+Route::resource('roles', RoleController::class)->middleware('auth')->except('show')->middleware('can:roles.index')->names('roles');
+Route::resource('cajas', WalletController::class)->middleware('auth')->except('show')->middleware('can:wallets.index')->names('wallets');
+Route::resource('tipo_transaccion', Type_transactionController::class)->middleware('auth')->except('show')->middleware('can:type_transactions.index')->names('type_transactions');
+Route::resource('tipo_moneda', Type_coinController::class)->middleware('auth')->except('show')->middleware('can:type_coins.index')->names('type_coins');
 
 
-Route::get('estadisticasDetalle',[App\Http\Controllers\UserController::class, 'index_all'])->name('estadisticasDetalle');
+Route::get('estadisticasDetalle',[App\Http\Controllers\UserController::class, 'index_all'])->middleware('can:estadisticasDetalle.index')->name('estadisticasDetalle');
 Route::get('estadisticasDetalle/{usuario}/{cliente?}/{wallet?}/{fechaDesde?}/{fechaHasta?}',[App\Http\Controllers\UserController::class, 'index_all'])->name('estadisticasDetalle');
 
 // Route::get('estadisticasDetalleUsuario',[App\Http\Controllers\statisticsController::class, 'userDetail'])->name('estadisticasDetalleUsuario');
 // Route::get('estadisticasDetalleUsuario/{usuario}/{fechaDesde?}/{fechaHasta?}',[App\Http\Controllers\statisticsController::class, 'userDetail'])->name('estadisticasDetalleUsuario');
 
 
-Route::get('estadisticasResumenUsuario',[App\Http\Controllers\statisticsController::class, 'userSummary'])->name('estadisticasResumenUsuario');
+Route::get('estadisticasResumenUsuario',[App\Http\Controllers\statisticsController::class, 'userSummary'])->middleware('can:estadisticasDetalle.statisticsResumenUsuario')->name('estadisticasResumenUsuario');
 Route::get('estadisticasResumenUsuario/{usuario}/{fechaDesde?}/{fechaHasta?}',[App\Http\Controllers\statisticsController::class, 'userSummary'])->name('estadisticasResumenUsuario');
 
-Route::get('estadisticasResumenCliente',[App\Http\Controllers\statisticsController::class, 'clientSummary'])->name('estadisticasResumenCliente');
+Route::get('estadisticasResumenCliente',[App\Http\Controllers\statisticsController::class, 'clientSummary'])->middleware('can:estadisticasDetalle.statisticsResumenCliente')->name('estadisticasResumenCliente');
 Route::get('estadisticasResumenCliente/{cliente}/{fechaDesde?}/{fechaHasta?}',[App\Http\Controllers\statisticsController::class, 'clientSummary'])->name('estadisticasResumenCliente');
 
 
-Route::get('estadisticasResumenWallet',[App\Http\Controllers\statisticsController::class, 'walletSummary'])->name('estadisticasResumenWallet');
+Route::get('estadisticasResumenWallet',[App\Http\Controllers\statisticsController::class, 'walletSummary'])->middleware('can:estadisticasDetalle.statisticsResumenWallet')->name('estadisticasResumenWallet');
 Route::get('estadisticasResumenWallet/{wallet}/{fechaDesde?}/{fechaHasta?}',[App\Http\Controllers\statisticsController::class, 'walletSummary'])->name('estadisticasResumenWallet');
 
 

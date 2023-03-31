@@ -18,13 +18,12 @@ return new class extends Migration
             $table->double('amount_total');  //MONTO TOTAL
             $table->double('amount_commission');  //MONTO COMISION
             $table->double('exchange_rate')->nullable(); // TAZA DE CAMBIO
-            $table->boolean('exonerate')->default(False); // EXONERADO SI|NO
-            $table->boolean('discount')->default(False); //DESCUENTO EN LA TRANSFERENCIA
+            $table->enum('exonerate', [1, 2, 3])->nullable()->default(1); //DESCUENTO, EXONERADO E INCLUIR COMOSIÓN
             $table->integer('percentage'); //PORCENTAJE DE LA TRANSFERENCIA
             $table->foreignId('type_coin_id')->references('id')->on('type_coins')->nullable(); // TIPO DE MONEDA DE LA TRANSFERENCIA
             $table->foreignId('type_transaction_id')->references('id')->on('type_transactions')->nullable();  //TIPO DE LA TRANSFERENCIA
             $table->foreignId('user_id')->references('id')->on('users')->nullable();  // USUARIO QUE REALIZO LA TRANSFERENCIA
-            $table->foreignId('client_id')->references('id')->on('clients')->nullable(); //CLIENTE DE LA TRANSFERENCIA
+            $table->integer('client_id')->nullable(); //CLIENTE DE LA TRANSFERENCIA
             $table->foreignId('group_id')->references('id')->on('groups')->nullable(); //CLIENTE DE LA TRANSFERENCIA
             $table->foreignId('wallet_id')->references('id')->on('wallets')->nullable(); // MONEDERO O CUENTA DE DONDE SALE EL DINERO
             $table->enum('status', ['Activo', 'Anulado'])->nullable()->default('Activo'); //ESTATUS

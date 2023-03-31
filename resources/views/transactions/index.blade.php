@@ -69,7 +69,7 @@ $config = [
         <tr>
 
             <td class="font-weight-bold">{!! $transferencias->user->name !!}</td>
-            <td>{!! $transferencias->client->name !!}</td>
+            <td>{!! $transferencias->group->name !!}</td>
             <td>{!! $transferencias->wallet->name !!}</td>
             <td>{!! $transferencias->type_transaction->name !!}</td>
             <td class="font-weight-bold">{!! $transferencias->percentage !!}%</td>
@@ -77,9 +77,13 @@ $config = [
 
             <td class="font-weight-bold">{!! $transferencias->transaction_date !!}</td>
 
+
             <td class="text-center">
                 <a href="{{ route('transactions.edit', $transferencias->id) }}" class="btn btn-xl text-primary mx-1 shadow text-center"><i class="fa fa-lg fa-fw fas fa-edit"></i></a>
             </td>
+
+
+
             <td class="text-center">
                 <form method="post" action="{{ route('transactions.destroy', $transferencias->id) }}">
                     @csrf
