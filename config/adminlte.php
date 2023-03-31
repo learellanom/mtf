@@ -367,6 +367,15 @@ return [
             'label_color' =>'success',
         ],
         [
+            'text'        => 'Transacciónes Master',
+            'url'         => 'movimientos_master',
+            'active'      => ['movimientos_master', 'regex:@^movimientos_master/[0-9]+/edit+$@', 'movimientos_master/create'],
+            'can'         => 'transactions_master.index',
+            'icon'        => 'fas fa-fw fas fa-money-check-alt',
+            'label'       => 4,
+            'label_color' =>'success',
+        ],
+        [
             'text'        => 'Credito Caja',
             'url'         => "movimientos/credito",
             'active'      => ['credito'],

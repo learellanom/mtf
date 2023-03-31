@@ -64,6 +64,13 @@ class RoleSeeder extends Seeder
         Permission::create(['name' => 'estadisticasDetalle.statisticsResumenWallet'])->assignRole($role1);
 
 
+        Permission::create(['name' => 'transactions_master.index'])->assignRole($role1);
+        Permission::create(['name' => 'transactions_master.edit'])->assignRole($role1);
+        Permission::create(['name' => 'transactions_master.update'])->assignRole($role1);
+        Permission::create(['name' => 'transactions_master.create'])->assignRole($role1);
+
+
+
         Permission::create(['name' => 'transactions.index'])->syncRoles([$role1, $role2]);
         Permission::create(['name' => 'transactions.create'])->syncRoles([$role1, $role2]);
         Permission::create(['name' => 'transactions.edit'])->syncRoles([$role1, $role2]);

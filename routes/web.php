@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\TransactionController;
+use App\Http\Controllers\TransactionMasterController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\GroupController;
 use App\Http\Controllers\WalletController;
@@ -57,6 +58,17 @@ Route::resource('movimientos', TransactionController::class)->middleware('auth')
 Route::delete('movimientos/eliminar/{movimiento}', [TransactionController::class, 'destroyImg'])->name('transactions.destroyimg');
 
 });
+
+Route::group(['middleware' => 'auth'], function () {
+
+    Route::get('movimientos_master/credito', [TransactionMasterController::class, 'credit'])->name('transactions_master.credit');
+    Route::resource('movimientos_master', TransactionMasterController::class)->middleware('auth')->names('transactions_master');
+    Route::delete('movimientos_master/eliminar/{movimiento}', [TransactionMasterController::class, 'destroyImg'])->name('transactions_master.destroyimg');
+
+});
+
+
+
 
 
 Route::pattern('usuarios', '[0-9]+');
