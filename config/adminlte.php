@@ -342,12 +342,7 @@ return [
             'icon' => 'fas fa-fw fas fa-chart-bar',
         ],
         [
-            'text' => 'Resumen por Cliente',
-            'url'  => 'estadisticasResumenCliente',
-            'icon' => 'fas fa-fw fas fa-chart-bar',
-        ],
-        [
-            'text' => 'Resumen por grupo',
+            'text' => 'Resumen por Grupo',
             'url'  => 'estadisticasResumenGrupo',
             'icon' => 'fas fa-fw fas fa-chart-bar',
         ],
