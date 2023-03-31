@@ -5,9 +5,9 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Model>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Transaction_master>
  */
-class TransactionFactory extends Factory
+class Transaction_masterFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -36,7 +36,6 @@ class TransactionFactory extends Factory
             'description' => fake()->text(),          // tipo de transaccion
 
             'user_id' => 1,                      // user o agente
-            'client_id' => 1,
             'group_id' => 1,                      // Grupo al que se hace la transaccion
             'wallet_id' => 1,                    // wallet de la transaccion
             'status' => '1',                     // estado de la transaccion
@@ -44,6 +43,5 @@ class TransactionFactory extends Factory
             'created_at' => now(),
             'updated_at' => now(),
         ];
-
     }
 }

@@ -18,35 +18,34 @@
 
 
 
+            <div class="form-group">
+                {!! Form::Label('name', "Tipo de moneda:") !!}
+                {!! Form::text('name', null, ['class' => 'form-control', 'required' => true]) !!}
+
+
+                @error('name')
+
+                <span class="text-danger">{{$message}}</span>
+
+                @enderror
+
+            <div class="form-group">
+                {!! Form::Label('email', "Correo Electronico:") !!}
+                {!! Form::text('email', null, ['class' => 'form-control', 'required' => true]) !!}
+
+
+                @error('email')
+
+                <span class="text-danger">{{$message}}</span>
+
+                @enderror
+            </div>
+            </div>
 
         <div class="form-group">
-            <label for="">Nombre</label>
-            <input required type="text" name="name" id="name" class="form-control">
+            {!! Form::Label('phone', "Telefono:") !!}
+            {!! Form::text('phone', null, ['class' => 'form-control', 'required' => true]) !!}
 
-
-            @error('name')
-
-            <span class="text-danger">{{$message}}</span>
-
-            @enderror
-
-
-        <div class="form-group">
-            <label for="">Correo Electronico</label>
-            <input required type="text" name="email" id="email" class="form-control">
-
-
-            @error('email')
-
-            <span class="text-danger">{{$message}}</span>
-
-            @enderror
-        </div>
-        </div>
-
-        <div class="form-group">
-            <label for="">Telefono</label>
-            <input required type="text" name="phone" id="phone" class="form-control">
 
 
             @error('phone')
@@ -55,19 +54,6 @@
 
             @enderror
         </div>
-
-        <div class="form-group">
-            {!! Form::Label('user_id', "Agentes:") !!}
-            {!! Form::select('user_id', $user, null,['class' => 'form-control'])!!}
-
-
-            @error('user_id')
-
-            <span class="text-danger">{{$message}}</span>
-
-            @enderror
-        </div>
-
 
         {!! Form::Submit('GUARDAR', ['class' => 'btn btn-primary btn-block font-weight-bold']) !!}
 

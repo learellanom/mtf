@@ -9,6 +9,7 @@ use App\Models\Type_coin;
 use App\Models\Type_transaction;
 use App\Models\Wallet;
 use App\Models\Client;
+use App\Models\Group;
 use App\Models\Image;
 use App\Models\User;
 use Database\Factories\TransactionFactory;
@@ -28,6 +29,18 @@ class TransactionController extends Controller
         return view('transactions.index', compact('transferencia'));
     }
 
+    public function credit(transaction $transaction)
+    {
+
+        $type_coin = Type_coin::pluck('name', 'id');
+        $type_transaction = Type_transaction::pluck('name', 'id');
+        $wallet = Wallet::pluck('name', 'id');
+        $group = Group::pluck('name', 'id');
+        $user = User::pluck('name', 'id');
+
+        return view('transactions.credit', compact('type_coin', 'type_transaction', 'wallet', 'group', 'user', 'transaction'));
+    }
+
      /**
      * Show the form for creating a new resource.
      */
@@ -37,12 +50,11 @@ class TransactionController extends Controller
         $type_coin = Type_coin::pluck('name', 'id');
         $type_transaction = Type_transaction::pluck('name', 'id');
         $wallet = Wallet::pluck('name', 'id');
-        $client = Client::pluck('name', 'id');
+        $group = Group::pluck('name', 'id');
         $user = User::pluck('name', 'id');
         //$transaction = Transaction::find('all');
-        return view('transactions.create', compact('type_coin', 'type_transaction', 'wallet', 'client', 'user', 'transaction'));
+        return view('transactions.create', compact('type_coin', 'type_transaction', 'wallet', 'group', 'user', 'transaction'));
     }
-
 
     /**
      * Store a newly created resource in storage.
@@ -61,6 +73,7 @@ class TransactionController extends Controller
 
             $files= new Image();
             $files->file = $files;
+
 
             $transaction->image()->create([
                 'url' => $url
@@ -94,8 +107,7 @@ class TransactionController extends Controller
         $type_coin = Type_coin::pluck('name', 'id');
         $type_transaction = Type_transaction::pluck('name', 'id');
         $wallet = Wallet::pluck('name', 'id');
-        $client = Client::select('clients.id', 'clients.name', )
-        ->where('user_id', auth()->id())->pluck('name', 'id');
+        $group = Group::pluck('name', 'id');
 
 
 
@@ -103,7 +115,7 @@ class TransactionController extends Controller
 
 
 
-        return view('transactions.edit', compact('transactions', 'imagen', 'type_coin', 'type_transaction', 'wallet', 'client', 'user'));
+        return view('transactions.edit', compact('transactions', 'imagen', 'type_coin', 'type_transaction', 'wallet', 'group', 'user'));
     }
 
     /**
@@ -111,26 +123,22 @@ class TransactionController extends Controller
      */
     public function update(Request $request, $transaction)
     {
-        $transactions = Transaction::find($transaction)->update($request->all());
+        Transaction::find($transaction)->update($request->all());
         $movimientos = Transaction::findOrFail($transaction);
-        $files = [];
+        $file = [];
 
         if($request->file('file')){
            foreach($request->file('file') as $files){
               $url = Storage::put('transactions/'.$transaction, $files);
 
-        //dd();
 
-         if($movimientos->image){
-            dd($movimientos);
-             Storage::delete($movimientos->image);
 
-             $files = [];
+         if($request->file('file')){
 
-             $files= new Image();
-             $files->file = $files;
-               // dd($transactions->image());
-              $transactions->image()->update([
+             $file= new Image();
+             $file->file = $file;
+
+              $movimientos->image()->create([
                 'url' => $url
             ]);
 
@@ -138,15 +146,13 @@ class TransactionController extends Controller
 
         else{
 
-            //$files = [];
-
             $files= new Image();
             $files->file = $files;
 
-            $transactions->image()->create([
+            $movimientos->image()->create([
                 'url' => $url
             ]);
-            dd($movimientos->image);
+
           }
 
         }
@@ -162,10 +168,14 @@ class TransactionController extends Controller
     public function destroy($transaction)
     {
         $transactions = Transaction::find($transaction);
+
+
         $url = Storage::delete($transaction);
         $transactions->delete();
 
         $transactions->image()->delete($url);
+
+
 
         return Redirect::route('transactions.index');
     }

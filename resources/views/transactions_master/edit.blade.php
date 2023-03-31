@@ -5,7 +5,7 @@
 @section('title', 'Movimientos')
 @section('content_header')
 
-    <h1 class="text-center text-dark font-weight-bold">NUEVO MOVIMIENTO <i class="fas fa-exchange-alt"></i> </h1></a>
+    <h1 class="text-center text-dark font-weight-bold">MODIFICAR MOVIMIENTO <i class="fas fa-exchange-alt"></i> </h1></a>
 
 
 @stop
@@ -17,8 +17,8 @@
  <div class="card col-md-7" style="min-height: 500px !important; max-height:1000px; height:1400px;">
   <div class="card-body">
 
-    {!! Form::open(['route' => 'transactions.store', 'autocomplete' => 'off', 'files' => true, 'enctype' =>'multipart/form-data']) !!}
 
+    {!! Form::model($transactions, ['route' => ['transactions_master.update', $transactions],'method' => 'put', 'autocomplete' => 'off', 'files' => true, 'enctype' =>'multipart/form-data']) !!}
 
 
 
@@ -145,19 +145,19 @@
                 <div class="form-group col-md-12 d-flex justify-content-center">
 
                     <label class="form-check-label mx-auto" for="radio1">
-                        {!! Form::radio('exonerate',2, null, ['id' => 'radio1', 'class' => 'exonerar']) !!}
+                        {!! Form::radio('exonerate',false, null, ['id' => 'radio1', 'name'=>'optradio', 'class' => 'exonerar']) !!}
                         Exonerar comisión
                     </label>
 
                     <label class="form-check-label mx-auto" for="radio3">
-                        {!! Form::radio('exonerate',1, null, ['id' => 'radio3', 'class' => 'incluir']) !!}
+                        {!! Form::radio('exonerate',true, null, ['id' => 'radio3', 'name'=>'optradio', 'class' => 'incluir']) !!}
                         Incluir comisión
                     </label>
 
 
                     <label class="form-check-label mx-auto" for="radio2">
                         Descontar comisión
-                        {!! Form::radio('exonerate',3, null, ['id' => 'radio2', 'class' => 'descontar']) !!}
+                        {!! Form::radio('discount',true, null, ['id' => 'radio2', 'name'=>'optradio', 'class' => 'descontar']) !!}
                     </label>
 
                 </div>
@@ -233,7 +233,17 @@
 
 
                       <div class="file-loading">
-                            {!! Form::file('file[]', ['class' => 'form-file-input file', 'accept' => 'image/*', 'multiple' => 'multiple', 'id' => 'file', 'data-allowed-file-extensions' => '["pdf","jpg","jpeg","png","gif"]']) !!}
+                    @foreach($imagen as $image)
+                        @if($image->url == null)
+                        {!! Form::file('file[]', ['class' => 'form-file-input file',  'accept' => 'image/*', 'multiple' => 'multiple', 'id' => 'file_old', 'data-allowed-file-extensions' => '["pdf","jpg","jpeg","png","gif"]']) !!}
+                         @else
+                        {!! Form::file('file[]', ['class' => 'form-file-input file',  'value' => '$image->url',  'accept' => 'image/*', 'multiple' => 'multiple', 'id' => 'file', 'data-allowed-file-extensions' => '["pdf","jpg","jpeg","png","gif"]']) !!}
+                        @endif
+                      @endforeach
+
+
+                        {!! Form::file('file[]', ['class' => 'form-file-input file',  'value' => '$image->url',  'accept' => 'image/*', 'multiple' => 'multiple', 'id' => 'file', 'data-allowed-file-extensions' => '["pdf","jpg","jpeg","png","gif"]']) !!}
+
 
 
                       </div>
@@ -249,6 +259,7 @@
 
 
                     {!! Form::Submit('GUARDAR', ['class' => 'btn btn-primary btn-block font-weight-bold', 'style' => "max-height: 400px;" , 'id' => 'publish']) !!}
+
                 </div>
 
               </div>
@@ -276,8 +287,8 @@
 <style>
 .file-preview-thumbnails{
     overflow-y: scroll;
-    height: 550px;
-	width: 870px;
+    height: 650px;
+	 width: 870px;
 
 
 }
@@ -294,16 +305,16 @@ $(".clientes").select2({
   allowClear: true,
   clearing: true
 });
-$("#clientes").val("")
-$("#clientes").trigger("change");
+//$("#clientes").val("")
+//$("#clientes").trigger("change");
 
 $(".typecoin").select2({
-  placeholder: "Seleccionar Moneda",
+  //placeholder: "Seleccionar Moneda",
   theme: 'bootstrap4',
   allowClear: true
 });
-$("#typecoin").val("")
-$("#typecoin").trigger("change");
+//$("#typecoin").val("")
+//$("#typecoin").trigger("change");
 
 $(".status").select2({
   placeholder: "Seleccionar estatus",
@@ -317,16 +328,16 @@ $(".wallet").select2({
   search: false,
   allowClear: true
 });
-$("#wallet").val("")
-$("#wallet").trigger("change");
+//$("#wallet").val("")
+//$("#wallet").trigger("change");
 
 $(".typetrasnferencia").select2({
   placeholder: "Seleccionar tipo de movimiento",
   theme: 'bootstrap4',
   allowClear: true
 });
-$("#typetrasnferencia").val("")
-$("#typetrasnferencia").trigger("change");
+//$("#typetrasnferencia").val("")
+//$("#typetrasnferencia").trigger("change");
 
 $(document).ready(function() {
   //$('#monto_dolares').toFixed(2);
@@ -365,6 +376,9 @@ $(document).ready(function() {
       $('#tasa').val("");
       $('#monto').val("");
       $('#monto_dolares').val("");
+
+
+
 
     }
     else {
@@ -415,149 +429,124 @@ $(document).ready(function() {
             porcentage = document.getElementById("percentage");
             montototal = document.getElementById("monto_dolares");
 
-            exonerar = document.getElementById("radio1");
-            descontar = document.getElementById("radio2");
-            incluir = document.getElementById("radio3");
-
-
-
-
             monto_real = document.getElementById("montototal");
             onmousemove = function(){
                 if(porcentage.value > 0){
                     montottotal = (montototal.value * porcentage.value / 100);
                     comision.value =  montottotal.toFixed(2);
-                 }
 
                 }
 
+             }
+             exonerar.click = function (){
+
+            montottotal = (montototal.value);
+            monto_real.value =  montottotal;
+            }
+            incluir.click = function (){
+
+                montoreal = (parseFloat(montototal.value) + parseFloat(comision.value));
+                monto_real.value =  montoreal;
+
+            }
+            descontar.click = function (){
+
+            montottotal = (parseFloat(montototal.value) - parseFloat(comision.value));
+            monto_real.value = montottotal;
+
+            }
+
+         })
 
 
-        exonerar.click = function (){
+         $('.percentage_base').change(function(e) {
 
-              montottotal = (montototal.value);
-              monto_real.value =  montottotal;
-        }
-        incluir.click = function (){
+        $('#comision_base').prop('readonly', true);
+        $('#montototal').prop('readonly', true);
 
-                    montoreal = (parseFloat(montototal.value) + parseFloat(comision.value));
-                    monto_real.value =  montoreal;
+            comision = document.getElementById("comision_base");
+            porcentage = document.getElementById("percentage_base");
+            montototal = document.getElementById("monto_dolares");
 
-        }
-        descontar.click = function (){
+            //monto_real = document.getElementById("comision_base");
 
-              montottotal = (parseFloat(montototal.value) - parseFloat(comision.value));
-              monto_real.value = montottotal;
+            onmousemove = function(){
+                if(porcentage.value > 0){
+                    montottotal = (montototal.value * porcentage.value / 100);
+                    comision.value =  montottotal.toFixed(2);
 
-        }
+                }
 
+            }
 
-
-             })
-
-    })//CIERRE DEL READY
-
-
-
-
-
-
-
-
-
-$('.percentage_base').change(function(e) {
-
-$('#comision_base').prop('readonly', true);
-$('#montototal').prop('readonly', true);
-
-      comision = document.getElementById("comision_base");
-      porcentage = document.getElementById("percentage_base");
-      montototal = document.getElementById("monto_dolares");
-
-      onmousemove = function(){
-          if(porcentage.value > 0){
-              montottotal = (montototal.value * porcentage.value / 100);
-              comision.value =  montottotal.toFixed(2);
-
-          }
-
-       }
-
-
+        })
 
 });
 
 
- $('.exonerar').click(function() {
+$('.exonerar').click(function() {
 
-      exonerar = document.getElementById("radio1");
-      descontar = document.getElementById("radio2");
-      incluir = document.getElementById("radio3");
+exonerar = document.getElementById("radio1");
+descontar = document.getElementById("radio2");
+incluir = document.getElementById("radio3");
 
-            comision = document.getElementById("comision");
-            porcentage = document.getElementById("percentage");
-            montototal = document.getElementById("monto_dolares");
+      comision = document.getElementById("comision");
+      porcentage = document.getElementById("percentage");
+      montototal = document.getElementById("monto_dolares");
 
-            monto_real = document.getElementById("montototal");
+      monto_real = document.getElementById("montototal");
 
-       exonerar.click(function (){
-          if(exonerar.click()){
-              montottotal = (montototal.value - comision.value);
-              monto_real.value =  montottotal;
+ exonerar.click(function (){
+    if(exonerar.click()){
+        montottotal = (montototal.value - comision.value);
+        monto_real.value =  montottotal;
 
-          }
-       })
+    }
+ })
 
-   })
+})
 
-   $('.incluir').click(function() {
+$('.incluir').click(function() {
 
-    exonerar = document.getElementById("radio1");
-    descontar = document.getElementById("radio2");
-    incluir = document.getElementById("radio3");
+exonerar = document.getElementById("radio1");
+descontar = document.getElementById("radio2");
+incluir = document.getElementById("radio3");
 
-        comision = document.getElementById("comision");
-        porcentage = document.getElementById("percentage");
-        montototal = document.getElementById("monto_dolares");
+  comision = document.getElementById("comision");
+  porcentage = document.getElementById("percentage");
+  montototal = document.getElementById("monto_dolares");
 
-        monto_real = document.getElementById("montototal");
+  monto_real = document.getElementById("montototal");
 
-    incluir.click(function (){
-        if(incluir.click()){
-           return;
+incluir.click(function (){
+  if(incluir.click()){
+     return;
 
-        }
-      })
+  }
+})
 
-    })
+})
 
-    $('.descontar').click(function() {
+$('.descontar').click(function() {
 
-        exonerar = document.getElementById("radio1");
-        descontar = document.getElementById("radio2");
-        incluir = document.getElementById("radio3");
+  exonerar = document.getElementById("radio1");
+  descontar = document.getElementById("radio2");
+  incluir = document.getElementById("radio3");
 
-            comision = document.getElementById("comision");
-            porcentage = document.getElementById("percentage");
-            montototal = document.getElementById("monto_dolares");
+      comision = document.getElementById("comision");
+      porcentage = document.getElementById("percentage");
+      montototal = document.getElementById("monto_dolares");
 
-            monto_real = document.getElementById("montototal");
+      monto_real = document.getElementById("montototal");
 
-        descontar.click(function (){
-            if(descontar.click()){
-             return;
+  descontar.click(function (){
+      if(descontar.click()){
+       return;
 
-            }
-        })
+      }
+  })
 
-        })
-
-
-
-
-
-
-
+  })
 
 
 
@@ -567,9 +556,11 @@ $('#montototal').prop('readonly', true);
 
 
      $("#file").fileinput({
-        uploadUrl: '{{ route('transactions.store') }}'
+
+        uploadUrl: '{{ route('transactions.update', $transactions) }}'
         , language: 'es'
         , showUpload: false
+        , showRemove: false
         , dropZoneEnabled: false
         , theme:"fas"
         , mainClass: "input-group-md"
@@ -580,6 +571,24 @@ $('#montototal').prop('readonly', true);
             showZoom: true,
             showDrag: false,
         }
+        , deleteExtraData:{'_token': "{{csrf_token()}}",'_method':'delete'}
+        , initialPreview: [
+
+                @foreach($imagen as $img)
+
+                    "{{asset('../storage/app/'.$img->url)}}",
+
+                @endforeach
+
+        ]
+        ,initialPreviewAsData: true
+        ,initialPreviewFileType: 'image'
+        ,initialPreviewConfig: [
+                @foreach($imagen as $img)
+                    {url: "{{ url('movimientos/eliminar',$img->id) }}" },
+
+                @endforeach
+        ]
         , initialPreviewAsData: true
         , allowedPreviewTypes: ['text', 'image']
         , uploadExtraData: function () {  // callback example
@@ -649,7 +658,7 @@ $('#montototal').prop('readonly', true);
             $.each(xml, function (i, v) {
                 if (v.tienePar == false) {
                     v.mensaje = msgNoPdf;
-                    //bad.push(v);
+
                 }
             });
 
@@ -686,10 +695,38 @@ $('#file').on('filecleared', function () {
     '',
     'error'
     )
+    $('#file').val('');
 
 });
 
+$('#file').on('filepredelete',  function(jqXHR) {
 
+    var abort = true;
+    if (confirm("¿Está seguro de que desea eliminar esta imagen?")) {
+        abort = false;
+    }
+    return abort;
+
+});
+
+$("#file_old").fileinput({
+
+uploadUrl: '{{ route('transactions.update', $transactions) }}'
+, language: 'es'
+, showUpload: false
+, showRemove: false
+, dropZoneEnabled: false
+, theme:"fas"
+, mainClass: "input-group-md"
+, overwriteInitial: false
+, fileActionSettings: {
+    showRemove: true,
+    showUpload: false,
+    showZoom: true,
+    showDrag: false,
+}
+
+});
 
 
 

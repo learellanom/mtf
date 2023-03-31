@@ -11,11 +11,13 @@
 
 @section('content')
 
+@can('users.create')
 <a class="btn btn-dark" title="Crear usuarios" href={{ route('users.create') }}>
     <i class="fas fa-plus-circle"></i>
     <span class="d-none d-lg-inline-block text-uppercase font-weight-bold">Crear</span>
     <span class="d-none d-md-inline-block text-uppercase font-weight-bold">Usuario</span>
 </a>
+@endcan
 
 <br><br>
     <div class="row">
@@ -35,9 +37,12 @@
                                         <th>Nombre</th>
                                         <th>E-mail</th>
                                         <th class="text-center">Contraseña</th>
+                                        @can('users.edit')
                                         <th class="text-center">Editar</th>
+                                        @endcan
+                                        @can('users.destroy')
                                         <th class="text-center">Eliminar</th>
-
+                                        @endcan
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -48,14 +53,19 @@
                                             <td>{{ $usuario->email }}</td>
                                             <td class="text-center"><a class="btn btn-primary" href={{route('users.password', $usuario)}}><i class='fas fa-lock'></i></a></td>
 
+                                            @can('users.edit')
                                             <td class="text-center"><a class="btn btn-primary" href={{route('users.edit', $usuario)}}><i class='fas fa-edit'></i></a></td>
+                                            @endcan
+
+                                            @can('users.destroy')
                                             <td class="text-center">
                                             <form method="post" action="{{ route('users.destroy', $usuario->id) }}" class="p-6">
                                                 @csrf
                                                 @method('delete')
                                                 <button class="btn btn-danger borrar_users" type="submit"><i class='fas fa-trash'></i></button>
                                             </form>
-                                        </td>
+                                            </td>
+                                            @endcan
                                         </tr>
                                     @endforeach
 

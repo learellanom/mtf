@@ -20,59 +20,48 @@
 
 
 
-        <div class="form-group">
-            <label for="">Nombre</label>
-            <input required type="text" name="name" id="name" class="form-control" value={{ old('name', $clients->name) }}>
+                <div class="form-group">
+                    {!! Form::Label('name', "Tipo de moneda:") !!}
+                    {!! Form::text('name', null, ['class' => 'form-control', 'required' => true]) !!}
 
 
-            @error('name')
+                    @error('name')
 
-            <span class="text-danger">{{$message}}</span>
+                    <span class="text-danger">{{$message}}</span>
 
-            @enderror
+                    @enderror
 
-
-        <div class="form-group">
-            <label for="">Correo Electronico</label>
-            <input required type="text" name="email" id="email" class="form-control" value={{ old('email', $clients->email) }}>
-
-
-            @error('email')
-
-            <span class="text-danger">{{$message}}</span>
-
-            @enderror
-        </div>
-        </div>
-
-        <div class="form-group">
-            <label for="">Telefono</label>
-            <input required type="text" name="phone" id="phone" class="form-control" value={{ old('phone', $clients->phone) }}>
+                <div class="form-group">
+                    {!! Form::Label('email', "Correo Electronico:") !!}
+                    {!! Form::text('email', null, ['class' => 'form-control', 'required' => true]) !!}
 
 
-            @error('phone')
+                    @error('email')
 
-            <span class="text-danger">{{$message}}</span>
+                    <span class="text-danger">{{$message}}</span>
 
-            @enderror
-        </div>
+                    @enderror
+                </div>
+                </div>
 
-        <div class="form-group">
-            {!! Form::Label('user_id', "Agentes:") !!}
-            {!! Form::select('user_id', $user, null,['class' => 'form-control', 'value' => $user] )!!}
-
-
-            @error('user_id')
-
-            <span class="text-danger">{{$message}}</span>
-
-            @enderror
-        </div>
+            <div class="form-group">
+                {!! Form::Label('phone', "Telefono:") !!}
+                {!! Form::text('phone', null, ['class' => 'form-control', 'required' => true]) !!}
 
 
-        {!! Form::Submit('GUARDAR', ['class' => 'btn btn-primary btn-block font-weight-bold']) !!}
 
-        {!! Form::close() !!}
+                @error('phone')
+
+                <span class="text-danger">{{$message}}</span>
+
+                @enderror
+            </div>
+
+            {!! Form::Submit('ACTUALIZAR', ['class' => 'btn btn-primary btn-block font-weight-bold']) !!}
+
+            {!! Form::close() !!}
+
+
             </div>
         </div>
     </div>
