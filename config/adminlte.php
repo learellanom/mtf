@@ -329,7 +329,7 @@ return [
         [
             'text' => 'Estadisticas',
             'url'  => 'dashboardest',
-            'icon' => 'fas fa-fw fas fa-chart-bar',
+            'icon' => 'fas fa-fw fas fa-chart-line',
             'can'  => 'dashboardtest',
         ],
         [

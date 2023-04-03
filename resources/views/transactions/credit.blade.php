@@ -5,7 +5,7 @@
 @section('title', 'Movimientos de credito')
 @section('content_header')
 
-    <h1 class="text-center text-dark font-weight-bold">CREDITO A CAJAS <i class="fas fa-exchange-alt"></i> </h1></a>
+    <h1 class="text-center text-dark font-weight-bold">CREDITO A CAJAS <i class="fas fa-donate"></i> </h1></a>
 
 
 @stop
