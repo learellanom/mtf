@@ -41,6 +41,27 @@ class TransactionController extends Controller
         return view('transactions.credit', compact('type_coin', 'type_transaction', 'wallet', 'group', 'user', 'transaction'));
     }
 
+    public function credit_edit($transaction)
+    {
+
+        $transactions = Transaction::find($transaction);
+
+        $imagen = Transaction::findOrFail($transaction)->image;
+
+        $type_coin = Type_coin::pluck('name', 'id');
+        $type_transaction = Type_transaction::pluck('name', 'id');
+        $wallet = Wallet::pluck('name', 'id');
+        $group = Group::pluck('name', 'id');
+
+
+
+        $user = User::pluck('name', 'id');
+
+
+
+        return view('transactions.credit_edit', compact('transactions', 'imagen', 'type_coin', 'type_transaction', 'wallet', 'group', 'user'));
+    }
+
      /**
      * Show the form for creating a new resource.
      */

@@ -44,7 +44,7 @@ $config = [
 
 @endphp
 
-<a class="btn btn-dark" title="Crear cliente" href={{ route('transactions_master.create') }}>
+<a class="btn btn-dark" title="Crear movimiento master" href={{ route('transactions_master.create') }}>
     <i class="fas fa-plus-circle"></i>
     <span class="d-none d-lg-inline-block text-uppercase font-weight-bold">Nueva</span>
     <span class="d-none d-md-inline-block text-uppercase font-weight-bold">Transferencia</span>

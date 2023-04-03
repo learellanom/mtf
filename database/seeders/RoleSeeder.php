@@ -77,7 +77,7 @@ class RoleSeeder extends Seeder
         Permission::create(['name' => 'transactions.destroy'])->syncRoles([$role1, $role2]);
 
         Permission::create(['name' => 'transactions.credit'])->assignRole($role1);
-
+        Permission::create(['name' => 'transactions.credit_edit'])->assignRole($role1);
 
 
     }

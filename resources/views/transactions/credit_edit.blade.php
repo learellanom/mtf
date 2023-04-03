@@ -2,7 +2,7 @@
 
 
 
-@section('title', 'Movimientos de credito')
+@section('title', 'Movimientos a credito')
 @section('content_header')
 
     <h1 class="text-center text-dark font-weight-bold">CREDITO A CAJAS <i class="fas fa-exchange-alt"></i> </h1></a>
@@ -17,7 +17,7 @@
  <div class="card col-md-6" style="min-height: 500px !important; max-height:700px; height:1400px;">
   <div class="card-body">
 
-    {!! Form::open(['route' => 'transactions.store', 'autocomplete' => 'off', 'files' => true, 'enctype' =>'multipart/form-data']) !!}
+    {!! Form::model($transactions, ['route' => ['transactions.update', $transactions],'method' => 'put', 'autocomplete' => 'off', 'files' => true, 'enctype' =>'multipart/form-data']) !!}
 
 
             <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
@@ -193,8 +193,7 @@ $(".typecoin").select2({
   theme: 'bootstrap4',
   allowClear: true
 });
-$("#typecoin").val("")
-$("#typecoin").trigger("change");
+
 
 $(".status").select2({
   placeholder: "Seleccionar estatus",
@@ -203,13 +202,12 @@ $(".status").select2({
 });
 
 $(".wallet").select2({
-  placeholder: "Seleccionar Caja | Wallet",
+  placeholder: "Seleccionar Caja Wallet",
   theme: 'bootstrap4',
   search: false,
   allowClear: true
 });
-$("#wallet").val("")
-$("#wallet").trigger("change");
+
 
 
 
