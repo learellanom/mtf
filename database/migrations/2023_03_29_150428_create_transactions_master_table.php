@@ -23,7 +23,7 @@ return new class extends Migration
             $table->foreignId('type_coin_id')->references('id')->on('type_coins')->nullable(); // TIPO DE MONEDA DE LA TRANSFERENCIA
             $table->foreignId('type_transaction_id')->references('id')->on('type_transactions')->nullable();  //TIPO DE LA TRANSFERENCIA
             $table->foreignId('user_id')->references('id')->on('users')->nullable();  // USUARIO QUE REALIZO LA TRANSFERENCIA
-            $table->foreignId('group_id')->references('id')->on('groups')->nullable(); //CLIENTE DE LA TRANSFERENCIA
+            $table->foreignId('group_id')->references('id')->on('groups')->onDelete('cascade')->onUpdate('cascade'); //CLIENTE DE LA TRANSFERENCIA
             $table->foreignId('wallet_id')->references('id')->on('wallets')->nullable(); // MONEDERO O CUENTA DE DONDE SALE EL DINERO
             $table->enum('status', ['Activo', 'Anulado'])->nullable()->default('Activo'); //ESTATUS
             $table->string('description'); //DESCRIPCION DE LA TRANSFERENCIA
