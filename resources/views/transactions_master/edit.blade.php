@@ -557,7 +557,7 @@ $('.descontar').click(function() {
 
      $("#file").fileinput({
 
-        uploadUrl: '{{ route('transactions.update', $transactions) }}'
+        uploadUrl: '{{ route('transactions_master.update', $transactions) }}'
         , language: 'es'
         , showUpload: false
         , showRemove: false
