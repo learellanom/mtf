@@ -282,6 +282,87 @@
 
 }
 
+@media screen and (max-width: 1880px) {
+  .file-preview {
+    min-width: 290px;
+    min-height: 450px;
+  }
+  .file-preview-thumbnails {
+    width:500px;
+  }
+}
+
+
+@media screen and (max-width: 1780px) {
+  .file-preview {
+    min-width: 290px;
+    min-height: 450px;
+  }
+  .file-preview-thumbnails {
+    width:500px;
+  }
+}
+
+
+@media screen and (max-width: 1680px) {
+  .file-preview {
+    min-width: 290px;
+    min-height: 450px;
+  }
+  .file-preview-thumbnails {
+    width:500px;
+  }
+}
+
+
+@media screen and (max-width: 1580px) {
+  .file-preview {
+    min-width: 290px;
+    min-height: 450px;
+  }
+  .file-preview-thumbnails {
+    width:400px;
+  }
+}
+
+@media screen and (max-width: 1280px) {
+  .file-preview {
+    min-width: 290px;
+    min-height: 450px;
+  }
+  .file-preview-thumbnails {
+    width:400px;
+  }
+}
+@media screen and (max-width: 800px) {
+  .file-preview {
+    min-width: 290px;
+    min-height: 450px;
+  }
+  .file-preview-thumbnails {
+    width:400px;
+  }
+}
+@media screen and (max-width: 480px) {
+  .file-preview {
+    min-width: 350px;
+    min-height: 450px;
+  }
+  .file-preview-thumbnails {
+    width:200px;
+  }
+}
+@media screen and (max-height: 280px) {
+  .file-preview {
+    min-width: 350px;
+    min-height: 300px;
+  }
+  .file-preview-thumbnails {
+    width:400px;
+  }
+}
+
+
 </style>
 @endsection
 

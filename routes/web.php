@@ -53,8 +53,8 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->midd
 
 Route::group(['middleware' => 'auth'], function () {
 
-Route::get('movimientos/credito', [TransactionController::class, 'credit'])->name('transactions.credit');
-Route::get('movimientos/{movimiento}/editar_credito', [TransactionController::class, 'credit_edit'])->name('transactions.credit_edit');
+Route::get('movimientos/credito', [TransactionController::class, 'credit'])->middleware('can:transactions.credit')->name('transactions.credit');
+Route::get('movimientos/{movimiento}/editar_credito', [TransactionController::class, 'credit_edit'])->middleware('can:transactions.credit_edit')->name('transactions.credit_edit');
 Route::resource('movimientos', TransactionController::class)->middleware('auth')->names('transactions');
 Route::delete('movimientos/eliminar/{movimiento}', [TransactionController::class, 'destroyImg'])->name('transactions.destroyimg');
 
