@@ -33,7 +33,7 @@ class TransactionController extends Controller
     {
 
         $type_coin = Type_coin::pluck('name', 'id');
-        $type_transaction = Type_transaction::pluck('name', 'id');
+        $type_transaction = Type_transaction::whereId(5);
         $wallet = Wallet::pluck('name', 'id');
         $group = Group::pluck('name', 'id');
         $user = User::pluck('name', 'id');

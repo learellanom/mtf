@@ -35,6 +35,11 @@ class Type_transactionSeeder extends Seeder
             //'password' =>bcrypt('12345678'),
         ]);
         Type_transaction::create([
+            'name' => "Credito de efectivo",
+            'description' => "Credito a la caja de efectivo.",
+            //'password' =>bcrypt('12345678'),
+        ]);
+        Type_transaction::create([
             'name' => "Ajustes",
             'description' => "Ajustes del switch",
             //'password' =>bcrypt('12345678'),
