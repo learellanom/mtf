@@ -111,9 +111,24 @@ Route::get('estadisticasResumenUsuario/{usuario}/{fechaDesde?}/{fechaHasta?}',[A
 Route::get('estadisticasResumenCliente',[App\Http\Controllers\statisticsController::class, 'clientSummary'])->middleware('can:estadisticasDetalle.statisticsResumenCliente')->name('estadisticasResumenCliente');
 Route::get('estadisticasResumenCliente/{cliente}/{fechaDesde?}/{fechaHasta?}',[App\Http\Controllers\statisticsController::class, 'clientSummary'])->name('estadisticasResumenCliente');
 
+Route::get('estadisticasResumenGrupo',[App\Http\Controllers\statisticsController::class, 'groupSummary'])->name('estadisticasResumenGrupo');
+Route::get('estadisticasResumenGrupo/{grupo}/{fechaDesde?}/{fechaHasta?}',[App\Http\Controllers\statisticsController::class, 'groupSummary'])->name('estadisticasResumenGrupo');
+
 
 Route::get('estadisticasResumenWallet',[App\Http\Controllers\statisticsController::class, 'walletSummary'])->middleware('can:estadisticasDetalle.statisticsResumenWallet')->name('estadisticasResumenWallet');
 Route::get('estadisticasResumenWallet/{wallet}/{fechaDesde?}/{fechaHasta?}',[App\Http\Controllers\statisticsController::class, 'walletSummary'])->name('estadisticasResumenWallet');
+
+
+Route::get('estadisticasResumenTransaccion',[App\Http\Controllers\statisticsController::class, 'transactionSummary'])->name('estadisticasResumenTransaccion');
+Route::get('estadisticasResumenTransaccion/{type_transaction?}/{fechaDesde?}/{fechaHasta?}',[App\Http\Controllers\statisticsController::class, 'transactionSummary'])->name('estadisticasResumenTransaccion');
+
+Route::get('estadisticasResumenGrupo',[App\Http\Controllers\statisticsController::class, 'groupSummary'])->name('estadisticasResumenGrupo');
+Route::get('estadisticasResumenGrupo/{grupo}/{fechaDesde?}/{fechaHasta?}',[App\Http\Controllers\statisticsController::class, 'groupSummary'])->name('estadisticasResumenGrupo');
+
+Route::get('estadisticasConciliacionGrupo',[App\Http\Controllers\statisticsController::class, 'conciliationSummaryDateGroup'])->name('estadisticasConciliacionGrupo');
+Route::get('estadisticasConciliacionGrupo/{grupo}/{fechaDesde?}/{fechaHasta?}',[App\Http\Controllers\statisticsController::class, 'conciliationSummaryDateGroup'])->name('estadisticasConciliacionGrupo');
+
+
 
 
 

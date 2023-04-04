@@ -154,6 +154,7 @@
                         Incluir comisión
                     </label>
 
+        <hr>
 
                     <label class="form-check-label mx-auto" for="radio2">
                         Descontar comisión
@@ -270,7 +271,7 @@
 
 
 
-                {!! Form::close() !!}
+        {!! Form::close() !!}
 
         </div>
     </div>
@@ -501,7 +502,8 @@ $(document).ready(function() {
 
   $('.percentage').change(function(e) {
 
-      $('#comision').prop('readonly', true);
+      $('#comision').
+      prop('readonly', true);
       $('#montototal').prop('readonly', true);
 
             comision = document.getElementById("comision");

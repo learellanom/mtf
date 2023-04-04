@@ -1,17 +1,19 @@
 @extends('adminlte::page')
-@section('title', 'Estadisticas por agentes')
+@section('title', 'Conciliacion fecha grupo')
 @section('content')
 {{-- Setup data for datatables --}}
 
 @php
 
 $heads = [
-    'Wallet',
-    'Transaccion',
-    'Cant',
-    'Monto transacciones',
-    'Monto comision',
-    'Monto total',
+    'Fecha',
+    'Grupo',
+    'Cant  Transacciones',
+    'Monto Transacciones',    
+    'Cant  Master',
+    'Monto Master',
+    'Cant',    
+    'Monto',
     ['label' => 'Actions', 'no-export' => true, 'width' => 5],
 ];
 
@@ -63,7 +65,7 @@ $config4 = [
 </script>
 <br>
 <br>
-<h1 class="text-center text-dark font-weight-bold">Resumen de Movimiento por Caja</h1>
+<h1 class="text-center text-dark font-weight-bold">Concilacion por Grupo</h1>
 <br>
 <br>
 {{-- Disabled --}}
@@ -71,27 +73,31 @@ $config4 = [
 <div class="container-left">
     <div class="row col-12">
 
+        <!-- Grupo -->
+
         <div class ="col-12 col-sm-2">
-            <x-adminlte-select2 id="wallet"
-                                name="optionsCliente"
+            <x-adminlte-select2 id="grupo"
+                                name="optionsGroup"
                                 igroup-size="sm"
                                 label-class="text-lightblue"
-                                data-placeholder="Wallet ..."
+                                data-placeholder="Grupo ..."
                                 :config="$config1"
                                 >
                 <x-slot name="prependSlot">
-                    <div class="input-group-text bg-gradient-dark">
+                    <div class="input-group-text bg-gradient-info">
                         <!-- <i class="fas fa-car-side"></i> -->
-                        <i class="fas fa-box"></i>
+                        <i class="fas fa-user-tie"></i>
                     </div>
                 </x-slot>
 
-                <x-adminlte-options :options="$wallet" empty-option="Selecciona un Wallet.."/>
+                <x-adminlte-options :options="$groups" empty-option="Selecciona un Grupo.."/>
             </x-adminlte-select2>
         </div>
 
         <div class ="col-12 col-sm-2">
         </div>
+
+        <!-- Fechas -->
 
         <div class ="col-12 col-sm-2">
             <x-adminlte-date-range name="drCustomRanges" enable-default-ranges="Last 30 Days" style="height: 30px;" :config="$config3">
@@ -136,7 +142,7 @@ $config4 = [
     <div class="col-md-12">
         <div class="card mb-4">
             <div class="card-header">
-                <h3 class="card-title">Estadisticas| Resumen por Caja</h3>
+                <h3 class="card-title">Conciliacion| por Grupo</h3>
             </div>
             <div class="card-body">
                 <div class="row">
@@ -144,13 +150,14 @@ $config4 = [
                         <x-adminlte-datatable id="table3" :heads="$heads">
                             @foreach($Transacciones as $row)
                                 <tr>
-                                    <td>{!! $row->WalletName !!}</td>
-                                    <td>{!! $row->TipoTransaccion !!}</td>
-                                    <td>{!! $row->cant_transactions !!}</td>
-                                    <td>{!! $row->total_amount !!}</td>
-                                    <td>{!! $row->total_commission !!}</td>
-                                    <td>{!! $row->total !!}</td>
-
+                                    <td>{!! $row->Fecha !!}</td>
+                                    <td>{!! $row->Grupo !!}</td>
+                                    <td>{!! $row->CantTrans !!}</td>
+                                    <td>{!! $row->MontoTrans !!}</td>
+                                    <td>{!! $row->CantMaster !!}</td>
+                                    <td>{!! $row->MontoMaster !!}</td>
+                                    <td>{!! $row->Cant !!}</td>
+                                    <td>{!! $row->Monto !!}</td>
                                     <td class="text-center">
                                         <button class="btn btn-xl text-teal mx-auto shadow" title="Detalles">
                                             <i class="fa fa-lg fa-fw fa-eye"></i>
@@ -173,19 +180,21 @@ $config4 = [
 <script>
 
 
-    const miWallet = {!! $myWallet !!};
 
-    BuscaWallet(miWallet);
+    const miGrupo = {!! $myGroup !!};
+
+    BuscaGrupo(miGrupo);
 
     $(() => {
 
 
-        $('#wallet').on('change', function (){
+        $('#grupo').on('change', function (){
 
             const usuario = $('#userole').val();
             const cliente = $('#cliente').val();
             const wallet = $('#wallet').val();
-            theRoute(usuario,cliente,wallet);
+            const grupo = $('#grupo').val();
+            theRoute(grupo,cliente,wallet);
 
         });
 
@@ -216,17 +225,15 @@ $config4 = [
 
     })
 
-    function theRoute(usuario = 0, cliente = 0, wallet = 0, fechaDesde = 0, fechaHasta = 0){
+    function theRoute(grupo = 0, cliente = 0, wallet = 0, fechaDesde = 0, fechaHasta = 0){
 
-        if (usuario === "") usuario = 0;
-        if (cliente === "") cliente = 0;
-        if (wallet  === "") wallet  = 0;
+        if (grupo   === "") grupo  = 0;
 
         let myRoute = "";
-            myRoute = "{{ route('estadisticasResumenWallet', ['wallet' => 'wallet2', 'fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2']) }}";
-            myRoute = myRoute.replace('wallet2',cliente);
-            myRoute = myRoute.replace('fechaDesde2',fechaDesde);
-            myRoute = myRoute.replace('fechaHasta2',fechaHasta);
+            myRoute = "{{ route('estadisticasConciliacionGrupo', ['grupo' => 'grupo2', 'fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2']) }}";
+            myRoute = myRoute.replace('grupo2',grupo);
+            myRoute = myRoute.replace('fechaDesde2',fechaDesde);                
+            myRoute = myRoute.replace('fechaHasta2',fechaHasta); 
         // console.log(myRoute);
         // alert(myRoute);
         location.href = myRoute;
@@ -267,22 +274,21 @@ $config4 = [
         }
 
 
-        function BuscaWallet(miWallet){
-            if (miWallet===0){
-                return;
-            }
-            // alert("BuscaWallet - miWallet -> " + miWallet);
-            $('#wallet').each( function(index, element){
-                // alert ("BuscaWallet -> " + $(this).val() + " text -> " + $(this).text()+ " y con index -> " + $(this).prop('selectedIndex'));
-                $(this).children("option").each(function(){
-                    if ($(this).val() === miWallet.toString()){
-                        // alert('BuscaWallet - encontro');
-                        $("#wallet option[value="+ miWallet +"]").attr("selected",true);
-                    }
-                    // alert("BuscaWallet aqui ->  the val " + $(this).val() + " text -> " + $(this).text());
+            function BuscaGrupo(miGrupo){
+                //alert("BuscaGrupo - miGrupo -> " + miGrupo);
+                $('#grupo').each( function(index, element){
+                    //alert ("Buscagrupo -> " + $(this).val() + " text -> " + $(this).text()+ " y con index -> " + $(this).prop('selectedIndex'));
+                    $(this).children("option").each(function(){
+                        if ($(this).val() === miGrupo.toString()){
+                            //alert('Buscagrupo - encontro');
+                            $("#grupo option[value="+ miGrupo +"]").attr("selected",true);
+                        }
+                        //alert("BuscaGrupoaqui ->  the val " + $(this).val() + " text -> " + $(this).text());
+                    });
                 });
-            });
-        }
+                //
+            }
+
 
 </script>
 

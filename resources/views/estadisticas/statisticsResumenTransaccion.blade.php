@@ -6,7 +6,6 @@
 @php
 
 $heads = [
-    'Wallet',
     'Transaccion',
     'Cant',
     'Monto transacciones',
@@ -63,7 +62,7 @@ $config4 = [
 </script>
 <br>
 <br>
-<h1 class="text-center text-dark font-weight-bold">Resumen de Movimiento por Caja</h1>
+<h1 class="text-center text-dark font-weight-bold">Resumen de Movimiento por Transacción</h1>
 <br>
 <br>
 {{-- Disabled --}}
@@ -72,21 +71,21 @@ $config4 = [
     <div class="row col-12">
 
         <div class ="col-12 col-sm-2">
-            <x-adminlte-select2 id="wallet"
-                                name="optionsCliente"
+            <x-adminlte-select2 id="transaccion"
+                                name="optionsTransaccion"
                                 igroup-size="sm"
                                 label-class="text-lightblue"
-                                data-placeholder="Wallet ..."
+                                data-placeholder="Transaccion ..."
                                 :config="$config1"
                                 >
                 <x-slot name="prependSlot">
-                    <div class="input-group-text bg-gradient-dark">
+                    <div class="input-group-text bg-gradient-info">
                         <!-- <i class="fas fa-car-side"></i> -->
-                        <i class="fas fa-box"></i>
+                        <i class="fas fa-user-tie"></i>
                     </div>
                 </x-slot>
 
-                <x-adminlte-options :options="$wallet" empty-option="Selecciona un Wallet.."/>
+                <x-adminlte-options :options="$Type_transactions" empty-option="Selecciona una Transaccion .."/>
             </x-adminlte-select2>
         </div>
 
@@ -96,7 +95,7 @@ $config4 = [
         <div class ="col-12 col-sm-2">
             <x-adminlte-date-range name="drCustomRanges" enable-default-ranges="Last 30 Days" style="height: 30px;" :config="$config3">
                 <x-slot name="prependSlot">
-                    <div class="input-group-text bg-gradient-dark">
+                    <div class="input-group-text bg-gradient-info">
                         <i class="fas fa-calendar-alt"></i>
                     </div>
                 </x-slot>
@@ -136,7 +135,7 @@ $config4 = [
     <div class="col-md-12">
         <div class="card mb-4">
             <div class="card-header">
-                <h3 class="card-title">Estadisticas| Resumen por Caja</h3>
+                <h3 class="card-title">Estadisticas| Resumen por Transacción</h3>
             </div>
             <div class="card-body">
                 <div class="row">
@@ -144,7 +143,6 @@ $config4 = [
                         <x-adminlte-datatable id="table3" :heads="$heads">
                             @foreach($Transacciones as $row)
                                 <tr>
-                                    <td>{!! $row->WalletName !!}</td>
                                     <td>{!! $row->TipoTransaccion !!}</td>
                                     <td>{!! $row->cant_transactions !!}</td>
                                     <td>{!! $row->total_amount !!}</td>
@@ -169,23 +167,25 @@ $config4 = [
 @endsection
 
 @section('js')
-
+    
 <script>
 
+// return view('estadisticas.statisticsResumenTransaction', compact('myTypeTransaction', 'Type_transactions', 'Transacciones'));   
 
-    const miWallet = {!! $myWallet !!};
+    const miTypeTransaction= {!! $myTypeTransaction !!};
 
-    BuscaWallet(miWallet);
+    BuscaTransaccion(miTypeTransaction);
 
     $(() => {
 
 
-        $('#wallet').on('change', function (){
+        $('#transaccion').on('change', function (){
 
             const usuario = $('#userole').val();
             const cliente = $('#cliente').val();
             const wallet = $('#wallet').val();
-            theRoute(usuario,cliente,wallet);
+            const transaccion = $('#transaccion').val();
+            theRoute(transaccion, usuario,cliente,wallet);
 
         });
 
@@ -211,22 +211,24 @@ $config4 = [
             const usuario = $('#userole').val();
             const cliente = $('#cliente').val();
             const wallet = $('#wallet').val();
-            theRoute(usuario,cliente,wallet,myFechaDesde,myFechaHasta);
+            const transaccion = 0;
+            theRoute(transaccion,usuario,cliente,wallet,myFechaDesde,myFechaHasta);
         });
 
     })
 
-    function theRoute(usuario = 0, cliente = 0, wallet = 0, fechaDesde = 0, fechaHasta = 0){
+    function theRoute(transaccion = 0, usuario = 0, cliente = 0, wallet = 0, fechaDesde = 0, fechaHasta = 0){
 
-        if (usuario === "") usuario = 0;
-        if (cliente === "") cliente = 0;
-        if (wallet  === "") wallet  = 0;
+        if (usuario === "")      usuario = 0;
+        if (cliente === "")      cliente = 0;
+        if (wallet  === "")      wallet  = 0;
+        if (transaccion  === "") transaccion  = 0;
 
         let myRoute = "";
-            myRoute = "{{ route('estadisticasResumenWallet', ['wallet' => 'wallet2', 'fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2']) }}";
-            myRoute = myRoute.replace('wallet2',cliente);
-            myRoute = myRoute.replace('fechaDesde2',fechaDesde);
-            myRoute = myRoute.replace('fechaHasta2',fechaHasta);
+            myRoute = "{{ route('estadisticasResumenTransaccion', ['type_transaction' => 'transaccion2', 'fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2']) }}";
+            myRoute = myRoute.replace('transaccion2',transaccion);
+            myRoute = myRoute.replace('fechaDesde2',fechaDesde);                
+            myRoute = myRoute.replace('fechaHasta2',fechaHasta); 
         // console.log(myRoute);
         // alert(myRoute);
         location.href = myRoute;
@@ -252,37 +254,54 @@ $config4 = [
     }
 
     function BuscaCliente(miCliente){
-            //alert("BuscaCliente - miCliente -> " + miCliente);
-            $('#cliente').each( function(index, element){
-                //alert ("Buscacliente -> " + $(this).val() + " text -> " + $(this).text()+ " y con index -> " + $(this).prop('selectedIndex'));
-                $(this).children("option").each(function(){
-                    if ($(this).val() === miCliente.toString()){
-                        //alert('BUscaCliente - encontro');
-                        $("#cliente option[value="+ miCliente +"]").attr("selected",true);
-                    }
-                    //alert("BuscaClienteaqui ->  the val " + $(this).val() + " text -> " + $(this).text());
-                });
+        //alert("BuscaCliente - miCliente -> " + miCliente);
+        $('#cliente').each( function(index, element){
+            //alert ("Buscacliente -> " + $(this).val() + " text -> " + $(this).text()+ " y con index -> " + $(this).prop('selectedIndex'));
+            $(this).children("option").each(function(){
+                if ($(this).val() === miCliente.toString()){
+                    //alert('BUscaCliente - encontro');
+                    $("#cliente option[value="+ miCliente +"]").attr("selected",true);
+                }
+                //alert("BuscaClienteaqui ->  the val " + $(this).val() + " text -> " + $(this).text());
             });
-            //
-        }
+        });
+        //
+    }
 
 
-        function BuscaWallet(miWallet){
-            if (miWallet===0){
-                return;
-            }
-            // alert("BuscaWallet - miWallet -> " + miWallet);
-            $('#wallet').each( function(index, element){
-                // alert ("BuscaWallet -> " + $(this).val() + " text -> " + $(this).text()+ " y con index -> " + $(this).prop('selectedIndex'));
-                $(this).children("option").each(function(){
-                    if ($(this).val() === miWallet.toString()){
-                        // alert('BuscaWallet - encontro');
-                        $("#wallet option[value="+ miWallet +"]").attr("selected",true);
-                    }
-                    // alert("BuscaWallet aqui ->  the val " + $(this).val() + " text -> " + $(this).text());
-                });
-            });
+    function BuscaWallet(miWallet){
+        if (miWallet===0){
+            return;
         }
+        // alert("BuscaWallet - miWallet -> " + miWallet);
+        $('#wallet').each( function(index, element){
+            // alert ("BuscaWallet -> " + $(this).val() + " text -> " + $(this).text()+ " y con index -> " + $(this).prop('selectedIndex'));
+            $(this).children("option").each(function(){
+                if ($(this).val() === miWallet.toString()){
+                    // alert('BuscaWallet - encontro');
+                    $("#wallet option[value="+ miWallet +"]").attr("selected",true);
+                }
+                // alert("BuscaWallet aqui ->  the val " + $(this).val() + " text -> " + $(this).text());
+            });
+        });
+    }
+
+    function BuscaTransaccion(miTypeTransaction){
+        if (miTypeTransaction===0){
+            return;
+        }
+        // alert("BuscaWallet - miWallet -> " + miWallet);
+        $('#transaccion').each( function(index, element){
+            // alert ("BuscaWallet -> " + $(this).val() + " text -> " + $(this).text()+ " y con index -> " + $(this).prop('selectedIndex'));
+            $(this).children("option").each(function(){
+                if ($(this).val() === miTypeTransaction.toString()){
+                    // alert('BuscaWallet - encontro');
+                    $("#transaccion option[value="+ miTypeTransaction +"]").attr("selected",true);
+                }
+                // alert("BuscaWallet aqui ->  the val " + $(this).val() + " text -> " + $(this).text());
+            });
+        });
+    }
 
 </script>
 
