@@ -329,7 +329,7 @@ return [
         [
             'text' => 'Estadisticas',
             'url'  => 'dashboardest',
-            'icon' => 'fas fa-fw fas fa-chart-bar',
+            'icon' => 'fas fa-fw fas fa-chart-line',
             'can'  => 'dashboardtest',
         ],
         [
@@ -367,6 +367,7 @@ return [
             'text'        => 'Transacciónes',
             'url'         => 'movimientos',
             'active'      => ['movimientos', 'regex:@^movimientos/[0-9]+/edit+$@', 'movimientos/create'],
+            'can'         => 'transactions.index',
             'icon'        => 'fas fa-fw fas fa-retweet',
             'label'       => 4,
             'label_color' =>'success',

@@ -80,9 +80,9 @@ $config4 = [
                                 :config="$config1"
                                 >
                 <x-slot name="prependSlot">
-                    <div class="input-group-text bg-gradient-info">
+                    <div class="input-group-text bg-gradient-dark">
                         <!-- <i class="fas fa-car-side"></i> -->
-                        <i class="fas fa-user-tie"></i>
+                        <i class="fas fa-box"></i>
                     </div>
                 </x-slot>
 
@@ -96,7 +96,7 @@ $config4 = [
         <div class ="col-12 col-sm-2">
             <x-adminlte-date-range name="drCustomRanges" enable-default-ranges="Last 30 Days" style="height: 30px;" :config="$config3">
                 <x-slot name="prependSlot">
-                    <div class="input-group-text bg-gradient-info">
+                    <div class="input-group-text bg-gradient-dark">
                         <i class="fas fa-calendar-alt"></i>
                     </div>
                 </x-slot>
@@ -169,10 +169,10 @@ $config4 = [
 @endsection
 
 @section('js')
-    
+
 <script>
 
-    
+
     const miWallet = {!! $myWallet !!};
 
     BuscaWallet(miWallet);
@@ -224,9 +224,15 @@ $config4 = [
 
         let myRoute = "";
             myRoute = "{{ route('estadisticasResumenWallet', ['wallet' => 'wallet2', 'fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2']) }}";
+<<<<<<< HEAD
             myRoute = myRoute.replace('wallet2',wallet);
             myRoute = myRoute.replace('fechaDesde2',fechaDesde);                
             myRoute = myRoute.replace('fechaHasta2',fechaHasta); 
+=======
+            myRoute = myRoute.replace('wallet2',cliente);
+            myRoute = myRoute.replace('fechaDesde2',fechaDesde);
+            myRoute = myRoute.replace('fechaHasta2',fechaHasta);
+>>>>>>> 5b42b6980c541b3ef12ca344ab512d4fc8a92de1
         // console.log(myRoute);
         // alert(myRoute);
         location.href = myRoute;
@@ -282,8 +288,12 @@ $config4 = [
                     // alert("BuscaWallet aqui ->  the val " + $(this).val() + " text -> " + $(this).text());
                 });
             });
+<<<<<<< HEAD
         }
            
+=======
+
+>>>>>>> 5b42b6980c541b3ef12ca344ab512d4fc8a92de1
 
 </script>
 
