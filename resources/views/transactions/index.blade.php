@@ -11,9 +11,6 @@
 
 @section('content')
 
-{{-- Setup data for datatables --}}
-
-
 @php
 
 
@@ -106,4 +103,12 @@ $config = [
   </div>
  </div>
 </div>
+@endsection
+@section('js')
+<script>
+        $(document).ready(function() {
+
+        });
+</script>
+
 @endsection

@@ -8,7 +8,6 @@ use App\Models\Transaction;
 use App\Models\Type_coin;
 use App\Models\Type_transaction;
 use App\Models\Wallet;
-use App\Models\Client;
 use App\Models\Group;
 use App\Models\Image;
 use App\Models\User;
@@ -102,7 +101,12 @@ class TransactionController extends Controller
             //return response()->json(['url' => $url]);
           }
         }
+
+        flash()->addSuccess('Movimiento guardado', 'Transacción', ['timeOut' => 3000]);
+
         return Redirect::route('transactions.index');
+
+
     }
 
     /**
@@ -122,8 +126,7 @@ class TransactionController extends Controller
         $transactions = Transaction::find($transaction);
 
         $imagen = Transaction::findOrFail($transaction)->image;
-        //$image = $transactions->image()->find($transactions);
-        //$image = Transaction::find($transactions)
+
 
         $type_coin = Type_coin::pluck('name', 'id');
         $type_transaction = Type_transaction::pluck('name', 'id');
@@ -178,6 +181,9 @@ class TransactionController extends Controller
 
         }
       }
+
+        flash()->addInfo('Transacción modificada..', 'Transacción <strong># ' . $transaction . '</strong>', ['timeOut' => 3000]);
+
         return Redirect::route('transactions.index');
     }
 
@@ -223,8 +229,10 @@ class TransactionController extends Controller
         unlink(storage_path('app\\'.$img->url));
 
 
+
         $img->delete();
 
+        flash()->addError('Imagen eliminada de la transacción numero '. '# '. $transaction, 'Transacción', ['timeOut' => 2000]);
 
         return true;
 

@@ -32,7 +32,6 @@ $heads = [
 
 
 $config = [
-
     'order' => [[1, 'asc']],
     'columns' => [null, null, null, ['orderable' => false]],
 ];

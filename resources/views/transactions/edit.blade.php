@@ -127,7 +127,7 @@
                         {!! Form::Label('percentage_base', "Porcentaje Base:") !!}
                         <div class="input-group-text">
                             <i class="fa-fw fas fa-percentage mr-2"></i>
-                        {!! Form::text('percentage_base',null, ['class' => 'form-control percentage_base', 'required' => true, 'min' => 0, 'id' => 'percentage_base']) !!}
+                        {!! Form::text('percentage_base',null, ['class' => 'form-control percentage_base', 'min' => 0, 'id' => 'percentage_base']) !!}
                         </div>
                     </div>
 
@@ -136,7 +136,7 @@
                         {!! Form::Label('amount_commission_base', "Monto Comisión Base:") !!}
                         <div class="input-group-text">
                             <i class="fa-fw fas fa-coins mr-2"></i>
-                        {!! Form::number('amount_commission_base',null, ['class' => 'form-control comision_ganancia', 'required' => true, 'min' => 0, 'readonly' => true, 'id' => 'comision_base']) !!}
+                        {!! Form::number('amount_commission_base',null, ['class' => 'form-control comision_ganancia', 'min' => 0, 'readonly' => true, 'id' => 'comision_base']) !!}
                         </div>
 
                     </div>
@@ -780,11 +780,11 @@ $('#file').on('filecleared', function () {
 
 $('#file').on('filepredelete',  function(jqXHR) {
 
-    var abort = true;
+/*     var abort = true;
     if (confirm("¿Está seguro de que desea eliminar esta imagen?")) {
         abort = false;
     }
-    return abort;
+    return abort; */
 
 });
 
