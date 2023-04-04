@@ -40,7 +40,7 @@ class WalletController extends Controller
         if($request->user){
             $wallets->user()->attach($request->user);
          }
-
+         flash()->addSuccess('Nueva caja registrada', 'Caja', ['timeOut' => 3000]);
          return Redirect::route('wallets.index', $wallets);
     }
 
@@ -74,6 +74,8 @@ class WalletController extends Controller
             $wallets->user()->sync($request->user);
          }
 
+        flash()->addInfo('Caja modificada..', 'Caja', ['timeOut' => 3000]);
+
         return Redirect::route('wallets.index', $wallets)->with('update', 'ok');
     }
 
@@ -82,7 +84,11 @@ class WalletController extends Controller
      */
     public function destroy($wallet)
     {
+        $caja = Wallet::find($wallet);
         Wallet::destroy($wallet);
+
+        flash()->addError('Caja eliminada del sistema', 'Caja Eliminada: ' . $caja->name,  ['timeOut' => 2000]);
+
         return Redirect::route('wallets.index')->with('delete', 'ok');
     }
 }

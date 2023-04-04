@@ -127,7 +127,7 @@
                         {!! Form::Label('percentage_base', "Porcentaje Base:") !!}
                         <div class="input-group-text">
                             <i class="fa-fw fas fa-percentage mr-2"></i>
-                        {!! Form::text('percentage_base',null, ['class' => 'form-control percentage_base', 'required' => true, 'min' => 0, 'id' => 'percentage_base']) !!}
+                        {!! Form::text('percentage_base',null, ['class' => 'form-control percentage_base',  'min' => 0, 'id' => 'percentage_base']) !!}
                         </div>
                     </div>
 
@@ -136,7 +136,7 @@
                         {!! Form::Label('amount_commission_base', "Monto Comisión Base:") !!}
                         <div class="input-group-text">
                             <i class="fa-fw fas fa-coins mr-2"></i>
-                        {!! Form::number('amount_commission_base',null, ['class' => 'form-control comision_ganancia', 'required' => true, 'min' => 0, 'readonly' => true, 'id' => 'comision_base']) !!}
+                        {!! Form::number('amount_commission_base',null, ['class' => 'form-control comision_ganancia', 'min' => 0, 'readonly' => true, 'id' => 'comision_base']) !!}
                         </div>
 
                     </div>
@@ -145,19 +145,19 @@
                 <div class="form-group col-md-12 d-flex justify-content-center">
 
                     <label class="form-check-label mx-auto" for="radio1">
-                        {!! Form::radio('exonerate',2, null, ['id' => 'radio1', 'class' => 'exonerar']) !!}
+                        {!! Form::radio('exonerate',2, null, ['id' => 'radio1', 'class' => 'exonerar', 'required' => true,]) !!}
                         Exonerar comisión
                     </label>
 
                     <label class="form-check-label mx-auto" for="radio3">
-                        {!! Form::radio('exonerate',1, null, ['id' => 'radio3', 'class' => 'incluir']) !!}
+                        {!! Form::radio('exonerate',1, null, ['id' => 'radio3', 'class' => 'incluir','required' => true,]) !!}
                         Incluir comisión
                     </label>
 
 
                     <label class="form-check-label mx-auto" for="radio2">
                         Descontar comisión
-                        {!! Form::radio('exonerate',3, null, ['id' => 'radio2', 'class' => 'descontar']) !!}
+                        {!! Form::radio('exonerate',3, null, ['id' => 'radio2', 'class' => 'descontar', 'required' => true,]) !!}
                     </label>
 
                 </div>

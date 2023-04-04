@@ -64,6 +64,9 @@ class TransactionMasterController extends Controller
             //return response()->json(['url' => $url]);
           }
         }
+
+        flash()->addSuccess('Movimiento guardado', 'Transacción', ['timeOut' => 3000]);
+
         return Redirect::route('transactions_master.index');
     }
 
@@ -131,6 +134,8 @@ class TransactionMasterController extends Controller
 
         }
       }
+
+        flash()->addInfo('Transacción modificada..', 'Transacción <strong># ' . $transaction . '</strong>', ['timeOut' => 3000]);
         return Redirect::route('transactions_master.index');
     }
 
@@ -175,6 +180,7 @@ class TransactionMasterController extends Controller
 
         $img->delete();
 
+        flash()->addError('Imagen eliminada de la transacción numero '. '# '. $transaction, 'Transacción', ['timeOut' => 2000]);
 
         return true;
 

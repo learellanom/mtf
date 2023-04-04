@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
 use Illuminate\Support\Facades\Redirect;
 
 class RoleController extends Controller
@@ -23,7 +24,8 @@ class RoleController extends Controller
      */
     public function create()
     {
-        return view('roles.create');
+        $permisos = Permission::all();
+        return view('roles.create', compact('permisos'));
     }
 
     /**
@@ -31,7 +33,12 @@ class RoleController extends Controller
      */
     public function store(Request $request)
     {
-        Role::create($request->all());
+        $role = Role::create($request->all());
+
+        $role->permissions()->sync($request->permissions);
+
+        flash()->addSuccess('Nuevo role creado con exito.', 'Roles', ['timeOut' => 3000]);
+
         return Redirect::route('roles.index');
     }
 
@@ -49,8 +56,9 @@ class RoleController extends Controller
     public function edit($role)
     {
         $roles = Role::find($role);
+        $permisos = Permission::all();
 
-        return view('roles.edit', compact('roles'));
+        return view('roles.edit', compact('roles', 'permisos'));
     }
 
     /**
@@ -59,6 +67,11 @@ class RoleController extends Controller
     public function update(Request $request, $role)
     {
         Role::findOrFail($role)->update($request->all());
+
+        $role->permissions()->sync($request->permissions);
+
+        flash()->addInfo('Role modificado..', 'Roles', ['timeOut' => 3000]);
+
         return Redirect::route('roles.index')->with('update', 'ok');
     }
 
@@ -70,6 +83,7 @@ class RoleController extends Controller
         $role = Role::find($role);
 
         $role->delete();
+        flash()->addError('Roles', 'Role eliminado: ' . $role->name,  ['timeOut' => 2000]);
 
         return Redirect::route('roles.index')->with('destroy','ok');
     }

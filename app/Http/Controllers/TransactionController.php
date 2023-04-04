@@ -11,6 +11,7 @@ use App\Models\Wallet;
 use App\Models\Group;
 use App\Models\Image;
 use App\Models\User;
+use Spatie\Permission\Models\Role;
 use Database\Factories\TransactionFactory;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Redirect;
@@ -23,9 +24,20 @@ class TransactionController extends Controller
      */
     public function index()
     {
-        $transferencia = Transaction::all();
 
-        return view('transactions.index', compact('transferencia'));
+         foreach(auth()->user()->roles as $roles)
+         {
+            if($roles->id == 1){
+                $transferencia = Transaction::all();
+            }
+            else{
+                $transferencia = Transaction::where('user_id', '=', auth()->id())->get();
+            }
+
+         }
+
+         return view('transactions.index', compact('transferencia'));
+
     }
 
     public function credit(transaction $transaction)
