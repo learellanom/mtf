@@ -360,11 +360,13 @@ return [
             'text' => 'Conciliacion por Grupo',
             'url'  => 'estadisticasConciliacionGrupo',
             'icon' => 'fas fa-fw fas fa-chart-bar',
+            'can'  => 'estadisticasDetalle.statisticsResumenConciliacionFechaGrupo'
         ],
         [
             'text' => 'Conciliacion por Fecha',
             'url'  => 'estadisticasConciliacionFecha',
             'icon' => 'fas fa-fw fas fa-chart-bar',
+            'can'  => 'estadisticasDetalle.statisticsResumenConciliacionFecha'
         ],
         ['header' => 'Operaciones',
         'classes' =>'text-uppercase font-weight-bold text-light',],
@@ -397,7 +399,7 @@ return [
         ],
 
         ['header' => 'Configuración',
-        'classes' =>'text-uppercase font-weight-bold text-light',],
+        'classes' =>'text-uppercase font-weight-bold text-light', 'can'  => 'users.index'],
         [
             'text'    => 'Usuarios',
             'url'  => 'usuarios',

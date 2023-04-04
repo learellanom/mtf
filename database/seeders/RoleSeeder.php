@@ -36,7 +36,7 @@ class RoleSeeder extends Seeder
         Permission::create(['name' => 'groups.update','description' => 'Modificar grupos del sistema'])->assignRole($role1);
         Permission::create(['name' => 'groups.create','description' => 'Crear grupos al sistema'])->assignRole($role1);
 
-        Permission::create(['name' => 'users.index','description' => 'Ver usuarios del sistema'])->syncRoles([$role1, $role2]);
+        Permission::create(['name' => 'users.index','description' => 'Ver usuarios del sistema'])->assignRole($role1);
         Permission::create(['name' => 'users.password','description' => 'Cambiar contraseña de los usuarios'])->assignRole($role1);
         Permission::create(['name' => 'users.edit','description' => 'Modificar usuarios del sistema'])->assignRole($role1);
         Permission::create(['name' => 'users.create','description' => 'Crear usuarios al sistema'])->assignRole($role1);
