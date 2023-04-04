@@ -435,7 +435,7 @@ class statisticsController extends Controller
   
             // dd($Transacciones);
         
-        return view('estadisticas.statisticsResumenTransaccion', compact('myTypeTransaction', 'Type_transactions', 'Transacciones'));   
+        return view('estadisticas.statisticsResumenTransaccion', compact('myTypeTransaction', 'Type_transactions', 'Transacciones'));
         return $myUsers2;
     }
     /*
@@ -541,23 +541,80 @@ class statisticsController extends Controller
         }     
 
 
-        $Transacciones = DB::table('transactions')
-            ->select(DB::raw('
-                groups.name as GroupName,
-                type_transactions.name as TipoTransaccion,
-                count(*)    as cant_transactions,
-                sum(amount) as total_amount,
-                sum(amount_commission) as total_commission,
-                sum(amount_total) as total'))
-            ->leftJoin('groups','groups.id', '=', 'transactions.group_id')
-            ->leftJoin('type_transactions', 'type_transactions.id', '=', 'transactions.type_transaction_id')             
-            ->whereBetween('Transactions.type_transaction_id', [$myTypeTransactionDesde, $myTypeTransactionHasta])            
-            ->whereBetween('Transactions.group_id', [$myGroupDesde, $myGroupHasta])
-            ->whereBetween('Transactions.transaction_date', [$myFechaDesde, $myFechaHasta])   
-            ->groupBy('GroupName', 'TipoTransaccion')
-            ->get();        
+        // $Transacciones = DB::table('transactions')
+        //     ->select(DB::raw('
+        //         groups.name as GroupName,
+        //         type_transactions.name as TipoTransaccion,
+        //         count(*)    as cant_transactions,
+        //         sum(amount) as total_amount,
+        //         sum(amount_commission) as total_commission,
+        //         sum(amount_total) as total'))
+        //     ->leftJoin('groups','groups.id', '=', 'transactions.group_id')
+        //     ->leftJoin('type_transactions', 'type_transactions.id', '=', 'transactions.type_transaction_id')             
+        //     ->whereBetween('Transactions.type_transaction_id', [$myTypeTransactionDesde, $myTypeTransactionHasta])            
+        //     ->whereBetween('Transactions.group_id', [$myGroupDesde, $myGroupHasta])
+        //     ->whereBetween('Transactions.transaction_date', [$myFechaDesde, $myFechaHasta])   
+        //     ->groupBy('GroupName', 'TipoTransaccion')
+        //     ->get();        
 
 
+        $Transacciones = DB::select("
+        select 
+            fecha       as Fecha, 
+            grupo		as GrupoId, 
+            grupo_des	as Grupo, 
+            sum(cant) 	as CantTrans, 
+            sum(monto) 	as MontoTrans, 
+            sum(cant2) 	as CantMaster, 
+            sum(monto2) as MontoMaster,
+            (sum(cant) - sum(cant2)) as Cant,
+            (sum(monto) - sum(monto2)) as Monto
+        from(
+            select 
+                myTransactions.transaction_date 		as fecha,  
+                myTransactions.group_id 				as grupo,
+                mtf.groups.name							as grupo_des,
+                count(myTransactions.transaction_date) 	as cant,
+                sum(myTransactions.amount_total) 		as monto,
+                0 										as cant2,
+                0										as monto2
+            from mtf.transactions as myTransactions 
+            left join  mtf.groups on myTransactions.group_id  = mtf.groups.id
+            group by 
+                myTransactions.transaction_date,
+                myTransactions.group_id,
+                mtf.groups.name
+            union
+            select
+                myTransactions.transaction_date 		as fecha,  
+                myTransactions.group_id 				as grupo,
+                mtf.groups.name							as grupo_des,    
+                0 										as cant,
+                0										as monto,
+                count(myTransactions.transaction_date) 	as cant2,
+                sum(myTransactions.amount_total) 		as monto2
+            from mtf.transaction_masters 				as myTransactions 
+            left join  mtf.groups on myTransactions.group_id  = mtf.groups.id
+            group by 
+                myTransactions.transaction_date,
+                myTransactions.group_id,
+                mtf.groups.name
+        ) as t
+        where
+            grupo between " . $myGroupDesde . " and " . $myGroupHasta . " 
+            and
+            fecha between '0000-01-01' and '9999-12-31'
+        group by
+            fecha, 
+            grupo,
+            grupo_des
+        ");
+
+        $groups = $this->getGroups();
+
+        // dd($Transacciones);
+
+        return view('estadisticas.statisticsResumenConciliacionFechaGrupo', compact('myGroup','groups', 'Transacciones'));            
 
     }
 
