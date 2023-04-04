@@ -59,6 +59,9 @@ class RoleSeeder extends Seeder
         Permission::create(['name' => 'estadisticasDetalle.statisticsResumenUsuario','description' => 'Resumen de movimientos por agente'])->assignRole($role1);
         Permission::create(['name' => 'estadisticasDetalle.statisticsResumenWallet','description' => 'Resumen de movimientos por cajas'])->assignRole($role1);
 
+        Permission::create(['name' => 'estadisticasDetalle.statisticsResumenConciliacionFecha','description' => 'Conciliación por fecha'])->assignRole($role1);
+        Permission::create(['name' => 'estadisticasDetalle.statisticsResumenConciliacionFechaGrupo','description' => 'Conciliación por grupos'])->assignRole($role1);
+
 
         Permission::create(['name' => 'transactions_master.index', 'description' => 'Ver transacciónes master'])->assignRole($role1);
         Permission::create(['name' => 'transactions_master.edit', 'description' => 'Modificar transacciónes master'])->assignRole($role1);
