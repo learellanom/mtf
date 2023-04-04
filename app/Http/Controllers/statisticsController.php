@@ -618,6 +618,60 @@ class statisticsController extends Controller
 
     }
 
+    public function conciliationSummaryDate(Request $request)
+    {
+
+        $myFechaDesde = "2001-01-01";
+        $myFechaHasta = "9999-12-31";
+        if ($request->fechaDesde){
+            $myFechaDesde = $request->fechaDesde;
+            $myFechaHasta = $request->fechaHasta;
+        }
+
+        if ($request->fechaHasta){
+            $myFechaHasta = $request->fechaHasta;
+        }     
+
+
+        $Transacciones = DB::select("
+        select 
+        fecha						as Fecha, 
+        sum(cant) 					as CantTrans, 
+        sum(monto) 					as MontoTrans, 
+        sum(cant2) 					as CantMaster, 
+        sum(monto2) 				as MontoMaster,
+        (sum(cant) - sum(cant2)) 	as Cant,
+        (sum(monto) - sum(monto2)) 	as Monto
+    from(
+    select 
+        myTransactions.transaction_date 		as fecha,  
+        count(myTransactions.transaction_date) 	as cant,
+        sum(myTransactions.amount_total) 		as monto,
+        0 										as cant2,
+        0										as monto2	
+    from mtf.transactions as myTransactions 
+    group by 
+        myTransactions.transaction_date
+    union
+    select
+        myTransactions.transaction_date 		as fecha,  
+        0 										as cant,
+        0										as monto,
+        count(myTransactions.transaction_date) 	as cant2,
+        sum(myTransactions.amount_total) 		as monto2
+    from mtf.transaction_masters as myTransactions 
+    group by 
+        myTransactions.transaction_date
+    ) as t
+    group by
+        fecha
+        ");
+
+        // dd($Transacciones);
+
+        return view('estadisticas.statisticsResumenConciliacionFecha', compact('Transacciones'));            
+
+    }
     /*
 
         Carga los grupos id y nombre

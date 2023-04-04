@@ -360,7 +360,12 @@ return [
             'text' => 'Conciliacion por Grupo',
             'url'  => 'estadisticasConciliacionGrupo',
             'icon' => 'fas fa-fw fas fa-chart-bar',
-        ],        
+        ],
+        [
+            'text' => 'Conciliacion por Fecha',
+            'url'  => 'estadisticasConciliacionFecha',
+            'icon' => 'fas fa-fw fas fa-chart-bar',
+        ],
         ['header' => 'Operaciones',
         'classes' =>'text-uppercase font-weight-bold text-light',],
         [
