@@ -354,8 +354,13 @@ return [
             'text' => 'Resumen por Caja',
             'url'  => 'estadisticasResumenWallet',
             'icon' => 'fas fa-fw fas fa-chart-bar',
-            'can'         => 'estadisticasDetalle.statisticsResumenWallet',
+            'can'  => 'estadisticasDetalle.statisticsResumenWallet',
         ],
+        [
+            'text' => 'Conciliacion por Grupo',
+            'url'  => 'estadisticasConciliacionGrupo',
+            'icon' => 'fas fa-fw fas fa-chart-bar',
+        ],        
         ['header' => 'Operaciones',
         'classes' =>'text-uppercase font-weight-bold text-light',],
         [

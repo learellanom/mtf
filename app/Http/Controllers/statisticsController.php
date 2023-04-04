@@ -511,6 +511,56 @@ class statisticsController extends Controller
         
     }
 
+    public function conciliationSummaryDateGroup(Request $request)
+    {
+        $myGroup = 0;
+        if ($request->grupo) {
+            $myGroup = $request->grupo;
+        }
+
+        $myGroupDesde = 0;
+        $myGroupHasta = 9999;
+
+
+        if ($myGroup != 0){
+            $myGroupDesde = $myGroup;
+            $mygroupHasta = $myGroup;
+        }
+
+
+
+        $myFechaDesde = "2001-01-01";
+        $myFechaHasta = "9999-12-31";
+        if ($request->fechaDesde){
+            $myFechaDesde = $request->fechaDesde;
+            $myFechaHasta = $request->fechaHasta;
+        }
+
+        if ($request->fechaHasta){
+            $myFechaHasta = $request->fechaHasta;
+        }     
+
+
+        $Transacciones = DB::table('transactions')
+            ->select(DB::raw('
+                groups.name as GroupName,
+                type_transactions.name as TipoTransaccion,
+                count(*)    as cant_transactions,
+                sum(amount) as total_amount,
+                sum(amount_commission) as total_commission,
+                sum(amount_total) as total'))
+            ->leftJoin('groups','groups.id', '=', 'transactions.group_id')
+            ->leftJoin('type_transactions', 'type_transactions.id', '=', 'transactions.type_transaction_id')             
+            ->whereBetween('Transactions.type_transaction_id', [$myTypeTransactionDesde, $myTypeTransactionHasta])            
+            ->whereBetween('Transactions.group_id', [$myGroupDesde, $myGroupHasta])
+            ->whereBetween('Transactions.transaction_date', [$myFechaDesde, $myFechaHasta])   
+            ->groupBy('GroupName', 'TipoTransaccion')
+            ->get();        
+
+
+
+    }
+
     /*
 
         Carga los grupos id y nombre
