@@ -33,7 +33,9 @@ class Type_transactionController extends Controller
     {
         Type_transaction::create($request->all());
 
-        return Redirect::route(route('type_transactions.index'));
+        flash()->addSuccess('Nuevo Tipo transacción creado con exito.', 'Tipo de Transacción', ['timeOut' => 3000]);
+
+        return Redirect::route('type_transactions.index');
     }
 
     /**
@@ -60,6 +62,8 @@ class Type_transactionController extends Controller
     public function update(Request $request, $type_transaction)
     {
         Type_transaction::findOrFail($type_transaction)->update($request->all());
+
+        flash()->addInfo('Tipo de transacción modificado..', 'Tipo de transacción', ['timeOut' => 3000]);
         return Redirect::route('type_transactions.index');
     }
 
@@ -71,6 +75,7 @@ class Type_transactionController extends Controller
         $type_transactions = Type_transaction::find($type_transaction);
         $type_transactions->delete();
 
+        flash()->addError('Tipo de transacción', 'Tipo de transacción eliminado: ' . $type_transactions->name,  ['timeOut' => 2000]);
         return Redirect::route('type_transactions.index');
     }
 }

@@ -42,6 +42,7 @@ class GroupController extends Controller
             $groups->user()->attach($request->user);
          }
 
+         flash()->addSuccess('Nuevo grupo creado con exito.', 'Grupo', ['timeOut' => 3000]);
          return redirect(route('groups.index'));
     }
 
@@ -86,6 +87,7 @@ class GroupController extends Controller
             $group->user()->sync($request->user);
          }
 
+         flash()->addInfo('Grupo modificado..', 'Grupo', ['timeOut' => 3000]);
 
          return Redirect::route('groups.index');
     }
@@ -98,6 +100,7 @@ class GroupController extends Controller
         $group = Group::find($groups);
         $group->delete();
 
+        flash()->addError('Grupo', 'Grupo eliminado: ' . $group->name,  ['timeOut' => 2000]);
         return Redirect::route('groups.index');
 
     }

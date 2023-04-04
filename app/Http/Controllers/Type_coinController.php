@@ -32,6 +32,9 @@ class Type_coinController extends Controller
     public function store(Request $request)
     {
         Type_coin::create($request->all());
+
+        flash()->addSuccess('Nuevo Tipo moneda creado con exito.', 'Tipo de Moneda', ['timeOut' => 3000]);
+
         return Redirect::route('type_coins.index');
     }
 
@@ -56,9 +59,10 @@ class Type_coinController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $type_coin)
+    public function update(Request $request, type_coin $type_coin)
     {
         $type_coin->update($request->all());
+        flash()->addInfo('Tipo de moneda modificado..', 'Tipo de moneda', ['timeOut' => 3000]);
         return Redirect::route('type_coins.index');
     }
 
@@ -67,7 +71,11 @@ class Type_coinController extends Controller
      */
     public function destroy($type_coin)
     {
+        $type_coin = Type_coin::find($type_coin);
+
         $type_coin->delete();
+
+        flash()->addError('Tipo de moneda', 'Tipo de moneda Eliminado: ' . $type_coin->name,  ['timeOut' => 2000]);
         return Redirect::route('type_coins.index');
     }
 }
