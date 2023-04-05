@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', 'MTF|Clientes')
+@section('title', 'Clientes')
 
 @section('content_header')
 
@@ -21,7 +21,7 @@
 
 
                 <div class="form-group">
-                    {!! Form::Label('name', "Tipo de moneda:") !!}
+                    {!! Form::Label('name', "Nombre:") !!}
                     {!! Form::text('name', null, ['class' => 'form-control', 'required' => true]) !!}
 
 

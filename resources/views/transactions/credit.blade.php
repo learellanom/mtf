@@ -57,7 +57,7 @@
                         {!! Form::Label('exchange_rate', "Tasa:") !!}
                         <div class="input-group-text">
                             <i class="fa-fw fas fa-random mr-2"></i>
-                        {!! Form::number('exchange_rate',null, ['class' => 'form-control', 'required' => true, 'id' => 'tasa', 'min' => 0, 'readonly' => true]) !!}
+                        {!! Form::text('exchange_rate',null, ['class' => 'form-control', 'required' => true, 'id' => 'tasa', 'readonly' => true]) !!}
                         </div>
                     </div>
 
