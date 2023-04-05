@@ -10,6 +10,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Redirect;
 class GroupController extends Controller
 {
+
     /**
      * Display a listing of the resource.
      */

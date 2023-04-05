@@ -10,12 +10,13 @@
 @stop
 
 @section('content')
-<div class="card">
+<div class="d-flex justify-content-center">
+ <div class="card col-md-4">
     <div class="card-body">
         {!! Form::model($user,['route' => ['users.update_users', $user], 'method' => 'put', 'autocomplete' => 'off', 'files' => true]) !!}
 
         <div class="form-group">
-            {!! Form::Label('name', "Tipo de moneda:") !!}
+            {!! Form::Label('name', "Nombre:") !!}
             {!! Form::text('name', null, ['class' => 'form-control', 'required' => true]) !!}
 
 
@@ -53,5 +54,7 @@
             {!! Form::close() !!}
 
     </div>
+  </div>
 </div>
+
 @endsection
