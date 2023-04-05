@@ -217,9 +217,8 @@ class TransactionController extends Controller
             Transaction::findOrFail($transaction)->update([
                 'status' => 'Activo',
             ]);
-            return Redirect::route('transactions.index')->with('success', 'Transacción activa  <strong># '. $transaction . '</strong>');
+            return Redirect::route('transactions.index')->with('success', 'Transacción activada  <strong># '. $transaction . '</strong>');
         }
-
 
     }
 
