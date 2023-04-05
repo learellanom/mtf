@@ -87,13 +87,19 @@ $config = [
 
 
             <td class="text-center">
-                <form method="post" action="{{ route('transactions.destroy', $transferencias->id) }}">
-                    @csrf
-                    @method('delete')
-                <button class="btn btn-xl text-danger mx-1 shadow text-center" type="submit" title="Borrar">
-                    <i class="fa fa-lg fa-fw fas fa-times"></i>
-                </button>
-                </form>
+                  {!! Form::model($transferencias->id, ['route' => ['transactions.update_status', $transferencias->id],'method' => 'put']) !!}
+
+                    @if($transferencias->status == 'Activo')
+                    <button class="btn btn-xl text-success mx-1 shadow text-center" title="Estatus">
+                        <i class="fa fa-lg fa-fw fas fa-check"></i>
+                    </button>
+
+                    @elseif($transferencias->status == 'Anulado')
+                    <button class="btn btn-xl text-danger mx-1 shadow text-center" title="Estatus">
+                        <i class="fa fa-lg fa-fw fas fa-times"></i>
+                    </button>
+                    @endif
+                {!! Form::close() !!}
             </td>
 
         </tr>

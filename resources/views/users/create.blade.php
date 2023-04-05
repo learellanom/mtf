@@ -17,7 +17,7 @@
 <form action={{ route('users.store')}} method="POST">
 @csrf
         <div class="form-group">
-            {!! Form::Label('name', "Tipo de moneda:") !!}
+            {!! Form::Label('name', "Nombre:") !!}
             {!! Form::text('name', null, ['class' => 'form-control', 'required' => true]) !!}
 
 

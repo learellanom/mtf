@@ -196,7 +196,7 @@
 
 
 
-                        {!! Form::hidden('status', null, ['class' => 'form-control', 'value' => 'Activo']) !!}
+                        {!! Form::hidden('status', 'Activo', null, ['class' => 'form-control']) !!}
 
 
 

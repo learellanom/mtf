@@ -22,9 +22,8 @@ class TransactionController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(transaction $transaction)
     {
-
          foreach(auth()->user()->roles as $roles)
          {
             if($roles->id == 1){
@@ -204,19 +203,24 @@ class TransactionController extends Controller
      */
 
 
-    public function destroy($transaction)
+    public function update_status(Request $request, $transaction)
     {
         $transactions = Transaction::find($transaction);
 
+        if($transactions->status == 'Activo'){
+        Transaction::findOrFail($transaction)->update([
+            'status' => 'Anulado',
+        ]);
+           return Redirect::route('transactions.index')->with('error', 'Transacción anulada  <strong># '. $transaction . '</strong>');
+        }
+        elseif($transactions->status == 'Anulado'){
+            Transaction::findOrFail($transaction)->update([
+                'status' => 'Activo',
+            ]);
+            return Redirect::route('transactions.index')->with('success', 'Transacción activa  <strong># '. $transaction . '</strong>');
+        }
 
-        $url = Storage::delete($transaction);
-        $transactions->delete();
 
-        $transactions->image()->delete($url);
-
-
-
-        return Redirect::route('transactions.index');
     }
 
 

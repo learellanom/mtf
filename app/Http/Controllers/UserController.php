@@ -28,18 +28,18 @@ class UserController extends Controller
         $myUser = 0;
         if ($request->usuario) {
             $myUser = $request->usuario;
-        }     
-        
+        }
+
         $myCliente = 0;
         if ($request->cliente) {
             $myCliente = $request->cliente;
-        }     
+        }
 
 
         $myWallet = 0;
         if ($request->wallet) {
             $myWallet = $request->wallet;
-        }     
+        }
 
         $myFechaDesde = "2001-01-01";
         $myFechaHasta = "9999-12-31";
@@ -74,7 +74,7 @@ class UserController extends Controller
         if ($myWallet != 0){
             $myWalletDesde = $myWallet;
             $myWalletHasta = $myWallet;
-        }                
+        }
 
         // print_r($myUser);
         // die();
@@ -108,13 +108,13 @@ class UserController extends Controller
         )->leftJoin(
             'wallets', 'wallets.id', '=', 'transactions.wallet_id'
         )->leftJoin(
-            'clients', 'clients.id', '=', 'transactions.client_id'  
+            'clients', 'clients.id', '=', 'transactions.client_id'
         )->whereBetween('Transactions.user_id', [$myUserDesde, $myUserHasta]
         )->whereBetween('Transactions.client_id', [$myClienteDesde, $myClienteHasta]
-        )->whereBetween('Transactions.wallet_id', [$myWalletDesde, $myWalletHasta]        
-        )->whereBetween('Transactions.transaction_date', [$myFechaDesde, $myFechaHasta]       
+        )->whereBetween('Transactions.wallet_id', [$myWalletDesde, $myWalletHasta]
+        )->whereBetween('Transactions.transaction_date', [$myFechaDesde, $myFechaHasta]
         )->get();
-    
+
             // var_dump($Transacciones);
             // die();
 
@@ -127,7 +127,7 @@ class UserController extends Controller
 
             array_push($Transacciones2, $value2);
         }
-  
+
           $cliente = Client::select('clients.id', 'clients.name')
           ->get();
 
@@ -263,6 +263,8 @@ class UserController extends Controller
 
         return Redirect::route('users.index')->with('destroy','ok');
     }
+
+
 }
 
 ?>
