@@ -9,6 +9,7 @@ use App\Models\Type_coin;
 use App\Models\Type_transaction;
 use App\Models\Wallet;
 use App\Models\Group;
+use App\Models\Client;
 use App\Models\Image;
 use App\Models\User;
 use Spatie\Permission\Models\Role;
@@ -85,6 +86,19 @@ class TransactionController extends Controller
         $user = User::pluck('name', 'id');
         //$transaction = Transaction::find('all');
         return view('transactions.create', compact('type_coin', 'type_transaction', 'wallet', 'group', 'user', 'transaction'));
+    }
+
+    public function create_efectivo(transaction $transaction)
+    {
+
+        $type_coin = Type_coin::pluck('name', 'id');
+        $type_transaction = Type_transaction::pluck('name', 'id');
+        $wallet = Wallet::pluck('name', 'id');
+        $group = Group::pluck('name', 'id');
+        $client = Client::pluck('name', 'id');
+        $user = User::pluck('name', 'id');
+
+        return view('transactions.create_efectivo', compact('type_coin', 'type_transaction', 'wallet', 'group', 'user', 'transaction', 'client'));
     }
 
     /**

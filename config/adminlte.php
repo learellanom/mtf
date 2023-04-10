@@ -380,6 +380,15 @@ return [
             'label_color' =>'success',
         ],
         [
+            'text'        => 'Transacciónes en efectivo',
+            'url'         => 'movimientos/efectivo',
+            'active'      => ['movimientos/create_efectivo'],
+            'can'         => 'transactions.create_efectivo',
+            'icon'        => 'fas fa-fw fa-money-bill-alt',
+            'label'       => 4,
+            'label_color' =>'success',
+        ],
+        [
             'text'        => 'Transacciónes Master',
             'url'         => 'movimientos_master',
             'active'      => ['movimientos_master', 'regex:@^movimientos_master/[0-9]+/edit+$@', 'movimientos_master/create'],
