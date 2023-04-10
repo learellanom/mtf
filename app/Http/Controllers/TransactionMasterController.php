@@ -135,27 +135,33 @@ class TransactionMasterController extends Controller
         }
       }
 
-        flash()->addInfo('Transacción modificada..', 'Transacción <strong># ' . $transaction . '</strong>', ['timeOut' => 3000]);
+        flash()->addInfo('Transacción modificada..', 'Transacción <strong># ' . $movimientos . '</strong>', ['timeOut' => 3000]);
         return Redirect::route('transactions_master.index');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($transaction_master)
-    {
-        $transactions = Transaction_master::find($transaction_master);
 
+     public function update_status(Request $request, $transaction)
+     {
+         $transactions = Transaction_Master::find($transaction);
 
-        $url = Storage::delete($transaction_master);
-        $transactions->delete();
+         if($transactions->status == 'Activo'){
+         Transaction_Master::findOrFail($transaction)->update([
+             'status' => 'Anulado',
+         ]);
+            return Redirect::route('transactions_master.index')->with('error', 'Transacción Master anulada  <strong># '. $transaction . '</strong>');
+         }
+         elseif($transactions->status == 'Anulado'){
+             Transaction_Master::findOrFail($transaction)->update([
+                 'status' => 'Activo',
+             ]);
+             return Redirect::route('transactions_master.index')->with('success', 'Transacción Master activada  <strong># '. $transaction . '</strong>');
+         }
 
-        $transactions->image()->delete($url);
+     }
 
-
-
-        return Redirect::route('transactions_master.index');
-    }
 
     public function destroyImg($transaction_master){
 
