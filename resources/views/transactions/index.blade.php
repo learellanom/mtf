@@ -68,7 +68,20 @@ $config = [
 
             <td class="font-weight-bold">{!! $transferencias->user->name !!}</td>
 
-            <td>{!! $transferencias->group->name  ?? 'CREDITO A CAJA'!!}</td>
+
+            <td>
+                @if($transferencias->group == null && $transferencias->client == null)
+                    CREDITO A CAJA
+                @elseif($transferencias->group)
+                    {{ $transferencias->group->name }}
+                @else
+                    {{ $transferencias->client->name  }}
+                @endif
+
+            </td>
+
+
+
             <td>{!! $transferencias->wallet->name !!}</td>
             <td>{!! $transferencias->type_transaction->name !!}</td>
             <td class="font-weight-bold">{!! $transferencias->percentage ?? 'CREDITO A CAJA'!!} %</td>
