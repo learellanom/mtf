@@ -41,11 +41,12 @@ $config = [
 
 @endphp
 
-<a class="btn btn-dark" title="Crear cliente" href={{ route('transactions.create') }}>
+<a class="btn btn-dark" title="Crear movimiento" href={{ route('transactions.create') }}>
     <i class="fas fa-plus-circle"></i>
     <span class="d-none d-lg-inline-block text-uppercase font-weight-bold">Añadir</span>
     <span class="d-none d-md-inline-block text-uppercase font-weight-bold">Transferencia</span>
 </a>
+
 <br><br>
 {{-- Compressed with style options / fill data using the plugin config --}}
 
