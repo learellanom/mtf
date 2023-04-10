@@ -56,7 +56,7 @@
                             {!! Form::Label('client_id', "Cliente:") !!}
                             <div class="input-group-text">
                                 <i class="fa-fw fas fas fa-user-friends mr-2"></i>
-                            {!! Form::select('group_id',$group, null,['class' => 'form-control clientes', 'required' => true, 'id' => 'clientes', 'readonly' => false]) !!}
+                            {!! Form::select('client_id',$client, null,['class' => 'form-control clientes', 'required' => true, 'id' => 'clientes', 'readonly' => false]) !!}
                             </div>
                         </div>
                     </div>
