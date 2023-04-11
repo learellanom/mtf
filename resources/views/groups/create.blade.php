@@ -33,7 +33,7 @@
 
         <div class="form-group">
             {!! Form::Label('phone', "Telefono del administrador:") !!}
-            {!! Form::text('phone', null, ['class' => 'form-control']) !!}
+            {!! Form::text('phone', null, ['class' => 'form-control', 'required' => true]) !!}
 
 
             @error('phone')
