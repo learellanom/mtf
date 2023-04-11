@@ -63,7 +63,7 @@
 
             <div class="form-group">
                 {!! Form::Label('description', "Observación:") !!}
-            {!! Form::textarea('description', null, ['class' => 'form-control']) !!}
+            {!! Form::textarea('description', null, ['class' => 'form-control', 'required' => true]) !!}
 
             @error('description')
                <small class="text-danger">{{$message}}</small>
