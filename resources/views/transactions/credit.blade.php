@@ -104,7 +104,7 @@
 
 
 
-                        {!! Form::hidden('status', null, ['class' => 'form-control', 'value' => 'Activo']) !!}
+                        {!! Form::hidden('status', 'Activo', null, ['class' => 'form-control']) !!}
                         {!! Form::hidden('type_transaction_id', 5, null, ['class' => 'form-control', 'type' => 'hidden']) !!}
 
 
