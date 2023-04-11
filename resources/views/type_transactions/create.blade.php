@@ -4,7 +4,7 @@
 
 @section('content_header')
 
-    <h1 class="text-center text-dark font-weight-bold">CREAR TIPO TRANSACCIÓN <i class="fas fa-chart-pie"></i> </h1></a>
+    <h1 class="text-center text-dark font-weight-bold">CREAR TIPO MOVIMIENTO <i class="fas fa-chart-pie"></i> </h1></a>
 
 
 @stop
@@ -17,7 +17,7 @@
 
 
         <div class="form-group">
-            {!! Form::Label('name', "Nombre transacción:") !!}
+            {!! Form::Label('name', "Nombre Movimiento:") !!}
             {!! Form::text('name', null, ['class' => 'form-control', 'required' => true]) !!}
 
 
@@ -29,13 +29,13 @@
 
         </div>
 
-        <h6 class="font-weight-bold">Tipo de transacción: </h6>
+        <h6 class="font-weight-bold">Tipo de Transaccion del Movimiento: </h6>
         <hr>
         <div class="form-group col-md-12 d-flex justify-content-center">
 
             <label class="form-check-label mx-auto" for="radio1">
                 {!! Form::radio('type_transaction','Transacciones', null, ['id' => 'radio1', 'class' => 'exonerar', 'required' => true]) !!}
-                Transacciones
+                Transacciones Varias
             </label>
             <label class="form-check-label mx-auto" for="radio2">
                 {!! Form::radio('type_transaction','Efectivo', null, ['id' => 'radio2', 'class' => 'exonerar', 'required' => true]) !!}
@@ -43,7 +43,7 @@
             </label>
             <label class="form-check-label mx-auto" for="radio2">
                 {!! Form::radio('type_transaction','Credito', null, ['id' => 'radio2', 'class' => 'exonerar', 'required' => true]) !!}
-                Credito
+                Notas de Credito
             </label>
 
 

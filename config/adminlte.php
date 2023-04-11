@@ -339,12 +339,6 @@ return [
             'can'  => 'estadisticasDetalle.index',
         ],
         [
-            'text' => 'Resumen por Cliente',
-            'url'  => 'estadisticasResumenCliente',
-            'icon' => 'fas fa-fw fas fa-chart-bar',
-            'can'  => 'estadisticasDetalle.statisticsResumenCliente',
-        ],
-        [
             'text' => 'Resumen por Agente',
             'url'  => 'estadisticasResumenUsuario',
             'icon' => 'fas fa-fw fas fa-chart-bar',
@@ -404,7 +398,7 @@ return [
             'label_color' =>'danger',
         ],
         [
-            'text'        => 'Credito Caja',
+            'text'        => 'Nota de Credito a Caja',
             'url'         => "movimientos/credito",
             'active'      => ['credito'],
             'icon'        => 'fas fa-fw fas fa-box',
