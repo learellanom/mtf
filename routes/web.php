@@ -101,8 +101,8 @@ Route::resource('tipo_transaccion', Type_transactionController::class)->middlewa
 Route::resource('tipo_moneda', Type_coinController::class)->middleware('auth')->except('show')->middleware('can:type_coins.index')->names('type_coins');
 
 
-Route::get('estadisticasDetalle',[App\Http\Controllers\UserController::class, 'index_all'])->middleware('can:estadisticasDetalle.index')->name('estadisticasDetalle');
-Route::get('estadisticasDetalle/{usuario}/{cliente?}/{wallet?}/{fechaDesde?}/{fechaHasta?}',[App\Http\Controllers\UserController::class, 'index_all'])->name('estadisticasDetalle');
+Route::get('estadisticasDetalle',[App\Http\Controllers\statisticsController::class, 'index_all'])->middleware('can:estadisticasDetalle.index')->name('estadisticasDetalle');
+Route::get('estadisticasDetalle/{usuario}/{grupo?}/{wallet?}/{fechaDesde?}/{fechaHasta?}',[App\Http\Controllers\statisticsController::class, 'index_all'])->name('estadisticasDetalle');
 
 // Route::get('estadisticasDetalleUsuario',[App\Http\Controllers\statisticsController::class, 'userDetail'])->name('estadisticasDetalleUsuario');
 // Route::get('estadisticasDetalleUsuario/{usuario}/{fechaDesde?}/{fechaHasta?}',[App\Http\Controllers\statisticsController::class, 'userDetail'])->name('estadisticasDetalleUsuario');
