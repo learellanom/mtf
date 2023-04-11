@@ -71,7 +71,7 @@ $config = [
 
             <td>
                 @if($transferencias->group == null && $transferencias->client == null)
-                    CREDITO A CAJA
+                   <span class="font-weight-bold"> MOVIMIENTO SIN CLIENTE </span>
                 @elseif($transferencias->group)
                     {{ $transferencias->group->name }}
                 @else
@@ -84,7 +84,11 @@ $config = [
 
             <td>{!! $transferencias->wallet->name !!}</td>
             <td>{!! $transferencias->type_transaction->name !!}</td>
-            <td class="font-weight-bold">{!! $transferencias->percentage ?? 'CREDITO A CAJA'!!} %</td>
+
+
+            <td class="font-weight-bold">{!! $transferencias->percentage ?? 'MOVIMIENTO SIN PORCENTAJE'!!} </td>
+
+
             <td class="font-weight-bold">{!! $transferencias->amount_total !!} $</td>
 
             <td class="font-weight-bold">{!! $transferencias->transaction_date !!}</td>
@@ -92,6 +96,10 @@ $config = [
             @if ($transferencias->type_transaction->name == 'Credito de efectivo')
             <td class="text-center">
                 <a href="{{ route('transactions.credit_edit', $transferencias->id) }}" class="btn btn-xl text-primary mx-1 shadow text-center"><i class="fa fa-lg fa-fw fas fa-edit"></i></a>
+            </td>
+            @elseif($transferencias->wallet->type_wallet == 'Efectivo')
+            <td class="text-center">
+                <a href="{{ route('transactions.edit_efectivo', $transferencias->id) }}" class="btn btn-xl text-primary mx-1 shadow text-center"><i class="fa fa-lg fa-fw fas fa-edit"></i></a>
             </td>
             @else
             <td class="text-center">

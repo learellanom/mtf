@@ -72,6 +72,8 @@ class RoleSeeder extends Seeder
         Permission::create(['name' => 'transactions.index','description' => 'Ver transacciónes'])->syncRoles([$role1, $role2]);
         Permission::create(['name' => 'transactions.create', 'description' => 'Crear transacciónes'])->syncRoles([$role1, $role2]);
         Permission::create(['name' => 'transactions.create_efectivo', 'description' => 'Crear transacciónes (CASH)'])->syncRoles([$role1, $role2]);
+        Permission::create(['name' => 'transactions.edit_efectivo', 'description' => 'Modificar transacciónes (CASH)'])->syncRoles([$role1, $role2]);
+
         Permission::create(['name' => 'transactions.edit', 'description' => 'Modificar transacciónes'])->syncRoles([$role1, $role2]);
 
         Permission::create(['name' => 'transactions.credit', 'description' => 'Crear credito a la caja'])->assignRole($role1);

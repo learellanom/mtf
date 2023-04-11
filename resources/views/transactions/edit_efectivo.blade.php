@@ -17,7 +17,7 @@
  <div class="card col-md-7" style="min-height: 500px !important; max-height:1000px; height:1400px;">
   <div class="card-body">
 
-    {!! Form::open(['route' => 'transactions.store', 'autocomplete' => 'off', 'files' => true, 'enctype' =>'multipart/form-data']) !!}
+    {!! Form::model($transactions, ['route' => ['transactions.update', $transactions],'method' => 'put', 'autocomplete' => 'off', 'files' => true, 'enctype' =>'multipart/form-data']) !!}
 
 
 
@@ -372,16 +372,13 @@ $(".clientes").select2({
   allowClear: true,
   clearing: true
 });
-$("#clientes").val("")
-$("#clientes").trigger("change");
+
 
 $(".typecoin").select2({
   placeholder: "Seleccionar Moneda",
   theme: 'bootstrap4',
   allowClear: true
 });
-$("#typecoin").val("")
-$("#typecoin").trigger("change");
 
 $(".status").select2({
   placeholder: "Seleccionar estatus",
@@ -395,16 +392,13 @@ $(".wallet").select2({
   search: false,
   allowClear: true
 });
-$("#wallet").val("")
-$("#wallet").trigger("change");
+
 
 $(".typetrasnferencia").select2({
   placeholder: "Seleccionar tipo de movimiento",
   theme: 'bootstrap4',
   allowClear: true
 });
-$("#typetrasnferencia").val("")
-$("#typetrasnferencia").trigger("change");
 
 $(document).ready(function() {
   //$('#monto_dolares').toFixed(2);

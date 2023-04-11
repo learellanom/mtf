@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('name'); // NOMBRE DE LA CAJA
             $table->string('description'); // DESCRIPCION DE LA CAJA
             $table->string('direction'); //UBICACION DE LA CAJA
-            $table->float('base')->nullable()->default('0'); // INICIO DE LA CAJA
+            $table->enum('type_wallet', ['Efectivo', 'Transacciones'])->nullable()->default('Efectivo'); //TIPO DE CAJA
             $table->timestamps();
         });
     }

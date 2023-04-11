@@ -17,6 +17,7 @@ class WalletSeeder extends Seeder
             'name' => "Caja Master",
             'description' => "En esta caja se maneja el dinero en transferencias",
             'direction' =>"Suiza, Morgartenstrasse",
+            'type_wallet' => 'Transacciones'
 
         ]);
 
@@ -24,7 +25,7 @@ class WalletSeeder extends Seeder
             'name' => "Caja Efectivo",
             'description' => "En esta caja se manejae el dinero en efectivo.",
             'direction' =>"Venezuela, Caracas La Yaguara",
-
+            'type_wallet' => 'Efectivo'
         ]);
     }
 }

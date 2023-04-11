@@ -26,8 +26,8 @@ class WalletController extends Controller
     public function create()
     {
         $users = User::all()->pluck('name', 'id');
-
-        return view('wallets.create', compact('users'));
+        $tipo = ['Transacciones', 'Efectivo'];
+        return view('wallets.create', compact('users', 'tipo'));
     }
 
     /**
