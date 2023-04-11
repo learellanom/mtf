@@ -427,7 +427,7 @@ return [
             'text' => 'Grupos',
             'url'  => 'grupos',
             'active'      => ['grupos*'],
-            'icon' => 'fab fa-whatsapp',
+            'icon' => 'fas fa-fw fa-users',
             'can'         => 'groups.index'
         ],
         [
