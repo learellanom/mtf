@@ -398,7 +398,7 @@ return [
             'label_color' =>'danger',
         ],
         [
-            'text'        => 'Credito Caja',
+            'text'        => 'Nota de Credito a Caja',
             'url'         => "movimientos/credito",
             'active'      => ['credito'],
             'icon'        => 'fas fa-fw fas fa-box',
