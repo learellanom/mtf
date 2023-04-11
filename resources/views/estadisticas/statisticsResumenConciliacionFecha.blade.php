@@ -7,11 +7,11 @@
 
 $heads = [
     'Fecha',
-    'Cant  Transacciones',
+    'Cantidad Transacciones',
     'Monto Transacciones',    
-    'Cant  Master',
+    'Cantidad Master',
     'Monto Master',
-    'Cant',    
+    'Cantidad',    
     'Monto',
     ['label' => 'Actions', 'no-export' => true, 'width' => 5],
 ];

@@ -339,6 +339,12 @@ return [
             'can'  => 'estadisticasDetalle.index',
         ],
         [
+            'text' => 'Resumen por Cliente',
+            'url'  => 'estadisticasResumenCliente',
+            'icon' => 'fas fa-fw fas fa-chart-bar',
+            'can'  => 'estadisticasDetalle.statisticsResumenCliente',
+        ],        
+        [
             'text' => 'Resumen por Agente',
             'url'  => 'estadisticasResumenUsuario',
             'icon' => 'fas fa-fw fas fa-chart-bar',
