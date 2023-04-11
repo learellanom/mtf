@@ -21,7 +21,7 @@
 
         <div class="form-group">
             {!! Form::Label('name', "Nombre del grupo:") !!}
-            {!! Form::text('name', null, ['class' => 'form-control']) !!}
+            {!! Form::text('name', null, ['class' => 'form-control','required' => true]) !!}
 
 
             @error('name')
@@ -29,7 +29,9 @@
             <span class="text-danger">{{$message}}</span>
 
             @enderror
-
+            <div class="valid-feedback">
+                Looks good!
+            </div>
 
         <div class="form-group">
             {!! Form::Label('phone', "Telefono del administrador:") !!}
