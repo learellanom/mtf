@@ -29,6 +29,33 @@
 
         </div>
 
+        <h6 class="font-weight-bold">Tipo de transacción: </h6>
+        <hr>
+        <div class="form-group col-md-12 d-flex justify-content-center">
+
+            <label class="form-check-label mx-auto" for="radio1">
+                {!! Form::radio('type_transaction','Transacciones', null, ['id' => 'radio1', 'class' => 'exonerar', 'required' => true]) !!}
+                Para transacciones
+            </label>
+            <label class="form-check-label mx-auto" for="radio2">
+                {!! Form::radio('type_transaction','Efectivo', null, ['id' => 'radio2', 'class' => 'exonerar', 'required' => true]) !!}
+                Para efectivo
+            </label>
+            <label class="form-check-label mx-auto" for="radio2">
+                {!! Form::radio('type_transaction','Credito', null, ['id' => 'radio2', 'class' => 'exonerar', 'required' => true]) !!}
+                Para credito
+            </label>
+
+
+            @error('type_wallet')
+            <small class="text-danger">{{$message}}</small>
+            @enderror
+    </div>
+    <hr>
+
+
+
+
 
         <div class="form-group">
             {!! Form::Label('description', "Observación:") !!}

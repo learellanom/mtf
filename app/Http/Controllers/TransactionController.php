@@ -44,7 +44,7 @@ class TransactionController extends Controller
     {
 
         $type_coin = Type_coin::pluck('name', 'id');
-        $type_transaction = Type_transaction::whereId(5);
+        $type_transaction = Type_transaction::whereIn('type_transaction', ['Credito'])->pluck('name', 'id');
         $wallet = Wallet::whereIn('type_wallet', ['efectivo'])->pluck('name', 'id');
         $group = Group::pluck('name', 'id');
         $user = User::pluck('name', 'id');
@@ -60,7 +60,7 @@ class TransactionController extends Controller
         $imagen = Transaction::findOrFail($transaction)->image;
 
         $type_coin = Type_coin::pluck('name', 'id');
-        $type_transaction = Type_transaction::pluck('name', 'id');
+        $type_transaction = Type_transaction::whereIn('type_transaction', ['Credito'])->pluck('name', 'id');
         $wallet = Wallet::whereIn('type_wallet', ['efectivo'])->pluck('name', 'id');
         $group = Group::pluck('name', 'id');
 
@@ -80,7 +80,7 @@ class TransactionController extends Controller
     {
 
         $type_coin = Type_coin::pluck('name', 'id');
-        $type_transaction = Type_transaction::whereIn('id', [1, 6 , 4])->pluck('name', 'id');
+        $type_transaction = Type_transaction::whereIn('type_transaction', ['Transacciones'])->pluck('name', 'id');
         $wallet =  Wallet::whereIn('type_wallet', ['transacciones'])->pluck('name', 'id');
         $group = Group::pluck('name', 'id');
         $user = User::pluck('name', 'id');
@@ -92,7 +92,7 @@ class TransactionController extends Controller
     {
 
         $type_coin = Type_coin::pluck('name', 'id');
-        $type_transaction = Type_transaction::whereIn('id', [2,3])->pluck('name', 'id');
+        $type_transaction = Type_transaction::whereIn('type_transaction', ['Efectivo'])->pluck('name', 'id');
         $wallet = Wallet::whereIn('type_wallet', ['efectivo'])->pluck('name', 'id');
         $group = Group::pluck('name', 'id');
         //$client = Client::pluck('name', 'id');
@@ -110,7 +110,7 @@ class TransactionController extends Controller
 
 
         $type_coin = Type_coin::pluck('name', 'id');
-        $type_transaction = Type_transaction::pluck('name', 'id');
+        $type_transaction = Type_transaction::whereIn('type_transaction', ['Efectivo'])->pluck('name', 'id');
         $wallet = Wallet::pluck('name', 'id');
         $group = Group::pluck('name', 'id');
 
@@ -176,8 +176,8 @@ class TransactionController extends Controller
 
 
         $type_coin = Type_coin::pluck('name', 'id');
-        $type_transaction = Type_transaction::pluck('name', 'id');
-        $wallet = Wallet::pluck('name', 'id');
+        $type_transaction = Type_transaction::whereIn('type_transaction', ['Transacciones'])->pluck('name', 'id');
+        $wallet =  Wallet::whereIn('type_wallet', ['transacciones'])->pluck('name', 'id');
         $group = Group::pluck('name', 'id');
 
 

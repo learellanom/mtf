@@ -17,7 +17,7 @@
 
 
         <div class="form-group">
-            {!! Form::Label('name', "Tipo de transacción:") !!}
+            {!! Form::Label('name', "Nombre transacción:") !!}
             {!! Form::text('name', null, ['class' => 'form-control', 'required' => true]) !!}
 
 
@@ -28,6 +28,30 @@
             @enderror
 
         </div>
+
+        <h6 class="font-weight-bold">Tipo de transacción: </h6>
+        <hr>
+        <div class="form-group col-md-12 d-flex justify-content-center">
+
+            <label class="form-check-label mx-auto" for="radio1">
+                {!! Form::radio('type_transaction','Transacciones', null, ['id' => 'radio1', 'class' => 'exonerar', 'required' => true]) !!}
+                Transacciones
+            </label>
+            <label class="form-check-label mx-auto" for="radio2">
+                {!! Form::radio('type_transaction','Efectivo', null, ['id' => 'radio2', 'class' => 'exonerar', 'required' => true]) !!}
+                Efectivo
+            </label>
+            <label class="form-check-label mx-auto" for="radio2">
+                {!! Form::radio('type_transaction','Credito', null, ['id' => 'radio2', 'class' => 'exonerar', 'required' => true]) !!}
+                Credito
+            </label>
+
+
+            @error('type_wallet')
+            <small class="text-danger">{{$message}}</small>
+            @enderror
+    </div>
+    <hr>
 
 
         <div class="form-group">

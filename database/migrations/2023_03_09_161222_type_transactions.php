@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('type_transactions', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
+            $table->enum('type_transaction', ['Efectivo', 'Transacciones', 'Credito'])->nullable()->default('Transacciones'); //TIPO DE TRANSACCIONES
             $table->string('description');
             $table->timestamps();
         });
