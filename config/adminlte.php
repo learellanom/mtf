@@ -343,7 +343,7 @@ return [
             'url'  => 'estadisticasResumenCliente',
             'icon' => 'fas fa-fw fas fa-chart-bar',
             'can'  => 'estadisticasDetalle.statisticsResumenCliente',
-        ],        
+        ],
         [
             'text' => 'Resumen por Agente',
             'url'  => 'estadisticasResumenUsuario',
@@ -428,13 +428,6 @@ return [
             'active'      => ['roles*'],
             'icon'    => 'fas fa-fw fa-id-card-alt',
             'can'         => 'roles.index',
-        ],
-        [
-            'text' => 'Clientes',
-            'url'  => 'clientes',
-            'active'      => ['clientes*'],
-            'icon'    => 'fas fa-fw fa-user-tag',
-            'can'         => 'clients.index',
         ],
         [
             'text' => 'Grupos',

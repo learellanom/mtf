@@ -25,10 +25,10 @@ class Client extends Model implements Auditable
         return $this->hasMany(Transaction_master::class);
     }
 
-     //Relación uno a muchos
+    /*  //Relación uno a muchos
      public function group(){
         return $this->hasMany(Group::class);
-    }
+    } */
 
 
 }

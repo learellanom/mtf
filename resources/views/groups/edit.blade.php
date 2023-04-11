@@ -41,7 +41,7 @@
             </div>
             </div>
 
-            <div class="form-group">
+        {{--     <div class="form-group">
 
                 {!! Form::Label('client_id', "Cliente:") !!}
                 {!! Form::select('client_id', $clients, null, ['class' => 'form-control client']) !!}
@@ -49,7 +49,7 @@
                 @error('client_id')
                 <small class="text-danger">{{$message}}</small>
                 @enderror
-            </div>
+            </div> --}}
 
             <div class="form-group">
 

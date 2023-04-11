@@ -16,10 +16,11 @@ class Group extends Model  implements Auditable
 
     protected $guarded = ['id', 'created_at', 'updated_at'];
 
-      //Relación uno a muchos
+   /*    //Relación uno a muchos
     public function client(){
         return $this->belongsTo(client::class);
-    }
+    } */
+
     //Relación muchos a muchos
     public function user(){
         return $this->belongsToMany(User::class);

@@ -53,10 +53,10 @@
                         </div>
 
                         <div class="form-group col-md-4">
-                            {!! Form::Label('client_id', "Cliente:") !!}
+                            {!! Form::Label('group_id', "Cliente:") !!}
                             <div class="input-group-text">
                                 <i class="fa-fw fas fas fa-user-friends mr-2"></i>
-                            {!! Form::select('client_id',$client, null,['class' => 'form-control clientes', 'required' => true, 'id' => 'clientes', 'readonly' => false]) !!}
+                            {!! Form::select('group_id',$group, null,['class' => 'form-control clientes', 'required' => true, 'id' => 'clientes', 'readonly' => false]) !!}
                             </div>
                         </div>
                     </div>

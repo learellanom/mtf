@@ -95,10 +95,10 @@ class TransactionController extends Controller
         $type_transaction = Type_transaction::whereIn('id', [2,3])->pluck('name', 'id');
         $wallet = Wallet::whereIn('type_wallet', ['efectivo'])->pluck('name', 'id');
         $group = Group::pluck('name', 'id');
-        $client = Client::pluck('name', 'id');
+        //$client = Client::pluck('name', 'id');
         $user = User::pluck('name', 'id');
 
-        return view('transactions.create_efectivo', compact('type_coin', 'type_transaction', 'wallet', 'group', 'user', 'transaction', 'client'));
+        return view('transactions.create_efectivo', compact('type_coin', 'type_transaction', 'wallet', 'group', 'user', 'transaction'));
     }
 
     public function edit_efectivo($transaction)
@@ -112,7 +112,7 @@ class TransactionController extends Controller
         $type_coin = Type_coin::pluck('name', 'id');
         $type_transaction = Type_transaction::pluck('name', 'id');
         $wallet = Wallet::pluck('name', 'id');
-        $client = Client::pluck('name', 'id');
+        $group = Group::pluck('name', 'id');
 
 
 
@@ -120,7 +120,7 @@ class TransactionController extends Controller
 
 
 
-        return view('transactions.edit_efectivo', compact('transactions', 'imagen', 'type_coin', 'type_transaction', 'wallet', 'client', 'user'));
+        return view('transactions.edit_efectivo', compact('transactions', 'imagen', 'type_coin', 'type_transaction', 'wallet', 'group', 'user'));
     }
 
     /**

@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('phone');
             $table->string('description');
-            $table->foreignId('client_id')->references('id')->on('clients')->onDelete('cascade')->onUpdate('cascade'); //USUARIO RELACIONADO CON EL CLIENTE
+            //$table->foreignId('client_id')->references('id')->on('clients')->onDelete('cascade')->onUpdate('cascade'); //USUARIO RELACIONADO CON EL CLIENTE
             $table->timestamps();
         });
     }
