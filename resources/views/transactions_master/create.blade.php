@@ -5,7 +5,7 @@
 @section('title', 'Transferencias Master')
 @section('content_header')
 
-    <h1 class="text-center text-dark font-weight-bold">NUEVO MOVIMIENTO <i class="fas fa-exchange-alt"></i> </h1></a>
+    <h1 class="text-center text-dark font-weight-bold">NUEVA TRANSACCION MASTER<i class="fas fa-exchange-alt"></i> </h1></a>
 
 
 @stop
