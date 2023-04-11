@@ -2,10 +2,10 @@
 
 
 
-@section('title', 'Movimientos Efectivo')
+@section('title', 'Transacción Efectivo')
 @section('content_header')
 
-    <h1 class="text-center text-dark font-weight-bold">NUEVO MOVIMIENTO EN EFECTIVO <i class="fas fa-exchange-alt"></i> </h1></a>
+    <h1 class="text-center text-dark font-weight-bold">NUEVA TRANSACCIÓN EN EFECTIVO <i class="fas fa-exchange-alt"></i> </h1></a>
 
 
 @stop

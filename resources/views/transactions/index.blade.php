@@ -1,10 +1,10 @@
 @extends('adminlte::page')
 
-@section('title', 'Transferencias')
+@section('title', 'Transacciones')
 
 @section('content_header')
 
-    <h1 class="text-center text-dark font-weight-bold">LISTA DE MOVIMIENTOS <i class="fas fa-people-arrows"></i> </h1></a>
+    <h1 class="text-center text-dark font-weight-bold">LISTA DE TRANSACCIONES <i class="fas fa-people-arrows"></i> </h1></a>
 
 
 @stop
@@ -41,10 +41,10 @@ $config = [
 
 @endphp
 
-<a class="btn btn-dark" title="Crear movimiento" href={{ route('transactions.create') }}>
+<a class="btn btn-dark" title="Crear transaccion" href={{ route('transactions.create') }}>
     <i class="fas fa-plus-circle"></i>
-    <span class="d-none d-lg-inline-block text-uppercase font-weight-bold">Añadir</span>
-    <span class="d-none d-md-inline-block text-uppercase font-weight-bold">Transferencia</span>
+    <span class="d-none d-lg-inline-block text-uppercase font-weight-bold">Crear</span>
+    <span class="d-none d-md-inline-block text-uppercase font-weight-bold">Transacción</span>
 </a>
 
 <br><br>
@@ -55,7 +55,7 @@ $config = [
     <div class="col-md-12">
         <div class="card mb-4">
             <div class="card-header">
-                <h3 class="card-title">Transferencias|Movimientos</h3>
+                <h3 class="card-title">Transacciones</h3>
             </div>
             <div class="card-body">
                 <div class="row">
@@ -132,11 +132,4 @@ $config = [
  </div>
 </div>
 @endsection
-@section('js')
-<script>
-        $(document).ready(function() {
 
-        });
-</script>
-
-@endsection
