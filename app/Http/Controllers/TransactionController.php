@@ -145,13 +145,42 @@ class TransactionController extends Controller
             $transaction->image()->create([
                 'url' => $url
             ]);
-            //return response()->json(['url' => $url]);
+
           }
         }
 
         flash()->addSuccess('Movimiento guardado', 'Transacción', ['timeOut' => 3000]);
 
         return Redirect::route('transactions.index');
+
+
+    }
+
+    public function store_efectivo(Request $request)
+    {
+
+        $transaction = Transaction::create($request->all());
+        $files = [];
+       if($request->hasFile('file')){
+        foreach($request->file('file') as $file)
+        {
+
+            $url = Storage::put('transactions/'.$transaction->id, $file);
+
+            $files= new Image();
+            $files->file = $files;
+
+
+            $transaction->image()->create([
+                'url' => $url
+            ]);
+
+          }
+        }
+
+        flash()->addSuccess('Movimiento guardado', 'Transacción', ['timeOut' => 3000]);
+
+        return Redirect::route('transactions.create_efectivo');
 
 
     }

@@ -18,15 +18,17 @@
 
 
 $heads = [
-    ['label' =>'Agente', 'width' => 10],
-    ['label' => 'Cliente', 'width' => 15],
-    ['label' => 'Caja usada', 'no-export' => true, 'width' => 10],
-    ['label' => 'Tipo de transacción', 'no-export' => true, 'width' => 20],
-    ['label' => 'Porcentaje %', 'no-export' => true, 'width' => 20],
-    ['label' => 'Monto Total', 'width' => 50],
-    ['label' => 'Fecha del movimiento', 'width' => 50],
-    ['label' => 'Editar', 'no-export' => true, 'width' => 5],
-    ['label' => 'Activar/Inactivar', 'no-export' => true, 'width' => 5],
+    ['label' => 'Cliente', 'width' => 10],
+    ['label' =>'Fecha', 'width' => 10],
+    ['label' => 'Descripción', 'width' => 15],
+    ['label' => '%', 'no-export' => true, 'width' => 5],
+    ['label' => 'Monto (Moneda Extranjera)', 'no-export' => true, 'width' => 20],
+    ['label' => 'Comisión', 'no-export' => true, 'width' => 10],
+    ['label' => 'Monto Dolar ($)', 'width' => 15],
+    ['label' => 'Monto Total', 'width' => 60],
+    ['label' => 'Agente', 'width' => 50],
+    ['label' => 'Tipo de Movimiento', 'width' => 50],
+    ['label' => 'Activar/Anular', 'no-export' => true, 'width' => 5],
 ];
 
 
@@ -55,7 +57,7 @@ $config = [
     <div class="col-md-12">
         <div class="card mb-4">
             <div class="card-header">
-                <h3 class="card-title">Transacciones</h3>
+                <h3 class="card-title text-uppercase font-weight-bold">Transacciones</h3>
             </div>
             <div class="card-body">
                 <div class="row">
@@ -66,12 +68,9 @@ $config = [
     @foreach($transferencia as $transferencias)
         <tr>
 
-            <td class="font-weight-bold">{!! $transferencias->user->name !!}</td>
-
-
             <td>
                 @if($transferencias->group == null && $transferencias->client == null)
-                   <span class="font-weight-bold"> MOVIMIENTO SIN CLIENTE </span>
+                   <span class="font-weight-bold"> TRANSACCIÓN SIN CLIENTE </span>
                 @elseif($transferencias->group)
                     {{ $transferencias->group->name }}
                 @else
@@ -79,21 +78,28 @@ $config = [
                 @endif
 
             </td>
-
-
-
-            <td>{!! $transferencias->wallet->name !!}</td>
-            <td>{!! $transferencias->type_transaction->name !!}</td>
-
-
-            <td class="font-weight-bold">{!! $transferencias->percentage ?? 'MOVIMIENTO SIN PORCENTAJE'!!} </td>
-
-
-            <td class="font-weight-bold">{!! $transferencias->amount_total !!} $</td>
-
             <td class="font-weight-bold">{!! $transferencias->transaction_date !!}</td>
 
-            @if ($transferencias->type_transaction->name == 'Credito de efectivo')
+            <td class="font-weight-bold">{!! $transferencias->description !!}</td>
+
+            <td class="font-weight-bold">{!! $transferencias->percentage ?? 'TRANSACCIÓN SIN PORCENTAJE'!!} </td>
+
+            <td>{!! $transferencias->amount_foreign_currency ?? 'TRANSACCIÓN NO TIENE MONEDA EXTRANJERA' !!}</td>
+
+            <td>{!! $transferencias->amount_commission ?? 'TRANSACCIÓN SIN COMISIÓN' !!} </td>
+
+
+
+
+
+            <td class="font-weight-bold">{!! $transferencias->amount !!} $</td>
+            <td class="font-weight-bold">{!! $transferencias->amount_total !!} $</td>
+
+
+            <td class="font-weight-bold">{!! $transferencias->user->name !!}</td>
+            <td>{!! $transferencias->type_transaction->name !!}</td>
+
+          {{--   @if ($transferencias->type_transaction->name == 'Credito de efectivo')
             <td class="text-center">
                 <a href="{{ route('transactions.credit_edit', $transferencias->id) }}" class="btn btn-xl text-primary mx-1 shadow text-center"><i class="fa fa-lg fa-fw fas fa-edit"></i></a>
             </td>
@@ -105,24 +111,25 @@ $config = [
             <td class="text-center">
                 <a href="{{ route('transactions.edit', $transferencias->id) }}" class="btn btn-xl text-primary mx-1 shadow text-center"><i class="fa fa-lg fa-fw fas fa-edit"></i></a>
             </td>
-            @endif
+            @endif --}}
 
 
             <td class="text-center">
                   {!! Form::model($transferencias->id, ['route' => ['transactions.update_status', $transferencias->id],'method' => 'put']) !!}
 
                     @if($transferencias->status == 'Activo')
-                    <button class="btn btn-xl text-success mx-1 shadow text-center" title="Estatus">
-                        <i class="fa fa-lg fa-fw fas fa-check"></i>
+                    <button class="btn btn-xl text-success mx-1 shadow text-center" title="Activo">
+                        <i class="fa fa-lg fa-fw fas fa-check"></i><p style="display: none;">Activo</p>
                     </button>
 
                     @elseif($transferencias->status == 'Anulado')
-                    <button class="btn btn-xl text-danger mx-1 shadow text-center" title="Estatus">
-                        <i class="fa fa-lg fa-fw fas fa-times"></i>
+                    <button class="btn btn-xl text-danger mx-1 shadow text-center" title="Anulado">
+                        <i class="fa fa-lg fa-fw fas fa-times"></i><p style="display: none;">Anulado</p>
                     </button>
                     @endif
                 {!! Form::close() !!}
             </td>
+
 
         </tr>
     @endforeach

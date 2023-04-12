@@ -37,14 +37,14 @@
 
                     <div class="form-row">
                         <div class="form-group col-md-4">
-                        {!! Form::Label('type_transaction_id', "Tipo de Movimiento:") !!}
-                        <div class="input-group-text col-md-12">
-                            <i class="fa-fw fas fa-random"></i>
-                        {!! Form::select('type_transaction_id',$type_transaction, null, ['class' => 'form-control typetrasnferencia', 'required' => true, 'id'=>'typetrasnferencia', 'readonly' => false]) !!}
-                        </div>
+                            {!! Form::Label('type_transaction_id', "Tipo de Movimiento:") !!}
+                            <div class="input-group-text col-md-12">
+                                <i class="fa-fw fas fa-random"></i>
+                            {!! Form::select('type_transaction_id',$type_transaction, null, ['class' => 'form-control typetrasnferencia', 'required' => true, 'id'=>'typetrasnferencia', 'readonly' => false]) !!}
+                            </div>
                         </div>
 
-                        <div class="form-group col-md-4">
+                        <div class="form-group col-md-4 esconder">
                             {!! Form::Label('wallet_id', "Tipo de caja:") !!}
                             <div class="input-group-text col-md-12">
                                 <i class="fa-fw fas fa-random"></i>
@@ -60,7 +60,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-row">
+                    <div class="form-row esconder">
                     <div class="form-group col-md-4">
                         {!! Form::Label('type_coin_id', "Tipo de moneda:") !!}
                         <div class="input-group-text">
@@ -97,10 +97,10 @@
                 </div>
 
 
-                <h4 class="text-uppercase font-weight-bold text-center">Comisiones</h4>
-                <hr class="bg-dark" style="height:1px;">
+                <h4 class="text-uppercase font-weight-bold text-center esconder">Comisiones</h4>
+                <hr class="bg-dark esconder" style="height:1px;">
 
-                <div class="form-row">
+                <div class="form-row esconder">
 
                     <div class="form-group col-md-6">
                         {!! Form::Label('percentage', "Porcentaje:") !!}
@@ -121,7 +121,7 @@
                     </div>
                 </div>
 
-                <div class="form-row">
+                <div class="form-row esconder">
 
                     <div class="form-group col-md-6">
                         {!! Form::Label('percentage_base', "Porcentaje Base:") !!}
@@ -144,18 +144,18 @@
 
                 <div class="form-group col-md-12 d-flex justify-content-center">
 
-                    <label class="form-check-label mx-auto" for="radio1">
+                    <label class="form-check-label mx-auto esconder" for="radio1">
                         {!! Form::radio('exonerate',2, null, ['id' => 'radio1', 'class' => 'exonerar', 'required' => true,]) !!}
                         Exonerar comisión
                     </label>
 
-                    <label class="form-check-label mx-auto" for="radio3">
+                    <label class="form-check-label mx-auto esconder" for="radio3">
                         {!! Form::radio('exonerate',1, null, ['id' => 'radio3', 'class' => 'incluir','required' => true,]) !!}
                         Incluir comisión
                     </label>
 
 
-                    <label class="form-check-label mx-auto" for="radio2">
+                    <label class="form-check-label mx-auto esconder" for="radio2">
                         Descontar comisión
                         {!! Form::radio('exonerate',3, null, ['id' => 'radio2', 'class' => 'descontar', 'required' => true,]) !!}
                     </label>
@@ -165,11 +165,11 @@
 
 
 
-                <hr class="bg-dark" style="height:1px;">
+                <hr class="bg-dark esconder" style="height:1px;">
 
 
                 <div class="form-row">
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-md-6 esconder">
                     {!! Form::Label('amount_total', "Monto Total:") !!}
                         <div class="input-group-text">
                             <i class="fa-fw fas fa-coins mr-2"></i>
@@ -455,7 +455,7 @@ $(document).ready(function() {
             monto = document.getElementById("monto");
 
             monto_dolares = document.getElementById("monto_dolares");
-
+            const log = document.getElementById("montototal");
 
             onmousemove = function(){
                 if(tasa.value > 0 && monto.value > 0){
@@ -475,6 +475,7 @@ $(document).ready(function() {
             if(tasa.value!="" && monto.value!=""){
                 monto_total = (monto.value / tasa.value);
                 monto_dolares.value =  monto_total.toFixed(2);
+                log.value = monto_total.toFixed(2);
             }
 
         };
@@ -630,7 +631,37 @@ $('#montototal').prop('readonly', true);
 
         })
 
+        $("#typetrasnferencia").on("change", function() {
+            // Get the selected value
+            var selectedValue = this.value;
 
+            // Perform the desired action based on the selected value
+            if (selectedValue === '6' || selectedValue === '7') {
+
+                $('.esconder').hide();
+
+                $('#radio1').attr("required", false);
+                $('#radio2').attr("required", false);
+                $('#radio3').attr("required", false);
+                $('#percentage').attr("required", false);
+                $('#wallet').attr("required", false);
+                $('#typecoin').attr("required", false);
+                $('#monto_dolares').attr("readonly", false);
+
+
+                const input = document.getElementById("monto_dolares");
+                const log = document.getElementById("montototal");
+
+                input.addEventListener("input", updateValue);
+
+                function updateValue(e) {
+                log.value = e.target.value;
+                }
+
+            } else if (selectedValue) {
+                $('.esconder').show();
+            }
+        });
 
 
 

@@ -40,10 +40,21 @@ class Type_transactionSeeder extends Seeder
             'type_transaction' => 'Credito',
         ]);
         Type_transaction::create([
-            'name' => "Ajustes",
+            'name' => "Nota de credito",
+            'description' => "Credito a la ",
+            'type_transaction' => 'Transacciones',
+        ]);
+        Type_transaction::create([
+            'name' => "Nota de debito",
+            'description' => "Credito a la ",
+            'type_transaction' => 'Transacciones',
+        ]);
+        Type_transaction::create([
+            'name' => "Switch",
             'description' => "Ajustes del switch",
             'type_transaction' => 'Transacciones',
         ]);
+
 
 
         //Type_transaction::Factory(5)->create();
