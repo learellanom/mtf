@@ -41,12 +41,12 @@ class Type_transactionSeeder extends Seeder
         ]);
         Type_transaction::create([
             'name' => "Nota de credito",
-            'description' => "Credito a la ",
+            'description' => "Notificación de saldo positivo, credito (Ganancia) ",
             'type_transaction' => 'Transacciones',
         ]);
         Type_transaction::create([
             'name' => "Nota de debito",
-            'description' => "Credito a la ",
+            'description' => "Notificación de deuda, credito (Deuda) ",
             'type_transaction' => 'Transacciones',
         ]);
         Type_transaction::create([
