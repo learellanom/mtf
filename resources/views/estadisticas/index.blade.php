@@ -95,11 +95,11 @@ $config4 = [
         </div>
 
         <div class ="col-12 col-sm-2">
-            <x-adminlte-select2 id="cliente"
-                                name="optionsCliente"
+            <x-adminlte-select2 id="group"
+                                name="optionsGroup"
                                 igroup-size="sm"
                                 label-class="text-lightblue"
-                                data-placeholder="Cliente ..."
+                                data-placeholder="Grupo ..."
                                 :config="$config1"
                                 >
                 <x-slot name="prependSlot">
@@ -109,12 +109,13 @@ $config4 = [
                     </div>
                 </x-slot>
 
-                <x-adminlte-options :options="$cliente" empty-option="Selecciona un Cliente.."/>
+                <x-adminlte-options :options="$group" empty-option="Selecciona un Grupo.."/>
             </x-adminlte-select2>
         </div>
 
         <div class ="col-12 col-sm-2">
         </div>
+
         <div class ="col-12 col-sm-2">
             <x-adminlte-date-range name="drCustomRanges" enable-default-ranges="Last 30 Days" style="height: 30px;" :config="$config3">
                 <x-slot name="prependSlot">
@@ -212,7 +213,7 @@ $config4 = [
     @routes
     <script>
 
-    const miCliente = {!! $myCliente !!};
+    const miGrupo   = {!! $myGroup !!};
     const miUsuario = {!! $myUser !!};
     const miWallet  = {!! $myWallet !!};
 
@@ -222,7 +223,8 @@ $config4 = [
     // alert('miUser    -> ' + miUsuario);
     // alert('miWallet  -> ' + miWallet);
 
-    BuscaCliente(miCliente);
+    BuscaGrupo(miGrupo);
+    // BuscaCliente(miCliente);
     BuscaUsuario(miUsuario);
     BuscaWallet(miWallet);
 
@@ -232,19 +234,21 @@ $config4 = [
             $('#userole').on('change', function (){
 
                 const usuario = $('#userole').val();
-                const cliente = $('#cliente').val();
-                const wallet = $('#wallet').val();
-                 theRoute(usuario,cliente,wallet);
+                const grupo   = $('#group').val();
+                const wallet  = $('#wallet').val();
+                theRoute(usuario,grupo,wallet);
 
             });
 
-            $('#cliente').on('change', function (){
+            $('#group').on('change', function (){
+                
                 const usuario = $('#userole').val();
-                const cliente = $('#cliente').val();
+                
+                const grupo   = $('#group').val();
                 const wallet = $('#wallet').val();
-                const seleccionado = $('#cliente').prop('selectedIndex');
+                const seleccionado = $('#group').prop('selectedIndex');
                 // alert('***** cliente ' +  cliente + " --- selected index --- " + seleccionado);
-                theRoute(usuario,cliente,wallet);
+                theRoute(usuario,grupo,wallet);
 
 
             });
@@ -255,7 +259,7 @@ $config4 = [
                 const cliente = $('#cliente').val();
                 const wallet = $('#wallet').val();
                 // alert('***** wallet ' +  wallet);
-                 theRoute(usuario,cliente,wallet);
+                 theRoute(usuario,grupo,wallet);
 
              });
 
@@ -281,20 +285,20 @@ $config4 = [
                 const usuario = $('#userole').val();
                 const cliente = $('#cliente').val();
                 const wallet = $('#wallet').val();
-                theRoute(usuario,cliente,wallet,myFechaDesde,myFechaHasta);
+                theRoute(usuario,grupo,wallet,myFechaDesde,myFechaHasta);
             });
 
         })
 
-        function theRoute(usuario = 0, cliente = 0, wallet = 0, fechaDesde = 0, fechaHasta = 0){
-
+        function theRoute(usuario = 0, grupo = 0, wallet = 0, fechaDesde = 0, fechaHasta = 0){
+            
             if (usuario === "") usuario = 0;
-            if (cliente === "") cliente = 0;
+            if (grupo   === "") grupo = 0;
             if (wallet  === "") wallet  = 0;
 
             let myRoute = "";
-                myRoute = "{{ route('estadisticasDetalle', ['usuario' => 'usuario2', 'cliente' => 'cliente2', 'wallet' => 'wallet2', 'fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2']) }}";
-                myRoute = myRoute.replace('cliente2',cliente);
+                myRoute = "{{ route('estadisticasDetalle', ['usuario' => 'usuario2', 'grupo' => 'grupo2', 'wallet' => 'wallet2', 'fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2']) }}";
+                myRoute = myRoute.replace('grupo2',grupo);
                 myRoute = myRoute.replace('usuario2',usuario);
                 myRoute = myRoute.replace('wallet2',wallet);
                 myRoute = myRoute.replace('fechaDesde2',fechaDesde);
@@ -303,6 +307,21 @@ $config4 = [
             // alert(myRoute);
             location.href = myRoute;
 
+        }
+
+        function BuscaGrupo(miGrupo){
+            //alert("Busca grupo - miGrupo -> " + miGrupo);
+            $('#group').each( function(index, element){
+                //alert ("Busca Grupo -> " + $(this).val() + " text -> " + $(this).text()+ " y con index -> " + $(this).prop('selectedIndex'));
+                $(this).children("option").each(function(){
+                    if ($(this).val() === miGrupo.toString()){
+                        //alert('Busca Grupo - encontro');
+                        $("#group option[value="+ miGrupo +"]").attr("selected",true);
+                    }
+                    
+                });
+            });
+            //
         }
 
         function BuscaCliente(miCliente){
@@ -314,7 +333,7 @@ $config4 = [
                         //alert('BUscaCliente - encontro');
                         $("#cliente option[value="+ miCliente +"]").attr("selected",true);
                     }
-                    //alert("BuscaClienteaqui ->  the val " + $(this).val() + " text -> " + $(this).text());
+                    
                 });
             });
             //
