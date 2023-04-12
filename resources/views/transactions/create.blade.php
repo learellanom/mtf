@@ -2,7 +2,7 @@
 
 
 
-@section('title', 'Movimientos')
+@section('title', 'Transacción')
 @section('content_header')
 
     <h1 class="text-center text-dark font-weight-bold">NUEVA TRANSACCION <i class="fas fa-exchange-alt"></i> </h1></a>
@@ -14,7 +14,7 @@
 @section('content')
 
 <div class="d-flex justify-content-center">
- <div class="card col-md-7" style="min-height: 500px !important; max-height:1000px; height:1400px;">
+ <div class="card col-md-7 movi" style="min-height: 500px !important; max-height:1000px; height:1400px;">
   <div class="card-body">
 
     {!! Form::open(['route' => 'transactions.store', 'autocomplete' => 'off', 'files' => true, 'enctype' =>'multipart/form-data']) !!}
@@ -92,7 +92,7 @@
                     {!! Form::Label('amount', "Monto en dolares:") !!}
                     <div class="input-group-text">
                         <i class="fa-fw fas fas fa-funnel-dollar mr-2"></i>
-                    {!! Form::number('amount', null, ['class' => 'form-control', 'required' => true, 'id' => 'monto_dolares', 'min' => 0, 'readonly' => true]) !!}
+                    {!! Form::number('amount', null, ['class' => 'form-control dolar', 'required' => true, 'id' => 'monto_dolares', 'min' => 0, 'readonly' => true]) !!}
                     </div>
                 </div>
 
@@ -647,8 +647,7 @@ $('#montototal').prop('readonly', true);
                 $('#wallet').attr("required", false);
                 $('#typecoin').attr("required", false);
                 $('#monto_dolares').attr("readonly", false);
-
-
+                $('.movi').attr("class", 'card col-md-7 h-100');
                 const input = document.getElementById("monto_dolares");
                 const log = document.getElementById("montototal");
 

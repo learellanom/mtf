@@ -50,8 +50,8 @@ class Type_transactionSeeder extends Seeder
             'type_transaction' => 'Transacciones',
         ]);
         Type_transaction::create([
-            'name' => "Switch",
-            'description' => "Ajustes del switch",
+            'name' => "Swift",
+            'description' => "Ajustes del Swift",
             'type_transaction' => 'Transacciones',
         ]);
 
