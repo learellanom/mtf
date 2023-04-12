@@ -466,7 +466,8 @@ $(document).ready(function() {
                     monto_dolares.value = 'Por favor use punto en vez de coma.'
 
                 }else{
-                    monto_dolares.value = 'Por favor llene el campo tasa.'
+
+                    log.value = monto_dolares.toFixed(2);
                 }
 
             };
@@ -475,7 +476,7 @@ $(document).ready(function() {
             if(tasa.value!="" && monto.value!=""){
                 monto_total = (monto.value / tasa.value);
                 monto_dolares.value =  monto_total.toFixed(2);
-                log.value = monto_total.toFixed(2);
+
             }
 
         };
