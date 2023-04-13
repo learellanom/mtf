@@ -99,8 +99,15 @@ class statisticsController extends Controller
 
         $Transacciones = Transaction::select(
         //  'Transactions.user_id as Id',
+            'Transactions.amount_foreign_currency as MontoMoneda',
+            'Transactions.exchange_rate           as TasaCambio',
+            // 'Transactions.type_coin_id            as TipoMonedaId',
+            'type_coins.name                      as TipoMoneda',
             'users.name as AgenteName',
-            'Transactions.amount as Monto',
+            'Transactions.amount as Monto',            
+            'Transactions.amount_total as MontoTotal',
+            'Transactions.percentage as PorcentajeComision',
+            'Transactions.amount_commission as MontoComision',
         //  'Transactions.type_transaction_id as TransactionId',
             'type_transactions.name as TipoTransaccion',
         //  'Transactions.client_id as ClienteId',
@@ -116,10 +123,14 @@ class statisticsController extends Controller
             'wallets', 'wallets.id', '=', 'transactions.wallet_id'
         )->leftJoin(
             'groups', 'groups.id', '=', 'transactions.group_id'
+        )->leftJoin(
+                'type_coins', 'type_coins.id', '=', 'transactions.type_coin_id'            
         )->whereBetween('Transactions.user_id', [$myUserDesde, $myUserHasta]
         )->whereBetween('Transactions.group_id', [$myGroupDesde, $myGroupHasta]
         )->whereBetween('Transactions.wallet_id', [$myWalletDesde, $myWalletHasta]
         )->whereBetween('Transactions.transaction_date', [$myFechaDesde, $myFechaHasta]
+        )->where('Transactions.status', '=', 'Activo'
+        )->orderBy('Transactions.transaction_date','ASC'
         )->get();
 
             // var_dump($Transacciones);
