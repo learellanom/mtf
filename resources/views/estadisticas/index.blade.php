@@ -6,16 +6,20 @@
 @php
 
 $heads = [
-    'Agente',
-    'Cliente',
-    'Monto Transaccion',
-    'Fecha Transaccion',
-    'Wallet',
-    'Transaccion',
+    ['label' => 'Fecha Transaccion', 'no-export' => true, 'width' => 5],
+    ['label' => 'Transaccion', 'no-export' => true, 'width' => 5],
+    ['label' => 'Tipo Moneda', 'no-export' => true, 'width' => 5],    
+    ['label' => 'MontoMoneda', 'no-export' => true, 'width' => 5],        
+    ['label' => 'Tasa Cambio', 'no-export' => true, 'width' => 5],            
+    ['label' => 'Monto $', 'no-export' => true, 'width' => 5],    
+    ['label' => '%', 'no-export' => true, 'width' => 5],        
+    ['label' => 'Comision $', 'no-export' => true, 'width' => 5],        
+    ['label' => 'Monto Total $', 'no-export' => true, 'width' => 5],
+    ['label' => 'Cliente', 'no-export' => true, 'width' => 5],
+    ['label' => 'Agente', 'no-export' => true, 'width' => 10],
+    ['label' => 'Wallet', 'no-export' => true, 'width' => 5],    
     ['label' => 'Actions', 'no-export' => true, 'width' => 5],
 ];
-
-
 
 
 $btnEdit = '<button class="btn btn-xs btn-default text-primary mx-1 shadow" title="Edit">
@@ -186,12 +190,20 @@ $config4 = [
 <x-adminlte-datatable id="table3" :heads="$heads">
     @foreach($Transacciones as $row)
         <tr>
-            <td>{!! $row->AgenteName !!}</td>
-            <td>{!! $row->ClientName !!}</td>
-            <td>{!! $row->Monto !!}</td>
+
             <td>{!! $row->FechaTransaccion !!}</td>
-            <td>{!! $row->WalletName !!}</td>
             <td>{!! $row->TipoTransaccion !!}</td>
+            <td>{!! $row->TipoMoneda !!}</td>
+            <td>{!! $row->MontoMoneda !!}</td>            
+            <td>{!! $row->TasaCambio !!}</td>                        
+            <td>{!! $row->Monto !!}</td> 
+            <td>{!! $row->PorcentajeComision !!}</td>            
+            <td>{!! $row->MontoComision !!}</td>            
+            <td>{!! $row->MontoTotal !!}</td>
+            <td>{!! $row->ClientName !!}</td>
+            <td>{!! $row->AgenteName !!}</td>
+            <td>{!! $row->WalletName !!}</td>
+
 
             <td class="text-center">
                 <button class="btn btn-xl text-teal mx-auto shadow" title="Detalles">
