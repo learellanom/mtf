@@ -12,38 +12,6 @@
 @section('content')
 
 {{-- Setup data for datatables --}}
-
-
-@php
-
-
-    # code...
-
-
-$heads = [
-    ['label' =>'Agente', 'width' => 10],
-    ['label' => 'Cliente', 'width' => 15],
-    ['label' => 'Caja usada', 'no-export' => true, 'width' => 10],
-    ['label' => 'Tipo de transacción', 'no-export' => true, 'width' => 20],
-    ['label' => 'Porcentaje %', 'no-export' => true, 'width' => 20],
-    ['label' => 'Monto Total', 'width' => 50],
-    ['label' => 'Fecha del movimiento', 'width' => 50],
-    ['label' => 'Editar', 'no-export' => true, 'width' => 5],
-    ['label' => 'Activar/Inactivar', 'no-export' => true, 'width' => 5],
-];
-
-
-
-
-$config = [
-
-    'order' => [[1, 'asc']],
-    'columns' => [null, null, null, ['orderable' => false]],
-];
-
-
-@endphp
-
 <a class="btn btn-dark" title="Crear movimiento master" href={{ route('transactions_master.create') }}>
     <i class="fas fa-plus-circle"></i>
     <span class="d-none d-lg-inline-block text-uppercase font-weight-bold">Nueva</span>
@@ -62,9 +30,25 @@ $config = [
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-12">
-<x-adminlte-datatable id="table" :heads="$heads" head-theme="light"
-    striped hoverable bordered compressed>
+        <table class="table table-bordered table-responsive-lg" id="master">
+            <thead>
+                <tr>
+                    <th>Agente</th>
+                    <th>Cliente</th>
+                    <th>Caja</th>
+                    <th>Tipo de transacción</th>
+                    <th>%</th>
+                    <th>Monto total</th>
+                    <th>Fecha de transacción</th>
+                    <th class="text-center">Editar</th>
+                    <th class="text-center">Activar/Anular</th>
+                </tr>
 
+
+
+
+
+            </thead>
     @foreach($transferencia as $transferencias)
         <tr>
 
@@ -102,9 +86,43 @@ $config = [
 
         </tr>
     @endforeach
-</x-adminlte-datatable>
+    </table>
    </div>
   </div>
  </div>
 </div>
+@endsection
+@section('js')
+<script>
+$(document).ready(function () {
+    $('#master').DataTable( {
+
+        language: {
+        "decimal": "",
+        "emptyTable": "No hay información",
+        "info": "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
+        "infoEmpty": "Mostrando 0 to 0 of 0 Entradas",
+        "infoFiltered": "(Filtrado de _MAX_ total entradas)",
+        "infoPostFix": "",
+        "thousands": ",",
+        "lengthMenu": "Mostrar _MENU_ Entradas",
+        "loadingRecords": "Cargando...",
+        "processing": "Procesando...",
+        "search": "Buscar:",
+        "zeroRecords": "Sin resultados encontrados",
+        "paginate": {
+            "first": "Primero",
+            "last": "Ultimo",
+            "next": "Siguiente",
+            "previous": "Anterior"
+        }
+    },
+    "order": [[ 6, 'asc' ]],
+
+
+
+
+    });
+});
+</script>
 @endsection
