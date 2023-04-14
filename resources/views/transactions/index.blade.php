@@ -30,7 +30,7 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-12">
-                        <table class="table table-hover table-responsive display" id="table">
+                        <table class="table table-hover table-responsive-lg" id="table">
                         <thead>
                             <tr>
                                 <th>Cliente</th>
