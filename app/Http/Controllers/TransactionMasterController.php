@@ -33,8 +33,8 @@ class TransactionMasterController extends Controller
     public function create(Transaction_master $transaction)
     {
         $type_coin = Type_coin::pluck('name', 'id');
-        $type_transaction = Type_transaction::pluck('name', 'id');
-        $wallet = Wallet::pluck('name', 'id');
+        $type_transaction = Type_transaction::whereIn('type_transaction', ['Transacciones'])->pluck('name', 'id');
+        $wallet = Wallet::whereIn('type_wallet', ['Transacciones'])->pluck('name', 'id');
         $group = Group::pluck('name', 'id');
         $user = User::pluck('name', 'id');
 
@@ -186,7 +186,7 @@ class TransactionMasterController extends Controller
 
         $img->delete();
 
-        flash()->addError('Imagen eliminada de la transacción numero '. '# '. $transaction, 'Transacción', ['timeOut' => 2000]);
+        flash()->addError('Imagen eliminada de la transacción numero '. '# '. $transaction_master, 'Transacción', ['timeOut' => 2000]);
 
         return true;
 

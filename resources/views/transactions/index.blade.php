@@ -31,15 +31,11 @@ $heads = [
     ['label' => 'Activar/Anular', 'no-export' => true, 'width' => 5],
 ];
 
-
-
-
 $config = [
 
     'order' => [[1, 'asc']],
     'columns' => [null, null, null, ['orderable' => false]],
 ];
-
 
 @endphp
 
@@ -139,4 +135,25 @@ $config = [
  </div>
 </div>
 @endsection
+@section('css')
+<style>
+    .container {
+      text-align: center;
+    }
 
+    .table-striped tbody tr:nth-of-type(odd) {
+      background-color: rgb(255, 255, 255);
+    }
+
+    .table-hover tbody tr:hover {
+      background-color: rgba(0, 0, 0, 0.7);
+      color: rgb(223, 223, 223);
+    }
+
+    .thead-green {
+      background-color: rgb(7, 39, 126);
+      color: rgb(31, 0, 206);
+    }
+
+  </style>
+@endsection
