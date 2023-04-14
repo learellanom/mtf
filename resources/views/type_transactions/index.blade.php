@@ -13,32 +13,6 @@
 
 {{-- Setup data for datatables --}}
 
-
-@php
-
-
-    # code...
-
-
-$heads = [
-    'Nombre',
-    ['label' => 'Descripcion', 'width' => 40],
-    ['label' => 'Editar', 'no-export' => true, 'width' => 5],
-    ['label' => 'Eliminar', 'no-export' => true, 'width' => 5],
-];
-
-
-
-
-$config = [
-
-    'order' => [[1, 'asc']],
-    'columns' => [null, null, null, ['orderable' => false]],
-];
-
-
-@endphp
-
 <a class="btn btn-dark" title="Crear Tipo de transacción" href={{ route('type_transactions.create') }}>
     <i class="fas fa-plus-circle"></i>
     <span class="d-none d-lg-inline-block text-uppercase font-weight-bold">Crear</span>
@@ -57,16 +31,29 @@ $config = [
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-12">
-<x-adminlte-datatable id="table" :heads="$heads" head-theme="light"
-    striped hoverable bordered compressed>
+<table class="table table-bordered table-responsive-lg" id="tipo">
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Descripción</th>
+            <th class="text-center">Editar</th>
+            <th class="text-center">Eliminar</th>
 
+
+
+        </tr>
+
+
+
+
+    </thead>
     @foreach($transactions as $transaction)
         <tr>
 
             <td>{!! $transaction->name !!}</td>
             <td>{!! $transaction->description !!}</td>
 
-            <td class="pagination">
+            <td class="text-center">
 
             <a class="btn btn-xl text-primary mx-1 shadow" href="{{ route('type_transactions.edit', $transaction) }}" title="Editar">
                 <i class="fa fa-lg fa-fw fa-pen"></i>
@@ -85,9 +72,41 @@ $config = [
 
         </tr>
     @endforeach
-</x-adminlte-datatable>
+</table>
    </div>
   </div>
  </div>
 </div>
+@endsection
+@section('js')
+<script type="text/javascript">
+$(document).ready( function () {
+$('#tipo').DataTable({
+
+    language: {
+        "decimal": "",
+        "emptyTable": "No hay información",
+        "info": "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
+        "infoEmpty": "Mostrando 0 to 0 of 0 Entradas",
+        "infoFiltered": "(Filtrado de _MAX_ total entradas)",
+        "infoPostFix": "",
+        "thousands": ",",
+        "lengthMenu": "Mostrar _MENU_ Entradas",
+        "loadingRecords": "Cargando...",
+        "processing": "Procesando...",
+        "search": "Buscar:",
+        "zeroRecords": "Sin resultados encontrados",
+        "paginate": {
+            "first": "Primero",
+            "last": "Ultimo",
+            "next": "Siguiente",
+            "previous": "Anterior"
+        }
+    },
+
+
+});
+
+} );
+</script>
 @endsection

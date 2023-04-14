@@ -31,7 +31,7 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-12">
-                            <table id="roles" class="table table-bordered table-striped table-responsive-lg">
+                            <table id="roles" class="table table-bordered table-responsive-lg">
                                 <thead>
                                     <tr>
                                         <th>Nombre</th>

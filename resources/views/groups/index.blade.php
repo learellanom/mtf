@@ -31,13 +31,13 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-12">
-                <table id="grupo" class="table table-hover table-responsive-lg">
+                <table id="grupo" class="table table-bordered table-responsive-lg">
                 <thead>
                     <tr>
                         <th>Nombre</th>
                         <th>Telefono</th>
                         <th>Descripción</th>
-                        <th>Ver/Editar</th>
+                        <th class="text-center">Ver/Editar</th>
                         <th>Eliminar</th>
                     </tr>
 
