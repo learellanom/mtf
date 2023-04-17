@@ -40,7 +40,7 @@
                     <th>%</th>
                     <th>Monto total</th>
                     <th>Fecha de transacción</th>
-                    <th class="text-center">Editar</th>
+                    {{-- <th class="text-center">Editar</th> --}}
                     <th class="text-center">Activar/Anular</th>
                 </tr>
 
@@ -53,19 +53,19 @@
         <tr>
 
             <td class="font-weight-bold">{!! $transferencias->user->name !!}</td>
-            <td>{!! $transferencias->group->name !!}</td>
+            <td class="font-weight-bold">{!! $transferencias->group->name !!}</td>
             <td>{!! $transferencias->wallet->name !!}</td>
             <td>{!! $transferencias->type_transaction->name !!}</td>
-            <td class="font-weight-bold">{!! $transferencias->percentage !!}%</td>
+            <td class="font-weight-bold text-uppercase">{!! $transferencias->percentage ?? 'Transacción sin comisión' !!}</td>
             <td class="font-weight-bold">{!! $transferencias->amount_total !!} $</td>
 
             <td class="font-weight-bold">{!! $transferencias->transaction_date !!}</td>
 
 
-            <td class="text-center">
+         {{--    <td class="text-center">
                 <a href="{{ route('transactions_master.edit', $transferencias->id) }}" class="btn btn-xl text-primary mx-1 shadow text-center"><i class="fa fa-lg fa-fw fas fa-edit"></i></a>
             </td>
-
+ --}}
 
 
             <td class="text-center">
@@ -99,7 +99,7 @@ $(document).ready(function () {
 
         language: {
         "decimal": "",
-        "emptyTable": "No hay información",
+        "emptyTable": "No hay transacciones.",
         "info": "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
         "infoEmpty": "Mostrando 0 to 0 of 0 Entradas",
         "infoFiltered": "(Filtrado de _MAX_ total entradas)",

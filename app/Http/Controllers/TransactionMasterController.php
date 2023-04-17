@@ -65,7 +65,7 @@ class TransactionMasterController extends Controller
           }
         }
 
-        flash()->addSuccess('Movimiento guardado', 'Transacción', ['timeOut' => 3000]);
+        flash()->addSuccess('Movimiento guardado', 'Transacción Master', ['timeOut' => 3000]);
 
         return Redirect::route('transactions_master.index');
     }
