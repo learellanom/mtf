@@ -72,7 +72,7 @@
                         {!! Form::Label('exchange_rate', "Tasa:") !!}
                         <div class="input-group-text">
                             <i class="fa-fw fas fa-random mr-2"></i>
-                        {!! Form::number('exchange_rate',null, ['class' => 'form-control', 'required' => true, 'id' => 'tasa', 'min' => 0, 'readonly' => true]) !!}
+                        {!! Form::text('exchange_rate',null, ['class' => 'form-control', 'required' => true, 'id' => 'tasa', 'min' => 0, 'readonly' => true]) !!}
                         </div>
                     </div>
 
@@ -97,10 +97,10 @@
                 </div>
 
 
-                <h4 class="text-uppercase font-weight-bold text-center comisiones">Comisiones</h4>
+                <h4 class="text-uppercase font-weight-bold text-center comisiones comi">Comisiones</h4>
                 <hr class="bg-dark comisiones" style="height:1px;">
 
-                <div class="form-row comisiones">
+                <div class="form-row comisiones comi">
 
                     <div class="form-group col-md-6">
                         {!! Form::Label('percentage', "Porcentaje:") !!}
@@ -121,7 +121,7 @@
                     </div>
                 </div>
 
-                <div class="form-row comisiones">
+                <div class="form-row comisiones comi">
 
                     <div class="form-group col-md-6">
                         {!! Form::Label('percentage_base', "Porcentaje Base:") !!}
@@ -465,12 +465,6 @@ $(document).ready(function() {
                     monto_dolares.value =  monto_total.toFixed(2);
                     log.value =  monto_total.toFixed(2);
                 }
-                else if(monto_dolares.value == NaN){
-                    monto_dolares.value = 'Por favor use punto en vez de coma.'
-
-                }else{
-                    monto_dolares.value = 'Por favor llene el campo tasa.'
-                }
 
             };
 
@@ -513,30 +507,41 @@ $(document).ready(function() {
                 }
 
 
-
-        exonerar.click = function (){
-
-              monto_real.value =  parseFloat(montototal.value);
-        }
-        incluir.click = function (){
-
-                    montoreal = (parseFloat(montototal.value) + parseFloat(comision.value));
-                    monto_real.value =  montoreal;
-
-        }
-        descontar.click = function (){
-
-              montottotal = (parseFloat(montototal.value) - parseFloat(comision.value));
-              monto_real.value = montottotal;
-
-        }
-
-
-
              })
 
     })//CIERRE DEL READY
 
+
+
+exonerar = document.getElementById("radio1");
+descontar = document.getElementById("radio2");
+incluir = document.getElementById("radio3");
+
+monto_real = document.getElementById("montototal");
+comision = document.getElementById("comision");
+porcentage = document.getElementById("percentage");
+montototal = document.getElementById("monto_dolares");
+
+exonerar.click = function (){
+
+$('.comi').hide();
+$('#percentage').attr("required", false);
+monto_real.value =  parseFloat(montototal.value);
+
+}
+
+incluir.click = function (){
+      $('.comi').show();
+      montoreal = (parseFloat(montototal.value) + parseFloat(comision.value));
+      monto_real.value =  montoreal;
+}
+
+descontar.click = function (){
+$('.comi').show();
+montottotal = (parseFloat(montototal.value) - parseFloat(comision.value));
+monto_real.value = montottotal;
+
+}
 
 
 
@@ -570,16 +575,6 @@ $('#montototal').prop('readonly', true);
 
  $('.exonerar').click(function() {
 
-      exonerar = document.getElementById("radio1");
-      descontar = document.getElementById("radio2");
-      incluir = document.getElementById("radio3");
-
-            comision = document.getElementById("comision");
-            porcentage = document.getElementById("percentage");
-            montototal = document.getElementById("monto_dolares");
-
-            monto_real = document.getElementById("montototal");
-
        exonerar.click(function (){
           if(exonerar.click()){
               return;
@@ -591,17 +586,7 @@ $('#montototal').prop('readonly', true);
 
    $('.incluir').click(function() {
 
-    exonerar = document.getElementById("radio1");
-    descontar = document.getElementById("radio2");
-    incluir = document.getElementById("radio3");
-
-        comision = document.getElementById("comision");
-        porcentage = document.getElementById("percentage");
-        montototal = document.getElementById("monto_dolares");
-
-        monto_real = document.getElementById("montototal");
-
-    incluir.click(function (){
+     incluir.click(function (){
         if(incluir.click()){
            return;
 
@@ -611,16 +596,6 @@ $('#montototal').prop('readonly', true);
     })
 
     $('.descontar').click(function() {
-
-        exonerar = document.getElementById("radio1");
-        descontar = document.getElementById("radio2");
-        incluir = document.getElementById("radio3");
-
-            comision = document.getElementById("comision");
-            porcentage = document.getElementById("percentage");
-            montototal = document.getElementById("monto_dolares");
-
-            monto_real = document.getElementById("montototal");
 
         descontar.click(function (){
             if(descontar.click()){
@@ -633,11 +608,11 @@ $('#montototal').prop('readonly', true);
 
 
             $("#typetrasnferencia").on("change", function() {
-            // Get the selected value
+            // Capturar el valor seleccionado
             var selectedValue = this.value;
 
-            // Perform the desired action based on the selected value
-            if (selectedValue === '3') {
+            // Realizar la acción deseada en función del valor seleccionado
+            if (selectedValue === '4') {
 
                 $('.comisiones').hide();
 
@@ -656,7 +631,7 @@ $('#montototal').prop('readonly', true);
                 log.value = e.target.value;
                 }
 
-            } else if (selectedValue === '2') {
+            } else if (selectedValue === '3') {
                 $('.comisiones').show();
             }
         });
@@ -691,7 +666,7 @@ $('#montototal').prop('readonly', true);
         }
         , initialPreviewAsData: true
         , allowedPreviewTypes: ['text', 'image']
-        , uploadExtraData: function () {  // callback example
+        , uploadExtraData: function () {  // Devolución de llamada
 
             var documentos = [];
 
