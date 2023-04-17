@@ -1,5 +1,5 @@
 @extends('adminlte::page')
-@section('title', 'Estadisticas por agentes')
+@section('title', 'Estadistica por agentes')
 @section('content')
 {{-- Setup data for datatables --}}
 
@@ -64,7 +64,7 @@ $config4 = [
 </script>
 <br>
 <br>
-<h1 class="text-center text-dark font-weight-bold">Resumen de Movimiento por Agente</h1>
+<h1 class="text-center text-dark font-weight-bold text-uppercase">Resumen de Movimiento por Agente <i class="fas fa-sm fa-user-tie"></i></h1>
 <br>
 <br>
 {{-- Disabled --}}

@@ -1,5 +1,5 @@
 @extends('adminlte::page')
-@section('title', 'Estadisticas por agentes')
+@section('title', 'Estadistica por transacciones')
 @section('content')
 {{-- Setup data for datatables --}}
 
@@ -8,16 +8,16 @@
 $heads = [
     ['label' => 'Fecha Transaccion', 'no-export' => true, 'width' => 5],
     ['label' => 'Transaccion', 'no-export' => true, 'width' => 5],
-    ['label' => 'Tipo Moneda', 'no-export' => true, 'width' => 5],    
-    ['label' => 'MontoMoneda', 'no-export' => true, 'width' => 5],        
-    ['label' => 'Tasa Cambio', 'no-export' => true, 'width' => 5],            
-    ['label' => 'Monto $', 'no-export' => true, 'width' => 5],    
-    ['label' => '%', 'no-export' => true, 'width' => 5],        
-    ['label' => 'Comision $', 'no-export' => true, 'width' => 5],        
+    ['label' => 'Tipo Moneda', 'no-export' => true, 'width' => 5],
+    ['label' => 'MontoMoneda', 'no-export' => true, 'width' => 5],
+    ['label' => 'Tasa Cambio', 'no-export' => true, 'width' => 5],
+    ['label' => 'Monto $', 'no-export' => true, 'width' => 5],
+    ['label' => '%', 'no-export' => true, 'width' => 5],
+    ['label' => 'Comision $', 'no-export' => true, 'width' => 5],
     ['label' => 'Monto Total $', 'no-export' => true, 'width' => 5],
     ['label' => 'Cliente', 'no-export' => true, 'width' => 5],
     ['label' => 'Agente', 'no-export' => true, 'width' => 10],
-    ['label' => 'Wallet', 'no-export' => true, 'width' => 5],    
+    ['label' => 'Wallet', 'no-export' => true, 'width' => 5],
     ['label' => 'Actions', 'no-export' => true, 'width' => 5],
 ];
 
@@ -70,7 +70,7 @@ $config4 = [
 </script>
 <br>
 <br>
-<h1 class="text-center text-dark font-weight-bold">Detalles de Movimiento</h1>
+<h1 class="text-center text-dark font-weight-bold text-uppercase">Detalles de Transacciones <i class="fas fa-chart-pie fa-spin"></i></h1>
 <br>
 <br>
 {{-- Disabled --}}
@@ -194,11 +194,11 @@ $config4 = [
             <td>{!! $row->FechaTransaccion !!}</td>
             <td>{!! $row->TipoTransaccion !!}</td>
             <td>{!! $row->TipoMoneda !!}</td>
-            <td>{!! $row->MontoMoneda !!}</td>            
-            <td>{!! $row->TasaCambio !!}</td>                        
-            <td>{!! $row->Monto !!}</td> 
-            <td>{!! $row->PorcentajeComision !!}</td>            
-            <td>{!! $row->MontoComision !!}</td>            
+            <td>{!! $row->MontoMoneda !!}</td>
+            <td>{!! $row->TasaCambio !!}</td>
+            <td>{!! $row->Monto !!}</td>
+            <td>{!! $row->PorcentajeComision !!}</td>
+            <td>{!! $row->MontoComision !!}</td>
             <td>{!! $row->MontoTotal !!}</td>
             <td>{!! $row->ClientName !!}</td>
             <td>{!! $row->AgenteName !!}</td>
@@ -253,9 +253,9 @@ $config4 = [
             });
 
             $('#group').on('change', function (){
-                
+
                 const usuario = $('#userole').val();
-                
+
                 const grupo   = $('#group').val();
                 const wallet = $('#wallet').val();
                 const seleccionado = $('#group').prop('selectedIndex');
@@ -303,7 +303,7 @@ $config4 = [
         })
 
         function theRoute(usuario = 0, grupo = 0, wallet = 0, fechaDesde = 0, fechaHasta = 0){
-            
+
             if (usuario === "") usuario = 0;
             if (grupo   === "") grupo = 0;
             if (wallet  === "") wallet  = 0;
@@ -330,7 +330,7 @@ $config4 = [
                         //alert('Busca Grupo - encontro');
                         $("#group option[value="+ miGrupo +"]").attr("selected",true);
                     }
-                    
+
                 });
             });
             //
@@ -345,7 +345,7 @@ $config4 = [
                         //alert('BUscaCliente - encontro');
                         $("#cliente option[value="+ miCliente +"]").attr("selected",true);
                     }
-                    
+
                 });
             });
             //
