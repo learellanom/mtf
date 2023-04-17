@@ -56,9 +56,11 @@ class statisticsController extends Controller
             $myFechaHasta = $request->fechaHasta;
         }
 
-        \Log::info('leam usuario *** -> ' . $request->usuario);
-        \Log::info('leam cliente *** -> ' . $request->cliente);
-        \Log::info('leam wallet *** -> ' . $request->wallet);
+        // \Log::info('leam usuario *** -> ' . $request->usuario);
+        // \Log::info('leam cliente *** -> ' . $request->cliente);
+        // \Log::info('leam wallet *** -> ' . $request->wallet);
+        
+        $balance = $this->getBalance($myGroup);
 
         $myUserDesde = 0;
         $myUserHasta = 9999;
@@ -90,7 +92,6 @@ class statisticsController extends Controller
                 ->join('roles', 'roles.id', '=', 'model_has_roles.role_id')
                 ->get();
 
-        // echo $userole;
         $userole = array();
         foreach($userole2 as $user){
             $userole [$user->id] =  $user->name;
@@ -113,6 +114,7 @@ class statisticsController extends Controller
         //  'Transactions.client_id as ClienteId',
         //  'transactions.wallet_id As WalletId',
             'wallets.name As WalletName',
+            'transactions.description as Descripcion',
             'transactions.transaction_date as FechaTransaccion',
             'groups.name as ClientName',
         )->leftJoin(
@@ -133,12 +135,11 @@ class statisticsController extends Controller
         )->orderBy('Transactions.transaction_date','ASC'
         )->get();
 
-            // var_dump($Transacciones);
-            // die();
+        // var_dump($Transacciones);
+        // die();
 
         $Transacciones2 = array();
         foreach($Transacciones as $tran){
-            // echo " trans " . json_decode($tran);
             $value1 = json_decode($tran);
 
             $value2 = array_values(json_decode(json_encode($tran), true));
@@ -146,36 +147,31 @@ class statisticsController extends Controller
             array_push($Transacciones2, $value2);
         }
 
-          $cliente = Client::select('clients.id', 'clients.name')
-          ->get();
+        $cliente = Client::select('clients.id', 'clients.name')
+        ->get();
 
-          //dd($cliente);
+        //*********************************************************
 
-          //*********************************************************
+        $cliente2 = array();
+        foreach($cliente as $cliente){
+            $cliente2 [$cliente->id] =  $cliente->name;
+        }
+        $cliente = $cliente2;
 
-          $cliente2 = array();
-          foreach($cliente as $cliente){
-              $cliente2 [$cliente->id] =  $cliente->name;
-          }
-          $cliente = $cliente2;
+        //***********************************************************
 
-          //***********************************************************
+        $wallet = Wallet::select('wallets.id', 'wallets.name')
+        ->get();
 
-          $wallet = Wallet::select('wallets.id', 'wallets.name')
-          ->get();
+        $wallet2 = array();
+        foreach($wallet as $wallet){
+            $wallet22 [$wallet->id] =  $wallet->name;
+        }
+        $wallet = $wallet22;
 
-          //dd($wallet);
+        $group = $this->getGroups();
 
-          $wallet2 = array();
-          foreach($wallet as $wallet){
-              $wallet22 [$wallet->id] =  $wallet->name;
-          }
-          $wallet = $wallet22;
-
-
-          $group = $this->getGroups();
-
-        return view('estadisticas.index', compact('myUser','userole','Transacciones','group','wallet','myGroup','myUser','myWallet'));
+        return view('estadisticas.index', compact('myUser','userole','Transacciones','group','wallet','myGroup','myUser','myWallet','balance'));
 
     }
 
@@ -240,9 +236,6 @@ class statisticsController extends Controller
             $myWalletDesde = $myWallet;
             $myWalletHasta = $myWallet;
         }                
-
-        // print_r($myUser);
-        // die();
 
         $userole2 = User::select('users.id', 'users.name', 'model_has_roles.role_id')
                 ->join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
@@ -402,8 +395,6 @@ class statisticsController extends Controller
         if ($request->cliente) {
             $myCliente = $request->cliente;
         }     
-
-
 
         $myClienteDesde = 0;
         $myClienteHasta = 9999;
@@ -857,6 +848,127 @@ class statisticsController extends Controller
             $Type_transactions2 [$Type_transactions->id] =  $Type_transactions->name;
         }
         return $Type_transactions2;
+    }
+
+
+    function getBalance($grupo = 6){
+        
+        if ($grupo === 0){
+            return "";
+        }
+        \Log::info('leam grupo *** -> ' . $grupo);        
+        
+
+        $myFechaDesde = "2001-01-01";
+        $myFechaHasta = "9999-12-31";
+
+        $myQuery =
+        "
+            select 
+                IdGrupo as IdGrupo,
+                NombreGrupo as NombreGrupo,
+                sum(MontoCreditos) as Creditos,
+                sum(MontoDebitos)  as Debitos,
+                (sum(MontoCreditos) - sum(MontoDebitos) ) as Total
+            from(
+                SELECT 
+                    group_id          	as IdGrupo,
+                    mtf.groups.name   	as NombreGrupo,
+                    sum(amount_total) 	as MontoCreditos,
+                    0					as MontoDebitos
+                FROM mtf.transactions
+                left join  mtf.groups on mtf.transactions.group_id  = mtf.groups.id
+                where
+                    type_transaction_id in (6)
+                    and
+                    transaction_date between '0000-00-00' and '9999-12-31'
+                    and
+                    group_id between $grupo and $grupo
+                    and status <> 'Anulado'
+                group by 
+                    IdGrupo,
+                    NombreGrupo
+                union
+                SELECT 
+                    group_id          as IdGrupo,
+                    mtf.groups.name   as NombreGrupo,
+                    0 				  as MontoCreditos,
+                    sum(amount_total) as MontoDebitos
+                FROM mtf.transactions
+                left join  mtf.groups on mtf.transactions.group_id  = mtf.groups.id
+                where
+                    type_transaction_id in (7)
+                    and
+                    transaction_date between '0000-00-00' and '9999-12-31'    
+                    and
+                    group_id between $grupo and $grupo
+                    and status <> 'Anulado' 
+                group by 
+                    IdGrupo,
+                    NombreGrupo
+                union
+                SELECT 
+                    group_id          as IdGrupo,
+                    mtf.groups.name   as NombreGrupo,
+                    0 				  as MontoCreditos,
+                    sum(amount_total) as MontoDebitos
+                FROM mtf.transactions
+                left join  mtf.groups on mtf.transactions.group_id  = mtf.groups.id
+                where
+                    type_transaction_id in (3)
+                    and
+                    transaction_date between '0000-00-00' and '9999-12-31' 
+                    and
+                    group_id between $grupo and $grupo
+                    and status <> 'Anulado' 
+                group by 
+                    IdGrupo,
+                    NombreGrupo
+                union
+                SELECT 
+                    group_id         as IdGrupo,
+                    mtf.groups.name  as NombreGrupo,
+                    sum(amount_total)  as MontoCreditos,
+                    0 as MontoDebitos
+                FROM mtf.transactions
+                left join  mtf.groups on mtf.transactions.group_id  = mtf.groups.id
+                where
+                    type_transaction_id in(1,2,4)
+                    and
+                    transaction_date between '0000-00-00' and '9999-12-31'   
+                    and
+                    group_id between $grupo and $grupo
+                    and status <> 'Anulado'  
+                group by 
+                    IdGrupo,
+                    NombreGrupo    
+                    
+            )
+            as t
+            group by
+                IdGrupo,
+                NombreGrupo
+        ";
+
+        $Transacciones = DB::select($myQuery);
+        // $Type_transactions2 = array();
+        // foreach($Type_transactions as $Type_transactions){
+        //     $Type_transactions2 [$Type_transactions->id] =  $Type_transactions->name;
+        // }
+        // dd($Transacciones);    
+
+         //     $Transacciones2 = json_decode($Transacciones[0],true);
+        // echo gettype($Transacciones);   
+        // echo gettype($Transacciones[0]);     
+        // echo json_encode($Transacciones[0]);
+        // echo compact(json_encode($Transacciones[0]),true);
+
+        // var_dump($Transacciones[0]);
+        // die();
+        \Log::info('leam grupo *** -> ' . print_r($Transacciones[0],true));    
+
+        return $Transacciones[0];
+
     }
 
 }
