@@ -14,11 +14,15 @@ class Type_transactionSeeder extends Seeder
     public function run(): void
     {
         Type_transaction::create([
-            'name' => "Transferencias",
+            'name' => "Pago en Transferencia",
             'description' => "Pago en transferencias bancarias",
             'type_transaction' => 'Transacciones',
         ]);
-
+        Type_transaction::create([
+            'name' => "Cobro en Transferencia",
+            'description' => "Cobro en transferencias bancarias",
+            'type_transaction' => 'Transacciones',
+        ]);
         Type_transaction::create([
             'name' => "Pago Efectivo",
             'description' => "Pagar en efectivo de caja ejectivo.",

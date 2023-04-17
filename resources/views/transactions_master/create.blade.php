@@ -641,7 +641,7 @@ $('#montototal').prop('readonly', true);
             var selectedValue = this.value;
 
 
-            if (selectedValue === '6' || selectedValue === '7') {
+            if (selectedValue === '7' || selectedValue === '8') {
 
                 $('.esconder').hide();
 
