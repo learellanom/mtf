@@ -8,7 +8,7 @@
 $heads = [
     'Grupo',
     'Transaccion',
-    'Cant',    
+    'Cant',
     'Monto transacciones',
     'Monto comision',
     'Monto total',
@@ -63,7 +63,7 @@ $config4 = [
 </script>
 <br>
 <br>
-<h1 class="text-center text-dark font-weight-bold">Resumen de Movimiento por Grupo</h1>
+<h1 class="text-center text-dark font-weight-bold text-uppercase">Resumen de Movimiento por Grupo <i class="fas fa-users"></i></h1>
 <br>
 <br>
 {{-- Disabled --}}
@@ -152,8 +152,8 @@ $config4 = [
                                     <td>{!! $row->total !!}</td>
 
                                     <td class="text-center">
-                                        <button 
-                                            class="btn btn-xl text-teal mx-auto shadow" 
+                                        <button
+                                            class="btn btn-xl text-teal mx-auto shadow"
                                             title="Detalles">
                                             <i class="fa fa-lg fa-fw fa-eye"></i>
                                         </button>
@@ -171,10 +171,10 @@ $config4 = [
 @endsection
 
 @section('js')
-    
+
 <script>
 
-    
+
     const miGrupo = {!! $myGroup !!};
 
     BuscaGrupo(miGrupo);
@@ -226,8 +226,8 @@ $config4 = [
         let myRoute = "";
             myRoute = "{{ route('estadisticasResumenGrupo', ['grupo' => 'grupo2', 'fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2']) }}";
             myRoute = myRoute.replace('grupo2',grupo);
-            myRoute = myRoute.replace('fechaDesde2',fechaDesde);                
-            myRoute = myRoute.replace('fechaHasta2',fechaHasta); 
+            myRoute = myRoute.replace('fechaDesde2',fechaDesde);
+            myRoute = myRoute.replace('fechaHasta2',fechaHasta);
         // console.log(myRoute);
         // alert(myRoute);
         location.href = myRoute;

@@ -23,9 +23,16 @@ class WalletSeeder extends Seeder
 
         Wallet::create([
             'name' => "Caja Efectivo",
-            'description' => "En esta caja se manejae el dinero en efectivo.",
+            'description' => "En esta caja se maneja el dinero en efectivo.",
             'direction' =>"Venezuela, Caracas La Yaguara",
             'type_wallet' => 'Efectivo'
+        ]);
+
+        Wallet::create([
+            'name' => "Caja (Saldo)",
+            'description' => "En esta caja se mueven notas de debito y credito.",
+            'direction' =>"Venezuela",
+            'type_wallet' => 'Transacciones'
         ]);
     }
 }

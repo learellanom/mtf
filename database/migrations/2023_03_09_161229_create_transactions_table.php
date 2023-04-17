@@ -21,11 +21,11 @@ return new class extends Migration
             $table->enum('exonerate', [1, 2, 3])->nullable()->default(1); //DESCUENTO, EXONERADO E INCLUIR COMOSIÓN
             $table->double('percentage')->nullable(); //PORCENTAJE DE LA TRANSFERENCIA
             $table->foreignId('type_coin_id')->default(1)->references('id')->on('type_coins'); // TIPO DE MONEDA DE LA TRANSFERENCIA
-            $table->foreignId('type_transaction_id')->references('id')->on('type_transactions')->nullable();  //TIPO DE LA TRANSFERENCIA
+            $table->foreignId('type_transaction_id')->references('id')->on('type_transactions');  //TIPO DE LA TRANSFERENCIA
             $table->foreignId('user_id')->references('id')->on('users');  // USUARIO QUE REALIZO LA TRANSFERENCIA
             $table->integer('client_id')->nullable(); //CLIENTE DE LA TRANSFERENCIA
             $table->foreignId('group_id')->nullable()->references('id')->on('groups')->onUpdate('cascade')->onDelete('cascade'); //CLIENTE DE LA TRANSFERENCIA
-            $table->foreignId('wallet_id')->nullable()->references('id')->on('wallets'); // MONEDERO O CUENTA DE DONDE SALE EL DINERO
+            $table->foreignId('wallet_id')->default(3)->references('id')->on('wallets'); // MONEDERO O CUENTA DE DONDE SALE EL DINERO
             $table->enum('status', ['Activo', 'Anulado'])->nullable()->default('Activo'); //ESTATUS
             $table->string('description'); //DESCRIPCION DE LA TRANSFERENCIA
             $table->date('transaction_date'); //FECHA DE LA TRANSACCIÓN

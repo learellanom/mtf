@@ -81,7 +81,7 @@
                         {!! Form::Label('amount_foreign_currency', "Monto en moneda extranjera:") !!}
                         <div class="input-group-text">
                             <i class="fa-fw fas fa-coins mr-2"></i>
-                        {!! Form::number('amount_foreign_currency',null, ['class' => 'form-control', 'required' => true, 'id' => 'monto', 'min' => 0, 'readonly' => true]) !!}
+                        {!! Form::text('amount_foreign_currency',null, ['class' => 'form-control', 'required' => true, 'id' => 'monto', 'readonly' => true]) !!}
                         </div>
 
                     </div>
@@ -92,7 +92,7 @@
                     {!! Form::Label('amount', "Monto en dolares:") !!}
                     <div class="input-group-text">
                         <i class="fa-fw fas fas fa-funnel-dollar mr-2"></i>
-                    {!! Form::number('amount', null, ['class' => 'form-control dolar', 'required' => true, 'id' => 'monto_dolares', 'min' => 0, 'readonly' => true]) !!}
+                    {!! Form::text('amount', null, ['class' => 'form-control dolar', 'required' => true, 'id' => 'monto_dolares', 'readonly' => true]) !!}
                     </div>
                 </div>
 
@@ -115,7 +115,7 @@
                         {!! Form::Label('amount_commission', "Monto Comisión:") !!}
                         <div class="input-group-text">
                             <i class="fa-fw fas fa-coins mr-2"></i>
-                        {!! Form::number('amount_commission',null, ['class' => 'form-control comision', 'required' => true, 'min' => 0, 'readonly' => true, 'id' => 'comision']) !!}
+                        {!! Form::text('amount_commission',null, ['class' => 'form-control comision', 'required' => true, 'readonly' => true, 'id' => 'comision']) !!}
                         </div>
 
                     </div>

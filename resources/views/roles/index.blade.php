@@ -31,7 +31,7 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-12">
-                            <table id="usuarios" class="table table-bordered table-striped">
+                            <table id="roles" class="table table-bordered table-responsive-lg">
                                 <thead>
                                     <tr>
                                         <th>Nombre</th>
@@ -51,7 +51,7 @@
                                                 @method('delete')
 
                                              <td class="text-center">
-                                                <button class="btn btn-danger borrar_users" type="submit"><i class='fas fa-trash'></i></button>
+                                                <button class="btn btn-danger borrar_role" type="submit"><i class='fas fa-trash'></i></button>
                                             </td>
                                             </form>
                                         </tr>
@@ -73,46 +73,32 @@
 
 @section('js')
 <script type="text/javascript">
-
-$(document).on('submit', '.borrar_users', function (e) {
-    let delete_form = $(this).parent().find();
-    e.preventDefault();
-
-    swal.fire({
-        title: "¿Desea eliminar al usuario?",
-        text: "Una vez eliminado/a, no se podra recuperar a este usuario.",
-        icon: "warning",
-        confirmButtonText: 'Si, eliminar',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        cancelButtonText: 'Cancelar',
-
-    }).then((result) => {
-            if (result.value) {
-
-                 swal.fire(
-                    '¡Eliminado!',
-                    'El usuario ha sido eliminado.',
-                    'success'
-                )
-                delete_form.submit();
-
-            }else{
-
-                    swal.fire(
-                    'Cancelado',
-                    'La eliminación del usuario ha sido cancelada.',
-                    'error'
-                )
-
-            }
-        });
-});
-
-
 $(document).ready( function () {
-$('#usuarios').DataTable();
+$('#roles').DataTable({
+
+    language: {
+        "decimal": "",
+        "emptyTable": "No hay información",
+        "info": "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
+        "infoEmpty": "Mostrando 0 to 0 of 0 Entradas",
+        "infoFiltered": "(Filtrado de _MAX_ total entradas)",
+        "infoPostFix": "",
+        "thousands": ",",
+        "lengthMenu": "Mostrar _MENU_ Entradas",
+        "loadingRecords": "Cargando...",
+        "processing": "Procesando...",
+        "search": "Buscar:",
+        "zeroRecords": "Sin resultados encontrados",
+        "paginate": {
+            "first": "Primero",
+            "last": "Ultimo",
+            "next": "Siguiente",
+            "previous": "Anterior"
+        }
+    },
+
+
+});
 
 } );
 </script>

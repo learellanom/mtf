@@ -9,10 +9,10 @@ $heads = [
     'Fecha',
     'Grupo',
     'Cant  Transacciones',
-    'Monto Transacciones',    
+    'Monto Transacciones',
     'Cant  Master',
     'Monto Master',
-    'Cant',    
+    'Cant',
     'Monto',
     ['label' => 'Actions', 'no-export' => true, 'width' => 5],
 ];
@@ -65,7 +65,7 @@ $config4 = [
 </script>
 <br>
 <br>
-<h1 class="text-center text-dark font-weight-bold">Concilacion por Grupo</h1>
+<h1 class="text-center text-dark font-weight-bold text-uppercase">Concilacion por Grupo <i class="fas fa-users"></i></h1>
 <br>
 <br>
 {{-- Disabled --}}
@@ -232,8 +232,8 @@ $config4 = [
         let myRoute = "";
             myRoute = "{{ route('estadisticasConciliacionGrupo', ['grupo' => 'grupo2', 'fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2']) }}";
             myRoute = myRoute.replace('grupo2',grupo);
-            myRoute = myRoute.replace('fechaDesde2',fechaDesde);                
-            myRoute = myRoute.replace('fechaHasta2',fechaHasta); 
+            myRoute = myRoute.replace('fechaDesde2',fechaDesde);
+            myRoute = myRoute.replace('fechaHasta2',fechaHasta);
         // console.log(myRoute);
         // alert(myRoute);
         location.href = myRoute;

@@ -1,11 +1,12 @@
 @extends('adminlte::page')
-@section('title', 'Estadisticas por agentes')
+@section('title', 'Estadistica por transacciones')
 @section('content')
 {{-- Setup data for datatables --}}
 
 @php
 
 $heads = [
+<<<<<<< HEAD
     ['label' => 'Fecha Transacción', 'no-export' => true, 'width' => 2],
     ['label' => 'Transacción', 'no-export' => true, 'width' => 5],
     ['label' => 'Descripción', 'no-export' => true, 'width' => 5],    
@@ -15,10 +16,20 @@ $heads = [
     ['label' => 'Monto $', 'no-export' => true, 'width' => 5],
     ['label' => '%', 'no-export' => true, 'width' => 5],        
     ['label' => 'Comision $', 'no-export' => true, 'width' => 5],        
+=======
+    ['label' => 'Fecha Transaccion', 'no-export' => true, 'width' => 5],
+    ['label' => 'Transaccion', 'no-export' => true, 'width' => 5],
+    ['label' => 'Tipo Moneda', 'no-export' => true, 'width' => 5],
+    ['label' => 'MontoMoneda', 'no-export' => true, 'width' => 5],
+    ['label' => 'Tasa Cambio', 'no-export' => true, 'width' => 5],
+    ['label' => 'Monto $', 'no-export' => true, 'width' => 5],
+    ['label' => '%', 'no-export' => true, 'width' => 5],
+    ['label' => 'Comision $', 'no-export' => true, 'width' => 5],
+>>>>>>> 9b5dd82e34b0e0ece59e66cd8531dd79ac5c0611
     ['label' => 'Monto Total $', 'no-export' => true, 'width' => 5],
     ['label' => 'Cliente', 'no-export' => true, 'width' => 5],
     ['label' => 'Agente', 'no-export' => true, 'width' => 10],
-    ['label' => 'Wallet', 'no-export' => true, 'width' => 5],    
+    ['label' => 'Wallet', 'no-export' => true, 'width' => 5],
     ['label' => 'Actions', 'no-export' => true, 'width' => 5],
 ];
 
@@ -80,7 +91,7 @@ if (isset($balance->Total)){
 </script>
 <br>
 <br>
-<h1 class="text-center text-dark font-weight-bold">Detalles de Movimiento</h1>
+<h1 class="text-center text-dark font-weight-bold text-uppercase">Detalles de Transacciones <i class="fas fa-chart-pie fa-spin"></i></h1>
 <br>
 <br>
 {{-- Disabled --}}
@@ -206,6 +217,7 @@ if (isset($balance->Total)){
                                 @foreach($Transacciones as $row)
                                     <tr>
 
+<<<<<<< HEAD
                                         <td>{!! $row->FechaTransaccion !!}</td>
                                         <td>{!! $row->TipoTransaccion !!}</td>
                                         <td>{!! $row->Descripcion !!}</td>            
@@ -219,6 +231,20 @@ if (isset($balance->Total)){
                                         <td>{!! $row->ClientName !!}</td>
                                         <td>{!! $row->AgenteName !!}</td>
                                         <td>{!! $row->WalletName !!}</td>
+=======
+            <td>{!! $row->FechaTransaccion !!}</td>
+            <td>{!! $row->TipoTransaccion !!}</td>
+            <td>{!! $row->TipoMoneda !!}</td>
+            <td>{!! $row->MontoMoneda !!}</td>
+            <td>{!! $row->TasaCambio !!}</td>
+            <td>{!! $row->Monto !!}</td>
+            <td>{!! $row->PorcentajeComision !!}</td>
+            <td>{!! $row->MontoComision !!}</td>
+            <td>{!! $row->MontoTotal !!}</td>
+            <td>{!! $row->ClientName !!}</td>
+            <td>{!! $row->AgenteName !!}</td>
+            <td>{!! $row->WalletName !!}</td>
+>>>>>>> 9b5dd82e34b0e0ece59e66cd8531dd79ac5c0611
 
                                         <td class="text-center">
                                             <button class="btn btn-xl text-teal mx-auto shadow" title="Detalles">
@@ -269,9 +295,9 @@ if (isset($balance->Total)){
             });
 
             $('#group').on('change', function (){
-                
+
                 const usuario = $('#userole').val();
-                
+
                 const grupo   = $('#group').val();
                 const wallet = $('#wallet').val();
                 const seleccionado = $('#group').prop('selectedIndex');
@@ -319,7 +345,7 @@ if (isset($balance->Total)){
         })
 
         function theRoute(usuario = 0, grupo = 0, wallet = 0, fechaDesde = 0, fechaHasta = 0){
-            
+
             if (usuario === "") usuario = 0;
             if (grupo   === "") grupo = 0;
             if (wallet  === "") wallet  = 0;
@@ -346,7 +372,7 @@ if (isset($balance->Total)){
                         //alert('Busca Grupo - encontro');
                         $("#group option[value="+ miGrupo +"]").attr("selected",true);
                     }
-                    
+
                 });
             });
             //
@@ -361,7 +387,7 @@ if (isset($balance->Total)){
                         //alert('BUscaCliente - encontro');
                         $("#cliente option[value="+ miCliente +"]").attr("selected",true);
                     }
-                    
+
                 });
             });
             //

@@ -29,11 +29,10 @@
                 </div>
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-md-12">
-                            <table id="usuarios" class="table table-bordered table-striped">
+                        <div class="col">
+                            <table id="usuarios" class="table table-bordered table-responsive-lg">
                                 <thead>
                                     <tr>
-
                                         <th>Nombre</th>
                                         <th>E-mail</th>
                                         <th class="text-center">Contraseña</th>
@@ -45,10 +44,10 @@
                                         @endcan
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    @foreach ($users as $usuario)
-                                        <tr>
 
+                                    @foreach ($users as $usuario)
+                                    <tbody>
+                                        <tr>
                                             <td>{{ $usuario->name }}</td>
                                             <td>{{ $usuario->email }}</td>
                                             <td class="text-center"><a class="btn btn-primary" href={{route('users.password', $usuario)}}><i class='fas fa-lock'></i></a></td>
@@ -137,7 +136,28 @@ $(document).ready(function () {
         });
     });
 $(document).ready( function () {
-$('#usuarios').DataTable();
+$('#usuarios').DataTable({
+    language: {
+        "decimal": "",
+        "emptyTable": "No hay información",
+        "info": "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
+        "infoEmpty": "Mostrando 0 to 0 of 0 Entradas",
+        "infoFiltered": "(Filtrado de _MAX_ total entradas)",
+        "infoPostFix": "",
+        "thousands": ",",
+        "lengthMenu": "Mostrar _MENU_ Entradas",
+        "loadingRecords": "Cargando...",
+        "processing": "Procesando...",
+        "search": "Buscar:",
+        "zeroRecords": "Sin resultados encontrados",
+        "paginate": {
+            "first": "Primero",
+            "last": "Ultimo",
+            "next": "Siguiente",
+            "previous": "Anterior"
+        }
+    },
+});
 
 });
 </script>

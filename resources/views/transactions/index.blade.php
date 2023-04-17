@@ -11,38 +11,6 @@
 
 @section('content')
 
-@php
-
-
-    # code...
-
-
-$heads = [
-    ['label' => 'Cliente', 'width' => 10],
-    ['label' =>'Fecha', 'width' => 10],
-    ['label' => 'Descripción', 'width' => 15],
-    ['label' => '%', 'no-export' => true, 'width' => 5],
-    ['label' => 'Monto (Moneda Extranjera)', 'no-export' => true, 'width' => 20],
-    ['label' => 'Comisión', 'no-export' => true, 'width' => 10],
-    ['label' => 'Monto Dolar ($)', 'width' => 15],
-    ['label' => 'Monto Total', 'width' => 60],
-    ['label' => 'Agente', 'width' => 50],
-    ['label' => 'Tipo de Movimiento', 'width' => 50],
-    ['label' => 'Activar/Anular', 'no-export' => true, 'width' => 5],
-];
-
-
-
-
-$config = [
-
-    'order' => [[1, 'asc']],
-    'columns' => [null, null, null, ['orderable' => false]],
-];
-
-
-@endphp
-
 <a class="btn btn-dark" title="Crear transaccion" href={{ route('transactions.create') }}>
     <i class="fas fa-plus-circle"></i>
     <span class="d-none d-lg-inline-block text-uppercase font-weight-bold">Crear</span>
@@ -62,9 +30,22 @@ $config = [
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-12">
-<x-adminlte-datatable id="table" :heads="$heads" head-theme="light"
-    striped hoverable bordered compressed>
-
+                        <table class="table table-bordered table-responsive-lg" id="table">
+                        <thead>
+                            <tr>
+                                <th>Cliente</th>
+                                <th>Fecha</th>
+                                <th>Descripción</th>
+                                <th>%</th>
+                                <th>Monto</th>
+                                <th>Comisión</th>
+                                <th>Monto Dolar ($)</th>
+                                <th>Monto Total</th>
+                                <th>Agente</th>
+                                <th>Tipo de Movimiento</th>
+                                <th>Activar/Anular</th>
+                            </tr>
+                        </thead>
     @foreach($transferencia as $transferencias)
         <tr>
 
@@ -80,7 +61,7 @@ $config = [
             </td>
             <td class="font-weight-bold">{!! $transferencias->transaction_date !!}</td>
 
-            <td class="font-weight-bold">{!! $transferencias->description !!}</td>
+            <td class="font-weight-bold"><div style='width:60px; height:60px; overflow:hidden;'>{!!  $transferencias->description !!}</div></td>
 
             <td class="font-weight-bold">{!! $transferencias->percentage ?? 'TRANSACCIÓN SIN PORCENTAJE'!!} </td>
 
@@ -133,10 +114,66 @@ $config = [
 
         </tr>
     @endforeach
-</x-adminlte-datatable>
+    </table>
    </div>
   </div>
  </div>
 </div>
 @endsection
+@section('css')
+<style>
+    .container {
+      text-align: center;
+    }
 
+    .table-striped tbody tr:nth-of-type(odd) {
+      background-color: rgb(255, 255, 255);
+    }
+
+    .table-hover tbody tr:hover {
+      background-color: rgba(0, 0, 0, 0.7);
+      color: rgb(223, 223, 223);
+    }
+
+    .thead-green {
+      background-color: rgb(47, 74, 150);
+      color: rgb(31, 0, 206);
+    }
+
+
+  </style>
+@endsection
+@section('js')
+<script>
+$(document).ready(function () {
+    $('#table').DataTable( {
+
+        language: {
+        "decimal": "",
+        "emptyTable": "No hay transacciones.",
+        "info": "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
+        "infoEmpty": "Mostrando 0 to 0 of 0 Entradas",
+        "infoFiltered": "(Filtrado de _MAX_ total entradas)",
+        "infoPostFix": "",
+        "thousands": ",",
+        "lengthMenu": "Mostrar _MENU_ Entradas",
+        "loadingRecords": "Cargando...",
+        "processing": "Procesando...",
+        "search": "Buscar:",
+        "zeroRecords": "Sin resultados encontrados",
+        "paginate": {
+            "first": "Primero",
+            "last": "Ultimo",
+            "next": "Siguiente",
+            "previous": "Anterior"
+        }
+    },
+    "order": [[ 1, 'asc' ]],
+
+
+
+
+    });
+});
+</script>
+@endsection
