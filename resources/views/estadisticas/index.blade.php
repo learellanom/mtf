@@ -6,7 +6,6 @@
 @php
 
 $heads = [
-<<<<<<< HEAD
     ['label' => 'Fecha Transacción', 'no-export' => true, 'width' => 2],
     ['label' => 'Transacción', 'no-export' => true, 'width' => 5],
     ['label' => 'Descripción', 'no-export' => true, 'width' => 5],    
@@ -16,16 +15,6 @@ $heads = [
     ['label' => 'Monto $', 'no-export' => true, 'width' => 5],
     ['label' => '%', 'no-export' => true, 'width' => 5],        
     ['label' => 'Comision $', 'no-export' => true, 'width' => 5],        
-=======
-    ['label' => 'Fecha Transaccion', 'no-export' => true, 'width' => 5],
-    ['label' => 'Transaccion', 'no-export' => true, 'width' => 5],
-    ['label' => 'Tipo Moneda', 'no-export' => true, 'width' => 5],
-    ['label' => 'MontoMoneda', 'no-export' => true, 'width' => 5],
-    ['label' => 'Tasa Cambio', 'no-export' => true, 'width' => 5],
-    ['label' => 'Monto $', 'no-export' => true, 'width' => 5],
-    ['label' => '%', 'no-export' => true, 'width' => 5],
-    ['label' => 'Comision $', 'no-export' => true, 'width' => 5],
->>>>>>> 9b5dd82e34b0e0ece59e66cd8531dd79ac5c0611
     ['label' => 'Monto Total $', 'no-export' => true, 'width' => 5],
     ['label' => 'Cliente', 'no-export' => true, 'width' => 5],
     ['label' => 'Agente', 'no-export' => true, 'width' => 10],
@@ -217,7 +206,6 @@ if (isset($balance->Total)){
                                 @foreach($Transacciones as $row)
                                     <tr>
 
-<<<<<<< HEAD
                                         <td>{!! $row->FechaTransaccion !!}</td>
                                         <td>{!! $row->TipoTransaccion !!}</td>
                                         <td>{!! $row->Descripcion !!}</td>            
@@ -231,20 +219,6 @@ if (isset($balance->Total)){
                                         <td>{!! $row->ClientName !!}</td>
                                         <td>{!! $row->AgenteName !!}</td>
                                         <td>{!! $row->WalletName !!}</td>
-=======
-            <td>{!! $row->FechaTransaccion !!}</td>
-            <td>{!! $row->TipoTransaccion !!}</td>
-            <td>{!! $row->TipoMoneda !!}</td>
-            <td>{!! $row->MontoMoneda !!}</td>
-            <td>{!! $row->TasaCambio !!}</td>
-            <td>{!! $row->Monto !!}</td>
-            <td>{!! $row->PorcentajeComision !!}</td>
-            <td>{!! $row->MontoComision !!}</td>
-            <td>{!! $row->MontoTotal !!}</td>
-            <td>{!! $row->ClientName !!}</td>
-            <td>{!! $row->AgenteName !!}</td>
-            <td>{!! $row->WalletName !!}</td>
->>>>>>> 9b5dd82e34b0e0ece59e66cd8531dd79ac5c0611
 
                                         <td class="text-center">
                                             <button class="btn btn-xl text-teal mx-auto shadow" title="Detalles">

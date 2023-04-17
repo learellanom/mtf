@@ -864,91 +864,56 @@ class statisticsController extends Controller
 
         $myQuery =
         "
-            select 
-                IdGrupo as IdGrupo,
-                NombreGrupo as NombreGrupo,
-                sum(MontoCreditos) as Creditos,
-                sum(MontoDebitos)  as Debitos,
-                (sum(MontoCreditos) - sum(MontoDebitos) ) as Total
-            from(
-                SELECT 
-                    group_id          	as IdGrupo,
-                    mtf.groups.name   	as NombreGrupo,
-                    sum(amount_total) 	as MontoCreditos,
-                    0					as MontoDebitos
-                FROM mtf.transactions
-                left join  mtf.groups on mtf.transactions.group_id  = mtf.groups.id
-                where
-                    type_transaction_id in (6)
-                    and
-                    transaction_date between '0000-00-00' and '9999-12-31'
-                    and
-                    group_id between $grupo and $grupo
-                    and status <> 'Anulado'
-                group by 
-                    IdGrupo,
-                    NombreGrupo
-                union
-                SELECT 
-                    group_id          as IdGrupo,
-                    mtf.groups.name   as NombreGrupo,
-                    0 				  as MontoCreditos,
-                    sum(amount_total) as MontoDebitos
-                FROM mtf.transactions
-                left join  mtf.groups on mtf.transactions.group_id  = mtf.groups.id
-                where
-                    type_transaction_id in (7)
-                    and
-                    transaction_date between '0000-00-00' and '9999-12-31'    
-                    and
-                    group_id between $grupo and $grupo
-                    and status <> 'Anulado' 
-                group by 
-                    IdGrupo,
-                    NombreGrupo
-                union
-                SELECT 
-                    group_id          as IdGrupo,
-                    mtf.groups.name   as NombreGrupo,
-                    0 				  as MontoCreditos,
-                    sum(amount_total) as MontoDebitos
-                FROM mtf.transactions
-                left join  mtf.groups on mtf.transactions.group_id  = mtf.groups.id
-                where
-                    type_transaction_id in (3)
-                    and
-                    transaction_date between '0000-00-00' and '9999-12-31' 
-                    and
-                    group_id between $grupo and $grupo
-                    and status <> 'Anulado' 
-                group by 
-                    IdGrupo,
-                    NombreGrupo
-                union
-                SELECT 
-                    group_id         as IdGrupo,
-                    mtf.groups.name  as NombreGrupo,
-                    sum(amount_total)  as MontoCreditos,
-                    0 as MontoDebitos
-                FROM mtf.transactions
-                left join  mtf.groups on mtf.transactions.group_id  = mtf.groups.id
-                where
-                    type_transaction_id in(1,2,4)
-                    and
-                    transaction_date between '0000-00-00' and '9999-12-31'   
-                    and
-                    group_id between $grupo and $grupo
-                    and status <> 'Anulado'  
-                group by 
-                    IdGrupo,
-                    NombreGrupo    
-                    
-            )
-            as t
-            group by
-                IdGrupo,
-                NombreGrupo
+        select 
+            IdGrupo as IdGrupo,
+            NombreGrupo as NombreGrupo,
+            sum(MontoCreditos) as Creditos,
+            sum(MontoDebitos)  as Debitos,
+            (sum(MontoCreditos) - sum(MontoDebitos) ) as Total
+        from(
+        SELECT 
+            group_id          as IdGrupo,
+            mtf.groups.name   as NombreGrupo,
+            0 				  as MontoCreditos,
+            sum(amount_total) as MontoDebitos
+        FROM mtf.transactions
+        left join  mtf.groups on mtf.transactions.group_id  = mtf.groups.id
+        where
+            type_transaction_id in (3,9,7)
+            and
+            transaction_date between '0000-00-00' and '9999-12-31' 
+            and
+            group_id between $grupo and $grupo
+            and status <> 'Anulado'    
+        group by 
+            IdGrupo,
+            NombreGrupo
+        union
+        SELECT 
+            group_id         as IdGrupo,
+            mtf.groups.name  as NombreGrupo,
+            sum(amount_total)  as MontoCreditos,
+            0 as MontoDebitos
+        FROM mtf.transactions
+        left join  mtf.groups on mtf.transactions.group_id  = mtf.groups.id
+        where
+            type_transaction_id in(1,2,4,6,8)
+            and
+            transaction_date between '0000-00-00' and '9999-12-31'   
+            and
+            group_id between $grupo and $grupo
+            and status <> 'Anulado'   
+        group by 
+            IdGrupo,
+            NombreGrupo    
+            
+        )
+        as t
+        group by
+            IdGrupo,
+            NombreGrupo
         ";
+            
 
         $Transacciones = DB::select($myQuery);
         // $Type_transactions2 = array();
@@ -965,7 +930,7 @@ class statisticsController extends Controller
 
         // var_dump($Transacciones[0]);
         // die();
-        \Log::info('leam grupo *** -> ' . print_r($Transacciones[0],true));    
+         \Log::info('leam grupo *** -> ' . print_r($Transacciones,true));    
 
         return $Transacciones[0];
 
