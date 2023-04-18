@@ -358,8 +358,13 @@
     width:400px;
   }
 }
-
-
+.form-group > .select2-container {
+    width: 100% !important;
+}
+.card{
+    width: 100% !important;
+    height: 100% !important;
+}
 </style>
 @endsection
 
@@ -370,7 +375,8 @@ $(".clientes").select2({
   theme: 'bootstrap4',
   notEmpty: false,
   allowClear: true,
-  clearing: true
+  clearing: true,
+  width: '100%'
 });
 $("#clientes").val("")
 $("#clientes").trigger("change");
@@ -378,7 +384,8 @@ $("#clientes").trigger("change");
 $(".typecoin").select2({
   placeholder: "Seleccionar Moneda",
   theme: 'bootstrap4',
-  allowClear: true
+  allowClear: true,
+  width: '100%'
 });
 $("#typecoin").val("")
 $("#typecoin").trigger("change");
@@ -386,14 +393,16 @@ $("#typecoin").trigger("change");
 $(".status").select2({
   placeholder: "Seleccionar estatus",
   theme: 'bootstrap4',
-  search: false
+  search: false,
+  width: '100%'
 });
 
 $(".wallet").select2({
   placeholder: "Seleccionar Caja | Wallet",
   theme: 'bootstrap4',
   search: false,
-  allowClear: true
+  allowClear: true,
+  width: '100%'
 });
 $("#wallet").val("")
 $("#wallet").trigger("change");
@@ -401,7 +410,8 @@ $("#wallet").trigger("change");
 $(".typetrasnferencia").select2({
   placeholder: "Seleccionar tipo de movimiento",
   theme: 'bootstrap4',
-  allowClear: true
+  allowClear: true,
+  width: '100%'
 });
 $("#typetrasnferencia").val("")
 $("#typetrasnferencia").trigger("change");
