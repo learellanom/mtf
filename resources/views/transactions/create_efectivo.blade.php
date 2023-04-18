@@ -481,7 +481,7 @@ $(document).ready(function() {
      }
   })
 
-  $('.percentage').change(function(e) {
+  $('.percentage').keyup(function(e) {
 
       $('#comision').prop('readonly', true);
       $('#montototal').prop('readonly', true);
@@ -498,13 +498,14 @@ $(document).ready(function() {
 
 
             monto_real = document.getElementById("montototal");
-            onmousemove = function(){
+
                 if(porcentage.value > 0){
                     montottotal = (montototal.value * porcentage.value / 100);
                     comision.value =  montottotal.toFixed(2);
+                    monto_real.value = (parseFloat(montototal.value) + parseFloat(comision.value));
                  }
 
-                }
+
 
 
              })
@@ -526,8 +527,8 @@ exonerar.click = function (){
 
 $('.comi').hide();
 $('#percentage').attr("required", false);
+$('.movi').attr("class", 'card col-md-7 h-100');
 monto_real.value =  parseFloat(montototal.value);
-
 }
 
 incluir.click = function (){
@@ -550,7 +551,7 @@ monto_real.value = montottotal;
 
 
 
-$('.percentage_base').change(function(e) {
+$('.percentage_base').keyup(function(e) {
 
 $('#comision_base').prop('readonly', true);
 $('#montototal').prop('readonly', true);
@@ -559,18 +560,14 @@ $('#montototal').prop('readonly', true);
       porcentage = document.getElementById("percentage_base");
       montototal = document.getElementById("monto_dolares");
 
-      onmousemove = function(){
+
           if(porcentage.value > 0){
               montottotal = (montototal.value * porcentage.value / 100);
               comision.value =  montottotal.toFixed(2);
 
           }
 
-       }
-
-
-
-});
+    });
 
 
  $('.exonerar').click(function() {
