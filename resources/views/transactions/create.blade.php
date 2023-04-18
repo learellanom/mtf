@@ -96,11 +96,11 @@
                     </div>
                 </div>
 
-
-                <h4 class="text-uppercase font-weight-bold text-center esconder comi">Comisiones  </h4>
                 <div class="paginate text-right">
-                <button class="btn btn-primary mas" id="mas" type="button"><i class="fas fa-plus"></i></button> <button class="btn btn-danger menos" id="menos" type="button"><i class="fas fa-minus"></i></button>
-                </div>
+                    <button class="btn btn-primary mas" id="mas" type="button" style="display: none;"><i class="fas fa-plus"></i></button> <button class="btn btn-danger menos" id="menos" type="button"><i class="fas fa-minus"></i></button>
+                    </div>
+                <h4 class="text-uppercase font-weight-bold text-center esconder comi">Comisiones  </h4>
+
                 <hr class="bg-dark esconder" style="height:1px;">
 
                 <div class="form-row esconder comi">
@@ -147,18 +147,18 @@
 
                 <div class="form-group col-md-12 d-flex justify-content-center">
 
-                    <label class="form-check-label mx-auto esconder" for="radio1">
+                    <label class="form-check-label mx-auto esconder comi" for="radio1">
                         {!! Form::radio('exonerate',2, null, ['id' => 'radio1', 'class' => 'exonerar', 'required' => true,]) !!}
                         Exonerar comisión
                     </label>
 
-                    <label class="form-check-label mx-auto esconder" for="radio3">
+                    <label class="form-check-label mx-auto esconder comi" for="radio3">
                         {!! Form::radio('exonerate',1, null, ['id' => 'radio3', 'class' => 'incluir','required' => true,]) !!}
                         Incluir comisión
                     </label>
 
 
-                    <label class="form-check-label mx-auto esconder" for="radio2">
+                    <label class="form-check-label mx-auto esconder comi" for="radio2">
                         Descontar comisión
                         {!! Form::radio('exonerate',3, null, ['id' => 'radio2', 'class' => 'descontar', 'required' => true,]) !!}
                     </label>
@@ -168,7 +168,7 @@
 
 
 
-                <hr class="bg-dark esconder" style="height:1px;">
+                <hr class="bg-dark esconder comi" style="height:1px;">
 
 
                 <div class="form-row">
