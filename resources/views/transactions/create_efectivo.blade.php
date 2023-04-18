@@ -14,7 +14,7 @@
 @section('content')
 
 <div class="d-flex justify-content-center">
- <div class="card col-md-7" style="min-height: 500px !important; max-height:1000px; height:1400px;">
+ <div class="card col-md-7 movi" style="min-height: 500px !important; max-height:1000px; height:1400px;">
   <div class="card-body">
 
     {!! Form::open(['route' => 'transactions.store_efectivo', 'autocomplete' => 'off', 'files' => true, 'enctype' =>'multipart/form-data']) !!}
@@ -620,7 +620,7 @@ $('#montototal').prop('readonly', true);
                 $('#radio2').attr("required", false);
                 $('#radio3').attr("required", false);
                 $('#percentage').attr("required", false);
-
+                $('.movi').attr("class", 'card col-md-7 h-100');
 
                 const input = document.getElementById("monto_dolares");
                 const log = document.getElementById("montototal");

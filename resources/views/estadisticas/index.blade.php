@@ -6,26 +6,15 @@
 @php
 
 $heads = [
-<<<<<<< HEAD
     ['label' => 'Fecha Transacción', 'no-export' => true, 'width' => 2],
     ['label' => 'Transacción', 'no-export' => true, 'width' => 5],
-    ['label' => 'Descripción', 'no-export' => true, 'width' => 5],    
+    ['label' => 'Descripción', 'no-export' => true, 'width' => 5],
     ['label' => 'Tipo Moneda', 'no-export' => true, 'width' => 2],
-    ['label' => 'MontoMoneda', 'no-export' => true, 'width' => 5],
-    ['label' => 'Tasa Cambio', 'no-export' => true, 'width' => 5],        
-    ['label' => 'Monto $', 'no-export' => true, 'width' => 5],
-    ['label' => '%', 'no-export' => true, 'width' => 5],        
-    ['label' => 'Comision $', 'no-export' => true, 'width' => 5],        
-=======
-    ['label' => 'Fecha Transaccion', 'no-export' => true, 'width' => 5],
-    ['label' => 'Transaccion', 'no-export' => true, 'width' => 5],
-    ['label' => 'Tipo Moneda', 'no-export' => true, 'width' => 5],
     ['label' => 'MontoMoneda', 'no-export' => true, 'width' => 5],
     ['label' => 'Tasa Cambio', 'no-export' => true, 'width' => 5],
     ['label' => 'Monto $', 'no-export' => true, 'width' => 5],
     ['label' => '%', 'no-export' => true, 'width' => 5],
     ['label' => 'Comision $', 'no-export' => true, 'width' => 5],
->>>>>>> 9b5dd82e34b0e0ece59e66cd8531dd79ac5c0611
     ['label' => 'Monto Total $', 'no-export' => true, 'width' => 5],
     ['label' => 'Cliente', 'no-export' => true, 'width' => 5],
     ['label' => 'Agente', 'no-export' => true, 'width' => 10],
@@ -78,8 +67,8 @@ $config4 = [
 
 $myTotal = 0;
 if (isset($balance->Total)){
-    echo "ajua";
-    var_dump($balance);
+    //echo "ajua";
+    //var_dump($balance);
     $myTotal = $balance->Total;
 }
 
@@ -206,10 +195,10 @@ if (isset($balance->Total)){
                     <h3 class="card-title">Estadisticas| Movimientos</h3>
                 </div>
                 <div class="card-header">
-                    <h3 class="card-title">Saldo Pendiente : 
+                    <h3 class="card-title">Saldo Pendiente :
                         {!! number_format($myTotal,2,",",".") !!}
                     </h3>
-                </div>                
+                </div>
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-12">
@@ -217,10 +206,9 @@ if (isset($balance->Total)){
                                 @foreach($Transacciones as $row)
                                     <tr>
 
-<<<<<<< HEAD
                                         <td>{!! $row->FechaTransaccion !!}</td>
                                         <td>{!! $row->TipoTransaccion !!}</td>
-                                        <td>{!! $row->Descripcion !!}</td>            
+                                        <td>{!! $row->Descripcion !!}</td>
                                         <td>{!! $row->TipoMoneda !!}</td>
                                         <td class="text-right">{!! number_format($row->MontoMoneda,2,",",".") !!}</td>
                                         <td class="text-left">{!! $row->TasaCambio !!}</td>
@@ -231,20 +219,6 @@ if (isset($balance->Total)){
                                         <td>{!! $row->ClientName !!}</td>
                                         <td>{!! $row->AgenteName !!}</td>
                                         <td>{!! $row->WalletName !!}</td>
-=======
-            <td>{!! $row->FechaTransaccion !!}</td>
-            <td>{!! $row->TipoTransaccion !!}</td>
-            <td>{!! $row->TipoMoneda !!}</td>
-            <td>{!! $row->MontoMoneda !!}</td>
-            <td>{!! $row->TasaCambio !!}</td>
-            <td>{!! $row->Monto !!}</td>
-            <td>{!! $row->PorcentajeComision !!}</td>
-            <td>{!! $row->MontoComision !!}</td>
-            <td>{!! $row->MontoTotal !!}</td>
-            <td>{!! $row->ClientName !!}</td>
-            <td>{!! $row->AgenteName !!}</td>
-            <td>{!! $row->WalletName !!}</td>
->>>>>>> 9b5dd82e34b0e0ece59e66cd8531dd79ac5c0611
 
                                         <td class="text-center">
                                             <button class="btn btn-xl text-teal mx-auto shadow" title="Detalles">
