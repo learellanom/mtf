@@ -115,7 +115,7 @@
                         {!! Form::Label('amount_commission', "Monto Comisión:") !!}
                         <div class="input-group-text">
                             <i class="fa-fw fas fa-coins mr-2"></i>
-                        {!! Form::number('amount_commission',null, ['class' => 'form-control comision', 'required' => true, 'min' => 0, 'readonly' => true, 'id' => 'comision']) !!}
+                        {!! Form::text('amount_commission',null, ['class' => 'form-control comision', 'required' => true, 'min' => 0, 'readonly' => true, 'id' => 'comision']) !!}
                         </div>
 
                     </div>
@@ -136,7 +136,7 @@
                         {!! Form::Label('amount_commission_base', "Monto Comisión Base:") !!}
                         <div class="input-group-text">
                             <i class="fa-fw fas fa-coins mr-2"></i>
-                        {!! Form::number('amount_commission_base',null, ['class' => 'form-control comision_ganancia', 'min' => 0, 'readonly' => true, 'id' => 'comision_base']) !!}
+                        {!! Form::text('amount_commission_base',null, ['class' => 'form-control comision_ganancia', 'min' => 0, 'readonly' => true, 'id' => 'comision_base']) !!}
                         </div>
 
                     </div>
@@ -518,29 +518,33 @@ exonerar = document.getElementById("radio1");
 descontar = document.getElementById("radio2");
 incluir = document.getElementById("radio3");
 
-monto_real = document.getElementById("montototal");
-comision = document.getElementById("comision");
-porcentage = document.getElementById("percentage");
-montototal = document.getElementById("monto_dolares");
+monto_real = $('#montototal');
+comision =   $('#comision');
+porcentage = $('#percentage');
+montototal = $('#monto_dolares');
 
 exonerar.click = function (){
 
-$('.comi').hide();
-$('#percentage').attr("required", false);
-$('.movi').attr("class", 'card col-md-7 h-100');
-monto_real.value =  parseFloat(montototal.value);
+    $('#comision').val(""); // LIMPIAR COMISION
+    $('#percentage').val("");  // LIMPIAR PORCENTAJE
+    $('#percentage_base').val("");  // LIMPIAR PORCENTAJE
+    $('#comision_base').val("");  // LIMPIAR PORCENTAJE
+
+    $('.comi').hide();
+
+    $('#percentage').attr("required", false);
+    $('.movi').attr("class", 'card col-md-7 h-100');
+    monto_real.value =  parseFloat(montototal.value);
 }
 
 incluir.click = function (){
       $('.comi').show();
-      montoreal = (parseFloat(montototal.value) + parseFloat(comision.value));
-      monto_real.value =  montoreal;
+      monto_real.value = (parseFloat($('#monto_dolares').val()) + parseFloat($('#comision').val()));
 }
 
 descontar.click = function (){
-$('.comi').show();
-montottotal = (parseFloat(montototal.value) - parseFloat(comision.value));
-monto_real.value = montottotal;
+    $('.comi').show();
+    monto_real.value = (parseFloat($('#monto_dolares').val()) - parseFloat($('#comision').val()));
 
 }
 
@@ -562,8 +566,8 @@ $('#montototal').prop('readonly', true);
 
 
           if(porcentage.value > 0){
-              montottotal = (montototal.value * porcentage.value / 100);
-              comision.value =  montottotal.toFixed(2);
+
+             comision.value = (montototal.value * porcentage.value / 100).toFixed(2);
 
           }
 
@@ -611,7 +615,16 @@ $('#montototal').prop('readonly', true);
             // Realizar la acción deseada en función del valor seleccionado
             if (option === 'Cobro en efectivo') {
 
+                const input = document.getElementById("monto_dolares");
+                const log = document.getElementById("montototal");
+
                 $('.comisiones').hide();
+                $('#comision').val(""); // LIMPIAR COMISION
+                $('#percentage').val("");  // LIMPIAR PORCENTAJE
+                $('#percentage_base').val("");  // LIMPIAR PORCENTAJE
+                $('#comision_base').val("");  // LIMPIAR PORCENTAJE
+                $('#montototal').val(""); //LIMPAR MONTO TOTAL
+                $('#monto_dolares').val(''); //LIMPIAR DOLARES
 
                 $('#radio1').attr("required", false);
                 $('#radio2').attr("required", false);
@@ -619,8 +632,8 @@ $('#montototal').prop('readonly', true);
                 $('#percentage').attr("required", false);
                 $('.movi').attr("class", 'card col-md-7 h-100');
 
-                const input = document.getElementById("monto_dolares");
-                const log = document.getElementById("montototal");
+                //const input = document.getElementById("monto_dolares");
+                //const log = document.getElementById("montototal");
 
                 input.addEventListener("input", updateValue);
 

@@ -552,8 +552,7 @@ incluir.click = function (){
       $('#percentage').attr("readonly", false);
       $('#percentage_base').attr("readonly", false);
 
-      monto_real.value = (parseFloat(montototal.value) + parseFloat(comision.value));
-
+      monto_real.value = (parseFloat($('#monto_dolares').val()) + parseFloat($('#comision').val()));
 
 }
 descontar.click = function (){
@@ -562,8 +561,7 @@ descontar.click = function (){
     $('#percentage').attr("readonly", false);
     $('#percentage_base').attr("readonly", false);
 
-    montottotal = (parseFloat(montototal.value) - parseFloat(comision.value));
-    monto_real.value = montottotal;
+    monto_real.value = (parseFloat($('#monto_dolares').val()) - parseFloat($('#comision').val()));
 }
 
 mas = document.getElementById("mas");
