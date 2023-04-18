@@ -97,7 +97,7 @@
                 </div>
 
                 <div class="paginate text-right">
-                    <button class="btn btn-primary mas" id="mas" type="button" style="display: none;"><i class="fas fa-plus"></i></button> <button class="btn btn-danger menos" id="menos" type="button"><i class="fas fa-minus"></i></button>
+                    <button class="btn btn-primary mas boton" id="mas" type="button" style="display: none;"><i class="fas fa-plus"></i></button> <button class="btn btn-danger menos boton" id="menos" type="button"><i class="fas fa-minus"></i></button>
                     </div>
                 <h4 class="text-uppercase font-weight-bold text-center esconder comi">Comisiones  </h4>
 
@@ -361,7 +361,13 @@
     width:400px;
   }
 }
-
+.form-group > .select2-container {
+    width: 100% !important;
+}
+.card{
+    width: 100% !important;
+    height: 100% !important;
+}
 
 </style>
 @endsection
@@ -373,7 +379,8 @@ $(".clientes").select2({
   theme: 'bootstrap4',
   notEmpty: false,
   allowClear: true,
-  clearing: true
+  clearing: true,
+  width: '100%'
 });
 $("#clientes").val("")
 $("#clientes").trigger("change");
@@ -381,7 +388,8 @@ $("#clientes").trigger("change");
 $(".typecoin").select2({
   placeholder: "Seleccionar Moneda",
   theme: 'bootstrap4',
-  allowClear: true
+  allowClear: true,
+  width: '100%'
 });
 $("#typecoin").val("")
 $("#typecoin").trigger("change");
@@ -389,14 +397,16 @@ $("#typecoin").trigger("change");
 $(".status").select2({
   placeholder: "Seleccionar estatus",
   theme: 'bootstrap4',
-  search: false
+  search: false,
+  width: '100%'
 });
 
 $(".wallet").select2({
   placeholder: "Seleccionar Caja | Wallet",
   theme: 'bootstrap4',
   search: false,
-  allowClear: true
+  allowClear: true,
+  width: '100%'
 });
 $("#wallet").val("")
 $("#wallet").trigger("change");
@@ -404,7 +414,8 @@ $("#wallet").trigger("change");
 $(".typetrasnferencia").select2({
   placeholder: "Seleccionar tipo de movimiento",
   theme: 'bootstrap4',
-  allowClear: true
+  allowClear: true,
+  width: '100%'
 });
 $("#typetrasnferencia").val("")
 $("#typetrasnferencia").trigger("change");
@@ -605,9 +616,7 @@ $('#montototal').prop('readonly', true);
               mto = (montototal.value * porcentage.value / 100);
               comision.value =  mto.toFixed(2);
 
-
-
-       }
+           }
 
 
 
@@ -646,12 +655,12 @@ $('#montototal').prop('readonly', true);
         $("#typetrasnferencia").on("change", function() {
             // Capturar dato seleccionado
             var selectedValue = this.value;
-
+            var option = $("#typetrasnferencia option:selected").text();
             // Realizar la acción deseada en función del valor seleccionado
-            if (selectedValue === '7' || selectedValue === '8') {
+            if (option === 'Nota de debito' || option === 'Nota de credito') {
 
                 $('.esconder').hide();
-
+                $('.boton').hide();
                 $('#radio1').attr("required", false);
                 $('#radio2').attr("required", false);
                 $('#radio3').attr("required", false);
@@ -671,6 +680,7 @@ $('#montototal').prop('readonly', true);
 
             } else if (selectedValue) {
                 $('.esconder').show();
+                $('.menos').show();
             }
         });
 
