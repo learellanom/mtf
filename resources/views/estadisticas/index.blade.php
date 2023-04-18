@@ -11,10 +11,17 @@ $heads = [
     ['label' => 'Descripción', 'no-export' => true, 'width' => 5],
     ['label' => 'Tipo Moneda', 'no-export' => true, 'width' => 2],
     ['label' => 'MontoMoneda', 'no-export' => true, 'width' => 5],
+<<<<<<< HEAD
     ['label' => 'Tasa Cambio', 'no-export' => true, 'width' => 5],
     ['label' => 'Monto $', 'no-export' => true, 'width' => 5],
     ['label' => '%', 'no-export' => true, 'width' => 5],
     ['label' => 'Comision $', 'no-export' => true, 'width' => 5],
+=======
+    ['label' => 'Tasa Cambio', 'no-export' => true, 'width' => 5],        
+    ['label' => 'Monto $', 'no-export' => true, 'width' => 5],
+    ['label' => '%', 'no-export' => true, 'width' => 5],        
+    ['label' => 'Comision $', 'no-export' => true, 'width' => 5],        
+>>>>>>> 2208b2319ed562d53aeb16b181eb16450783a410
     ['label' => 'Monto Total $', 'no-export' => true, 'width' => 5],
     ['label' => 'Cliente', 'no-export' => true, 'width' => 5],
     ['label' => 'Agente', 'no-export' => true, 'width' => 10],
