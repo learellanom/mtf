@@ -930,10 +930,16 @@ class statisticsController extends Controller
 
         // var_dump($Transacciones[0]);
         // die();
-         \Log::info('leam grupo *** -> ' . print_r($Transacciones,true));    
+        
+        
+        //  \Log::info('leam grupo *** -> ' . print_r($Transacciones,true));    
 
-        return $Transacciones[0];
-
+        if (empty($Transacciones)) {
+            \Log::info('leam vacio *** -> ' . print_r($Transacciones,true));   
+            return $Transacciones; 
+        }else {
+            return $Transacciones[0];
+        }
     }
 
 }
