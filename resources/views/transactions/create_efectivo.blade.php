@@ -607,9 +607,9 @@ $('#montototal').prop('readonly', true);
             $("#typetrasnferencia").on("change", function() {
             // Capturar el valor seleccionado
             var selectedValue = this.value;
-
+            var option = $("#typetrasnferencia option:selected").text();
             // Realizar la acción deseada en función del valor seleccionado
-            if (selectedValue === '4') {
+            if (option === 'Cobro en efectivo') {
 
                 $('.comisiones').hide();
 
@@ -628,7 +628,7 @@ $('#montototal').prop('readonly', true);
                 log.value = e.target.value;
                 }
 
-            } else if (selectedValue === '3') {
+            } else if (option === 'Pago Efectivo') {
                 $('.comisiones').show();
             }
         });
