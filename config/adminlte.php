@@ -556,6 +556,16 @@ return [
                 [
                     'type' => 'js',
                     'asset' => true,
+                    'location' => 'vendor/datatables-plugins/buttons/js/buttons.html5.styles.min.js',
+                ],
+                [
+                    'type' => 'js',
+                    'asset' => true,
+                    'location' => 'vendor/datatables-plugins/buttons/js/buttons.html5.styles.templates.min.js',
+                ],
+                [
+                    'type' => 'js',
+                    'asset' => true,
                     'location' => 'vendor/datatables-plugins/jszip/jszip.min.js',
                 ],
                 [
