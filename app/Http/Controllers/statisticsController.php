@@ -135,7 +135,7 @@ class statisticsController extends Controller
         )->orderBy('Transactions.transaction_date','ASC'
         )->get();
 
-        // var_dump($Transacciones);
+        // dd($Transacciones);
         // die();
 
         $Transacciones2 = array();

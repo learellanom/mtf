@@ -30,66 +30,63 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-12">
-        <table class="table table-bordered table-responsive-lg" id="master">
-            <thead>
-                <tr>
-                    <th>Agente</th>
-                    <th>Cliente</th>
-                    <th>Caja</th>
-                    <th>Tipo de transacción</th>
-                    <th>%</th>
-                    <th>Monto total</th>
-                    <th>Fecha de transacción</th>
-                    {{-- <th class="text-center">Editar</th> --}}
-                    <th class="text-center">Activar/Anular</th>
-                </tr>
+                        <table class="table table-bordered table-responsive-lg" id="master">
+                            <thead>
+                                <tr>
+                                    <th>Agente</th>
+                                    <th>Cliente</th>
+                                    <th>Caja</th>
+                                    <th>Tipo de transacción</th>
+                                    <th>%</th>
+                                    <th>Monto total</th>
+                                    <th>Fecha de transacción</th>
+                                    {{-- <th class="text-center">Editar</th> --}}
+                                    <th class="text-center">Activar/Anular</th>
+                                </tr>
+                            </thead>
+                            @foreach($transferencia as $transferencias)
+                                <tr>
+
+                                    <td class="font-weight-bold">{!! $transferencias->user->name !!}</td>
+                                    <td class="font-weight-bold">{!! $transferencias->group->name !!}</td>
+                                    <td>{!! $transferencias->wallet->name !!}</td>
+                                    <td>{!! $transferencias->type_transaction->name !!}</td>
+                                    <td class="font-weight-bold text-uppercase">{!! $transferencias->percentage ?? 'Transacción sin comisión' !!}</td>
+                                    <td class="font-weight-bold">{!! $transferencias->amount_total !!} $</td>
+
+                                    <td class="font-weight-bold">{!! $transferencias->transaction_date !!}</td>
 
 
+                                    {{--    
+                                        <td class="text-center">
+                                            <a href="{{ route('transactions_master.edit', $transferencias->id) }}" class="btn btn-xl text-primary mx-1 shadow text-center"><i class="fa fa-lg fa-fw fas fa-edit"></i></a>
+                                        </td>
+                                     --}}
 
 
+                                    <td class="text-center">
+                                        {!! Form::model($transferencias->id, ['route' => ['transactions_master.update_status', $transferencias->id],'method' => 'put']) !!}
 
-            </thead>
-    @foreach($transferencia as $transferencias)
-        <tr>
+                                        @if($transferencias->status == 'Activo')
+                                        <button class="btn btn-xl text-success mx-1 shadow text-center" title="Estatus">
+                                            <i class="fa fa-lg fa-fw fas fa-check"></i>
+                                        </button>
 
-            <td class="font-weight-bold">{!! $transferencias->user->name !!}</td>
-            <td class="font-weight-bold">{!! $transferencias->group->name !!}</td>
-            <td>{!! $transferencias->wallet->name !!}</td>
-            <td>{!! $transferencias->type_transaction->name !!}</td>
-            <td class="font-weight-bold text-uppercase">{!! $transferencias->percentage ?? 'Transacción sin comisión' !!}</td>
-            <td class="font-weight-bold">{!! $transferencias->amount_total !!} $</td>
+                                        @elseif($transferencias->status == 'Anulado')
+                                        <button class="btn btn-xl text-danger mx-1 shadow text-center" title="Estatus">
+                                            <i class="fa fa-lg fa-fw fas fa-times"></i>
+                                        </button>
+                                        @endif
+                                    {!! Form::close() !!}
+                                    </td>
 
-            <td class="font-weight-bold">{!! $transferencias->transaction_date !!}</td>
-
-
-         {{--    <td class="text-center">
-                <a href="{{ route('transactions_master.edit', $transferencias->id) }}" class="btn btn-xl text-primary mx-1 shadow text-center"><i class="fa fa-lg fa-fw fas fa-edit"></i></a>
-            </td>
- --}}
-
-
-            <td class="text-center">
-                {!! Form::model($transferencias->id, ['route' => ['transactions_master.update_status', $transferencias->id],'method' => 'put']) !!}
-
-                  @if($transferencias->status == 'Activo')
-                  <button class="btn btn-xl text-success mx-1 shadow text-center" title="Estatus">
-                      <i class="fa fa-lg fa-fw fas fa-check"></i>
-                  </button>
-
-                  @elseif($transferencias->status == 'Anulado')
-                  <button class="btn btn-xl text-danger mx-1 shadow text-center" title="Estatus">
-                      <i class="fa fa-lg fa-fw fas fa-times"></i>
-                  </button>
-                  @endif
-              {!! Form::close() !!}
-          </td>
-
-        </tr>
-    @endforeach
-    </table>
-   </div>
-  </div>
- </div>
+                                </tr>
+                            @endforeach
+                        </table>
+                    </div>
+            </div>
+        </div>
+    </div>
 </div>
 @endsection
 @section('js')
