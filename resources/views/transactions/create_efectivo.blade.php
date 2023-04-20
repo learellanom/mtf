@@ -92,7 +92,7 @@
                     {!! Form::Label('amount', "Monto en dolares:") !!}
                     <div class="input-group-text">
                         <i class="fa-fw fas fas fa-funnel-dollar mr-2"></i>
-                    {!! Form::number('amount', null, ['class' => 'form-control', 'required' => true, 'id' => 'monto_dolares', 'min' => 0, 'readonly' => true]) !!}
+                    {!! Form::text('amount', null, ['class' => 'form-control', 'required' => true, 'id' => 'monto_dolares', 'min' => 0, 'readonly' => true]) !!}
                     </div>
                 </div>
 
@@ -173,7 +173,7 @@
                     {!! Form::Label('amount_total', "Monto Total:") !!}
                         <div class="input-group-text">
                             <i class="fa-fw fas fa-coins mr-2"></i>
-                        {!! Form::number('amount_total',null, ['class' => 'form-control montototal', 'required' => true, 'min' => 0, 'id' => 'montototal', 'readonly' => true]) !!}
+                            {!! Form::number('amount_total',null, ['class' => 'form-control montototal', 'required' => true, 'min' => 0, 'id' => 'montototal', 'readonly' => true]) !!}
                         </div>
                     </div>
 
@@ -358,8 +358,13 @@
     width:400px;
   }
 }
-
-
+.form-group > .select2-container {
+    width: 100% !important;
+}
+.card{
+    width: 100% !important;
+    height: 100% !important;
+}
 </style>
 @endsection
 
@@ -370,7 +375,8 @@ $(".clientes").select2({
   theme: 'bootstrap4',
   notEmpty: false,
   allowClear: true,
-  clearing: true
+  clearing: true,
+  width: '100%'
 });
 $("#clientes").val("")
 $("#clientes").trigger("change");
@@ -378,7 +384,8 @@ $("#clientes").trigger("change");
 $(".typecoin").select2({
   placeholder: "Seleccionar Moneda",
   theme: 'bootstrap4',
-  allowClear: true
+  allowClear: true,
+  width: '100%'
 });
 $("#typecoin").val("")
 $("#typecoin").trigger("change");
@@ -386,14 +393,16 @@ $("#typecoin").trigger("change");
 $(".status").select2({
   placeholder: "Seleccionar estatus",
   theme: 'bootstrap4',
-  search: false
+  search: false,
+  width: '100%'
 });
 
 $(".wallet").select2({
   placeholder: "Seleccionar Caja | Wallet",
   theme: 'bootstrap4',
   search: false,
-  allowClear: true
+  allowClear: true,
+  width: '100%'
 });
 $("#wallet").val("")
 $("#wallet").trigger("change");
@@ -401,13 +410,16 @@ $("#wallet").trigger("change");
 $(".typetrasnferencia").select2({
   placeholder: "Seleccionar tipo de movimiento",
   theme: 'bootstrap4',
-  allowClear: true
+  allowClear: true,
+  width: '100%'
 });
 $("#typetrasnferencia").val("")
 $("#typetrasnferencia").trigger("change");
 
 $(document).ready(function() {
   //$('#monto_dolares').toFixed(2);
+  $('#monto_dolares').mask('###0.00', { reverse: true });
+  $('#monto').mask('###0.00', { reverse: true });
 
   $('.typecoin').change(function(e) {
 
@@ -427,12 +439,13 @@ $(document).ready(function() {
             tasa = document.getElementById("tasa");
             monto = document.getElementById("monto");
             monto_dolares = document.getElementById("monto_dolares");
-
+            //const log = document.getElementById("montototal");
 
             onmousemove = function(){
                 if(tasa.value == null && monto.value == null){
                     monto_total = monto_dolares;
                     monto_dolares.value =  monto_total.toFixed(2);
+                    //log.value =  monto_total.toFixed(2);
                 }
         }
     }
@@ -459,7 +472,7 @@ $(document).ready(function() {
             monto_dolares = document.getElementById("monto_dolares");
             const log = document.getElementById("montototal");
 
-            onmousemove = function(){
+            onkeyup = function(){
                 if(tasa.value > 0 && monto.value > 0){
                     monto_total = (monto.value / tasa.value);
                     monto_dolares.value =  monto_total.toFixed(2);
@@ -468,7 +481,7 @@ $(document).ready(function() {
 
             };
 
-            onchange = function(){
+            onkeyup = function(){
             if(tasa.value!="" && monto.value!=""){
                 monto_total = (monto.value / tasa.value);
                 monto_dolares.value =  monto_total.toFixed(2);
@@ -502,7 +515,7 @@ $(document).ready(function() {
                 if(porcentage.value > 0){
                     montottotal = (montototal.value * porcentage.value / 100);
                     comision.value =  montottotal.toFixed(2);
-                    monto_real.value = (parseFloat(montototal.value) + parseFloat(comision.value));
+                    monto_real.value = (parseFloat(montototal.value) + parseFloat(comision.value)).toFixed(2);
                  }
 
 
@@ -534,17 +547,17 @@ exonerar.click = function (){
 
     $('#percentage').attr("required", false);
     $('.movi').attr("class", 'card col-md-7 h-100');
-    monto_real.value =  parseFloat(montototal.value);
+    monto_real.value =  parseFloat(montototal.value).toFixed(2);
 }
 
 incluir.click = function (){
       $('.comi').show();
-      monto_real.value = (parseFloat($('#monto_dolares').val()) + parseFloat($('#comision').val()));
+      monto_real.value = (parseFloat($('#monto_dolares').val()) + parseFloat($('#comision').val())).toFixed(2);
 }
 
 descontar.click = function (){
     $('.comi').show();
-    monto_real.value = (parseFloat($('#monto_dolares').val()) - parseFloat($('#comision').val()));
+    monto_real.value = (parseFloat($('#monto_dolares').val()) - parseFloat($('#comision').val())).toFixed(2);
 
 }
 

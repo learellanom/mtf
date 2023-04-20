@@ -47,12 +47,14 @@ class TransactionController extends Controller
     {
 
         $type_coin = Type_coin::pluck('name', 'id');
-        $type_transaction = Type_transaction::whereIn('type_transaction', ['Credito'])->pluck('name', 'id');
+        $type_transaction = Type_transaction::whereIn('name', ['Nota de credito'])->pluck('name', 'id');
         $wallet = Wallet::whereIn('type_wallet', ['efectivo'])->pluck('name', 'id');
         $group = Group::pluck('name', 'id');
         $user = User::pluck('name', 'id');
 
+
         return view('transactions.credit', compact('type_coin', 'type_transaction', 'wallet', 'group', 'user', 'transaction'));
+
     }
 
     public function credit_edit($transaction)
