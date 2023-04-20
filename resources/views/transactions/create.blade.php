@@ -443,6 +443,7 @@ $(document).ready(function() {
       $('#comision').val(""); // LIMPIAR COMISION
       $('#percentage').val("");  // LIMPIAR PORCENTAJE
       $('#monto_dolares').val(""); // LIMPIAR MONTO EN DOLARES
+      $('#amount_total').val(""); //LIMPIAR MONTO TOTAL
 
     if ($(this).val() == 1) {
       $('#tasa').attr("readonly", true);
@@ -454,7 +455,7 @@ $(document).ready(function() {
             monto_dolares = document.getElementById("monto_dolares");
             //const log = document.getElementById("montototal");
 
-            onmousemove = function(){
+            onkeyup = function(){
                 if(tasa.value == null && monto.value == null){
                     monto_total = monto_dolares;
                     monto_dolares.value =  monto_total.toFixed(2);
@@ -485,7 +486,7 @@ $(document).ready(function() {
             monto_dolares = document.getElementById("monto_dolares");
             const log = document.getElementById("montototal");
 
-            keyup = function(){
+            onkeyup = function(){
                 if(tasa.value > 0 && monto.value > 0){
                     monto_total = (monto.value / tasa.value);
                     monto_dolares.value =  monto_total.toFixed(2);
@@ -501,7 +502,7 @@ $(document).ready(function() {
 
             };
 
-            keyup = function(){
+            onkeyup = function(){
             if(tasa.value!="" && monto.value!=""){
                 monto_total = (monto.value / tasa.value);
                 monto_dolares.value =  monto_total.toFixed(2);
@@ -538,7 +539,7 @@ $(document).ready(function() {
                     montottotal = (montototal.value * porcentage.value / 100);
                     comision.value =  montottotal.toFixed(2);
 
-                    montoreal.value = (parseFloat(montototal.value) + parseFloat(comision.value));
+                    montoreal.value = (parseFloat(montototal.value) + parseFloat(comision.value)).toFixed(2);
 
                  }
 

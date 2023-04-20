@@ -472,7 +472,7 @@ $(document).ready(function() {
             monto_dolares = document.getElementById("monto_dolares");
             const log = document.getElementById("montototal");
 
-            keyup = function(){
+            onkeyup = function(){
                 if(tasa.value > 0 && monto.value > 0){
                     monto_total = (monto.value / tasa.value);
                     monto_dolares.value =  monto_total.toFixed(2);
@@ -481,7 +481,7 @@ $(document).ready(function() {
 
             };
 
-            keyup = function(){
+            onkeyup = function(){
             if(tasa.value!="" && monto.value!=""){
                 monto_total = (monto.value / tasa.value);
                 monto_dolares.value =  monto_total.toFixed(2);

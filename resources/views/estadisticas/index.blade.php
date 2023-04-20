@@ -74,16 +74,14 @@ if (isset($balance->Total)){
 
 @endphp
 
-<script>
 
-
-</script>
 <br>
 <br>
 <h1 class="text-center text-dark font-weight-bold text-uppercase">Detalles de Transacciones <i class="fas fa-chart-pie fa-spin"></i></h1>
 <br>
 <br>
 {{-- Disabled --}}
+
 
 <div class="container-left">
     <div class="row col-12">
