@@ -75,7 +75,7 @@
                         {!! Form::Label('exchange_rate', "Tasa:") !!}
                         <div class="input-group-text">
                             <i class="fa-fw fas fa-random mr-2"></i>
-                        {!! Form::number('exchange_rate',null, ['class' => 'form-control', 'required' => true, 'id' => 'tasa', 'min' => 0, 'readonly' => true]) !!}
+                        {!! Form::text('exchange_rate',null, ['class' => 'form-control', 'required' => true, 'id' => 'tasa', 'min' => 0, 'readonly' => true]) !!}
                         </div>
                     </div>
 
@@ -84,7 +84,7 @@
                         {!! Form::Label('amount_foreign_currency', "Monto en moneda extranjera:") !!}
                         <div class="input-group-text">
                             <i class="fa-fw fas fa-coins mr-2"></i>
-                        {!! Form::number('amount_foreign_currency',null, ['class' => 'form-control', 'required' => true, 'id' => 'monto', 'min' => 0, 'readonly' => true]) !!}
+                        {!! Form::text('amount_foreign_currency',null, ['class' => 'form-control', 'required' => true, 'id' => 'monto', 'min' => 0, 'readonly' => true]) !!}
                         </div>
 
                     </div>
@@ -371,6 +371,10 @@
 
 @section('js')
 <script>
+$('#monto_dolares').mask('###0.00', { reverse: true });
+$('#monto').mask('###0.00', { reverse: true });
+$('#tasa').mask('###0.00', { reverse: true });
+
 $(".clientes").select2({
   placeholder: "Seleccionar cliente",
   theme: 'bootstrap4',
@@ -433,7 +437,7 @@ $(document).ready(function() {
             monto = document.getElementById("monto");
             monto_dolares = document.getElementById("monto_dolares");
 
-            onmousemove = function(){
+            onkeyup = function(){
                 if(tasa.value == null && monto.value == null){
                     monto_total = monto_dolares;
                     monto_dolares.value =  monto_total.toFixed(2);
@@ -463,7 +467,7 @@ $(document).ready(function() {
             monto_dolares = document.getElementById("monto_dolares");
 
 
-            onmousemove = function(){
+            onkeyup = function(){
                 if(tasa.value > 0 && monto.value > 0){
                     monto_total = (monto.value / tasa.value);
                     monto_dolares.value =  monto_total.toFixed(2);
@@ -477,7 +481,7 @@ $(document).ready(function() {
 
             };
 
-            onchange = function(){
+            onkeyup = function(){
             if(tasa.value!="" && monto.value!=""){
                 monto_total = (monto.value / tasa.value);
                 monto_dolares.value =  monto_total.toFixed(2);
@@ -490,7 +494,7 @@ $(document).ready(function() {
      }
   })
 
-  $('.percentage').change(function(e) {
+  $('.percentage').keyup(function(e) {
 
       $('#comision').prop('readonly', true);
       $('#montototal').prop('readonly', true);
@@ -507,13 +511,13 @@ $(document).ready(function() {
 
 
             monto_real = document.getElementById("montototal");
-            onmousemove = function(){
+            onkeyup = function(){
                 if(porcentage.value > 0){
                     montottotal = (montototal.value * porcentage.value / 100);
                     comision.value =  montottotal.toFixed(2);
                  }
 
-                }
+              }
 
 
 
@@ -524,14 +528,12 @@ $(document).ready(function() {
         }
         incluir.click = function (){
 
-                    montoreal = (parseFloat(montototal.value) + parseFloat(comision.value));
-                    monto_real.value =  montoreal;
+            monto_real.value = (parseFloat(montototal.value) + parseFloat(comision.value)).toFixed(2);
 
         }
         descontar.click = function (){
 
-              montottotal = (parseFloat(montototal.value) - parseFloat(comision.value));
-              monto_real.value = montottotal;
+            monto_real.value = (parseFloat(montototal.value) - parseFloat(comision.value)).toFixed(2);
 
         }
 
@@ -549,7 +551,7 @@ $(document).ready(function() {
 
 
 
-$('.percentage_base').change(function(e) {
+$('.percentage_base').keyup(function(e) {
 
 $('#comision_base').prop('readonly', true);
 $('#montototal').prop('readonly', true);
@@ -558,7 +560,7 @@ $('#montototal').prop('readonly', true);
       porcentage = document.getElementById("percentage_base");
       montototal = document.getElementById("monto_dolares");
 
-      onmousemove = function(){
+      onkeyup = function(){
           if(porcentage.value > 0){
               montottotal = (montototal.value * porcentage.value / 100);
               comision.value =  montottotal.toFixed(2);
