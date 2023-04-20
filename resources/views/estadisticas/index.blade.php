@@ -37,15 +37,16 @@ $btnDetails = '<button class="btn btn-xs btn-default text-teal mx-1 shadow" titl
 
 $config = [
     'data' => $Transacciones,
-    'order' => [[1, 'asc']],
+    'order' => [[1, 'desc']],
     'columns' => [null, null, null, null, null, null, null, null, null, null, null, null, null, ['orderable' => false]],
+    'paging' => false,
 ];
 
 $config['dom'] = '<"row" <"col-sm-7" B> <"col-sm-5 d-flex justify-content-end" i> >
                   <"row" <"col-12" tr> >
                   <"row" <"col-sm-12 d-flex justify-content-start" f> >';
 
-            $config['paging'] = false;
+
 
 $config1 =
 [
@@ -238,7 +239,9 @@ if (isset($balance->Total)){
                             :heads="$heads" 
                             striped 
                             hoverable 
-                            with-buttons>
+                            with-buttons
+                            :config="$config"
+                            >
                             @foreach($config['data'] as $row)
                                 <tr>
 
