@@ -139,6 +139,9 @@
       background-color: rgb(47, 74, 150);
       color: rgb(31, 0, 206);
     }
+    .table {
+        width: 100%;
+    }
 
 
   </style>
@@ -169,7 +172,33 @@ $(document).ready(function () {
         }
     },
     "order": [[ 1, 'asc' ]],
+    'dom' : 'Bfrtilp',
+    'buttons':[
+        {
+            extend:  'excelHtml5',
+            text:    '<i class="fas fa-file-excel"></i>',
+            titleAttr: 'Exportar Excel',
+            className: 'btn btn-success',
+            "excelStyles": {
+                "template": "blue_medium",
+            }
+        },
+        {
+            extend:  'pdfHtml5',
+            text:    '<i class="fas fa-file-pdf"></i>',
+            orientation: 'landscape',
+            title: 'MTF | LISTA DE TRANSACIÓNES',
+            titleAttr: 'Exportar PDF',
+            className: 'btn btn-danger',
 
+        },
+        {
+            extend:  'print',
+            text:    '<i class="fas fa-print"></i>',
+            titleAttr: 'Capture de pantalla',
+            className: 'btn btn-info'
+        },
+    ]
 
 
 
