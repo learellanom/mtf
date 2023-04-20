@@ -66,7 +66,7 @@
                         {!! Form::Label('amount_foreign_currency', "Monto en moneda extranjera:") !!}
                         <div class="input-group-text">
                             <i class="fa-fw fas fa-coins mr-2"></i>
-                        {!! Form::number('amount_foreign_currency',null, ['class' => 'form-control', 'required' => true, 'id' => 'monto', 'min' => 0, 'readonly' => true]) !!}
+                        {!! Form::text('amount_foreign_currency',null, ['class' => 'form-control', 'required' => true, 'id' => 'monto', 'min' => 0, 'readonly' => true]) !!}
                         </div>
 
                     </div>
@@ -79,7 +79,7 @@
                     {!! Form::Label('amount', "Monto en dolares:") !!}
                     <div class="input-group-text">
                         <i class="fa-fw fas fas fa-funnel-dollar mr-2"></i>
-                    {!! Form::number('amount', null, ['class' => 'form-control', 'required' => true, 'id' => 'monto_dolares', 'min' => 0, 'readonly' => true]) !!}
+                    {!! Form::text('amount', null, ['class' => 'form-control', 'required' => true, 'id' => 'monto_dolares', 'readonly' => true]) !!}
                     </div>
                 </div>
                     <div class="form-group col-md-6">
@@ -105,17 +105,22 @@
 
 
                         {!! Form::hidden('status', 'Activo', null, ['class' => 'form-control']) !!}
-                        {!! Form::hidden('type_transaction_id', 5, null, ['class' => 'form-control', 'type' => 'hidden']) !!}
+                    {{-- {{ dd($type_transaction) }} --}}
 
+                    <div class="form-group col-md-12">
+                        {!! Form::Label('type_transaction_id', "Tipo de transacción:") !!}
+                        <div class="input-group-text">
+                            <i class="fa-fw fas fas fa-trademark mr-2"></i>
+                        {!! Form::select('type_transaction_id', $type_transaction, null, ['class' => 'form-control transaccion', 'readonly' => true]) !!}
+                    </div>
+                </div>
 
-
-        <br>
 
                 <div class="form-group">
                     {!! Form::Label('description', "Descripción:") !!}
                         <div class="input-group-text">
                             <i class="fa-fw fas fa-text-width mr-2"></i>
-                        {!! Form::textarea('description',null, ['rows' => 6, 'class' => 'form-control', 'required' => true]) !!}
+                        {!! Form::textarea('description',null, ['rows' => 3, 'class' => 'form-control', 'required' => true]) !!}
                         </div>
                 </div>
 
@@ -271,10 +276,13 @@
 
 @section('js')
 <script>
+$('#monto_dolares').mask('#.##0.00', { reverse: true });
+$('#monto').mask('###0.00', { reverse: true });
 $(".typecoin").select2({
   placeholder: "Seleccionar Moneda",
   theme: 'bootstrap4',
-  allowClear: true
+  allowClear: true,
+  width:'100%'
 });
 $("#typecoin").val("")
 $("#typecoin").trigger("change");
@@ -289,7 +297,8 @@ $(".wallet").select2({
   placeholder: "Seleccionar Caja | Wallet",
   theme: 'bootstrap4',
   search: false,
-  allowClear: true
+  allowClear: true,
+  width:'100%'
 });
 $("#wallet").val("")
 $("#wallet").trigger("change");
@@ -319,13 +328,13 @@ $(document).ready(function() {
             monto_dolares = document.getElementById("monto_dolares");
             montototal =   document.getElementById("montototal");
 
-            onmousemove = function(){
+            onkeyup = function(){
                 if(tasa.value == null && monto.value == null){
                     monto_total = monto_dolares;
                     monto_dolares.value =  monto_total.toFixed(2);
                 }
             }
-            onmousemove = function(){
+            onkeyup = function(){
                 if(monto_dolares.value){
                     //monto_total = monto_dolares;
                     montototal.value = monto_dolares.value;
@@ -355,7 +364,7 @@ $(document).ready(function() {
             monto_dolares = document.getElementById("monto_dolares");
             montototal =   document.getElementById("montototal");
 
-            onmousemove = function(){
+            onkeyup = function(){
                 if(tasa.value > 0 && monto.value > 0){
                     monto_total = (monto.value / tasa.value);
                     monto_dolares.value =  monto_total.toFixed(2);
@@ -369,7 +378,7 @@ $(document).ready(function() {
 
             };
 
-            onchange = function(){
+            onkeyup = function(){
             if(tasa.value!="" && monto.value!=""){
                 monto_total = (monto.value / tasa.value);
                 monto_dolares.value =  monto_total.toFixed(2);
@@ -387,81 +396,6 @@ $(document).ready(function() {
   })
 
 })//CIERRE DEL READY
-
- $('.exonerar').click(function() {
-
-      exonerar = document.getElementById("radio1");
-      descontar = document.getElementById("radio2");
-      incluir = document.getElementById("radio3");
-
-            comision = document.getElementById("comision");
-            porcentage = document.getElementById("percentage");
-            montototal = document.getElementById("monto_dolares");
-
-            monto_real = document.getElementById("montototal");
-
-       exonerar.click(function (){
-          if(exonerar.click()){
-              montottotal = (montototal.value - comision.value);
-              monto_real.value =  montottotal;
-
-          }
-       })
-
-   })
-
-   $('.incluir').click(function() {
-
-    exonerar = document.getElementById("radio1");
-    descontar = document.getElementById("radio2");
-    incluir = document.getElementById("radio3");
-
-        comision = document.getElementById("comision");
-        porcentage = document.getElementById("percentage");
-        montototal = document.getElementById("monto_dolares");
-
-        monto_real = document.getElementById("montototal");
-
-    incluir.click(function (){
-        if(incluir.click()){
-           return;
-
-        }
-      })
-
-    })
-
-    $('.descontar').click(function() {
-
-        exonerar = document.getElementById("radio1");
-        descontar = document.getElementById("radio2");
-        incluir = document.getElementById("radio3");
-
-            comision = document.getElementById("comision");
-            porcentage = document.getElementById("percentage");
-            montototal = document.getElementById("monto_dolares");
-
-            monto_real = document.getElementById("montototal");
-
-        descontar.click(function (){
-            if(descontar.click()){
-             return;
-
-            }
-        })
-
-        })
-
-
-
-
-
-
-
-
-
-
-
 
 
 

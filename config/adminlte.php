@@ -514,53 +514,18 @@ return [
             'files' => [
                 [
                     'type' => 'js',
-                    'asset' => false,
+                    'asset' => true,
                     'location' => 'vendor/datatables/js/jquery.dataTables.js',
                 ],
                 [
                     'type' => 'js',
-                    'asset' => false,
+                    'asset' => true,
                     'location' => 'vendor/datatables/js/dataTables.bootstrap4.js',
                 ],
                 [
-                    'type' => 'js',
-                    'asset' => false,
-                    'location' => 'vendor/datatables-plugins/responsive/js/dataTables.responsive.js',
-                ],
-                [
-                    'type' => 'js',
-                    'asset' => false,
-                    'location' => 'vendor/datatables-plugins/buttons/js/dataTables.buttons.js',
-                ],
-                [
-                    'type' => 'js',
-                    'asset' => false,
-                    'location' => 'vendor/datatables-plugins/pdfmake/pdfmake.js',
-                ],
-                [
-                    'type' => 'js',
-                    'asset' => false,
-                    'location' => 'vendor/datatables-plugins/pdfmake/vfs_fonts.js',
-                ],
-                [
-                    'type' => 'js',
-                    'asset' => false,
-                    'location' => 'vendor/datatables-plugins/jszip/jszip.js',
-                ],
-                [
-                    'type' => 'js',
-                    'asset' => false,
-                    'location' => 'vendor/datatables-plugins/buttons/js/buttons.bootstrap4.js',
-                ],
-                [
                     'type' => 'css',
-                    'asset' => false,
-                    'location' => '//cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css',
-                ],
-                [
-                    'type' => 'css',
-                    'asset' => false,
-                    'location' => 'vendor/datatables-plugins/buttons/css/buttons.bootstrap4.css',
+                    'asset' => true,
+                    'location' => 'vendor/datatables/css/dataTables.bootstrap4.css',
                 ],
 
             ],
@@ -604,12 +569,18 @@ return [
                     'location' => 'vendor/datatables-plugins/pdfmake/vfs_fonts.js',
                 ],
                 [
+                    'type' => 'js',
+                    'asset' => true,
+                    'location' => 'vendor/datatables-plugins/responsive/js/dataTables.responsive.js',
+                ],
+                [
                     'type' => 'css',
                     'asset' => true,
                     'location' => 'vendor/datatables-plugins/buttons/css/buttons.bootstrap4.min.css',
                 ],
+
             ],
-        ],        
+        ],
         'Select2' => [
             'active' => true,
             'files' => [
@@ -636,8 +607,17 @@ return [
                 [
                     'type' => 'js',
                     'asset' => true,
-                    // 'location' => 'cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.0/Chart.bundle.min.js',
                     'location' => 'vendor/chart.js/Chart.js',
+                ],
+            ],
+        ],
+        'JqueryMask' => [
+            'active' => true,
+            'files' => [
+                [
+                    'type' => 'js',
+                    'asset' => true,
+                    'location' => 'vendor/jquery/jquery.mask.js',
                 ],
             ],
         ],
