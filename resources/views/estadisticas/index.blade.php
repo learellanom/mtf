@@ -16,6 +16,7 @@ $heads = [
     ['label' => '%',                    'no-export' => true, 'width' => 5],
     ['label' => 'Comision $',           'no-export' => true, 'width' => 5],
     ['label' => 'Monto Total $',        'no-export' => true, 'width' => 5],
+    ['label' => 'Saldo $',              'no-export' => true, 'width' => 5],    
     ['label' => 'Cliente',              'no-export' => true, 'width' => 5],
     ['label' => 'Agente',               'no-export' => true, 'width' => 10],
     ['label' => 'Wallet',               'no-export' => true, 'width' => 5],
@@ -37,14 +38,14 @@ $btnDetails = '<button class="btn btn-xs btn-default text-teal mx-1 shadow" titl
 $config = [
     'data' => $Transacciones,
     'order' => [[1, 'asc']],
-    'columns' => [null, null, null, null, null, null, null, null, null, null, null, null, ['orderable' => false]],
+    'columns' => [null, null, null, null, null, null, null, null, null, null, null, null, null, ['orderable' => false]],
 ];
 
 $config['dom'] = '<"row" <"col-sm-7" B> <"col-sm-5 d-flex justify-content-end" i> >
                   <"row" <"col-12" tr> >
                   <"row" <"col-sm-12 d-flex justify-content-start" f> >';
 
-
+            $config['paging'] = false;
 
 $config1 =
 [
@@ -193,14 +194,33 @@ if (isset($balance->Total)){
     <div class="col-md-12">
         <div class="card mb-4">
             <div class="card-header">
-                <h3 class="card-title">Estadisticas| Movimientos</h3>
+                <div class="card-title col-md-12">
+                    <div class= "row">
+                        <div class="col-md-4">
+                        
+                            <h4>Estadisticas| Movimientos</h4>
+                        </div>
+                        <div class="col-md-4">
+                            @php
+                                if ($myTotal < 0){
+                                    echo "<h4>Saldo A favor : " . number_format(abs($myTotal),2,",",".") . "</h4>";
+                                }else{
+                                    echo "<h4>Saldo A favor : " . number_format(0,2,",",".") . "</h4>";
+                                }
+                            @endphp
+                        </div>                
+                        <div class="col-md-4">
+                            @php
+                                if ($myTotal < 0){
+                                    echo "<h4>Saldo Pendiente : " . number_format(0,2,",",".") . "</h4>";                                        
+                                }else{
+                                    echo "<h4>Saldo Pendiente : " . number_format($myTotal,2,",",".") . "</h4>";
+                                }
+                            @endphp
+                        </div>                    
+                    </div>
+                </div>
             </div>
-            <div class="card-header">
-                <h3 class="card-title">Saldo Pendiente :
-                    {!! number_format($myTotal,2,",",".") !!}
-                </h3>
-            </div>
-
 
             <div class="card-body">
                 <div class="row">
@@ -209,7 +229,9 @@ if (isset($balance->Total)){
 
 
 
-    
+                            @php 
+                                $myTotal = 0;
+                            @endphp 
 
                         <x-adminlte-datatable 
                             id="table3" 
@@ -230,6 +252,30 @@ if (isset($balance->Total)){
                                     <td class="text-left">{!! $row->PorcentajeComision !!}</td>
                                     <td class="text-right">{!! number_format($row->MontoComision,2,",",".") !!}</td>
                                     <td class="text-right">{!! number_format($row->MontoTotal,2,",",".") !!}</td>
+
+                                    @php
+                             
+                                        switch  ($row->TransactionId){
+                                            case 1:
+                                            case 2:
+                                            case 4:
+                                            case 6:
+                                            case 8:
+                                                $myTotal = $myTotal + ($row->MontoTotal * -1);
+                                                break;
+                                            case 3:
+                                            case 7:
+                                            case 9:
+                                                $myTotal = ($myTotal) + ($row->MontoTotal);                                             
+                                                break;
+                                            default:
+                                                $myTotal = 0;                                                                       
+                                                break;
+                                        }
+                                    @endphp
+                                    <td class="text-right">{!! number_format($myTotal,2,",",".") !!}</td>                                    
+                                    
+
                                     <td>{!! $row->ClientName !!}</td>
                                     <td>{!! $row->AgenteName !!}</td>
                                     <td>{!! $row->WalletName !!}</td>
