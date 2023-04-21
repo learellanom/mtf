@@ -38,7 +38,7 @@ $btnDetails = '<button class="btn btn-xs btn-default text-teal mx-1 shadow" titl
 $config = [
     'data' => $Transacciones,
     'order' => [[1, 'desc']],
-    'columns' => [null, null, null, null, null, null, null, null, null, null, null, null, null, ['orderable' => false]],
+    'columns' => [null, null, null, null, null, null, null, null, null, null, null, null, null, null,['orderable' => false]],
     'paging' => false,
 ];
 
@@ -227,9 +227,6 @@ if (isset($balance->Total)){
                 <div class="row">
                     <div class="col-md-12">
 
-
-
-
                             @php 
                                 $myTotal = 0;
                             @endphp 
@@ -240,7 +237,7 @@ if (isset($balance->Total)){
                             striped 
                             hoverable 
                             with-buttons
-                            :config="$config"
+                            
                             >
                             @foreach($config['data'] as $row)
                                 <tr>
