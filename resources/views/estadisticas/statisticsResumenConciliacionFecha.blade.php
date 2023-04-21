@@ -6,14 +6,14 @@
 @php
 
 $heads = [
-    'Fecha',
-    'Cantidad Transacciones',
-    'Monto Transacciones',
-    'Cantidad Master',
-    'Monto Master',
-    'Cantidad',
-    'Monto',
-    ['label' => 'Actions', 'no-export' => true, 'width' => 5],
+    ['label' =>'Fecha', 'width' => 10],
+    ['label' => 'Cantidad Transacciones', 'width' => 5],
+    ['label' => 'Monto Transacciones', 'width' => 5],
+    ['label' => 'Cantidad Master', 'width' => 10],
+    ['label' => 'Monto Master', 'width' => 10],
+    ['label' => 'Cantidad', 'width' => 10],
+    ['label' => 'Monto', 'width' => 5],
+    ['label' => 'Opciones', 'no-export' => true, 'width' => 5],
 ];
 
 $btnEdit = '<button class="btn btn-xs btn-default text-primary mx-1 shadow" title="Edit">
@@ -58,10 +58,7 @@ $config4 = [
 
 @endphp
 
-<script>
 
-
-</script>
 <br>
 <br>
 <h1 class="text-center text-dark font-weight-bold text-uppercase">Concilacion por Fecha <i class="fas fa-calendar"></i></h1>
@@ -127,7 +124,7 @@ $config4 = [
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-12">
-                        <x-adminlte-datatable id="table3" :heads="$heads">
+                        <x-adminlte-datatable id="table3" :heads="$heads" class="table table-bordered table-responsive-lg">
                             @foreach($Transacciones as $row)
                                 <tr>
                                     <td>{!! $row->Fecha !!}</td>

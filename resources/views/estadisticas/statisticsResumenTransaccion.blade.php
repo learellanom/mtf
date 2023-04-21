@@ -140,7 +140,7 @@ $config4 = [
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-12">
-                        <x-adminlte-datatable id="table3" :heads="$heads">
+                        <x-adminlte-datatable id="table3" :heads="$heads" class="table table-bordered table-responsive-lg">
                             @foreach($Transacciones as $row)
                                 <tr>
                                     <td>{!! $row->TipoTransaccion !!}</td>
@@ -167,10 +167,10 @@ $config4 = [
 @endsection
 
 @section('js')
-    
+
 <script>
 
-// return view('estadisticas.statisticsResumenTransaction', compact('myTypeTransaction', 'Type_transactions', 'Transacciones'));   
+// return view('estadisticas.statisticsResumenTransaction', compact('myTypeTransaction', 'Type_transactions', 'Transacciones'));
 
     const miTypeTransaction= {!! $myTypeTransaction !!};
 
@@ -227,8 +227,8 @@ $config4 = [
         let myRoute = "";
             myRoute = "{{ route('estadisticasResumenTransaccion', ['type_transaction' => 'transaccion2', 'fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2']) }}";
             myRoute = myRoute.replace('transaccion2',transaccion);
-            myRoute = myRoute.replace('fechaDesde2',fechaDesde);                
-            myRoute = myRoute.replace('fechaHasta2',fechaHasta); 
+            myRoute = myRoute.replace('fechaDesde2',fechaDesde);
+            myRoute = myRoute.replace('fechaHasta2',fechaHasta);
         // console.log(myRoute);
         // alert(myRoute);
         location.href = myRoute;

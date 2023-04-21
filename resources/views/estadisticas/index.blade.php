@@ -192,6 +192,47 @@ if (isset($balance->Total)){
     striped hoverable bordered compressed/> -->
 <div class="row">
 
+<<<<<<< HEAD
+        <div class="col-md-12">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h3 class="card-title">Estadisticas| Movimientos</h3>
+                </div>
+                <div class="card-header">
+                    <h3 class="card-title">Saldo Pendiente :
+                        {!! number_format($myTotal,2,",",".") !!}
+                    </h3>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <x-adminlte-datatable id="table3" :heads="$heads" striped hoverable with-buttons class="table table-bordered table-responsive-lg">
+                                @foreach($Transacciones as $row)
+                                    <tr>
+
+                                        <td>{!! $row->FechaTransaccion !!}</td>
+                                        <td>{!! $row->TipoTransaccion !!}</td>
+                                        <td>{!! $row->Descripcion !!}</td>
+                                        <td>{!! $row->TipoMoneda !!}</td>
+                                        <td class="text-right">{!! number_format($row->MontoMoneda,2,",",".") !!}</td>
+                                        <td class="text-left">{!! $row->TasaCambio !!}</td>
+                                        <td class="text-right">{!! number_format($row->Monto,2,",",".") !!}</td>
+                                        <td class="text-left">{!! $row->PorcentajeComision !!}</td>
+                                        <td class="text-right">{!! number_format($row->MontoComision,2,",",".") !!}</td>
+                                        <td class="text-right">{!! number_format($row->MontoTotal,2,",",".") !!}</td>
+                                        <td>{!! $row->ClientName !!}</td>
+                                        <td>{!! $row->AgenteName !!}</td>
+                                        <td>{!! $row->WalletName !!}</td>
+
+                                        <td class="text-center">
+                                            <button class="btn btn-xl text-teal mx-auto shadow" title="Detalles">
+                                                <i class="fa fa-lg fa-fw fa-eye"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </x-adminlte-datatable>
+=======
     <div class="col-md-12">
         <div class="card mb-4">
             <div class="card-header">
@@ -200,6 +241,7 @@ if (isset($balance->Total)){
                         <div class="col-md-4">
                         
                             <h4>Estadisticas| Movimientos</h4>
+>>>>>>> b1a496df17b5d44870365c7b0adff83aef2db682
                         </div>
                         <div class="col-md-4">
                             @php
