@@ -333,42 +333,49 @@ return [
         [
             'text' => 'Estadisticas',
             'url'  => 'dashboardest',
+            'active' => ['dashboardest*'],
             'icon' => 'fas fa-fw fas fa-chart-line',
             'can'  => 'dashboardtest',
         ],
         [
             'text' => 'Detalles de movimiento',
             'url'  => 'estadisticasDetalle',
+            'active' => ['estadisticasDetalle*'],
             'icon' => 'fas fa-fw fas fa-chart-bar',
             'can'  => 'estadisticasDetalle.index',
         ],
         [
             'text' => 'Resumen por Agente',
             'url'  => 'estadisticasResumenUsuario',
+            'active' => ['estadisticasResumenUsuario*'],
             'icon' => 'fas fa-fw fas fa-chart-bar',
             'can'  => 'estadisticasDetalle.statisticsResumenCliente',
         ],
         [
             'text' => 'Resumen por Grupo',
             'url'  => 'estadisticasResumenGrupo',
+            'active' => ['estadisticasResumenGrupo*'],
             'icon' => 'fas fa-fw fas fa-chart-bar',
             'can'  => 'estadisticasDetalle.statisticsResumenUsuario',
         ],
         [
             'text' => 'Resumen por Caja',
             'url'  => 'estadisticasResumenWallet',
+            'active' => ['estadisticasResumenWallet*'],
             'icon' => 'fas fa-fw fas fa-chart-bar',
             'can'  => 'estadisticasDetalle.statisticsResumenWallet',
         ],
         [
             'text' => 'Conciliacion por Grupo',
             'url'  => 'estadisticasConciliacionGrupo',
+            'active' => ['estadisticasConciliacionGrupo*'],
             'icon' => 'fas fa-fw fas fa-chart-bar',
             'can'  => 'estadisticasDetalle.statisticsResumenConciliacionFechaGrupo'
         ],
         [
             'text' => 'Conciliacion por Fecha',
             'url'  => 'estadisticasConciliacionFecha',
+            'active' => ['estadisticasConciliacionFecha*'],
             'icon' => 'fas fa-fw fas fa-chart-bar',
             'can'  => 'estadisticasDetalle.statisticsResumenConciliacionFecha'
         ],
@@ -412,7 +419,7 @@ return [
         ],
 
         ['header' => 'Configuración',
-        'classes' =>'text-uppercase font-weight-bold text-light', 'can'  => 'users.index'],
+         'classes' =>'text-uppercase font-weight-bold text-light', 'can'  => 'users.index'],
         [
             'text'    => 'Usuarios',
             'url'  => 'usuarios',
