@@ -71,7 +71,7 @@ $config4 = [
 {{-- Disabled --}}
 
 <div class="container-left">
-    <div class="row col-12">
+    <div class="row col-12 d-flex justify-content-center">
 
         <!-- Grupo -->
 
@@ -84,7 +84,7 @@ $config4 = [
                                 :config="$config1"
                                 >
                 <x-slot name="prependSlot">
-                    <div class="input-group-text bg-gradient-info">
+                    <div class="input-group-text bg-gradient-dark">
                         <!-- <i class="fas fa-car-side"></i> -->
                         <i class="fas fa-user-tie"></i>
                     </div>
@@ -147,7 +147,7 @@ $config4 = [
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-12">
-                        <x-adminlte-datatable id="table3" :heads="$heads">
+                        <x-adminlte-datatable id="table3" :heads="$heads" class="table table-bordered table-responsive-lg">
                             @foreach($Transacciones as $row)
                                 <tr>
                                     <td>{!! $row->Fecha !!}</td>

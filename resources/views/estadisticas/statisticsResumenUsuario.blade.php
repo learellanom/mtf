@@ -70,7 +70,7 @@ $config4 = [
 {{-- Disabled --}}
 
 <div class="container-left">
-    <div class="row col-12">
+    <div class="row col-12 d-flex justify-content-center">
         <div class ="col-12 col-sm-2">
             <x-adminlte-select2 id="userole"
                                 class="mySelect"
@@ -145,7 +145,7 @@ $config4 = [
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-12">
-                        <x-adminlte-datatable id="table3" :heads="$heads">
+                        <x-adminlte-datatable id="table3" :heads="$heads" class="table table-bordered table-responsive-lg">
                             @foreach($Transacciones as $row)
                                 <tr>
                                     <td>{!! $row->AgenteName !!}</td>

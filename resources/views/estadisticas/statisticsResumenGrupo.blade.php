@@ -68,10 +68,9 @@ $config4 = [
 <br>
 {{-- Disabled --}}
 
-<div class="container-left">
-    <div class="row col-12">
-
-        <div class ="col-12 col-sm-2">
+<div class="container">
+    <div class="row col-12 d-flex justify-content-center">
+        <div class ="col-12 col-sm-3">
             <x-adminlte-select2 id="grupo"
                                 name="optionsGroup"
                                 igroup-size="sm"
@@ -80,7 +79,7 @@ $config4 = [
                                 :config="$config1"
                                 >
                 <x-slot name="prependSlot">
-                    <div class="input-group-text bg-gradient-info">
+                    <div class="input-group-text bg-gradient-dark">
                         <!-- <i class="fas fa-car-side"></i> -->
                         <i class="fas fa-user-tie"></i>
                     </div>
@@ -93,10 +92,10 @@ $config4 = [
         <div class ="col-12 col-sm-2">
         </div>
 
-        <div class ="col-12 col-sm-2">
+        <div class ="col-12 col-sm-3">
             <x-adminlte-date-range name="drCustomRanges" enable-default-ranges="Last 30 Days" style="height: 30px;" :config="$config3">
                 <x-slot name="prependSlot">
-                    <div class="input-group-text bg-gradient-info">
+                    <div class="input-group-text bg-gradient-dark">
                         <i class="fas fa-calendar-alt"></i>
                     </div>
                 </x-slot>
@@ -141,7 +140,7 @@ $config4 = [
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-12">
-                        <x-adminlte-datatable id="table3" :heads="$heads">
+                        <x-adminlte-datatable id="table3" :heads="$heads" class="table table-bordered table-responsive-lg">
                             @foreach($Transacciones as $row)
                                 <tr>
                                     <td>{!! $row->GroupName !!}</td>

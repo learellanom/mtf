@@ -200,7 +200,7 @@ if (isset($balance->Total)){
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-12">
-                            <x-adminlte-datatable id="table3" :heads="$heads" striped hoverable with-buttons>
+                            <x-adminlte-datatable id="table3" :heads="$heads" striped hoverable with-buttons class="table table-bordered table-responsive-lg">
                                 @foreach($Transacciones as $row)
                                     <tr>
 
