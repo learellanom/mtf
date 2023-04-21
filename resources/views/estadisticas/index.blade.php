@@ -38,8 +38,7 @@ $btnDetails = '<button class="btn btn-xs btn-default text-teal mx-1 shadow" titl
 $config = [
     'data' => $Transacciones,
     'order' => [[1, 'desc']],
-    'columns' => [null, null, null, null, null, null, null, null, null, null, null, null, null, ['orderable' => false]],
-    'paging' => false,
+    'columns' => [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, ['orderable' => false]],
 ];
 
 $config['dom'] = '<"row" <"col-sm-7" B> <"col-sm-5 d-flex justify-content-end" i> >
@@ -271,7 +270,7 @@ if (isset($balance->Total)){
                             striped
                             hoverable
                             with-buttons
-                            :config="$config"
+
                             >
                             @foreach($config['data'] as $row)
                                 <tr>
