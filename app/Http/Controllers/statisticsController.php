@@ -109,7 +109,7 @@ class statisticsController extends Controller
             'Transactions.amount_total as MontoTotal',
             'Transactions.percentage as PorcentajeComision',
             'Transactions.amount_commission as MontoComision',
-        //  'Transactions.type_transaction_id as TransactionId',
+            'Transactions.type_transaction_id as TransactionId',
             'type_transactions.name as TipoTransaccion',
         //  'Transactions.client_id as ClienteId',
         //  'transactions.wallet_id As WalletId',
@@ -135,7 +135,7 @@ class statisticsController extends Controller
         )->orderBy('Transactions.transaction_date','ASC'
         )->get();
 
-        // var_dump($Transacciones);
+        // dd($Transacciones);
         // die();
 
         $Transacciones2 = array();

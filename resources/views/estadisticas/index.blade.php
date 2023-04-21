@@ -6,20 +6,21 @@
 @php
 
 $heads = [
-    ['label' => 'Fecha Transacción', 'no-export' => true, 'width' => 2],
-    ['label' => 'Transacción', 'no-export' => true, 'width' => 5],
-    ['label' => 'Descripción', 'no-export' => true, 'width' => 5],
-    ['label' => 'Tipo Moneda', 'no-export' => true, 'width' => 2],
-    ['label' => 'MontoMoneda', 'no-export' => true, 'width' => 5],
-    ['label' => 'Tasa Cambio', 'no-export' => true, 'width' => 5],
-    ['label' => 'Monto $', 'no-export' => true, 'width' => 5],
-    ['label' => '%', 'no-export' => true, 'width' => 5],
-    ['label' => 'Comision $', 'no-export' => true, 'width' => 5],
-    ['label' => 'Monto Total $', 'no-export' => true, 'width' => 5],
-    ['label' => 'Cliente', 'no-export' => true, 'width' => 5],
-    ['label' => 'Agente', 'no-export' => true, 'width' => 10],
-    ['label' => 'Wallet', 'no-export' => true, 'width' => 5],
-    ['label' => 'Actions', 'no-export' => true, 'width' => 5],
+    ['label' => 'Fecha Transacción',    'no-export' => false, 'width' => 2],
+    ['label' => 'Transacción',          'no-export' => true, 'width' => 5],
+    ['label' => 'Descripción',          'no-export' => true, 'width' => 5],
+    ['label' => 'Tipo Moneda',          'no-export' => true, 'width' => 2],
+    ['label' => 'MontoMoneda',          'no-export' => true, 'width' => 5],
+    ['label' => 'Tasa Cambio',          'no-export' => true, 'width' => 5],
+    ['label' => 'Monto $',              'no-export' => true, 'width' => 5],
+    ['label' => '%',                    'no-export' => true, 'width' => 5],
+    ['label' => 'Comision $',           'no-export' => true, 'width' => 5],
+    ['label' => 'Monto Total $',        'no-export' => true, 'width' => 5],
+    ['label' => 'Saldo $',              'no-export' => true, 'width' => 5],    
+    ['label' => 'Cliente',              'no-export' => true, 'width' => 5],
+    ['label' => 'Agente',               'no-export' => true, 'width' => 10],
+    ['label' => 'Wallet',               'no-export' => true, 'width' => 5],
+    ['label' => 'Actions',              'no-export' => true, 'width' => 5],
 ];
 
 
@@ -33,32 +34,36 @@ $btnDetails = '<button class="btn btn-xs btn-default text-teal mx-1 shadow" titl
                    <i class="fa fa-lg fa-fw fa-eye"></i>
                </button>';
 
+
 $config = [
-    'data' => [
-        [22, '07-03-2023', 'John Bender',    '4,00', '500.00', '501.00', '2%', '503.00', '504.00', '', '', '505.00', '<nobr>'.$btnEdit.$btnDelete.$btnDetails.'</nobr>'],
-        [19, '07-03-2023', 'Sophia Clemens', '4.00', '500.00', '501.00', '2%', '503.00', '504.00', '', '', '505.00', '<nobr>'.$btnEdit.$btnDelete.$btnDetails.'</nobr>'],
-        [3,  '07-03-2023', 'Peter Sousa',    '4.00', '500.00', '501.00', '2%', '503.00', '504.00', '', '', '505.00', '<nobr>'.$btnEdit.$btnDelete.$btnDetails.'</nobr>'],
-    ],
-    'order' => [[1, 'asc']],
-    'columns' => [null, null, null, null, null, null, null, null, null, null, null, null, ['orderable' => false]],
+    'data' => $Transacciones,
+    'order' => [[1, 'desc']],
+    'columns' => [null, null, null, null, null, null, null, null, null, null, null, null, null, ['orderable' => false]],
+    'paging' => false,
 ];
+
 $config['dom'] = '<"row" <"col-sm-7" B> <"col-sm-5 d-flex justify-content-end" i> >
                   <"row" <"col-12" tr> >
                   <"row" <"col-sm-12 d-flex justify-content-start" f> >';
+
+
 
 $config1 =
 [
     "allowClear" => true,
 ];
 
+
 $config2 =
 [
     "allowClear" => true,
 ];
 
+
 $config3 = [
     "locale" => ["format" => "DD-MM-YYYY"],
 ];
+
 
 $config4 = [
     "placeHolder" => "selecciona...",
@@ -91,7 +96,6 @@ if (isset($balance->Total)){
                                 name="optionsUsers"
                                 igroup-size="sm"
                                 label-class="text-lightblue"
-
                                 data-placeholder="Agente..."
                                 :config="$config1"
                                 >
@@ -112,7 +116,7 @@ if (isset($balance->Total)){
                                 igroup-size="sm"
                                 label-class="text-lightblue"
                                 data-placeholder="Grupo ..."
-                                :config="$config1"
+                                :config="$config2"
                                 >
                 <x-slot name="prependSlot">
                     <div class="input-group-text bg-gradient-dark">
@@ -129,7 +133,11 @@ if (isset($balance->Total)){
         </div>
 
         <div class ="col-12 col-sm-2">
-            <x-adminlte-date-range name="drCustomRanges" enable-default-ranges="Last 30 Days" style="height: 30px;" :config="$config3">
+            <x-adminlte-date-range 
+                name="drCustomRanges" 
+                enable-default-ranges="Last 30 Days" 
+                style="height: 30px;" 
+                :config="$config3">
                 <x-slot name="prependSlot">
                     <div class="input-group-text bg-gradient-dark">
                         <i class="fas fa-calendar-alt"></i>
@@ -161,9 +169,6 @@ if (isset($balance->Total)){
         </div>
 
     </div>
-
-
-
 </div>
 
 
@@ -185,8 +190,9 @@ if (isset($balance->Total)){
 {{-- Compressed with style options / fill data using the plugin config --}}
 <!-- <x-adminlte-datatable id="table2" :heads="$heads" head-theme="dark" :config="$config"
     striped hoverable bordered compressed/> -->
-    <div class="row">
+<div class="row">
 
+<<<<<<< HEAD
         <div class="col-md-12">
             <div class="card mb-4">
                 <div class="card-header">
@@ -226,12 +232,117 @@ if (isset($balance->Total)){
                                     </tr>
                                 @endforeach
                             </x-adminlte-datatable>
+=======
+    <div class="col-md-12">
+        <div class="card mb-4">
+            <div class="card-header">
+                <div class="card-title col-md-12">
+                    <div class= "row">
+                        <div class="col-md-4">
+                        
+                            <h4>Estadisticas| Movimientos</h4>
+>>>>>>> b1a496df17b5d44870365c7b0adff83aef2db682
                         </div>
+                        <div class="col-md-4">
+                            @php
+                                if ($myTotal < 0){
+                                    echo "<h4>Saldo A favor : " . number_format(abs($myTotal),2,",",".") . "</h4>";
+                                }else{
+                                    echo "<h4>Saldo A favor : " . number_format(0,2,",",".") . "</h4>";
+                                }
+                            @endphp
+                        </div>                
+                        <div class="col-md-4">
+                            @php
+                                if ($myTotal < 0){
+                                    echo "<h4>Saldo Pendiente : " . number_format(0,2,",",".") . "</h4>";                                        
+                                }else{
+                                    echo "<h4>Saldo Pendiente : " . number_format($myTotal,2,",",".") . "</h4>";
+                                }
+                            @endphp
+                        </div>                    
                     </div>
                 </div>
             </div>
+
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-12">
+
+
+
+
+                            @php 
+                                $myTotal = 0;
+                            @endphp 
+
+                        <x-adminlte-datatable 
+                            id="table3" 
+                            :heads="$heads" 
+                            striped 
+                            hoverable 
+                            with-buttons
+                            :config="$config"
+                            >
+                            @foreach($config['data'] as $row)
+                                <tr>
+
+                                    <td>{!! $row->FechaTransaccion !!}</td>
+                                    <td>{!! $row->TipoTransaccion !!}</td>
+                                    <td>{!! $row->Descripcion !!}</td>
+                                    <td>{!! $row->TipoMoneda !!}</td>
+                                    <td class="text-right">{!! number_format($row->MontoMoneda,2,",",".") !!}</td>
+                                    <td class="text-left">{!! $row->TasaCambio !!}</td>
+                                    <td class="text-right">{!! number_format($row->Monto,2,",",".") !!}</td>
+                                    <td class="text-left">{!! $row->PorcentajeComision !!}</td>
+                                    <td class="text-right">{!! number_format($row->MontoComision,2,",",".") !!}</td>
+                                    <td class="text-right">{!! number_format($row->MontoTotal,2,",",".") !!}</td>
+
+                                    @php
+                             
+                                        switch  ($row->TransactionId){
+                                            case 1:
+                                            case 2:
+                                            case 4:
+                                            case 6:
+                                            case 8:
+                                                $myTotal = $myTotal + ($row->MontoTotal * -1);
+                                                break;
+                                            case 3:
+                                            case 7:
+                                            case 9:
+                                                $myTotal = ($myTotal) + ($row->MontoTotal);                                             
+                                                break;
+                                            default:
+                                                $myTotal = 0;                                                                       
+                                                break;
+                                        }
+                                    @endphp
+                                    <td class="text-right">{!! number_format($myTotal,2,",",".") !!}</td>                                    
+                                    
+
+                                    <td>{!! $row->ClientName !!}</td>
+                                    <td>{!! $row->AgenteName !!}</td>
+                                    <td>{!! $row->WalletName !!}</td>
+
+                                    <td class="text-center">
+                                        <button class="btn btn-xl text-teal mx-auto shadow" title="Detalles">
+                                            <i class="fa fa-lg fa-fw fa-eye"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </x-adminlte-datatable>
+
+
+                    </div>
+                </div>
+            </div>
+
+
         </div>
     </div>
+</div>
 
 @endsection
 
