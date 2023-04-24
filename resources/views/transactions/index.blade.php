@@ -187,7 +187,7 @@ $(document).ready(function () {
                 "cells": "2",
                 "style": {
                     "font": {
-                        "size": "14",
+                        "size": "18",
                         "color": "FFFFFF"
                     },
                     "fill": {
@@ -203,7 +203,7 @@ $(document).ready(function () {
                 "cells": "1",
                 "style": {
                     "font": {
-                        //"size": "14",
+                        "size": "20",
                         "color": "FFFFFF"
                     },
                     "fill": {
