@@ -68,7 +68,8 @@ class RoleController extends Controller
     {
         Role::findOrFail($role)->update($request->all());
 
-        $role->permissions()->sync($request->permissions);
+        $roles = Role::find($role);
+        $roles->permissions()->sync($request->permissions);
 
         flash()->addInfo('Role modificado..', 'Roles', ['timeOut' => 3000]);
 
