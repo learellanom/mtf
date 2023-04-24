@@ -419,7 +419,7 @@ return [
         ],
 
         ['header' => 'Configuración',
-         'classes' =>'text-uppercase font-weight-bold text-light', 'can'  => 'users.index'],
+         'classes' =>'text-uppercase font-weight-bold text-light', 'can'  => ['users.index', 'roles.index', 'wallets.index', 'type_transactions.index', 'type_coins.index', 'groups.index']],
         [
             'text'    => 'Usuarios',
             'url'  => 'usuarios',
