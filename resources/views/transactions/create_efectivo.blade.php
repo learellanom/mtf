@@ -485,6 +485,7 @@ $(document).ready(function() {
             if(tasa.value!="" && monto.value!=""){
                 monto_total = (monto.value / tasa.value);
                 monto_dolares.value =  monto_total.toFixed(2);
+                log.value =  monto_total.toFixed(2);
             }
 
         };
