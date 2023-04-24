@@ -35,7 +35,9 @@
                                     <tr>
                                         <th>Nombre</th>
                                         <th>E-mail</th>
+                                        @can('users.password')
                                         <th class="text-center">Contraseña</th>
+                                        @endcan
                                         @can('users.edit')
                                         <th class="text-center">Editar</th>
                                         @endcan
@@ -50,8 +52,9 @@
                                         <tr>
                                             <td>{{ $usuario->name }}</td>
                                             <td>{{ $usuario->email }}</td>
+                                            @can('users.password')
                                             <td class="text-center"><a class="btn btn-primary" href={{route('users.password', $usuario)}}><i class='fas fa-lock'></i></a></td>
-
+                                            @endcan
                                             @can('users.edit')
                                             <td class="text-center"><a class="btn btn-primary" href={{route('users.edit', $usuario)}}><i class='fas fa-edit'></i></a></td>
                                             @endcan
