@@ -170,7 +170,7 @@ class statisticsController extends Controller
         $wallet = $wallet22;
 
         $group = $this->getGroups();
-
+        // return view('estadisticas.index2', compact('myUser','userole','Transacciones','group','wallet','myGroup','myUser','myWallet','balance'));
         return view('estadisticas.index', compact('myUser','userole','Transacciones','group','wallet','myGroup','myUser','myWallet','balance'));
 
     }

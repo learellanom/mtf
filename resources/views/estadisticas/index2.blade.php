@@ -81,7 +81,7 @@ if (isset($balance->Total)){
 
 <br>
 <br>
-<h1 class="text-center text-dark font-weight-bold text-uppercase">Detalles de Transacciones <i class="fas fa-chart-pie fa-spin"></i></h1>
+<h1 class="text-center text-dark font-weight-bold text-uppercase">Detalles de Transacciones2 <i class="fas fa-chart-pie fa-spin"></i></h1>
 <br>
 <br>
 {{-- Disabled --}}
@@ -229,64 +229,74 @@ if (isset($balance->Total)){
                             @php 
                                 $myTotal = 0;
                             @endphp 
+                            <table class="table table-bordered table-responsive-lg" id="tipo">
+                                <thead>
+                                    <tr>
+                                        <th>Transacción</th>
+                                        <th>Descripción</th>
+                                        <th>Tipo Moneda</th>
+                                        <th>MontoMoneda</th>
+                                        <th>Tasa Cambio</th>
+                                        <th>Monto $</th>
+                                        <th>%</th>
+                                        <th>Comision $</th>
+                                        <th>Monto Total</th>
+                                        <th>Saldo $</th>
+                                        <th>Cliente</th>                                        
+                                        <th>Agente</th>                                        
+                                        <th>Wallet</th>
+                                        <th>Actions</th>    
+                                    </tr>
+                                </thead>
+                                @foreach($config['data'] as $row)
+                                    <tr>
 
-                        <x-adminlte-datatable 
-                            id="table3" 
-                            :heads="$heads" 
-                            striped 
-                            hoverable 
-                            with-buttons
-                            
-                            >
-                            @foreach($config['data'] as $row)
-                                <tr>
+                                        <td>{!! $row->FechaTransaccion !!}</td>
+                                        <td>{!! $row->TipoTransaccion !!}</td>
+                                        <td>{!! $row->Descripcion !!}</td>
+                                        <td>{!! $row->TipoMoneda !!}</td>
+                                        <td class="text-right">{!! number_format($row->MontoMoneda,2,",",".") !!}</td>
+                                        <td class="text-left">{!! $row->TasaCambio !!}</td>
+                                        <td class="text-right">{!! number_format($row->Monto,2,",",".") !!}</td>
+                                        <td class="text-left">{!! $row->PorcentajeComision !!}</td>
+                                        <td class="text-right">{!! number_format($row->MontoComision,2,",",".") !!}</td>
+                                        <td class="text-right">{!! number_format($row->MontoTotal,2,",",".") !!}</td>
 
-                                    <td>{!! $row->FechaTransaccion !!}</td>
-                                    <td>{!! $row->TipoTransaccion !!}</td>
-                                    <td>{!! $row->Descripcion !!}</td>
-                                    <td>{!! $row->TipoMoneda !!}</td>
-                                    <td class="text-right">{!! number_format($row->MontoMoneda,2,",",".") !!}</td>
-                                    <td class="text-left">{!! $row->TasaCambio !!}</td>
-                                    <td class="text-right">{!! number_format($row->Monto,2,",",".") !!}</td>
-                                    <td class="text-left">{!! $row->PorcentajeComision !!}</td>
-                                    <td class="text-right">{!! number_format($row->MontoComision,2,",",".") !!}</td>
-                                    <td class="text-right">{!! number_format($row->MontoTotal,2,",",".") !!}</td>
+                                        @php
+                                
+                                            switch  ($row->TransactionId){
+                                                case 1:
+                                                case 2:
+                                                case 4:
+                                                case 6:
+                                                case 8:
+                                                    $myTotal = $myTotal + ($row->MontoTotal * -1);
+                                                    break;
+                                                case 3:
+                                                case 7:
+                                                case 9:
+                                                    $myTotal = ($myTotal) + ($row->MontoTotal);                                             
+                                                    break;
+                                                default:
+                                                    $myTotal = 0;                                                                       
+                                                    break;
+                                            }
+                                        @endphp
+                                        <td class="text-right">{!! number_format($myTotal,2,",",".") !!}</td>                                    
+                                        
 
-                                    @php
-                             
-                                        switch  ($row->TransactionId){
-                                            case 1:
-                                            case 2:
-                                            case 4:
-                                            case 6:
-                                            case 8:
-                                                $myTotal = $myTotal + ($row->MontoTotal * -1);
-                                                break;
-                                            case 3:
-                                            case 7:
-                                            case 9:
-                                                $myTotal = ($myTotal) + ($row->MontoTotal);                                             
-                                                break;
-                                            default:
-                                                $myTotal = 0;                                                                       
-                                                break;
-                                        }
-                                    @endphp
-                                    <td class="text-right">{!! number_format($myTotal,2,",",".") !!}</td>                                    
-                                    
+                                        <td>{!! $row->ClientName !!}</td>
+                                        <td>{!! $row->AgenteName !!}</td>
+                                        <td>{!! $row->WalletName !!}</td>
 
-                                    <td>{!! $row->ClientName !!}</td>
-                                    <td>{!! $row->AgenteName !!}</td>
-                                    <td>{!! $row->WalletName !!}</td>
-
-                                    <td class="text-center">
-                                        <button class="btn btn-xl text-teal mx-auto shadow" title="Detalles">
-                                            <i class="fa fa-lg fa-fw fa-eye"></i>
-                                        </button>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </x-adminlte-datatable>
+                                        <td class="text-center">
+                                            <button class="btn btn-xl text-teal mx-auto shadow" title="Detalles">
+                                                <i class="fa fa-lg fa-fw fa-eye"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </table>
 
 
                     </div>
@@ -379,10 +389,12 @@ if (isset($balance->Total)){
                 theRoute(usuario,grupo,wallet,myFechaDesde,myFechaHasta);
             });
 
-
+            
+            $('#table').DataTable( {
+                paging: true
+            } );
 
         })
-
 
         function theRoute(usuario = 0, grupo = 0, wallet = 0, fechaDesde = 0, fechaHasta = 0){
 
