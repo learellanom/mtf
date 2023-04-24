@@ -179,9 +179,76 @@ $(document).ready(function () {
             text:    '<i class="fas fa-file-excel"></i>',
             titleAttr: 'Exportar Excel',
             className: 'btn btn-success',
-            "excelStyles": {
-                "template": "blue_medium",
-            }
+            "excelStyles": [
+            {
+                "template": ["title_medium", "gold_medium"]
+            },
+            {
+                "cells": "2",
+                "style": {
+                    "font": {
+                        "size": "14",
+                        "color": "FFFFFF"
+                    },
+                    "fill": {
+                        "pattern": {
+                            "type": "solid",
+                            "color": "002B5B"
+                        }
+                    },
+
+                }
+            },
+            {
+                "cells": "1",
+                "style": {
+                    "font": {
+                        //"size": "14",
+                        "color": "FFFFFF"
+                    },
+                    "fill": {
+                        "pattern": {
+                            "size": "25",
+                            "type": "solid",
+                            "color": "0B2447",
+                        }
+                    }
+                }
+            },
+            {
+            "cells": "sF",
+            "condition": {
+                "type": "dataBar",
+                "dataBar": {
+                    "color": [
+                        "0081B4"
+                    ]
+                }
+              }
+            },
+             {
+                "cells": "sE",
+            "condition": {
+                "type": "dataBar",
+                "dataBar": {
+                    "color": [
+                        "0081B4"
+                    ]
+                  }
+                 }
+              },
+                {
+                    'cells': "sB",
+                    'template': "date_long",
+                },
+                {
+                    "cells": "G",
+                    "style": {
+                        "numFmt": "#,##0.0000;(#,##0.0000)"
+                    }
+                }
+           ]
+
         },
         {
             extend:  'pdfHtml5',
