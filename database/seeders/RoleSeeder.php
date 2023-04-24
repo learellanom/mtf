@@ -54,7 +54,7 @@ class RoleSeeder extends Seeder
         Permission::create(['name' => 'wallets.edit','description' => 'Modificar las cajas del sistema'])->assignRole($role1);
         Permission::create(['name' => 'wallets.create','description' => 'Crear cajas al sistema'])->assignRole($role1);
 
-        Permission::create(['name' => 'estadisticasDetalle.index','description' => 'Resumen de movimientos'])->assignRole($role1);
+        Permission::create(['name' => 'estadisticasDetalle.index','description' => 'Detalles de movimientos'])->syncRoles([$role1, $role2]);
         Permission::create(['name' => 'estadisticasDetalle.statisticsResumenCliente','description' => 'Resumen de movimientos por cliente'])->assignRole($role1);
         Permission::create(['name' => 'estadisticasDetalle.statisticsResumenUsuario','description' => 'Resumen de movimientos por agente'])->assignRole($role1);
         Permission::create(['name' => 'estadisticasDetalle.statisticsResumenWallet','description' => 'Resumen de movimientos por cajas'])->assignRole($role1);
