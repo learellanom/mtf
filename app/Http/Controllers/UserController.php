@@ -58,7 +58,7 @@ class UserController extends Controller
 
 
 
-        return redirect()->route('users.index')->with('success', 'Successfully created');
+        return redirect()->route('users.index')->with('success', 'Agente creado con exito.');
     }
 
     /**
@@ -96,7 +96,7 @@ class UserController extends Controller
         $user->setRememberToken(Str::random(60));
         $user->update();
 
-        return Redirect::route('users.index')->with('update', 'ok');
+        return Redirect::route('users.index')->with('info', 'Contraseña modificada del Agente: <strong># '. $user->name . '</strong>');
     }
 
     public function update_users(Request $request, $user)
@@ -108,7 +108,7 @@ class UserController extends Controller
             $user->syncRoles($request->roles);
 
 
-            return Redirect::route('users.index')->with('update', 'ok');
+            return Redirect::route('users.index')->with('info', 'Agente/Usuario modificado  <strong># '. $user->name . '</strong>');
     }
 
 
@@ -122,7 +122,7 @@ class UserController extends Controller
 
         $usuario->delete();
 
-        return Redirect::route('users.index')->with('destroy','ok');
+        return Redirect::route('users.index')->with('error', 'Agente/Usuario eliminado  <strong># '. $usuario->name . '</strong>');
     }
 
 

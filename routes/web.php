@@ -65,11 +65,11 @@ Route::delete('movimientos/eliminar/{movimiento}', [TransactionController::class
 
 Route::group(['middleware' => 'auth'], function () {
 
-    Route::get('movimientos_master/credito', [TransactionMasterController::class, 'credit'])->name('transactions_master.credit');
-    Route::get('movimientos_master/editar_credito', [TransactionMasterController::class, 'credit_edit'])->name('transactions_master.credit_edit');
-    Route::resource('movimientos_master', TransactionMasterController::class)->middleware('auth')->names('transactions_master');
+    Route::get('movimientos_master/credito', [TransactionMasterController::class, 'credit'])->middleware('can:transactions_master.index')->name('transactions_master.credit');
+    Route::get('movimientos_master/editar_credito', [TransactionMasterController::class, 'credit_edit'])->middleware('can:transactions_master.index')->name('transactions_master.credit_edit');
+    Route::resource('movimientos_master', TransactionMasterController::class)->middleware('auth')->middleware('can:transactions_master.index')->names('transactions_master');
     Route::match(['put', 'patch'], 'movimientos_master/{movimiento}/estatus', [TransactionMasterController::class, 'update_status'])->name('transactions_master.update_status');
-    Route::delete('movimientos_master/eliminar/{movimiento}', [TransactionMasterController::class, 'destroyImg'])->name('transactions_master.destroyimg');
+    Route::delete('movimientos_master/eliminar/{movimiento}', [TransactionMasterController::class, 'destroyImg'])->middleware('can:transactions_master.index')->name('transactions_master.destroyimg');
 
 });
 
@@ -81,7 +81,7 @@ Route::pattern('usuarios', '[0-9]+');
 
 Route::group(['middleware' => 'auth'], function () {
 
-    Route::resource('usuarios', UserController::class)->middleware('auth')->except('show', 'update', 'edit')->names('users');
+    Route::resource('usuarios', UserController::class)->middleware('auth')->middleware('can:users.index')->except('show', 'update', 'edit')->names('users');
 
     Route::get('/usuarios/editar/{usuario}/', [UserController::class, 'edit'])->name('users.edit');
 
