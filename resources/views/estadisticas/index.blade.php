@@ -251,18 +251,17 @@ if (isset($balance->Total)){
                                         <td class="text-right">{!! number_format($row->MontoTotal,2,",",".") !!}</td>
 
                                         @php
-
                                             switch  ($row->TransactionId){
-                                                case 1:
-                                                case 2:
-                                                case 4:
-                                                case 6:
-                                                case 8:
-                                                    $myTotal = $myTotal + ($row->MontoTotal * -1);
-                                                    break;
+                                                case 1: 
                                                 case 3:
+                                                case 5:
                                                 case 7:
                                                 case 9:
+                                                    $myTotal = $myTotal + ($row->MontoTotal * -1);
+                                                    break;
+                                                case 4:
+                                                case 8:
+                                                case 2:
                                                     $myTotal = ($myTotal) + ($row->MontoTotal);
                                                     break;
                                                 default:
