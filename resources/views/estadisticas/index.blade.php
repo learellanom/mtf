@@ -206,16 +206,16 @@ if (isset($balance->Total)){
                                             echo "<h4>Saldo A favor : " . number_format(0,2,",",".") . "</h4>";
                                         }
                                     @endphp
-                                </div>                
+                                </div>
                                 <div class="col-md-4">
                                     @php
                                         if ($myTotal < 0){
-                                            echo "<h4>Saldo Pendiente : " . number_format(0,2,",",".") . "</h4>";                                        
+                                            echo "<h4>Saldo Pendiente : " . number_format(0,2,",",".") . "</h4>";
                                         }else{
                                             echo "<h4>Saldo Pendiente : " . number_format($myTotal,2,",",".") . "</h4>";
                                         }
                                     @endphp
-                                </div>                    
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -230,12 +230,12 @@ if (isset($balance->Total)){
                             <x-adminlte-datatable
                                 id="table3"
                                 :heads="$heads"
-                                                    
+
                                 striped
                                 hoverable
                                 with-buttons
 
-                                >
+                                class="table table-bordered table-responsive-lg">
                                 @foreach($config['data'] as $row)
                                     <tr>
 

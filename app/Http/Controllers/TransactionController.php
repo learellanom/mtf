@@ -89,7 +89,7 @@ class TransactionController extends Controller
         $wallet =  Wallet::whereIn('type_wallet', ['transacciones'])->whereNotIn('id', [3])->pluck('name', 'id');
         $group = Group::pluck('name', 'id');
         $user = User::pluck('name', 'id');
-        //$transactiones = Transaction::find('all');
+
         return view('transactions.create', compact('type_coin', 'type_transaction', 'wallet', 'group', 'user', 'transaction'));
     }
 
