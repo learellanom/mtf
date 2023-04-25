@@ -100,10 +100,10 @@
                 </div>
 
 
-                <h4 class="text-uppercase font-weight-bold text-center esconder">Comisiones</h4>
-                <hr class="bg-dark esconder" style="height:1px;">
+                <h4 class="text-uppercase font-weight-bold text-center esconder comisiones">Comisiones</h4>
+                <hr class="bg-dark esconder comisiones" style="height:1px;">
 
-                <div class="form-row esconder">
+                <div class="form-row esconder comisiones">
 
                     <div class="form-group col-md-6">
                         {!! Form::Label('percentage', "Porcentaje:") !!}
@@ -124,7 +124,7 @@
                     </div>
                 </div>
 
-                <div class="form-row esconder">
+                <div class="form-row esconder comisiones">
 
                     <div class="form-group col-md-6">
                         {!! Form::Label('percentage_base', "Porcentaje Base:") !!}
@@ -147,18 +147,18 @@
 
                 <div class="form-group col-md-12 d-flex justify-content-center">
 
-                    <label class="form-check-label mx-auto esconder" for="radio1">
+                    <label class="form-check-label mx-auto esconder comisiones" for="radio1">
                         {!! Form::radio('exonerate',2, null, ['id' => 'radio1', 'class' => 'exonerar']) !!}
                         Exonerar comisión
                     </label>
 
-                    <label class="form-check-label mx-auto esconder" for="radio3">
+                    <label class="form-check-label mx-auto esconder comisiones" for="radio3">
                         {!! Form::radio('exonerate',1, null, ['id' => 'radio3', 'class' => 'incluir']) !!}
                         Incluir comisión
                     </label>
 
 
-                    <label class="form-check-label mx-auto esconder" for="radio2">
+                    <label class="form-check-label mx-auto esconder comisiones" for="radio2">
                         Descontar comisión
                         {!! Form::radio('exonerate',3, null, ['id' => 'radio2', 'class' => 'descontar']) !!}
                     </label>
@@ -641,11 +641,18 @@ $('#montototal').prop('readonly', true);
     $("#typetrasnferencia").on("change", function() {
             // Capturar el valor seleccionado
             var selectedValue = this.value;
+            var option = $("#typetrasnferencia option:selected").text();
 
-
-            if (selectedValue === '7' || selectedValue === '8') {
+            if (option === 'Nota de credito' || option === 'Nota de debito') {
 
                 $('.esconder').hide();
+
+                    $('#comision').val(""); // LIMPIAR COMISION
+                    $('#percentage').val("");  // LIMPIAR PORCENTAJE
+                    $('#percentage_base').val("");  // LIMPIAR PORCENTAJE
+                    $('#comision_base').val("");  // LIMPIAR PORCENTAJE
+                    $('#montototal').val(""); //LIMPAR MONTO TOTAL
+                    $('#monto_dolares').val(''); //LIMPIAR DOLARES
 
                 $('#radio1').attr("required", false);
                 $('#radio2').attr("required", false);
@@ -664,7 +671,31 @@ $('#montototal').prop('readonly', true);
                 log.value = e.target.value;
                 }
 
-                } else if (selectedValue) {
+                } else if (option === 'Cobro en efectivo'){
+                    const input = document.getElementById("monto_dolares");
+                    const log = document.getElementById("montototal");
+
+                    $('.comisiones').hide();
+                    $('#comision').val(""); // LIMPIAR COMISION
+                    $('#percentage').val("");  // LIMPIAR PORCENTAJE
+                    $('#percentage_base').val("");  // LIMPIAR PORCENTAJE
+                    $('#comision_base').val("");  // LIMPIAR PORCENTAJE
+                    $('#montototal').val(""); //LIMPAR MONTO TOTAL
+                    $('#monto_dolares').val(''); //LIMPIAR DOLARES
+
+                    $('#radio1').attr("required", false);
+                    $('#radio2').attr("required", false);
+                    $('#radio3').attr("required", false);
+                    $('#percentage').attr("required", false);
+                    $('.movi').attr("class", 'card col-md-7 h-100');
+
+
+                    input.addEventListener("input", updateValue);
+
+                    function updateValue(e) {
+                    log.value = e.target.value;
+                    }
+                }else if (selectedValue) {
                     $('.esconder').show();
                 }
         });
@@ -672,15 +703,7 @@ $('#montototal').prop('readonly', true);
 
 
 
-
-
-
-
-
-
-
-
-
+/* CODIGO PARA SUBIR ARCHIVOS E IMAGENES A LA TRANSFERENCIA */
 
      $("#file").fileinput({
         uploadUrl: '{{ route('transactions.store') }}'
