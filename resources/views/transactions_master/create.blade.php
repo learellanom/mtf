@@ -375,6 +375,15 @@ $('#monto_dolares').mask('###0.00', { reverse: true });
 $('#monto').mask('###0.00', { reverse: true });
 $('#tasa').mask('###0.00', { reverse: true });
 
+    const input = document.getElementById("monto_dolares");
+    const log = document.getElementById("montototal");
+
+    input.addEventListener("input", updateValue);
+
+    function updateValue(e) {
+      log.value = e.target.value;
+     }
+
 $(".clientes").select2({
   placeholder: "Seleccionar cliente",
   theme: 'bootstrap4',
