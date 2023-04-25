@@ -181,11 +181,11 @@
                     </div>
 
 
-                            <div class="form-group col-md-6 esconder">
+                            <div class="form-group col-md-6">
                                 {!! Form::Label('transaction_date', "Fecha:") !!}
                                 <div class="input-group-text">
                                     <i class="fa-fw fas fas fa-calendar-week mr-2"></i>
-                                {!! Form::date('transaction_date', $fecha, ['class' => 'form-control', 'id' => 'fecha']) !!}
+                                {!! Form::date('transaction_date', null, ['class' => 'form-control', 'id' => 'fecha']) !!}
                                 </div>
                             </div>
 
@@ -664,9 +664,9 @@ $('#montototal').prop('readonly', true);
                 log.value = e.target.value;
                 }
 
-            } else if (selectedValue) {
-                $('.esconder').show();
-            }
+                } else if (selectedValue) {
+                    $('.esconder').show();
+                }
         });
 
 
