@@ -632,6 +632,21 @@ return [
                 ],
             ],
         ],
+        'JqueryUI' => [
+            'active' => true,
+            'files' => [
+                [
+                    'type' => 'js',
+                    'asset' => true,
+                    'location' => 'vendor/jquery/jquery-ui.js',
+                ],
+                [
+                    'type' => 'css',
+                    'asset' => true,
+                    'location' => 'vendor/jquery/jquery-ui.css',
+                ],
+            ],
+        ],
         'JqueryMask' => [
             'active' => true,
             'files' => [

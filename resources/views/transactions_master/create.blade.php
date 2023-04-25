@@ -185,7 +185,7 @@
                                 {!! Form::Label('transaction_date', "Fecha:") !!}
                                 <div class="input-group-text">
                                     <i class="fa-fw fas fas fa-calendar-week mr-2"></i>
-                                {!! Form::date('transaction_date', null, ['class' => 'form-control', 'id' => 'fecha']) !!}
+                                {!! Form::date('transaction_date', $fecha, ['class' => 'form-control', 'id' => 'fecha']) !!}
                                 </div>
                             </div>
 
@@ -371,6 +371,48 @@
 
 @section('js')
 <script>
+$( function() {
+    var availableTags = [
+      "cash",
+      "CASH",
+      "Saldo anterior",
+      "suift",
+      "abono",
+      "Abono en cash",
+      "Cash enviado",
+      "Ali",
+      "Abu",
+      "Cash Dubai",
+      "abono en Valencia",
+      "abono cash",
+      "cash libano",
+      "cash la yaguara",
+      "la yaguara",
+      "suift (preforman)",
+      "cash turquia",
+      "libano",
+      "Turquia",
+      "Turkia",
+      "Banesco",
+      "Banesco Panama",
+      "Mercantil",
+      "BDV",
+      "pago bolivares",
+      "cash recibido",
+      "pasaje de",
+      "pasajes",
+      "boletos",
+      "Abonado",
+      "recibido para",
+      "USDT",
+      "Token"
+    ];
+    $("#description").autocomplete({
+      source: availableTags
+    });
+  });
+
+
 $('#monto_dolares').mask('###0.00', { reverse: true });
 $('#monto').mask('###0.00', { reverse: true });
 $('#tasa').mask('###0.00', { reverse: true });
