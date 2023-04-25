@@ -15,6 +15,7 @@ use Database\Factories\TransactionFactory;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Redirect;
 use Nette\Utils\Finder;
+use Carbon\Carbon;
 
 class TransactionMasterController extends Controller
 {
@@ -37,8 +38,9 @@ class TransactionMasterController extends Controller
         $wallet = Wallet::whereIn('type_wallet', ['Transacciones'])->whereNotIn('id', [3])->pluck('name', 'id');
         $group = Group::pluck('name', 'id');
         $user = User::pluck('name', 'id');
+        $fecha = Carbon::now();
 
-        return view('transactions_master.create', compact('type_coin', 'type_transaction', 'wallet', 'group', 'user', 'transaction'));
+        return view('transactions_master.create', compact('type_coin', 'type_transaction', 'wallet', 'group', 'user', 'transaction', 'fecha'));
     }
 
     /**

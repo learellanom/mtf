@@ -17,6 +17,7 @@ use Database\Factories\TransactionFactory;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Redirect;
 use Nette\Utils\Finder;
+use Carbon\Carbon;
 
 class TransactionController extends Controller
 {
@@ -89,8 +90,9 @@ class TransactionController extends Controller
         $wallet =  Wallet::whereIn('type_wallet', ['transacciones'])->whereNotIn('id', [3])->pluck('name', 'id');
         $group = Group::pluck('name', 'id');
         $user = User::pluck('name', 'id');
+        $fecha = Carbon::now();
 
-        return view('transactions.create', compact('type_coin', 'type_transaction', 'wallet', 'group', 'user', 'transaction'));
+        return view('transactions.create', compact('type_coin', 'type_transaction', 'wallet', 'group', 'user', 'transaction', 'fecha'));
     }
 
     public function create_efectivo(transaction $transaction)
@@ -102,8 +104,9 @@ class TransactionController extends Controller
         $group = Group::pluck('name', 'id');
         //$client = Client::pluck('name', 'id');
         $user = User::pluck('name', 'id');
+        $fecha = Carbon::now();
 
-        return view('transactions.create_efectivo', compact('type_coin', 'type_transaction', 'wallet', 'group', 'user', 'transaction'));
+        return view('transactions.create_efectivo', compact('type_coin', 'type_transaction', 'wallet', 'group', 'user','fecha','transaction'));
     }
 
     public function edit_efectivo($transaction)
