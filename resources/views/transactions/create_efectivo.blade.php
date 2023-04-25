@@ -420,6 +420,14 @@ $(document).ready(function() {
   //$('#monto_dolares').toFixed(2);
   $('#monto_dolares').mask('###0.00', { reverse: true });
   $('#monto').mask('###0.00', { reverse: true });
+  const input = document.getElementById("monto_dolares");
+    const log = document.getElementById("montototal");
+
+    input.addEventListener("input", updateValue);
+
+    function updateValue(e) {
+      log.value = e.target.value;
+     }
 
   $('.typecoin').change(function(e) {
 
@@ -548,7 +556,7 @@ exonerar.click = function (){
 
     $('#percentage').attr("required", false);
     $('.movi').attr("class", 'card col-md-7 h-100');
-    monto_real.value =  parseFloat(montototal.value).toFixed(2);
+    monto_real.value =  (parseFloat($('#monto_dolares').val())).toFixed(2);
 }
 
 incluir.click = function (){
