@@ -12,40 +12,36 @@ var filesToCache = [
     '/images/icons/icon-512x512.png',
 ];
 
-// Cache on install
-self.addEventListener("install", event => {
-    this.skipWaiting();
-    event.waitUntil(
-        caches.open(staticCacheName)
-            .then(cache => {
-                return cache.addAll(filesToCache);
-            })
-    )
+const CACHE_NAME = 'MTF';
+// Install a service worker
+self.addEventListener('install', event => {
+    console.log('Opened cache');
 });
-
-// Clear cache on activate
-self.addEventListener('activate', event => {
-    event.waitUntil(
-        caches.keys().then(cacheNames => {
-            return Promise.all(
-                cacheNames
-                    .filter(cacheName => (cacheName.startsWith("pwa-")))
-                    .filter(cacheName => (cacheName !== staticCacheName))
-                    .map(cacheName => caches.delete(cacheName))
-            );
-        })
+// Cache and return request
+self.addEventListener('fetch', event => {
+    event.respondWith(
+        fetch(event.request).then(res => {
+            const resClone = res.clone();
+            caches
+                .open(CACHE_NAME)
+                .then(cache => {
+                    cache.put(event.request, resClone);
+                });
+            return res;
+        }).catch(err => caches.match(event.request).then(res => res))
     );
 });
-
-// Serve from Cache
-self.addEventListener("fetch", event => {
-    event.respondWith(
-        caches.match(event.request)
-            .then(response => {
-                return response || fetch(event.request);
+// Update a service worker
+self.addEventListener('activate', event => {
+    const cacheWhitelist = [];
+    cacheWhitelist.push(CACHE_NAME);
+    event.waitUntil(
+        caches.keys().then((cacheNames) => Promise.all(
+            cacheNames.map((cacheName) => {
+                if (!cacheWhitelist.includes(cacheName)) {
+                    return caches.delete(cacheName);
+                }
             })
-            .catch(() => {
-                return caches.match('offline');
-            })
-    )
+        ))
+    );
 });

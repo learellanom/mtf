@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', 'CAJAS')
+@section('title', 'Cajas')
 
 @section('content_header')
 
@@ -43,6 +43,18 @@
                <small class="text-danger">{{$message}}</small>
             @enderror
             </div>
+
+            <div class="form-group">
+
+                {!! Form::Label('supplier[]', "Proveedor:") !!}
+                {!! Form::select('supplier[]', $proveedores, null, ['class' => 'form-control proveedor', 'multiple' => 'multiple']) !!}
+
+                @error('supplier[]')
+                <small class="text-danger">{{$message}}</small>
+                @enderror
+            </div>
+
+
 
             <div class="form-group">
 
@@ -105,17 +117,19 @@ $(".user").select2({
     allowClear: true,
     placeholder: "Seleccionar Agente",
     theme: 'bootstrap4',
-    maximumSelectionLength: 5
+    maximumSelectionLength: 5,
+    width: '100%'
 
   });
-  $(".tipocaja").select2({
+  $(".proveedor").select2({
     allowClear: true,
-    placeholder: "Seleccionar tipo de caja",
+    placeholder: "Seleccionar Proveedor",
     theme: 'bootstrap4',
-  });
-$(".tipocaja").val("")
-$(".tipocaja").trigger("change");
+    maximumSelectionLength: 5,
+    width: '100%'
 
+  });
 
 </script>
 @endsection
+

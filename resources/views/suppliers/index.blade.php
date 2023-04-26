@@ -1,10 +1,10 @@
 @extends('adminlte::page')
 
-@section('title', 'Cajas')
+@section('title', 'Proveedores')
 
 @section('content_header')
 
-    <h1 class="text-center text-dark font-weight-bold">LISTA DE CAJAS <i class="fas fa-wallet"></i> </h1></a>
+    <h1 class="text-center text-dark font-weight-bold">LISTA DE PROVEEDORES <i class="fas fa-users"></i> </h1></a>
 
 
 @stop
@@ -39,10 +39,10 @@ $config = [
 
 @endphp
 
-<a class="btn btn-dark" title="Crear Caja" href={{ route('wallets.create') }}>
+<a class="btn btn-dark" title="Crear Proveedor" href={{ route('suppliers.create') }}>
     <i class="fas fa-plus-circle"></i>
     <span class="d-none d-lg-inline-block text-uppercase font-weight-bold">Crear</span>
-    <span class="d-none d-md-inline-block text-uppercase font-weight-bold">Caja</span>
+    <span class="d-none d-md-inline-block text-uppercase font-weight-bold">Proveedor</span>
 </a>
 <br><br>
 {{-- Compressed with style options / fill data using the plugin config --}}
@@ -52,18 +52,17 @@ $config = [
     <div class="col-md-12">
         <div class="card mb-4">
             <div class="card-header">
-                <h3 class="card-title">CAJAS | WALLETS</h3>
+                <h3 class="card-title">PROVEEDORES</h3>
             </div>
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-12">
-<table class="table table-bordered table-responsive-lg" id="wallet">
+<table class="table table-bordered table-responsive-lg" id="proveedores">
     <thead>
 
         <tr>
             <th>Nombre</th>
-            <th>Descripción</th>
-            <th>Dirección</th>
+            <th>Telefono</th>
             <th class="text-center">Editar</th>
             <th class="text-center">Elimnar</th>
 
@@ -72,22 +71,21 @@ $config = [
 
 
     </thead>
-    @foreach($wallets as $wallet)
+    @foreach($proveedor as $proveedores)
         <tr>
 
-            <td>{!! $wallet->name !!}</td>
-            <td>{!! $wallet->description !!}</td>
-            <td>{!! $wallet->direction !!}</td>
+            <td>{!! $proveedores->name !!}</td>
+            <td>{!! $proveedores->phone !!}</td>
 
             <td class="text-center">
 
-            <a class="btn btn-xl text-primary mx-1 shadow" href="{{ route('wallets.edit', $wallet) }}" title="Editar">
+            <a class="btn btn-xl text-primary mx-1 shadow" href="{{ route('suppliers.edit', $proveedores) }}" title="Editar">
                 <i class="fa fa-lg fa-fw fa-pen"></i>
             </a>
 
             </td>
             <td class="text-center">
-                <form method="post" action="{{ route('wallets.destroy', $wallet->id) }}">
+                <form method="post" action="{{ route('suppliers.destroy', $proveedores->id) }}">
                     @csrf
                     @method('delete')
                 <button class="btn btn-xl text-danger mx-1 shadow" type="submit" title="Borrar">
@@ -108,7 +106,7 @@ $config = [
 @section('js')
 <script type="text/javascript">
 $(document).ready( function () {
-$('#wallet').DataTable({
+$('#proveedores').DataTable({
 
     language: {
         "decimal": "",

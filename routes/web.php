@@ -5,9 +5,11 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\TransactionMasterController;
+use App\Http\Controllers\TransactionSupplierController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\GroupController;
 use App\Http\Controllers\WalletController;
+use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\Type_transactionController;
 use App\Http\Controllers\Type_coinController;
 use JeroenNoten\LaravelAdminLte\Http\Controllers\DarkModeController;
@@ -24,7 +26,9 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-Route::get('/offline', function () {     return view('vendor/laravelpwa/offline'); });
+Route::get('/offline', function () {
+    return view('vendor.laravelpwa.offline');
+});
 
 Route::get('/', function () {
     return view('auth.login');
@@ -34,6 +38,10 @@ Route::get('/home', function () {
     return view('home');
 })->middleware(['auth', 'verified']);
 
+
+
+Route::post('/darkmode/toggle', [DarkModeController::class, 'toggle'])
+    ->name('darkmode.toggle');
 
 
 
@@ -51,6 +59,7 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->middleware('can:home')->name('home');
 
+/* TRANSACCIONES A CLIENTES */
 Route::group(['middleware' => 'auth'], function () {
 Route::get('movimientos/efectivo', [TransactionController::class, 'create_efectivo'])->middleware('can:transactions.create_efectivo')->name('transactions.create_efectivo');
 Route::get('movimientos/{movimiento}/editar_efectivo', [TransactionController::class, 'edit_efectivo'])->middleware('can:transactions.edit_efectivo')->name('transactions.edit_efectivo');
@@ -63,6 +72,7 @@ Route::delete('movimientos/eliminar/{movimiento}', [TransactionController::class
 
 });
 
+/* TRANSACCIONES A MASTER */
 Route::group(['middleware' => 'auth'], function () {
 
     Route::get('movimientos_master/credito', [TransactionMasterController::class, 'credit'])->middleware('can:transactions_master.index')->name('transactions_master.credit');
@@ -70,6 +80,17 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('movimientos_master', TransactionMasterController::class)->middleware('auth')->middleware('can:transactions_master.index')->names('transactions_master');
     Route::match(['put', 'patch'], 'movimientos_master/{movimiento}/estatus', [TransactionMasterController::class, 'update_status'])->name('transactions_master.update_status');
     Route::delete('movimientos_master/eliminar/{movimiento}', [TransactionMasterController::class, 'destroyImg'])->middleware('can:transactions_master.index')->name('transactions_master.destroyimg');
+
+});
+
+/* TRANSACCIONES A PROVEEDORES */
+Route::group(['middleware' => 'auth'], function () {
+
+    //Route::get('movimientos_proveedores/credito', [TransactionSupplierController::class, 'credit'])->middleware('can:transactions_supplier.index')->name('transactions_supplier.credit');
+    //Route::get('movimientos_proveedores/editar_credito', [TransactionSupplierController::class, 'credit_edit'])->middleware('can:transactions_supplier.index')->name('transactions_supplier.credit_edit');
+    Route::resource('movimientos_proveedores', TransactionSupplierController::class)->middleware('auth')->middleware('can:transactions_supplier.index')->names('transactions_supplier');
+    Route::match(['put', 'patch'], 'movimientos_proveedores/{movimiento}/estatus', [TransactionSupplierController::class, 'update_status'])->name('transactions_supplier.update_status');
+    Route::delete('movimientos_proveedores/eliminar/{movimiento}', [TransactionSupplierController::class, 'destroyImg'])->middleware('can:transactions_supplier.index')->name('transactions_supplier.destroyimg');
 
 });
 
@@ -93,7 +114,7 @@ Route::group(['middleware' => 'auth'], function () {
 
 });
 
-
+Route::resource('proveedores', SupplierController::class)->middleware('auth')->except('show')->middleware('can:suppliers.index')->names('suppliers');
 Route::resource('clientes', ClientController::class)->middleware('auth')->except('show')->middleware('can:clients.index')->names('clients');
 Route::resource('grupos', GroupController::class)->middleware('auth')->except('show')->middleware('can:groups.index')->names('groups');
 Route::resource('roles', RoleController::class)->middleware('auth')->except('show')->middleware('can:roles.index')->names('roles');
@@ -146,9 +167,6 @@ Route::get('dashboardest', function () {
     return view('dashboardest');
 })->name('dashboardtest');
 
-
-Route::post('/darkmode/toggle', [DarkModeController::class, 'toggle'])
-    ->name('darkmode.toggle');
 
 
 ?>

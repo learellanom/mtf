@@ -409,6 +409,15 @@ return [
             'label_color' =>'danger',
         ],
         [
+            'text'        => 'Transacciónes a Proveedores',
+            'url'         => 'movimientos_proveedores',
+            'active'      => ['movimientos_proveedores', 'regex:@^movimientos_proveedores/[0-9]+/edit+$@', 'movimientos_proveedores/create'],
+            //'can'         => 'transactions_supplier.index',
+            'icon'        => 'fas fa-fw fas fa-share',
+            'label'       => 'P',
+            'label_color' =>'warning',
+        ],
+        [
             'text'        => 'Nota de Credito a Caja',
             'url'         => "movimientos/credito",
             'active'      => ['credito'],
@@ -435,6 +444,13 @@ return [
             'can'         => 'roles.index',
         ],
         [
+            'text' => 'Proveedores',
+            'url'  => 'proveedores',
+            'active'      => ['proveedores*'],
+            'icon' => 'fas fa-fw fa-donate',
+            'can'         => 'suppliers.index'
+        ],
+        [
             'text' => 'Grupos',
             'url'  => 'grupos',
             'active'      => ['grupos*'],
@@ -446,7 +462,7 @@ return [
             'url'         => 'cajas',
             'active'      => ['cajas*'],
             'icon'        => 'fas fa-wallet',
-            'label'       => 4,
+            'label'       => 2,
             'label_color' => 'success',
             'can'         => 'wallets.index',
         ],
@@ -467,22 +483,7 @@ return [
 
 
         ],
-        ['header' => 'labels'],
-        [
-            'text'       => 'important',
-            'icon_color' => 'red',
-            'url'        => '#',
-        ],
-        [
-            'text'       => 'warning',
-            'icon_color' => 'yellow',
-            'url'        => '#',
-        ],
-        [
-            'text'       => 'information',
-            'icon_color' => 'cyan',
-            'url'        => '#',
-        ],
+
 
 
     /*

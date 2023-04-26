@@ -38,6 +38,11 @@ class RoleSeeder extends Seeder
         Permission::create(['name' => 'groups.update','description' => 'Modificar grupos del sistema'])->syncRoles([$role1, $role3]);
         Permission::create(['name' => 'groups.create','description' => 'Crear grupos al sistema'])->syncRoles([$role1, $role3]);
 
+        Permission::create(['name' => 'suppliers.index','description' => 'Ver proveedores del sistema'])->syncRoles([$role1, $role3]);
+        Permission::create(['name' => 'suppliers.edit','description' => 'Editar proveedores del sistema'])->syncRoles([$role1, $role3]);
+        Permission::create(['name' => 'suppliers.update','description' => 'Modificar proveedores del sistema'])->syncRoles([$role1, $role3]);
+        Permission::create(['name' => 'suppliers.create','description' => 'Crear proveedores al sistema'])->syncRoles([$role1, $role3]);
+
         Permission::create(['name' => 'users.index','description' => 'Ver usuarios del sistema'])->assignRole($role1);
         Permission::create(['name' => 'users.password','description' => 'Cambiar contraseña de los usuarios'])->assignRole($role1);
         Permission::create(['name' => 'users.edit','description' => 'Modificar usuarios del sistema'])->assignRole($role1);
@@ -69,6 +74,9 @@ class RoleSeeder extends Seeder
         Permission::create(['name' => 'transactions_master.edit', 'description' => 'Modificar transacciónes master'])->syncRoles([$role1, $role3]);
         Permission::create(['name' => 'transactions_master.create', 'description' => 'Crear transacciónes master'])->syncRoles([$role1, $role3]);
 
+        Permission::create(['name' => 'transactions_supplier.index', 'description' => 'Ver transacciónes a proveedor'])->syncRoles([$role1, $role3]);
+        Permission::create(['name' => 'transactions_supplier.edit', 'description' => 'Modificar transacciónes a proveedor'])->syncRoles([$role1, $role3]);
+        Permission::create(['name' => 'transactions_supplier.create', 'description' => 'Crear transacciónes a proveedor'])->syncRoles([$role1, $role3]);
 
 
         Permission::create(['name' => 'transactions.index','description' => 'Ver transacciónes'])->syncRoles([$role1, $role2, $role3]);
