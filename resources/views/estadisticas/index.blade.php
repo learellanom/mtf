@@ -277,9 +277,22 @@ if (isset($balance->Total)){
                                         <td>{!! $row->WalletName !!}</td>
 
                                         <td class="text-center">
-                                            <button class="btn btn-xl text-teal mx-auto shadow" title="Detalles">
+                                            <!-- <a      
+                                                href="{{ route('transactions.show', ['movimiento'=> $row->Id]) }}"
+                                                title="Detalles"
+                                                class="btn btn-xl text-primary mx-1 shadow text-center"
+                                                
+                                            >
                                                 <i class="fa fa-lg fa-fw fa-eye"></i>
-                                            </button>
+                                            </a>    -->
+                                            <a      
+                                                href="#"
+                                                title="Detalles"
+                                                class="btn btn-xl text-primary mx-1 shadow text-center"
+                                                
+                                            >
+                                                <i class="fa fa-lg fa-fw fa-eye"></i>
+                                            </a>                                                                                      
                                         </td>
                                     </tr>
                                 @endforeach

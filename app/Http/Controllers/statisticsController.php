@@ -107,7 +107,7 @@ class statisticsController extends Controller
 
 
         $Transacciones = Transaction::select(
-        //  'Transactions.user_id as Id',
+            'Transactions.user_id as Id',
             'Transactions.amount_foreign_currency as MontoMoneda',
             'Transactions.exchange_rate           as TasaCambio',
             // 'Transactions.type_coin_id            as TipoMonedaId',
@@ -176,6 +176,7 @@ class statisticsController extends Controller
             $wallet22 [$wallet->id] =  $wallet->name;
         }
         $wallet = $wallet22;
+
 
         $group = $this->getGroups();
         // return view('estadisticas.index2', compact('myUser','userole','Transacciones','group','wallet','myGroup','myUser','myWallet','balance'));
