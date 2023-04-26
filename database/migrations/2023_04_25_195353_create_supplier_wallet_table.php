@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('wallet_supplier', function (Blueprint $table) {
+        Schema::create('supplier_wallet', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('supplier_id');
             $table->unsignedBigInteger('wallet_id');
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('wallet_supplier');
+        Schema::dropIfExists('supplier_wallet');
     }
 };

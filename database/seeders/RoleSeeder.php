@@ -74,6 +74,9 @@ class RoleSeeder extends Seeder
         Permission::create(['name' => 'transactions_master.edit', 'description' => 'Modificar transacciónes master'])->syncRoles([$role1, $role3]);
         Permission::create(['name' => 'transactions_master.create', 'description' => 'Crear transacciónes master'])->syncRoles([$role1, $role3]);
 
+        Permission::create(['name' => 'transactions_supplier.index', 'description' => 'Ver transacciónes a proveedor'])->syncRoles([$role1, $role3]);
+        Permission::create(['name' => 'transactions_supplier.edit', 'description' => 'Modificar transacciónes a proveedor'])->syncRoles([$role1, $role3]);
+        Permission::create(['name' => 'transactions_supplier.create', 'description' => 'Crear transacciónes a proveedor'])->syncRoles([$role1, $role3]);
 
 
         Permission::create(['name' => 'transactions.index','description' => 'Ver transacciónes'])->syncRoles([$role1, $role2, $role3]);

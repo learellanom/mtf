@@ -144,7 +144,7 @@ class TransactionController extends Controller
         foreach($request->file('file') as $file)
         {
 
-            $url = Storage::put('transactions/'.$transaction->id, $file);
+            $url = Storage::put('Transactions/'.$transaction->id, $file);
 
             $files= new Image();
             $files->file = $files;
@@ -237,7 +237,7 @@ class TransactionController extends Controller
 
         if($request->file('file')){
            foreach($request->file('file') as $files){
-              $url = Storage::put('transactions/'.$transaction, $files);
+              $url = Storage::put('Transactions/'.$transaction, $files);
 
 
 

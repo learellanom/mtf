@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Supplier;
 use Illuminate\Http\Request;
 use App\Models\Wallet;
 use App\Models\User;
@@ -26,8 +27,9 @@ class WalletController extends Controller
     public function create()
     {
         $users = User::all()->pluck('name', 'id');
+        $proveedores = Supplier::all()->pluck('name', 'id');
         $tipo = ['Transacciones', 'Efectivo'];
-        return view('wallets.create', compact('users', 'tipo'));
+        return view('wallets.create', compact('users', 'tipo', 'proveedores'));
     }
 
     /**
@@ -39,6 +41,7 @@ class WalletController extends Controller
 
         if($request->user){
             $wallets->user()->attach($request->user);
+            $wallets->supplier()->attach($request->supplier);
          }
          flash()->addSuccess('Nueva caja registrada', 'Caja', ['timeOut' => 3000]);
          return Redirect::route('wallets.index', $wallets);
@@ -59,7 +62,9 @@ class WalletController extends Controller
     {
         $wallet = Wallet::find($wallet);
         $users = User::all()->pluck('name', 'id');
-        return view('wallets.edit', compact('wallet', 'users'));
+        $proveedores = Supplier::all()->pluck('name', 'id');
+        $tipo = ['Transacciones', 'Efectivo'];
+        return view('wallets.edit', compact('wallet', 'users', 'proveedores', 'tipo'));
     }
 
     /**
@@ -68,13 +73,15 @@ class WalletController extends Controller
     public function update(Request $request, $wallet)
     {
         $wallets = Wallet::find($wallet)->update($request->all());
+        $caja = Wallet::find($wallet);
 
         if($request->user){
             $wallets = Wallet::find($wallet);
             $wallets->user()->sync($request->user);
+            $wallets->supplier()->sync($request->supplier);
          }
 
-        flash()->addInfo('Caja modificada..', 'Caja', ['timeOut' => 3000]);
+        flash()->addInfo('Wallet modificada del sistema', 'Caja Modifcada: ' . $caja->name, ['timeOut' => 3000]);
 
         return Redirect::route('wallets.index', $wallets)->with('update', 'ok');
     }
@@ -87,7 +94,7 @@ class WalletController extends Controller
         $caja = Wallet::find($wallet);
         Wallet::destroy($wallet);
 
-        flash()->addError('Caja eliminada del sistema', 'Caja Eliminada: ' . $caja->name,  ['timeOut' => 2000]);
+        flash()->addError('Wallet eliminada del sistema', 'Caja Eliminada: ' . $caja->name,  ['timeOut' => 2000]);
 
         return Redirect::route('wallets.index')->with('delete', 'ok');
     }

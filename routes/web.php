@@ -5,6 +5,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\TransactionMasterController;
+use App\Http\Controllers\TransactionSupplierController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\GroupController;
 use App\Http\Controllers\WalletController;
@@ -58,6 +59,7 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->middleware('can:home')->name('home');
 
+/* TRANSACCIONES A CLIENTES */
 Route::group(['middleware' => 'auth'], function () {
 Route::get('movimientos/efectivo', [TransactionController::class, 'create_efectivo'])->middleware('can:transactions.create_efectivo')->name('transactions.create_efectivo');
 Route::get('movimientos/{movimiento}/editar_efectivo', [TransactionController::class, 'edit_efectivo'])->middleware('can:transactions.edit_efectivo')->name('transactions.edit_efectivo');
@@ -70,6 +72,7 @@ Route::delete('movimientos/eliminar/{movimiento}', [TransactionController::class
 
 });
 
+/* TRANSACCIONES A MASTER */
 Route::group(['middleware' => 'auth'], function () {
 
     Route::get('movimientos_master/credito', [TransactionMasterController::class, 'credit'])->middleware('can:transactions_master.index')->name('transactions_master.credit');
@@ -77,6 +80,17 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('movimientos_master', TransactionMasterController::class)->middleware('auth')->middleware('can:transactions_master.index')->names('transactions_master');
     Route::match(['put', 'patch'], 'movimientos_master/{movimiento}/estatus', [TransactionMasterController::class, 'update_status'])->name('transactions_master.update_status');
     Route::delete('movimientos_master/eliminar/{movimiento}', [TransactionMasterController::class, 'destroyImg'])->middleware('can:transactions_master.index')->name('transactions_master.destroyimg');
+
+});
+
+/* TRANSACCIONES A PROVEEDORES */
+Route::group(['middleware' => 'auth'], function () {
+
+    //Route::get('movimientos_proveedores/credito', [TransactionSupplierController::class, 'credit'])->middleware('can:transactions_supplier.index')->name('transactions_supplier.credit');
+    //Route::get('movimientos_proveedores/editar_credito', [TransactionSupplierController::class, 'credit_edit'])->middleware('can:transactions_supplier.index')->name('transactions_supplier.credit_edit');
+    Route::resource('movimientos_proveedores', TransactionSupplierController::class)->middleware('auth')->middleware('can:transactions_supplier.index')->names('transactions_supplier');
+    Route::match(['put', 'patch'], 'movimientos_proveedores/{movimiento}/estatus', [TransactionSupplierController::class, 'update_status'])->name('transactions_supplier.update_status');
+    Route::delete('movimientos_proveedores/eliminar/{movimiento}', [TransactionSupplierController::class, 'destroyImg'])->middleware('can:transactions_supplier.index')->name('transactions_supplier.destroyimg');
 
 });
 

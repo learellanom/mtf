@@ -409,6 +409,15 @@ return [
             'label_color' =>'danger',
         ],
         [
+            'text'        => 'Transacciónes a Proveedores',
+            'url'         => 'movimientos_proveedores',
+            'active'      => ['movimientos_proveedores', 'regex:@^movimientos_proveedores/[0-9]+/edit+$@', 'movimientos_proveedores/create'],
+            //'can'         => 'transactions_supplier.index',
+            'icon'        => 'fas fa-fw fas fa-share',
+            'label'       => 'P',
+            'label_color' =>'warning',
+        ],
+        [
             'text'        => 'Nota de Credito a Caja',
             'url'         => "movimientos/credito",
             'active'      => ['credito'],
