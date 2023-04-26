@@ -8,6 +8,7 @@ use App\Http\Controllers\TransactionMasterController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\GroupController;
 use App\Http\Controllers\WalletController;
+use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\Type_transactionController;
 use App\Http\Controllers\Type_coinController;
 use JeroenNoten\LaravelAdminLte\Http\Controllers\DarkModeController;
@@ -24,7 +25,9 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-Route::get('/offline', function () {     return view('vendor/laravelpwa/offline'); });
+Route::get('/offline', function () {
+    return view('vendor.laravelpwa.offline');
+});
 
 Route::get('/', function () {
     return view('auth.login');
@@ -34,6 +37,10 @@ Route::get('/home', function () {
     return view('home');
 })->middleware(['auth', 'verified']);
 
+
+
+Route::post('/darkmode/toggle', [DarkModeController::class, 'toggle'])
+    ->name('darkmode.toggle');
 
 
 
@@ -93,7 +100,7 @@ Route::group(['middleware' => 'auth'], function () {
 
 });
 
-
+Route::resource('proveedores', SupplierController::class)->middleware('auth')->except('show')->middleware('can:suppliers.index')->names('suppliers');
 Route::resource('clientes', ClientController::class)->middleware('auth')->except('show')->middleware('can:clients.index')->names('clients');
 Route::resource('grupos', GroupController::class)->middleware('auth')->except('show')->middleware('can:groups.index')->names('groups');
 Route::resource('roles', RoleController::class)->middleware('auth')->except('show')->middleware('can:roles.index')->names('roles');
@@ -146,9 +153,6 @@ Route::get('dashboardest', function () {
     return view('dashboardest');
 })->name('dashboardtest');
 
-
-Route::post('/darkmode/toggle', [DarkModeController::class, 'toggle'])
-    ->name('darkmode.toggle');
 
 
 ?>

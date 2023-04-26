@@ -12,12 +12,12 @@ use Illuminate\Notifications\Notifiable;
 
 class Wallet extends Model  implements Auditable
 {
-    use \OwenIt\Auditing\Auditable;
-    use HasApiTokens, HasFactory, Notifiable, HasRoles;
+        use \OwenIt\Auditing\Auditable;
+        use HasApiTokens, HasFactory, Notifiable, HasRoles;
 
-    protected $table = 'wallets';
+        protected $table = 'wallets';
 
-    protected $guarded = ['id', 'created_at', 'updated_at'];
+        protected $guarded = ['id', 'created_at', 'updated_at'];
 
 
               //Relación muchos a muchos
@@ -33,11 +33,15 @@ class Wallet extends Model  implements Auditable
             public function transaction(){
                 return $this->hasMany(Transaction::class);
             }
+
             //Relación uno a muchos
             public function transaction_master(){
                 return $this->hasMany(Transaction_master::class);
             }
 
+            public function supplier(){
+                return $this->belongsToMany(supplier::class);
+            }
 
 
 
