@@ -6,12 +6,9 @@
 @php
 
 $heads = [
-    'Grupo',
-    'Transaccion',
-    'Cant',
-    'Monto transacciones',
-    'Monto comision',
-    'Monto total',
+    ['label' => 'Grupo', 'no-export' => true, 'width' => 15],
+
+    ['label' => 'Monto total', 'no-export' => true, 'width' => 15],
     ['label' => 'Actions', 'no-export' => true, 'width' => 5],
 ];
 
@@ -32,7 +29,7 @@ $config = [
         [3,  '07-03-2023', 'Peter Sousa',    '4.00', '500.00', '501.00', '2%', '503.00', '504.00', '', '', '505.00', '<nobr>'.$btnEdit.$btnDelete.$btnDetails.'</nobr>'],
     ],
     'order' => [[1, 'asc']],
-    'columns' => [null, null, null, null, null, null, null, null, null, null, null, null, ['orderable' => false]]
+    'columns' => [null, null,  ['orderable' => false]]
 ];
 
 
@@ -70,6 +67,7 @@ $config4 = [
 
 <div class="container">
     <div class="row col-12 d-flex justify-content-center">
+        <!-- Grupo -->
         <div class ="col-12 col-sm-3">
             <x-adminlte-select2 id="grupo"
                                 name="optionsGroup"
@@ -91,7 +89,8 @@ $config4 = [
 
         <div class ="col-12 col-sm-2">
         </div>
-
+        <!-- Fechas -->
+        <!--
         <div class ="col-12 col-sm-3">
             <x-adminlte-date-range name="drCustomRanges" enable-default-ranges="Last 30 Days" style="height: 30px;" :config="$config3">
                 <x-slot name="prependSlot">
@@ -101,7 +100,7 @@ $config4 = [
                 </x-slot>
             </x-adminlte-date-range>
         </div>
-
+        -->
 
 
         <div class ="col-12 col-sm-2">
@@ -140,22 +139,35 @@ $config4 = [
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-12">
-                        <x-adminlte-datatable id="table3" :heads="$heads" class="table table-bordered table-responsive-lg">
+                        <x-adminlte-datatable 
+                            id="table3" 
+                            :heads="$heads" 
+                            class="table table-bordered table-responsive-lg"
+                            striped
+                            hoverable
+                            with-buttons                        
+                        >
                             @foreach($Transacciones as $row)
+
+                                <!-- [IdGrupo] => 3
+                                [NombreGrupo] => Cobranzas de boletos
+                                [Creditos] => 1567619
+                                [Debitos] => 1384688.5
+                                [Total] => 182930.5 -->
+                                 
                                 <tr>
-                                    <td>{!! $row->GroupName !!}</td>
-                                    <td>{!! $row->TipoTransaccion !!}</td>
-                                    <td>{!! $row->cant_transactions !!}</td>
-                                    <td>{!! $row->total_amount !!}</td>
-                                    <td>{!! $row->total_commission !!}</td>
-                                    <td>{!! $row->total !!}</td>
+                                    <td>{!! $row->NombreGrupo !!}</td>
+
+                                    <td>{!! number_format($row->Total,2,",",".") !!}</td>
 
                                     <td class="text-center">
-                                        <button
-                                            class="btn btn-xl text-teal mx-auto shadow"
-                                            title="Detalles">
+                                    <a      href="#"
+                                            title="Detalles"
+                                            class="btn btn-xl text-primary mx-1 shadow text-center"
+                                            onClick="theRoute2({{0}},{{$row->IdGrupo}})"
+                                        >
                                             <i class="fa fa-lg fa-fw fa-eye"></i>
-                                        </button>
+                                        </a>
                                     </td>
                                 </tr>
                             @endforeach
@@ -232,6 +244,28 @@ $config4 = [
         location.href = myRoute;
 
     }
+
+
+    function theRoute2(usuario = 0, grupo = 0, wallet = 0, fechaDesde = 0, fechaHasta = 0){
+
+        if (usuario === "") usuario = 0;
+        if (grupo   === "") grupo = 0;
+        if (wallet  === "") wallet  = 0;
+
+        let myRoute = "";
+            myRoute = "{{ route('estadisticasDetalle', ['usuario' => 'usuario2', 'grupo' => 'grupo2', 'wallet' => 'wallet2', 'fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2']) }}";
+            myRoute = myRoute.replace('grupo2',grupo);
+            myRoute = myRoute.replace('usuario2',usuario);
+            myRoute = myRoute.replace('wallet2',wallet);
+            myRoute = myRoute.replace('fechaDesde2',fechaDesde);
+            myRoute = myRoute.replace('fechaHasta2',fechaHasta);
+        console.log(myRoute);
+        // alert(myRoute);
+        location.href = myRoute;
+
+    }
+
+
 
     function BuscaUsuario(miUsuario){
         if (miUsuario===0){

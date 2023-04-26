@@ -60,7 +60,15 @@ class statisticsController extends Controller
         // \Log::info('leam cliente *** -> ' . $request->cliente);
         // \Log::info('leam wallet *** -> ' . $request->wallet);
         
-        $balance = $this->getBalance($myGroup);
+        $balance = "";
+        if ($myGroup > 0){
+            $balance = $this->getBalance($myGroup);
+        // }else{
+        //     $balance = $this->getBalance($myGroup);
+        //     dd($balance);
+        };
+
+        // dd($balance);
 
         $myUserDesde = 0;
         $myUserHasta = 9999;
@@ -598,6 +606,33 @@ class statisticsController extends Controller
         if ($request->grupo) {
             $myGroup = $request->grupo;
         }
+        $Transacciones      = $this->getBalance($myGroup);
+
+        //
+        // si es un solo grupo devuelve un objeto y debe convertirse a array de 1
+        //
+        if (gettype($Transacciones) == "object"){
+            $Transacciones = [$Transacciones];
+        }
+
+        $Type_transactions  = $this->getTypeTransactions();
+        $groups             = $this->getGroups();
+
+        return view('estadisticas.statisticsResumenGrupo', compact('myGroup','groups','Type_transactions','Transacciones'));            
+        
+    }
+    /*
+
+        Resumen por grupo2
+
+    */
+    public function groupSummary2(Request $request)
+    {
+
+        $myGroup = 0;
+        if ($request->grupo) {
+            $myGroup = $request->grupo;
+        }
 
         $myGroupDesde = 0;
         $myGroupHasta = 9999;
@@ -652,8 +687,8 @@ class statisticsController extends Controller
   
   
             // dd($Transacciones);
-        $Type_transactions = $this->getTypeTransactions();
-        $groups = $this->getGroups();
+        $Type_transactions  = $this->getTypeTransactions();
+        $groups             = $this->getGroups();
 
         return view('estadisticas.statisticsResumenGrupo', compact('myGroup','groups','Type_transactions','Transacciones'));            
         
@@ -851,17 +886,38 @@ class statisticsController extends Controller
     }
 
 
-    function getBalance($grupo = 6){
+    function getBalance($grupo = 0){
         
         if ($grupo === 0){
-            return "";
+            $grupoDesde = 00000;
+            $grupoHasta = 99999;
+            
+        }else{
+            $grupoDesde = $grupo;
+            $grupoHasta = $grupo;           
         }
-        \Log::info('leam grupo *** -> ' . $grupo);        
+        \Log::info('leam grupo      *** -> ' . $grupo);        
+        \Log::info('leam grupoDesde *** -> ' . $grupoDesde); 
+        \Log::info('leam grupoHasta *** -> ' . $grupoHasta); 
         
-
         $myFechaDesde = "2001-01-01";
         $myFechaHasta = "9999-12-31";
-
+        //
+        // 26-04-2023
+        //
+        // Debitos
+        //  4 cobro en efectivo
+        //  8 Nota de debito
+        //  2 cobro transferencia
+        //
+        // Creditos
+        //  1 transferencia
+        //  3 pago en efectivo
+        //  5 mercancia
+        //  7 notas de credito
+        //  9 switft
+        //
+        //
         $myQuery =
         "
         select 
@@ -879,11 +935,11 @@ class statisticsController extends Controller
         FROM mtf.transactions
         left join  mtf.groups on mtf.transactions.group_id  = mtf.groups.id
         where
-            type_transaction_id in (3,9,7)
+            type_transaction_id in (4,8,2)
             and
             transaction_date between '0000-00-00' and '9999-12-31' 
             and
-            group_id between $grupo and $grupo
+            group_id between $grupoDesde and $grupoHasta
             and status <> 'Anulado'    
         group by 
             IdGrupo,
@@ -897,11 +953,11 @@ class statisticsController extends Controller
         FROM mtf.transactions
         left join  mtf.groups on mtf.transactions.group_id  = mtf.groups.id
         where
-            type_transaction_id in(1,2,4,6,8)
+            type_transaction_id in(1,3,5,7,9)
             and
             transaction_date between '0000-00-00' and '9999-12-31'   
             and
-            group_id between $grupo and $grupo
+            group_id between $grupoDesde and $grupoHasta
             and status <> 'Anulado'   
         group by 
             IdGrupo,
@@ -916,29 +972,19 @@ class statisticsController extends Controller
             
 
         $Transacciones = DB::select($myQuery);
-        // $Type_transactions2 = array();
-        // foreach($Type_transactions as $Type_transactions){
-        //     $Type_transactions2 [$Type_transactions->id] =  $Type_transactions->name;
-        // }
-        // dd($Transacciones);    
-
-         //     $Transacciones2 = json_decode($Transacciones[0],true);
-        // echo gettype($Transacciones);   
-        // echo gettype($Transacciones[0]);     
-        // echo json_encode($Transacciones[0]);
-        // echo compact(json_encode($Transacciones[0]),true);
-
-        // var_dump($Transacciones[0]);
-        // die();
-        
-        
-        //  \Log::info('leam grupo *** -> ' . print_r($Transacciones,true));    
+       
+        // \Log::info('leam grupo query  *** -> ' . print_r($myQuery,true));    
+        // \Log::info('leam grupo transacciones *** -> ' . print_r($Transacciones,true));    
 
         if (empty($Transacciones)) {
-            \Log::info('leam vacio *** -> ' . print_r($Transacciones,true));   
+            // \Log::info('leam vacio *** -> ' . print_r($Transacciones,true));   
             return $Transacciones; 
         }else {
-            return $Transacciones[0];
+            // \Log::info('*** leam gettype -> ' . gettype($Transacciones));
+            if ($grupoDesde === $grupoHasta){
+                return $Transacciones[0];
+            };
+            return $Transacciones;
         }
     }
 
