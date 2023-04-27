@@ -61,6 +61,7 @@ $config2 =
 
 $config3 = [
     "locale" => ["format" => "DD-MM-YYYY"],
+    "allowClear" => true,    
 ];
 
 
@@ -133,6 +134,7 @@ if (isset($balance->Total)){
 
         <div class ="col-12 col-sm-2">
             <x-adminlte-date-range
+                id="drCustomRanges"
                 name="drCustomRanges"
                 enable-default-ranges="Last 30 Days"
                 style="height: 30px;"
@@ -363,7 +365,7 @@ if (isset($balance->Total)){
              });
 
             $('#drCustomRanges').on('change', function () {
-                // alert('ggggg ' + $('#drCustomRanges').val());
+                alert('Fechas rnagos -> ' + $('#drCustomRanges').val());
                 let myFechaDesde, myFechaHasta;
 
                 myFechaDesde =  ($('#drCustomRanges').val()).substr(6,4) +
@@ -380,9 +382,9 @@ if (isset($balance->Total)){
                                 ($('#drCustomRanges').val()).substr(13,2)
                                 ;
 
-                //alert('Fecha Desde ' + myFechaDesde + 'Fecha Hasta ' + myFechaHasta);
+                alert('Fecha Desde -> ' + myFechaDesde + ' Fecha Hasta -> ' + myFechaHasta);
                 const usuario = $('#userole').val();
-                const cliente = $('#cliente').val();
+                const grupo   = $('#group').val();
                 const wallet = $('#wallet').val();
                 theRoute(usuario,grupo,wallet,myFechaDesde,myFechaHasta);
             });
