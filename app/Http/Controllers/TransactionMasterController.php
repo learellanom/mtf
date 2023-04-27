@@ -54,7 +54,7 @@ class TransactionMasterController extends Controller
         foreach($request->file('file') as $file)
         {
 
-            $url = Storage::put('Transactions_Master/'.$transaction->id, $file);
+            $url = Storage::put('public/Transactions_Master/'.$transaction->id, $file);
 
             $files= new Image();
             $files->file = $files;
@@ -108,7 +108,7 @@ class TransactionMasterController extends Controller
 
         if($request->file('file')){
            foreach($request->file('file') as $files){
-              $url = Storage::put('Transactions_Master/'.$transaction_master, $files);
+              $url = Storage::put('public/Transactions_Master/'.$transaction_master, $files);
 
 
 

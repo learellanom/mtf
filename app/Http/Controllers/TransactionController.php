@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Redirect;
 use Nette\Utils\Finder;
 use Carbon\Carbon;
+use Symfony\Component\VarDumper\Caster\TraceStub;
 
 class TransactionController extends Controller
 {
@@ -173,7 +174,7 @@ class TransactionController extends Controller
         foreach($request->file('file') as $file)
         {
 
-            $url = Storage::put('transactions/'.$transaction->id, $file);
+            $url = Storage::put('public/transactions/'.$transaction->id, $file);
 
             $files= new Image();
             $files->file = $files;
@@ -196,9 +197,11 @@ class TransactionController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show($transaction)
     {
-        //
+        $transactions = Transaction::find($transaction);
+
+        return view('transactions.show', compact('transactions'));
     }
 
     /**
@@ -237,7 +240,7 @@ class TransactionController extends Controller
 
         if($request->file('file')){
            foreach($request->file('file') as $files){
-              $url = Storage::put('Transactions/'.$transaction, $files);
+              $url = Storage::put('public/Transactions/'.$transaction, $files);
 
 
 

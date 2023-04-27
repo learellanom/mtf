@@ -44,6 +44,7 @@
                                 <th>Agente</th>
                                 <th>Tipo de Movimiento</th>
                                 <th>Activar/Anular</th>
+                                <th>Ver mas</th>
                             </tr>
                         </thead>
     @foreach($transferencia as $transferencias)
@@ -109,6 +110,11 @@
                     </button>
                     @endif
                 {!! Form::close() !!}
+            </td>
+
+
+            <td>
+               <a href="{{ route('transactions.show', $transferencias->id) }}" class="btn btn-xl text-primary mx-1 shadow text-center"><i class="fa fa-lg fa-fw fas fa-eye"></i></a>
             </td>
 
 

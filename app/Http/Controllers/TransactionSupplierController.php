@@ -53,7 +53,7 @@ class TransactionSupplierController extends Controller
         foreach($request->file('file') as $file)
         {
 
-            $url = Storage::put('Transactions_Proveedores/'.$transaction->id, $file);
+            $url = Storage::put('public/Transactions_Proveedores/'.$transaction->id, $file);
 
             $files= new Image();
             $files->file = $files;
