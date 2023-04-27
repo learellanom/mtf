@@ -374,11 +374,15 @@
 
 @section('js')
 <script>
-$('#monto_dolares').mask('#.##0.00', { reverse: true });
-$('#monto').mask('#.##0.00', { reverse: true });
+ $('.dolar').mask('###0.00', { reverse: true });
+$('#monto').mask('###0.00', { reverse: true });
 $('#tasa').mask('###0.00', { reverse: true });
+$('#montototal').mask('###0.00', { reverse: true });
+$('#percentage').mask('00.0', { reverse: true });
+$('#comision').mask('###0.00', { reverse: true });
 
     const input = document.getElementById("monto_dolares");
+
     const log = document.getElementById("montototal");
 
     input.addEventListener("input", updateValue);
@@ -427,8 +431,6 @@ $('#tasa').mask('###0.00', { reverse: true });
       source: availableTags
     });
   } );
-
-
 
 
 $(".clientes").select2({
@@ -582,10 +584,10 @@ $(document).ready(function() {
 
                 if(porcentage.value > 0){
                     montottotal = (montototal.value * porcentage.value / 100);
-                    comision.value =  montottotal.toFixed(2);
+                    comision.value =  montottotal.toFixed(2).toString();
 
                     if(incluir.checked){
-                     montoreal.value = (parseFloat(montototal.value) + parseFloat(comision.value)).toFixed(2);
+                     montoreal.value = (parseFloat($('#monto_dolares').val()) + parseFloat($('#comision').val())).toFixed(2);
 
                      }
                      else if(descontar.checked){

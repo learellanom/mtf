@@ -677,6 +677,11 @@ return [
                     'asset' => true,
                     'location' => 'vendor/jquery/jquery.mask.js',
                 ],
+                [
+                    'type' => 'js',
+                    'asset' => true,
+                    'location' => 'vendor/jquery/jquery.maskMoney.js',
+                ],
             ],
         ],
         'Fileinput' => [
