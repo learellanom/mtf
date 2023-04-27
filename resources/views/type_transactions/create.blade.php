@@ -35,7 +35,7 @@
 
             <label class="form-check-label mx-auto" for="radio1">
                 {!! Form::radio('type_transaction','Transacciones', null, ['id' => 'radio1', 'class' => 'exonerar', 'required' => true]) !!}
-                Transacciones Varias
+                Transacciones
             </label>
             <label class="form-check-label mx-auto" for="radio2">
                 {!! Form::radio('type_transaction','Efectivo', null, ['id' => 'radio2', 'class' => 'exonerar', 'required' => true]) !!}
