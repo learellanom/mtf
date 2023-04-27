@@ -41,16 +41,6 @@
 
             <div class="form-group">
 
-                {!! Form::Label('supplier[]', "Proveedor:") !!}
-                {!! Form::select('supplier[]', $proveedores, null, ['class' => 'form-control proveedor', 'multiple' => 'multiple']) !!}
-
-                @error('supplier[]')
-                <small class="text-danger">{{$message}}</small>
-                @enderror
-            </div>
-
-            <div class="form-group">
-
                 {!! Form::Label('user[]', "Agente:") !!}
                 {!! Form::select('user[]', $users, null, ['class' => 'form-control user', 'multiple' => 'multiple']) !!}
 
@@ -109,14 +99,6 @@ $(".user").select2({
     placeholder: "Seleccionar Agente",
     theme: 'bootstrap4',
     maximumSelectionLength: 5
-  });
-  $(".proveedor").select2({
-    allowClear: true,
-    placeholder: "Seleccionar Proveedor",
-    theme: 'bootstrap4',
-    maximumSelectionLength: 5,
-    width: '100%'
-
   });
 </script>
 @endsection

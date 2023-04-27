@@ -374,8 +374,8 @@
 
 @section('js')
 <script>
-$('#monto_dolares').mask('###0.00', { reverse: true });
-$('#monto').mask('###0.00', { reverse: true });
+$('#monto_dolares').mask('#.##0.00', { reverse: true });
+$('#monto').mask('#.##0.00', { reverse: true });
 $('#tasa').mask('###0.00', { reverse: true });
 
     const input = document.getElementById("monto_dolares");
@@ -584,8 +584,6 @@ $(document).ready(function() {
                     montottotal = (montototal.value * porcentage.value / 100);
                     comision.value =  montottotal.toFixed(2);
 
-
-                    var selectedValue = this.value;
                     if(incluir.checked){
                      montoreal.value = (parseFloat(montototal.value) + parseFloat(comision.value)).toFixed(2);
 
@@ -597,8 +595,6 @@ $(document).ready(function() {
                         monto_real.value = parseFloat(montototal.value).toFixed(2);
                      }
                     }
-
-
 
              })
 

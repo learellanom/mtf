@@ -38,11 +38,10 @@ class Wallet extends Model  implements Auditable
             public function transaction_master(){
                 return $this->hasMany(Transaction_master::class);
             }
-
-            public function supplier(){
-                return $this->belongsToMany(supplier::class);
+            //Relación uno a muchos
+            public function transaction_supplier(){
+                return $this->hasMany(Transaction_supplier::class);
             }
-
 
 
 }

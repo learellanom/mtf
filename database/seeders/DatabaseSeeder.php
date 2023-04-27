@@ -20,7 +20,7 @@ class DatabaseSeeder extends Seeder
         $this->call(WalletSeeder::class);
         $this->call(Type_transactionSeeder::class);
         $this->call(Type_coinSeeder::class);
-        $this->call(SupplierSeeder::class);
+        //$this->call(SupplierSeeder::class);
         //$this->call(TransactionMasterSeeder::class);
     }
 }

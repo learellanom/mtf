@@ -32,6 +32,10 @@ class Transaction_supplier extends Model implements Auditable
     public function supplier(){
         return $this->belongsTo(supplier::class);
     }
+          //Relación uno a muchos
+    public function wallet(){
+        return $this->belongsTo(wallet::class);
+    }
 
     //Relación uno a muchos Polimorfica
     public function image(){

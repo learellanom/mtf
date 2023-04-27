@@ -18,8 +18,5 @@ class Supplier extends Model implements Auditable
 
     protected $guarded = ['id', 'created_at', 'updated_at'];
 
-    public function wallet(){
-        return $this->belongsToMany(wallet::class);
-    }
 
 }

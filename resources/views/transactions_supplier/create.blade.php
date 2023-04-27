@@ -55,17 +55,30 @@
                             </div>
                         </div>
 
-                        <div class="form-group col-md-4">
-                            {!! Form::Label('type_coin_id', "Tipo de moneda:") !!}
-                            <div class="input-group-text">
-                                <i class="fa-fw fas fa-dollar-sign mr-2"></i>
-                            {!! Form::select('type_coin_id',$type_coin, null, ['class' => 'form-control typecoin', 'required' => true, 'id' => 'typecoin', 'readonly' => false]) !!}
+                        <div class="form-group col-md-4 esconder">
+                            {!! Form::Label('wallet_id', "Tipo de caja:") !!}
+                            <div class="input-group-text col-md-12">
+                                <i class="fa-fw fas fa-random"></i>
+                            {!! Form::select('wallet_id', $wallet, null, ['class' => 'form-control wallet', 'required' => true, 'id'=>'wallet', 'readonly' => false]) !!}
                             </div>
                         </div>
+
                     </div>
+                    <br>
+
+                    <h4 class="text-uppercase font-weight-bold text-center">Divisas|Monedas</h4>
+                    <hr class="bg-dark" style="height:1px;">
+                    <div class="form-row">
+                    <div class="form-group col-md-12">
+                        {!! Form::Label('type_coin_id', "Tipo de moneda:") !!}
+                        <div class="input-group-text">
+                            <i class="fa-fw fas fa-dollar-sign mr-2"></i>
+                        {!! Form::select('type_coin_id',$type_coin, null, ['class' => 'form-control typecoin', 'required' => true, 'id' => 'typecoin', 'readonly' => false]) !!}
+                        </div>
+                    </div>
+                  </div>
 
                     <div class="form-row">
-
                     <div class="form-group col-md-4 esconder">
                         {!! Form::Label('exchange_rate', "Tasa:") !!}
                         <div class="input-group-text">
@@ -96,7 +109,7 @@
 
 
 
-
+                <br>
                 <h4 class="text-uppercase font-weight-bold text-center esconder comisiones">Comisiones</h4>
                 <hr class="bg-dark esconder comisiones" style="height:1px;">
 
@@ -547,7 +560,18 @@ $(document).ready(function() {
                 if(porcentage.value > 0){
                     montottotal = (montototal.value * porcentage.value / 100);
                     comision.value =  montottotal.toFixed(2);
-                 }
+
+                    if(incluir.checked){
+                     monto_real.value = (parseFloat(montototal.value) + parseFloat(comision.value)).toFixed(2);
+
+                     }
+                     else if(descontar.checked){
+                        monto_real.value = (parseFloat($('#monto_dolares').val()) - parseFloat($('#comision').val())).toFixed(2);
+                     }
+                     else if(exonerar.checked){
+                        monto_real.value = parseFloat(montototal.value).toFixed(2);
+                     }
+                  }
 
               }
 

@@ -566,7 +566,18 @@ $(document).ready(function() {
                 if(porcentage.value > 0){
                     montottotal = (montototal.value * porcentage.value / 100);
                     comision.value =  montottotal.toFixed(2);
-                 }
+
+                    if(incluir.checked){
+                     monto_real.value = (parseFloat(montototal.value) + parseFloat(comision.value)).toFixed(2);
+
+                     }
+                     else if(descontar.checked){
+                        monto_real.value = (parseFloat($('#monto_dolares').val()) - parseFloat($('#comision').val())).toFixed(2);
+                     }
+                     else if(exonerar.checked){
+                        monto_real.value = parseFloat(montototal.value).toFixed(2);
+                     }
+                  }
 
               }
 
