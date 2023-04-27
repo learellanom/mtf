@@ -349,6 +349,10 @@ if (isset($balance->Total)){
                 const wallet = $('#wallet').val();
                 const seleccionado = $('#group').prop('selectedIndex');
                 // alert('***** cliente ' +  cliente + " --- selected index --- " + seleccionado);
+
+                var URLactual = window.location;
+                alert(URLactual);
+
                 theRoute(usuario,grupo,wallet);
 
 
