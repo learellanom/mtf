@@ -3,34 +3,6 @@
 <!-- @section('plugins.chartJs', true) -->
 @section('content')
 
-<!-- echo "Dashboard estadisticas"; -->
-<!-- <div class="box-body">
-    <h1 class="text-center text-dark font-weight-bold">Dashboard</h1></a>
-    <div class="chart">
-        <canvas id="myChart1" width="400" height="150"></canvas>
-    </div>
-</div> -->
-<!--
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col col-sm-8">
-        <h3 class="text-center">Comparativo de Movimientos</h3>
-            <canvas id="myChart"></canvas>
-        </div>
-    </div>
-</div>
-<br>
-<br>
-<br>
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col col-sm-8">
-            <h3 class="text-center">Movimientos por Agente</h3>
-            <canvas id="myChartDoughnut" width="400" height="150"></canvas>
-        </div>
-    </div>
-</div> -->
-
 <br><br>
 
 <div class="container">
@@ -67,13 +39,8 @@
 <br>
 
 
-<!-- <script src="../public/vendor/chart.js/Chart.bundle.min.js" ></script> -->
+
 <script>
-
-
-
-    // var myChart = new Chart();
-
 
 document.addEventListener('DOMContentLoaded', function () {
 
