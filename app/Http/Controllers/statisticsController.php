@@ -8,6 +8,7 @@ use App\Models\Client;
 use App\Models\Wallet;
 use App\Models\Type_transaction;
 use App\Models\Group;
+use App\Models\Supplier;
 
 use Spatie\Permission\Models\Role;
 use App\Http\Controllers\Controller;
@@ -95,17 +96,8 @@ class statisticsController extends Controller
         // print_r($myUser);
         // die();
 
-        $userole2 = User::select('users.id', 'users.name', 'model_has_roles.role_id')
-                ->join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
-                ->join('roles', 'roles.id', '=', 'model_has_roles.role_id')
-                ->get();
 
-        $userole = array();
-        foreach($userole2 as $user){
-            $userole [$user->id] =  $user->name;
-        }
-
-
+        
         $Transacciones = Transaction::select(
             'Transactions.user_id as Id',
             'Transactions.amount_foreign_currency as MontoMoneda',
@@ -155,37 +147,19 @@ class statisticsController extends Controller
             array_push($Transacciones2, $value2);
         }
 
-        $cliente = Client::select('clients.id', 'clients.name')
-        ->get();
+        $userole = $this->getUser();
 
-        //*********************************************************
-
-        $cliente2 = array();
-        foreach($cliente as $cliente){
-            $cliente2 [$cliente->id] =  $cliente->name;
-        }
-        $cliente = $cliente2;
-
-        //***********************************************************
-
-        $wallet = Wallet::select('wallets.id', 'wallets.name')
-        ->get();
-
-        $wallet2 = array();
-        foreach($wallet as $wallet){
-            $wallet22 [$wallet->id] =  $wallet->name;
-        }
-        $wallet = $wallet22;
-
+        $wallet = $this->getWallet();
 
         $group = $this->getGroups();
+
         // return view('estadisticas.index2', compact('myUser','userole','Transacciones','group','wallet','myGroup','myUser','myWallet','balance'));
         return view('estadisticas.index', compact('myUser','userole','Transacciones','group','wallet','myGroup','myUser','myWallet','balance'));
 
     }
 
 
-    public function suppliersDetail(Request $request)
+    public function supplierDetail(Request $request)
     {
         
         $myUser = 0;
@@ -221,7 +195,7 @@ class statisticsController extends Controller
         
         $balance = "";
         if ($myGroup > 0){
-            $balance = $this->getBalance($myGroup);
+            $balance = $this->getBalanceSupplier($mySupplier);
         };
 
         // dd($balance);
@@ -251,15 +225,6 @@ class statisticsController extends Controller
         // print_r($myUser);
         // die();
 
-        $userole2 = User::select('users.id', 'users.name', 'model_has_roles.role_id')
-                ->join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
-                ->join('roles', 'roles.id', '=', 'model_has_roles.role_id')
-                ->get();
-
-        $userole = array();
-        foreach($userole2 as $user){
-            $userole [$user->id] =  $user->name;
-        }
 
 
         $Transacciones = Transaction::select(
@@ -275,22 +240,15 @@ class statisticsController extends Controller
             'Transactions.amount_commission as MontoComision',
             'Transactions.type_transaction_id as TransactionId',
             'type_transactions.name as TipoTransaccion',
-        //  'Transactions.client_id as ClienteId',
-        //  'transactions.wallet_id As WalletId',
             'wallets.name As WalletName',
             'transactions.description as Descripcion',
             'transactions.transaction_date as FechaTransaccion',
-            'groups.name as ClientName',
-        )->leftJoin(
-            'users','users.id', '=', 'transactions.user_id'
-        )->leftJoin(
-            'type_transactions', 'type_transactions.id', '=', 'transactions.type_transaction_id'
-        )->leftJoin(
-            'wallets', 'wallets.id', '=', 'transactions.wallet_id'
-        )->leftJoin(
-            'groups', 'groups.id', '=', 'transactions.group_id'
-        )->leftJoin(
-                'type_coins', 'type_coins.id', '=', 'transactions.type_coin_id'            
+            'suppliers.name as SupplierName',
+        )->leftJoin('users','users.id', '=', 'transactions.user_id'
+        )->leftJoin('type_transactions', 'type_transactions.id', '=', 'transactions.type_transaction_id'
+        )->leftJoin('wallets', 'wallets.id', '=', 'transactions.wallet_id'
+        )->leftJoin('suppliers', 'supplier.id', '=', 'transactions.supplier_id'
+        )->leftJoin('type_coins', 'type_coins.id', '=', 'transactions.type_coin_id'            
         )->whereBetween('Transactions.user_id', [$myUserDesde, $myUserHasta]
         )->whereBetween('Transactions.group_id', [$myGroupDesde, $myGroupHasta]
         )->whereBetween('Transactions.wallet_id', [$myWalletDesde, $myWalletHasta]
@@ -311,30 +269,14 @@ class statisticsController extends Controller
             array_push($Transacciones2, $value2);
         }
 
-        // proveedor ***********************************
+        $userole = $this->getUser();
 
-        $cliente = Client::select('clients.id', 'clients.name')
-        ->get();
+        $proveedor = $this->getSuppliers();
 
-        $cliente2 = array();
-        foreach($cliente as $cliente){
-            $cliente2 [$cliente->id] =  $cliente->name;
-        }
-        $cliente = $cliente2;
-
-        //***********************************************************
-
-        $wallet = Wallet::select('wallets.id', 'wallets.name')
-        ->get();
-
-        $wallet2 = array();
-        foreach($wallet as $wallet){
-            $wallet22 [$wallet->id] =  $wallet->name;
-        }
-        $wallet = $wallet22;
-
+        $wallet = $this->getWallet();
 
         $group = $this->getGroups();
+
         // return view('estadisticas.index2', compact('myUser','userole','Transacciones','group','wallet','myGroup','myUser','myWallet','balance'));
         return view('estadisticas.index', compact('myUser','userole','Transacciones','group','wallet','myGroup','myUser','myWallet','balance'));
 
@@ -1053,6 +995,42 @@ class statisticsController extends Controller
         return $Type_transactions2;
     }
 
+    function getWallet(){
+        $wallet = Wallet::select('wallets.id', 'wallets.name')
+        ->get();
+
+        foreach($wallet as $wallet){
+            $wallet2 [$wallet->id] =  $wallet->name;
+        }
+        return $wallet2;
+
+    }
+    /*
+
+        getClient
+
+
+    */
+    function getClient(){
+        $cliente2 = array();
+        foreach($cliente as $cliente){
+            $cliente2 [$cliente->id] =  $cliente->name;
+        }
+        return $cliente2;       
+    }
+
+    function getUser(){
+        $userole2 = User::select('users.id', 'users.name', 'model_has_roles.role_id')
+        ->join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
+        ->join('roles', 'roles.id', '=', 'model_has_roles.role_id')
+        ->get();
+
+        $userole = array();
+        foreach($userole2 as $user){
+            $userole [$user->id] =  $user->name;
+        }
+        return $userole;
+    }
 
     function getBalance($grupo = 0){
         
@@ -1156,6 +1134,110 @@ class statisticsController extends Controller
         }
     }
 
+
+    function getBalanceSupplier($proveedor = 0){
+        
+        if ($proveedor === 0){
+            $proveedorDesde = 00000;
+            $proveedorHasta = 99999;
+            
+        }else{
+            $proveedorDesde = $proveedor;
+            $proveedorHasta = $proveedor;           
+        }
+        \Log::info('leam proveedor      *** -> ' . $proveedor);        
+        \Log::info('leam proveedorDesde *** -> ' . $proveedorDesde); 
+        \Log::info('leam proveedorHasta *** -> ' . $proveedorHasta); 
+        
+        $myFechaDesde = "2001-01-01";
+        $myFechaHasta = "9999-12-31";
+        //
+        // 26-04-2023
+        //
+        // Debitos
+        //  4 cobro en efectivo
+        //  8 Nota de debito
+        //  2 cobro transferencia
+        //
+        // Creditos
+        //  1 transferencia
+        //  3 pago en efectivo
+        //  5 mercancia
+        //  7 notas de credito
+        //  9 switft
+        //
+        //
+        $myQuery =
+        "
+        select 
+            IdSupplier         as IdSupplier,
+            NombreSupplier     as NombreSupplier,
+            sum(MontoCreditos) as Creditos,
+            sum(MontoDebitos)  as Debitos,
+            (sum(MontoCreditos) - sum(MontoDebitos) ) as Total
+        from(
+        SELECT 
+            supplier_id          as IdSupplier,
+            mtf.suppliers.name   as NombreSupplier,
+            0 			  	     as MontoCreditos,
+            sum(amount_total)    as MontoDebitos
+        FROM mtf.transactions
+        left join  mtf.suppliers on mtf.transactions.supplier_id  = mtf.supplier.id
+        where
+            type_transaction_id in (4,8,2)
+            and
+            transaction_date between '0000-00-00' and '9999-12-31' 
+            and
+            supplier_id between $supplierDesde and $supplierHasta
+            and status <> 'Anulado' 
+        group by 
+            IdSupplier,
+            NombreSupplier
+        union
+        SELECT 
+            supplier_id         as IdSupplier,
+            mtf.suppliers.name  as NombreSupplier,
+            sum(amount_total)   as MontoCreditos,
+            0                   as MontoDebitos
+        FROM mtf.transactions
+        left join  mtf.suppliers on mtf.transactions.supplier_id  = mtf.suppliers.id
+        where
+            type_transaction_id in(1,3,5,7,9)
+            and
+            transaction_date between '0000-00-00' and '9999-12-31'   
+            and
+            supplier_id between $supplierDesde and $supplierHasta
+            and status <> 'Anulado'   
+        group by 
+            IdSupplier,
+            NombreSupplier    
+            
+        )
+        as t
+        group by
+            IdSupplier,
+            NombreSupplier
+        ";
+            
+
+        $Transacciones = DB::select($myQuery);
+       
+        // \Log::info('leam grupo query  *** -> ' . print_r($myQuery,true));    
+        // \Log::info('leam grupo transacciones *** -> ' . print_r($Transacciones,true));    
+
+        if (empty($Transacciones)) {
+            // \Log::info('leam vacio *** -> ' . print_r($Transacciones,true));   
+            return $Transacciones; 
+        }else {
+            // \Log::info('*** leam gettype -> ' . gettype($Transacciones));
+            if ($grupoDesde === $grupoHasta){
+                return $Transacciones[0];
+            };
+            return $Transacciones;
+        }
+    }
+    
+    
 }
 
 ?>
