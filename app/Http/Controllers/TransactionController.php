@@ -29,7 +29,7 @@ class TransactionController extends Controller
     {
          foreach(auth()->user()->roles as $roles)
          {
-            if($roles->id == 1){
+            if($roles->id == 1 || $roles->id == 3){
                 $transferencia = Transaction::all();
             }
             else{

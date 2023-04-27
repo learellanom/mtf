@@ -37,7 +37,7 @@
 
             <div class="form-group">
                 {!! Form::Label('direction', "Dirección:") !!}
-            {!! Form::text('direction', null, ['class' => 'form-control']) !!}
+            {!! Form::text('direction', null, ['class' => 'form-control', 'required' => true]) !!}
 
             @error('direction')
                <small class="text-danger">{{$message}}</small>
@@ -76,7 +76,7 @@
         <hr>
         <div class="form-group">
             {!! Form::Label('description', "Observación:") !!}
-            {!! Form::textarea('description', null, ['class' => 'form-control']) !!}
+            {!! Form::textarea('description', null, ['class' => 'form-control', 'required' => true]) !!}
 
             @error('description')
             <small class="text-danger">{{$message}}</small>

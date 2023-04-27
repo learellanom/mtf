@@ -36,15 +36,15 @@
                                 <th>Cliente</th>
                                 <th>Fecha</th>
                                 <th>Descripción</th>
-                                <th>%</th>
+                                <th><i class="fas fa-percentage"></i></th>
                                 <th>Monto</th>
                                 <th>Comisión</th>
-                                <th>Monto Dolar ($)</th>
+                                <th>Monto Dolar ($) <i class="fas fa-funnel-dollar"></i></th>
                                 <th>Monto Total</th>
                                 <th>Agente</th>
                                 <th>Tipo de Movimiento</th>
                                 <th>Activar/Anular</th>
-                                <th>Ver mas</th>
+                                <th>Ver mas <i class="fas fa-search"></i></th>
                             </tr>
                         </thead>
     @foreach($transferencia as $transferencias)
@@ -74,8 +74,8 @@
 
 
 
-            <td class="font-weight-bold">{!! $transferencias->amount !!} $</td>
-            <td class="font-weight-bold">{!! $transferencias->amount_total !!} $</td>
+            <td class="font-weight-bold">{!! $transferencias->amount !!} <i class="fas fa-dollar-sign"></i></td>
+            <td class="font-weight-bold">{!! $transferencias->amount_total !!} <i class="fas fa-dollar-sign"></i></td>
 
 
             <td class="font-weight-bold">{!! $transferencias->user->name !!}</td>
@@ -114,7 +114,7 @@
 
 
             <td>
-               <a href="{{ route('transactions.show', $transferencias->id) }}" class="btn btn-xl text-primary mx-1 shadow text-center"><i class="fa fa-lg fa-fw fas fa-eye"></i></a>
+               <a href="{{ route('transactions.show', $transferencias->id) }}" class="btn btn-xl text-dark mx-1 shadow text-center"><i class="fa fa-lg fa-fw fas fa-search"></i></a>
             </td>
 
 
