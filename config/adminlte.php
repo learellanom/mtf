@@ -342,7 +342,7 @@ return [
         [
             'text' => 'Detalles de movimiento',
             'url'  => 'estadisticasDetalle',
-            'active' => ['estadisticasDetalle*'],
+            'active' => ['estadisticasDetalle', 'regex:@^estadisticasDetalle/[0-9]+/*@'],
             'icon' => 'fas fa-fw fas fa-chart-bar',
             'can'  => 'estadisticasDetalle.index',
         ],
@@ -414,7 +414,7 @@ return [
             'label'       => 4,
             'label_color' =>'success',
         ],
-        // 
+        //
         // Master
         //
         ['header' => 'Master',
@@ -431,11 +431,11 @@ return [
         [
             'text'      => 'Detalles de movimiento',
             'url'       => 'estadisticasDetalleMaster',
-            'active'    => ['estadisticasDetalleMaster*'],
+            'active'    => ['estadisticasDetalleMaster','regex:@^estadisticasDetalleMaster/[0-9]+/*@'],
             'icon'      => 'fas fa-fw fas fa-chart-bar',
             'can'       => 'estadisticasDetalle.index',
-        ],        
-        // 
+        ],
+        //
         // Proveedores
         //
         ['header' => 'Proveedores',
@@ -443,7 +443,7 @@ return [
         [
             'text' => 'Detalles de movimiento',
             'url'  => 'estadisticasDetalle',
-            'active' => ['estadisticasDetalle*'],
+            'active' => ['estadisticasDetalle'],
             'icon' => 'fas fa-fw fas fa-chart-area',
             'can'  => 'estadisticasDetalle.index',
             'label'       => 'P',
