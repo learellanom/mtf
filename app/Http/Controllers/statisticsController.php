@@ -9,6 +9,7 @@ use App\Models\Wallet;
 use App\Models\Type_transaction;
 use App\Models\Group;
 use App\Models\Supplier;
+use App\Models\Transaction_master;
 
 use Spatie\Permission\Models\Role;
 use App\Http\Controllers\Controller;
@@ -157,7 +158,139 @@ class statisticsController extends Controller
         return view('estadisticas.index', compact('myUser','userole','Transacciones','group','wallet','myGroup','myUser','myWallet','balance'));
 
     }
+    //
+    // transacciones master
+    //
+    public function masterDetail(Request $request)
+    {
+        
+        $myUser = 0;
+        if ($request->usuario) {
+            $myUser = $request->usuario;
+        }
 
+        $myGroup = 0;
+        if ($request->grupo) {
+            $myGroup = $request->grupo;
+        }
+
+
+        $myWallet = 0;
+        if ($request->wallet) {
+            $myWallet = $request->wallet;
+        }
+
+        $myFechaDesde = "2001-01-01";
+        $myFechaHasta = "9999-12-31";
+        if ($request->fechaDesde){
+            $myFechaDesde = $request->fechaDesde;
+            $myFechaHasta = $request->fechaHasta;
+        }
+
+        if ($request->fechaHasta){
+            $myFechaHasta = $request->fechaHasta;
+        }
+
+        // \Log::info('leam usuario *** -> ' . $request->usuario);
+        // \Log::info('leam cliente *** -> ' . $request->cliente);
+        // \Log::info('leam wallet *** -> ' . $request->wallet);
+        
+        $balance = "";
+        if ($myGroup > 0){
+            $balance = $this->getBalance($myGroup);
+        // }else{
+        //     $balance = $this->getBalance($myGroup);
+        //     dd($balance);
+        };
+
+        // dd($balance);
+
+        $myUserDesde = 0;
+        $myUserHasta = 9999;
+
+        $myGroupDesde = 0;
+        $myGroupHasta = 9999;
+
+        $myWalletDesde = 0;
+        $myWalletHasta = 9999;
+
+        if ($myUser != 0){
+            $myUserDesde = $myUser;
+            $myUserHasta = $myUser;
+        }
+        if ($myGroup != 0){
+            $myGroupDesde = $myGroup;
+            $myGroupHasta = $myGroup;
+        }
+        if ($myWallet != 0){
+            $myWalletDesde = $myWallet;
+            $myWalletHasta = $myWallet;
+        }
+
+        // print_r($myUser);
+        // die();
+
+
+        
+        $Transacciones = Transaction_master::select(
+            'Transaction_masters.user_id as Id',
+            'Transaction_masters.amount_foreign_currency as MontoMoneda',
+            'Transaction_masters.exchange_rate           as TasaCambio',
+            // 'Transaction_masters.type_coin_id            as TipoMonedaId',
+            'type_coins.name                      as TipoMoneda',
+            'users.name as AgenteName',
+            'Transaction_masters.amount as Monto',            
+            'Transaction_masters.amount_total as MontoTotal',
+            'Transaction_masters.percentage as PorcentajeComision',
+            'Transaction_masters.amount_commission as MontoComision',
+            'Transaction_masters.type_transaction_id as TransactionId',
+            'type_transactions.name as TipoTransaccion',
+        //  'Transaction_masters.client_id as ClienteId',
+        //  'transaction_masters.wallet_id As WalletId',
+            'wallets.name As WalletName',
+            'transaction_masters.description as Descripcion',
+            'transaction_masters.transaction_date as FechaTransaccion',
+            'groups.name as ClientName',
+        )->leftJoin(
+            'users','users.id', '=', 'transaction_masters.user_id'
+        )->leftJoin(
+            'type_transactions', 'type_transactions.id', '=', 'transaction_masters.type_transaction_id'
+        )->leftJoin(
+            'wallets', 'wallets.id', '=', 'transaction_masters.wallet_id'
+        )->leftJoin(
+            'groups', 'groups.id', '=', 'transaction_masters.group_id'
+        )->leftJoin(
+                'type_coins', 'type_coins.id', '=', 'transaction_masters.type_coin_id'            
+        )->whereBetween('Transaction_masters.user_id', [$myUserDesde, $myUserHasta]
+        )->whereBetween('Transaction_masters.group_id', [$myGroupDesde, $myGroupHasta]
+        )->whereBetween('Transaction_masters.wallet_id', [$myWalletDesde, $myWalletHasta]
+        )->whereBetween('Transaction_masters.transaction_date', [$myFechaDesde, $myFechaHasta]
+        )->where('Transaction_masters.status', '=', 'Activo'
+        )->orderBy('Transaction_masters.transaction_date','ASC'
+        )->get();
+
+        // dd($Transacciones);
+        // die();
+
+        $Transacciones2 = array();
+        foreach($Transacciones as $tran){
+            $value1 = json_decode($tran);
+
+            $value2 = array_values(json_decode(json_encode($tran), true));
+
+            array_push($Transacciones2, $value2);
+        }
+
+        $userole = $this->getUser();
+
+        $wallet = $this->getWallet();
+
+        $group = $this->getGroups();
+
+        // return view('estadisticas.index2', compact('myUser','userole','Transacciones','group','wallet','myGroup','myUser','myWallet','balance'));
+        return view('estadisticas.index', compact('myUser','userole','Transacciones','group','wallet','myGroup','myUser','myWallet','balance'));
+
+    }
 
     public function supplierDetail(Request $request)
     {

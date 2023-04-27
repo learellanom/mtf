@@ -357,7 +357,7 @@ if (isset($balance->Total)){
             $('#wallet').on('change', function (){
 
                 const usuario = $('#userole').val();
-                const cliente = $('#cliente').val();
+                const grupo   = $('#group').val(); 
                 const wallet = $('#wallet').val();
                 // alert('***** wallet ' +  wallet);
                  theRoute(usuario,grupo,wallet);

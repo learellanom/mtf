@@ -326,7 +326,9 @@ return [
             //'label'       => 4,
             //'label_color' => 'success',
         //],
-
+        //
+        // Estadisticas
+        //
         ['header' => 'Estadisticas',
         'classes' =>'text-uppercase font-weight-bold text-light',],
 
@@ -379,6 +381,9 @@ return [
             'icon' => 'fas fa-fw fas fa-chart-bar',
             'can'  => 'estadisticasDetalle.statisticsResumenConciliacionFecha'
         ],
+        //
+        // Operaciones
+        //
         ['header' => 'Operaciones',
         'classes' =>'text-uppercase font-weight-bold text-light',],
         [
@@ -399,6 +404,21 @@ return [
             'label'       => 4,
             'label_color' =>'success',
         ],
+
+        [
+            'text'        => 'Nota de Credito a Caja',
+            'url'         => "movimientos/credito",
+            'active'      => ['credito'],
+            'icon'        => 'fas fa-fw fas fa-box',
+            'can'         => 'transactions.credit',
+            'label'       => 4,
+            'label_color' =>'success',
+        ],
+        // 
+        // Master
+        //
+        ['header' => 'Master',
+        'classes' =>'text-uppercase font-weight-bold text-light',],
         [
             'text'        => 'Transacciónes Master',
             'url'         => 'movimientos_master',
@@ -409,15 +429,15 @@ return [
             'label_color' =>'danger',
         ],
         [
-            'text'        => 'Nota de Credito a Caja',
-            'url'         => "movimientos/credito",
-            'active'      => ['credito'],
-            'icon'        => 'fas fa-fw fas fa-box',
-            'can'         => 'transactions.credit',
-            'label'       => 4,
-            'label_color' =>'success',
-        ],
-
+            'text'      => 'Detalles de movimiento',
+            'url'       => 'estadisticasDetalleMaster',
+            'active'    => ['estadisticasDetalleMaster*'],
+            'icon'      => 'fas fa-fw fas fa-chart-bar',
+            'can'       => 'estadisticasDetalle.index',
+        ],        
+        // 
+        // Proveedores
+        //
         ['header' => 'Proveedores',
         'classes' =>'text-uppercase font-weight-bold text-light',],
         [
@@ -447,7 +467,9 @@ return [
             'label'       => 'P',
             'label_color' =>'warning',
         ],
-
+        //
+        // Configuracion
+        //
         ['header' => 'Configuración',
          'classes' =>'text-uppercase font-weight-bold text-light', 'can'  => ['users.index', 'roles.index', 'wallets.index', 'type_transactions.index', 'type_coins.index', 'groups.index']],
         [
