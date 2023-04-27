@@ -578,15 +578,25 @@ $(document).ready(function() {
 
 
 
-            monto_real = document.getElementById("montototal");
+            //monto_real = document.getElementById("montototal");
 
                 if(porcentage.value > 0){
                     montottotal = (montototal.value * porcentage.value / 100);
                     comision.value =  montottotal.toFixed(2);
 
-                    montoreal.value = (parseFloat(montototal.value) + parseFloat(comision.value)).toFixed(2);
 
-                 }
+                    var selectedValue = this.value;
+                    if(incluir.checked){
+                     montoreal.value = (parseFloat(montototal.value) + parseFloat(comision.value)).toFixed(2);
+
+                     }
+                     else if(descontar.checked){
+                        montoreal.value = (parseFloat($('#monto_dolares').val()) - parseFloat($('#comision').val())).toFixed(2);
+                     }
+                     else if(exonerar.checked){
+                        monto_real.value = parseFloat(montototal.value).toFixed(2);
+                     }
+                    }
 
 
 
