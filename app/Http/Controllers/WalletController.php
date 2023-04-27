@@ -27,9 +27,9 @@ class WalletController extends Controller
     public function create()
     {
         $users = User::all()->pluck('name', 'id');
-        $proveedores = Supplier::all()->pluck('name', 'id');
+        //$proveedores = Supplier::all()->pluck('name', 'id');
         $tipo = ['Transacciones', 'Efectivo'];
-        return view('wallets.create', compact('users', 'tipo', 'proveedores'));
+        return view('wallets.create', compact('users', 'tipo'));
     }
 
     /**
@@ -41,7 +41,7 @@ class WalletController extends Controller
 
         if($request->user){
             $wallets->user()->attach($request->user);
-            $wallets->supplier()->attach($request->supplier);
+            //$wallets->supplier()->attach($request->supplier);
          }
          flash()->addSuccess('Nueva caja registrada', 'Caja', ['timeOut' => 3000]);
          return Redirect::route('wallets.index', $wallets);
@@ -62,9 +62,9 @@ class WalletController extends Controller
     {
         $wallet = Wallet::find($wallet);
         $users = User::all()->pluck('name', 'id');
-        $proveedores = Supplier::all()->pluck('name', 'id');
+        //$proveedores = Supplier::all()->pluck('name', 'id');
         $tipo = ['Transacciones', 'Efectivo'];
-        return view('wallets.edit', compact('wallet', 'users', 'proveedores', 'tipo'));
+        return view('wallets.edit', compact('wallet', 'users', 'tipo'));
     }
 
     /**
@@ -78,7 +78,7 @@ class WalletController extends Controller
         if($request->user){
             $wallets = Wallet::find($wallet);
             $wallets->user()->sync($request->user);
-            $wallets->supplier()->sync($request->supplier);
+            //$wallets->supplier()->sync($request->supplier);
          }
 
         flash()->addInfo('Wallet modificada del sistema', 'Caja Modifcada: ' . $caja->name, ['timeOut' => 3000]);

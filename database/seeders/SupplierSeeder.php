@@ -13,9 +13,6 @@ class SupplierSeeder extends Seeder
      */
     public function run(): void
     {
-        Supplier::create([
-            'name' => "Abu",
-            'phone' => "555",
-        ]);
+
     }
 }

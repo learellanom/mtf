@@ -8,6 +8,7 @@ use App\Models\Type_transaction;
 use App\Models\Supplier;
 use App\Models\Image;
 use App\Models\User;
+use App\Models\Wallet;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\Storetransaction_supplierRequest;
@@ -36,10 +37,11 @@ class TransactionSupplierController extends Controller
         $type_coin = Type_coin::pluck('name', 'id');
         $type_transaction = Type_transaction::whereIn('type_transaction', ['Transacciones', 'Efectivo'])->pluck('name', 'id');
         $proveedor = Supplier::pluck('name', 'id');
+        $wallet = Wallet::whereNotIn('id', [3])->pluck('name', 'id');
         $user = User::pluck('name', 'id');
         $fecha = Carbon::now();
 
-        return view('transactions_supplier.create', compact('type_coin', 'type_transaction','proveedor', 'user', 'fecha'));
+        return view('transactions_supplier.create', compact('type_coin', 'type_transaction','proveedor', 'user', 'fecha', 'wallet'));
     }
 
     /**
@@ -53,7 +55,7 @@ class TransactionSupplierController extends Controller
         foreach($request->file('file') as $file)
         {
 
-            $url = Storage::put('Transactions_Proveedores/'.$transaction->id, $file);
+            $url = Storage::put('public/Transactions_Proveedores/'.$transaction->id, $file);
 
             $files= new Image();
             $files->file = $files;

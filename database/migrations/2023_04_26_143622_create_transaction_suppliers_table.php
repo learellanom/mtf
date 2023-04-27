@@ -23,6 +23,7 @@ return new class extends Migration
             $table->foreignId('type_coin_id')->default(1)->references('id')->on('type_coins'); // TIPO DE MONEDA DE LA TRANSFERENCIA
             $table->foreignId('type_transaction_id')->references('id')->on('type_transactions');  //TIPO DE LA TRANSFERENCIA
             $table->foreignId('user_id')->references('id')->on('users');  // USUARIO QUE REALIZO LA TRANSFERENCIA
+            $table->foreignId('wallet_id')->references('id')->on('wallets'); // MONEDERO O CUENTA DE DONDE SALE EL DINERO
             $table->foreignId('supplier_id')->nullable()->references('id')->on('suppliers')->onUpdate('cascade')->onDelete('cascade'); //PROVEEDORES DE LA TRANSFERENCIA
             $table->enum('status', ['Activo', 'Anulado'])->nullable()->default('Activo'); //ESTATUS
             $table->longText('description')->nullable(); // DESCRIPCION DE LA TRANSFERENCIA
