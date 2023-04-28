@@ -10,6 +10,7 @@ use App\Models\Type_transaction;
 use App\Models\Group;
 use App\Models\Supplier;
 use App\Models\Transaction_master;
+use App\Models\Transaction_supplier;
 
 use Spatie\Permission\Models\Role;
 use App\Http\Controllers\Controller;
@@ -304,7 +305,8 @@ class statisticsController extends Controller
         if ($request->proveedor) {
             $mySupplier = $request->proveedor;
         }
-
+        $myGroup    = 0;
+        $group      = [];
 
         $myWallet = 0;
         if ($request->wallet) {
@@ -327,7 +329,7 @@ class statisticsController extends Controller
         // \Log::info('leam wallet *** -> ' . $request->wallet);
         
         $balance = "";
-        if ($myGroup > 0){
+        if ($mySupplier > 0){
             $balance = $this->getBalanceSupplier($mySupplier);
         };
 
@@ -360,34 +362,31 @@ class statisticsController extends Controller
 
 
 
-        $Transacciones = Transaction::select(
-            'Transactions.user_id as Id',
-            'Transactions.amount_foreign_currency as MontoMoneda',
-            'Transactions.exchange_rate           as TasaCambio',
-            // 'Transactions.type_coin_id            as TipoMonedaId',
-            'type_coins.name                      as TipoMoneda',
-            'users.name as AgenteName',
-            'Transactions.amount as Monto',            
-            'Transactions.amount_total as MontoTotal',
-            'Transactions.percentage as PorcentajeComision',
-            'Transactions.amount_commission as MontoComision',
-            'Transactions.type_transaction_id as TransactionId',
-            'type_transactions.name as TipoTransaccion',
-            'wallets.name As WalletName',
-            'transactions.description as Descripcion',
-            'transactions.transaction_date as FechaTransaccion',
-            'suppliers.name as SupplierName',
-        )->leftJoin('users','users.id', '=', 'transactions.user_id'
-        )->leftJoin('type_transactions', 'type_transactions.id', '=', 'transactions.type_transaction_id'
-        )->leftJoin('wallets', 'wallets.id', '=', 'transactions.wallet_id'
-        )->leftJoin('suppliers', 'supplier.id', '=', 'transactions.supplier_id'
-        )->leftJoin('type_coins', 'type_coins.id', '=', 'transactions.type_coin_id'            
-        )->whereBetween('Transactions.user_id', [$myUserDesde, $myUserHasta]
-        )->whereBetween('Transactions.group_id', [$myGroupDesde, $myGroupHasta]
-        )->whereBetween('Transactions.wallet_id', [$myWalletDesde, $myWalletHasta]
-        )->whereBetween('Transactions.transaction_date', [$myFechaDesde, $myFechaHasta]
-        )->where('Transactions.status', '=', 'Activo'
-        )->orderBy('Transactions.transaction_date','ASC'
+        $Transacciones = Transaction_supplier::select(
+            'Transaction_suppliers.user_id as Id',
+            'Transaction_suppliers.amount_foreign_currency as MontoMoneda',
+            'Transaction_suppliers.exchange_rate           as TasaCambio',
+         // 'Transaction_suppliers.type_coin_id            as TipoMonedaId',
+            'type_coins.name                                as TipoMoneda',
+            'users.name                                     as AgenteName',
+            'Transaction_suppliers.amount                   as Monto',            
+            'Transaction_suppliers.amount_total             as MontoTotal',
+            'Transaction_suppliers.percentage               as PorcentajeComision',
+            'Transaction_suppliers.amount_commission        as MontoComision',
+            'Transaction_suppliers.type_transaction_id      as TransactionId',
+            'type_transactions.name                         as TipoTransaccion',
+            'transaction_suppliers.description              as Descripcion',
+            'transaction_suppliers.transaction_date         as FechaTransaccion',
+            'suppliers.name                                 as SupplierName',
+        )->leftJoin('users','users.id', '=', 'transaction_suppliers.user_id'
+        )->leftJoin('type_transactions', 'type_transactions.id', '=', 'transaction_suppliers.type_transaction_id'
+        )->leftJoin('suppliers', 'suppliers.id', '=', 'transaction_suppliers.supplier_id'
+        )->leftJoin('type_coins', 'type_coins.id', '=', 'transaction_suppliers.type_coin_id'
+        )->whereBetween('Transaction_suppliers.user_id',            [$myUserDesde, $myUserHasta]
+        )->whereBetween('Transaction_suppliers.supplier_id',        [$mySupplierDesde, $mySupplierHasta]
+        )->whereBetween('Transaction_suppliers.transaction_date',   [$myFechaDesde, $myFechaHasta]
+        )->where('Transaction_suppliers.status', '=', 'Activo'
+        )->orderBy('Transaction_suppliers.transaction_date','ASC'
         )->get();
 
         // dd($Transacciones);

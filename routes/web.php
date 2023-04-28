@@ -122,10 +122,14 @@ Route::resource('cajas', WalletController::class)->middleware('auth')->except('s
 Route::resource('tipo_transaccion', Type_transactionController::class)->middleware('auth')->except('show')->middleware('can:type_transactions.index')->names('type_transactions');
 Route::resource('tipo_moneda', Type_coinController::class)->middleware('auth')->except('show')->middleware('can:type_coins.index')->names('type_coins');
 
-
+//
+// Estadisticas Detalle
+//
 Route::get('estadisticasDetalle',[App\Http\Controllers\statisticsController::class, 'index_all'])->middleware('can:estadisticasDetalle.index')->name('estadisticasDetalle');
 Route::get('estadisticasDetalle/{usuario}/{grupo?}/{wallet?}/{fechaDesde?}/{fechaHasta?}',[App\Http\Controllers\statisticsController::class, 'index_all'])->middleware('can:estadisticasDetalle.index')->name('estadisticasDetalle');
-
+//
+// Estadisticas Master
+//
 Route::get('estadisticasDetalleMaster',[App\Http\Controllers\statisticsController::class, 'masterDetail'])
     ->middleware('can:estadisticasDetalle.index')
     ->name('estadisticasDetalleMaster');
@@ -133,8 +137,19 @@ Route::get('estadisticasDetalleMaster',[App\Http\Controllers\statisticsControlle
 Route::get('estadisticasDetalleMaster/{usuario}/{grupo?}/{wallet?}/{fechaDesde?}/{fechaHasta?}',[App\Http\Controllers\statisticsController::class, 'masterDetail'])
     ->middleware('can:estadisticasDetalle.index')
     ->name('estadisticasDetalleMaster');
+//
+// Estadisticas Proveedor
+//
+Route::get('estadisticasDetalleProveedor',[App\Http\Controllers\statisticsController::class, 'supplierDetail'])
+    ->middleware('can:estadisticasDetalle.index')
+    ->name('estadisticasDetalleProveedor');
 
-
+Route::get('estadisticasDetalleProveedor/{usuario}/{grupo?}/{wallet?}/{fechaDesde?}/{fechaHasta?}',[App\Http\Controllers\statisticsController::class, 'supplierDetail'])
+    ->middleware('can:estadisticasDetalle.index')
+    ->name('estadisticasDetalleProveedor');
+//
+//
+//
 // Route::get('estadisticasDetalleUsuario',[App\Http\Controllers\statisticsController::class, 'userDetail'])->name('estadisticasDetalleUsuario');
 // Route::get('estadisticasDetalleUsuario/{usuario}/{fechaDesde?}/{fechaHasta?}',[App\Http\Controllers\statisticsController::class, 'userDetail'])->name('estadisticasDetalleUsuario');
 

@@ -442,8 +442,8 @@ return [
         'classes' =>'text-uppercase font-weight-bold text-light',],
         [
             'text' => 'Detalles de movimiento',
-            'url'  => 'estadisticasDetalle',
-            'active' => ['estadisticasDetalle'],
+            'url'  => 'estadisticasDetalleProveedor',
+            'active' => ['estadisticasDetalleProveedor'],
             'icon' => 'fas fa-fw fas fa-chart-area',
             'can'  => 'estadisticasDetalle.index',
             'label'       => 'P',
