@@ -32,6 +32,7 @@
       <div class="card">
         <div class="card-header">
           <h3 class="card-title text-uppercase font-weight-bold">Transacción numero #{{ $transactions->id }}</h3>
+          <h3 class="card-title text-uppercase font-weight-bold d-flex text-right">Cliente: {{ $transactions->group->name }}</h3>
 
           <div class="card-tools">
             <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
@@ -47,7 +48,7 @@
                 <div class="col-12 col-sm-4">
                   <div class="info-box bg-light">
                     <div class="info-box-content">
-                      <span class="info-box-text text-center text-muted">Agente</span>
+                      <span class="info-box-text text-center text-muted">Agente <i class="fas fa-user"></i></span>
                       <span class="info-box-number text-center text-muted mb-0 text-uppercase">{{ $transactions->user->name }}</span>
                     </div>
                   </div>
@@ -55,40 +56,74 @@
                 <div class="col-12 col-sm-4">
                   <div class="info-box bg-light">
                     <div class="info-box-content">
-                      <span class="info-box-text text-center text-muted">Monto en dolares ($)</span>
-                      <span class="info-box-number text-center text-muted mb-0">{{ $transactions->amount }}$</span>
+                      <span class="info-box-text text-center text-muted">Monto en dolares <i class="fas fa-dollar-sign"></i></span>
+                      <span class="info-box-number text-center text-muted mb-0">{{ number_format($transactions->amount) }}$</span>
                     </div>
                   </div>
                 </div>
                 <div class="col-12 col-sm-4">
                   <div class="info-box bg-light">
                     <div class="info-box-content">
-                      <span class="info-box-text text-center text-muted">Monto total de la transacción</span>
-                      <span class="info-box-number text-center text-muted mb-0">{{ $transactions->amount_total }}$</span>
+                      <span class="info-box-text text-center text-muted">Monto total de la transacción <i class="fas fa-funnel-dollar"></i></span>
+                      <span class="info-box-number text-center text-muted mb-0">{{ number_format($transactions->amount_total) }}$</span>
                     </div>
                   </div>
                 </div>
               </div>
               <div class="row">
                 <div class="col-12">
-                  <h4>Recent Activity</h4>
+                <hr>
+                  <h4 class="text-uppercase font-weight-bold text-center">Actividad reciente de {{ $transactions->group->name }}</h4>
                     <div class="post">
                       <div class="user-block">
                         <img class="img-circle img-bordered-sm" src="../../dist/img/user1-128x128.jpg" alt="user image">
                         <span class="username">
-                          <a href="#">Jonathan Burke Jr.</a>
+                          <a href="#">{{ $transactions->group->name }}</a>
                         </span>
-                        <span class="description">Shared publicly - 7:45 PM today</span>
+                        <span class="description">{{ $transactions->transaction_date }}</span>
                       </div>
                       <!-- /.user-block -->
                       <p>
-                        Lorem ipsum represents a long-held tradition for designers,
-                        typographers and the like. Some people hate it and argue for
-                        its demise, but others ignore.
+                        <div class="row d-flex justify-content-center">
+
+                            <div class="col-6 col-sm-3">
+                              <div class="info-box bg-light">
+                                <div class="info-box-content">
+                                  <span class="info-box-text text-center text-muted text-uppercase">Monto en dolares ($)</span>
+                                  <span class="info-box-number text-center text-muted mb-0">{{ number_format($transactions->amount) }}$</span>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col-6 col-sm-3">
+                              <div class="info-box bg-light">
+                                <div class="info-box-content">
+                                  <span class="info-box-text text-center text-muted text-uppercase">Monto total de la transacción</span>
+                                  <span class="info-box-number text-center text-muted mb-0">{{ number_format($transactions->amount_total); }}$</span>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col-12 col-sm-2">
+                                <div class="info-box bg-light">
+                                  <div class="info-box-content">
+                                    <span class="info-box-text text-center text-muted text-uppercase">Porcentaje <i class="fas fa-percentage"></i></span>
+                                    <span class="info-box-number text-center text-muted mb-0 text-uppercase">{{ $transactions->percentage ?? 'Sin porcentaje' }} </span>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="col-12 col-sm-2">
+                                <div class="info-box bg-light">
+                                  <div class="info-box-content">
+                                    <span class="info-box-text text-center text-muted text-uppercase">Comisión <i class="fas fa-comment-dollar"></i></span>
+                                    <span class="info-box-number text-center text-muted mb-0 text-uppercase">{{ $transactions->amount_commission ?? 'Sin comisión' }}</span>
+                                  </div>
+                                </div>
+                              </div>
+
+                          </div>
                       </p>
 
                       <p>
-                        <a href="#" class="link-black text-sm"><i class="fas fa-link mr-1"></i> Demo File 1 v2</a>
+                        <a href="#" class="link-black text-sm"><i class="fas fa-user mr-1"></i> {{ $transactions->user->name }}</a>
                       </p>
                     </div>
 
@@ -96,18 +131,51 @@
                       <div class="user-block">
                         <img class="img-circle img-bordered-sm" src="../../dist/img/user7-128x128.jpg" alt="User Image">
                         <span class="username">
-                          <a href="#">Sarah Ross</a>
+                          <a href="#">{{ $transactions->group->name }}</a>
                         </span>
-                        <span class="description">Sent you a message - 3 days ago</span>
+                        <span class="description">{{ $transactions->transaction_date }}</span>
                       </div>
                       <!-- /.user-block -->
                       <p>
-                        Lorem ipsum represents a long-held tradition for designers,
-                        typographers and the like. Some people hate it and argue for
-                        its demise, but others ignore.
+                        <div class="row d-flex justify-content-center">
+
+                            <div class="col-6 col-sm-3">
+                              <div class="info-box bg-light">
+                                <div class="info-box-content">
+                                  <span class="info-box-text text-center text-muted text-uppercase">Monto en dolares ($)</span>
+                                  <span class="info-box-number text-center text-muted mb-0">{{ number_format($transactions->amount) }}$</span>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col-6 col-sm-3">
+                              <div class="info-box bg-light">
+                                <div class="info-box-content">
+                                  <span class="info-box-text text-center text-muted text-uppercase">Monto total de la transacción</span>
+                                  <span class="info-box-number text-center text-muted mb-0">{{ number_format($transactions->amount_total); }}$</span>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col-12 col-sm-2">
+                                <div class="info-box bg-light">
+                                  <div class="info-box-content">
+                                    <span class="info-box-text text-center text-muted text-uppercase">Porcentaje <i class="fas fa-percentage"></i></span>
+                                    <span class="info-box-number text-center text-muted mb-0 text-uppercase">{{ $transactions->percentage ?? 'Sin porcentaje' }} </span>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="col-12 col-sm-2">
+                                <div class="info-box bg-light">
+                                  <div class="info-box-content">
+                                    <span class="info-box-text text-center text-muted text-uppercase">Comisión <i class="fas fa-comment-dollar"></i></span>
+                                    <span class="info-box-number text-center text-muted mb-0 text-uppercase">{{ $transactions->amount_commission ?? 'Sin comisión' }}</span>
+                                  </div>
+                                </div>
+                              </div>
+
+                          </div>
                       </p>
                       <p>
-                        <a href="#" class="link-black text-sm"><i class="fas fa-link mr-1"></i> Demo File 2</a>
+                        <a href="#" class="link-black text-sm"><i class="fas fa-user mr-1"></i> {{ $transactions->user->name }}</a>
                       </p>
                     </div>
 
@@ -115,38 +183,72 @@
                       <div class="user-block">
                         <img class="img-circle img-bordered-sm" src="../../dist/img/user1-128x128.jpg" alt="user image">
                         <span class="username">
-                          <a href="#">Jonathan Burke Jr.</a>
+                          <a href="#">{{ $transactions->group->name }}</a>
                         </span>
-                        <span class="description">Shared publicly - 5 days ago</span>
+                        <span class="description">{{ $transactions->transaction_date }}</span>
                       </div>
                       <!-- /.user-block -->
                       <p>
-                        Lorem ipsum represents a long-held tradition for designers,
-                        typographers and the like. Some people hate it and argue for
-                        its demise, but others ignore.
+                        <div class="row d-flex justify-content-center">
+
+                            <div class="col-6 col-sm-3">
+                              <div class="info-box bg-light">
+                                <div class="info-box-content">
+                                  <span class="info-box-text text-center text-muted text-uppercase">Monto en dolares ($)</span>
+                                  <span class="info-box-number text-center text-muted mb-0">{{ number_format($transactions->amount) }}$</span>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col-6 col-sm-3">
+                              <div class="info-box bg-light">
+                                <div class="info-box-content">
+                                  <span class="info-box-text text-center text-muted text-uppercase">Monto total de la transacción</span>
+                                  <span class="info-box-number text-center text-muted mb-0">{{ number_format($transactions->amount_total); }}$</span>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col-12 col-sm-2">
+                                <div class="info-box bg-light">
+                                  <div class="info-box-content">
+                                    <span class="info-box-text text-center text-muted text-uppercase">Porcentaje <i class="fas fa-percentage"></i></span>
+                                    <span class="info-box-number text-center text-muted mb-0 text-uppercase">{{ $transactions->percentage ?? 'Sin porcentaje' }} </span>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="col-12 col-sm-2">
+                                <div class="info-box bg-light">
+                                  <div class="info-box-content">
+                                    <span class="info-box-text text-center text-muted text-uppercase">Comisión <i class="fas fa-comment-dollar"></i></span>
+                                    <span class="info-box-number text-center text-muted mb-0 text-uppercase">{{ $transactions->amount_commission ?? 'Sin comisión' }}</span>
+                                  </div>
+                                </div>
+                              </div>
+
+                          </div>
                       </p>
 
                       <p>
-                        <a href="#" class="link-black text-sm"><i class="fas fa-link mr-1"></i> Demo File 1 v1</a>
+                        <a href="#" class="link-black text-sm"><i class="fas fa-user mr-1"></i> {{ $transactions->user->name }}</a>
                       </p>
                     </div>
                 </div>
               </div>
             </div>
+
             <div class="col-12 col-md-12 col-lg-4 order-1 order-md-2">
                 <div class="row">
                     <div class="col-12 col-sm-4">
                       <div class="info-box bg-light">
                         <div class="info-box-content">
-                          <span class="info-box-text text-center text-muted">Porcentaje %</span>
-                          <span class="info-box-number text-center text-muted mb-0 text-uppercase">{{ $transactions->percentaje ?? 'Sin porcentaje' }}</span>
+                          <span class="info-box-text text-center text-muted">Porcentaje <i class="fas fa-percentage"></i></span>
+                          <span class="info-box-number text-center text-muted mb-0 text-uppercase">{{ $transactions->percentage ?? 'Sin porcentaje' }} </span>
                         </div>
                       </div>
                     </div>
                     <div class="col-12 col-sm-4">
                       <div class="info-box bg-light">
                         <div class="info-box-content">
-                          <span class="info-box-text text-center text-muted">Comisión</span>
+                          <span class="info-box-text text-center text-muted">Comisión <i class="fas fa-comment-dollar"></i></span>
                           <span class="info-box-number text-center text-muted mb-0 text-uppercase">{{ $transactions->amount_commission ?? 'Sin comisión' }}</span>
                         </div>
                       </div>
@@ -154,12 +256,13 @@
                     <div class="col-12 col-sm-4">
                       <div class="info-box bg-light">
                         <div class="info-box-content">
-                          <span class="info-box-text text-center text-muted">Caja utilizada</span>
+                          <span class="info-box-text text-center text-muted">Caja utilizada <i class="fas fa-box-open"></i></span>
                           <span class="info-box-number text-center text-muted mb-0 text-uppercase">{{ $transactions->wallet->name }}</span>
                         </div>
                       </div>
                     </div>
                   </div>
+                  <hr>
               <br>
               <div class="text-muted">
                 <p class="text-sm">Cliente
@@ -183,7 +286,7 @@
                 </li>
               </ul>
               <div class="text-center mt-5 mb-3">
-                <a href="#" class="btn btn-sm btn-primary">Add files</a>
+                <a href="#" class="btn btn-sm btn-primary">+</a>
                 <a href="#" class="btn btn-sm btn-warning">Report contact</a>
               </div>
             </div>

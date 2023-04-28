@@ -276,7 +276,7 @@
 
 @section('js')
 <script>
-$('#monto_dolares').mask('#.##0.00', { reverse: true });
+$('#monto_dolares').mask('###0.00', { reverse: true });
 $('#monto').mask('###0.00', { reverse: true });
 $(".typecoin").select2({
   placeholder: "Seleccionar Moneda",
