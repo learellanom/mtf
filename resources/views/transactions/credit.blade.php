@@ -294,7 +294,7 @@ $(".status").select2({
 });
 
 $(".wallet").select2({
-  placeholder: "Seleccionar Caja | Wallet",
+  placeholder: "Seleccionar Caja",
   theme: 'bootstrap4',
   search: false,
   allowClear: true,
