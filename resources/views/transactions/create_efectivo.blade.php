@@ -671,7 +671,7 @@ $('#montototal').prop('readonly', true);
         })
 
 
-            $("#typetrasnferencia").on("change", function() {
+       /*      $("#typetrasnferencia").on("change", function() {
             // Capturar el valor seleccionado
             var selectedValue = this.value;
             var option = $("#typetrasnferencia option:selected").text();
@@ -707,7 +707,7 @@ $('#montototal').prop('readonly', true);
             } else if (option === 'Pago Efectivo') {
                 $('.comisiones').show();
             }
-        });
+        }); */
 
 
 
