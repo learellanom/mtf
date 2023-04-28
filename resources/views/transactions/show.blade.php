@@ -27,19 +27,19 @@
 
     <!-- Main content -->
     <section class="content">
-
+        {{-- {{ dd($transactiones) }} --}}
       <!-- Default box -->
       <div class="card">
         <div class="card-header">
           <h3 class="card-title text-uppercase font-weight-bold">Transacción numero #{{ $transactions->id }}</h3>
-          <h3 class="card-title text-uppercase font-weight-bold d-flex text-right">Cliente: {{ $transactions->group->name ?? 'SIN CLIENTE' }}</h3>
+          <p class="card-title text-uppercase font-weight-bold" style="margin-left: 500px;">Cliente: {{ $transactions->group->name ?? 'SIN CLIENTE' }}</p>
 
           <div class="card-tools">
             <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
               <i class="fas fa-minus"></i>
             </button>
-
           </div>
+
         </div>
         <div class="card-body">
           <div class="row">
@@ -74,118 +74,24 @@
                 <div class="col-12">
                 <hr>
                   <h4 class="text-uppercase font-weight-bold text-center">Actividad reciente de {{ $transactions->group->name ?? 'Sin cliente' }}</h4>
-                    <div class="post">
-                      <div class="user-block">
-                        <img class="img-circle img-bordered-sm" src="../../dist/img/user1-128x128.jpg" alt="user image">
-                        <span class="username">
-                          <a href="#">{{ $transactions->group->name ?? 'Sin cliente' }}</a>
-                        </span>
-                        <span class="description">{{ $transactions->transaction_date }}</span>
-                      </div>
-                      <!-- /.user-block -->
-                      <p>
-                        <div class="row d-flex justify-content-center">
 
-                            <div class="col-6 col-sm-3">
-                              <div class="info-box bg-light">
-                                <div class="info-box-content">
-                                  <span class="info-box-text text-center text-muted text-uppercase">Monto en dolares ($)</span>
-                                  <span class="info-box-number text-center text-muted mb-0">{{ number_format($transactions->amount) }}$</span>
-                                </div>
-                              </div>
-                            </div>
-                            <div class="col-6 col-sm-3">
-                              <div class="info-box bg-light">
-                                <div class="info-box-content">
-                                  <span class="info-box-text text-center text-muted text-uppercase">Monto total de la transacción</span>
-                                  <span class="info-box-number text-center text-muted mb-0">{{ number_format($transactions->amount_total); }}$</span>
-                                </div>
-                              </div>
-                            </div>
-                            <div class="col-12 col-sm-2">
-                                <div class="info-box bg-light">
-                                  <div class="info-box-content">
-                                    <span class="info-box-text text-center text-muted text-uppercase">Porcentaje <i class="fas fa-percentage"></i></span>
-                                    <span class="info-box-number text-center text-muted mb-0 text-uppercase">{{ $transactions->percentage ?? 'Sin porcentaje' }} </span>
-                                  </div>
-                                </div>
-                              </div>
-                              <div class="col-12 col-sm-2">
-                                <div class="info-box bg-light">
-                                  <div class="info-box-content">
-                                    <span class="info-box-text text-center text-muted text-uppercase">Comisión <i class="fas fa-comment-dollar"></i></span>
-                                    <span class="info-box-number text-center text-muted mb-0 text-uppercase">{{ $transactions->amount_commission ?? 'Sin comisión' }}</span>
-                                  </div>
-                                </div>
-                              </div>
+                   @if(empty($transactiones))
+                   <p class="font-weight-bold text-center">SIN ACTIVIDAD PORQUE PROBLAMENTE ESTA TRANSACCIÓN NO TIENE UN CLIENTE</p>
 
-                          </div>
-                      </p>
+                   <figure class="d-flex justify-content-center">
+                      <img src="{{asset('img/AdminLTELogo.png') }}" alt="">
+                   </figure>
 
-                      <p>
-                        <a href="#" class="link-black text-sm"><i class="fas fa-user mr-1"></i> {{ $transactions->user->name }}</a>
-                      </p>
-                    </div>
-
-                    <div class="post clearfix">
-                      <div class="user-block">
-                        <img class="img-circle img-bordered-sm" src="../../dist/img/user7-128x128.jpg" alt="User Image">
-                        <span class="username">
-                          <a href="#">{{ $transactions->group->name ?? 'Sin cliente' }}</a>
-                        </span>
-                        <span class="description">{{ $transactions->transaction_date }}</span>
-                      </div>
-                      <!-- /.user-block -->
-                      <p>
-                        <div class="row d-flex justify-content-center">
-
-                            <div class="col-6 col-sm-3">
-                              <div class="info-box bg-light">
-                                <div class="info-box-content">
-                                  <span class="info-box-text text-center text-muted text-uppercase">Monto en dolares ($)</span>
-                                  <span class="info-box-number text-center text-muted mb-0">{{ number_format($transactions->amount) }}$</span>
-                                </div>
-                              </div>
-                            </div>
-                            <div class="col-6 col-sm-3">
-                              <div class="info-box bg-light">
-                                <div class="info-box-content">
-                                  <span class="info-box-text text-center text-muted text-uppercase">Monto total de la transacción</span>
-                                  <span class="info-box-number text-center text-muted mb-0">{{ number_format($transactions->amount_total); }}$</span>
-                                </div>
-                              </div>
-                            </div>
-                            <div class="col-12 col-sm-2">
-                                <div class="info-box bg-light">
-                                  <div class="info-box-content">
-                                    <span class="info-box-text text-center text-muted text-uppercase">Porcentaje <i class="fas fa-percentage"></i></span>
-                                    <span class="info-box-number text-center text-muted mb-0 text-uppercase">{{ $transactions->percentage ?? 'Sin porcentaje' }} </span>
-                                  </div>
-                                </div>
-                              </div>
-                              <div class="col-12 col-sm-2">
-                                <div class="info-box bg-light">
-                                  <div class="info-box-content">
-                                    <span class="info-box-text text-center text-muted text-uppercase">Comisión <i class="fas fa-comment-dollar"></i></span>
-                                    <span class="info-box-number text-center text-muted mb-0 text-uppercase">{{ $transactions->amount_commission ?? 'Sin comisión' }}</span>
-                                  </div>
-                                </div>
-                              </div>
-
-                          </div>
-                      </p>
-                      <p>
-                        <a href="#" class="link-black text-sm"><i class="fas fa-user mr-1"></i> {{ $transactions->user->name }}</a>
-                      </p>
-                    </div>
+                   @else
+                    @foreach ($transactiones as $transactione)
 
                     <div class="post">
                       <div class="user-block">
-                        <img class="img-circle img-bordered-sm" src="../../dist/img/user1-128x128.jpg" alt="user image">
+                        <img class="img-circle img-bordered-sm" src="{{Storage::url('image/interrogacion.jpg')}}" alt="user image">
                         <span class="username">
-                          <a href="#">{{ $transactions->group->name ?? 'Sin cliente' }}</a>
+                          <a href="#">{{ $transactione->group->name ?? 'Sin cliente' }}</a>
                         </span>
-                        <span class="description">{{ $transactions->transaction_date }}</span>
+                        <span class="description">{{ $transactione->transaction_date }}</span>
                       </div>
                       <!-- /.user-block -->
                       <p>
@@ -195,7 +101,7 @@
                               <div class="info-box bg-light">
                                 <div class="info-box-content">
                                   <span class="info-box-text text-center text-muted text-uppercase">Monto en dolares ($)</span>
-                                  <span class="info-box-number text-center text-muted mb-0">{{ number_format($transactions->amount) }}$</span>
+                                  <span class="info-box-number text-center text-muted mb-0">{{ number_format($transactione->amount) }}$</span>
                                 </div>
                               </div>
                             </div>
@@ -203,7 +109,7 @@
                               <div class="info-box bg-light">
                                 <div class="info-box-content">
                                   <span class="info-box-text text-center text-muted text-uppercase">Monto total de la transacción</span>
-                                  <span class="info-box-number text-center text-muted mb-0">{{ number_format($transactions->amount_total); }}$</span>
+                                  <span class="info-box-number text-center text-muted mb-0">{{ number_format($transactione->amount_total); }}$</span>
                                 </div>
                               </div>
                             </div>
@@ -211,7 +117,7 @@
                                 <div class="info-box bg-light">
                                   <div class="info-box-content">
                                     <span class="info-box-text text-center text-muted text-uppercase">Porcentaje <i class="fas fa-percentage"></i></span>
-                                    <span class="info-box-number text-center text-muted mb-0 text-uppercase">{{ $transactions->percentage ?? 'Sin porcentaje' }} </span>
+                                    <span class="info-box-number text-center text-muted mb-0 text-uppercase">{{ $transactione->percentage ?? 'Sin porcentaje' }} </span>
                                   </div>
                                 </div>
                               </div>
@@ -219,7 +125,7 @@
                                 <div class="info-box bg-light">
                                   <div class="info-box-content">
                                     <span class="info-box-text text-center text-muted text-uppercase">Comisión <i class="fas fa-comment-dollar"></i></span>
-                                    <span class="info-box-number text-center text-muted mb-0 text-uppercase">{{ $transactions->amount_commission ?? 'Sin comisión' }}</span>
+                                    <span class="info-box-number text-center text-muted mb-0 text-uppercase">{{ $transactione->amount_commission ?? 'Sin comisión' }}</span>
                                   </div>
                                 </div>
                               </div>
@@ -228,9 +134,13 @@
                       </p>
 
                       <p>
-                        <a href="#" class="link-black text-sm"><i class="fas fa-user mr-1"></i> {{ $transactions->user->name }}</a>
+                        <a href="#" class="link-black text-sm"><i class="fas fa-user mr-1"></i> {{ $transactione->user->name }}</a>
                       </p>
                     </div>
+
+                    @endforeach
+                    @endif
+
                 </div>
               </div>
             </div>
@@ -263,7 +173,7 @@
                     </div>
                   </div>
                   <hr>
-              <br>
+
               <div class="text-muted">
                 <p class="text-sm">Cliente
                   <b class="d-block">{{ $transactions->group->name ?? 'Sin cliente' }}</b>
@@ -272,23 +182,35 @@
                   <b class="d-block">{{ $transactions->group->phone ?? 'Sin cliente' }}</b>
                 </p>
               </div>
+              <hr>
+              <h5 class="mt-5 text-muted text-uppercase font-weight-bold">Captures de pantalla | Referencias <i class="fas fa-images"></i> </h5>
+              <hr>
 
-              <h5 class="mt-5 text-muted">Captures de pantalla | Referencias </h5>
               <ul class="list-unstyled">
                 <li>
-                    <figure>
-
-                        @foreach ($transactions->image as $transaction)
-                          <img class="rounded d-block img-rounded" style="height:300px;" @if($transaction) src="{{Storage::url($transaction->url)}}" @else src='/storage/image/interrogacion.gif' @endif>
-                        @endforeach
-
-                    </figure>
+                 <div class="col-12">
+                    <div class="card card-primary">
+                        <div class="card-header">
+                            <h4 class="card-title">Referencias</h4>
+                        </div>
+                       <div class="card-body">
+                         <div class="row">
+                          @foreach ($transactions->image as $transaction)
+                           <div class="col-sm-2">
+                            <a href="{{Storage::url($transaction->url)}}?text={{$transaction->id}}" data-toggle="lightbox" data-title="Transacciones">
+                             <img class="img-fluid mb-2" style="width:100%;" alt="white sample" @if($transaction) src="{{Storage::url($transaction->url)}}"> @else <p>Sin imagenes</p> @endif
+                            </a>
+                         </div>
+                         @endforeach
+                       </div>
+                    </div>
+                  </div>
+                </div>
+            </div>
+        </div>
                 </li>
               </ul>
-              <div class="text-center mt-5 mb-3">
-                <a href="#" class="btn btn-sm btn-primary">+</a>
-                <a href="#" class="btn btn-sm btn-warning">Report contact</a>
-              </div>
+
             </div>
           </div>
         </div>
@@ -300,4 +222,23 @@
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
+  @endsection
+
+  @section('js')
+  <script>
+ $(function () {
+    $(document).on('click', '[data-toggle="lightbox"]', function(event) {
+      event.preventDefault();
+      $(this).ekkoLightbox({
+        alwaysShowClose: true
+      });
+    });
+
+    $('.filter-container').filterizr({gutterPixels: 3});
+    $('.btn[data-filter]').on('click', function() {
+      $('.btn[data-filter]').removeClass('active');
+      $(this).addClass('active');
+    });
+  })
+  </script>
   @endsection
