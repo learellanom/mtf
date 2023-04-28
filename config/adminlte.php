@@ -691,6 +691,36 @@ return [
                 ],
             ],
         ],
+        'Bootrstrap' => [
+            'active' => true,
+            'files' => [
+                [
+                    'type' => 'js',
+                    'asset' => true,
+                    'location' => 'vendor/bootstrap/js/ekko-lightbox.min.js',
+                ],
+                [
+                    'type' => 'js',
+                    'asset' => true,
+                    'location' => 'vendor/bootstrap/js/jquery.filterizr.min.js',
+                ],
+                [
+                    'type' => 'js',
+                    'asset' => true,
+                    'location' => 'vendor/bootstrap/js/vanilla.filterizr.min.js',
+                ],
+                [
+                    'type' => 'js',
+                    'asset' => true,
+                    'location' => 'vendor/bootstrap/js/bootstrap.bundle.js',
+                ],
+                [
+                    'type' => 'css',
+                    'asset' => true,
+                    'location' => 'vendor/bootstrap/css/ekko-lightbox.css',
+                ],
+            ],
+        ],
         'JqueryMask' => [
             'active' => true,
             'files' => [

@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\Redirect;
 use Nette\Utils\Finder;
 use Carbon\Carbon;
 use Symfony\Component\VarDumper\Caster\TraceStub;
+use Illuminate\Database\Eloquent\Builder;
 
 class TransactionController extends Controller
 {
@@ -145,7 +146,7 @@ class TransactionController extends Controller
         foreach($request->file('file') as $file)
         {
 
-            $url = Storage::put('Transactions/'.$transaction->id, $file);
+            $url = Storage::put('public/Transactions/'.$transaction->id, $file);
 
             $files= new Image();
             $files->file = $files;
@@ -174,7 +175,7 @@ class TransactionController extends Controller
         foreach($request->file('file') as $file)
         {
 
-            $url = Storage::put('public/transactions/'.$transaction->id, $file);
+            $url = Storage::put('public/Transactions/'.$transaction->id, $file);
 
             $files= new Image();
             $files->file = $files;
@@ -200,8 +201,15 @@ class TransactionController extends Controller
     public function show($transaction)
     {
         $transactions = Transaction::find($transaction);
+        if($transactions->group == null){
+            return view('transactions.show', compact('transactions'));
+        }
+        else{
 
-        return view('transactions.show', compact('transactions'));
+            $transactiones = Transaction::whereIn('group_id', [$transactions->group->id])->paginate(3)->sortBy('transaction_date');
+            return view('transactions.show', compact('transactions', 'transactiones'));
+        }
+
     }
 
     /**
