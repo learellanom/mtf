@@ -32,7 +32,7 @@
       <div class="card">
         <div class="card-header">
           <h3 class="card-title text-uppercase font-weight-bold">Transacción numero #{{ $transactions->id }}</h3>
-          <h3 class="card-title text-uppercase font-weight-bold d-flex text-right">Cliente: {{ $transactions->group->name }}</h3>
+          <h3 class="card-title text-uppercase font-weight-bold d-flex text-right">Cliente: {{ $transactions->group->name ?? 'SIN CLIENTE' }}</h3>
 
           <div class="card-tools">
             <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
@@ -73,12 +73,12 @@
               <div class="row">
                 <div class="col-12">
                 <hr>
-                  <h4 class="text-uppercase font-weight-bold text-center">Actividad reciente de {{ $transactions->group->name }}</h4>
+                  <h4 class="text-uppercase font-weight-bold text-center">Actividad reciente de {{ $transactions->group->name ?? 'Sin cliente' }}</h4>
                     <div class="post">
                       <div class="user-block">
                         <img class="img-circle img-bordered-sm" src="../../dist/img/user1-128x128.jpg" alt="user image">
                         <span class="username">
-                          <a href="#">{{ $transactions->group->name }}</a>
+                          <a href="#">{{ $transactions->group->name ?? 'Sin cliente' }}</a>
                         </span>
                         <span class="description">{{ $transactions->transaction_date }}</span>
                       </div>
@@ -131,7 +131,7 @@
                       <div class="user-block">
                         <img class="img-circle img-bordered-sm" src="../../dist/img/user7-128x128.jpg" alt="User Image">
                         <span class="username">
-                          <a href="#">{{ $transactions->group->name }}</a>
+                          <a href="#">{{ $transactions->group->name ?? 'Sin cliente' }}</a>
                         </span>
                         <span class="description">{{ $transactions->transaction_date }}</span>
                       </div>
@@ -183,7 +183,7 @@
                       <div class="user-block">
                         <img class="img-circle img-bordered-sm" src="../../dist/img/user1-128x128.jpg" alt="user image">
                         <span class="username">
-                          <a href="#">{{ $transactions->group->name }}</a>
+                          <a href="#">{{ $transactions->group->name ?? 'Sin cliente' }}</a>
                         </span>
                         <span class="description">{{ $transactions->transaction_date }}</span>
                       </div>
@@ -266,10 +266,10 @@
               <br>
               <div class="text-muted">
                 <p class="text-sm">Cliente
-                  <b class="d-block">{{ $transactions->group->name }}</b>
+                  <b class="d-block">{{ $transactions->group->name ?? 'Sin cliente' }}</b>
                 </p>
                 <p class="text-sm">Numero de telefono
-                  <b class="d-block">{{ $transactions->group->phone }}</b>
+                  <b class="d-block">{{ $transactions->group->phone ?? 'Sin cliente' }}</b>
                 </p>
               </div>
 
