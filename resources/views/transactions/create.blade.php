@@ -374,7 +374,7 @@
 
 @section('js')
 <script>
- $('.dolar').mask('###0.00', { reverse: true });
+$('#monto_dolares').mask('###0.00', { reverse: true });
 $('#monto').mask('###0.00', { reverse: true });
 $('#tasa').mask('###0.00', { reverse: true });
 $('#montototal').mask('###0.00', { reverse: true });
@@ -532,6 +532,8 @@ $(document).ready(function() {
 
             monto_dolares = document.getElementById("monto_dolares");
             const log = document.getElementById("montototal");
+
+
 
             onkeyup = function(){
                 if(tasa.value > 0 && monto.value > 0){

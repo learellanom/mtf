@@ -45,6 +45,7 @@
                                 <th>Tipo de Movimiento</th>
                                 <th style="width:1%;">Activar/Anular</th>
                                 <th style="width:1%;">Ver <i class="fas fa-search"></i></th>
+                                <th style="width:1%; display:none;">Caja <i class="fas fa-search"></i></th>
                             </tr>
                         </thead>
     @foreach($transferencia as $transferencias)
@@ -66,7 +67,7 @@
 
             <td class="font-weight-bold">{!! $transferencias->percentage ?? 'TRANSACCIÓN SIN PORCENTAJE'!!} </td>
 
-            <td>{!! $transferencias->amount_foreign_currency ?? 'TRANSACCIÓN NO TIENE MONEDA EXTRANJERA' !!}</td>
+            <td>{!! number_format($transferencias->amount_foreign_currency) ?? 'TRANSACCIÓN NO TIENE MONEDA EXTRANJERA' !!}</td>
 
             <td>{!! $transferencias->amount_commission ?? 'TRANSACCIÓN SIN COMISIÓN' !!} </td>
 
@@ -74,8 +75,8 @@
 
 
 
-            <td class="font-weight-bold">{!! $transferencias->amount !!} <i class="fas fa-dollar-sign"></i></td>
-            <td class="font-weight-bold">{!! $transferencias->amount_total !!} <i class="fas fa-dollar-sign"></i></td>
+            <td class="font-weight-bold">{!! number_format($transferencias->amount) !!} <i class="fas fa-dollar-sign"></i></td>
+            <td class="font-weight-bold">{!! number_format($transferencias->amount_total) !!} <i class="fas fa-dollar-sign"></i></td>
 
 
             <td class="font-weight-bold">{!! $transferencias->user->name !!}</td>
@@ -116,7 +117,7 @@
             <td>
                <a href="{{ route('transactions.show', $transferencias->id) }}" class="btn btn-xl text-dark mx-1 shadow text-center"><i class="fa fa-lg fa-fw fas fa-search"></i></a>
             </td>
-
+            <td style="display: none;">{!! $transferencias->wallet->name !!}</td>
 
         </tr>
     @endforeach
