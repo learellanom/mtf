@@ -205,18 +205,18 @@ if (isset($balance->Total)){
                                 <div class="col-md-4">
                                     @php
                                         if ($myTotal < 0){
-                                            echo "<h4>Saldo A favor : " . number_format(abs($myTotal),2,",",".") . "</h4>";
+                                            echo "<h4 class='text-uppercase font-weight-bold'>Saldo A favor : " . number_format(abs($myTotal),2,",",".") . "</h4>";
                                         }else{
-                                            echo "<h4>Saldo A favor : " . number_format(0,2,",",".") . "</h4>";
+                                            echo "<h4 class='text-uppercase font-weight-bold'>Saldo A favor : " . number_format(0,2,",",".") . "</h4>";
                                         }
                                     @endphp
                                 </div>
                                 <div class="col-md-4">
                                     @php
                                         if ($myTotal < 0){
-                                            echo "<h4>Saldo Pendiente : " . number_format(0,2,",",".") . "</h4>";
+                                            echo "<h4 class='text-uppercase font-weight-bold'>Saldo Pendiente : " . number_format(0,2,",",".") . "</h4>";
                                         }else{
-                                            echo "<h4>Saldo Pendiente : " . number_format($myTotal,2,",",".") . "</h4>";
+                                            echo "<h4 class='text-uppercase font-weight-bold'>Saldo Pendiente : " . number_format($myTotal,2,",",".") . "</h4>";
                                         }
                                     @endphp
                                 </div>
