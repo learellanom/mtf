@@ -69,7 +69,10 @@ class statisticsController extends Controller
         //     $balance = $this->getBalance($myGroup);
         //     dd($balance);
         };
-
+        
+        if ($myWallet > 0){
+            $balance = $this->getBalanceWallet($myWallet);
+        };
         // dd($balance);
 
         $myUserDesde = 0;
@@ -133,6 +136,7 @@ class statisticsController extends Controller
             )->where('Transactions.status', '=', 'Activo'
             )->orderBy('Transactions.transaction_date','ASC'
             )->get();
+
             }else{
             
                 $Transacciones = Transaction::select(
@@ -1253,7 +1257,7 @@ class statisticsController extends Controller
         FROM mtf.transactions
         left join  mtf.groups on mtf.transactions.group_id  = mtf.groups.id
         where
-            type_transaction_id in (4,8,2)
+            type_transaction_id in (4,8,2,6)
             and
             transaction_date between '0000-00-00' and '9999-12-31' 
             and
@@ -1305,6 +1309,111 @@ class statisticsController extends Controller
             return $Transacciones;
         }
     }
+
+    
+    function getBalanceWallet($wallet = 0){
+        
+        if ($wallet === 0){
+            $walletDesde = 00000;
+            $walletHasta = 99999;
+            
+        }else{
+            $walletDesde = $wallet;
+            $walletHasta = $wallet;    
+        }
+        \Log::info('leam wallet      *** -> ' . $wallet);        
+        \Log::info('leam walletDesde *** -> ' . $walletDesde); 
+        \Log::info('leam walletHasta *** -> ' . $walletHasta); 
+        
+        $myFechaDesde = "2001-01-01";
+        $myFechaHasta = "9999-12-31";
+        //
+        // 26-04-2023
+        //
+        // Debitos
+        //  4 cobro en efectivo
+        //  8 Nota de debito
+        //  2 cobro transferencia
+        //  6 Nota de credito a caja
+        //
+        // Creditos
+        //  1 transferencia
+        //  3 pago en efectivo
+        //  5 mercancia
+        //  7 notas de credito
+        //  9 switft
+        //
+        //
+        $myQuery =
+        "
+        select 
+            IdWallet            as IdWallet,
+            NombreWallet        as NombreWallet,
+            sum(MontoCreditos)  as Creditos,
+            sum(MontoDebitos)   as Debitos,
+            (sum(MontoCreditos) - sum(MontoDebitos) ) as Total
+        from(
+        SELECT 
+            wallet_id         as IdWallet,
+            mtf.wallets.name  as NombreWallet,
+            0 				  as MontoCreditos,
+            sum(amount_total) as MontoDebitos
+        FROM mtf.transactions
+        left join  mtf.wallets on mtf.transactions.wallet_id  = mtf.wallets.id
+        where
+            type_transaction_id in (4,8,2,6)
+            and
+            transaction_date    between '0000-00-00' and '9999-12-31' 
+            and
+            wallet_id           between $walletDesde and $walletHasta
+            and status <> 'Anulado'
+        group by 
+            IdWallet,
+            NombreWallet
+        union
+        SELECT 
+            wallet_id          as IdWallet,
+            mtf.wallets.name   as NombreWallet,
+            sum(amount_total)  as MontoCreditos,
+            0 as MontoDebitos
+        FROM mtf.transactions
+        left join  mtf.wallets on mtf.transactions.wallet_id  = mtf.wallets.id
+        where
+            type_transaction_id in(1,3,5,7,9)
+            and
+            transaction_date between '0000-00-00' and '9999-12-31'   
+            and
+            wallet_id between $walletDesde and $walletHasta
+            and status <> 'Anulado'
+        group by 
+            IdWallet,
+            NombreWallet    
+            
+        )
+        as t
+        group by
+            IdWallet,
+            NombreWallet
+        ";
+            
+
+        $Transacciones = DB::select($myQuery);
+       
+         \Log::info('leam grupo query  *** -> ' . print_r($myQuery,true));    
+         \Log::info('leam grupo transacciones *** -> ' . print_r($Transacciones,true));    
+
+        if (empty($Transacciones)) {
+            // \Log::info('leam vacio *** -> ' . print_r($Transacciones,true));   
+            return $Transacciones; 
+        }else {
+            // \Log::info('*** leam gettype -> ' . gettype($Transacciones));
+            if ($walletDesde === $walletHasta){
+                return $Transacciones[0];
+            };
+            return $Transacciones;
+        }
+    }
+
 
 
     function getBalanceSupplier($proveedor = 0){

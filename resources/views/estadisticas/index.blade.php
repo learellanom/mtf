@@ -354,7 +354,7 @@ if (isset($balance->Total)){
                 // alert('***** cliente ' +  cliente + " --- selected index --- " + seleccionado);
 
                 var URLactual = window.location;
-                alert(URLactual);
+                // alert(URLactual);
 
                 theRoute(usuario,grupo,wallet);
 
