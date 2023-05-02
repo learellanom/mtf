@@ -33,18 +33,18 @@
                         <table class="table table-bordered table-responsive-lg" id="table">
                         <thead>
                             <tr>
-                                <th>Cliente</th>
+                                <th style="width:1%;">Cliente</th>
                                 <th>Fecha</th>
                                 <th>Descripción</th>
-                                <th><i class="fas fa-percentage"></i></th>
-                                <th>Monto</th>
-                                <th>Comisión</th>
-                                <th>Monto Dolar ($) <i class="fas fa-funnel-dollar"></i></th>
-                                <th>Monto Total</th>
+                                <th style="width:1%;"><i class="fas fa-percentage"></i></th>
+                                <th style="width:1%;">Monto</th>
+                                <th style="width:1%;">Comisión</th>
+                                <th >Monto Dolar ($) <i class="fas fa-funnel-dollar"></i></th>
+                                <th style="width:1%;">Monto Total</th>
                                 <th>Agente</th>
                                 <th>Tipo de Movimiento</th>
                                 <th>Activar/Anular</th>
-                                <th>Ver mas <i class="fas fa-search"></i></th>
+                                <th style="width:1%;">Ver <i class="fas fa-search"></i></th>
                             </tr>
                         </thead>
     @foreach($transferencia as $transferencias)
