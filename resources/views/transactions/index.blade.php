@@ -45,6 +45,7 @@
                                 <th>Tipo de Movimiento</th>
                                 <th style="width:1%;">Activar/Anular</th>
                                 <th style="width:1%;">Ver <i class="fas fa-search"></i></th>
+                                <th style="width:1%; display:none;">Caja <i class="fas fa-search"></i></th>
                             </tr>
                         </thead>
     @foreach($transferencia as $transferencias)
@@ -116,7 +117,7 @@
             <td>
                <a href="{{ route('transactions.show', $transferencias->id) }}" class="btn btn-xl text-dark mx-1 shadow text-center"><i class="fa fa-lg fa-fw fas fa-search"></i></a>
             </td>
-
+            <td style="display: none;">{!! $transferencias->wallet->name !!}</td>
 
         </tr>
     @endforeach
