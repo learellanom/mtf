@@ -392,7 +392,7 @@ return [
             'active'      => ['movimientos', 'regex:@^movimientos/[0-9]+/*@', 'movimientos/create'],
             'can'         => 'transactions.index',
             'icon'        => 'fas fa-fw fas fa-retweet',
-            'label'       => 4,
+            'label'       => 'OP',
             'label_color' =>'success',
         ],
         [
@@ -401,17 +401,17 @@ return [
             'active'      => ['movimientos/create_efectivo'],
             'can'         => 'transactions.create_efectivo',
             'icon'        => 'fas fa-fw fa-money-bill-wave',
-            'label'       => 4,
+            'label'       => 'OP',
             'label_color' =>'success',
         ],
 
         [
-            'text'        => 'Nota de Credito a Caja',
+            'text'        => 'Credito a Caja',
             'url'         => "movimientos/credito",
             'active'      => ['credito'],
             'icon'        => 'fas fa-fw fas fa-box',
             'can'         => 'transactions.credit',
-            'label'       => 4,
+            'label'       => 'OP',
             'label_color' =>'success',
         ],
         //
@@ -425,7 +425,7 @@ return [
             'active'      => ['movimientos_master', 'regex:@^movimientos_master/[0-9]+/edit+$@', 'movimientos_master/create'],
             'can'         => 'transactions_master.index',
             'icon'        => 'fas fa-fw fas fa-handshake',
-            'label'       => 10,
+            'label'       => 'M',
             'label_color' =>'danger',
         ],
         [
@@ -434,6 +434,8 @@ return [
             'active'    => ['estadisticasDetalleMaster','regex:@^estadisticasDetalleMaster/[0-9]+/*@'],
             'icon'      => 'fas fa-fw fas fa-chart-bar',
             'can'       => 'estadisticasDetalle.index',
+            'label'       => 'M',
+            'label_color' =>'danger',
         ],
         //
         // Proveedores
