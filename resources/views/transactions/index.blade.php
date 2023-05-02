@@ -33,6 +33,7 @@
                         <table class="table table-bordered table-responsive-lg" id="table">
                         <thead>
                             <tr>
+                                <th>Numero de transacción</th>
                                 <th style="width:1%;">Cliente</th>
                                 <th>Fecha</th>
                                 <th>Descripción</th>
@@ -50,7 +51,7 @@
                         </thead>
     @foreach($transferencia as $transferencias)
         <tr>
-
+            <td class="font-weight-bold"><i class="fas fa-asterisk"></i>{{ $transferencias->id }}</td>
             <td>
                 @if($transferencias->group == null && $transferencias->client == null)
                    <span class="font-weight-bold"> TRANSACCIÓN SIN CLIENTE </span>
