@@ -96,7 +96,7 @@ class statisticsController extends Controller
 
         // print_r($myGroup);
         // die($myGroup);
-
+        if ($myGroup != 0){
             $Transacciones = Transaction::select(
                 'Transactions.user_id as Id',
                 'Transactions.amount_foreign_currency as MontoMoneda',
@@ -133,8 +133,8 @@ class statisticsController extends Controller
             )->where('Transactions.status', '=', 'Activo'
             )->orderBy('Transactions.transaction_date','ASC'
             )->get();
-        
-            if ($myGroup = 0){
+            }else{
+            
                 $Transacciones = Transaction::select(
                     'Transactions.user_id as Id',
                     'Transactions.amount_foreign_currency as MontoMoneda',
@@ -153,7 +153,7 @@ class statisticsController extends Controller
                     'wallets.name As WalletName',
                     'transactions.description as Descripcion',
                     'transactions.transaction_date as FechaTransaccion',
-                    ' "eee" ad ClientName'
+                    'groups.name as ClientName',
                 )->leftJoin(
                     'users','users.id', '=', 'transactions.user_id'
                 )->leftJoin(
@@ -161,15 +161,17 @@ class statisticsController extends Controller
                 )->leftJoin(
                     'wallets', 'wallets.id', '=', 'transactions.wallet_id'
                 )->leftJoin(
+                    'groups', 'groups.id', '=', 'transactions.group_id'
+                )->leftJoin(
                         'type_coins', 'type_coins.id', '=', 'transactions.type_coin_id'            
                 )->whereBetween('Transactions.user_id',             [$myUserDesde, $myUserHasta]
                 )->whereBetween('Transactions.wallet_id',           [$myWalletDesde, $myWalletHasta]
                 )->whereBetween('Transactions.transaction_date',    [$myFechaDesde, $myFechaHasta]
                 )->where('Transactions.status', '=', 'Activo'
                 )->orderBy('Transactions.transaction_date','ASC'
-                )->get();     
+                )->get();
                 
-                dd($Transacciones);
+                // dd($Transacciones);
             }
 
 
