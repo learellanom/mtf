@@ -67,7 +67,7 @@
 
             <td class="font-weight-bold">{!! $transferencias->percentage ?? 'TRANSACCIÓN SIN PORCENTAJE'!!} </td>
 
-            <td>{!! $transferencias->amount_foreign_currency ?? 'TRANSACCIÓN NO TIENE MONEDA EXTRANJERA' !!}</td>
+            <td>{!! number_format($transferencias->amount_foreign_currency) ?? 'TRANSACCIÓN NO TIENE MONEDA EXTRANJERA' !!}</td>
 
             <td>{!! $transferencias->amount_commission ?? 'TRANSACCIÓN SIN COMISIÓN' !!} </td>
 
@@ -75,8 +75,8 @@
 
 
 
-            <td class="font-weight-bold">{!! $transferencias->amount !!} <i class="fas fa-dollar-sign"></i></td>
-            <td class="font-weight-bold">{!! $transferencias->amount_total !!} <i class="fas fa-dollar-sign"></i></td>
+            <td class="font-weight-bold">{!! number_format($transferencias->amount) !!} <i class="fas fa-dollar-sign"></i></td>
+            <td class="font-weight-bold">{!! number_format($transferencias->amount_total) !!} <i class="fas fa-dollar-sign"></i></td>
 
 
             <td class="font-weight-bold">{!! $transferencias->user->name !!}</td>
