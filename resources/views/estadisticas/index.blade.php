@@ -196,6 +196,8 @@ if (isset($balance->Total)){
             <div class="card mb-4">
                 <div class="card-header">
                     <div class="card-title col-md-12">
+                        <div class="card-body">
+
                         <div class= "row">
                                 <div class="col-md-4">
                                     <h4 class="text-uppercase font-weight-bold">Detalles|Movimientos <i class="fas fa-info-circle"></i></h4>
@@ -236,7 +238,7 @@ if (isset($balance->Total)){
                                 striped
                                 with-buttons
 
-                                class="table table-bordered table-responsive-lg table-secondary">
+                                class="table table-bordered table-responsive-lg bg-white">
                                 @foreach($config['data'] as $row)
                                     <tr>
 
@@ -298,6 +300,7 @@ if (isset($balance->Total)){
                                     </tr>
                                 @endforeach
                             </x-adminlte-datatable>
+                             </div>
                         </div>
                     </div>
                 </div>
