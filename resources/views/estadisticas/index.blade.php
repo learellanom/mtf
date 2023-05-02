@@ -198,7 +198,7 @@ if (isset($balance->Total)){
                     <div class="card-title col-md-12">
                         <div class= "row">
                                 <div class="col-md-4">
-                                    <h4>Estadisticas| Movimientos</h4>
+                                    <h4 class="text-uppercase font-weight-bold">Detalles|Movimientos <i class="fas fa-info-circle"></i></h4>
                                 </div>
                                 <div class="col-md-4">
                                     @php

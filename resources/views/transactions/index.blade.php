@@ -43,7 +43,7 @@
                                 <th style="width:1%;">Monto Total</th>
                                 <th>Agente</th>
                                 <th>Tipo de Movimiento</th>
-                                <th>Activar/Anular</th>
+                                <th style="width:1%;">Activar/Anular</th>
                                 <th style="width:1%;">Ver <i class="fas fa-search"></i></th>
                             </tr>
                         </thead>
