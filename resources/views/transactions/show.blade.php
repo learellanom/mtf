@@ -94,7 +94,7 @@
                         </span>
                         <span class="description">{{ $transactione->transaction_date }}</span>
                       </div>
-                      <!-- /.user-block -->
+
                       <p>
                         <div class="row d-flex justify-content-center">
 
