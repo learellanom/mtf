@@ -130,6 +130,25 @@
                                   </div>
                                 </div>
                               </div>
+                              <div class="col-12 col-sm-2">
+                                @if($transactione->status == 'Activo')
+                                <div class="info-box bg-success">
+                                  <div class="info-box-content">
+
+                                    <span class="info-box-text text-center text-muted text-uppercase text-white"><i class="fas fa-check-circle fa-lg"></i> </span>
+                                    <span class="info-box-number text-center text-muted mb-0 text-uppercase text-white">{{ 'Activa' ?? 'Sin comisión' }}</span>
+                                  </div>
+                                  @else
+                                  <div class="info-box bg-danger">
+                                    <div class="info-box-content">
+
+                                      <span class="info-box-text text-center text-muted text-uppercase text-white"><i class="fas fa-ban fa-lg"></i> </span>
+                                      <span class="info-box-number text-center text-muted mb-0 text-uppercase text-white">{{ 'Anulada' ?? 'Sin comisión' }}</span>
+                                    </div>
+
+                                  @endif
+                                </div>
+                              </div>
 
                           </div>
                       </p>
