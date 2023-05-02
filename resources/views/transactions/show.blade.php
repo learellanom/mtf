@@ -31,7 +31,8 @@
       <!-- Default box -->
       <div class="card">
         <div class="card-header">
-          <h3 class="card-title text-uppercase font-weight-bold">Transacción numero #{{ $transactions->id }}</h3>
+          <h3 class="card-title text-uppercase font-weight-bold">Transacción numero #{{ $transactions->id }}
+            @if($transactions->status == 'Activo') <span class="badge badge-success">{{ $transactions->status }}</span> @else <span class="badge badge-danger">{{ $transactions->status }}</span> @endif </h3>
           <p class="card-title text-uppercase font-weight-bold" style="margin-left: 500px;">Cliente: {{ $transactions->group->name ?? 'SIN CLIENTE' }}</p>
 
           <div class="card-tools">

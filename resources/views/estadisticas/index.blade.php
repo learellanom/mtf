@@ -6,21 +6,21 @@
 @php
 
 $heads = [
-    ['label' => 'Fecha Transacción',    'no-export' => false, 'width' => 2],
+    ['label' => 'Fecha',                'no-export' => false, 'width' => 8],
     ['label' => 'Transacción',          'no-export' => true, 'width' => 5],
     ['label' => 'Descripción',          'no-export' => true, 'width' => 5],
-    ['label' => 'Tipo Moneda',          'no-export' => true, 'width' => 2],
+    ['label' => 'Moneda',               'no-export' => true, 'width' => 2],
     ['label' => 'MontoMoneda',          'no-export' => true, 'width' => 5],
-    ['label' => 'Tasa Cambio',          'no-export' => true, 'width' => 5],
-    ['label' => 'Monto $',              'no-export' => true, 'width' => 5],
-    ['label' => '%',                    'no-export' => true, 'width' => 5],
-    ['label' => 'Comision $',           'no-export' => true, 'width' => 5],
-    ['label' => 'Monto Total $',        'no-export' => true, 'width' => 5],
+    ['label' => 'Tasa',                 'no-export' => true, 'width' => 5],
+    ['label' => 'Monto $',              'no-export' => true, 'width' => 7],
+    ['label' => '%',                    'no-export' => true, 'width' => 1],
+    ['label' => 'Comision $',           'no-export' => true, 'width' => 8],
+    ['label' => 'Monto Total $',        'no-export' => true, 'width' => 7],
     ['label' => 'Saldo $',              'no-export' => true, 'width' => 5],
     ['label' => 'Cliente',              'no-export' => true, 'width' => 5],
-    ['label' => 'Agente',               'no-export' => true, 'width' => 10],
-    ['label' => 'Wallet',               'no-export' => true, 'width' => 5],
-    ['label' => 'Actions',              'no-export' => true, 'width' => 5],
+    ['label' => 'Agente',               'no-export' => true, 'width' => 8],
+    ['label' => 'Caja',                 'no-export' => true, 'width' => 5],
+    ['label' => 'Ver',                  'no-export' => true, 'width' => 3],
 ];
 
 
@@ -61,7 +61,7 @@ $config2 =
 
 $config3 = [
     "locale" => ["format" => "DD-MM-YYYY"],
-    "allowClear" => true,    
+    "allowClear" => true,
 ];
 
 
@@ -234,10 +234,9 @@ if (isset($balance->Total)){
                                 :heads="$heads"
 
                                 striped
-                                hoverable
                                 with-buttons
 
-                                class="table table-bordered table-responsive-lg">
+                                class="table table-bordered table-responsive-lg table-secondary">
                                 @foreach($config['data'] as $row)
                                     <tr>
 
@@ -254,7 +253,7 @@ if (isset($balance->Total)){
 
                                         @php
                                             switch  ($row->TransactionId){
-                                                case 1: 
+                                                case 1:
                                                 case 3:
                                                 case 5:
                                                 case 7:
@@ -279,22 +278,22 @@ if (isset($balance->Total)){
                                         <td>{!! $row->WalletName !!}</td>
 
                                         <td class="text-center">
-                                            <!-- <a      
+                                            <!-- <a
                                                 href="{{ route('transactions.show', ['movimiento'=> $row->Id]) }}"
                                                 title="Detalles"
                                                 class="btn btn-xl text-primary mx-1 shadow text-center"
-                                                
+
                                             >
                                                 <i class="fa fa-lg fa-fw fa-eye"></i>
                                             </a>    -->
-                                            <a      
-                                                href="#"
+                                            <a
+                                                href="{{ route('transactions.show', ['movimiento'=> $row->Id]) }}"
                                                 title="Detalles"
-                                                class="btn btn-xl text-primary mx-1 shadow text-center"
-                                                
+                                                class="btn btn-xl text-dark mx-1 shadow text-center"
+
                                             >
                                                 <i class="fa fa-lg fa-fw fa-eye"></i>
-                                            </a>                                                                                      
+                                            </a>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -361,7 +360,7 @@ if (isset($balance->Total)){
             $('#wallet').on('change', function (){
 
                 const usuario = $('#userole').val();
-                const grupo   = $('#group').val(); 
+                const grupo   = $('#group').val();
                 const wallet = $('#wallet').val();
                 // alert('***** wallet ' +  wallet);
                  theRoute(usuario,grupo,wallet);
