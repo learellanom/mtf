@@ -17,7 +17,7 @@
  <div class="card col-md-7 movi" style="min-height: 500px !important; max-height:1600px; height:1050px;">
   <div class="card-body">
 
-    {!! Form::open(['route' => 'transactions.store', 'autocomplete' => 'off', 'files' => true, 'enctype' =>'multipart/form-data']) !!}
+    {!! Form::open(['route' => 'transactions.store', 'autocomplete' => 'on', 'files' => true, 'enctype' =>'multipart/form-data']) !!}
 
 
 
