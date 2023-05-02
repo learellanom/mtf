@@ -175,10 +175,10 @@
 
             <div class="col-12 col-md-12 col-lg-4 order-1 order-md-2">
                 <div class="row">
-                    <div class="col-12 col-sm-4">
+                    <div class="col-12 col-sm-2">
                       <div class="info-box bg-light">
                         <div class="info-box-content">
-                          <span class="info-box-text text-center text-muted">Porcentaje <i class="fas fa-percentage"></i></span>
+                          <span class="info-box-text text-center text-muted"><i class="fas fa-percentage"></i></span>
                           <span class="info-box-number text-center text-muted mb-0 text-uppercase">{{ $transactions->percentage ?? 'Sin porcentaje' }} </span>
                         </div>
                       </div>
@@ -199,6 +199,14 @@
                         </div>
                       </div>
                     </div>
+                    <div class="col-12 col-sm-2">
+                        <div class="info-box bg-light">
+                          <div class="info-box-content">
+                            <span class="info-box-text text-center text-muted"><i class="fas fa-percentage"></i></span>
+                            <span class="info-box-number text-center text-muted mb-0 text-uppercase">{{ $transactions->percentage ?? 'Sin porcentaje' }} </span>
+                          </div>
+                        </div>
+                      </div>
                   </div>
                   <hr>
 
