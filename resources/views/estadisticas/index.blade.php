@@ -265,6 +265,7 @@ if (isset($balance->Total)){
                                                 case 4:
                                                 case 8:
                                                 case 2:
+                                                case 6:
                                                     $myTotal = ($myTotal) + ($row->MontoTotal);
                                                     break;
                                                 default:
