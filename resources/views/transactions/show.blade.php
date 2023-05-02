@@ -46,7 +46,7 @@
           <div class="row">
             <div class="col-12 col-md-12 col-lg-8 order-2 order-md-1">
               <div class="row">
-                <div class="col-12 col-sm-4">
+                <div class="col-12 col-sm-3">
                   <div class="info-box bg-light">
                     <div class="info-box-content">
                       <span class="info-box-text text-center text-muted">Agente <i class="fas fa-user"></i></span>
@@ -54,22 +54,30 @@
                     </div>
                   </div>
                 </div>
-                <div class="col-12 col-sm-4">
+                <div class="col-12 col-sm-3">
                   <div class="info-box bg-light">
                     <div class="info-box-content">
-                      <span class="info-box-text text-center text-muted">Monto en dolares <i class="fas fa-dollar-sign"></i></span>
+                      <span class="info-box-text text-center text-muted">Monto en dolar <i class="fas fa-dollar-sign"></i></span>
                       <span class="info-box-number text-center text-muted mb-0">{{ number_format($transactions->amount) }}$</span>
                     </div>
                   </div>
                 </div>
-                <div class="col-12 col-sm-4">
+                <div class="col-12 col-sm-3">
                   <div class="info-box bg-light">
                     <div class="info-box-content">
-                      <span class="info-box-text text-center text-muted">Monto total de la transacción <i class="fas fa-funnel-dollar"></i></span>
+                      <span class="info-box-text text-center text-muted">Monto total <i class="fas fa-funnel-dollar"></i></span>
                       <span class="info-box-number text-center text-muted mb-0">{{ number_format($transactions->amount_total) }}$</span>
                     </div>
                   </div>
                 </div>
+                <div class="col-12 col-sm-3">
+                    <div class="info-box bg-light">
+                      <div class="info-box-content">
+                        <span class="info-box-text text-center text-muted">Transacción <i class="fas fa-trademark"></i></span>
+                        <span class="info-box-number text-center text-muted mb-0 text-uppercase">{{ $transactions->type_transaction->name }}</span>
+                      </div>
+                    </div>
+                  </div>
               </div>
               <div class="row">
                 <div class="col-12">
