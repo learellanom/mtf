@@ -185,7 +185,7 @@ $config4 = [
 <script>
 
 
-    const miGrupo = {!! $mySupplier !!};
+    const miSupplier = {!! $mySupplier !!};
 
     BuscaProveedor(miProveedor);
 

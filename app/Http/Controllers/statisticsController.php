@@ -755,76 +755,35 @@ class statisticsController extends Controller
         return view('estadisticas.statisticsResumenCliente', compact('myCliente','cliente','Transacciones'));            
         return $myUsers2;
     }
-    
     /*
     *
     *
-    *       walletSummary
+    *   walletSummary
     *
     *
-    */  
-    public function walletSummary(Request $request)
-    {
+    */
+    public function walletSummary(Request $request) {
 
-        
-        $myWallet = 0;
-        if ($request->wallet) {
-            $myWallet = $request->wallet;
+        $myWallet       = ($request->wallet) ? $request->wallet : 0;
+        $master         = ($request->master) ? $request->master : false;
+
+        $Transacciones  = $this->getBalanceWallet($myWallet, $master);
+
+        //
+        // si es un solo grupo devuelve un objeto y debe convertirse a array de 1
+        //
+        if (gettype($Transacciones) == "object"){
+            $Transacciones = [$Transacciones];
         }
 
-        $myWalletDesde = 0;
-        $myWalletHasta = 9999;
-
-        if ($myWallet != 0){
-            $myWalletDesde = $myWallet;
-            $myWalletHasta = $myWallet;
-        }
-
-        $myFechaDesde = "2001-01-01";
-        $myFechaHasta = "9999-12-31";
-        if ($request->fechaDesde){
-            $myFechaDesde = $request->fechaDesde;
-            $myFechaHasta = $request->fechaHasta;
-        }
-
-        if ($request->fechaHasta){
-            $myFechaHasta = $request->fechaHasta;
-        }
-       //
-
-       
-       $wallet = Wallet::select('wallets.id', 'wallets.name')
-       ->get();
-
-       //dd($wallet);
-
-       $wallet2 = array();
-       foreach($wallet as $wallet){
-           $wallet22 [$wallet->id] =  $wallet->name;
-       }
-       $wallet = $wallet22;
-
-        $Transacciones = DB::table('transactions')
-            ->select(DB::raw(' 
-                wallets.name as WalletName,
-                type_transactions.name as TipoTransaccion,                
-                count(*)    as cant_transactions, 
-                sum(amount) as total_amount, 
-                sum(amount_commission) as total_commission,
-                sum(amount_total) as total'))
-            ->leftJoin('wallets', 'wallets.id', '=', 'transactions.wallet_id')
-            ->leftJoin('type_transactions', 'type_transactions.id', '=', 'transactions.type_transaction_id')             
-            ->whereBetween('Transactions.wallet_id', [$myWalletDesde, $myWalletHasta])
-            ->whereBetween('Transactions.transaction_date', [$myFechaDesde, $myFechaHasta])
-            ->groupBy('WalletName','TipoTransaccion')
-            ->get();
-  
-  
-            // dd($Transacciones);
-        
-        return view('estadisticas.statisticsResumenWallet', compact('myWallet', 'wallet', 'Transacciones'));   
-        return $myUsers2;
+        $Type_transactions  = $this->getTypeTransactions();
+        $wallets            = $this->getWallet();
+ 
+        return view('estadisticas.statisticsResumenWallet', compact('myWallet', 'wallets', 'Transacciones','master'));           
     }
+
+
+
     /*
     *
     *
@@ -899,7 +858,6 @@ class statisticsController extends Controller
     */  
     public function groupSummary(Request $request)
     {
-
         $myGroup = 0;
         if ($request->grupo) {
             $myGroup = $request->grupo;
@@ -928,7 +886,7 @@ class statisticsController extends Controller
     */  
     public function supplierSummary(Request $request)
     {
-        dd('aqui');
+
         $mySupplier = 0;
         if ($request->proveedor) {
             $mySupplier = $request->proveedor;
@@ -948,78 +906,7 @@ class statisticsController extends Controller
         return view('estadisticas.statisticsResumenProveedor', compact('mySupplier','suppliers','Type_transactions','Transacciones'));            
         
     }
-    /*
-
-        Resumen por grupo2
-
-    */
-    public function groupSummary2(Request $request)
-    {
-
-        $myGroup = 0;
-        if ($request->grupo) {
-            $myGroup = $request->grupo;
-        }
-
-        $myGroupDesde = 0;
-        $myGroupHasta = 9999;
-
-
-        if ($myGroup != 0){
-            $myGroupDesde = $myGroup;
-            $mygroupHasta = $myGroup;
-        }
-
-
-        //
-        $myTypeTransaction      = 0;
-        $myTypeTransactionDesde = 0;
-        $myTypeTransactionHasta = 9999;        
-        if ($request->type_transaction) {
-            $myTypeTransaction      = $request->type_transaction;
-            $myTypeTransactionDesde = $request->type_transaction;
-            $myTypeTransactionHasta = $request->type_transaction;        
-    
-        }
-
-
-        $myFechaDesde = "2001-01-01";
-        $myFechaHasta = "9999-12-31";
-        if ($request->fechaDesde){
-            $myFechaDesde = $request->fechaDesde;
-            $myFechaHasta = $request->fechaHasta;
-        }
-
-        if ($request->fechaHasta){
-            $myFechaHasta = $request->fechaHasta;
-        }
-
-        //
-
-        $Transacciones = DB::table('transactions')
-            ->select(DB::raw('
-                groups.name as GroupName,
-                type_transactions.name as TipoTransaccion,
-                count(*)    as cant_transactions,
-                sum(amount) as total_amount,
-                sum(amount_commission) as total_commission,
-                sum(amount_total) as total'))
-            ->leftJoin('groups','groups.id', '=', 'transactions.group_id')
-            ->leftJoin('type_transactions', 'type_transactions.id', '=', 'transactions.type_transaction_id')             
-            ->whereBetween('Transactions.type_transaction_id', [$myTypeTransactionDesde, $myTypeTransactionHasta])            
-            ->whereBetween('Transactions.group_id', [$myGroupDesde, $myGroupHasta])
-            ->whereBetween('Transactions.transaction_date', [$myFechaDesde, $myFechaHasta])   
-            ->groupBy('GroupName', 'TipoTransaccion')
-            ->get();
-  
-  
-            // dd($Transacciones);
-        $Type_transactions  = $this->getTypeTransactions();
-        $groups             = $this->getGroups();
-
-        return view('estadisticas.statisticsResumenGrupo', compact('myGroup','groups','Type_transactions','Transacciones'));            
-        
-    }
+   
 
     public function conciliationSummaryDateGroup(Request $request)
     {
@@ -1367,8 +1254,8 @@ class statisticsController extends Controller
     }
 
     
-    function getBalanceWallet($wallet = 0){
-        
+    function getBalanceWallet($wallet = 0, $master = false){
+
         if ($wallet === 0){
             $walletDesde = 00000;
             $walletHasta = 99999;
@@ -1383,6 +1270,11 @@ class statisticsController extends Controller
         
         $myFechaDesde = "2001-01-01";
         $myFechaHasta = "9999-12-31";
+
+        $myTable = "mtf.transactions";
+        if ($master){
+            $myTable = "mtf.transaction_master";
+        }
         //
         // 26-04-2023
         //
@@ -1414,7 +1306,7 @@ class statisticsController extends Controller
             mtf.wallets.name  as NombreWallet,
             0 				  as MontoCreditos,
             sum(amount_total) as MontoDebitos
-        FROM mtf.transactions
+        FROM $myTable 
         left join  mtf.wallets on mtf.transactions.wallet_id  = mtf.wallets.id
         where
             type_transaction_id in (4,8,2,6)
@@ -1432,7 +1324,7 @@ class statisticsController extends Controller
             mtf.wallets.name   as NombreWallet,
             sum(amount_total)  as MontoCreditos,
             0 as MontoDebitos
-        FROM mtf.transactions
+        FROM $myTable 
         left join  mtf.wallets on mtf.transactions.wallet_id  = mtf.wallets.id
         where
             type_transaction_id in(1,3,5,7,9)

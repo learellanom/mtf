@@ -167,7 +167,7 @@ $config4 = [
                                             onClick="theRoute2({{0}},{{$row->IdGrupo}})"
                                         >
                                             <i class="fa fa-lg fa-fw fa-eye"></i>
-                                        </a>
+                                    </a>
                                     </td>
                                 </tr>
                             @endforeach

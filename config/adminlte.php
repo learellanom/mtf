@@ -437,10 +437,17 @@ return [
             'label'       => 'M',
             'label_color' =>'danger',
         ],
+        [
+            'text'      => 'Resumen por Caja',
+            'url'       => 'estadisticasResumenWalletMaster',
+            'active'    => ['estadisticasResumenWalletMaster*'],
+            'icon'      => 'fas fa-fw fas fa-chart-bar',
+            'can'       => 'estadisticasDetalle.statisticsResumenWallet',
+        ],        
         //
         // Proveedores
         //
-        ['header' => 'Proveedoress',
+        ['header' => 'Proveedores',
         'classes' =>'text-uppercase font-weight-bold text-light',],
         [
             'text' => 'Detalles de movimiento',
