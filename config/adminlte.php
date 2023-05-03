@@ -440,7 +440,7 @@ return [
         //
         // Proveedores
         //
-        ['header' => 'Proveedores',
+        ['header' => 'Proveedoress',
         'classes' =>'text-uppercase font-weight-bold text-light',],
         [
             'text' => 'Detalles de movimiento',
@@ -453,10 +453,10 @@ return [
         ],
         [
             'text' => 'Resumen por Proveedor',
-            'url'  => 'estadisticasResumenGrupo',
-            'active' => ['estadisticasResumenGrupo*'],
+            'url'  => 'estadisticasResumenProveedor',
+            'active' => ['estadisticasResumenProveedor*'],
             'icon' => 'fas fa-fw fas fa-chart-area',
-            'can'  => 'estadisticasDetalle.statisticsResumenUsuario',
+            'can'  => 'estadisticasDetalle.statisticsResumenProveedor',
             'label'       => 'P',
             'label_color' =>'warning',
         ],

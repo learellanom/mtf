@@ -596,8 +596,13 @@ class statisticsController extends Controller
         return view('estadisticas.index', compact('myUser','userole','Transacciones','cliente','wallet','myCliente','myUser','myWallet'));
 
     }
-
-
+    /*
+    *
+    *
+    *       usersummary
+    *
+    *
+    */
     public function userSummary(Request $request)
     {
 
@@ -670,7 +675,13 @@ class statisticsController extends Controller
         return view('estadisticas.statisticsResumenUsuario', compact('myUser','userole','Transacciones'));            
         return $myUsers2;
     }
-
+    /*
+    *
+    *
+    *       clientSummary
+    *
+    *
+    */
     public function clientSummary(Request $request)
     {
 
@@ -745,7 +756,13 @@ class statisticsController extends Controller
         return $myUsers2;
     }
     
-    
+    /*
+    *
+    *
+    *       walletSummary
+    *
+    *
+    */  
     public function walletSummary(Request $request)
     {
 
@@ -808,9 +825,13 @@ class statisticsController extends Controller
         return view('estadisticas.statisticsResumenWallet', compact('myWallet', 'wallet', 'Transacciones'));   
         return $myUsers2;
     }
-
-
-        
+    /*
+    *
+    *
+    *       transactionSummary
+    *
+    *
+    */  
     public function transactionSummary(Request $request)
     {
 
@@ -870,10 +891,12 @@ class statisticsController extends Controller
         return $myUsers2;
     }
     /*
-
-        Resumen por grupo
-
-    */
+    *
+    *
+    *       groupSummary
+    *
+    *
+    */  
     public function groupSummary(Request $request)
     {
 
@@ -894,6 +917,35 @@ class statisticsController extends Controller
         $groups             = $this->getGroups();
 
         return view('estadisticas.statisticsResumenGrupo', compact('myGroup','groups','Type_transactions','Transacciones'));            
+        
+    }
+        /*
+    *
+    *
+    *       supplierSummary
+    *
+    *
+    */  
+    public function supplierSummary(Request $request)
+    {
+        dd('aqui');
+        $mySupplier = 0;
+        if ($request->proveedor) {
+            $mySupplier = $request->proveedor;
+        }
+        $Transacciones      = $this->getBalanceSupplier($mySupplier);
+
+        //
+        // si es un solo grupo devuelve un objeto y debe convertirse a array de 1
+        //
+        if (gettype($Transacciones) == "object"){
+            $Transacciones = [$Transacciones];
+        }
+
+        $Type_transactions  = $this->getTypeTransactions();
+        $suppliers             = $this->getSuppliers();
+
+        return view('estadisticas.statisticsResumenProveedor', compact('mySupplier','suppliers','Type_transactions','Transacciones'));            
         
     }
     /*
@@ -1145,7 +1197,11 @@ class statisticsController extends Controller
         }
         return $group2;
     }
-
+    /*
+    *
+    *    getSuppliers
+    *
+    */
     function getSuppliers(){
         $supplier = Supplier::select('suppliers.id', 'suppliers.name')
         ->get();
@@ -1243,10 +1299,10 @@ class statisticsController extends Controller
         $myQuery =
         "
         select 
-            IdGrupo as IdGrupo,
-            NombreGrupo as NombreGrupo,
-            sum(MontoCreditos) as Creditos,
-            sum(MontoDebitos)  as Debitos,
+            IdGrupo             as IdGrupo,
+            NombreGrupo         as NombreGrupo,
+            sum(MontoCreditos)  as Creditos,
+            sum(MontoDebitos)   as Debitos,
             (sum(MontoCreditos) - sum(MontoDebitos) ) as Total
         from(
         SELECT 
@@ -1465,7 +1521,7 @@ class statisticsController extends Controller
         FROM mtf.transactions
         left join  mtf.suppliers on mtf.transactions.supplier_id  = mtf.supplier.id
         where
-            type_transaction_id in (4,8,2)
+            type_transaction_id in (4,8,2,6)
             and
             transaction_date between '0000-00-00' and '9999-12-31' 
             and
