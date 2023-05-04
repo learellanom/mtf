@@ -462,9 +462,9 @@ return [
         [
             'text' => 'Resumen por Proveedor',
             'url'  => 'estadisticasResumenProveedor',
-            'active' => ['estadisticasResumenProveedor*'],
+            'active' => ['estadisticasResumenProveedor'],
             'icon' => 'fas fa-fw fas fa-chart-area',
-            'can'  => 'estadisticasDetalle.statisticsResumenProveedor',
+            'can'  => 'estadisticasDetalle.estadisticasResumenProveedor',
             'label'       => 'P',
             'label_color' =>'warning',
         ],

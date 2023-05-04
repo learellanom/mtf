@@ -17,7 +17,7 @@ $heads = [
     ['label' => 'Comision $',           'no-export' => true, 'width' => 8],
     ['label' => 'Monto Total $',        'no-export' => true, 'width' => 7],
     ['label' => 'Saldo $',              'no-export' => true, 'width' => 5],
-    ['label' => 'Cliente',              'no-export' => true, 'width' => 5],
+    ['label' => 'Proveedor',            'no-export' => true, 'width' => 5],
     ['label' => 'Agente',               'no-export' => true, 'width' => 8],
     ['label' => 'Caja',                 'no-export' => true, 'width' => 5],
     ['label' => 'Ver',                  'no-export' => true, 'width' => 3],
@@ -90,50 +90,27 @@ if (isset($balance->Total)){
 
 <div class="container-left">
     <div class="row col-12">
+        
         <div class ="col-12 col-sm-2">
-            <x-adminlte-select2 id="userole"
-                                class="mySelect"
-                                name="optionsUsers"
+            <x-adminlte-select2 id="supplier"
+                                name="optionsSupplier"
                                 igroup-size="sm"
                                 label-class="text-lightblue"
-                                data-placeholder="Agente..."
-                                :config="$config1"
-                                >
-                <x-slot name="prependSlot">
-                    <div class="input-group-text bg-gradient-dark">
-                        <!-- <i class="fas fa-car-side"></i> -->
-                        <i class="fas fa-user-tie"></i>
-                    </div>
-                </x-slot>
-                <!-- <x-adminlte-options :options="['Car', 'Truck', 'Motorcycle']" empty-option/> -->
-                <x-adminlte-options 
-                    :options="$userole" 
-                    empty-option="Selecciona un Agente.."/>
-            </x-adminlte-select2>
-        </div>
-
-        <div class ="col-12 col-sm-2">
-            <x-adminlte-select2 id="group"
-                                name="optionsGroup"
-                                igroup-size="sm"
-                                label-class="text-lightblue"
-                                data-placeholder="Grupo ..."
+                                data-placeholder="Supplier ..."
                                 :config="$config2"
                                 >
                 <x-slot name="prependSlot">
                     <div class="input-group-text bg-gradient-dark">
-                        <!-- <i class="fas fa-car-side"></i> -->
                         <i class="fas fa-user-tie"></i>
                     </div>
                 </x-slot>
 
-                <x-adminlte-options :options="$group" empty-option="Selecciona un Grupo.."/>
+                <x-adminlte-options :options="$supplier" empty-option="Selecciona un proveedor.."/>
             </x-adminlte-select2>
         </div>
+        
 
-        <div class ="col-12 col-sm-2">
-        </div>
-
+        <!--
         <div class ="col-12 col-sm-2">
             <x-adminlte-date-range
                 id="drCustomRanges"
@@ -148,6 +125,8 @@ if (isset($balance->Total)){
                 </x-slot>
             </x-adminlte-date-range>
         </div>
+        -->
+
 
         <div class ="col-12 col-sm-2">
             <x-adminlte-select2 id="wallet"
@@ -193,6 +172,7 @@ if (isset($balance->Total)){
 {{-- Compressed with style options / fill data using the plugin config --}}
 <!-- <x-adminlte-datatable id="table2" :heads="$heads" head-theme="dark" :config="$config"
     striped hoverable bordered compressed/> -->
+
 <div class="row">
     <div class="col-md-12">
             <div class="card mb-4">
@@ -278,7 +258,7 @@ if (isset($balance->Total)){
                                         <td class="text-right">{!! number_format($myTotal,2,",",".") !!}</td>
 
 
-                                        <td>{!! $row->ClientName !!}</td>
+                                        <td>{!! $row->SupplierName !!}</td>
                                         <td>{!! $row->AgenteName !!}</td>
                                         <td>{!! $row->WalletName !!}</td>
 
@@ -319,62 +299,48 @@ if (isset($balance->Total)){
     @routes
     <script>
 
-    const miGrupo   = {!! $myGroup !!};
-    const miUsuario = {!! $myUser !!};
-    const miWallet  = {!! $myWallet !!};
+    const miWallet      = {!! $myWallet !!};
+    const miSupplier    = {!! $mySupplier !!};
 
-    // console.log(miCliente);
-
-    // alert('miCLiente -> ' + miCliente);
-    // alert('miUser    -> ' + miUsuario);
+     // alert('miSupplier    -> ' + miSupplier + ' y ' + {!! $mySupplier !!});
     // alert('miWallet  -> ' + miWallet);
 
-    BuscaGrupo(miGrupo);
-    // BuscaCliente(miCliente);
-    BuscaUsuario(miUsuario);
+    
+    BuscaSupplier(miSupplier);
+    
     BuscaWallet(miWallet);
 
-        $(() => {
+    $(() => {
 
 
-            $('#userole').on('change', function (){
+            $('#supplier').on('change', function (){
 
-                const usuario = $('#userole').val();
-                const grupo   = $('#group').val();
-                const wallet  = $('#wallet').val();
-                theRoute(usuario,grupo,wallet);
+                const supplier      = $('#supplier').val();
+                const wallet        = $('#wallet').val();
 
-            });
-
-            $('#group').on('change', function (){
-
-                const usuario = $('#userole').val();
-
-                const grupo   = $('#group').val();
-                const wallet = $('#wallet').val();
-                const seleccionado = $('#group').prop('selectedIndex');
-                // alert('***** cliente ' +  cliente + " --- selected index --- " + seleccionado);
+                const seleccionado  = $('#supplier').prop('selectedIndex');
+                
+                // alert('supplier -> ' + supplier);
 
                 var URLactual = window.location;
                 // alert(URLactual);
 
-                theRoute(usuario,grupo,wallet);
+                theRoute(supplier,wallet);
 
 
             });
 
             $('#wallet').on('change', function (){
 
-                const usuario = $('#userole').val();
-                const grupo   = $('#group').val();
-                const wallet = $('#wallet').val();
-                // alert('***** wallet ' +  wallet);
-                 theRoute(usuario,grupo,wallet);
+                const supplier      = $('#supplier').val();
+                const wallet        = $('#wallet').val();
+
+                theRoute(supplier,wallet);
 
              });
 
             $('#drCustomRanges').on('change', function () {
-                alert('Fechas rnagos -> ' + $('#drCustomRanges').val());
+               // alert('Fechas rnagos -> ' + $('#drCustomRanges').val());
                 let myFechaDesde, myFechaHasta;
 
                 myFechaDesde =  ($('#drCustomRanges').val()).substr(6,4) +
@@ -403,54 +369,22 @@ if (isset($balance->Total)){
         })
 
 
-        function theRoute(usuario = 0, grupo = 0, wallet = 0, fechaDesde = 0, fechaHasta = 0){
+        function theRoute(supplier = 0, wallet = 0, fechaDesde = 0, fechaHasta = 0){
 
-            if (usuario === "") usuario = 0;
-            if (grupo   === "") grupo = 0;
-            if (wallet  === "") wallet  = 0;
+            if (supplier   === "")  supplier = 0;
+            if (wallet  === "")     wallet  = 0;
 
             let myRoute = "";
-                myRoute = "{{ route('estadisticasDetalle', ['usuario' => 'usuario2', 'grupo' => 'grupo2', 'wallet' => 'wallet2', 'fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2']) }}";
-                myRoute = myRoute.replace('grupo2',grupo);
-                myRoute = myRoute.replace('usuario2',usuario);
+                myRoute = "{{ route('estadisticasDetalleProveedor', ['supplier' => 'supplier2', 'wallet' => 'wallet2', 'fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2']) }}";
+                myRoute = myRoute.replace('supplier2',supplier);
                 myRoute = myRoute.replace('wallet2',wallet);
                 myRoute = myRoute.replace('fechaDesde2',fechaDesde);
                 myRoute = myRoute.replace('fechaHasta2',fechaHasta);
-            console.log(myRoute);
             // alert(myRoute);
             location.href = myRoute;
 
         }
 
-        function BuscaGrupo(miGrupo){
-            //alert("Busca grupo - miGrupo -> " + miGrupo);
-            $('#group').each( function(index, element){
-                //alert ("Busca Grupo -> " + $(this).val() + " text -> " + $(this).text()+ " y con index -> " + $(this).prop('selectedIndex'));
-                $(this).children("option").each(function(){
-                    if ($(this).val() === miGrupo.toString()){
-                        //alert('Busca Grupo - encontro');
-                        $("#group option[value="+ miGrupo +"]").attr("selected",true);
-                    }
-
-                });
-            });
-            //
-        }
-
-        function BuscaCliente(miCliente){
-            //alert("BuscaCliente - miCliente -> " + miCliente);
-            $('#cliente').each( function(index, element){
-                //alert ("Buscacliente -> " + $(this).val() + " text -> " + $(this).text()+ " y con index -> " + $(this).prop('selectedIndex'));
-                $(this).children("option").each(function(){
-                    if ($(this).val() === miCliente.toString()){
-                        //alert('BUscaCliente - encontro');
-                        $("#cliente option[value="+ miCliente +"]").attr("selected",true);
-                    }
-
-                });
-            });
-            //
-        }
 
         function BuscaUsuario(miUsuario){
             if (miUsuario===0){
@@ -483,6 +417,24 @@ if (isset($balance->Total)){
                         $("#wallet option[value="+ miWallet +"]").attr("selected",true);
                     }
                     // alert("BuscaWallet aqui ->  the val " + $(this).val() + " text -> " + $(this).text());
+                });
+            });
+            //
+        }
+
+        function BuscaSupplier(miSupplier){
+            if (miSupplier===0){
+                return;
+            }
+            // alert("BuscaSupplier - miSupplier -> " + miSupplier);
+            $('#supplier').each( function(index, element){
+                // alert ("BuscaSupplier -> " + $(this).val() + " text -> " + $(this).text()+ " y con index -> " + $(this).prop('selectedIndex'));
+                $(this).children("option").each(function(){
+                    if ($(this).val() === miSupplier.toString()){
+                        // alert('BuscaSupplier - encontro');
+                        $("#supplier option[value="+ miSupplier +"]").attr("selected",true);
+                    }
+                    // alert("BuscaSupplier aqui ->  the val " + $(this).val() + " text -> " + $(this).text());
                 });
             });
             //

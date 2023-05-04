@@ -59,7 +59,7 @@ $config4 = [
 </script>
 <br>
 <br>
-<h1 class="text-center text-dark font-weight-bold text-uppercase">Resumen de Movimiento por Grupo <i class="fas fa-users"></i></h1>
+<h1 class="text-center text-dark font-weight-bold text-uppercase">Resumen de Movimiento por Proveedor <i class="fas fa-users"></i></h1>
 <br>
 <br>
 {{-- Disabled --}}
@@ -68,7 +68,7 @@ $config4 = [
     <div class="row col-12 d-flex justify-content-center">
         <!-- Grupo -->
         <div class ="col-12 col-sm-3">
-            <x-adminlte-select2 id="suppiler"
+            <x-adminlte-select2 id="supplier"
                                 name="optionsSupplier"
                                 igroup-size="sm"
                                 label-class="text-lightblue"
@@ -155,7 +155,7 @@ $config4 = [
                                 [Total] => 182930.5 -->
                                  
                                 <tr>
-                                    <td>{!! $row->NombreProveedor !!}</td>
+                                    <td>{!! $row->NombreSupplier !!}</td>
 
                                     <td>{!! number_format($row->Total,2,",",".") !!}</td>
 
@@ -163,7 +163,7 @@ $config4 = [
                                     <a      href="#"
                                             title="Detalles"
                                             class="btn btn-xl text-primary mx-1 shadow text-center"
-                                            onClick="theRoute2({{0}},{{$row->IdGrupo}})"
+                                            onClick="theRoute({{$row->IdSupplier}})"
                                         >
                                             <i class="fa fa-lg fa-fw fa-eye"></i>
                                         </a>
@@ -187,14 +187,14 @@ $config4 = [
 
     const miSupplier = {!! $mySupplier !!};
 
-    BuscaProveedor(miProveedor);
+    BuscaProveedor(miSupplier);
 
     $(() => {
 
 
-        $('#proveedor').on('change', function (){
+        $('#supplier').on('change', function (){
 
-            const proveedor = $('#proveedor').val();
+            const proveedor = $('#supplier').val();
             theRoute(proveedor,cliente,wallet);
 
         });
@@ -218,7 +218,7 @@ $config4 = [
                             ;
 
             //alert('Fecha Desde ' + myFechaDesde + 'Fecha Hasta ' + myFechaHasta);
-            cont proveedor = $('#proveedor').val();            
+            const proveedor = $('#supplier').val();            
             theRoute(proveedor,myFechaDesde,myFechaHasta);
         });
 
@@ -231,16 +231,16 @@ $config4 = [
     * 
     */
     function theRoute(proveedor = 0, fechaDesde = 0, fechaHasta = 0){
-
+        // alert(' el proveedor -> ' + proveedor)
         if (proveedor   === "") proveedor  = 0;
 
         let myRoute = "";
-            myRoute = "{{ route('estadisticasResumenProveedor', ['proveedor' => 'proveedor2', 'fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2']) }}";
+            myRoute = "{{ route('estadisticasDetalleProveedor', ['supplier' => 'proveedor2', 'fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2']) }}";
             myRoute = myRoute.replace('proveedor2',proveedor);
             myRoute = myRoute.replace('fechaDesde2',fechaDesde);
             myRoute = myRoute.replace('fechaHasta2',fechaHasta);
         // console.log(myRoute);
-        // alert(myRoute);
+        
         location.href = myRoute;
 
     }
