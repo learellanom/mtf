@@ -1196,12 +1196,13 @@ class statisticsController extends Controller
         $myFechaDesde = "2001-01-01";
         $myFechaHasta = "9999-12-31";
         //
-        // 26-04-2023
+        // 04-05-2023
         //
         // Debitos
         //  4 cobro en efectivo
         //  8 Nota de debito
         //  2 cobro transferencia
+        //  10  cobro en mercancia
         //
         // Creditos
         //  1 transferencia
@@ -1228,7 +1229,7 @@ class statisticsController extends Controller
         FROM mtf.transactions
         left join  mtf.groups on mtf.transactions.group_id  = mtf.groups.id
         where
-            type_transaction_id in (4,8,2,6)
+            type_transaction_id in (4,8,2,6,10)
             and
             transaction_date between '0000-00-00' and '9999-12-31' 
             and
