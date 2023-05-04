@@ -25,7 +25,7 @@ class Type_coinSeeder extends Seeder
             //'password' =>bcrypt('12345678'),
         ]);
         Type_coin::create([
-            'name' => "BRM",
+            'name' => "RMB",
             'description' => "Moneda China",
             //'password' =>bcrypt('12345678'),
         ]);
@@ -60,7 +60,7 @@ class Type_coinSeeder extends Seeder
             //'password' =>bcrypt('12345678'),
         ]);
         Type_coin::create([
-            'name' => "Dólar canadiense            ",
+            'name' => "Dólar canadiense",
             'description' => "Moneda de Canada",
             //'password' =>bcrypt('12345678'),
         ]);
@@ -82,6 +82,11 @@ class Type_coinSeeder extends Seeder
         Type_coin::create([
             'name' => "Ethereum (ETH)",
             'description' => "(ETH)",
+            //'password' =>bcrypt('12345678'),
+        ]);
+        Type_coin::create([
+            'name' => "Bitcoin (BTC)",
+            'description' => "(BTC)",
             //'password' =>bcrypt('12345678'),
         ]);
 
