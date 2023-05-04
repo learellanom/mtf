@@ -54,7 +54,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="col-12 col-sm-3">
+                <div class="col-12 col-sm-2">
                   <div class="info-box bg-light">
                     <div class="info-box-content">
                       <span class="info-box-text text-center text-muted">Monto en dolar <i class="fas fa-dollar-sign"></i></span>
@@ -62,7 +62,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="col-12 col-sm-3">
+                <div class="col-12 col-sm-2">
                   <div class="info-box bg-light">
                     <div class="info-box-content">
                       <span class="info-box-text text-center text-muted">Monto total <i class="fas fa-funnel-dollar"></i></span>
@@ -75,6 +75,14 @@
                       <div class="info-box-content">
                         <span class="info-box-text text-center text-muted">Transacción <i class="fas fa-trademark"></i></span>
                         <span class="info-box-number text-center text-muted mb-0 text-uppercase">{{ $transactions->type_transaction->name }}</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-12 col-sm-2">
+                    <div class="info-box bg-light">
+                      <div class="info-box-content">
+                        <span class="info-box-text text-center text-muted">Caja utilizada <i class="fas fa-box-open"></i></span>
+                        <span class="info-box-number text-center text-muted mb-0 text-uppercase">{{ $transactions->wallet->name }}</span>
                       </div>
                     </div>
                   </div>
@@ -153,7 +161,6 @@
                                       <span class="info-box-text text-center text-muted text-uppercase text-white"><i class="fas fa-ban fa-lg"></i> </span>
                                       <span class="info-box-number text-center text-muted mb-0 text-uppercase text-white">{{ 'Anulada' ?? 'Sin comisión' }}</span>
                                     </div>
-
                                   @endif
                                 </div>
                               </div>
@@ -174,12 +181,12 @@
             </div>
 
             <div class="col-12 col-md-12 col-lg-4 order-1 order-md-2">
-                <div class="row">
+                <div class="row d-flex justify-content-center">
                     <div class="col-12 col-sm-2">
                       <div class="info-box bg-light">
                         <div class="info-box-content">
-                          <span class="info-box-text text-center text-muted"><i class="fas fa-percentage"></i></span>
-                          <span class="info-box-number text-center text-muted mb-0 text-uppercase">{{ $transactions->percentage ?? 'Sin porcentaje' }} </span>
+                          <span class="info-box-text text-center text-muted"> <i class="fas fa-percentage"></i></span>
+                          <span class="info-box-number text-center text-muted mb-0 text-uppercase">{{ $transactions->percentage ?? '-' }} </span>
                         </div>
                       </div>
                     </div>
@@ -191,19 +198,18 @@
                         </div>
                       </div>
                     </div>
-                    <div class="col-12 col-sm-4">
-                      <div class="info-box bg-light">
-                        <div class="info-box-content">
-                          <span class="info-box-text text-center text-muted">Caja utilizada <i class="fas fa-box-open"></i></span>
-                          <span class="info-box-number text-center text-muted mb-0 text-uppercase">{{ $transactions->wallet->name }}</span>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-12 col-sm-2">
+
+                    <div class="col-13 col-sm-4">
                         <div class="info-box bg-light">
                           <div class="info-box-content">
-                            <span class="info-box-text text-center text-muted"><i class="fas fa-percentage"></i></span>
-                            <span class="info-box-number text-center text-muted mb-0 text-uppercase">{{ $transactions->percentage ?? 'Sin porcentaje' }} </span>
+                            <span class="info-box-text text-center text-muted">Comisión <i class="fas fa-receipt"></i></span>
+                            @if($transactions->exonerate == 1)
+                            <span class="info-box-number mb-0 text-uppercase badge badge-success text-center">{{ 'Incluida' }} </span>
+                            @elseif($transactions->exonerate == 2)
+                            <span class="info-box-number mb-0 text-uppercase badge badge-warning text-center">{{ 'Exonerada' }} </span>
+                            @else
+                            <span class="info-box-number mb-0 text-uppercase badge badge-danger text-center">{{ 'Descontada' }} </span>
+                            @endif
                           </div>
                         </div>
                       </div>

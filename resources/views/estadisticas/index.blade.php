@@ -6,6 +6,7 @@
 @php
 
 $heads = [
+
     ['label' => 'Fecha',                'no-export' => false, 'width' => 8],
     ['label' => 'Transacción',          'no-export' => true, 'width' => 5],
     ['label' => 'Descripción',          'no-export' => true, 'width' => 5],
