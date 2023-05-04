@@ -1,26 +1,26 @@
 @extends('adminlte::page')
-@section('title', 'Estadistica por transacciones')
+@section('title', 'Estadistica Proveedor por transacciones')
 @section('content')
 {{-- Setup data for datatables --}}
 
 @php
 
 $heads = [
-    ['label' => 'Fecha Transacción',    'no-export' => false, 'width' => 2],
+    ['label' => 'Fecha',                'no-export' => false, 'width' => 8],
     ['label' => 'Transacción',          'no-export' => true, 'width' => 5],
     ['label' => 'Descripción',          'no-export' => true, 'width' => 5],
-    ['label' => 'Tipo Moneda',          'no-export' => true, 'width' => 2],
+    ['label' => 'Moneda',               'no-export' => true, 'width' => 2],
     ['label' => 'MontoMoneda',          'no-export' => true, 'width' => 5],
-    ['label' => 'Tasa Cambio',          'no-export' => true, 'width' => 5],
-    ['label' => 'Monto $',              'no-export' => true, 'width' => 5],
-    ['label' => '%',                    'no-export' => true, 'width' => 5],
-    ['label' => 'Comision $',           'no-export' => true, 'width' => 5],
-    ['label' => 'Monto Total $',        'no-export' => true, 'width' => 5],
+    ['label' => 'Tasa',                 'no-export' => true, 'width' => 5],
+    ['label' => 'Monto $',              'no-export' => true, 'width' => 7],
+    ['label' => '%',                    'no-export' => true, 'width' => 1],
+    ['label' => 'Comision $',           'no-export' => true, 'width' => 8],
+    ['label' => 'Monto Total $',        'no-export' => true, 'width' => 7],
     ['label' => 'Saldo $',              'no-export' => true, 'width' => 5],
-    ['label' => 'Proveedor              'no-export' => true, 'width' => 5],
-    ['label' => 'Agente',               'no-export' => true, 'width' => 10],
-    ['label' => 'Wallet',               'no-export' => true, 'width' => 5],
-    ['label' => 'Actions',              'no-export' => true, 'width' => 5],
+    ['label' => 'Cliente',              'no-export' => true, 'width' => 5],
+    ['label' => 'Agente',               'no-export' => true, 'width' => 8],
+    ['label' => 'Caja',                 'no-export' => true, 'width' => 5],
+    ['label' => 'Ver',                  'no-export' => true, 'width' => 3],
 ];
 
 
@@ -61,7 +61,7 @@ $config2 =
 
 $config3 = [
     "locale" => ["format" => "DD-MM-YYYY"],
-    "allowClear" => true,    
+    "allowClear" => true,
 ];
 
 
@@ -82,7 +82,7 @@ if (isset($balance->Total)){
 
 <br>
 <br>
-<h1 class="text-center text-dark font-weight-bold text-uppercase">Detalles de Transacciones <i class="fas fa-chart-pie fa-spin"></i></h1>
+<h1 class="text-center text-dark font-weight-bold text-uppercase">Detalles de Transacciones Proveedor<i class="fas fa-chart-pie fa-spin"></i></h1>
 <br>
 <br>
 {{-- Disabled --}}
@@ -106,10 +106,12 @@ if (isset($balance->Total)){
                     </div>
                 </x-slot>
                 <!-- <x-adminlte-options :options="['Car', 'Truck', 'Motorcycle']" empty-option/> -->
-                <x-adminlte-options :options="$userole" empty-option="Selecciona un Agente.."/>
+                <x-adminlte-options 
+                    :options="$userole" 
+                    empty-option="Selecciona un Agente.."/>
             </x-adminlte-select2>
         </div>
-        <!--
+
         <div class ="col-12 col-sm-2">
             <x-adminlte-select2 id="group"
                                 name="optionsGroup"
@@ -120,31 +122,12 @@ if (isset($balance->Total)){
                                 >
                 <x-slot name="prependSlot">
                     <div class="input-group-text bg-gradient-dark">
-                        <i class="fas fa-user-tie"></i>
-                    </div>
-                </x-slot>
-
-                <x-adminlte-options :options="$group" empty-option="Selecciona un Grupo.."/>
-            </x-adminlte-select2>
-        </div>
-        -->
-        <div class ="col-12 col-sm-2">
-            <x-adminlte-select2 
-                id="supplier"
-                name="optionsSupplier"
-                igroup-size="sm"
-                label-class="text-lightblue"
-                data-placeholder="Proveedor ..."
-                :config="$config2"
-            >
-                <x-slot name="prependSlot">
-                    <div class="input-group-text bg-gradient-dark">
                         <!-- <i class="fas fa-car-side"></i> -->
                         <i class="fas fa-user-tie"></i>
                     </div>
                 </x-slot>
 
-                <x-adminlte-options :options="$supplier" empty-option="Selecciona un Proveedor.."/>
+                <x-adminlte-options :options="$group" empty-option="Selecciona un Grupo.."/>
             </x-adminlte-select2>
         </div>
 
@@ -215,25 +198,27 @@ if (isset($balance->Total)){
             <div class="card mb-4">
                 <div class="card-header">
                     <div class="card-title col-md-12">
+                        <div class="card-body">
+
                         <div class= "row">
                                 <div class="col-md-4">
-                                    <h4>Estadisticas| Movimientos</h4>
+                                    <h4 class="text-uppercase font-weight-bold">Detalles|Movimientos <i class="fas fa-info-circle"></i></h4>
                                 </div>
                                 <div class="col-md-4">
                                     @php
                                         if ($myTotal < 0){
-                                            echo "<h4>Saldo A favor : " . number_format(abs($myTotal),2,",",".") . "</h4>";
+                                            echo "<h4 class='text-uppercase font-weight-bold'>Saldo A favor : " . number_format(abs($myTotal),2,",",".") . "</h4>";
                                         }else{
-                                            echo "<h4>Saldo A favor : " . number_format(0,2,",",".") . "</h4>";
+                                            echo "<h4 class='text-uppercase font-weight-bold'>Saldo A favor : " . number_format(0,2,",",".") . "</h4>";
                                         }
                                     @endphp
                                 </div>
                                 <div class="col-md-4">
                                     @php
                                         if ($myTotal < 0){
-                                            echo "<h4>Saldo Pendiente : " . number_format(0,2,",",".") . "</h4>";
+                                            echo "<h4 class='text-uppercase font-weight-bold'>Saldo Pendiente : " . number_format(0,2,",",".") . "</h4>";
                                         }else{
-                                            echo "<h4>Saldo Pendiente : " . number_format($myTotal,2,",",".") . "</h4>";
+                                            echo "<h4 class='text-uppercase font-weight-bold'>Saldo Pendiente : " . number_format($myTotal,2,",",".") . "</h4>";
                                         }
                                     @endphp
                                 </div>
@@ -253,10 +238,9 @@ if (isset($balance->Total)){
                                 :heads="$heads"
 
                                 striped
-                                hoverable
                                 with-buttons
 
-                                class="table table-bordered table-responsive-lg">
+                                class="table table-bordered table-responsive-lg bg-white">
                                 @foreach($config['data'] as $row)
                                     <tr>
 
@@ -273,7 +257,7 @@ if (isset($balance->Total)){
 
                                         @php
                                             switch  ($row->TransactionId){
-                                                case 1: 
+                                                case 1:
                                                 case 3:
                                                 case 5:
                                                 case 7:
@@ -283,6 +267,7 @@ if (isset($balance->Total)){
                                                 case 4:
                                                 case 8:
                                                 case 2:
+                                                case 6:
                                                     $myTotal = ($myTotal) + ($row->MontoTotal);
                                                     break;
                                                 default:
@@ -293,31 +278,32 @@ if (isset($balance->Total)){
                                         <td class="text-right">{!! number_format($myTotal,2,",",".") !!}</td>
 
 
-                                        <td>{!! $row->SupplierName !!}</td>
+                                        <td>{!! $row->ClientName !!}</td>
                                         <td>{!! $row->AgenteName !!}</td>
                                         <td>{!! $row->WalletName !!}</td>
 
                                         <td class="text-center">
-                                            <!-- <a      
+                                            <!-- <a
                                                 href="{{ route('transactions.show', ['movimiento'=> $row->Id]) }}"
                                                 title="Detalles"
                                                 class="btn btn-xl text-primary mx-1 shadow text-center"
-                                                
+
                                             >
                                                 <i class="fa fa-lg fa-fw fa-eye"></i>
                                             </a>    -->
-                                            <a      
-                                                href="#"
+                                            <a
+                                                href="{{ route('transactions.show', ['movimiento'=> $row->Id]) }}"
                                                 title="Detalles"
-                                                class="btn btn-xl text-primary mx-1 shadow text-center"
-                                                
+                                                class="btn btn-xl text-dark mx-1 shadow text-center"
+
                                             >
                                                 <i class="fa fa-lg fa-fw fa-eye"></i>
-                                            </a>                                                                                      
+                                            </a>
                                         </td>
                                     </tr>
                                 @endforeach
                             </x-adminlte-datatable>
+                             </div>
                         </div>
                     </div>
                 </div>
@@ -334,11 +320,14 @@ if (isset($balance->Total)){
     <script>
 
     const miGrupo   = {!! $myGroup !!};
-    const miGrupo   = {!! $myProvider !!};
     const miUsuario = {!! $myUser !!};
     const miWallet  = {!! $myWallet !!};
 
     // console.log(miCliente);
+
+    // alert('miCLiente -> ' + miCliente);
+    // alert('miUser    -> ' + miUsuario);
+    // alert('miWallet  -> ' + miWallet);
 
     BuscaGrupo(miGrupo);
     // BuscaCliente(miCliente);
@@ -365,19 +354,10 @@ if (isset($balance->Total)){
                 const wallet = $('#wallet').val();
                 const seleccionado = $('#group').prop('selectedIndex');
                 // alert('***** cliente ' +  cliente + " --- selected index --- " + seleccionado);
-                theRoute(usuario,grupo,wallet);
 
+                var URLactual = window.location;
+                // alert(URLactual);
 
-            });
-
-            $('#supplier').on('change', function (){
-
-                const usuario       = $('#userole').val();
-                const grupo         = $('#group').val();
-                const supplier      = $('#supplier').val();                
-                const wallet        = $('#wallet').val();
-                const seleccionado  = $('#group').prop('selectedIndex');
-                // alert('***** cliente ' +  cliente + " --- selected index --- " + seleccionado);
                 theRoute(usuario,grupo,wallet);
 
 
@@ -386,7 +366,7 @@ if (isset($balance->Total)){
             $('#wallet').on('change', function (){
 
                 const usuario = $('#userole').val();
-                const cliente = $('#cliente').val();
+                const grupo   = $('#group').val();
                 const wallet = $('#wallet').val();
                 // alert('***** wallet ' +  wallet);
                  theRoute(usuario,grupo,wallet);
@@ -450,20 +430,6 @@ if (isset($balance->Total)){
                     if ($(this).val() === miGrupo.toString()){
                         //alert('Busca Grupo - encontro');
                         $("#group option[value="+ miGrupo +"]").attr("selected",true);
-                    }
-
-                });
-            });
-            //
-        }
-
-        function BuscaSupplier(miSupplier){
-            //alert("Busca supplier - miSupplier -> " + miSupplier);
-            $('#supplier').each( function(index, element){
-                
-                $(this).children("option").each(function(){
-                    if ($(this).val() === miSupplier.toString()){
-                        $("#group option[value="+ miSupplier +"]").attr("selected",true);
                     }
 
                 });

@@ -326,14 +326,14 @@ class statisticsController extends Controller
             array_push($Transacciones2, $value2);
         }
 
-        $userole = $this->getUser();
+        $userole    = $this->getUser();
 
-        $wallet = $this->getWallet();
+        $wallet     = $this->getWallet();
 
-        $group = $this->getGroups();
+        $group      = $this->getGroups();
 
-        // return view('estadisticas.index2', compact('myUser','userole','Transacciones','group','wallet','myGroup','myUser','myWallet','balance'));
-        return view('estadisticas.index', compact('myUser','userole','Transacciones','group','wallet','myGroup','myUser','myWallet','balance'));
+        
+        return view('estadisticas.statisticsDetailMaster', compact('myUser','userole','Transacciones','group','wallet','myGroup','myUser','myWallet','balance'));
 
     }
 
@@ -370,7 +370,7 @@ class statisticsController extends Controller
 
         // \Log::info('leam usuario *** -> ' . $request->usuario);
         // \Log::info('leam cliente *** -> ' . $request->cliente);
-        // \Log::info('leam wallet *** -> ' . $request->wallet);
+        // \Log::info('leam wallet  *** -> ' . $request->wallet);
         
         $balance = "";
         if ($mySupplier > 0){
@@ -407,10 +407,10 @@ class statisticsController extends Controller
 
 
         $Transacciones = Transaction_supplier::select(
-            'Transaction_suppliers.user_id as Id',
-            'Transaction_suppliers.amount_foreign_currency as MontoMoneda',
-            'Transaction_suppliers.exchange_rate           as TasaCambio',
-         // 'Transaction_suppliers.type_coin_id            as TipoMonedaId',
+            'Transaction_suppliers.user_id                  as Id',
+            'Transaction_suppliers.amount_foreign_currency  as MontoMoneda',
+            'Transaction_suppliers.exchange_rate            as TasaCambio',
+         // 'Transaction_suppliers.type_coin_id             as TipoMonedaId',
             'type_coins.name                                as TipoMoneda',
             'users.name                                     as AgenteName',
             'Transaction_suppliers.amount                   as Monto',            
@@ -454,16 +454,16 @@ class statisticsController extends Controller
         $group = $this->getGroups();
 
         // return view('estadisticas.index2', compact('myUser','userole','Transacciones','group','wallet','myGroup','myUser','myWallet','balance'));
-        return view('estadisticas.index', compact('myUser','userole','Transacciones','group','wallet','myGroup','myUser','myWallet','balance'));
-
+        return view('estadisticas.statisticsDetailSupplier', compact('myUser','userole','Transacciones','group','wallet','myGroup','myUser','myWallet','balance'));
+        
     }
 
-
-
     /*
-
-    * Display a listing of the resource.
-
+    *
+    *
+    *   Display a listing of the resource.
+    *
+    *
     */
     public function userDetail(Request $request)
     {
@@ -780,6 +780,34 @@ class statisticsController extends Controller
         $wallets            = $this->getWallet();
  
         return view('estadisticas.statisticsResumenWallet', compact('myWallet', 'wallets', 'Transacciones','master'));           
+    }
+
+
+    /*
+    *
+    *
+    *   walletSummaryMaster
+    *
+    *
+    */
+    public function walletSummaryMaster(Request $request) {
+
+        $myWallet       = ($request->wallet) ? $request->wallet : 0;
+        $master         = true;
+
+        $Transacciones  = $this->getBalanceWallet($myWallet, $master);
+
+        //
+        // si es un solo grupo devuelve un objeto y debe convertirse a array de 1
+        //
+        if (gettype($Transacciones) == "object"){
+            $Transacciones = [$Transacciones];
+        }
+
+        $Type_transactions  = $this->getTypeTransactions();
+        $wallets            = $this->getWallet();
+ 
+        return view('estadisticas.statisticsResumenWalletMaster', compact('myWallet', 'wallets', 'Transacciones','master'));           
     }
 
 

@@ -442,7 +442,7 @@ return [
             'url'       => 'estadisticasResumenWalletMaster',
             'active'    => ['estadisticasResumenWalletMaster*'],
             'icon'      => 'fas fa-fw fas fa-chart-bar',
-            'can'       => 'estadisticasDetalle.statisticsResumenWallet',
+            // 'can'       => 'estadisticasDetalle.statisticsResumenWalletMaster',            
         ],        
         //
         // Proveedores

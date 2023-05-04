@@ -121,30 +121,37 @@ Route::resource('roles', RoleController::class)->middleware('auth')->except('sho
 Route::resource('cajas', WalletController::class)->middleware('auth')->except('show')->middleware('can:wallets.index')->names('wallets');
 Route::resource('tipo_transaccion', Type_transactionController::class)->middleware('auth')->except('show')->middleware('can:type_transactions.index')->names('type_transactions');
 Route::resource('tipo_moneda', Type_coinController::class)->middleware('auth')->except('show')->middleware('can:type_coins.index')->names('type_coins');
-
+//
 //
 // Estadisticas Detalle
+//
 //
 Route::get('estadisticasDetalle',[App\Http\Controllers\statisticsController::class, 'index_all'])->middleware('can:estadisticasDetalle.index')->name('estadisticasDetalle');
 Route::get('estadisticasDetalle/{usuario}/{grupo?}/{wallet?}/{fechaDesde?}/{fechaHasta?}',[App\Http\Controllers\statisticsController::class, 'index_all'])->middleware('can:estadisticasDetalle.index')->name('estadisticasDetalle');
 //
+//
 // Estadisticas Master
+//
 //
 Route::get('estadisticasDetalleMaster',[App\Http\Controllers\statisticsController::class, 'masterDetail'])
     ->middleware('can:estadisticasDetalle.index')
     ->name('estadisticasDetalleMaster');
 
-Route::get('estadisticasDetalleMaster/{usuario}/{grupo?}/{wallet?}/{fechaDesde?}/{fechaHasta?}',[App\Http\Controllers\statisticsController::class, 'masterDetail'])
-    ->middleware('can:estadisticasDetalle.index')
+Route::get('estadisticasDetalleMaster/{usuario}/{grupo?}/{wallet?}/{fechaDesde?}/{fechaHasta?}',
+            [App\Http\Controllers\statisticsController::class, 'masterDetail'])
+    ->middleware('can:estadisticasDetalleMaster.index')
     ->name('estadisticasDetalleMaster');
 //
+//
 // Estadisticas Proveedor
+//
 //
 Route::get('estadisticasDetalleProveedor',[App\Http\Controllers\statisticsController::class, 'supplierDetail'])
     ->middleware('can:estadisticasDetalle.index')
     ->name('estadisticasDetalleProveedor');
 
-Route::get('estadisticasDetalleProveedor/{usuario}/{grupo?}/{wallet?}/{fechaDesde?}/{fechaHasta?}',[App\Http\Controllers\statisticsController::class, 'supplierDetail'])
+Route::get('estadisticasDetalleProveedor/{usuario}/{grupo?}/{wallet?}/{fechaDesde?}/{fechaHasta?}',
+            [App\Http\Controllers\statisticsController::class, 'supplierDetail'])
     ->middleware('can:estadisticasDetalle.index')
     ->name('estadisticasDetalleProveedor');
 //
@@ -166,13 +173,28 @@ Route::get('estadisticasResumenGrupo/{grupo}/{fechaDesde?}/{fechaHasta?}',[App\H
 
 Route::get('estadisticasResumenProveedor',[App\Http\Controllers\statisticsController::class, 'supplierSummary'])->name('estadisticasResumenProveedor');
 Route::get('estadisticasResumenProveedor/{proveedor}/{fechaDesde?}/{fechaHasta?}',[App\Http\Controllers\statisticsController::class, 'supplierSummary'])->name('estadisticasResumenProveedor');
-
-
+// 
+// 
+// 
+// 
+// 
 Route::get('estadisticasResumenWallet',[App\Http\Controllers\statisticsController::class, 'walletSummary'])->middleware('can:estadisticasDetalle.statisticsResumenWallet')->name('estadisticasResumenWallet');
 Route::get('estadisticasResumenWallet/{wallet}/{fechaDesde?}/{fechaHasta?}/{master?}',[App\Http\Controllers\statisticsController::class, 'walletSummary'])->name('estadisticasResumenWallet');
 
+//
 
+Route::get('estadisticasResumenWalletMaster',[App\Http\Controllers\statisticsController::class, 'walletSummary'])
+    ->middleware('can:estadisticasDetalle.statisticsResumenWalletMaster')
+    ->name('estadisticasResumenWalletMaster');
 
+Route::get('estadisticasResumenWalletMaster/{wallet}/{fechaDesde?}/{fechaHasta?}/{master?}',
+    [App\Http\Controllers\statisticsController::class, 'walletSummary'])
+    ->name('estadisticasResumenWalletMaster');
+//
+//
+//
+//
+//
 Route::get('estadisticasResumenTransaccion',[App\Http\Controllers\statisticsController::class, 'transactionSummary'])->name('estadisticasResumenTransaccion');
 Route::get('estadisticasResumenTransaccion/{type_transaction?}/{fechaDesde?}/{fechaHasta?}',[App\Http\Controllers\statisticsController::class, 'transactionSummary'])->name('estadisticasResumenTransaccion');
 
