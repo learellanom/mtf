@@ -34,8 +34,13 @@ class Type_transactionSeeder extends Seeder
             'type_transaction' => 'Efectivo',
         ]);
         Type_transaction::create([
-            'name' => "Mercancia",
+            'name' => "Pago Mercancia",
             'description' => "Pago en mercancia, equivalente al dinero.",
+            'type_transaction' => 'Transacciones',
+        ]);
+        Type_transaction::create([
+            'name' => "Cobro Mercancia",
+            'description' => "Cobro en mercancia, equivalente al dinero.",
             'type_transaction' => 'Transacciones',
         ]);
         Type_transaction::create([
