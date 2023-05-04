@@ -134,12 +134,12 @@ Route::get('estadisticasDetalle/{usuario}/{grupo?}/{wallet?}/{fechaDesde?}/{fech
 //
 //
 Route::get('estadisticasDetalleMaster',[App\Http\Controllers\statisticsController::class, 'masterDetail'])
-    ->middleware('can:estadisticasDetalle.index')
+    ->middleware('can:estadisticasDetalle.estadisticasDetalleMaster')
     ->name('estadisticasDetalleMaster');
 
 Route::get('estadisticasDetalleMaster/{usuario}/{grupo?}/{wallet?}/{fechaDesde?}/{fechaHasta?}',
             [App\Http\Controllers\statisticsController::class, 'masterDetail'])
-    ->middleware('can:estadisticasDetalleMaster.index')
+    ->middleware('can:estadisticasDetalle.estadisticasDetalleMaster')
     ->name('estadisticasDetalleMaster');
 //
 //
@@ -173,18 +173,18 @@ Route::get('estadisticasResumenGrupo/{grupo}/{fechaDesde?}/{fechaHasta?}',[App\H
 
 Route::get('estadisticasResumenProveedor',[App\Http\Controllers\statisticsController::class, 'supplierSummary'])->name('estadisticasResumenProveedor');
 Route::get('estadisticasResumenProveedor/{proveedor}/{fechaDesde?}/{fechaHasta?}',[App\Http\Controllers\statisticsController::class, 'supplierSummary'])->name('estadisticasResumenProveedor');
-// 
-// 
-// 
-// 
-// 
+//
+//
+//
+//
+//
 Route::get('estadisticasResumenWallet',[App\Http\Controllers\statisticsController::class, 'walletSummary'])->middleware('can:estadisticasDetalle.statisticsResumenWallet')->name('estadisticasResumenWallet');
 Route::get('estadisticasResumenWallet/{wallet}/{fechaDesde?}/{fechaHasta?}/{master?}',[App\Http\Controllers\statisticsController::class, 'walletSummary'])->name('estadisticasResumenWallet');
 
 //
 
 Route::get('estadisticasResumenWalletMaster',[App\Http\Controllers\statisticsController::class, 'walletSummary'])
-    ->middleware('can:estadisticasDetalle.statisticsResumenWalletMaster')
+    ->middleware('can:estadisticasDetalle.estadisticasResumenWalletMaster')
     ->name('estadisticasResumenWalletMaster');
 
 Route::get('estadisticasResumenWalletMaster/{wallet}/{fechaDesde?}/{fechaHasta?}/{master?}',

@@ -363,7 +363,7 @@ return [
         [
             'text' => 'Resumen por Caja',
             'url'  => 'estadisticasResumenWallet',
-            'active' => ['estadisticasResumenWallet*'],
+            'active' => ['estadisticasResumenWallet','regex:@^estadisticasResumenWallet/[0-9]+/*@' ],
             'icon' => 'fas fa-fw fas fa-chart-bar',
             'can'  => 'estadisticasDetalle.statisticsResumenWallet',
         ],
@@ -433,17 +433,19 @@ return [
             'url'       => 'estadisticasDetalleMaster',
             'active'    => ['estadisticasDetalleMaster','regex:@^estadisticasDetalleMaster/[0-9]+/*@'],
             'icon'      => 'fas fa-fw fas fa-chart-bar',
-            'can'       => 'estadisticasDetalle.index',
+            'can'       => 'estadisticasDetalle.estadisticasDetalleMaster',
             'label'       => 'M',
             'label_color' =>'danger',
         ],
         [
             'text'      => 'Resumen por Caja',
             'url'       => 'estadisticasResumenWalletMaster',
-            'active'    => ['estadisticasResumenWalletMaster*'],
+            'active'    => ['estadisticasResumenWalletMaster','regex:@^estadisticasResumenWalletMaster/[0-9]+/*@' ],
             'icon'      => 'fas fa-fw fas fa-chart-bar',
-            // 'can'       => 'estadisticasDetalle.statisticsResumenWalletMaster',            
-        ],        
+            'label'       => 'M',
+            'label_color' =>'danger',
+            'can'       => 'estadisticasDetalle.estadisticasResumenWalletMaster',
+        ],
         //
         // Proveedores
         //
