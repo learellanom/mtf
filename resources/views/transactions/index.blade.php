@@ -33,15 +33,15 @@
                         <table class="table table-bordered table-responsive-lg" id="table">
                         <thead>
                             <tr>
-                                <th>Numero de transacción</th>
+                                <th style="width:1%;">Numero de transacción</th>
                                 <th style="width:1%;">Cliente</th>
                                 <th>Fecha</th>
                                 <th>Descripción</th>
                                 <th style="width:1%;"><p style="display:none;">P - %</p><i class="fas fa-percentage"></i></th>
                                 <th style="width:1%;">Monto</th>
                                 <th style="width:1%;">Comisión</th>
-                                <th >Monto Dolar ($) <i class="fas fa-funnel-dollar"></i></th>
-                                <th style="width:1%;">Monto Total</th>
+                                <th style="width:10%;">Monto Dolar <i class="fas fa-funnel-dollar"></i></th>
+                                <th style="width:10%;">Monto Total</th>
                                 <th>Agente</th>
                                 <th>Tipo de Movimiento</th>
                                 <th style="width:1%; display:none;">Caja <i class="fas fa-search"></i></th>
@@ -51,7 +51,7 @@
                             </tr>
                         </thead>
     @foreach($transferencia as $transferencias)
-    <tbody>
+
         <tr>
             <td class="font-weight-bold"><i class="fas fa-asterisk"></i>000-{{ $transferencias->id }}</td>
             <td>
@@ -85,22 +85,6 @@
             <td class="font-weight-bold">{!! $transferencias->user->name !!}</td>
             <td>{!! $transferencias->type_transaction->name !!}</td>
             <td style="display: none;">{!! $transferencias->wallet->name !!}</td>
-
-          {{--   @if ($transferencias->type_transaction->name == 'Credito de efectivo')
-            <td class="text-center">
-                <a href="{{ route('transactions.credit_edit', $transferencias->id) }}" class="btn btn-xl text-primary mx-1 shadow text-center"><i class="fa fa-lg fa-fw fas fa-edit"></i></a>
-            </td>
-            @elseif($transferencias->wallet->type_wallet == 'Efectivo')
-            <td class="text-center">
-                <a href="{{ route('transactions.edit_efectivo', $transferencias->id) }}" class="btn btn-xl text-primary mx-1 shadow text-center"><i class="fa fa-lg fa-fw fas fa-edit"></i></a>
-            </td>
-            @else
-            <td class="text-center">
-                <a href="{{ route('transactions.edit', $transferencias->id) }}" class="btn btn-xl text-primary mx-1 shadow text-center"><i class="fa fa-lg fa-fw fas fa-edit"></i></a>
-            </td>
-            @endif --}}
-
-
             <td class="text-center">
                   {!! Form::model($transferencias->id, ['route' => ['transactions.update_status', $transferencias->id],'method' => 'put']) !!}
 
@@ -122,7 +106,7 @@
                <a href="{{ route('transactions.show', $transferencias->id) }}" class="btn btn-xl text-dark mx-1 shadow text-center"><i class="fa fa-lg fa-fw fas fa-search"></i></a>
             </td>
         </tr>
-      </tbody>
+
     @endforeach
     </table>
    </div>
@@ -131,30 +115,7 @@
 </div>
 @endsection
 @section('css')
-<style>
-    .container {
-      text-align: center;
-    }
 
-    .table-striped tbody tr:nth-of-type(odd) {
-      background-color: rgb(255, 255, 255);
-    }
-
-    .table-hover tbody tr:hover {
-      background-color: rgba(0, 0, 0, 0.7);
-      color: rgb(223, 223, 223);
-    }
-
-    .thead-green {
-      background-color: rgb(47, 74, 150);
-      color: rgb(31, 0, 206);
-    }
-    .table {
-        width: 100%;
-    }
-
-
-  </style>
 @endsection
 @section('js')
 <script>
@@ -181,12 +142,12 @@ $(document).ready(function () {
             "previous": "Anterior"
         }
     },
-    "order": [[ 1, 'asc' ]],
+    "order": [[ 2, 'desc' ]],
     'dom' : 'Bfrtilp',
     'buttons':[
         {
             extend:  'excelHtml5',
-            exportOptions: { columns: [ 1, 2, 3,4,5,6,7,8,9,10,11,12 ] },
+            //exportOptions: { columns: [ 1, 2, 3,4,5,6,7,8,9,10,11,12 ] },
             text:    '<i class="fas fa-file-excel"></i>',
             titleAttr: 'Exportar Excel',
             className: 'btn btn-success',
