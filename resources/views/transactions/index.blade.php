@@ -30,7 +30,7 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-12">
-                        <table class="table table-bordered table-responsive-lg" id="table">
+                        <table class="table table-bordered table-responsive-lg" id="table" style="width:100%;">
                         <thead>
                             <tr>
                                 <th style="width:1%;">Numero de transacción</th>

@@ -29,7 +29,7 @@
                 <li class="nav-item" role="presentation">
                   <button class="nav-link" id="pills-profile-tab" data-toggle="pill" data-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">Referencias</button>
                 </li>
-                <span class="badge badge-secondary text-lg">Transacción numero # 000- {{ $transactions->id }}</span>
+                <span class="badge badge-secondary text-lg text-uppercase">Transacción numero # 000- {{ $transactions->id }}</span>
               </ul>
 
 
