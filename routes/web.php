@@ -150,7 +150,7 @@ Route::get('estadisticasDetalleProveedor',[App\Http\Controllers\statisticsContro
     ->middleware('can:estadisticasDetalle.index')
     ->name('estadisticasDetalleProveedor');
 
-Route::get('estadisticasDetalleProveedor/{usuario}/{grupo?}/{wallet?}/{fechaDesde?}/{fechaHasta?}',
+Route::get('estadisticasDetalleProveedor/{supplier?}/{fechaDesde?}/{fechaHasta?}',
             [App\Http\Controllers\statisticsController::class, 'supplierDetail'])
     ->middleware('can:estadisticasDetalle.index')
     ->name('estadisticasDetalleProveedor');

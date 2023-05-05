@@ -317,7 +317,7 @@ return [
             'url'  => 'admin/blog',
             'can'  => 'manage-blog',
         ],
-       // ['header' => 'Master',
+        // ['header' => 'Master',
         //'classes' =>'text-uppercase font-weight-bold text-light',],
         //[
           //  'text'        => 'Comandas',
@@ -346,13 +346,13 @@ return [
             'icon' => 'fas fa-fw fas fa-chart-bar',
             'can'  => 'estadisticasDetalle.index',
         ],
-        [
-            'text' => 'Resumen por Agente',
-            'url'  => 'estadisticasResumenUsuario',
-            'active' => ['estadisticasResumenUsuario*'],
-            'icon' => 'fas fa-fw fas fa-chart-bar',
-            'can'  => 'estadisticasDetalle.statisticsResumenCliente',
-        ],
+        // [
+        //     'text' => 'Resumen por Agente',
+        //     'url'  => 'estadisticasResumenUsuario',
+        //     'active' => ['estadisticasResumenUsuario*'],
+        //     'icon' => 'fas fa-fw fas fa-chart-bar',
+        //     'can'  => 'estadisticasDetalle.statisticsResumenCliente',
+        // ],
         [
             'text' => 'Resumen por Grupo',
             'url'  => 'estadisticasResumenGrupo',
@@ -374,13 +374,13 @@ return [
             'icon' => 'fas fa-fw fas fa-chart-bar',
             'can'  => 'estadisticasDetalle.statisticsResumenConciliacionFechaGrupo'
         ],
-        [
-            'text' => 'Conciliacion por Fecha',
-            'url'  => 'estadisticasConciliacionFecha',
-            'active' => ['estadisticasConciliacionFecha*'],
-            'icon' => 'fas fa-fw fas fa-chart-bar',
-            'can'  => 'estadisticasDetalle.statisticsResumenConciliacionFecha'
-        ],
+        // [
+        //     'text' => 'Conciliacion por Fecha',
+        //     'url'  => 'estadisticasConciliacionFecha',
+        //     'active' => ['estadisticasConciliacionFecha*'],
+        //     'icon' => 'fas fa-fw fas fa-chart-bar',
+        //     'can'  => 'estadisticasDetalle.statisticsResumenConciliacionFecha'
+        // ],
         //
         // Operaciones
         //
@@ -404,7 +404,6 @@ return [
             'label'       => 'OP',
             'label_color' =>'success',
         ],
-
         [
             'text'        => 'Credito a Caja',
             'url'         => "movimientos/credito",
@@ -463,9 +462,9 @@ return [
         [
             'text' => 'Resumen por Proveedor',
             'url'  => 'estadisticasResumenProveedor',
-            'active' => ['estadisticasResumenProveedor*'],
+            'active' => ['estadisticasResumenProveedor'],
             'icon' => 'fas fa-fw fas fa-chart-area',
-            'can'  => 'estadisticasDetalle.statisticsResumenProveedor',
+            'can'  => 'estadisticasDetalle.estadisticasResumenProveedor',
             'label'       => 'P',
             'label_color' =>'warning',
         ],
