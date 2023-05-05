@@ -176,7 +176,8 @@ Route::get('estadisticasResumenProveedor/{proveedor}/{fechaDesde?}/{fechaHasta?}
 //
 //
 //
-Route::get('estadisticasResumenProveedorTransaccion',[App\Http\Controllers\statisticsController::class, 'supplierSummary'])
+Route::get('estadisticasResumenProveedorTransaccion',
+            [App\Http\Controllers\statisticsController::class, 'supplierSummary'])
             ->name('estadisticasResumenProveedorTransaccion');
 
 Route::get('estadisticasResumenProveedorTransaccion/{proveedor}/{fechaDesde?}/{fechaHasta?}',
