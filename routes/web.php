@@ -176,6 +176,17 @@ Route::get('estadisticasResumenProveedor/{proveedor}/{fechaDesde?}/{fechaHasta?}
 //
 //
 //
+Route::get('estadisticasResumenProveedorTransaccion',[App\Http\Controllers\statisticsController::class, 'supplierSummary'])
+            ->name('estadisticasResumenProveedorTransaccion');
+
+Route::get('estadisticasResumenProveedorTransaccion/{proveedor}/{fechaDesde?}/{fechaHasta?}',
+            [App\Http\Controllers\statisticsController::class, 'supplierSummary'])
+            ->name('estadisticasResumenProveedorTransaccion');
+
+
+//
+//
+//
 //
 //
 Route::get('estadisticasResumenWallet',[App\Http\Controllers\statisticsController::class, 'walletSummary'])->middleware('can:estadisticasDetalle.statisticsResumenWallet')->name('estadisticasResumenWallet');
