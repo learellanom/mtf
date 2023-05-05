@@ -855,14 +855,14 @@ class statisticsController extends Controller
 
         $Transacciones = DB::table('transactions')
             ->select(DB::raw(' 
-                type_transactions.name as TipoTransaccion,                
-                count(*)    as cant_transactions, 
-                sum(amount) as total_amount, 
-                sum(amount_commission) as total_commission,
-                sum(amount_total) as total'))
+                type_transactions.name      as TipoTransaccion,                
+                count(*)                    as cant_transactions, 
+                sum(amount)                 as total_amount, 
+                sum(amount_commission)      as total_commission,
+                sum(amount_total)           as total'))
             ->leftJoin('type_transactions', 'type_transactions.id', '=', 'transactions.type_transaction_id')             
-            ->whereBetween('Transactions.type_transaction_id', [$myTypeTransactionDesde, $myTypeTransactionHasta])
-            ->whereBetween('Transactions.transaction_date', [$myFechaDesde, $myFechaHasta])
+            ->whereBetween('Transactions.type_transaction_id',  [$myTypeTransactionDesde, $myTypeTransactionHasta])
+            ->whereBetween('Transactions.transaction_date',     [$myFechaDesde, $myFechaHasta])
             ->groupBy('TipoTransaccion')
             ->get();
   
@@ -872,6 +872,70 @@ class statisticsController extends Controller
         return view('estadisticas.statisticsResumenTransaccion', compact('myTypeTransaction', 'Type_transactions', 'Transacciones'));
         return $myUsers2;
     }
+   /*
+    *
+    *
+    *       transactionSummary
+    *
+    *
+    */  
+    public function transactionSummarySupplier(Request $request)
+    {
+        $mySupplier = ($request->supplier) ? $request->supplier : 0;
+        // $mySupplier = 0;
+        if ($mySupplier === 0){
+            $supplierDesde = 0;
+            $supplierDesde = 9999;
+        }else{
+            $supplierDesde = $supplierHasta = $mySupplier;
+        }
+
+        //
+        $myTypeTransaction      = 0;
+        $myTypeTransactionDesde = 0;
+        $myTypeTransactionHasta = 9999;        
+        if ($request->type_transaction) {
+            $myTypeTransaction      = $request->type_transaction;
+            $myTypeTransactionDesde = $request->type_transaction;
+            $myTypeTransactionHasta = $request->type_transaction;        
+    
+        }
+
+        //
+
+        $myFechaDesde = "2001-01-01";
+        $myFechaHasta = "9999-12-31";
+        if ($request->fechaDesde){
+            $myFechaDesde = $request->fechaDesde;
+            $myFechaHasta = $request->fechaHasta;
+        }
+
+        if ($request->fechaHasta){
+            $myFechaHasta = $request->fechaHasta;
+        }
+
+        $Type_transactions  = getTypeTransactions();
+
+        $supplier           = getSuppliers();
+
+        $Transacciones = DB::table('transactions')
+            ->select(DB::raw(' 
+                type_transactions.name      as TipoTransaccion,            
+                count(*)                    as cant_transactions, 
+                sum(amount)                 as total_amount, 
+                sum(amount_commission)      as total_commission,
+                sum(amount_total)           as total'))
+            ->leftJoin('type_transactions', 'type_transactions.id', '=', 'transactions.type_transaction_id')             
+            ->whereBetween('Transactions.type_transaction_id',  [$myTypeTransactionDesde, $myTypeTransactionHasta])
+            ->whereBetween('Transactions.transaction_date',     [$myFechaDesde, $myFechaHasta])
+            ->groupBy('TipoTransaccion')
+            ->get();
+  
+            // dd($Transacciones);
+        
+        return view('estadisticas.statisticsResumenTransaccionSupplier', compact('mySupplier','supplier', 'Type_transactions', 'Transacciones'));
+
+    }    
     /*
     *
     *
