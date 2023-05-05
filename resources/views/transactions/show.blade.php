@@ -198,8 +198,17 @@
                         </div>
                       </div>
                     </div>
-
-                    <div class="col-13 col-sm-4">
+                    @if($transactions->exchange_rate)
+                    <div class="col-12 col-sm-3">
+                        <div class="info-box bg-light">
+                          <div class="info-box-content">
+                            <span class="info-box-text text-center text-muted">Tasa <i class="fas fa-sync"></i></span>
+                            <span class="info-box-number text-center text-muted mb-0 text-uppercase">{{ $transactions->exchange_rate }}</span>
+                          </div>
+                        </div>
+                      </div>
+                      @endif
+                    <div class="col-13 col-sm-3">
                         <div class="info-box bg-light">
                           <div class="info-box-content">
                             <span class="info-box-text text-center text-muted">Comisión <i class="fas fa-receipt"></i></span>

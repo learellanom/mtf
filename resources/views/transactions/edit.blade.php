@@ -89,7 +89,7 @@
                         {!! Form::Label('percentage', "Porcentaje:") !!}
                         <div class="input-group-text">
                             <i class="fa-fw fas fa-percentage mr-2"></i>
-                        {!! Form::text('percentage',null, ['class' => 'form-control percentage', 'required' => true, 'min' => 0, 'id' => 'percentage']) !!}
+                        {!! Form::text('percentage',null, ['class' => 'form-control percentage', 'min' => 0, 'id' => 'percentage']) !!}
                         </div>
                     </div>
 
