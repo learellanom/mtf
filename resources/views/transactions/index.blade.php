@@ -38,7 +38,7 @@
                                 <th>Fecha</th>
                                 <th>Descripción</th>
                                 <th style="width:1%;"><p style="display:none;">P - %</p><i class="fas fa-percentage"></i></th>
-                                <th style="width:1%;">Monto</th>
+                                <th style="width:1%;">Monto <p style="display:none;">Moneda Extranjera</p></th>
                                 <th style="width:1%;">Comisión</th>
                                 <th style="width:10%;">Monto Dolar <i class="fas fa-funnel-dollar"></i></th>
                                 <th style="width:10%;">Monto Total</th>
@@ -46,6 +46,7 @@
                                 <th>Tipo de Movimiento</th>
                                 <th style="width:1%; display:none;">Caja <i class="fas fa-search"></i></th>
                                 <th style="width:1%;">Activo/Anulado</th>
+                                <th style="width:1%;">Tasa/Comisión</th>
                                 <th style="width:1%;">Ver <i class="fas fa-search"></i></th>
 
                             </tr>
@@ -53,7 +54,7 @@
     @foreach($transferencia as $transferencias)
 
         <tr>
-            <td class="font-weight-bold"><i class="fas fa-asterisk"></i>000-{{ $transferencias->id }}</td>
+            <td class="font-weight-bold"><i class="fas fa-asterisk"></i>{{ $transferencias->id }}</td>
             <td>
                 @if($transferencias->group == null && $transferencias->client == null)
                    <span class="font-weight-bold"> TRANSACCIÓN SIN CLIENTE </span>
@@ -101,6 +102,9 @@
                 {!! Form::close() !!}
             </td>
 
+            <td class="text-center">
+                <a href="{{route('transactions.edit', $transferencias->id)}}" class="btn btn-xl text-dark mx-1 shadow text-center"><i class="fas fa-lg fa-fw fa-coins"></i></a>
+            </td>
 
             <td>
                <a href="{{ route('transactions.show', $transferencias->id) }}" class="btn btn-xl text-dark mx-1 shadow text-center"><i class="fa fa-lg fa-fw fas fa-search"></i></a>
@@ -147,7 +151,7 @@ $(document).ready(function () {
     'buttons':[
         {
             extend:  'excelHtml5',
-            //exportOptions: { columns: [ 1, 2, 3,4,5,6,7,8,9,10,11,12 ] },
+            exportOptions: { columns: [ 1, 2, 3,4,5,6,7,8,9,10,11,12 ] },
             text:    '<i class="fas fa-file-excel"></i>',
             titleAttr: 'Exportar Excel',
             className: 'btn btn-success',
@@ -215,9 +219,9 @@ $(document).ready(function () {
                     'template': "date_long",
                 },
                 {
-                    "cells": "G",
+                    "cells": "F",
                     "style": {
-                        "numFmt": "#,##0.0000;(#,##0.0000)"
+                        "numFmt": "#,##0;(#,##0)"
                     }
                 }
            ]

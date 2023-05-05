@@ -17,7 +17,7 @@
      //dd($fecha);
 @endphp
 <div class="d-flex justify-content-center">
- <div class="card col-md-7 movi" style="min-height: 500px !important; max-height:1000px; height:1400px;">
+ <div class="card col-md-7 movi" style="min-height: 500px !important; max-height:100%; height:100%; widht:100%">
   <div class="card-body">
 
     {!! Form::open(['route' => 'transactions_master.store', 'autocomplete' => 'off', 'files' => true, 'enctype' =>'multipart/form-data']) !!}
@@ -431,7 +431,8 @@ $(".clientes").select2({
   theme: 'bootstrap4',
   notEmpty: false,
   allowClear: true,
-  clearing: true
+  clearing: true,
+  width: '100%'
 });
 $("#clientes").val("")
 $("#clientes").trigger("change");
@@ -439,7 +440,8 @@ $("#clientes").trigger("change");
 $(".typecoin").select2({
   placeholder: "Seleccionar Moneda",
   theme: 'bootstrap4',
-  allowClear: true
+  allowClear: true,
+  width: '100%'
 });
 $("#typecoin").val("")
 $("#typecoin").trigger("change");
@@ -454,7 +456,8 @@ $(".wallet").select2({
   placeholder: "Seleccionar Caja | Wallet",
   theme: 'bootstrap4',
   search: false,
-  allowClear: true
+  allowClear: true,
+  width: '100%'
 });
 $("#wallet").val("")
 $("#wallet").trigger("change");
@@ -462,7 +465,8 @@ $("#wallet").trigger("change");
 $(".typetrasnferencia").select2({
   placeholder: "Seleccionar tipo de movimiento",
   theme: 'bootstrap4',
-  allowClear: true
+  allowClear: true,
+  width: '100%'
 });
 $("#typetrasnferencia").val("")
 $("#typetrasnferencia").trigger("change");

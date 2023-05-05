@@ -14,7 +14,7 @@
 @section('content')
 
 <div class="d-flex justify-content-center">
- <div class="card col-md-6" style="min-height: 500px !important; max-height:700px; height:1400px;">
+ <div class="card col-md-6" style="min-height: 500px !important; max-height:100%; height:100%; widht:100%"">
   <div class="card-body">
 
     {!! Form::open(['route' => 'transactions.store', 'autocomplete' => 'off', 'files' => true, 'enctype' =>'multipart/form-data']) !!}
