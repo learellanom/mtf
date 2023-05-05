@@ -38,7 +38,7 @@
                                 <th>Fecha</th>
                                 <th>Descripción</th>
                                 <th style="width:1%;"><p style="display:none;">P - %</p><i class="fas fa-percentage"></i></th>
-                                <th style="width:1%;">Monto <p style="display:none;">Moneda Extranjera</p></th>
+                                <th style="width:15%;">Monto <i class="fas fa-globe-europe"></i> <p style="display:none;">Moneda Extranjera</p></th>
                                 <th style="width:1%;">Comisión</th>
                                 <th style="width:10%;">Monto Dolar <i class="fas fa-funnel-dollar"></i></th>
                                 <th style="width:10%;">Monto Total</th>
