@@ -186,7 +186,7 @@ $config4 = [
 
 
     const miSupplier = {!! $mySupplier !!};
-
+    
     BuscaProveedor(miSupplier);
 
     $(() => {
@@ -195,7 +195,7 @@ $config4 = [
         $('#supplier').on('change', function (){
 
             const proveedor = $('#supplier').val();
-            theRoute(proveedor,cliente,wallet);
+            theRoute(proveedor);
 
         });
 
@@ -252,13 +252,13 @@ $config4 = [
     * 
     */
     function BuscaProveedor(miProveedor){
-        //alert("BuscaProveedor - miProveedor -> " + miProveedor);
-        $('#proveedor').each( function(index, element){
+        // alert("BuscaProveedor - miProveedor -> " + miProveedor);
+        $('#supplier').each( function(index, element){
             //alert ("BuscaProveedor -> " + $(this).val() + " text -> " + $(this).text()+ " y con index -> " + $(this).prop('selectedIndex'));
             $(this).children("option").each(function(){
-                if ($(this).val() === miGrupo.toString()){
+                if ($(this).val() === miProveedor.toString()){
                     //alert('Buscaproveedor - encontro');
-                    $("#proveedor option[value="+ miProveedor +"]").attr("selected",true);
+                    $("#supplier option[value="+ miProveedor +"]").attr("selected",true);
                 }
                 //alert("BuscaProveedoraqui ->  the val " + $(this).val() + " text -> " + $(this).text());
             });
