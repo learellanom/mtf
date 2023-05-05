@@ -914,9 +914,9 @@ class statisticsController extends Controller
             $myFechaHasta = $request->fechaHasta;
         }
 
-        $Type_transactions  = getTypeTransactions();
+        $Type_transactions  = $this->getTypeTransactions();
 
-        $supplier           = getSuppliers();
+        $supplier           = $this->getSuppliers();
 
         $Transacciones = DB::table('transactions')
             ->select(DB::raw(' 
@@ -933,7 +933,7 @@ class statisticsController extends Controller
   
             // dd($Transacciones);
         
-        return view('estadisticas.statisticsResumenTransaccionSupplier', compact('mySupplier','supplier', 'Type_transactions', 'Transacciones'));
+        return view('estadisticas.statisticsResumenSupplierTransaccion', compact('mySupplier','supplier', 'Type_transactions', 'Transacciones'));
 
     }    
     /*

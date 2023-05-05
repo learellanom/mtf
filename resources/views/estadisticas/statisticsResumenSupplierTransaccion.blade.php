@@ -105,7 +105,7 @@ $config4 = [
                     </div>
                 </x-slot>
 
-                <x-adminlte-options :options="$suppliers" empty-option="Selecciona un Proveedor.."/>
+                <x-adminlte-options :options="$supplier" empty-option="Selecciona un Proveedor.."/>
             </x-adminlte-select2>
         </div>
 
@@ -245,7 +245,7 @@ $config4 = [
         if (proveedor   === "") proveedor  = 0;
 
         let myRoute = "";
-            myRoute = "{{ route('estadisticasResumenTransactionSupplier', ['supplier' => 'proveedor2', 'fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2']) }}";
+            myRoute = "{{ route('estadisticasResumenProveedorTransaccion', ['proveedor' => 'proveedor2', 'fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2']) }}";
             myRoute = myRoute.replace('proveedor2',proveedor);
             myRoute = myRoute.replace('fechaDesde2',fechaDesde);
             myRoute = myRoute.replace('fechaHasta2',fechaHasta);
