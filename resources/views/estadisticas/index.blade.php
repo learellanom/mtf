@@ -193,7 +193,7 @@ if (isset($balance->Total)){
                                         <th style="width:1%;">Fecha</th>
                                         <th style="width:1%;">Transacción</th>
                                         <th>Descripción</th>
-                                        <th style="width:1%;"><p style="display:none;">P - %</p>Moneda</th>
+                                        <th style="width:1%;">Moneda</th>
                                         <th style="width:15%;">Monto Moneda <i class="fas fa-globe-europe"></i> <p style="display:none;">Moneda Extranjera</p></th>
                                         <th style="width:1%;">Tasa</th>
                                         <th style="width:10%;">Monto $ <i class="fas fa-funnel-dollar"></i></th>
