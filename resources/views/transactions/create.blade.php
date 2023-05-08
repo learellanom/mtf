@@ -92,7 +92,7 @@
                     {!! Form::Label('amount', "Monto en dolares:") !!}
                     <div class="input-group-text">
                         <i class="fa-fw fas fas fa-funnel-dollar mr-2"></i>
-                    {!! Form::text('amount', null, ['class' => 'form-control dolar', 'required' => true, 'id' => 'monto_dolares', 'readonly' => true]) !!}
+                    {!! Form::text('amount', null, ['class' => 'form-control dolar', 'required' => true, 'id' => 'monto_dolares', 'readonly' => true, 'data-mask-clearifnotmatch' => true]) !!}
                     </div>
                 </div>
 
@@ -381,15 +381,16 @@ $('#montototal').mask('###0.00', { reverse: true });
 $('#percentage').mask('00.0', { reverse: true });
 $('#comision').mask('###0.00', { reverse: true });
 
-    const input = document.getElementById("monto_dolares");
 
-    const log = document.getElementById("montototal");
 
-    input.addEventListener("input", updateValue);
 
-    function updateValue(e) {
-      log.value = e.target.value;
-     }
+
+
+
+     $('#monto_dolares').on('input', function() {
+        var input1Value = $('#monto_dolares').val();
+        $('#montototal').val(input1Value);
+     });
 
      $( function() {
     var availableTags = [

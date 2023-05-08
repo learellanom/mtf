@@ -5,36 +5,6 @@
 
 @php
 
-$heads = [
-
-    ['label' => 'Fecha',                'no-export' => false, 'width' => 8],
-    ['label' => 'Transacción',          'no-export' => true, 'width' => 5],
-    ['label' => 'Descripción',          'no-export' => true, 'width' => 5],
-    ['label' => 'Moneda',               'no-export' => true, 'width' => 2],
-    ['label' => 'MontoMoneda',          'no-export' => true, 'width' => 5],
-    ['label' => 'Tasa',                 'no-export' => true, 'width' => 5],
-    ['label' => 'Monto $',              'no-export' => true, 'width' => 7],
-    ['label' => '%',                    'no-export' => true, 'width' => 1],
-    ['label' => 'Comision $',           'no-export' => true, 'width' => 8],
-    ['label' => 'Monto Total $',        'no-export' => true, 'width' => 7],
-    ['label' => 'Saldo $',              'no-export' => true, 'width' => 5],
-    ['label' => 'Cliente',              'no-export' => true, 'width' => 5],
-    ['label' => 'Agente',               'no-export' => true, 'width' => 8],
-    ['label' => 'Caja',                 'no-export' => true, 'width' => 5],
-    ['label' => 'Ver',                  'no-export' => true, 'width' => 3],
-];
-
-
-$btnEdit = '<button class="btn btn-xs btn-default text-primary mx-1 shadow" title="Edit">
-                <i class="fa fa-lg fa-fw fa-pen"></i>
-            </button>';
-$btnDelete = '<button class="btn btn-xs btn-default text-danger mx-1 shadow" title="Delete">
-                  <i class="fa fa-lg fa-fw fa-trash"></i>
-              </button>';
-$btnDetails = '<button class="btn btn-xs btn-default text-teal mx-1 shadow" title="Details">
-                   <i class="fa fa-lg fa-fw fa-eye"></i>
-               </button>';
-
 
 $config = [
     'data' => $Transacciones,
@@ -177,21 +147,6 @@ if (isset($balance->Total)){
 <br>
 <br>
 
-
-{{-- Minimal example / fill data using the component slot --}}
-<!-- <x-adminlte-datatable id="table1" :heads="$heads">
-    @foreach($config['data'] as $row)
-        <tr>
-            @foreach($row as $cell)
-                <td>{!! $cell !!}</td>
-            @endforeach
-        </tr>
-    @endforeach
-</x-adminlte-datatable> -->
-
-{{-- Compressed with style options / fill data using the plugin config --}}
-<!-- <x-adminlte-datatable id="table2" :heads="$heads" head-theme="dark" :config="$config"
-    striped hoverable bordered compressed/> -->
 <div class="row">
     <div class="col-md-12">
             <div class="card mb-4">
@@ -232,17 +187,28 @@ if (isset($balance->Total)){
                             @php
                                 $myTotal = 0;
                             @endphp
-                            <x-adminlte-datatable
-                                id="table3"
-                                :heads="$heads"
-
-                                striped
-                                with-buttons
-
-                                class="table table-bordered table-responsive-lg bg-white">
+                            <table class="table table-bordered table-responsive-lg" id="table" style="width:100%;">
+                                <thead>
+                                    <tr>
+                                        <th style="width:1%;">Fecha</th>
+                                        <th style="width:1%;">Transacción</th>
+                                        <th>Descripción</th>
+                                        <th style="width:1%;"><p style="display:none;">P - %</p>Moneda</th>
+                                        <th style="width:15%;">Monto Moneda <i class="fas fa-globe-europe"></i> <p style="display:none;">Moneda Extranjera</p></th>
+                                        <th style="width:1%;">Tasa</th>
+                                        <th style="width:10%;">Monto $ <i class="fas fa-funnel-dollar"></i></th>
+                                        <th style="width:10%;">%</th>
+                                        <th>Comisión</th>
+                                        <th>Monto total</th>
+                                        <th style="width:1%;">Saldo <i class="fas fa-dolar"></i></th>
+                                        <th style="width:1%;">Cliente</th>
+                                        <th style="width:1%;">Agente</th>
+                                        <th style="width:1%;">Caja <i class="fas fa-wallet"></i></th>
+                                        <th style="width:1%;">Ver <i class="fas fa-search"></i></th>
+                                    </tr>
+                                </thead>
                                 @foreach($config['data'] as $row)
                                     <tr>
-
                                         <td>{!! $row->FechaTransaccion !!}</td>
                                         <td>{!! $row->TipoTransaccion !!}</td>
                                         <td>{!! $row->Descripcion !!}</td>
@@ -282,26 +248,16 @@ if (isset($balance->Total)){
                                         <td>{!! $row->WalletName !!}</td>
 
                                         <td class="text-center">
-                                            <!-- <a
-                                                href="{{ route('transactions.show', ['movimiento'=> $row->Id]) }}"
-                                                title="Detalles"
-                                                class="btn btn-xl text-primary mx-1 shadow text-center"
-
-                                            >
-                                                <i class="fa fa-lg fa-fw fa-eye"></i>
-                                            </a>    -->
                                             <a
                                                 href="{{ route('transactions.show', ['movimiento'=> $row->Id]) }}"
                                                 title="Detalles"
-                                                class="btn btn-xl text-dark mx-1 shadow text-center"
-
-                                            >
+                                                class="btn btn-xl text-dark mx-1 shadow text-center">
                                                 <i class="fa fa-lg fa-fw fa-eye"></i>
                                             </a>
                                         </td>
                                     </tr>
                                 @endforeach
-                            </x-adminlte-datatable>
+                                </table>
                              </div>
                         </div>
                     </div>
@@ -317,6 +273,150 @@ if (isset($balance->Total)){
 @section('js')
     @routes
     <script>
+
+    $('#table').DataTable( {
+
+        language: {
+        "decimal": "",
+        "emptyTable": "No hay transacciones.",
+        "info": "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
+        "infoEmpty": "Mostrando 0 to 0 de 0 Entradas",
+        "infoFiltered": "(Filtrado de _MAX_ total entradas)",
+        "infoPostFix": "",
+        "thousands": ",",
+        "lengthMenu": "Mostrar _MENU_ Entradas",
+        "loadingRecords": "Cargando...",
+        "processing": "Procesando...",
+        "search": "Buscar:",
+        "zeroRecords": "Sin resultados encontrados",
+        "paginate": {
+            "first": "Primero",
+            "last": "Ultimo",
+            "next": "Siguiente",
+            "previous": "Anterior"
+        }
+    },
+    "order": [[ 2, 'desc' ]],
+    'dom' : 'Bfrtilp',
+    'buttons':[
+        {
+            extend:  'excelHtml5',
+            exportOptions: { columns: [ 1, 2, 3,4,5,6,7,8,9,10,11,12,13 ] },
+            text:    '<i class="fas fa-file-excel"></i>',
+            titleAttr: 'Exportar Excel',
+            className: 'btn btn-success',
+            "excelStyles": [
+            {
+                "template": ["title_medium", "gold_medium"]
+            },
+
+            {
+                "cells": "2",
+                "style": {
+                    "font": {
+                        "size": "18",
+                        "color": "FFFFFF"
+                    },
+                    "fill": {
+                        "pattern": {
+                            "type": "solid",
+                            "color": "002B5B"
+                        }
+                    },
+
+                }
+            },
+            {
+                "cells": "1",
+                "style": {
+                    "font": {
+                        "size": "20",
+                        "color": "FFFFFF"
+                    },
+                    "fill": {
+                        "pattern": {
+                            "size": "25",
+                            "type": "solid",
+                            "color": "0B2447",
+                        }
+                    }
+                }
+            },
+            {
+            "cells": "sF",
+            "condition": {
+                "type": "dataBar",
+                "dataBar": {
+                    "color": [
+                        "0081B4"
+                    ]
+                }
+              }
+            },
+             {
+                "cells": "sE",
+            "condition": {
+                "type": "dataBar",
+                "dataBar": {
+                    "color": [
+                        "0081B4"
+                    ]
+                  }
+                 }
+              },
+                {
+                    'cells': "sB",
+                    'template': "date_long",
+                },
+                {
+                    "cells": "F",
+                    "style": {
+                        "numFmt": "#,##0;(#,##0)"
+                    }
+                }
+           ]
+
+        },
+        {
+            extend:  'pdfHtml5',
+            text:    '<i class="fas fa-file-pdf"></i>',
+            orientation: 'landscape',
+            title: 'MTF | LISTA DE TRANSACIÓNES',
+            titleAttr: 'Exportar PDF',
+            className: 'btn btn-danger',
+
+        },
+        {
+            extend:  'print',
+            text:    '<i class="fas fa-print"></i>',
+            titleAttr: 'Capture de pantalla',
+            className: 'btn btn-info'
+        },
+    ]
+
+
+
+    });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     const miGrupo   = {!! $myGroup !!};
     const miUsuario = {!! $myUser !!};
