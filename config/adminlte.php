@@ -469,6 +469,15 @@ return [
             'label_color' =>'warning',
         ],
         [
+            'text'          => 'Resumen por transaccion',
+            'url'           => 'estadisticasResumenProveedorTransaccion',
+            'active'        => ['estadisticasResumenProveedorTransaccion'],
+            'icon'          => 'fas fa-fw fas fa-chart-area',
+            'can'           => 'estadisticasDetalle.estadisticasResumenProveedorTransaccion',
+            'label'         => 'P',
+            'label_color'   =>'warning',
+        ],        
+        [
             'text'        => 'Transacciónes Proveedores',
             'url'         => 'movimientos_proveedores',
             'active'      => ['movimientos_proveedores', 'regex:@^movimientos_proveedores/[0-9]+/edit+$@', 'movimientos_proveedores/create'],

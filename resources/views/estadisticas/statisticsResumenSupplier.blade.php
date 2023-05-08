@@ -160,7 +160,7 @@ $config4 = [
                                     <td>{!! number_format($row->Total,2,",",".") !!}</td>
 
                                     <td class="text-center">
-                                    <a      href="#"
+                                        <a      href="#"
                                             title="Detalles"
                                             class="btn btn-xl text-primary mx-1 shadow text-center"
                                             onClick="theRoute({{$row->IdSupplier}})"

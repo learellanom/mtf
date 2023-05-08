@@ -105,7 +105,7 @@ $config4 = [
                     </div>
                 </x-slot>
 
-                <x-adminlte-options :options="$suppliers" empty-option="Selecciona un Proveedor.."/>
+                <x-adminlte-options :options="$supplier" empty-option="Selecciona un Proveedor.."/>
             </x-adminlte-select2>
         </div>
 
@@ -134,19 +134,7 @@ $config4 = [
 
 
 {{-- Minimal example / fill data using the component slot --}}
-<!-- <x-adminlte-datatable id="table1" :heads="$heads">
-    @foreach($config['data'] as $row)
-        <tr>
-            @foreach($row as $cell)
-                <td>{!! $cell !!}</td>
-            @endforeach
-        </tr>
-    @endforeach
-</x-adminlte-datatable> -->
 
-{{-- Compressed with style options / fill data using the plugin config --}}
-<!-- <x-adminlte-datatable id="table2" :heads="$heads" head-theme="dark" :config="$config"
-    striped hoverable bordered compressed/> -->
 
 <div class="row">
     <div class="col-md-12">
@@ -166,11 +154,19 @@ $config4 = [
                                     <td>{!! $row->total_commission !!}</td>
                                     <td>{!! $row->total !!}</td>
 
+
+
                                     <td class="text-center">
-                                        <button class="btn btn-xl text-teal mx-auto shadow" title="Detalles">
+                                        <a      href="#"
+                                            title="Detalles"
+                                            class="btn btn-xl text-primary mx-1 shadow text-center"
+                                            onClick="theRoute2({{$row->IdSupplier}})"
+                                        >
                                             <i class="fa fa-lg fa-fw fa-eye"></i>
-                                        </button>
+                                        </a>
                                     </td>
+                                </tr>
+
                                 </tr>
                             @endforeach
                         </x-adminlte-datatable>
@@ -187,7 +183,7 @@ $config4 = [
 
 <script>
 
-// return view('estadisticas.statisticsResumenTransaction', compact('myTypeTransaction', 'Type_transactions', 'Transacciones'));
+
 
     const miSupplier = {!! $mySupplier !!};
     
@@ -238,6 +234,7 @@ $config4 = [
             theRoute(transaccion,usuario,cliente,wallet,myFechaDesde,myFechaHasta);
         });
 
+
     })
 
     function theRoute(proveedor = 0, fechaDesde = 0, fechaHasta = 0){
@@ -245,7 +242,7 @@ $config4 = [
         if (proveedor   === "") proveedor  = 0;
 
         let myRoute = "";
-            myRoute = "{{ route('estadisticasResumenTransactionSupplier', ['supplier' => 'proveedor2', 'fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2']) }}";
+        myRoute = "{{ route('estadisticasResumenProveedorTransaccion', ['proveedor' => 'proveedor2', 'fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2']) }}";
             myRoute = myRoute.replace('proveedor2',proveedor);
             myRoute = myRoute.replace('fechaDesde2',fechaDesde);
             myRoute = myRoute.replace('fechaHasta2',fechaHasta);
@@ -255,6 +252,20 @@ $config4 = [
 
     }
 
+    function theRoute2(proveedor = 0, fechaDesde = 0, fechaHasta = 0){
+        // alert(' el proveedor -> ' + proveedor)
+        if (proveedor   === "") proveedor  = 0;
+
+        let myRoute = "";
+        myRoute = "{{ route('estadisticasDetalleProveedor', ['supplier' => 'proveedor2', 'fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2']) }}";
+            myRoute = myRoute.replace('proveedor2',proveedor);
+            myRoute = myRoute.replace('fechaDesde2',fechaDesde);
+            myRoute = myRoute.replace('fechaHasta2',fechaHasta);
+        // console.log(myRoute);
+        
+        location.href = myRoute;
+
+    }
 
  
     function BuscaTransaccion(miTypeTransaction){
