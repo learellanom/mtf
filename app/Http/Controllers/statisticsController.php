@@ -881,11 +881,11 @@ class statisticsController extends Controller
     */  
     public function transactionSummarySupplier(Request $request)
     {
-        $mySupplier = ($request->supplier) ? $request->supplier : 0;
+        $mySupplier = ($request->proveedor) ? $request->proveedor : 0;
         // $mySupplier = 0;
         if ($mySupplier === 0){
             $supplierDesde = 0;
-            $supplierDesde = 9999;
+            $supplierHasta = 9999;
         }else{
             $supplierDesde = $supplierHasta = $mySupplier;
         }
@@ -918,20 +918,22 @@ class statisticsController extends Controller
 
         $supplier           = $this->getSuppliers();
 
-        $Transacciones = DB::table('transactions')
+        $Transacciones = DB::table('transaction_suppliers')
             ->select(DB::raw(' 
+                supplier_id                 as IdSupplier,
                 type_transactions.name      as TipoTransaccion,            
                 count(*)                    as cant_transactions, 
                 sum(amount)                 as total_amount, 
                 sum(amount_commission)      as total_commission,
                 sum(amount_total)           as total'))
-            ->leftJoin('type_transactions', 'type_transactions.id', '=', 'transactions.type_transaction_id')             
-            ->whereBetween('Transactions.type_transaction_id',  [$myTypeTransactionDesde, $myTypeTransactionHasta])
-            ->whereBetween('Transactions.transaction_date',     [$myFechaDesde, $myFechaHasta])
-            ->groupBy('TipoTransaccion')
+            ->leftJoin('type_transactions', 'type_transactions.id', '=', 'transaction_suppliers.type_transaction_id')             
+            ->whereBetween('Transaction_suppliers.supplier_id',         [$supplierDesde, $supplierHasta])            
+            ->whereBetween('Transaction_suppliers.type_transaction_id', [$myTypeTransactionDesde, $myTypeTransactionHasta])
+            ->whereBetween('Transaction_suppliers.transaction_date',    [$myFechaDesde, $myFechaHasta])
+            ->groupBy('IdSupplier','TipoTransaccion')
             ->get();
-  
-            // dd($Transacciones);
+
+        // dd($Transacciones);
         
         return view('estadisticas.statisticsResumenSupplierTransaccion', compact('mySupplier','supplier', 'Type_transactions', 'Transacciones'));
 
