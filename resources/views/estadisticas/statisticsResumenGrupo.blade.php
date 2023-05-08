@@ -247,7 +247,7 @@ $config4 = [
 
 
     function theRoute2(usuario = 0, grupo = 0, wallet = 0, fechaDesde = 0, fechaHasta = 0){
-
+        
         if (usuario === "") usuario = 0;
         if (grupo   === "") grupo = 0;
         if (wallet  === "") wallet  = 0;
