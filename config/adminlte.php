@@ -445,6 +445,15 @@ return [
             'label_color' =>'warning',
         ],
         [
+            'text'        => 'Transacciónes Proveedores',
+            'url'         => 'movimientos_proveedores',
+            'active'      => ['movimientos_proveedores', 'regex:@^movimientos_proveedores/[0-9]+/edit+$@', 'movimientos_proveedores/create'],
+            'can'         => 'transactions_supplier.index',
+            'icon'        => 'fas fa-fw fas fa-share',
+            'label'       => 'P',
+            'label_color' =>'warning',
+        ],
+        [
             'text' => 'Resumen por Proveedor',
             'url'  => 'estadisticasResumenProveedor',
             'active' => ['estadisticasResumenProveedor'],
@@ -461,16 +470,16 @@ return [
             'can'           => 'estadisticasDetalle.estadisticasResumenProveedorTransaccion',
             'label'         => 'P',
             'label_color'   =>'warning',
-        ],
+        ],       
         [
-            'text'        => 'Transacciónes Proveedores',
-            'url'         => 'movimientos_proveedores',
-            'active'      => ['movimientos_proveedores', 'regex:@^movimientos_proveedores/[0-9]+/edit+$@', 'movimientos_proveedores/create'],
-            'can'         => 'transactions_supplier.index',
-            'icon'        => 'fas fa-fw fas fa-share',
-            'label'       => 'P',
-            'label_color' =>'warning',
-        ],
+            'text'          => 'Conciliacion por Proveedor',
+            'url'           => 'estadisticasResumenConciliacionProveedor',
+            'active'        => ['estadisticasResumenConciliacionProveedor'],
+            'icon'          => 'fas fa-fw fas fa-chart-area',
+            'can'           => 'estadisticasDetalle.estadisticasResumenConciliacionProveedor',
+            'label'         => 'P',
+            'label_color'   =>'warning',
+        ],           
         //
         // Configuracion
         //
