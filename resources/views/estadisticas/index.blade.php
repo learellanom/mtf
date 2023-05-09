@@ -192,7 +192,7 @@ if (isset($balance->Total)){
                             style="width:100%;">
                             <thead>
                                 <tr>
-                                    <th style="width:5%;">Fecha</th>
+                                    <th style="width:8%;">Fecha</th>
                                     <th style="width:1%;">Transacción</th>
                                     <th style="width:10%;">Descripción</th>
                                     <th style="width:1%;"><p style="display:none;">P - %</p>Moneda</th>
@@ -333,7 +333,7 @@ if (isset($balance->Total)){
                                 "size": "20",
                                 "color": "FFFFFF"
                             },
-                            "fill": {
+                              "fill": {
                                 "pattern": {
                                     "size": "25",
                                     "type": "solid",
