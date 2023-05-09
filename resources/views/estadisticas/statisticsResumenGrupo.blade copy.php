@@ -142,7 +142,16 @@ $config4 = [
                             class="table table-bordered table-responsive-lg" 
                             id="table3" 
                             style="width:100%;">  
-
+                            <!--                      
+                            <x-adminlte-datatable 
+                                id="table3" 
+                                :heads="$heads" 
+                                class="table table-bordered table-responsive-lg"
+                                striped
+                                hoverable
+                                with-buttons                        
+                            >
+                            -->
                             <thead>
                                 <tr>
                                     <th style="width:15%;">Grupo</th>
@@ -167,7 +176,7 @@ $config4 = [
                                     </td>
                                 </tr>
                             @endforeach
-
+                        <!-- </x-adminlte-datatable> -->
                         </table>
                     </div>
                 </div>
@@ -310,7 +319,7 @@ $config4 = [
         //
     }
 
-    $('#table3').DataTable({
+    $('#table').DataTable({
         language: {
             "decimal": "",
             "emptyTable": "No hay transacciones.",
@@ -336,7 +345,7 @@ $config4 = [
         'buttons':[
             {
                 extend:  'excelHtml5',
-                exportOptions: { columns: [ 0, 1] },
+                exportOptions: { columns: [ 1, 2 ] },
                 text:    '<i class="fas fa-file-excel"></i>',
                 titleAttr: 'Exportar Excel',
                 className: 'btn btn-success',
