@@ -346,13 +346,7 @@ return [
             'icon' => 'fas fa-fw fas fa-chart-bar',
             'can'  => 'estadisticasDetalle.index',
         ],
-        // [
-        //     'text' => 'Resumen por Agente',
-        //     'url'  => 'estadisticasResumenUsuario',
-        //     'active' => ['estadisticasResumenUsuario*'],
-        //     'icon' => 'fas fa-fw fas fa-chart-bar',
-        //     'can'  => 'estadisticasDetalle.statisticsResumenCliente',
-        // ],
+
         [
             'text' => 'Resumen por Grupo',
             'url'  => 'estadisticasResumenGrupo',
@@ -374,16 +368,7 @@ return [
             'icon' => 'fas fa-fw fas fa-chart-bar',
             'can'  => 'estadisticasDetalle.statisticsResumenConciliacionFechaGrupo'
         ],
-        // [
-        //     'text' => 'Conciliacion por Fecha',
-        //     'url'  => 'estadisticasConciliacionFecha',
-        //     'active' => ['estadisticasConciliacionFecha*'],
-        //     'icon' => 'fas fa-fw fas fa-chart-bar',
-        //     'can'  => 'estadisticasDetalle.statisticsResumenConciliacionFecha'
-        // ],
-        //
-        // Operaciones
-        //
+
         ['header' => 'Operaciones',
         'classes' =>'text-uppercase font-weight-bold text-light',],
         [
@@ -476,7 +461,7 @@ return [
             'can'           => 'estadisticasDetalle.estadisticasResumenProveedorTransaccion',
             'label'         => 'P',
             'label_color'   =>'warning',
-        ],        
+        ],
         [
             'text'        => 'Transacciónes Proveedores',
             'url'         => 'movimientos_proveedores',
@@ -758,10 +743,16 @@ return [
                     'asset' => true,
                     'location' => 'vendor/jquery/simple-mask-money.js',
                 ],
+
+            ],
+        ],
+        'flag-icon-css' => [
+            'active' => true,
+            'files' => [
                 [
-                    'type' => 'js',
+                    'type' => 'css',
                     'asset' => true,
-                    'location' => 'vendor/jquery/pretty-money.js',
+                    'location' => 'vendor/flag-icon-css/css/flag-icons.css',
                 ],
             ],
         ],

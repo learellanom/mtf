@@ -61,7 +61,7 @@ $config4 = [
 </script>
 <br>
 <br>
-<h1 class="text-center text-dark font-weight-bold text-uppercase">Resumen de Movimiento por Caja <i class="fas fa-w fa-box"></i></h1>
+<h1 class="text-center text-dark font-weight-bold text-uppercase">{{ __('Resumen de Movimiento por Caja') }} <i class="fas fa-w fa-box"></i></h1>
 <br>
 <br>
 {{-- Disabled --}}
@@ -115,26 +115,12 @@ $config4 = [
 <br>
 
 
-{{-- Minimal example / fill data using the component slot --}}
-<!-- <x-adminlte-datatable id="table1" :heads="$heads">
-    @foreach($config['data'] as $row)
-        <tr>
-            @foreach($row as $cell)
-                <td>{!! $cell !!}</td>
-            @endforeach
-        </tr>
-    @endforeach
-</x-adminlte-datatable> -->
-
-{{-- Compressed with style options / fill data using the plugin config --}}
-<!-- <x-adminlte-datatable id="table2" :heads="$heads" head-theme="dark" :config="$config"
-    striped hoverable bordered compressed/> -->
 
 <div class="row">
     <div class="col-md-12">
         <div class="card mb-4">
             <div class="card-header">
-                <h3 class="card-title">Estadisticas| Resumen por Caja</h3>
+                <h3 class="card-title">{{ __('Estadisticas| Resumen por Caja') }}</h3>
             </div>
             <div class="card-body">
                 <div class="row">
@@ -143,8 +129,8 @@ $config4 = [
                             @foreach($Transacciones as $row)
                                 <tr>
                                     <td>{!! $row->NombreWallet !!}</td>
-                                    
-                                    
+
+
                                     <td>{!! number_format($row->Creditos,2,",",".") !!}</td>
                                     <td>{!! number_format($row->Debitos,2,",",".") !!}</td>
                                     <td>{!! number_format($row->Total,2,",",".") !!}</td>
@@ -155,7 +141,7 @@ $config4 = [
                                         </button>
                                     </td> -->
                                     <td class="text-center">
-                                        <a      
+                                        <a
                                             href="#"
                                             title="Detalles"
                                             class="btn btn-xl text-primary mx-1 shadow text-center"
@@ -163,7 +149,7 @@ $config4 = [
                                         >
                                             <i class="fa fa-lg fa-fw fa-eye"></i>
                                         </a>
-                                    </td>                                    
+                                    </td>
                                 </tr>
                             @endforeach
                         </x-adminlte-datatable>
@@ -189,11 +175,11 @@ $config4 = [
 
 
         $('#wallet').on('change', function (){
-            
+
             const usuario = $('#userole').val();
             const cliente = $('#cliente').val();
             const wallet = $('#wallet').val();
-            
+
             theRoute(usuario,cliente,wallet);
 
         });
@@ -226,7 +212,7 @@ $config4 = [
     })
 
     function theRoute(usuario = 0, cliente = 0, wallet = 0, fechaDesde = 0, fechaHasta = 0){
-        
+
         if (usuario === "") usuario = 0;
         if (cliente === "") cliente = 0;
         if (wallet  === "") wallet  = 0;

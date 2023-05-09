@@ -65,7 +65,7 @@ $config4 = [
 </script>
 <br>
 <br>
-<h1 class="text-center text-dark font-weight-bold text-uppercase">Concilacion por Grupo <i class="fas fa-users"></i></h1>
+<h1 class="text-center text-dark font-weight-bold text-uppercase">{{ __('Concilacion por Grupo') }} <i class="fas fa-users"></i></h1>
 <br>
 <br>
 {{-- Disabled --}}
@@ -123,26 +123,11 @@ $config4 = [
 <br>
 
 
-{{-- Minimal example / fill data using the component slot --}}
-<!-- <x-adminlte-datatable id="table1" :heads="$heads">
-    @foreach($config['data'] as $row)
-        <tr>
-            @foreach($row as $cell)
-                <td>{!! $cell !!}</td>
-            @endforeach
-        </tr>
-    @endforeach
-</x-adminlte-datatable> -->
-
-{{-- Compressed with style options / fill data using the plugin config --}}
-<!-- <x-adminlte-datatable id="table2" :heads="$heads" head-theme="dark" :config="$config"
-    striped hoverable bordered compressed/> -->
-
 <div class="row">
     <div class="col-md-12">
         <div class="card mb-4">
             <div class="card-header">
-                <h3 class="card-title">Conciliacion| por Grupo</h3>
+                <h3 class="card-title">{{ __('Conciliacion| por Grupo') }}</h3>
             </div>
             <div class="card-body">
                 <div class="row">

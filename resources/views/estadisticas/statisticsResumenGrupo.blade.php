@@ -55,7 +55,7 @@ $config4 = [
 
 <br>
 <br>
-<h1 class="text-center text-dark font-weight-bold text-uppercase">Resumen de Movimiento por Grupo <i class="fas fa-users"></i></h1>
+<h1 class="text-center text-dark font-weight-bold text-uppercase">{{ __('Resumen de Movimiento por Grupo') }} <i class="fas fa-users"></i></h1>
 <br>
 <br>
 {{-- Disabled --}}
@@ -102,7 +102,7 @@ $config4 = [
     <div class="col-md-12">
         <div class="card mb-4">
             <div class="card-header">
-                <h3 class="card-title text-uppercase font-weight-bold">Estadisticas| Resumen por Grupo</h3>
+                <h3 class="card-title text-uppercase font-weight-bold">{{ __('Estadisticas| Resumen por Grupo') }}</h3>
             </div>
             <div class="card-body">
                 <div class="row">

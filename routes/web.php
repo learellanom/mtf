@@ -8,6 +8,7 @@ use App\Http\Controllers\TransactionMasterController;
 use App\Http\Controllers\TransactionSupplierController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\GroupController;
+use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\WalletController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\Type_transactionController;
@@ -29,6 +30,13 @@ use Illuminate\Support\Facades\Route;
 Route::get('/offline', function () {
     return view('vendor.laravelpwa.offline');
 });
+
+
+/* CAMBIO DE IDIOMA */
+Route::get('lang/{locale}', [LanguageController::class, 'index']);
+
+
+
 
 Route::get('/', function () {
     return view('auth.login');
