@@ -22,7 +22,7 @@ return [
     'Configuración'                 => 'Configuración',
     'Detalles de movimiento'        => 'Detalles de movimiento',
     'Resumen por Proveedor'         => 'Resumen por Proveedor',
-    'Resumen por transaccion'       => 'Resumen por transaccion',
+    'Resumen por transaccion'       => 'Resumen por transacción',
     'Resumen por Caja'              => 'Resumen por Caja',
     'Resumen por Grupo'             => 'Resumen por Grupo',
     'Conciliacion por Grupo'        => 'Conciliacion por Grupo',
