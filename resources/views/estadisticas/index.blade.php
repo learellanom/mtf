@@ -192,20 +192,20 @@ if (isset($balance->Total)){
                             style="width:100%;">
                             <thead>
                                 <tr>
-                                    <th style="width:1%;">Fecha</th>
+                                    <th style="width:5%;">Fecha</th>
                                     <th style="width:1%;">Transacción</th>
-                                    <th>Descripción</th>
+                                    <th style="width:10%;">Descripción</th>
                                     <th style="width:1%;"><p style="display:none;">P - %</p>Moneda</th>
-                                    <th style="width:15%;">Monto Moneda <i class="fas fa-globe-europe"></i> <p style="display:none;">Moneda Extranjera</p></th>
+                                    <th style="width:6%;">Monto Moneda</th>
                                     <th style="width:1%;">Tasa</th>
-                                    <th style="width:10%;">Monto $ <i class="fas fa-funnel-dollar"></i></th>
-                                    <th style="width:10%;">%</th>
-                                    <th>Comisión</th>
-                                    <th>Monto total</th>
-                                    <th style="width:1%;">Saldo <i class="fas fa-dolar"></i></th>
-                                    <th style="width:1%;">Cliente</th>
+                                    <th style="width:6%;">Monto $</th>
+                                    <th style="width:5%;">% Comisión</th>
+                                    <th style="width:6%;">Comisión</th>
+                                    <th style="width:6%;">Monto total</th>
+                                    <th style="width:6%;">Saldo <i class="fas fa-dolar"></i></th>
+                                    <th style="width:10%;">Grupo</th>
                                     <th style="width:1%;">Agente</th>
-                                    <th style="width:1%;">Caja <i class="fas fa-wallet"></i></th>
+                                    <th style="width:10%;">Caja</th>
                                     <th style="width:1%;">Ver <i class="fas fa-search"></i></th>
                                 </tr>
                             </thead>
@@ -301,11 +301,11 @@ if (isset($balance->Total)){
         'dom' : 'Bfrtilp',
         'buttons':[
             {
-                extend:  'excelHtml5',
-                exportOptions: { columns: [ 1, 2, 3,4,5,6,7,8,9,10,11,12,13 ] },
-                text:    '<i class="fas fa-file-excel"></i>',
-                titleAttr: 'Exportar Excel',
-                className: 'btn btn-success',
+                extend          :  'excelHtml5',
+                exportOptions   : { columns: [ 0, 1, 2, 3,4,5,6,7,8,9,10,11,12,13 ] },
+                text            : '<i class="fas fa-file-excel"></i>',
+                titleAttr       : 'Exportar Excel',
+                className       : 'btn btn-success',
                 "excelStyles": [
                     {
                         "template": ["title_medium", "gold_medium"]
@@ -314,7 +314,7 @@ if (isset($balance->Total)){
                         "cells": "2",
                         "style": {
                             "font": {
-                                "size": "18",
+                                "size": "30",
                                 "color": "FFFFFF"
                             },
                             "fill": {
@@ -393,26 +393,6 @@ if (isset($balance->Total)){
             },
         ]
     });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     const miGrupo   = {!! $myGroup !!};
     const miUsuario = {!! $myUser !!};
