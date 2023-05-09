@@ -7,7 +7,7 @@
 
 <div class="container">
     <div class="card">
-        <h1 class="text-center text-dark font-weight-bold text-uppercase">Estadisticas</h1>
+        <h1 class="text-center text-dark font-weight-bold text-uppercase">{{ __('Estadisticas') }}</h1>
         <hr>
         <div class="card-body">
     <div class="row justify-content-center">
@@ -24,6 +24,9 @@
 <br>
 <br>
 <br>
+
+
+
 <div class="container">
     <div class="row justify-content-center">
         <div class="col col-sm-6">
