@@ -53,6 +53,10 @@ $config4 = [
 
 @endphp
 
+<script>
+
+
+</script>
 <br>
 <br>
 <h1 class="text-center text-dark font-weight-bold text-uppercase">Resumen de Movimiento por Grupo <i class="fas fa-users"></i></h1>
@@ -61,9 +65,9 @@ $config4 = [
 {{-- Disabled --}}
 
 <div class="container">
-    <div class="row col-12">
+    <div class="row col-12 d-flex justify-content-center">
         <!-- Grupo -->
-        <div class ="col-12 col-sm-4">
+        <div class ="col-12 col-sm-3">
             <x-adminlte-select2 id="grupo"
                                 name="optionsGroup"
                                 igroup-size="sm"
@@ -84,7 +88,18 @@ $config4 = [
 
         <div class ="col-12 col-sm-2">
         </div>
-
+        <!-- Fechas -->
+        <!--
+        <div class ="col-12 col-sm-3">
+            <x-adminlte-date-range name="drCustomRanges" enable-default-ranges="Last 30 Days" style="height: 30px;" :config="$config3">
+                <x-slot name="prependSlot">
+                    <div class="input-group-text bg-gradient-dark">
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                </x-slot>
+            </x-adminlte-date-range>
+        </div>
+        -->
 
 
         <div class ="col-12 col-sm-2">
@@ -98,40 +113,70 @@ $config4 = [
 <br>
 <br>
 
+
+{{-- Minimal example / fill data using the component slot --}}
+<!-- <x-adminlte-datatable id="table1" :heads="$heads">
+    @foreach($config['data'] as $row)
+        <tr>
+            @foreach($row as $cell)
+                <td>{!! $cell !!}</td>
+            @endforeach
+        </tr>
+    @endforeach
+</x-adminlte-datatable> -->
+
+{{-- Compressed with style options / fill data using the plugin config --}}
+<!-- <x-adminlte-datatable id="table2" :heads="$heads" head-theme="dark" :config="$config"
+    striped hoverable bordered compressed/> -->
+
 <div class="row">
     <div class="col-md-12">
         <div class="card mb-4">
             <div class="card-header">
-                <h3 class="card-title text-uppercase font-weight-bold">Estadisticas| Resumen por Grupo</h3>
+                <h3 class="card-title">Estadisticas| Resumen por Grupo</h3>
             </div>
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-12">
-                        <table class="table table-bordered table-responsive-lg" id="table" style="width:100%;">
+                        <table 
+                            class="table table-bordered table-responsive-lg" 
+                            id="table3" 
+                            style="width:100%;">  
+                            <!--                      
+                            <x-adminlte-datatable 
+                                id="table3" 
+                                :heads="$heads" 
+                                class="table table-bordered table-responsive-lg"
+                                striped
+                                hoverable
+                                with-buttons                        
+                            >
+                            -->
                             <thead>
                                 <tr>
-                                    <th style="width:10%;">Cliente</th>
-                                    <th style="width:10%;">Monto total</th>
-                                    <th style="width:1%;">Ver <i class="fas fa-search"></i></th>
-
+                                    <th style="width:15%;">Grupo</th>
+                                    <th style="width:15%;">Monto total</th>
+                                    <th style="width:5%;">Actions</th>
                                 </tr>
                             </thead>
 
-                                @foreach($Transacciones as $row)
-
+                            @foreach($Transacciones as $row)
                                 <tr>
                                     <td>{!! $row->NombreGrupo !!}</td>
                                     <td>{!! number_format($row->Total,2,",",".") !!}</td>
                                     <td class="text-center">
-                                        <a href="#"
+                                        <a      
+                                            href="#"
                                             title="Detalles"
                                             class="btn btn-xl text-primary mx-1 shadow text-center"
-                                            onClick="theRoute2({{0}},{{$row->IdGrupo}})">
-                                            <i class="fa fa-lg fa-fw fa-eye"></i>
+                                            onClick="theRoute2({{0}},{{$row->IdGrupo}})"
+                                        >
+                                                <i class="fa fa-lg fa-fw fa-eye"></i>
                                         </a>
                                     </td>
                                 </tr>
                             @endforeach
+                        <!-- </x-adminlte-datatable> -->
                         </table>
                     </div>
                 </div>
@@ -145,131 +190,6 @@ $config4 = [
 @section('js')
 
 <script>
-$(document).ready(function () {
-    $('#table').DataTable( {
-
-        language: {
-        "decimal": "",
-        "emptyTable": "No hay transacciones.",
-        "info": "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
-        "infoEmpty": "Mostrando 0 to 0 de 0 Entradas",
-        "infoFiltered": "(Filtrado de _MAX_ total entradas)",
-        "infoPostFix": "",
-        "thousands": ",",
-        "lengthMenu": "Mostrar _MENU_ Entradas",
-        "loadingRecords": "Cargando...",
-        "processing": "Procesando...",
-        "search": "Buscar:",
-        "zeroRecords": "Sin resultados encontrados",
-        "paginate": {
-            "first": "Primero",
-            "last": "Ultimo",
-            "next": "Siguiente",
-            "previous": "Anterior"
-        }
-    },
-    "order": [[ 2, 'desc' ]],
-    'dom' : 'Bfrtilp',
-    'buttons':[
-        {
-            extend:  'excelHtml5',
-            exportOptions: { columns: [ 0, 1 ] },
-            text:    '<i class="fas fa-file-excel"></i>',
-            titleAttr: 'Exportar Excel',
-            className: 'btn btn-success',
-            "excelStyles": [
-            {
-                "template": ["title_medium", "gold_medium"]
-            },
-
-            {
-                "cells": "2",
-                "style": {
-                    "font": {
-                        "size": "18",
-                        "color": "FFFFFF"
-                    },
-                    "fill": {
-                        "pattern": {
-                            "type": "solid",
-                            "color": "002B5B"
-                        }
-                    },
-
-                }
-            },
-            {
-                "cells": "1",
-                "style": {
-                    "font": {
-                        "size": "20",
-                        "color": "FFFFFF"
-                    },
-                    "fill": {
-                        "pattern": {
-                            "size": "25",
-                            "type": "solid",
-                            "color": "0B2447",
-                        }
-                    }
-                }
-            },
-            {
-            "cells": "sF",
-            "condition": {
-                "type": "dataBar",
-                "dataBar": {
-                    "color": [
-                        "0081B4"
-                    ]
-                }
-              }
-            },
-             {
-                "cells": "sE",
-            "condition": {
-                "type": "dataBar",
-                "dataBar": {
-                    "color": [
-                        "0081B4"
-                    ]
-                  }
-                 }
-              },
-                {
-                    'cells': "sB",
-                    'template': "date_long",
-                },
-                {
-                    "cells": "F",
-                    "style": {
-                        "numFmt": "#,##0;(#,##0)"
-                    }
-                }
-           ]
-
-        },
-        {
-            extend:  'pdfHtml5',
-            text:    '<i class="fas fa-file-pdf"></i>',
-            orientation: 'landscape',
-            title: 'MTF | LISTA DE TRANSACIÓNES',
-            titleAttr: 'Exportar PDF',
-            className: 'btn btn-danger',
-
-        },
-        {
-            extend:  'print',
-            text:    '<i class="fas fa-print"></i>',
-            titleAttr: 'Capture de pantalla',
-            className: 'btn btn-info'
-        },
-    ]
-
-
-
-    });
-});
 
 
     const miGrupo = {!! $myGroup !!};
@@ -333,8 +253,8 @@ $(document).ready(function () {
 
 
     function theRoute2(usuario = 0, grupo = 0, wallet = 0, fechaDesde = 0, fechaHasta = 0){
-
-
+        
+        if (usuario === "") usuario = 0;
         if (grupo   === "") grupo = 0;
         if (wallet  === "") wallet  = 0;
 
@@ -399,7 +319,7 @@ $(document).ready(function () {
         //
     }
 
-    $('#table3').DataTable({
+    $('#table').DataTable({
         language: {
             "decimal": "",
             "emptyTable": "No hay transacciones.",
@@ -425,7 +345,7 @@ $(document).ready(function () {
         'buttons':[
             {
                 extend:  'excelHtml5',
-                exportOptions: { columns: [ 0, 1] },
+                exportOptions: { columns: [ 1, 2 ] },
                 text:    '<i class="fas fa-file-excel"></i>',
                 titleAttr: 'Exportar Excel',
                 className: 'btn btn-success',
