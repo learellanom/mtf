@@ -21,6 +21,8 @@ return [
     'Proveedores'                   => 'Suppliers',
     'Configuración'                 => 'Configuration',
     'Detalles de movimiento'        => 'Movement details',
+    'Resumen por transaccion'       => 'Summary by transaction',
+    'Resumen por Proveedor'         => 'Summary by Provider',
     'Resumen por Caja'              => 'Summary by box',
     'Resumen por Grupo'             => 'Summary by Group',
     'Conciliacion por Grupo'        => 'Group Reconciliation',
