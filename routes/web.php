@@ -42,10 +42,6 @@ Route::get('/', function () {
     return view('auth.login');
 });
 
-Route::get('/home', function () {
-    return view('home');
-})->middleware(['auth', 'verified']);
-
 
 
 Route::post('/darkmode/toggle', [DarkModeController::class, 'toggle'])
@@ -241,9 +237,3 @@ Route::get('dashboardest', function () {
 
 
 ?>
-
-Auth::routes();
-
-Route::get('/home', function() {
-    return view('home');
-})->name('home')->middleware('auth');
