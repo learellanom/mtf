@@ -433,7 +433,7 @@ if (isset($balance->Total)){
             titleAttr: 'Capture de pantalla',
             className: 'btn btn-info'
         },
-    ]
+                ]   
 
 
                         }
