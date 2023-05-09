@@ -21,4 +21,5 @@ return [
     'tab_home' => 'Home',
     'tab_loading' => 'Tab is loading',
 
+
 ];
