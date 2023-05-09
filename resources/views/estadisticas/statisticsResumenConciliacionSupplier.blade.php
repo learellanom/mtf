@@ -6,8 +6,8 @@
 @php
 
 $heads = [
-    'Fecha',
-    'Grupo',
+    'Supplier',
+    'Caja',
     'Cant  Transacciones',
     'Monto Transacciones',
     'Cant  Master',
