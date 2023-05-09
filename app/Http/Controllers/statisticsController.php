@@ -1160,11 +1160,11 @@ class statisticsController extends Controller
             TypeTransactionId
         ");
 
-        $groups = $this->getGroups();
+        $suppliers = $this->getSuppliers();
 
-        // dd($Transacciones);
+        // dd($Transacciones); leamx
 
-        return view('estadisticas.statisticsResumenConciliacionFechaGrupo', compact('myGroup','groups', 'Transacciones'));            
+        return view('estadisticas.statisticsResumenConciliacionSupplier', compact('mySupplier','suppliers', 'Transacciones'));            
 
     }
 
