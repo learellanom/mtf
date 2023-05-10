@@ -17,7 +17,7 @@ return [
     'warning'                       => 'Warning',
     'information'                   => 'Information',
     'Operaciones'                   => 'Operations',
-    'Estadisticas'                  => 'Stadistics',
+    'Estadisticas'                  => 'Statistics',
     'Proveedores'                   => 'Suppliers',
     'Configuración'                 => 'Configuration',
     'Detalles de movimiento'        => 'Movement details',

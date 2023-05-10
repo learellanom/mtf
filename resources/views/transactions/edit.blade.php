@@ -54,7 +54,7 @@
                             {!! Form::Label('exchange_rate', "Tasa:") !!}
                             <div class="input-group-text">
                                 <i class="fa-fw fas fa-random mr-2"></i>
-                            {!! Form::number('exchange_rate',null, ['class' => 'form-control', 'required' => true, 'id' => 'tasa', 'min' => 0, 'readonly' => true]) !!}
+                            {!! Form::text('exchange_rate',null, ['class' => 'form-control', 'required' => true, 'id' => 'tasa', 'min' => 0, 'readonly' => true]) !!}
                             </div>
                         </div>
 
@@ -104,26 +104,6 @@
                     </div>
                 </div>
 
-              {{--   <div class="form-row">
-
-                    <div class="form-group col-md-6">
-                        {!! Form::Label('percentage_base', "Porcentaje Base:") !!}
-                        <div class="input-group-text">
-                            <i class="fa-fw fas fa-percentage mr-2"></i>
-                        {!! Form::text('percentage_base',null, ['class' => 'form-control percentage_base', 'min' => 0, 'id' => 'percentage_base']) !!}
-                        </div>
-                    </div>
-
-                    <div class="form-group col-md-6">
-
-                        {!! Form::Label('amount_commission_base', "Monto Comisión Base:") !!}
-                        <div class="input-group-text">
-                            <i class="fa-fw fas fa-coins mr-2"></i>
-                        {!! Form::number('amount_commission_base',null, ['class' => 'form-control comision_ganancia', 'min' => 0, 'readonly' => true, 'id' => 'comision_base']) !!}
-                        </div>
-
-                    </div>
-                </div> --}}
 
                 <div class="form-group col-md-12 d-flex justify-content-center">
 
@@ -187,10 +167,7 @@
 
 
 
-                        {{-- {!! Form::file('file[]', ['class' => 'form-file-input clone', 'accept' => 'image/*', 'multiple' => 'multiple', 'id' => 'file']) !!} --}}
 
-
-                      {{-- <img id="imagenPrevisualizacion"> --}}
 
 
 
@@ -346,6 +323,15 @@
 
 @section('js')
 <script>
+
+$('#monto_dolares').mask('###0.00', { reverse: true });
+$('#monto').mask('###0.00', { reverse: true });
+$('#tasa').mask('###0.00', { reverse: true });
+$('#montototal').mask('###0.00', { reverse: true });
+$('#percentage').mask('00.00', { reverse: true });
+$('#comision').mask('###0.00', { reverse: true });
+
+
 $(".clientes").select2({
   placeholder: "Seleccionar cliente",
   theme: 'bootstrap4',

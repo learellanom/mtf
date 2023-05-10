@@ -28,15 +28,15 @@
 
 @switch($locale)
 @case('es')
-<h4><li class="nav-item badge badge-light"><img src="https://flagcdn.com/w20/ve.png" width="25" alt="Venezuela"></li></h4>
+<h4><li class="nav-item badge badge-light"><img src="https://flagcdn.com/w20/ve.png" width="30" height="20" alt="Venezuela"></li></h4>
 @break
 
 @case('en')
-<h4><li class="nav-item badge badge-light"><img src="https://flagcdn.com/w20/gb.png" width="25" alt="Ingles"></li></h4>
+<h4><li class="nav-item badge badge-light"><img src="https://flagcdn.com/w20/gb.png" width="30" height="20" alt="Ingles"></li></h4>
 @break
 
 @default
-<h4><li class="nav-item badge badge-light"><img src="https://flagcdn.com/w20/ve.png" width="25" alt="Venezuela"></li></h4>
+<h4><li class="nav-item badge badge-light"><img src="https://flagcdn.com/w20/ve.png" width="30" height="25" alt="Venezuela"></li></h4>
 @endswitch
 
 
