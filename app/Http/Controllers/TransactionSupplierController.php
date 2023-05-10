@@ -76,9 +76,17 @@ class TransactionSupplierController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(transaction_supplier $transaction_supplier)
+    public function show($transaction)
     {
-        //
+        $transactions = Transaction_Supplier::find($transaction);
+        if($transactions->wallet == null){
+            return view('transactions_supplier.show', compact('transactions'));
+        }
+        else{
+            $transactiones = Transaction_Supplier::whereIn('wallet_id', [$transactions->wallet->id])->paginate(3)->sortByDesc('id');
+            return view('transactions_supplier.show', compact('transactions', 'transactiones'));
+        }
+
     }
 
     /**

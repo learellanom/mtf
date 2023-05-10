@@ -42,6 +42,7 @@
                                     <th>Fecha de transacción</th>
                                     {{-- <th class="text-center">Editar</th> --}}
                                     <th class="text-center">Activar/Anular</th>
+                                    <th class="text-center">Ver</th>
                                 </tr>
                             </thead>
                             @foreach($transferencia as $transferencias)
@@ -79,6 +80,9 @@
                                         @endif
                                     {!! Form::close() !!}
                                     </td>
+                                    <td class="text-center">
+                                        <a href="{{ route('transactions_master.show', $transferencias->id) }}" class="btn btn-xl text-dark mx-1 shadow text-center"><i class="fa fa-lg fa-fw fas fa-search"></i></a>
+                                     </td>
 
                                 </tr>
                             @endforeach

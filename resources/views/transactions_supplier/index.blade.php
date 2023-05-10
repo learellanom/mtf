@@ -18,7 +18,7 @@
     <span class="d-none d-md-inline-block text-uppercase font-weight-bold">{{ __('Transacción a proveedor') }}</span>
 </a>
 <br><br>
-{{-- Compressed with style options / fill data using the plugin config --}}
+
 
 <div class="row">
 
@@ -41,6 +41,7 @@
                                     <th>Fecha de transacción</th>
                                     {{-- <th class="text-center">Editar</th> --}}
                                     <th class="text-center">Activar/Anular</th>
+                                    <th class="text-center">Ver</th>
                                 </tr>
                             </thead>
                             @foreach($transferencia as $transferencias)
@@ -53,13 +54,6 @@
                                     <td class="font-weight-bold">{!! $transferencias->amount_total !!} $</td>
 
                                     <td class="font-weight-bold">{!! $transferencias->transaction_date !!}</td>
-
-
-                                    {{--
-                                        <td class="text-center">
-                                            <a href="{{ route('transactions_master.edit', $transferencias->id) }}" class="btn btn-xl text-primary mx-1 shadow text-center"><i class="fa fa-lg fa-fw fas fa-edit"></i></a>
-                                        </td>
-                                     --}}
 
 
                                     <td class="text-center">
@@ -75,8 +69,13 @@
                                             <i class="fa fa-lg fa-fw fas fa-times"></i>
                                         </button>
                                         @endif
-                                    {!! Form::close() !!}
+
+                                        {!! Form::close() !!}
                                     </td>
+
+                                     <td class="text-center">
+                                        <a href="{{ route('transactions_supplier.show', $transferencias->id) }}" class="btn btn-xl text-dark mx-1 shadow text-center"><i class="fa fa-lg fa-fw fas fa-search"></i></a>
+                                     </td>
 
                                 </tr>
                             @endforeach

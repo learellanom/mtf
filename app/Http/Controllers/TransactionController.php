@@ -206,7 +206,7 @@ class TransactionController extends Controller
         }
         else{
 
-            $transactiones = Transaction::whereIn('group_id', [$transactions->group->id])->paginate(3)->sortByDesc('transaction_date');
+            $transactiones = Transaction::whereIn('group_id', [$transactions->group->id])->paginate(3)->sortBy('id');
             return view('transactions.show', compact('transactions', 'transactiones'));
         }
 

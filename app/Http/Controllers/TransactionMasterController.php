@@ -97,6 +97,19 @@ class TransactionMasterController extends Controller
         return view('transactions_master.edit', compact('transactions', 'imagen', 'type_coin', 'type_transaction', 'wallet', 'group', 'user'));
     }
 
+    public function show($transaction)
+    {
+        $transactions = Transaction_master::find($transaction);
+        if($transactions->wallet == null){
+            return view('transactions_master.show', compact('transactions'));
+        }
+        else{
+            $transactiones = Transaction_master::whereIn('wallet_id', [$transactions->wallet->id])->paginate(3)->sortByDesc('id');
+            return view('transactions_master.show', compact('transactions', 'transactiones'));
+        }
+
+    }
+
     /**
      * Update the specified resource in storage.
      */
