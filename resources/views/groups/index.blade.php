@@ -4,7 +4,7 @@
 
 @section('content_header')
 
-    <h1 class="text-center text-dark font-weight-bold">LISTA DE GRUPOS <i class="fab fa-whatsapp-square"></i> </h1></a>
+    <h1 class="text-center text-dark font-weight-bold">{{ __('LISTA DE GRUPOS') }} <i class="fab fa-whatsapp-square"></i> </h1></a>
 
 
 @stop
@@ -15,8 +15,8 @@
 
 <a class="btn btn-dark" title="Crear cliente" href={{ route('groups.create') }}>
     <i class="fas fa-plus-circle"></i>
-    <span class="d-none d-lg-inline-block text-uppercase font-weight-bold">Crear</span>
-    <span class="d-none d-md-inline-block text-uppercase font-weight-bold">Grupo</span>
+    <span class="d-none d-lg-inline-block text-uppercase font-weight-bold">{{ __('Crear') }}</span>
+    <span class="d-none d-md-inline-block text-uppercase font-weight-bold">{{ __('Grupo') }}</span>
 </a>
 <br><br>
 {{-- Compressed with style options / fill data using the plugin config --}}
@@ -26,7 +26,7 @@
     <div class="col-md-12">
         <div class="card mb-4">
             <div class="card-header">
-                <h3 class="card-title">GRUPOS</h3>
+                <h3 class="card-title font-weight-bold">{{ __('GRUPOS') }} <i class="fas fa-user-friends"></i></h3>
             </div>
             <div class="card-body">
                 <div class="row">

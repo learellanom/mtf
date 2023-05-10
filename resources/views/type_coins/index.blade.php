@@ -4,7 +4,7 @@
 
 @section('content_header')
 
-    <h1 class="text-center text-dark font-weight-bold">TIPO DE MONEDA <i class="fab fa-bitcoin"></i> </h1></a>
+    <h1 class="text-center text-dark font-weight-bold">{{ __('TIPO DE MONEDA') }} <i class="fab fa-bitcoin"></i> </h1></a>
 
 
 @stop
@@ -14,8 +14,8 @@
 
 <a class="btn btn-dark" title="Crear Tipo de Moneda" href={{ route('type_coins.create') }}>
     <i class="fas fa-plus-circle"></i>
-    <span class="d-none d-lg-inline-block text-uppercase font-weight-bold">Crear</span>
-    <span class="d-none d-md-inline-block text-uppercase font-weight-bold">Tipo de Moneda</span>
+    <span class="d-none d-lg-inline-block text-uppercase font-weight-bold">{{ __('Crear') }}</span>
+    <span class="d-none d-md-inline-block text-uppercase font-weight-bold">{{ __('Tipo de Moneda') }}</span>
 </a>
 <br><br>
 {{-- Compressed with style options / fill data using the plugin config --}}
@@ -25,7 +25,7 @@
     <div class="col-md-12">
         <div class="card mb-4">
             <div class="card-header">
-                <h3 class="card-title">TIPOS DE MONEDA</h3>
+                <h3 class="card-title font-weight-bold">{{ __('TIPO DE MONEDA') }} <i class="fab fa-bitcoin"></i></h3>
             </div>
             <div class="card-body">
                 <div class="row">

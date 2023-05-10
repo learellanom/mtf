@@ -82,7 +82,7 @@ if (isset($balance->Total)){
 
 <br>
 <br>
-<h1 class="text-center text-dark font-weight-bold text-uppercase">Detalles de Transacciones Master<i class="fas fa-chart-pie fa-spin"></i></h1>
+<h1 class="text-center text-dark font-weight-bold text-uppercase">{{ __('Detalles de Transacciones Master') }}<i class="fas fa-chart-pie fa-spin"></i></h1>
 <br>
 <br>
 {{-- Disabled --}}
@@ -106,8 +106,8 @@ if (isset($balance->Total)){
                     </div>
                 </x-slot>
                 <!-- <x-adminlte-options :options="['Car', 'Truck', 'Motorcycle']" empty-option/> -->
-                <x-adminlte-options 
-                    :options="$userole" 
+                <x-adminlte-options
+                    :options="$userole"
                     empty-option="Selecciona un Agente.."/>
             </x-adminlte-select2>
         </div>
@@ -201,27 +201,26 @@ if (isset($balance->Total)){
                         <div class="card-body">
 
                         <div class= "row">
-                                <div class="col-md-4">
-                                    <h4 class="text-uppercase font-weight-bold">Detalles|Movimientos <i class="fas fa-info-circle"></i></h4>
-                                </div>
-                                <div class="col-md-4">
-                                    @php
-                                        if ($myTotal < 0){
-                                            echo "<h4 class='text-uppercase font-weight-bold'>Saldo A favor : " . number_format(abs($myTotal),2,",",".") . "</h4>";
-                                        }else{
-                                            echo "<h4 class='text-uppercase font-weight-bold'>Saldo A favor : " . number_format(0,2,",",".") . "</h4>";
-                                        }
-                                    @endphp
-                                </div>
-                                <div class="col-md-4">
-                                    @php
-                                        if ($myTotal < 0){
-                                            echo "<h4 class='text-uppercase font-weight-bold'>Saldo Pendiente : " . number_format(0,2,",",".") . "</h4>";
-                                        }else{
-                                            echo "<h4 class='text-uppercase font-weight-bold'>Saldo Pendiente : " . number_format($myTotal,2,",",".") . "</h4>";
-                                        }
-                                    @endphp
-                                </div>
+                            <div class="col-md-4">
+                                <h4 class="text-uppercase font-weight-bold">{{ __('Detalles|Movimientos') }} <i class="fas fa-info-circle"></i></h4>
+                            </div>
+                            <div class="col-md-4">
+
+                                @if($myTotal< 0)
+                                <h4 class='text-uppercase font-weight-bold'>{{__('Saldo A favor' )}}: {{ number_format(abs($myTotal),2,",",".") }} $</h4>
+                                @else
+                                <h4 class='text-uppercase font-weight-bold'>{{__('Saldo A favor' )}}: {{ number_format(0,2,",",".") }} $</h4>
+                                @endif
+
+                            </div>
+                            <div class="col-md-4">
+
+                                @if($myTotal< 0)
+                                <h4 class='text-uppercase font-weight-bold'>{{__('Saldo Pendiente' )}}: {{ number_format(0,2,",",".") }} $</h4>
+                                @else
+                                <h4 class='text-uppercase font-weight-bold'>{{__('Saldo Pendiente' )}}: {{ number_format($myTotal,2,",",".") }} $</h4>
+                                @endif
+                            </div>
                             </div>
                         </div>
                     </div>

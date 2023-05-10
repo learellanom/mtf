@@ -4,7 +4,7 @@
 
 @section('content_header')
 
-    <h1 class="text-center text-dark font-weight-bold">LISTA DE TRASANCCIONES | MASTER <i class="fas fa-money-check-alt"></i></h1></a>
+    <h1 class="text-center text-dark font-weight-bold">{{ __('LISTA DE TRASANCCIONES | MASTER') }} <i class="fas fa-money-check-alt"></i></h1></a>
 
 
 @stop
@@ -14,8 +14,8 @@
 {{-- Setup data for datatables --}}
 <a class="btn btn-dark" title="Crear movimiento master" href={{ route('transactions_master.create') }}>
     <i class="fas fa-plus-circle"></i>
-    <span class="d-none d-lg-inline-block text-uppercase font-weight-bold">Nueva</span>
-    <span class="d-none d-md-inline-block text-uppercase font-weight-bold">Transaccion</span>
+    <span class="d-none d-lg-inline-block text-uppercase font-weight-bold">{{ __('Nueva') }}</span>
+    <span class="d-none d-md-inline-block text-uppercase font-weight-bold">{{ __('Transaccion') }}</span>
 </a>
 <br><br>
 {{-- Compressed with style options / fill data using the plugin config --}}
@@ -25,7 +25,7 @@
     <div class="col-md-12">
         <div class="card mb-4">
             <div class="card-header">
-                <h3 class="card-title text-uppercase font-weight-bold">Transacciones| Master</h3>
+                <h3 class="card-title text-uppercase font-weight-bold">{{ __('Transacciones| Master') }}</h3>
             </div>
             <div class="card-body">
                 <div class="row">
@@ -57,7 +57,7 @@
                                     <td class="font-weight-bold">{!! $transferencias->transaction_date !!}</td>
 
 
-                                    {{--    
+                                    {{--
                                         <td class="text-center">
                                             <a href="{{ route('transactions_master.edit', $transferencias->id) }}" class="btn btn-xl text-primary mx-1 shadow text-center"><i class="fa fa-lg fa-fw fas fa-edit"></i></a>
                                         </td>
