@@ -196,11 +196,11 @@ Route::get('estadisticasResumenProveedorTransaccion/{proveedor}/{fechaDesde?}/{f
 
 Route::get('estadisticasResumenConciliacionProveedor',
             [App\Http\Controllers\statisticsController::class, 'conciliationSummarySupplier'])
-            ->name('estadisticasResumenProveedorTransaccion');
+            ->name('estadisticasResumenConciliacionProveedor');
 
 Route::get('estadisticasResumenConciliacionProveedor/{proveedor}/{fechaDesde?}/{fechaHasta?}',
             [App\Http\Controllers\statisticsController::class, 'conciliationSummarySupplier'])
-            ->name('estadisticasResumenProveedorTransaccion');
+            ->name('estadisticasResumenConciliacionProveedor');
 
 
 
