@@ -1115,8 +1115,8 @@ class statisticsController extends Controller
         $mySupplierDesde = 0;
         $mySupplierHasta = 9999;
         if ($mySupplier != 0){
-            $mySupplierDesde = $myGroup;
-            $mySupplierHasta = $myGroup;
+            $mySupplierDesde = $mySupplier;
+            $mySupplierHasta = $mySupplier;
         }
 
 
@@ -1135,6 +1135,7 @@ class statisticsController extends Controller
         $Transacciones = DB::select("
         select
             supplier_id					as SupplierId,
+            mtf.suppliers.name          as SupplierName,
             wallet_id					as WalletId,
             mtf.wallets.name			as WalletName,
             type_transaction_id 		as TypeTransactionId,
@@ -1145,6 +1146,7 @@ class statisticsController extends Controller
             (select sum(amount_total)   from mtf.transactions where mtf.transactions.wallet_id = WalletId and type_transaction_id in (1,3,5,7,9) and status <> 'Anulado') as MontoWallet
         from
             mtf.transaction_suppliers
+        left join mtf.suppliers         on mtf.transaction_suppliers.supplier_id         = mtf.suppliers.id 
         left join mtf.type_transactions on mtf.transaction_suppliers.type_transaction_id = mtf.type_transactions.id
         left join mtf.wallets           on mtf.transaction_suppliers.wallet_id           = mtf.wallets.id
         where
@@ -1153,7 +1155,11 @@ class statisticsController extends Controller
             and Supplier_id between $mySupplierDesde and $mySupplierHasta
         group by
                 supplier_id,
-                wallet_id
+                SupplierName,
+                wallet_id,
+                WalletName,
+                TypeTransactionId,
+                TypeTransactionsName
         order by
             SupplierId,
             WalletId,
