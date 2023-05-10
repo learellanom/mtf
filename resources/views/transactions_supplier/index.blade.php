@@ -4,7 +4,7 @@
 
 @section('content_header')
 
-    <h1 class="text-center text-dark font-weight-bold">LISTA DE TRASANCCIONES | PROVEEDORES <i class="fas fa-share"></i></h1></a>
+    <h1 class="text-center text-dark font-weight-bold">{{ __('LISTA DE TRASANCCIONES | PROVEEDORES') }} <i class="fas fa-share"></i></h1></a>
 
 
 @stop
@@ -14,8 +14,8 @@
 {{-- Setup data for datatables --}}
 <a class="btn btn-dark" title="Crear transacción a proveedor" href={{ route('transactions_supplier.create') }}>
     <i class="fas fa-plus-circle"></i>
-    <span class="d-none d-lg-inline-block text-uppercase font-weight-bold">Crear</span>
-    <span class="d-none d-md-inline-block text-uppercase font-weight-bold">Transacción a proveedor</span>
+    <span class="d-none d-lg-inline-block text-uppercase font-weight-bold">{{ __('Crear') }}</span>
+    <span class="d-none d-md-inline-block text-uppercase font-weight-bold">{{ __('Transacción a proveedor') }}</span>
 </a>
 <br><br>
 {{-- Compressed with style options / fill data using the plugin config --}}
@@ -25,7 +25,7 @@
     <div class="col-md-12">
         <div class="card mb-4">
             <div class="card-header">
-                <h3 class="card-title text-uppercase font-weight-bold">Transacciones| Proveedores</h3>
+                <h3 class="card-title text-uppercase font-weight-bold">{{ __('Transacciones| Proveedores') }}</h3>
             </div>
             <div class="card-body">
                 <div class="row">

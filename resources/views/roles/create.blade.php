@@ -4,7 +4,7 @@
 
 @section('content_header')
 
-    <h1 class="text-center text-dark font-weight-bold">NUEVO ROLE <i class="fas fa-user-shield"></i> </h1></a>
+    <h1 class="text-center text-dark font-weight-bold">{{ __('NUEVO ROLE') }} <i class="fas fa-user-shield"></i> </h1></a>
 
 
 @stop
@@ -17,10 +17,10 @@
 @csrf
 <ul class="nav nav-pills">
     <li class="nav-item">
-      <a class="nav-link active" data-toggle="pill" href="#home">Nombre del rol</a>
+      <a class="nav-link active" data-toggle="pill" href="#home">{{ __('Nombre del rol') }}</a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" data-toggle="pill" href="#menu1">Permisos</a>
+      <a class="nav-link" data-toggle="pill" href="#menu1">{{ __('Permisos') }}</a>
     </li>
 
   </ul>
@@ -47,7 +47,7 @@
     <div class="tab-pane container fade" id="menu1">
 
         <br>
-        <h4 class="font-weight-bold">PERMISOS:</h4>
+        <h4 class="font-weight-bold">{{ __('PERMISOS:') }}</h4>
         <hr>
         @foreach($permisos as $permission)
         <div class="list-group">

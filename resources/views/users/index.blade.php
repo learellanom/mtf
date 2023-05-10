@@ -4,7 +4,7 @@
 
 @section('content_header')
 
-    <h1 class="text-center text-dark font-weight-bold">LISTA DE USUARIOS <i class="fas fa-users"></i> </h1></a>
+    <h1 class="text-center text-dark font-weight-bold">{{ __('LISTA DE USUARIOS') }} <i class="fas fa-users"></i> </h1></a>
 
 
 @stop
@@ -14,8 +14,8 @@
 @can('users.create')
 <a class="btn btn-dark" title="Crear usuarios" href={{ route('users.create') }}>
     <i class="fas fa-plus-circle"></i>
-    <span class="d-none d-lg-inline-block text-uppercase font-weight-bold">Crear</span>
-    <span class="d-none d-md-inline-block text-uppercase font-weight-bold">Usuario</span>
+    <span class="d-none d-lg-inline-block text-uppercase font-weight-bold">{{ __('Crear') }}</span>
+    <span class="d-none d-md-inline-block text-uppercase font-weight-bold">{{ __('Usuario') }}</span>
 </a>
 @endcan
 
@@ -25,7 +25,7 @@
         <div class="col-md-12">
             <div class="card mb-4">
                 <div class="card-header">
-                    <h3 class="card-title">USUARIOS</h3>
+                    <h3 class="card-title font-weight-bold">{{ __('USUARIOS') }} <i class="fas fa-users"></i></h3>
                 </div>
                 <div class="card-body">
                     <div class="row">

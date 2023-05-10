@@ -4,7 +4,7 @@
 
 @section('content_header')
 
-    <h1 class="text-center text-dark font-weight-bold">NUEVO USUARIO <i class="fas fa-users"></i> </h1></a>
+    <h1 class="text-center text-dark font-weight-bold">{{ __('NUEVO USUARIO') }} <i class="fas fa-users"></i> </h1></a>
 
 
 @stop
@@ -52,15 +52,17 @@
             <input id="password-confirm" type="password" class="form-control" name="password_confirmation">
 
         </div>
-
+        <h5 class="font-weight-bold text-center">{{ __('ROLES|PERFIL') }}</h5>
+        <hr>
         @foreach($role as $roles)
-        <label>
+        <label class="">
 
-            {!! Form::radio('roles[]', $roles->id, null, ['class'=>'mr-1', 'required' => true]) !!}
+            {!! Form::radio('roles[]', $roles->id, null, ['class'=>'mx-4', 'required' => true]) !!}
             {{$roles->name}}
 
         </label>
         @endforeach
+        <hr>
 
             <button class="btn btn-primary text-uppercase font-weight-bold btn-block" type="submit">Guardar</button>
 

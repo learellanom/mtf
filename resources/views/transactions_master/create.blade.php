@@ -5,7 +5,7 @@
 @section('title', 'Transferencias Master')
 @section('content_header')
 
-    <h1 class="text-center text-dark font-weight-bold">NUEVA TRANSACCION MASTER<i class="fas fa-exchange-alt"></i> </h1></a>
+    <h1 class="text-center text-dark font-weight-bold">{{ __('NUEVA TRANSACCION MASTER') }}<i class="fas fa-exchange-alt"></i> </h1></a>
 
 
 @stop
@@ -27,10 +27,10 @@
 
             <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
                 <li class="nav-item" role="presentation">
-                  <button class="nav-link active" id="pills-home-tab" data-toggle="pill" data-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">Movimiento</button>
+                  <button class="nav-link active" id="pills-home-tab" data-toggle="pill" data-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">{{ __('Movimiento') }}</button>
                 </li>
                 <li class="nav-item" role="presentation">
-                  <button class="nav-link" id="pills-profile-tab" data-toggle="pill" data-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">Referencias</button>
+                  <button class="nav-link" id="pills-profile-tab" data-toggle="pill" data-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">{{ __('Referencias') }}</button>
                 </li>
               </ul>
 
