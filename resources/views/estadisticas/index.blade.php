@@ -149,124 +149,125 @@ if (isset($balance->Total)){
 
 <div class="row">
     <div class="col-md-12">
-            <div class="card mb-4">
-                <div class="card-header">
-                    <div class="card-title col-md-12">
-                        <div class="card-body">
-
+        <div class="card mb-4">
+            <div class="card-header">
+                <div class="card-title col-md-12">
+                    <div class="card-body">
                         <div class= "row">
-                                <div class="col-md-4">
-                                    <h4 class="text-uppercase font-weight-bold">Detalles|Movimientos <i class="fas fa-info-circle"></i></h4>
-                                </div>
-                                <div class="col-md-4">
-                                    @php
-                                        if ($myTotal < 0){
-                                            echo "<h4 class='text-uppercase font-weight-bold'>Saldo A favor : " . number_format(abs($myTotal),2,",",".") . "</h4>";
-                                        }else{
-                                            echo "<h4 class='text-uppercase font-weight-bold'>Saldo A favor : " . number_format(0,2,",",".") . "</h4>";
-                                        }
-                                    @endphp
-                                </div>
-                                <div class="col-md-4">
-                                    @php
-                                        if ($myTotal < 0){
-                                            echo "<h4 class='text-uppercase font-weight-bold'>Saldo Pendiente : " . number_format(0,2,",",".") . "</h4>";
-                                        }else{
-                                            echo "<h4 class='text-uppercase font-weight-bold'>Saldo Pendiente : " . number_format($myTotal,2,",",".") . "</h4>";
-                                        }
-                                    @endphp
-                                </div>
+                            <div class="col-md-4">
+                                <h4 class="text-uppercase font-weight-bold">Detalles|Movimientos <i class="fas fa-info-circle"></i></h4>
                             </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-12">
-                            @php
-                                $myTotal = 0;
-                            @endphp
-                            <table class="table table-bordered table-responsive-lg" id="table" style="width:100%;">
-                                <thead>
-                                    <tr>
-                                        <th style="width:1%;">Fecha</th>
-                                        <th style="width:1%;">Transacción</th>
-                                        <th>Descripción</th>
-                                        <th style="width:1%;">Moneda</th>
-                                        <th style="width:15%;">Monto Moneda <i class="fas fa-globe-europe"></i> <p style="display:none;">Moneda Extranjera</p></th>
-                                        <th style="width:1%;">Tasa</th>
-                                        <th style="width:10%;">Monto $ <i class="fas fa-funnel-dollar"></i></th>
-                                        <th style="width:10%;">%</th>
-                                        <th>Comisión</th>
-                                        <th>Monto total</th>
-                                        <th style="width:1%;">Saldo <i class="fas fa-dolar"></i></th>
-                                        <th style="width:1%;">Cliente</th>
-                                        <th style="width:1%;">Agente</th>
-                                        <th style="width:1%;">Caja <i class="fas fa-wallet"></i></th>
-                                        <th style="width:1%;">Ver <i class="fas fa-search"></i></th>
-                                    </tr>
-                                </thead>
-                                @foreach($config['data'] as $row)
-                                    <tr>
-                                        <td>{!! $row->FechaTransaccion !!}</td>
-                                        <td>{!! $row->TipoTransaccion !!}</td>
-                                        <td>{!! $row->Descripcion !!}</td>
-                                        <td>{!! $row->TipoMoneda !!}</td>
-                                        <td class="text-right">{!! number_format($row->MontoMoneda,2,",",".") !!}</td>
-                                        <td class="text-left">{!! $row->TasaCambio !!}</td>
-                                        <td class="text-right">{!! number_format($row->Monto,2,",",".") !!}</td>
-                                        <td class="text-left">{!! $row->PorcentajeComision !!}</td>
-                                        <td class="text-right">{!! number_format($row->MontoComision,2,",",".") !!}</td>
-                                        <td class="text-right">{!! number_format($row->MontoTotal,2,",",".") !!}</td>
-
-                                        @php
-                                            switch  ($row->TransactionId){
-                                                case 1:
-                                                case 3:
-                                                case 5:
-                                                case 7:
-                                                case 9:
-                                                    $myTotal = $myTotal + ($row->MontoTotal * -1);
-                                                    break;
-                                                case 4:
-                                                case 8:
-                                                case 2:
-                                                case 6:
-                                                    $myTotal = ($myTotal) + ($row->MontoTotal);
-                                                    break;
-                                                default:
-                                                    $myTotal = 0;
-                                                    break;
-                                            }
-                                        @endphp
-                                        <td class="text-right">{!! number_format($myTotal,2,",",".") !!}</td>
-
-
-                                        <td>{!! $row->ClientName !!}</td>
-                                        <td>{!! $row->AgenteName !!}</td>
-                                        <td>{!! $row->WalletName !!}</td>
-
-                                        <td class="text-center">
-                                            <a
-                                                href="{{ route('transactions.show', ['movimiento'=> $row->Id]) }}"
-                                                title="Detalles"
-                                                class="btn btn-xl text-dark mx-1 shadow text-center">
-                                                <i class="fa fa-lg fa-fw fa-eye"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                                </table>
-                             </div>
+                            <div class="col-md-4">
+                                @php
+                                    if ($myTotal < 0){
+                                        echo "<h4 class='text-uppercase font-weight-bold'>Saldo A favor : " . number_format(abs($myTotal),2,",",".") . "</h4>";
+                                    }else{
+                                        echo "<h4 class='text-uppercase font-weight-bold'>Saldo A favor : " . number_format(0,2,",",".") . "</h4>";
+                                    }
+                                @endphp
+                            </div>
+                            <div class="col-md-4">
+                                @php
+                                    if ($myTotal < 0){
+                                        echo "<h4 class='text-uppercase font-weight-bold'>Saldo Pendiente : " . number_format(0,2,",",".") . "</h4>";
+                                    }else{
+                                        echo "<h4 class='text-uppercase font-weight-bold'>Saldo Pendiente : " . number_format($myTotal,2,",",".") . "</h4>";
+                                    }
+                                @endphp
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
 
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        @php
+                            $myTotal = 0;
+                        @endphp
+                        <table 
+                            class="table table-bordered table-responsive-lg" 
+                            id="table" 
+                            style="width:100%;">
+                            <thead>
+                                <tr>
+                                    <th style="width:1%;">Fecha</th>
+                                    <th style="width:1%;">Transacción</th>
+                                    <th>Descripción</th>
+                                    <th style="width:1%;"><p style="display:none;">P - %</p>Moneda</th>
+                                    <th style="width:15%;">Monto Moneda <i class="fas fa-globe-europe"></i> <p style="display:none;">Moneda Extranjera</p></th>
+                                    <th style="width:1%;">Tasa</th>
+                                    <th style="width:10%;">Monto $ <i class="fas fa-funnel-dollar"></i></th>
+                                    <th style="width:10%;">%</th>
+                                    <th>Comisión</th>
+                                    <th>Monto total</th>
+                                    <th style="width:1%;">Saldo <i class="fas fa-dolar"></i></th>
+                                    <th style="width:1%;">Cliente</th>
+                                    <th style="width:1%;">Agente</th>
+                                    <th style="width:1%;">Caja <i class="fas fa-wallet"></i></th>
+                                    <th style="width:1%;">Ver <i class="fas fa-search"></i></th>
+                                </tr>
+                            </thead>
+                            @foreach($config['data'] as $row)
+                                <tr>
+                                    <td>{!! $row->FechaTransaccion !!}</td>
+                                    <td>{!! $row->TipoTransaccion !!}</td>
+                                    <td>{!! $row->Descripcion !!}</td>
+                                    <td>{!! $row->TipoMoneda !!}</td>
+                                    <td class="text-right">{!! number_format($row->MontoMoneda,2,",",".") !!}</td>
+                                    <td class="text-left">{!! $row->TasaCambio !!}</td>
+                                    <td class="text-right">{!! number_format($row->Monto,2,",",".") !!}</td>
+                                    <td class="text-left">{!! $row->PorcentajeComision !!}</td>
+                                    <td class="text-right">{!! number_format($row->MontoComision,2,",",".") !!}</td>
+                                    <td class="text-right">{!! number_format($row->MontoTotal,2,",",".") !!}</td>
 
+                                    @php
+                                        switch  ($row->TransactionId){
+                                            case 1:
+                                            case 3:
+                                            case 5:
+                                            case 7:
+                                            case 9:
+                                                $myTotal = $myTotal + ($row->MontoTotal * -1);
+                                                break;
+                                            case 4:
+                                            case 8:
+                                            case 2:
+                                            case 6:
+                                                $myTotal = ($myTotal) + ($row->MontoTotal);
+                                                break;
+                                            default:
+                                                $myTotal = 0;
+                                                break;
+                                        }
+                                    @endphp
+                                    <td class="text-right">{!! number_format($myTotal,2,",",".") !!}</td>
+
+
+                                    <td>{!! $row->ClientName !!}</td>
+                                    <td>{!! $row->AgenteName !!}</td>
+                                    <td>{!! $row->WalletName !!}</td>
+
+                                    <td class="text-center">
+                                        <a
+                                            href="{{ route('transactions.show', ['movimiento'=> $row->Id]) }}"
+                                            title="Detalles"
+                                            class="btn btn-xl text-dark mx-1 shadow text-center">
+                                            <i class="fa fa-lg fa-fw fa-eye"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
+
+
 
 @endsection
 
@@ -277,146 +278,121 @@ if (isset($balance->Total)){
     $('#table').DataTable( {
 
         language: {
-        "decimal": "",
-        "emptyTable": "No hay transacciones.",
-        "info": "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
-        "infoEmpty": "Mostrando 0 to 0 de 0 Entradas",
-        "infoFiltered": "(Filtrado de _MAX_ total entradas)",
-        "infoPostFix": "",
-        "thousands": ",",
-        "lengthMenu": "Mostrar _MENU_ Entradas",
-        "loadingRecords": "Cargando...",
-        "processing": "Procesando...",
-        "search": "Buscar:",
-        "zeroRecords": "Sin resultados encontrados",
-        "paginate": {
-            "first": "Primero",
-            "last": "Ultimo",
-            "next": "Siguiente",
-            "previous": "Anterior"
-        }
-    },
-    "order": [[ 2, 'desc' ]],
-    'dom' : 'Bfrtilp',
-    'buttons':[
-        {
-            extend:  'excelHtml5',
-            exportOptions: { columns: [ 1, 2, 3,4,5,6,7,8,9,10,11,12,13 ] },
-            text:    '<i class="fas fa-file-excel"></i>',
-            titleAttr: 'Exportar Excel',
-            className: 'btn btn-success',
-            "excelStyles": [
+            "decimal": "",
+            "emptyTable": "No hay transacciones.",
+            "info": "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
+            "infoEmpty": "Mostrando 0 to 0 de 0 Entradas",
+            "infoFiltered": "(Filtrado de _MAX_ total entradas)",
+            "infoPostFix": "",
+            "thousands": ",",
+            "lengthMenu": "Mostrar _MENU_ Entradas",
+            "loadingRecords": "Cargando...",
+            "processing": "Procesando...",
+            "search": "Buscar:",
+            "zeroRecords": "Sin resultados encontrados",
+            "paginate": {
+                "first": "Primero",
+                "last": "Ultimo",
+                "next": "Siguiente",
+                "previous": "Anterior"
+            }
+        },
+        "order": [[ 2, 'desc' ]],
+        'dom' : 'Bfrtilp',
+        'buttons':[
             {
-                "template": ["title_medium", "gold_medium"]
-            },
-
-            {
-                "cells": "2",
-                "style": {
-                    "font": {
-                        "size": "18",
-                        "color": "FFFFFF"
+                extend:  'excelHtml5',
+                exportOptions: { columns: [ 1, 2, 3,4,5,6,7,8,9,10,11,12,13 ] },
+                text:    '<i class="fas fa-file-excel"></i>',
+                titleAttr: 'Exportar Excel',
+                className: 'btn btn-success',
+                "excelStyles": [
+                    {
+                        "template": ["title_medium", "gold_medium"]
                     },
-                    "fill": {
-                        "pattern": {
-                            "type": "solid",
-                            "color": "002B5B"
+                    {
+                        "cells": "2",
+                        "style": {
+                            "font": {
+                                "size": "18",
+                                "color": "FFFFFF"
+                            },
+                            "fill": {
+                                "pattern": {
+                                    "type": "solid",
+                                    "color": "002B5B"
+                                }
+                            },
+
                         }
                     },
-
-                }
-            },
-            {
-                "cells": "1",
-                "style": {
-                    "font": {
-                        "size": "20",
-                        "color": "FFFFFF"
-                    },
-                    "fill": {
-                        "pattern": {
-                            "size": "25",
-                            "type": "solid",
-                            "color": "0B2447",
+                    {
+                        "cells": "1",
+                        "style": {
+                            "font": {
+                                "size": "20",
+                                "color": "FFFFFF"
+                            },
+                            "fill": {
+                                "pattern": {
+                                    "size": "25",
+                                    "type": "solid",
+                                    "color": "0B2447",
+                                }
+                            }
                         }
-                    }
-                }
+                    },
+                    {
+                        "cells": "sF",
+                        "condition": {
+                            "type": "dataBar",
+                            "dataBar": {
+                                "color": [
+                                    "0081B4"
+                                ]
+                            }
+                        }
+                    },
+                    {
+                        "cells": "sE",
+                        "condition": {
+                            "type": "dataBar",
+                            "dataBar": {
+                                "color": [
+                                    "0081B4"
+                                ]
+                            }
+                        }
+                    },
+                        {
+                            'cells': "sB",
+                            'template': "date_long",
+                        },
+                        {
+                            "cells": "F",
+                            "style": {
+                                "numFmt": "#,##0;(#,##0)"
+                            }
+                        }
+                ]
             },
             {
-            "cells": "sF",
-            "condition": {
-                "type": "dataBar",
-                "dataBar": {
-                    "color": [
-                        "0081B4"
-                    ]
-                }
-              }
+                extend:  'pdfHtml5',
+                text:    '<i class="fas fa-file-pdf"></i>',
+                orientation: 'landscape',
+                title: 'MTF | LISTA DE TRANSACIÓNES',
+                titleAttr: 'Exportar PDF',
+                className: 'btn btn-danger',
+
             },
-             {
-                "cells": "sE",
-            "condition": {
-                "type": "dataBar",
-                "dataBar": {
-                    "color": [
-                        "0081B4"
-                    ]
-                  }
-                 }
-              },
-                {
-                    'cells': "sB",
-                    'template': "date_long",
-                },
-                {
-                    "cells": "F",
-                    "style": {
-                        "numFmt": "#,##0;(#,##0)"
-                    }
-                }
-           ]
-
-        },
-        {
-            extend:  'pdfHtml5',
-            text:    '<i class="fas fa-file-pdf"></i>',
-            orientation: 'landscape',
-            title: 'MTF | LISTA DE TRANSACIÓNES',
-            titleAttr: 'Exportar PDF',
-            className: 'btn btn-danger',
-
-        },
-        {
-            extend:  'print',
-            text:    '<i class="fas fa-print"></i>',
-            titleAttr: 'Capture de pantalla',
-            className: 'btn btn-info'
-        },
-    ]
-
-
-
+            {
+                extend:  'print',
+                text:    '<i class="fas fa-print"></i>',
+                titleAttr: 'Capture de pantalla',
+                className: 'btn btn-info'
+            },
+        ]
     });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     const miGrupo   = {!! $myGroup !!};
     const miUsuario = {!! $myUser !!};

@@ -1103,6 +1103,70 @@ class statisticsController extends Controller
         return view('estadisticas.statisticsResumenConciliacionFechaGrupo', compact('myGroup','groups', 'Transacciones'));            
 
     }
+    /*
+    *
+    *       conciliationSummarySupplier
+    *
+    */
+    public function conciliationSummarySupplier(Request $request)
+    {
+        $mySupplier = ($request->proveedor) ? $request->proveedor : 0;
+
+        $mySupplierDesde = 0;
+        $mySupplierHasta = 9999;
+        if ($mySupplier != 0){
+            $mySupplierDesde = $myGroup;
+            $mySupplierHasta = $myGroup;
+        }
+
+
+
+        $myFechaDesde = "2001-01-01";
+        $myFechaHasta = "9999-12-31";
+        if ($request->fechaDesde){
+            $myFechaDesde = $request->fechaDesde;
+            $myFechaHasta = $request->fechaHasta;
+        }
+
+        if ($request->fechaHasta){
+            $myFechaHasta = $request->fechaHasta;
+        }     
+
+        $Transacciones = DB::select("
+        select
+            supplier_id					as SupplierId,
+            wallet_id					as WalletId,
+            mtf.wallets.name			as WalletName,
+            type_transaction_id 		as TypeTransactionId,
+            mtf.type_transactions.name 	as TypeTransactionsName,
+            count(supplier_id)			as CantSupplier,
+            sum(amount_total) 			as TotalSupplier,
+            (select COUNT(*) 			from mtf.transactions where mtf.transactions.wallet_id = WalletId and type_transaction_id in (1,3,5,7,9) and status <> 'Anulado') as CantWallet,
+            (select sum(amount_total)   from mtf.transactions where mtf.transactions.wallet_id = WalletId and type_transaction_id in (1,3,5,7,9) and status <> 'Anulado') as MontoWallet
+        from
+            mtf.transaction_suppliers
+        left join mtf.type_transactions on mtf.transaction_suppliers.type_transaction_id = mtf.type_transactions.id
+        left join mtf.wallets           on mtf.transaction_suppliers.wallet_id           = mtf.wallets.id
+        where
+                status <> 'Anulado'
+            and type_transaction_id in (1,3,5,7,9)
+            and Supplier_id between $mySupplierDesde and $mySupplierHasta
+        group by
+                supplier_id,
+                wallet_id
+        order by
+            SupplierId,
+            WalletId,
+            TypeTransactionId
+        ");
+
+        $suppliers = $this->getSuppliers();
+
+        // dd($Transacciones); leamx
+
+        return view('estadisticas.statisticsResumenConciliacionSupplier', compact('mySupplier','suppliers', 'Transacciones'));            
+
+    }
 
     public function conciliationSummaryDate(Request $request)
     {
