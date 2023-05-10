@@ -33,7 +33,7 @@ Route::get('/offline', function () {
 
 
 /* CAMBIO DE IDIOMA */
-Route::get('lang/{locale}', [LanguageController::class, 'index']);
+Route::get('lang/{locale}', [LanguageController::class, 'index'])->name('lang');
 
 
 

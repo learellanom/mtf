@@ -39,17 +39,17 @@
 <h6><li class="nav-item badge badge-light mt-2"><img src="https://flagcdn.com/w20/ve.png" width="32" height="20" alt="Venezuela"></li></h6>
 @endswitch
 
-
+@php $es = 'es'; $en = 'en';  @endphp
  <!-- Language Dropdown Menu -->
  <li class="nav-item dropdown">
     <a class="nav-link" data-toggle="dropdown" href="#">
       <i class="fas fa-flag"></i>
     </a>
     <div class="dropdown-menu dropdown-menu-right p-0">
-      <a href="lang/en" class="dropdown-item">
+      <a href="{{route('lang', $en)}}" class="dropdown-item">
         <img src="https://flagcdn.com/16x12/gb.png" width="20" alt="English"> English
       </a>
-      <a href="lang/es" class="dropdown-item">
+      <a href="{{route('lang', $es)}}" class="dropdown-item">
         <img src="https://flagcdn.com/16x12/ve.png" width="20" alt="Spanish"> Español
       </a>
     </div>
