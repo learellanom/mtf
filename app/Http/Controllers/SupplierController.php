@@ -39,13 +39,15 @@ class SupplierController extends Controller
          return Redirect::route('suppliers.index')->with('success', 'Nuevo proveedor registrado');
     }
 
-    /**
+
+        /**
      * Display the specified resource.
      */
-    public function show(Supplier $supplier)
+    public function show($transaction)
     {
-        //
+ 
     }
+
 
     /**
      * Show the form for editing the specified resource.

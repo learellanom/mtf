@@ -135,7 +135,27 @@ $config4 = [
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-12">
-                        <x-adminlte-datatable id="table3" :heads="$heads" class="table table-bordered table-responsive-lg">
+                        
+
+
+                        <!-- <x-adminlte-datatable id="table3" :heads="$heads" class="table table-bordered table-responsive-lg"> -->
+                        <table 
+                            class="table table-bordered table-responsive-lg" 
+                            id="table" 
+                            style="width:100%;">
+                            <thead>
+                                <tr>
+                                    <th style="width:15%;">Supplier</th>
+                                    <th style="width:15%;">Caja</th>
+                                    <th style="width:15%;">Transaccion</th>
+                                    <th style="width:10%;">Cant Proveedor</th>
+                                    <th style="width:10%;">Monto Proveedor</th>
+                                    <th style="width:10%;">Cant Operaciones</th>
+                                    <th style="width:10%;">Monto Operaciones</th>
+                                    <th style="width:10%;">Saldo</th>
+                                    <th style="width:1%;" >Accion</th>                                    
+                                </tr>
+                            </thead>                            
                             @php
                                 $myTotal = 0;
                             @endphp
@@ -148,10 +168,10 @@ $config4 = [
                                     <td>{!! $row->SupplierName !!}</td>
                                     <td>{!! $row->WalletName !!}</td>
                                     <td>{!! $row->TypeTransactionsName !!}</td>
-                                    <td>{!! number_format($row->CantSupplier,0,",",".") !!}</td>
+                                    <td>{!! number_format($row->CantSupplier,0,",",".")  !!}</td>
                                     <td>{!! number_format($row->TotalSupplier,2,",",".") !!}</td>
-                                    <td>{!! $row->CantWallet!!}</td>
-                                    <td>{!! number_format($row->MontoWallet,2,",",".") !!}</td>
+                                    <td>{!! number_format($row->CantWallet,0,",",".")  !!}</td>
+                                    <td>{!! number_format($row->MontoWallet,2,",",".")   !!}</td>
 
                                     <td>{!! number_format($myTotal,2,",",".") !!}</td>
 
@@ -165,7 +185,8 @@ $config4 = [
                                     </td>
                                 </tr>
                             @endforeach
-                        </x-adminlte-datatable>
+                        <!-- </x-adminlte-datatable> -->
+                        </table>
                     </div>
                 </div>
             </div>
@@ -268,6 +289,128 @@ $config4 = [
         //
     }
 
+    $(document).ready(function () {
+        $('#table').DataTable( {
+
+            language: {
+                "decimal": "",
+                "emptyTable": "No hay transacciones.",
+                "info": "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
+                "infoEmpty": "Mostrando 0 to 0 de 0 Entradas",
+                "infoFiltered": "(Filtrado de _MAX_ total entradas)",
+                "infoPostFix": "",
+                "thousands": ",",
+                "lengthMenu": "Mostrar _MENU_ Entradas",
+                "loadingRecords": "Cargando...",
+                "processing": "Procesando...",
+                "search": "Buscar:",
+                "zeroRecords": "Sin resultados encontrados",
+                "paginate": {
+                    "first": "Primero",
+                    "last": "Ultimo",
+                    "next": "Siguiente",
+                    "previous": "Anterior"
+                }
+            },
+            "order": [[ 2, 'desc' ]],
+            'dom' : 'Bfrtilp',
+            'buttons':[
+                {
+                    extend:  'excelHtml5',
+                    exportOptions: { columns: [ 0, 1, 2, 3,4,5,6,7] },
+                    text:    '<i class="fas fa-file-excel"></i>',
+                    titleAttr: 'Exportar Excel',
+                    className: 'btn btn-success',
+                    "excelStyles": [
+                    {
+                        "template": ["title_medium", "gold_medium"]
+                    },
+
+                    {
+                        "cells": "2",
+                        "style": {
+                            "font": {
+                                "size": "18",
+                                "color": "FFFFFF"
+                            },
+                            "fill": {
+                                "pattern": {
+                                    "type": "solid",
+                                    "color": "002B5B"
+                                }
+                            },
+
+                        }
+                    },
+                    {
+                        "cells": "1",
+                        "style": {
+                            "font": {
+                                "size": "20",
+                                "color": "FFFFFF"
+                            },
+                            "fill": {
+                                "pattern": {
+                                    "size": "25",
+                                    "type": "solid",
+                                    "color": "0B2447",
+                                }
+                            }
+                        }
+                    },
+                    {
+                    "cells": "sF",
+                    "condition": {
+                        "type": "dataBar",
+                        "dataBar": {
+                            "color": [
+                                "0081B4"
+                            ]
+                        }
+                    }
+                    },
+                    {
+                        "cells": "sE",
+                    "condition": {
+                        "type": "dataBar",
+                        "dataBar": {
+                            "color": [
+                                "0081B4"
+                            ]
+                        }
+                        }
+                    },
+                        {
+                            'cells': "sB",
+                            'template': "date_long",
+                        },
+                        {
+                            "cells": "F",
+                            "style": {
+                                "numFmt": "#,##0;(#,##0)"
+                            }
+                        }
+                ]
+
+                },
+                {
+                    extend:  'pdfHtml5',
+                    text:    '<i class="fas fa-file-pdf"></i>',
+                    orientation: 'landscape',
+                    title: 'MTF | CONCILIACION PROVEEDOR',
+                    titleAttr: 'Exportar PDF',
+                    className: 'btn btn-danger',
+
+                },
+                {
+                    extend:  'print',
+                    text:    '<i class="fas fa-print"></i>',
+                    titleAttr: 'Capture de pantalla',
+                    className: 'btn btn-info'
+                },
+            ]
+        });
+    });
 
 </script>
 
