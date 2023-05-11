@@ -90,18 +90,10 @@
               <div class="row">
                 <div class="col-12">
                 <hr>
-                  <h4 class="text-uppercase font-weight-bold text-center">Actividad reciente de {{ $transactions->supplier->name ?? 'Sin cliente' }}</h4>
+                  @if($transactiones->count())
 
-                   @if(empty($transactiones))
-                   <p class="font-weight-bold text-center">SIN ACTIVIDAD PORQUE PROBLAMENTE ESTA TRANSACCIÓN NO TIENE UN CLIENTE</p>
-
-                   <figure class="d-flex justify-content-center">
-                      <img src="{{asset('img/AdminLTELogo.png') }}" alt="">
-                   </figure>
-
-                   @else
                     @foreach ($transactiones as $transactione)
-
+                    <h4 class="text-uppercase font-weight-bold text-center">Actividad reciente de {{ $transactions->supplier->name ?? 'Sin cliente' }}</h4>
                     <div class="post">
                       <div class="user-block">
                         <img class="img-circle img-bordered-sm" src="{{Storage::url('image/interrogacion.jpg')}}" alt="user image">
@@ -174,6 +166,12 @@
                     </div>
 
                     @endforeach
+                    @else
+                        <p class="font-weight-bold text-center h5">ESTA TRANSACCIÓN NO TIENE ACTIVIDAD RECIENTE</p>
+
+                    <figure class="d-flex justify-content-center">
+                        <img src="{{asset('img/AdminLTELogo.png') }}" alt="">
+                    </figure>
                     @endif
 
                 </div>

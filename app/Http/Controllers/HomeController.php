@@ -23,7 +23,8 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $wallet = Wallet::all();
+        $wallet = Wallet::paginate(3);
+
 
         return view('home', compact('wallet'));
     }

@@ -100,11 +100,11 @@ class TransactionMasterController extends Controller
     public function show($transaction)
     {
         $transactions = Transaction_master::find($transaction);
-        if($transactions->wallet == null){
+        if($transactions->group == null){
             return view('transactions_master.show', compact('transactions'));
         }
         else{
-            $transactiones = Transaction_master::whereIn('wallet_id', [$transactions->wallet->id])->paginate(3)->sortByDesc('id');
+            $transactiones = Transaction_master::whereIn('group_id', [$transactions->group->id])->whereNotIn('id', [$transaction])->latest('id')->paginate(3);
             return view('transactions_master.show', compact('transactions', 'transactiones'));
         }
 
