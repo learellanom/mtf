@@ -248,18 +248,10 @@ if (isset($balance->Total)){
                                         <td>{!! $row->WalletName !!}</td>
 
                                         <td class="text-center">
-                                            <!-- <a
+                                        <a
                                                 href="{{ route('transactions.show', ['movimiento'=> $row->Id]) }}"
                                                 title="Detalles"
                                                 class="btn btn-xl text-primary mx-1 shadow text-center"
-
-                                            >
-                                                <i class="fa fa-lg fa-fw fa-eye"></i>
-                                            </a>    -->
-                                            <a
-                                                href="{{ route('transactions.show', ['movimiento'=> $row->Id]) }}"
-                                                title="Detalles"
-                                                class="btn btn-xl text-dark mx-1 shadow text-center"
 
                                             >
                                                 <i class="fa fa-lg fa-fw fa-eye"></i>
