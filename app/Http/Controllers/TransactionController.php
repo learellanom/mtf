@@ -207,13 +207,13 @@ class TransactionController extends Controller
         }
         else{
 
-            $transactiones = Transaction::whereIn('group_id', [$transactions->group->id])->paginate(3)->sortBy('id');
+            $transactiones = Transaction::whereIn('group_id', [$transactions->group->id])->whereNotIn('id', [$transaction])->latest('id')->paginate(3);
             return view('transactions.show', compact('transactions', 'transactiones'));
         }
 
     }
 
-    
+
 
     /**
      * Show the form for editing the specified resource.

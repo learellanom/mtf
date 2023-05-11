@@ -470,7 +470,7 @@ return [
             'can'           => 'estadisticasDetalle.estadisticasResumenProveedorTransaccion',
             'label'         => 'P',
             'label_color'   =>'warning',
-        ],       
+        ],
         [
             'text'          => 'Conciliacion por Proveedor',
             'url'           => 'estadisticasResumenConciliacionProveedor',
@@ -479,7 +479,7 @@ return [
             'can'           => 'estadisticasDetalle.estadisticasResumenConciliacionProveedor',
             'label'         => 'P',
             'label_color'   =>'warning',
-        ],           
+        ],
         //
         // Configuracion
         //
@@ -727,11 +727,6 @@ return [
                     'asset' => true,
                     'location' => 'vendor/bootstrap/js/bootstrap.bundle.js',
                 ],
-                [
-                    'type' => 'css',
-                    'asset' => true,
-                    'location' => 'vendor/bootstrap/css/ekko-lightbox.css',
-                ],
             ],
         ],
         'JqueryMask' => [
@@ -747,21 +742,16 @@ return [
                     'asset' => true,
                     'location' => 'vendor/jquery/jquery.maskMoney.js',
                 ],
-                [
-                    'type' => 'js',
-                    'asset' => true,
-                    'location' => 'vendor/jquery/simple-mask-money.js',
-                ],
 
             ],
         ],
-        'flag-icon-css' => [
+        'Fontawesome' => [
             'active' => true,
             'files' => [
                 [
                     'type' => 'css',
                     'asset' => true,
-                    'location' => 'vendor/flag-icon-css/css/flag-icons.css',
+                    'location' => 'vendor/fontawesome-free/css/all.css',
                 ],
             ],
         ],

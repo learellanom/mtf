@@ -83,7 +83,7 @@ class TransactionSupplierController extends Controller
             return view('transactions_supplier.show', compact('transactions'));
         }
         else{
-            $transactiones = Transaction_Supplier::whereIn('wallet_id', [$transactions->wallet->id])->paginate(3)->sortByDesc('id');
+            $transactiones = Transaction_Supplier::whereIn('wallet_id', [$transactions->wallet->id])->whereNotIn('id', [$transaction])->latest('id')->paginate(3);
             return view('transactions_supplier.show', compact('transactions', 'transactiones'));
         }
 

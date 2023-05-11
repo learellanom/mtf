@@ -90,90 +90,91 @@
               <div class="row">
                 <div class="col-12">
                 <hr>
-                  <h4 class="text-uppercase font-weight-bold text-center">Actividad reciente de {{ $transactions->group->name ?? 'Sin cliente' }}</h4>
 
-                   @if(empty($transactiones))
-                   <p class="font-weight-bold text-center">SIN ACTIVIDAD PORQUE PROBLAMENTE ESTA TRANSACCIÓN NO TIENE UN CLIENTE</p>
 
-                   <figure class="d-flex justify-content-center">
-                      <img src="{{asset('img/AdminLTELogo.png') }}" alt="">
-                   </figure>
+                  @if($transactiones->count())
+                  @foreach ($transactiones as $transactione)
 
-                   @else
-                    @foreach ($transactiones as $transactione)
+                   <h4 class="text-uppercase font-weight-bold text-center">Actividad reciente de {{ $transactions->group->name ?? 'Sin cliente' }}</h4>
+                   <div class="post">
+                    <div class="user-block">
+                      <img class="img-circle img-bordered-sm" src="{{Storage::url('image/interrogacion.jpg')}}" alt="user image">
+                      <span class="username">
+                        <a href="#">{{ $transactione->group->name ?? 'Sin cliente' }}</a>
+                      </span>
+                      <span class="description">{{ $transactione->transaction_date }}</span>
+                    </div>
 
-                    <div class="post">
-                      <div class="user-block">
-                        <img class="img-circle img-bordered-sm" src="{{Storage::url('image/interrogacion.jpg')}}" alt="user image">
-                        <span class="username">
-                          <a href="#">{{ $transactione->group->name ?? 'Sin cliente' }}</a>
-                        </span>
-                        <span class="description">{{ $transactione->transaction_date }}</span>
-                      </div>
+                    <p>
+                      <div class="row d-flex justify-content-center">
 
-                      <p>
-                        <div class="row d-flex justify-content-center">
-
-                            <div class="col-6 col-sm-3">
-                              <div class="info-box bg-light">
-                                <div class="info-box-content">
-                                  <span class="info-box-text text-center text-muted text-uppercase">Monto en dolares ($)</span>
-                                  <span class="info-box-number text-center text-muted mb-0">{{ number_format($transactione->amount) }}$</span>
-                                </div>
+                          <div class="col-6 col-sm-3">
+                            <div class="info-box bg-light">
+                              <div class="info-box-content">
+                                <span class="info-box-text text-center text-muted text-uppercase">Monto en dolares ($)</span>
+                                <span class="info-box-number text-center text-muted mb-0">{{ number_format($transactione->amount) }}$</span>
                               </div>
                             </div>
-                            <div class="col-6 col-sm-3">
+                          </div>
+                          <div class="col-6 col-sm-3">
+                            <div class="info-box bg-light">
+                              <div class="info-box-content">
+                                <span class="info-box-text text-center text-muted text-uppercase">Monto total de la transacción</span>
+                                <span class="info-box-number text-center text-muted mb-0">{{ number_format($transactione->amount_total); }}$</span>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-12 col-sm-2">
                               <div class="info-box bg-light">
                                 <div class="info-box-content">
-                                  <span class="info-box-text text-center text-muted text-uppercase">Monto total de la transacción</span>
-                                  <span class="info-box-number text-center text-muted mb-0">{{ number_format($transactione->amount_total); }}$</span>
+                                  <span class="info-box-text text-center text-muted text-uppercase">Porcentaje <i class="fas fa-percentage"></i></span>
+                                  <span class="info-box-number text-center text-muted mb-0 text-uppercase">{{ $transactione->percentage ?? 'Sin porcentaje' }} </span>
                                 </div>
                               </div>
                             </div>
                             <div class="col-12 col-sm-2">
-                                <div class="info-box bg-light">
-                                  <div class="info-box-content">
-                                    <span class="info-box-text text-center text-muted text-uppercase">Porcentaje <i class="fas fa-percentage"></i></span>
-                                    <span class="info-box-number text-center text-muted mb-0 text-uppercase">{{ $transactione->percentage ?? 'Sin porcentaje' }} </span>
-                                  </div>
+                              <div class="info-box bg-light">
+                                <div class="info-box-content">
+                                  <span class="info-box-text text-center text-muted text-uppercase">Comisión <i class="fas fa-comment-dollar"></i></span>
+                                  <span class="info-box-number text-center text-muted mb-0 text-uppercase">{{ $transactione->amount_commission ?? 'Sin comisión' }}</span>
                                 </div>
                               </div>
-                              <div class="col-12 col-sm-2">
-                                <div class="info-box bg-light">
-                                  <div class="info-box-content">
-                                    <span class="info-box-text text-center text-muted text-uppercase">Comisión <i class="fas fa-comment-dollar"></i></span>
-                                    <span class="info-box-number text-center text-muted mb-0 text-uppercase">{{ $transactione->amount_commission ?? 'Sin comisión' }}</span>
-                                  </div>
-                                </div>
-                              </div>
-                              <div class="col-12 col-sm-2">
+                            </div>
+                                <div class="col-12 col-sm-2">
                                 @if($transactione->status == 'Activo')
                                 <div class="info-box bg-success">
-                                  <div class="info-box-content">
+                                    <div class="info-box-content">
 
                                     <span class="info-box-text text-center text-muted text-uppercase text-white"><i class="fas fa-check-circle fa-lg"></i> </span>
                                     <span class="info-box-number text-center text-muted mb-0 text-uppercase text-white">{{ 'Activa' ?? 'Sin comisión' }}</span>
-                                  </div>
-                                  @else
-                                  <div class="info-box bg-danger">
+                                    </div>
+                                    @else
+                                    <div class="info-box bg-danger">
                                     <div class="info-box-content">
 
-                                      <span class="info-box-text text-center text-muted text-uppercase text-white"><i class="fas fa-ban fa-lg"></i> </span>
-                                      <span class="info-box-number text-center text-muted mb-0 text-uppercase text-white">{{ 'Anulada' ?? 'Sin comisión' }}</span>
+                                        <span class="info-box-text text-center text-muted text-uppercase text-white"><i class="fas fa-ban fa-lg"></i> </span>
+                                        <span class="info-box-number text-center text-muted mb-0 text-uppercase text-white">{{ 'Anulada' ?? 'Sin comisión' }}</span>
                                     </div>
-                                  @endif
+                                    @endif
                                 </div>
-                              </div>
+                                </div>
+                            </div>
+                          </p>
 
-                          </div>
-                      </p>
-
-                      <p>
-                        <a href="#" class="link-black text-sm"><i class="fas fa-user mr-1"></i> {{ $transactione->user->name }}</a>
-                      </p>
-                    </div>
+                    <p>
+                      <a href="#" class="link-black text-sm"><i class="fas fa-user mr-1"></i> {{ $transactione->user->name }}</a>
+                    </p>
+                  </div>
 
                     @endforeach
+
+                    @else
+
+                    <p class="font-weight-bold text-center">SIN ACTIVIDAD PORQUE PROBLAMENTE ESTA TRANSACCIÓN NO TIENE UN CLIENTE</p>
+
+                    <figure class="d-flex justify-content-center">
+                    <img src="{{asset('img/AdminLTELogo.png') }}" alt="">
+                    </figure>
                     @endif
 
                 </div>
