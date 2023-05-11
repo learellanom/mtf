@@ -93,9 +93,8 @@
 
 
                   @if($transactiones->count())
+                  <h4 class="text-uppercase font-weight-bold text-center">Actividad reciente de {{ $transactions->group->name ?? 'Sin cliente' }}</h4>
                   @foreach ($transactiones as $transactione)
-
-                   <h4 class="text-uppercase font-weight-bold text-center">Actividad reciente de {{ $transactions->group->name ?? 'Sin cliente' }}</h4>
                    <div class="post">
                     <div class="user-block">
                       <img class="img-circle img-bordered-sm" src="{{Storage::url('image/interrogacion.jpg')}}" alt="user image">

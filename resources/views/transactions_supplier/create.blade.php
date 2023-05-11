@@ -137,19 +137,19 @@
                 <div class="form-group col-md-12 d-flex justify-content-center">
 
                     <label class="form-check-label mx-auto esconder comisiones" for="radio1">
-                        {!! Form::radio('exonerate',2, null, ['id' => 'radio1', 'class' => 'exonerar']) !!}
+                        {!! Form::radio('exonerate',2, null, ['id' => 'radio1', 'class' => 'exonerar','required' => true,]) !!}
                         Exonerar comisión
                     </label>
 
                     <label class="form-check-label mx-auto esconder comisiones" for="radio3">
-                        {!! Form::radio('exonerate',1, null, ['id' => 'radio3', 'class' => 'incluir']) !!}
+                        {!! Form::radio('exonerate',1, null, ['id' => 'radio3', 'class' => 'incluir','required' => true,]) !!}
                         Incluir comisión
                     </label>
 
 
                     <label class="form-check-label mx-auto esconder comisiones" for="radio2">
                         Descontar comisión
-                        {!! Form::radio('exonerate',3, null, ['id' => 'radio2', 'class' => 'descontar']) !!}
+                        {!! Form::radio('exonerate',3, null, ['id' => 'radio2', 'class' => 'descontar','required' => true,]) !!}
                     </label>
 
                 </div>
