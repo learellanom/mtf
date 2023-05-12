@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\TransactionMasterController;
 use App\Http\Controllers\TransactionSupplierController;
@@ -125,6 +126,9 @@ Route::resource('roles', RoleController::class)->middleware('auth')->except('sho
 Route::resource('cajas', WalletController::class)->middleware('auth')->except('show')->middleware('can:wallets.index')->names('wallets');
 Route::resource('tipo_transaccion', Type_transactionController::class)->middleware('auth')->except('show')->middleware('can:type_transactions.index')->names('type_transactions');
 Route::resource('tipo_moneda', Type_coinController::class)->middleware('auth')->except('show')->middleware('can:type_coins.index')->names('type_coins');
+Route::resource('permisos', PermissionController::class)->middleware('auth')->except('show')->names('permissions');
+
+
 //
 //
 // Estadisticas Detalle

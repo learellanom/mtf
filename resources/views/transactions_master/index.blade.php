@@ -11,12 +11,14 @@
 
 @section('content')
 
-{{-- Setup data for datatables --}}
+@can('transactions_master.create')
 <a class="btn btn-dark" title="Crear movimiento master" href={{ route('transactions_master.create') }}>
     <i class="fas fa-plus-circle"></i>
     <span class="d-none d-lg-inline-block text-uppercase font-weight-bold">{{ __('Nueva') }}</span>
     <span class="d-none d-md-inline-block text-uppercase font-weight-bold">{{ __('Transaccion') }}</span>
 </a>
+@endcan
+
 <br><br>
 {{-- Compressed with style options / fill data using the plugin config --}}
 
@@ -40,8 +42,9 @@
                                     <th>%</th>
                                     <th>Monto total</th>
                                     <th>Fecha de transacción</th>
-                                    {{-- <th class="text-center">Editar</th> --}}
+                                    @can('transactions_master.update_status')
                                     <th class="text-center">Activar/Anular</th>
+                                    @endcan
                                     <th class="text-center">Ver</th>
                                 </tr>
                             </thead>
@@ -64,7 +67,7 @@
                                         </td>
                                      --}}
 
-
+                                     @can('transactions_master.update_status')
                                     <td class="text-center">
                                         {!! Form::model($transferencias->id, ['route' => ['transactions_master.update_status', $transferencias->id],'method' => 'put']) !!}
 
@@ -80,6 +83,7 @@
                                         @endif
                                     {!! Form::close() !!}
                                     </td>
+                                    @endcan
                                     <td class="text-center">
                                         <a href="{{ route('transactions_master.show', $transferencias->id) }}" class="btn btn-xl text-dark mx-1 shadow text-center"><i class="fa fa-lg fa-fw fas fa-search"></i></a>
                                      </td>

@@ -11,11 +11,13 @@
 
 @section('content')
 
+@can('transactions.create')
 <a class="btn btn-dark" title="Crear transaccion" href={{ route('transactions.create') }}>
     <i class="fas fa-plus-circle"></i>
     <span class="d-none d-lg-inline-block text-uppercase font-weight-bold">{{ __('Crear') }}</span>
     <span class="d-none d-md-inline-block text-uppercase font-weight-bold">{{ __('Transacción') }}</span>
 </a>
+@endcan
 
 <br><br>
 {{-- Compressed with style options / fill data using the plugin config --}}
@@ -44,8 +46,12 @@
                                     <th>Agente</th>
                                     <th>Tipo de Movimiento</th>
                                     <th style="width:1%; display:none;">Caja <i class="fas fa-search"></i></th>
+                                    @can('transactions.update_status')
                                     <th style="width:1%;">Activo/Anulado</th>
+                                    @endcan
+                                    @can('transactions.edit')
                                     <th style="width:1%;">Tasa/Comisión</th>
+                                    @endcan
                                     <th style="width:1%;">Ver <i class="fas fa-search"></i></th>
 
                                 </tr>
@@ -81,6 +87,7 @@
                                     <td class="font-weight-bold">{!! $transferencias->user->name !!}</td>
                                     <td>{!! $transferencias->type_transaction->name !!}</td>
                                     <td style="display: none;">{!! $transferencias->wallet->name !!}</td>
+                                    @can('transactions.update_status')
                                     <td class="text-center">
                                         {!! Form::model($transferencias->id, ['route' => ['transactions.update_status', $transferencias->id],'method' => 'put']) !!}
 
@@ -96,14 +103,16 @@
                                             @endif
                                         {!! Form::close() !!}
                                     </td>
-
+                                    @endcan
+                                    @can('transactions.edit')
                                     <td class="text-center">
                                         <a href="{{route('transactions.edit', $transferencias->id)}}" class="btn btn-xl text-dark mx-1 shadow text-center"><i class="fas fa-lg fa-fw fa-coins"></i></a>
                                     </td>
-
+                                    @endcan
                                     <td>
                                     <a href="{{ route('transactions.show', $transferencias->id) }}" class="btn btn-xl text-dark mx-1 shadow text-center"><i class="fa fa-lg fa-fw fas fa-search"></i></a>
                                     </td>
+
                                 </tr>
 
                             @endforeach
