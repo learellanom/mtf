@@ -447,9 +447,9 @@ class statisticsController extends Controller
 
         $wallet = $this->getWallet();
 
-        
+        $Type_transactions  = $this->getTypeTransactions();        
 
-        return view('estadisticas.statisticsDetailSupplier', compact('Transacciones','supplier','wallet','mySupplier','myWallet','balance'));
+        return view('estadisticas.statisticsDetailSupplier', compact('Transacciones','supplier','wallet','mySupplier','myWallet','balance','Type_transactions'));
         
     }
 
@@ -1142,8 +1142,8 @@ class statisticsController extends Controller
             mtf.type_transactions.name 	as TypeTransactionsName,
             count(supplier_id)			as CantSupplier,
             sum(amount_total) 			as TotalSupplier,
-            (select COUNT(*) 			from mtf.transactions where mtf.transactions.wallet_id = WalletId and type_transaction_id in (1,3,5,7,9) and status <> 'Anulado') as CantWallet,
-            (select sum(amount_total)   from mtf.transactions where mtf.transactions.wallet_id = WalletId and type_transaction_id in (1,3,5,7,9) and status <> 'Anulado') as MontoWallet
+            (select COUNT(*) 			from mtf.transactions where mtf.transactions.wallet_id = WalletId and type_transaction_id = TypeTransactionId and status <> 'Anulado') as CantWallet,
+            (select sum(amount_total)   from mtf.transactions where mtf.transactions.wallet_id = WalletId and type_transaction_id = TypeTransactionId and status <> 'Anulado') as MontoWallet
         from
             mtf.transaction_suppliers
         left join mtf.suppliers         on mtf.transaction_suppliers.supplier_id         = mtf.suppliers.id 
@@ -1166,7 +1166,9 @@ class statisticsController extends Controller
             TypeTransactionId
         ");
 
-        $suppliers = $this->getSuppliers();
+        $suppliers          = $this->getSuppliers();
+        
+        $Type_transactions  = $this->getTypeTransactions();
 
         // dd($Transacciones); leamx
 

@@ -148,6 +148,25 @@ if (isset($balance->Total)){
         </div>
 
         <div class ="col-12 col-sm-2">
+            <x-adminlte-select2 id="TypeTransactions"
+                                name="optionsTypeTransactions"
+                                igroup-size="sm"
+                                label-class="text-lightblue"
+                                data-placeholder="Tipo Transaccion..."
+                                :config="$config4"
+                                >
+                <x-slot name="prependSlot">
+                    <div class="input-group-text bg-gradient-dark">
+                        <!-- <i class="fas fa-car-side"></i> -->
+                        <i class="fas fa-box"></i>
+                    </div>
+                </x-slot>
+                <!-- <x-adminlte-options :options="['Car', 'Truck', 'Motorcycle']" empty-option/> -->
+                <x-adminlte-options :options="$Type_transactions" empty-option="Wallet.."/>
+            </x-adminlte-select2>
+        </div>
+
+        <div class ="col-12 col-sm-2">
         </div>
 
     </div>

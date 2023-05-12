@@ -154,6 +154,7 @@ $config4 = [
                                     <th style="width:10%;">Monto Operaciones</th>
                                     <th style="width:10%;">Saldo</th>
                                     <th style="width:1%;" >Accion</th>                                    
+                                    <th style="width:1%;" >Accion</th>                                         
                                 </tr>
                             </thead>                            
                             @php
@@ -183,6 +184,14 @@ $config4 = [
                                             <i class="fa fa-lg fa-fw fa-eye"></i>
                                         </a>                                        
                                     </td>
+                                    <td class="text-center">
+                                        <a href="#"
+                                            title="Detalles"
+                                            class="btn btn-xl text-primary mx-1 shadow text-center"
+                                            onClick="theRoute2({{$row->SupplierId}})">
+                                            <i class="fa fa-lg fa-fw fa-eye"></i>
+                                        </a>                                        
+                                    </td>                                    
                                 </tr>
                             @endforeach
                         <!-- </x-adminlte-datatable> -->
