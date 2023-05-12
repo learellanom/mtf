@@ -38,6 +38,7 @@ return [
     'Tipo de movimiento'            => 'Type movement',
     'Tipo de monedas'               => 'Types of coins',
     'Buscar menu'                   => 'Search Menu',
+    'Permisos'                      => 'Permissions',
 
 
 ];
