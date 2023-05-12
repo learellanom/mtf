@@ -22,11 +22,18 @@
                 <div class="card-footer">
                     {{$wallet->links()}}
                 </div>
+
+
+
+
+
+
+                </div>
+
             </div>
 
-        </div>
-    </div>
-</div>
+         </div>
+
 
 @endsection
 
