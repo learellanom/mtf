@@ -39,5 +39,6 @@ return [
     'Tipo de movimiento'            => 'نوع الحركة',
     'Tipo de monedas'               => 'نوع العملات',
     'Buscar menu'                   => 'قائمة البحث',
+    'Permisos'                      => 'اذونات',
 
 ];

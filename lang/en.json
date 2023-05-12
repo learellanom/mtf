@@ -134,7 +134,9 @@
     "TIPO DE MONEDA":"TYPE OF CURRENCY",
     "Tipo de Movimento":"Movement Type",
     "Tipo de Moneda":"Type of currency",
-    "Información general del sistema MTF":"MTF System Overview"
+    "Información general del sistema MTF":"MTF System Overview",
+    "LISTA DE PERMISOS DEL SISTEMA": "LIST OF SYSTEM PERMISSIONS"
+
 
 
 }

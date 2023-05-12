@@ -38,4 +38,5 @@ return [
     'Tipo de movimiento'            => 'Tipo de movimiento',
     'Tipo de monedas'               => 'Tipo de monedas',
     'Buscar menu'                   => 'Buscar menu',
+    'Permisos'                      => 'Permisos'
 ];
