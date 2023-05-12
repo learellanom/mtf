@@ -148,7 +148,7 @@ if (isset($balance->Total)){
         </div>
 
         <div class ="col-12 col-sm-2">
-            <x-adminlte-select2 id="TypeTransactions"
+            <x-adminlte-select2 id="typeTransactions"
                                 name="optionsTypeTransactions"
                                 igroup-size="sm"
                                 label-class="text-lightblue"
@@ -162,7 +162,7 @@ if (isset($balance->Total)){
                     </div>
                 </x-slot>
                 <!-- <x-adminlte-options :options="['Car', 'Truck', 'Motorcycle']" empty-option/> -->
-                <x-adminlte-options :options="$Type_transactions" empty-option="Wallet.."/>
+                <x-adminlte-options :options="$Type_transactions" empty-option="Tipo Transaccion.."/>
             </x-adminlte-select2>
         </div>
 
@@ -295,16 +295,18 @@ if (isset($balance->Total)){
     @routes
     <script>
 
-    const miWallet      = {!! $myWallet !!};
-    const miSupplier    = {!! $mySupplier !!};
+    const miWallet              = {!! $myWallet !!};
+    const miSupplier            = {!! $mySupplier !!};
+    const miTypeTransactions    = {!! $myTypeTransactions !!};
 
-     // alert('miSupplier    -> ' + miSupplier + ' y ' + {!! $mySupplier !!});
+    // alert('miSupplier    -> ' + miSupplier + ' y ' + {!! $mySupplier !!});
     // alert('miWallet  -> ' + miWallet);
-
 
     BuscaSupplier(miSupplier);
 
     BuscaWallet(miWallet);
+
+    BuscaTypeTransactions(miTypeTransactions);
 
     $(() => {
 
@@ -334,6 +336,16 @@ if (isset($balance->Total)){
                 theRoute(supplier,wallet);
 
              });
+
+             $('#typeTransactions').on('change', function (){
+
+                const supplier          = $('#supplier').val();
+                const wallet            = $('#wallet').val();
+                const typeTransactions  = $('#typeTransactions').val();
+                
+                theRoute(supplier,wallet,typeTransactions);
+
+            });
 
             $('#drCustomRanges').on('change', function () {
                // alert('Fechas rnagos -> ' + $('#drCustomRanges').val());
@@ -365,15 +377,17 @@ if (isset($balance->Total)){
         })
 
 
-        function theRoute(supplier = 0, wallet = 0, fechaDesde = 0, fechaHasta = 0){
+        function theRoute(supplier = 0, wallet = 0, typeTransactions = 0, fechaDesde = 0, fechaHasta = 0){
 
-            if (supplier   === "")  supplier = 0;
-            if (wallet  === "")     wallet  = 0;
+            if (supplier   === "")          supplier    = 0;
+            if (wallet  === "")             wallet      = 0;
+            if (typeTransactions  === "")   typeTransactions = 0;
 
             let myRoute = "";
-                myRoute = "{{ route('estadisticasDetalleProveedor', ['supplier' => 'supplier2', 'wallet' => 'wallet2', 'fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2']) }}";
+                myRoute = "{{ route('estadisticasDetalleProveedor', ['supplier' => 'supplier2', 'wallet' => 'wallet2', 'typeTransactions' => 'typeTransactions2', 'fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2']) }}";
                 myRoute = myRoute.replace('supplier2',supplier);
                 myRoute = myRoute.replace('wallet2',wallet);
+                myRoute = myRoute.replace('typeTransactions2',typeTransactions);                
                 myRoute = myRoute.replace('fechaDesde2',fechaDesde);
                 myRoute = myRoute.replace('fechaHasta2',fechaHasta);
             // alert(myRoute);
@@ -431,6 +445,24 @@ if (isset($balance->Total)){
                         $("#supplier option[value="+ miSupplier +"]").attr("selected",true);
                     }
                     // alert("BuscaSupplier aqui ->  the val " + $(this).val() + " text -> " + $(this).text());
+                });
+            });
+            //
+        }
+
+        function BuscaTypeTransactions(miTypeTransactions){
+            if (miTypeTransactions===0){
+                return;
+            }
+            // alert("BuscaTypeTransactions - miSupplier -> " + miTypeTransactions);
+            $('#typeTransactions').each( function(index, element){
+                // alert ("BuscaTypeTransactions -> " + $(this).val() + " text -> " + $(this).text()+ " y con index -> " + $(this).prop('selectedIndex'));
+                $(this).children("option").each(function(){
+                    if ($(this).val() === miTypeTransactions.toString()){
+                        // alert('BuscaTypeTransactions - encontro');
+                        $("#typeTransactions option[value="+ miTypeTransactions +"]").attr("selected",true);
+                    }
+                    // alert("BuscaTypeTransactions aqui ->  the val " + $(this).val() + " text -> " + $(this).text());
                 });
             });
             //
