@@ -12,11 +12,13 @@
 @section('content')
 
 {{-- Setup data for datatables --}}
+@can('transactions_supplier.create')
 <a class="btn btn-dark" title="Crear transacción a proveedor" href={{ route('transactions_supplier.create') }}>
     <i class="fas fa-plus-circle"></i>
     <span class="d-none d-lg-inline-block text-uppercase font-weight-bold">{{ __('Crear') }}</span>
     <span class="d-none d-md-inline-block text-uppercase font-weight-bold">{{ __('Transacción a proveedor') }}</span>
 </a>
+@endcan
 <br><br>
 
 
@@ -40,7 +42,9 @@
                                     <th>Monto total</th>
                                     <th>Fecha de transacción</th>
                                     {{-- <th class="text-center">Editar</th> --}}
+                                    @can('transactions_supplier.update_status')
                                     <th class="text-center">Activar/Anular</th>
+                                    @endcan
                                     <th class="text-center">Ver</th>
                                 </tr>
                             </thead>
@@ -55,7 +59,7 @@
 
                                     <td class="font-weight-bold">{!! $transferencias->transaction_date !!}</td>
 
-
+                                    @can('transactions_supplier.update_status')
                                     <td class="text-center">
                                         {!! Form::model($transferencias->id, ['route' => ['transactions_supplier.update_status', $transferencias->id],'method' => 'put']) !!}
 
@@ -72,6 +76,7 @@
 
                                         {!! Form::close() !!}
                                     </td>
+                                    @endcan
 
                                      <td class="text-center">
                                         <a href="{{ route('transactions_supplier.show', $transferencias->id) }}" class="btn btn-xl text-dark mx-1 shadow text-center"><i class="fa fa-lg fa-fw fas fa-search"></i></a>

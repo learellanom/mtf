@@ -500,6 +500,13 @@ return [
             'can'         => 'roles.index',
         ],
         [
+            'text' => 'Permisos',
+            'url'  => 'permisos',
+            'active'      => ['permisos*'],
+            'icon'    => 'fas fa-fw fa-key',
+            //'can'         => 'permissions.index',
+        ],
+        [
             'text' => 'Proveedores',
             'url'  => 'proveedores',
             'active'      => ['proveedores*'],
