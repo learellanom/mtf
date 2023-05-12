@@ -30,7 +30,7 @@ return [
     'Transacciónes en efectivo'     => 'Transacciónes en efectivo',
     'Transacciónes Master'          => 'Transacciónes Master',
     'Transacciónes Proveedores'     => 'Transacciónes Proveedores',
-    'Credito a Caja'                => 'Master Transactions',
+    'Credito a Caja'                => 'Credito a Cajas',
     'Usuarios'                      => 'Usuarios',
     'Roles'                         => 'Roles',
     'Grupos'                        => 'Grupos',
