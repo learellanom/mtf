@@ -55,7 +55,7 @@
                             </div>
                         </div>
 
-                        <div class="form-group col-md-4 esconder">
+                        <div class="form-group col-md-4">
                             {!! Form::Label('wallet_id', "Tipo de caja:") !!}
                             <div class="input-group-text col-md-12">
                                 <i class="fa-fw fas fa-random"></i>
