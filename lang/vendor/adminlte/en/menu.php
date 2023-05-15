@@ -39,6 +39,7 @@ return [
     'Tipo de monedas'               => 'Types of coins',
     'Buscar menu'                   => 'Search Menu',
     'Permisos'                      => 'Permissions',
+    'Conciliacion por Proveedor'    => 'Supplier Reconciliation'
 
 
 ];

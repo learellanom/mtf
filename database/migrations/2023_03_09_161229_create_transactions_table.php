@@ -27,9 +27,9 @@ return new class extends Migration
             $table->foreignId('group_id')->nullable()->references('id')->on('groups')->onUpdate('cascade')->onDelete('cascade'); //CLIENTE DE LA TRANSFERENCIA
             $table->foreignId('wallet_id')->default(3)->references('id')->on('wallets'); // MONEDERO O CUENTA DE DONDE SALE EL DINERO
             $table->enum('status', ['Activo', 'Anulado'])->nullable()->default('Activo'); //ESTATUS
-            //$table->double('token')->nullable(); //TOKEN
+            $table->string('token')->nullable(); //TOKEN
             $table->longText('description'); //DESCRIPCION DE LA TRANSFERENCIA
-            $table->date('transaction_date'); //FECHA DE LA TRANSACCIÓN
+            $table->datetime('transaction_date'); //FECHA DE LA TRANSACCIÓN
             $table->double('percentage_base')->nullable(); //PORCENTAJE DE LA GANANCIA
             $table->double('amount_commission_base')->nullable(); //GANANCIA DE LA COMOSION
             $table->timestamps(); //CREACION Y MODIFICACION POR DEFECTO (TOMADO POR EL SERVIDOR)

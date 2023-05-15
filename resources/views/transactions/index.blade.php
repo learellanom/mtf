@@ -36,6 +36,7 @@
                                 <tr>
                                     <th style="width:1%;">Numero de transacción</th>
                                     <th style="width:1%;">Cliente</th>
+                                    <th style="display:none;">Token</th>
                                     <th>Fecha</th>
                                     <th>Descripción</th>
                                     <th style="width:1%;"><p style="display:none;">P - %</p><i class="fas fa-percentage"></i></th>
@@ -60,16 +61,12 @@
 
                                 <tr>
                                     <td class="font-weight-bold"><i class="fas fa-asterisk"></i>{{ $transferencias->id }}</td>
-                                    <td>
-                                        @if($transferencias->group == null && $transferencias->client == null)
-                                        <span class="font-weight-bold"> TRANSACCIÓN SIN CLIENTE </span>
-                                        @elseif($transferencias->group)
-                                            {{ $transferencias->group->name }}
-                                        @else
-                                            {{ $transferencias->client->name  }}
-                                        @endif
-
+                                    <td class="font-weight-bold">
+                                            {{ $transferencias->group->name ?? 'SIN CLIENTE'}}
                                     </td>
+
+                                    <td class="font-weight-bold" style="display:none;">{!! $transferencias->token !!}</td>
+
                                     <td class="font-weight-bold">{!! $transferencias->transaction_date !!}</td>
 
                                     <td class="font-weight-bold"><div style='width:60px; height:60px; overflow:hidden;'>{!!  $transferencias->description !!}</div></td>

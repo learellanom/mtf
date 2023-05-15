@@ -9,17 +9,12 @@ use App\Models\Type_coin;
 use App\Models\Type_transaction;
 use App\Models\Wallet;
 use App\Models\Group;
-use App\Models\Client;
 use App\Models\Image;
 use App\Models\User;
-use Spatie\Permission\Models\Role;
-use Database\Factories\TransactionFactory;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Redirect;
-use Nette\Utils\Finder;
 use Carbon\Carbon;
-use Symfony\Component\VarDumper\Caster\TraceStub;
-use Illuminate\Database\Eloquent\Builder;
+
 
 class TransactionController extends Controller
 {
@@ -200,7 +195,7 @@ class TransactionController extends Controller
      */
     public function show($transaction)
     {
-            
+
         $transactions = Transaction::find($transaction);
         if($transactions->group == null){
             return view('transactions.show', compact('transactions'));
