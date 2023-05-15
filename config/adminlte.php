@@ -440,7 +440,7 @@ return [
             'url'  => 'estadisticasDetalleProveedor',
             'active' => ['estadisticasDetalleProveedor'],
             'icon' => 'fas fa-fw fas fa-chart-area',
-            'can'  => 'estadisticasDetalle.index',
+            'can'  => 'estadisticasDetalle.estadisticasResumenProveedor',
             'label'       => 'P',
             'label_color' =>'warning',
         ],
