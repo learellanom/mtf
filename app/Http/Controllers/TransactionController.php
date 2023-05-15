@@ -200,6 +200,7 @@ class TransactionController extends Controller
      */
     public function show($transaction)
     {
+            
         $transactions = Transaction::find($transaction);
         if($transactions->group == null){
             return view('transactions.show', compact('transactions'));

@@ -353,6 +353,19 @@ class statisticsController extends Controller
             $myWallet = $request->wallet;
         }
 
+        $myTypeTransactions = 0;
+        $myTypeTransactionsDesde = 0;
+        $myTypeTransactionsHasta = 9999;          
+        if ($request->typeTransactions) {
+            $myTypeTransactions = $request->typeTransactions;
+            $myTypeTransactionsDesde = $request->typeTransactions;
+            $myTypeTransactionsHasta = $request->typeTransactions;
+        }else{
+            $myTypeTransactionsDesde = 0;
+            $myTypeTransactionsHasta = 9999;            
+        }
+        // dd('myTypeTransactionsDesde '   .  $myTypeTransactionsDesde . ' myTypeTransactionsHasta ' . $myTypeTransactionsHasta);
+
         $myFechaDesde = "2001-01-01";
         $myFechaHasta = "9999-12-31";
         if ($request->fechaDesde){
@@ -421,15 +434,16 @@ class statisticsController extends Controller
         )->leftJoin('suppliers',            'suppliers.id',         '=', 'transaction_suppliers.supplier_id'
         )->leftJoin('type_coins',           'type_coins.id',        '=', 'transaction_suppliers.type_coin_id'
         )->leftJoin('wallets',              'wallets.id',           '=', 'transaction_suppliers.wallet_id'        
-        )->whereBetween('Transaction_suppliers.user_id',            [$myUserDesde, $myUserHasta]
-        )->whereBetween('Transaction_suppliers.supplier_id',        [$mySupplierDesde, $mySupplierHasta]
-        )->whereBetween('Transaction_suppliers.transaction_date',   [$myFechaDesde, $myFechaHasta]
-        )->whereBetween('Transaction_suppliers.wallet_id',          [$myWalletDesde, $myWalletHasta]        
+        )->whereBetween('Transaction_suppliers.user_id',                [$myUserDesde, $myUserHasta]
+        )->whereBetween('Transaction_suppliers.supplier_id',            [$mySupplierDesde, $mySupplierHasta]
+        )->whereBetween('Transaction_suppliers.transaction_date',       [$myFechaDesde, $myFechaHasta]
+        )->whereBetween('Transaction_suppliers.wallet_id',              [$myWalletDesde, $myWalletHasta]
+        )->whereBetween('Transaction_suppliers.type_transaction_id',    [$myTypeTransactionsDesde, $myTypeTransactionsHasta]
         )->where('Transaction_suppliers.status', '=', 'Activo'
         )->orderBy('Transaction_suppliers.transaction_date','ASC'
         )->get();
 
-        // dd($Transacciones);
+        //  dd($Transacciones);
         // die();
 
         $Transacciones2 = array();
@@ -441,15 +455,13 @@ class statisticsController extends Controller
             array_push($Transacciones2, $value2);
         }
 
-        
-
         $supplier = $this->getSuppliers();
 
         $wallet = $this->getWallet();
 
-        
+        $Type_transactions  = $this->getTypeTransactions();        
 
-        return view('estadisticas.statisticsDetailSupplier', compact('Transacciones','supplier','wallet','mySupplier','myWallet','balance'));
+        return view('estadisticas.statisticsDetailSupplier', compact('Transacciones','supplier','wallet','mySupplier','myWallet','myTypeTransactions','balance','Type_transactions'));
         
     }
 
@@ -1142,8 +1154,8 @@ class statisticsController extends Controller
             mtf.type_transactions.name 	as TypeTransactionsName,
             count(supplier_id)			as CantSupplier,
             sum(amount_total) 			as TotalSupplier,
-            (select COUNT(*) 			from mtf.transactions where mtf.transactions.wallet_id = WalletId and type_transaction_id in (1,3,5,7,9) and status <> 'Anulado') as CantWallet,
-            (select sum(amount_total)   from mtf.transactions where mtf.transactions.wallet_id = WalletId and type_transaction_id in (1,3,5,7,9) and status <> 'Anulado') as MontoWallet
+            (select COUNT(*) 			from mtf.transactions where mtf.transactions.wallet_id = WalletId and type_transaction_id = TypeTransactionId and status <> 'Anulado') as CantWallet,
+            (select sum(amount_total)   from mtf.transactions where mtf.transactions.wallet_id = WalletId and type_transaction_id = TypeTransactionId and status <> 'Anulado') as MontoWallet
         from
             mtf.transaction_suppliers
         left join mtf.suppliers         on mtf.transaction_suppliers.supplier_id         = mtf.suppliers.id 
@@ -1166,7 +1178,9 @@ class statisticsController extends Controller
             TypeTransactionId
         ");
 
-        $suppliers = $this->getSuppliers();
+        $suppliers          = $this->getSuppliers();
+        
+        $Type_transactions  = $this->getTypeTransactions();
 
         // dd($Transacciones); leamx
 
