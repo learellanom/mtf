@@ -374,8 +374,10 @@ class statisticsController extends Controller
         }
 
         if ($request->fechaHasta){
+            // dd('myFechaDesde -> '   .  $myFechaDesde . ' myFechaHasta -> ' . $myFechaHasta);
             $myFechaHasta = $request->fechaHasta;
         }
+         
 
         // \Log::info('leam usuario *** -> ' . $request->usuario);
         // \Log::info('leam cliente *** -> ' . $request->cliente);
@@ -443,7 +445,7 @@ class statisticsController extends Controller
         )->orderBy('Transaction_suppliers.transaction_date','ASC'
         )->get();
 
-        //  dd($Transacciones);
+        // dd($Transacciones);
         // die();
 
         $Transacciones2 = array();
@@ -461,7 +463,7 @@ class statisticsController extends Controller
 
         $Type_transactions  = $this->getTypeTransactions();        
 
-        return view('estadisticas.statisticsDetailSupplier', compact('Transacciones','supplier','wallet','mySupplier','myWallet','myTypeTransactions','balance','Type_transactions'));
+        return view('estadisticas.statisticsDetailSupplier', compact('Transacciones','supplier','wallet','mySupplier','myWallet','myTypeTransactions','balance','Type_transactions','myFechaDesde','myFechaHasta'));
         
     }
 

@@ -108,26 +108,7 @@ if (isset($balance->Total)){
                 <x-adminlte-options :options="$supplier" empty-option="Selecciona un proveedor.."/>
             </x-adminlte-select2>
         </div>
-
-
-        <!--
-        <div class ="col-12 col-sm-2">
-            <x-adminlte-date-range
-                id="drCustomRanges"
-                name="drCustomRanges"
-                enable-default-ranges="Last 30 Days"
-                style="height: 30px;"
-                :config="$config3">
-                <x-slot name="prependSlot">
-                    <div class="input-group-text bg-gradient-dark">
-                        <i class="fas fa-calendar-alt"></i>
-                    </div>
-                </x-slot>
-            </x-adminlte-date-range>
-        </div>
-        -->
-
-
+        
         <div class ="col-12 col-sm-2">
             <x-adminlte-select2 id="wallet"
                                 name="optionsWallets"
@@ -167,7 +148,21 @@ if (isset($balance->Total)){
         </div>
 
         <div class ="col-12 col-sm-2">
+            <x-adminlte-date-range
+                id="drCustomRanges"
+                name="drCustomRanges"
+                enable-default-ranges="Last 30 Days"
+                style="height: 30px;"
+                :config="$config3">
+                <x-slot name="prependSlot">
+                    <div class="input-group-text bg-gradient-dark">
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                </x-slot>
+            </x-adminlte-date-range>
         </div>
+
+
 
     </div>
 </div>
@@ -180,112 +175,110 @@ if (isset($balance->Total)){
 
 <div class="row">
     <div class="col-md-12">
-            <div class="card mb-4">
-                <div class="card-header">
-                    <div class="card-title col-md-12">
-                        <div class="card-body">
+        <div class="card mb-4">
+            <div class="card-header">
+                <div class="card-title col-md-12">
+                    <div class="card-body">
 
-                            <div class= "row">
-                                <div class="col-md-4">
-                                    <h4 class="text-uppercase font-weight-bold">{{ __('Detalles|Movimientos') }} <i class="fas fa-info-circle"></i></h4>
-                                </div>
-                                <div class="col-md-4">
-
-                                    @if($myTotal< 0)
-                                    <h4 class='text-uppercase font-weight-bold'>{{__('Saldo A favor' )}}: {{ number_format(abs($myTotal),2,",",".") }} $</h4>
-                                    @else
-                                    <h4 class='text-uppercase font-weight-bold'>{{__('Saldo A favor' )}}: {{ number_format(0,2,",",".") }} $</h4>
-                                    @endif
-
-                                </div>
-                                <div class="col-md-4">
-
-                                    @if($myTotal< 0)
-                                    <h4 class='text-uppercase font-weight-bold'>{{__('Saldo Pendiente' )}}: {{ number_format(0,2,",",".") }} $</h4>
-                                    @else
-                                    <h4 class='text-uppercase font-weight-bold'>{{__('Saldo Pendiente' )}}: {{ number_format($myTotal,2,",",".") }} $</h4>
-                                    @endif
-                                </div>
+                        <div class= "row">
+                            <div class="col-md-4">
+                                <h4 class="text-uppercase font-weight-bold">{{ __('Detalles|Movimientos') }} <i class="fas fa-info-circle"></i></h4>
                             </div>
-                        </div>
-                    </div>
-                </div>
+                            <div class="col-md-4">
 
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-12">
-                            @php
-                                $myTotal = 0;
-                            @endphp
-                            <x-adminlte-datatable
-                                id="table3"
-                                :heads="$heads"
+                                @if($myTotal< 0)
+                                <h4 class='text-uppercase font-weight-bold'>{{__('Saldo A favor' )}}: {{ number_format(abs($myTotal),2,",",".") }} $</h4>
+                                @else
+                                <h4 class='text-uppercase font-weight-bold'>{{__('Saldo A favor' )}}: {{ number_format(0,2,",",".") }} $</h4>
+                                @endif
 
-                                striped
-                                with-buttons
+                            </div>
+                            <div class="col-md-4">
 
-                                class="table table-bordered table-responsive-lg bg-white">
-                                @foreach($config['data'] as $row)
-                                    <tr>
-
-                                        <td>{!! $row->FechaTransaccion !!}</td>
-                                        <td>{!! $row->TipoTransaccion !!}</td>
-                                        <td>{!! $row->Descripcion !!}</td>
-                                        <td>{!! $row->TipoMoneda !!}</td>
-                                        <td class="text-right">{!! number_format($row->MontoMoneda,2,",",".") !!}</td>
-                                        <td class="text-left">{!! $row->TasaCambio !!}</td>
-                                        <td class="text-right">{!! number_format($row->Monto,2,",",".") !!}</td>
-                                        <td class="text-left">{!! $row->PorcentajeComision !!}</td>
-                                        <td class="text-right">{!! number_format($row->MontoComision,2,",",".") !!}</td>
-                                        <td class="text-right">{!! number_format($row->MontoTotal,2,",",".") !!}</td>
-
-                                        @php
-                                            switch  ($row->TransactionId){
-                                                case 1:
-                                                case 3:
-                                                case 5:
-                                                case 7:
-                                                case 9:
-                                                    $myTotal = $myTotal + ($row->MontoTotal * -1);
-                                                    break;
-                                                case 4:
-                                                case 8:
-                                                case 2:
-                                                case 6:
-                                                    $myTotal = ($myTotal) + ($row->MontoTotal);
-                                                    break;
-                                                default:
-                                                    $myTotal = 0;
-                                                    break;
-                                            }
-                                        @endphp
-                                        <td class="text-right">{!! number_format($myTotal,2,",",".") !!}</td>
-
-
-                                        <td>{!! $row->SupplierName !!}</td>
-                                        <td>{!! $row->AgenteName !!}</td>
-                                        <td>{!! $row->WalletName !!}</td>
-
-                                        <td class="text-center">
-                                        <a
-                                                href="{{ route('transactions.show', ['movimiento'=> $row->Id]) }}"
-                                                title="Detalles"
-                                                class="btn btn-xl text-primary mx-1 shadow text-center"
-
-                                            >
-                                                <i class="fa fa-lg fa-fw fa-eye"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            </x-adminlte-datatable>
-                             </div>
+                                @if($myTotal< 0)
+                                <h4 class='text-uppercase font-weight-bold'>{{__('Saldo Pendiente' )}}: {{ number_format(0,2,",",".") }} $</h4>
+                                @else
+                                <h4 class='text-uppercase font-weight-bold'>{{__('Saldo Pendiente' )}}: {{ number_format($myTotal,2,",",".") }} $</h4>
+                                @endif
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
 
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        @php
+                            $myTotal = 0;
+                        @endphp
+                        <x-adminlte-datatable
+                            id="table3"
+                            :heads="$heads"
 
+                            striped
+                            with-buttons
+
+                            class="table table-bordered table-responsive-lg bg-white">
+                            @foreach($config['data'] as $row)
+                                <tr>
+
+                                    <td>{!! $row->FechaTransaccion !!}</td>
+                                    <td>{!! $row->TipoTransaccion !!}</td>
+                                    <td>{!! $row->Descripcion !!}</td>
+                                    <td>{!! $row->TipoMoneda !!}</td>
+                                    <td class="text-right">{!! number_format($row->MontoMoneda,2,",",".") !!}</td>
+                                    <td class="text-left">{!! $row->TasaCambio !!}</td>
+                                    <td class="text-right">{!! number_format($row->Monto,2,",",".") !!}</td>
+                                    <td class="text-left">{!! $row->PorcentajeComision !!}</td>
+                                    <td class="text-right">{!! number_format($row->MontoComision,2,",",".") !!}</td>
+                                    <td class="text-right">{!! number_format($row->MontoTotal,2,",",".") !!}</td>
+
+                                    @php
+                                        switch  ($row->TransactionId){
+                                            case 1:
+                                            case 3:
+                                            case 5:
+                                            case 7:
+                                            case 9:
+                                                $myTotal = $myTotal + ($row->MontoTotal * -1);
+                                                break;
+                                            case 4:
+                                            case 8:
+                                            case 2:
+                                            case 6:
+                                                $myTotal = ($myTotal) + ($row->MontoTotal);
+                                                break;
+                                            default:
+                                                $myTotal = 0;
+                                                break;
+                                        }
+                                    @endphp
+                                    <td class="text-right">{!! number_format($myTotal,2,",",".") !!}</td>
+
+
+                                    <td>{!! $row->SupplierName !!}</td>
+                                    <td>{!! $row->AgenteName !!}</td>
+                                    <td>{!! $row->WalletName !!}</td>
+
+                                    <td class="text-center">
+                                    <a                      
+                                            href="{{ route('transactions_supplier.show', ['movimientos_proveedore'=> $row->Id]) }}"
+                                            title="Detalles"
+                                            class="btn btn-xl text-primary mx-1 shadow text-center"
+
+                                        >
+                                            <i class="fa fa-lg fa-fw fa-eye"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </x-adminlte-datatable>
+                            </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -298,15 +291,19 @@ if (isset($balance->Total)){
     const miWallet              = {!! $myWallet !!};
     const miSupplier            = {!! $mySupplier !!};
     const miTypeTransactions    = {!! $myTypeTransactions !!};
+    let  miFechaDesde          = {!! $myFechaDesde !!};
+    let  miFechaHasta          = {!! $myFechaHasta !!};
 
-    // alert('miSupplier    -> ' + miSupplier + ' y ' + {!! $mySupplier !!});
-    // alert('miWallet  -> ' + miWallet);
+
+    // alert('recibe las fechas : fecha dfesde -> ' + miFechaDesde + ' y la fecha hasta -> ' + miFechaHasta );
 
     BuscaSupplier(miSupplier);
 
     BuscaWallet(miWallet);
 
     BuscaTypeTransactions(miTypeTransactions);
+
+    BuscaFechas(miFechaDesde, miFechaHasta);
 
     $(() => {
 
@@ -332,8 +329,22 @@ if (isset($balance->Total)){
 
                 const supplier      = $('#supplier').val();
                 const wallet        = $('#wallet').val();
+                const typeTransactions  = $('#typeTransactions').val();
+                let myFechaDesde, myFechaHasta;
 
-                theRoute(supplier,wallet);
+                myFechaDesde =  ($('#drCustomRanges').val()).substr(6,4) +
+                                '-' +
+                                ($('#drCustomRanges').val()).substr(3,2) +
+                                '-' +
+                                ($('#drCustomRanges').val()).substr(0,2)
+                                ;
+
+                myFechaHasta =  ($('#drCustomRanges').val()).substr(19,4) +
+                                '-' +
+                                ($('#drCustomRanges').val()).substr(16,2) +
+                                '-' +
+                                ($('#drCustomRanges').val()).substr(13,2)
+                theRoute(supplier,wallet,typeTransactions,myFechaDesde,myFechaHasta);
 
              });
 
@@ -342,13 +353,6 @@ if (isset($balance->Total)){
                 const supplier          = $('#supplier').val();
                 const wallet            = $('#wallet').val();
                 const typeTransactions  = $('#typeTransactions').val();
-                
-                theRoute(supplier,wallet,typeTransactions);
-
-            });
-
-            $('#drCustomRanges').on('change', function () {
-               // alert('Fechas rnagos -> ' + $('#drCustomRanges').val());
                 let myFechaDesde, myFechaHasta;
 
                 myFechaDesde =  ($('#drCustomRanges').val()).substr(6,4) +
@@ -365,11 +369,35 @@ if (isset($balance->Total)){
                                 ($('#drCustomRanges').val()).substr(13,2)
                                 ;
 
-                alert('Fecha Desde -> ' + myFechaDesde + ' Fecha Hasta -> ' + myFechaHasta);
-                const usuario = $('#userole').val();
-                const grupo   = $('#group').val();
-                const wallet = $('#wallet').val();
-                theRoute(usuario,grupo,wallet,myFechaDesde,myFechaHasta);
+                theRoute(supplier,wallet,typeTransactions,myFechaDesde,myFechaHasta);
+
+            });
+
+            $('#drCustomRanges').on('change', function () {
+                alert('Fechas rangos -> ' + $('#drCustomRanges').val());
+                let myFechaDesde, myFechaHasta;
+
+                myFechaDesde =  ($('#drCustomRanges').val()).substr(6,4) +
+                                '-' +
+                                ($('#drCustomRanges').val()).substr(3,2) +
+                                '-' +
+                                ($('#drCustomRanges').val()).substr(0,2)
+                                ;
+
+                myFechaHasta =  ($('#drCustomRanges').val()).substr(19,4) +
+                                '-' +
+                                ($('#drCustomRanges').val()).substr(16,2) +
+                                '-' +
+                                ($('#drCustomRanges').val()).substr(13,2)
+                                ;
+
+                // alert('Fecha Desde -> ' + myFechaDesde + ' Fecha Hasta -> ' + myFechaHasta);
+
+                const supplier           = $('#supplier').val();
+                const wallet            = $('#wallet').val();
+                const typeTransactions  = $('#typeTransactions').val();   
+
+                theRoute(supplier,wallet,typeTransactions,myFechaDesde,myFechaHasta);
             });
 
 
@@ -466,6 +494,32 @@ if (isset($balance->Total)){
                 });
             });
             //
+        }
+
+        function BuscaFechas(FechaDesde = 0,FechaHasta = 0){
+
+            myLocation  = window.location.toString();
+            myArray     = myLocation.split("/");
+            if (myArray.length > 3){
+                FechaDesde = myArray[7];
+                FechaHasta = myArray[8];
+                alert('recibe las fechas : fecha desde 33 -> ' +   myArray[7] + ' fecha Hasta 33 -> ' +   myArray[8]);
+            }else{
+                FechaDesde = 0;
+                FechaHasta = 0;       
+            }
+
+            if (FechaDesde == 0) return;
+
+            let myFechaDesde, myFechaHasta, myFecha;
+
+            myFechaDesde = FechaDesde.toString().substr(8,2)  + '-' + FechaDesde.toString().substr(5,2) + '-' + FechaDesde.toString().substr(0,4);
+            myFechaHasta = FechaHasta.toString().substr(8,2)  + '-' + FechaHasta.toString().substr(5,2) + '-' + FechaHasta.toString().substr(0,4);
+
+            myFecha = myFechaDesde.toString()  + ' - ' + myFechaHasta.toString();
+            // alert('myFecha -> ' + myFecha );
+            $('#drCustomRanges').val(myFecha);
+
         }
 
     </script>

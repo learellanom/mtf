@@ -148,11 +148,13 @@ $config4 = [
                         >
                             @foreach($Transacciones as $row)
 
-                                <!-- [IdGrupo] => 3
+                                <!-- \
+                                [IdGrupo] => 3
                                 [NombreGrupo] => Cobranzas de boletos
                                 [Creditos] => 1567619
                                 [Debitos] => 1384688.5
-                                [Total] => 182930.5 -->
+                                [Total] => 182930.5 
+                                -->
                                  
                                 <tr>
                                     <td>{!! $row->NombreSupplier !!}</td>
@@ -160,7 +162,8 @@ $config4 = [
                                     <td>{!! number_format($row->Total,2,",",".") !!}</td>
 
                                     <td class="text-center">
-                                        <a      href="#"
+                                        <a      
+                                            href="#"
                                             title="Detalles"
                                             class="btn btn-xl text-primary mx-1 shadow text-center"
                                             onClick="theRoute({{$row->IdSupplier}})"
@@ -230,17 +233,18 @@ $config4 = [
     * 
     * 
     */
-    function theRoute(proveedor = 0, fechaDesde = 0, fechaHasta = 0){
+    function theRoute(proveedor = 0, wallet = 0, type_transactions = 0, fechaDesde = 0, fechaHasta = 0){
         // alert(' el proveedor -> ' + proveedor)
         if (proveedor   === "") proveedor  = 0;
 
         let myRoute = "";
-            myRoute = "{{ route('estadisticasDetalleProveedor', ['supplier' => 'proveedor2', 'fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2']) }}";
+            myRoute = "{{ route('estadisticasDetalleProveedor', ['supplier' => 'proveedor2','wallet' => 'wallet2', 'typeTransactions' => 'typeTransactions2','fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2']) }}";
             myRoute = myRoute.replace('proveedor2',proveedor);
+            myRoute = myRoute.replace('wallet2',wallet);
+            myRoute = myRoute.replace('typeTransactions2',type_transactions);
             myRoute = myRoute.replace('fechaDesde2',fechaDesde);
             myRoute = myRoute.replace('fechaHasta2',fechaHasta);
         // console.log(myRoute);
-        
         location.href = myRoute;
 
     }
