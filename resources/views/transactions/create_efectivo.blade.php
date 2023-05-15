@@ -88,11 +88,22 @@
 
                 </div>
 
-                <div class="form-group col-md-4">
+                <div class="form-row">
+                <div class="form-group col-md-6">
                     {!! Form::Label('amount', "Monto en dolares:") !!}
                     <div class="input-group-text">
                         <i class="fa-fw fas fas fa-funnel-dollar mr-2"></i>
-                    {!! Form::text('amount', null, ['class' => 'form-control', 'required' => true, 'id' => 'monto_dolares', 'min' => 0, 'readonly' => true]) !!}
+                    {!! Form::text('amount', null, ['class' => 'form-control', 'required' => true, 'id' => 'monto_dolares', 'min' => 0, 'readonly' => true, 'placeholder' => 'Monto en dolares']) !!}
+                    </div>
+                </div>
+                     <div class="form-group col-md-6">
+                        {!! Form::Label('token', "Token:") !!}
+                        <div class="input-group-text">
+                            <i class="fa-fw fas fa-money-check-alt mr-2"></i>
+                        {!! Form::text('token',null, ['class' => 'form-control', 'placeholder' => 'Numero del Token']) !!}
+                        </div>
+                        <small class="form-text text-muted mr-4 text-right">Token no es obligatorio.</small>
+
                     </div>
                 </div>
 
@@ -182,7 +193,7 @@
                                 {!! Form::Label('transaction_date', "Fecha:") !!}
                                 <div class="input-group-text">
                                     <i class="fa-fw fas fas fa-calendar-week mr-2"></i>
-                                {!! Form::date('transaction_date', $fecha, ['class' => 'form-control', 'required' => true, 'id' => 'fecha']) !!}
+                                {!! Form::datetimeLocal('transaction_date', $fecha, ['class' => 'form-control', 'required' => true, 'id' => 'fecha']) !!}
                                 </div>
                             </div>
 
@@ -203,13 +214,15 @@
 
         <br>
 
-                <div class="form-group">
-                    {!! Form::Label('description', "Descripción:") !!}
+                    <div class="form-group">
+
+                        {!! Form::Label('description', "Descripción:") !!}
                         <div class="input-group-text">
                             <i class="fa-fw fas fa-text-width mr-2"></i>
-                        {!! Form::textarea('description',null, ['rows' => 1, 'class' => 'form-control', 'required' => true]) !!}
+                        {!! Form::textarea('description',null, ['rows' => 3, 'class' => 'form-control', 'required' => true]) !!}
                         </div>
-                </div>
+
+                    </div>
 
                 {!! Form::Submit('GUARDAR', ['class' => 'btn btn-primary btn-block font-weight-bold', 'style' => "max-height: 400px;" , 'id' => 'publish']) !!}
 
@@ -398,7 +411,7 @@ $(".status").select2({
 });
 
 $(".wallet").select2({
-  placeholder: "Seleccionar Caja | Wallet",
+  placeholder: "Seleccionar Caja",
   theme: 'bootstrap4',
   search: false,
   allowClear: true,

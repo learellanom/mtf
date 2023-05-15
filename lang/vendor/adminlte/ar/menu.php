@@ -40,5 +40,6 @@ return [
     'Tipo de monedas'               => 'نوع العملات',
     'Buscar menu'                   => 'قائمة البحث',
     'Permisos'                      => 'اذونات',
+    'Conciliacion por Proveedor'    => 'تسوية الموردين'
 
 ];

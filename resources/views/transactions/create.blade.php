@@ -185,7 +185,7 @@
                                 {!! Form::Label('transaction_date', "Fecha:") !!}
                                 <div class="input-group-text">
                                     <i class="fa-fw fas fas fa-calendar-week mr-2"></i>
-                                {!! Form::date('transaction_date', $fecha, ['class' => 'form-control', 'required' => true, 'id' => 'fecha']) !!}
+                                {!! Form::datetimeLocal('transaction_date', $fecha, ['class' => 'form-control', 'required' => true, 'id' => 'fecha']) !!}
                                 </div>
                             </div>
 

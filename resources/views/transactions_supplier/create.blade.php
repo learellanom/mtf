@@ -79,7 +79,7 @@
                   </div>
 
                     <div class="form-row">
-                    <div class="form-group col-md-4 esconder">
+                    <div class="form-group col-md-6 esconder">
                         {!! Form::Label('exchange_rate', "Tasa:") !!}
                         <div class="input-group-text">
                             <i class="fa-fw fas fa-random mr-2"></i>
@@ -87,7 +87,7 @@
                         </div>
                     </div>
 
-                    <div class="form-group col-md-4 esconder">
+                    <div class="form-group col-md-6 esconder">
 
                         {!! Form::Label('amount_foreign_currency', "Monto en moneda extranjera:") !!}
                         <div class="input-group-text">
@@ -97,19 +97,26 @@
 
                     </div>
 
-                    <div class="form-group col-md-4">
-                        {!! Form::Label('amount', "Monto en dolares:") !!}
-                        <div class="input-group-text">
-                            <i class="fa-fw fas fas fa-funnel-dollar mr-2"></i>
-                        {!! Form::text('amount', null, ['class' => 'form-control', 'required' => true, 'id' => 'monto_dolares', 'min' => 0, 'readonly' => true]) !!}
-                        </div>
+                </div>
+                <div class="form-row">
+                <div class="form-group col-md-6">
+                    {!! Form::Label('amount', "Monto en dolares:") !!}
+                    <div class="input-group-text">
+                        <i class="fa-fw fas fas fa-funnel-dollar mr-2"></i>
+                    {!! Form::text('amount', null, ['class' => 'form-control', 'required' => true, 'id' => 'monto_dolares', 'min' => 0, 'readonly' => true]) !!}
                     </div>
+                </div>
+                <div class="form-group col-md-6">
+                    {!! Form::Label('token', "Token:") !!}
+                    <div class="input-group-text">
+                        <i class="fa-fw fas fa-money-check-alt mr-2"></i>
+                    {!! Form::text('token',null, ['class' => 'form-control', 'placeholder' => 'Numero del Token']) !!}
+                    </div>
+                    <small class="form-text text-muted mr-4 text-right">Token no es obligatorio.</small>
 
+                  </div>
                 </div>
 
-
-
-                <br>
                 <h4 class="text-uppercase font-weight-bold text-center esconder comisiones">Comisiones</h4>
                 <hr class="bg-dark esconder comisiones" style="height:1px;">
 
@@ -174,7 +181,7 @@
                                 {!! Form::Label('transaction_date', "Fecha:") !!}
                                 <div class="input-group-text">
                                     <i class="fa-fw fas fas fa-calendar-week mr-2"></i>
-                                {!! Form::date('transaction_date', $fecha, ['class' => 'form-control', 'id' => 'fecha']) !!}
+                                {!! Form::datetimeLocal('transaction_date', $fecha, ['class' => 'form-control', 'id' => 'fecha']) !!}
                                 </div>
                             </div>
 
