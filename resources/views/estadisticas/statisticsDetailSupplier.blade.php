@@ -291,8 +291,8 @@ if (isset($balance->Total)){
     const miWallet              = {!! $myWallet !!};
     const miSupplier            = {!! $mySupplier !!};
     const miTypeTransactions    = {!! $myTypeTransactions !!};
-    let  miFechaDesde          = {!! $myFechaDesde !!};
-    let  miFechaHasta          = {!! $myFechaHasta !!};
+    let  miFechaDesde           = {!! $myFechaDesde !!};
+    let  miFechaHasta           = {!! $myFechaHasta !!};
 
 
     // alert('recibe las fechas : fecha dfesde -> ' + miFechaDesde + ' y la fecha hasta -> ' + miFechaHasta );
@@ -374,7 +374,7 @@ if (isset($balance->Total)){
             });
 
             $('#drCustomRanges').on('change', function () {
-                alert('Fechas rangos -> ' + $('#drCustomRanges').val());
+                // alert('Fechas rangos -> ' + $('#drCustomRanges').val());
                 let myFechaDesde, myFechaHasta;
 
                 myFechaDesde =  ($('#drCustomRanges').val()).substr(6,4) +
@@ -497,18 +497,20 @@ if (isset($balance->Total)){
         }
 
         function BuscaFechas(FechaDesde = 0,FechaHasta = 0){
-
+            
             myLocation  = window.location.toString();
             myArray     = myLocation.split("/");
-            if (myArray.length > 3){
+            
+            if (myArray.length > 4){
                 FechaDesde = myArray[7];
                 FechaHasta = myArray[8];
-                alert('recibe las fechas : fecha desde 33 -> ' +   myArray[7] + ' fecha Hasta 33 -> ' +   myArray[8]);
+                
             }else{
+                
                 FechaDesde = 0;
                 FechaHasta = 0;       
             }
-
+            
             if (FechaDesde == 0) return;
 
             let myFechaDesde, myFechaHasta, myFecha;

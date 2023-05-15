@@ -165,6 +165,21 @@ Route::get('estadisticasDetalleProveedor/{supplier?}/{wallet?}/{typeTransactions
 //
 //
 //
+//
+// Estadisticas Proveedor conciliacion
+//
+//
+Route::get('estadisticasDetalleProveedorCon',[App\Http\Controllers\statisticsController::class, 'supplierDetailConciliation'])
+    ->middleware('can:estadisticasDetalle.index')
+    ->name('estadisticasDetalleProveedorCon');
+
+Route::get('estadisticasDetalleProveedorCon/{supplier?}/{wallet?}/{typeTransactions?}/{fechaDesde?}/{fechaHasta?}',
+            [App\Http\Controllers\statisticsController::class, 'supplierDetailConciliation'])
+    ->middleware('can:estadisticasDetalle.index')
+    ->name('estadisticasDetalleProveedorCon');    
+//
+//
+//
 // Route::get('estadisticasDetalleUsuario',[App\Http\Controllers\statisticsController::class, 'userDetail'])->name('estadisticasDetalleUsuario');
 // Route::get('estadisticasDetalleUsuario/{usuario}/{fechaDesde?}/{fechaHasta?}',[App\Http\Controllers\statisticsController::class, 'userDetail'])->name('estadisticasDetalleUsuario');
 
@@ -205,8 +220,6 @@ Route::get('estadisticasResumenConciliacionProveedor',
 Route::get('estadisticasResumenConciliacionProveedor/{proveedor}/{fechaDesde?}/{fechaHasta?}',
             [App\Http\Controllers\statisticsController::class, 'conciliationSummarySupplier'])
             ->name('estadisticasResumenConciliacionProveedor');
-
-
 
 //
 //

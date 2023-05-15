@@ -175,7 +175,16 @@ $config4 = [
                                     <td>{!! number_format($row->MontoWallet,2,",",".")   !!}</td>
 
                                     <td>{!! number_format($myTotal,2,",",".") !!}</td>
-
+                                    <!--
+                                        supplier_id					as SupplierId,
+                                        mtf.suppliers.name          as SupplierName,
+                                        wallet_id					as WalletId,
+                                        mtf.wallets.name			as WalletName,
+                                        type_transaction_id 		as TypeTransactionId,
+                                        mtf.type_transactions.name 	as TypeTransactionsName,
+                                        count(supplier_id)			as CantSupplier,
+                                        sum(amount_total) 			as TotalSupplier,
+                                    -->
                                     <td class="text-center">
                                         <a href="#"
                                             title="Detalles"
@@ -261,12 +270,38 @@ $config4 = [
 
     }
 
-    function theRoute2(proveedor = 0, fechaDesde = 0, fechaHasta = 0 ){
+    function theRoute2(proveedor = 0, wallet = 0, typeTransactions = 0, fechaDesde = 0, fechaHasta = 0 ){
+
+        if (proveedor   === "")         proveedor           = 0;
+        if (wallet === "")              wallet              = 0;
+        if (typeTransactions === "")    typeTransactions    = 0;
+
+        /*
+        Route::get('estadisticasDetalleProveedorCon/{supplier?}/{wallet?}/{typeTransactions?}/{fechaDesde?}/{fechaHasta?}',
+            [App\Http\Controllers\statisticsController::class, 'supplierDetailConciliation'])
+        ->middleware('can:estadisticasDetalle.index')
+        ->name('estadisticasDetalleProveedorCon');   
+        */
+
+        let myRoute = "";
+            myRoute = "{{ route('estadisticasDetalleProveedorCon', ['supplier' => 'proveedor2',  'wallet' => 'wallet2', 'typeTransactions' => 'typeTransactions2', 'fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2']) }}";
+            myRoute = myRoute.replace('proveedor2',proveedor);
+            myRoute = myRoute.replace('wallet2',wallet);
+            myRoute = myRoute.replace('typeTransactions2',typeTransactions);
+            myRoute = myRoute.replace('fechaDesde2',fechaDesde);
+            myRoute = myRoute.replace('fechaHasta2',fechaHasta);
+        // console.log(myRoute);
+        // alert(myRoute);
+        location.href = myRoute;
+
+    }
+
+    function theRoute3(proveedor = 0, fechaDesde = 0, fechaHasta = 0 ){
 
         if (proveedor   === "") proveedor = 0;
 
         let myRoute = "";
-            myRoute = "{{ route('estadisticasDetalleProveedor', ['supplier' => 'proveedor2',  'fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2']) }}";
+            myRoute = "{{ route('estadisticasDetalleProveedorCon', ['supplier' => 'proveedor2',  'fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2']) }}";
             myRoute = myRoute.replace('proveedor2',proveedor);
             myRoute = myRoute.replace('fechaDesde2',fechaDesde);
             myRoute = myRoute.replace('fechaHasta2',fechaHasta);
@@ -420,6 +455,33 @@ $config4 = [
             ]
         });
     });
+
+
+    function BuscaFechas(FechaDesde = 0,FechaHasta = 0){
+
+        myLocation  = window.location.toString();
+        myArray     = myLocation.split("/");
+        if (myArray.length > 3){
+            FechaDesde = myArray[7];
+            FechaHasta = myArray[8];
+            // alert('recibe las fechas : fecha desde 33 -> ' +   myArray[7] + ' fecha Hasta 33 -> ' +   myArray[8]);
+        }else{
+            FechaDesde = 0;
+            FechaHasta = 0;       
+        }
+
+        if (FechaDesde == 0) return;
+
+        let myFechaDesde, myFechaHasta, myFecha;
+
+        myFechaDesde = FechaDesde.toString().substr(8,2)  + '-' + FechaDesde.toString().substr(5,2) + '-' + FechaDesde.toString().substr(0,4);
+        myFechaHasta = FechaHasta.toString().substr(8,2)  + '-' + FechaHasta.toString().substr(5,2) + '-' + FechaHasta.toString().substr(0,4);
+
+        myFecha = myFechaDesde.toString()  + ' - ' + myFechaHasta.toString();
+        // alert('myFecha -> ' + myFecha );
+        $('#drCustomRanges').val(myFecha);
+
+    }
 
 </script>
 

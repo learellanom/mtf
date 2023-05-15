@@ -466,7 +466,171 @@ class statisticsController extends Controller
         return view('estadisticas.statisticsDetailSupplier', compact('Transacciones','supplier','wallet','mySupplier','myWallet','myTypeTransactions','balance','Type_transactions','myFechaDesde','myFechaHasta'));
         
     }
+    /*
+    *
+    * 
+    *       supplierDetailConciliation
+    *
+    *
+    */
+    public function supplierDetailConciliation(Request $request)
+    {
+        
+        $mySupplier = 0;
+        if ($request->supplier) {
+            $mySupplier = $request->supplier;
+        }
 
+        $myWallet = 0;
+        if ($request->wallet) {
+            $myWallet = $request->wallet;
+        }
+
+        $myTypeTransactions = 0;
+        $myTypeTransactionsDesde = 0;
+        $myTypeTransactionsHasta = 9999;          
+        if ($request->typeTransactions) {
+            $myTypeTransactions = $request->typeTransactions;
+            $myTypeTransactionsDesde = $request->typeTransactions;
+            $myTypeTransactionsHasta = $request->typeTransactions;
+        }else{
+            $myTypeTransactionsDesde = 0;
+            $myTypeTransactionsHasta = 9999;            
+        }
+        // dd('myTypeTransactionsDesde '   .  $myTypeTransactionsDesde . ' myTypeTransactionsHasta ' . $myTypeTransactionsHasta);
+
+        $myFechaDesde = "2001-01-01";
+        $myFechaHasta = "9999-12-31";
+        if ($request->fechaDesde){
+            $myFechaDesde = $request->fechaDesde;
+            $myFechaHasta = $request->fechaHasta;
+        }
+
+        if ($request->fechaHasta){
+            // dd('myFechaDesde -> '   .  $myFechaDesde . ' myFechaHasta -> ' . $myFechaHasta);
+            $myFechaHasta = $request->fechaHasta;
+        }
+         
+
+        // \Log::info('leam usuario *** -> ' . $request->usuario);
+        // \Log::info('leam cliente *** -> ' . $request->cliente);
+        // \Log::info('leam wallet  *** -> ' . $request->wallet);
+        
+        $balance = "";
+        if ($mySupplier > 0){
+            $balance = $this->getBalanceSupplier($mySupplier);
+        };
+
+        // dd($balance);
+
+        $myUserDesde = 0;
+        $myUserHasta = 9999;
+
+        $mySupplierDesde = 0;
+        $mySupplierHasta = 9999;
+
+        $myWalletDesde = 0;
+        $myWalletHasta = 9999;
+
+        if ($mySupplier != 0){
+            $mySupplierDesde = $mySupplier;
+            $mySupplierHasta = $mySupplier;
+        }
+        if ($myWallet != 0){
+            $myWalletDesde = $myWallet;
+            $myWalletHasta = $myWallet;
+        }
+
+        // print_r($myUser);
+        // die();
+
+
+     
+        $tabla = "mtf.transaction_suppliers";
+
+
+    //     'Transaction_suppliers.id                       as Id',
+    //     'Transaction_suppliers.amount_foreign_currency  as MontoMoneda',
+    //     'Transaction_suppliers.exchange_rate            as TasaCambio',
+    //  // 'Transaction_suppliers.type_coin_id             as TipoMonedaId',
+    //     'type_coins.name                                as TipoMoneda',
+    //     'users.name                                     as AgenteName',
+    //     'Transaction_suppliers.amount                   as Monto',            
+    //     'Transaction_suppliers.amount_total             as MontoTotal',
+    //     'Transaction_suppliers.percentage               as PorcentajeComision',
+    //     'Transaction_suppliers.amount_commission        as MontoComision',
+    //     'Transaction_suppliers.type_transaction_id      as TransactionId',
+    //     'type_transactions.name                         as TipoTransaccion',
+    // //  'transaction_suppliers.wallet_id                as WalletId',
+    //     'wallets.name                                   as WalletName',            
+    //     'transaction_suppliers.description              as Descripcion',
+    //     'transaction_suppliers.transaction_date         as FechaTransaccion',
+    //     'suppliers.name                                 as SupplierName',
+
+
+        $myQuery =
+        "
+            select
+                mtf.transaction_suppliers.id 						as Id,
+                mtf.transaction_suppliers.amount_foreign_currency   as MontoMoneda,
+                mtf.transaction_suppliers.exchange_rate             as TasaCambio,    
+                mtf.transaction_suppliers.type_coin_id              as TipoMonedaId,
+                type_coins.name                        				as TipoMoneda, 
+                mtf.transaction_suppliers.status               		as Status,
+                mtf.transaction_suppliers.description               as Descripcion,
+                mtf.transaction_suppliers.transaction_date          as FechaTransaccion,    
+                mtf.transaction_suppliers.user_id                 	as AgenteId,
+                mtf.users.name                             			as AgenteName,
+                mtf.transaction_suppliers.type_transaction_id 		as TransactionId,
+                mtf.type_transactions.name 							as TipoTransaccion,  
+                mtf.transaction_suppliers.supplier_id				as SupplierId,
+                mtf.suppliers.name          						as SupplierName,
+                mtf.transaction_suppliers.wallet_id					as WalletId,
+                mtf.wallets.name									as WalletName,    
+                mtf.transaction_suppliers.percentage				as PorcentajeComision,
+                mtf.transaction_suppliers.amount					as Monto,
+                mtf.transaction_suppliers.amount_total				as MontoTotal,
+                mtf.transaction_suppliers.amount_commission			as MontoComision, 
+                (	select count(*) 			
+                    from mtf.transactions 
+                    where 	mtf.transactions.wallet_id 			= WalletId  
+                    and 	mtf.transactions.type_transaction_id 	= mtf.transaction_suppliers.type_transaction_id 
+                    and 	status 									<> 'Anulado'
+                    and 	mtf.transactions.amount 				= mtf.transaction_suppliers.amount
+                ) as CantDiferencia
+            from
+                mtf.transaction_suppliers
+            left join mtf.suppliers         on mtf.transaction_suppliers.supplier_id         = mtf.suppliers.id
+            left join mtf.type_transactions on mtf.transaction_suppliers.type_transaction_id = mtf.type_transactions.id
+            left join mtf.wallets           on mtf.transaction_suppliers.wallet_id           = mtf.wallets.id
+            left join mtf.users             on mtf.transaction_suppliers.user_id             = mtf.users.id
+            left join mtf.type_coins        on mtf.transaction_suppliers.type_coin_id        = mtf.type_coins.id
+            where
+                    status <> 'Anulado'
+                and Supplier_id         between $mySupplierDesde            and $mySupplierDesde
+                and wallet_id 			between $myWalletDesde              and $myWalletHasta
+                and type_transaction_id between $myTypeTransactionsDesde    and $myTypeTransactionsHasta
+            having 
+                CantDiferencia = 0
+            order by
+                SupplierId,
+                WalletId,
+                TransactionId
+        ";
+
+        // dd($myQuery);
+
+        $Transacciones = DB::select($myQuery);
+
+        $supplier = $this->getSuppliers();
+
+        $wallet = $this->getWallet();
+
+        $Type_transactions  = $this->getTypeTransactions();        
+
+        return view('estadisticas.statisticsDetailSupplier', compact('Transacciones','supplier','wallet','mySupplier','myWallet','myTypeTransactions','balance','Type_transactions','myFechaDesde','myFechaHasta'));
+        
+    }
     /*
     *
     *
