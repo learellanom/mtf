@@ -101,6 +101,25 @@ if (isset($balance->Total)){
         </div>
 
         <div class ="col-12 col-sm-2">
+            <x-adminlte-select2 id="typeTransactions"
+                                name="optionstypeTransactions"
+                                igroup-size="sm"
+                                label-class="text-lightblue"
+                                data-placeholder="Tipo Transaccion ..."
+                                :config="$config2"
+                                >
+                <x-slot name="prependSlot">
+                    <div class="input-group-text bg-gradient-dark">
+                        <!-- <i class="fas fa-car-side"></i> -->
+                        <i class="fas fa-user-tie"></i>
+                    </div>
+                </x-slot>
+
+                <x-adminlte-options :options="$typeTransactions" empty-option="Selecciona Transaccion.."/>
+            </x-adminlte-select2>
+        </div>
+
+        <div class ="col-12 col-sm-2">
         </div>
 
         <div class ="col-12 col-sm-2">
@@ -188,20 +207,20 @@ if (isset($balance->Total)){
                             style="width:100%;">
                             <thead>
                                 <tr>
-                                    <th style="width:1%;">Fecha</th>
+                                    <th style="width:7%;">Fecha</th>
                                     <th style="width:1%;">Transacción</th>
-                                    <th>Descripción</th>
+                                    <th style="width:10%;">Descripción</th>
                                     <th style="width:1%;"><p style="display:none;">P - %</p>Moneda</th>
-                                    <th style="width:15%;">Monto Moneda <i class="fas fa-globe-europe"></i> <p style="display:none;">Moneda Extranjera</p></th>
+                                    <th style="width:6%;">Monto Moneda </th>
                                     <th style="width:1%;">Tasa</th>
-                                    <th style="width:10%;">Monto $ <i class="fas fa-funnel-dollar"></i></th>
-                                    <th style="width:10%;">%</th>
-                                    <th>Comisión</th>
-                                    <th>Monto total</th>
+                                    <th style="width:1%;">Monto $ </th>
+                                    <th style="width:1%;">%</th>
+                                    <th style="width:1%;">Comisión</th>
+                                    <th style="width:1%;">Monto total</th>
                                     <th style="width:1%;">Saldo <i class="fas fa-dolar"></i></th>
                                     <th style="width:1%;">Cliente</th>
                                     <th style="width:1%;">Agente</th>
-                                    <th style="width:1%;">Caja <i class="fas fa-wallet"></i></th>
+                                    <th style="width:1%;">Caja</th>
                                     <th style="width:1%;">Ver <i class="fas fa-search"></i></th>
                                 </tr>
                             </thead>
@@ -390,10 +409,10 @@ if (isset($balance->Total)){
         ]
     });
 
-    const miGrupo   = {!! $myGroup !!};
-    const miUsuario = {!! $myUser !!};
-    const miWallet  = {!! $myWallet !!};
-
+    const miGrupo               = {!! $myGroup !!};
+    const miUsuario             = {!! $myUser !!};
+    const miWallet              = {!! $myWallet !!};
+    const miTypeTransactions    = {!! $myTypeTransactions !!};
     // console.log(miCliente);
 
     // alert('miCLiente -> ' + miCliente);
@@ -404,16 +423,18 @@ if (isset($balance->Total)){
     // BuscaCliente(miCliente);
     BuscaUsuario(miUsuario);
     BuscaWallet(miWallet);
+    BuscaTypeTransactions(miTypeTransactions); 
 
         $(() => {
 
 
             $('#userole').on('change', function (){
 
-                const usuario = $('#userole').val();
-                const grupo   = $('#group').val();
-                const wallet  = $('#wallet').val();
-                theRoute(usuario,grupo,wallet);
+                const usuario           = $('#userole').val();
+                const grupo             = $('#group').val();
+                const wallet            = $('#wallet').val();
+                const typeTransactions  = $('#typeTransactions').val();
+                theRoute(usuario,grupo,wallet, typeTransactions);
 
             });
 
@@ -424,12 +445,13 @@ if (isset($balance->Total)){
                 const grupo   = $('#group').val();
                 const wallet = $('#wallet').val();
                 const seleccionado = $('#group').prop('selectedIndex');
+                const typeTransactions  = $('#typeTransactions').val();
                 // alert('***** cliente ' +  cliente + " --- selected index --- " + seleccionado);
 
                 var URLactual = window.location;
                 // alert(URLactual);
 
-                theRoute(usuario,grupo,wallet);
+                theRoute(usuario,grupo,wallet, typeTransactions);
 
 
             });
@@ -439,13 +461,14 @@ if (isset($balance->Total)){
                 const usuario = $('#userole').val();
                 const grupo   = $('#group').val();
                 const wallet = $('#wallet').val();
+                const typeTransactions  = $('#typeTransactions').val();
                 // alert('***** wallet ' +  wallet);
-                 theRoute(usuario,grupo,wallet);
+                 theRoute(usuario,grupo,wallet, typeTransactions);
 
              });
 
             $('#drCustomRanges').on('change', function () {
-                alert('Fechas rnagos -> ' + $('#drCustomRanges').val());
+                // alert('Fechas rnagos -> ' + $('#drCustomRanges').val());
                 let myFechaDesde, myFechaHasta;
 
                 myFechaDesde =  ($('#drCustomRanges').val()).substr(6,4) +
@@ -462,32 +485,60 @@ if (isset($balance->Total)){
                                 ($('#drCustomRanges').val()).substr(13,2)
                                 ;
 
-                alert('Fecha Desde -> ' + myFechaDesde + ' Fecha Hasta -> ' + myFechaHasta);
+                // alert('Fecha Desde -> ' + myFechaDesde + ' Fecha Hasta -> ' + myFechaHasta);
                 const usuario = $('#userole').val();
                 const grupo   = $('#group').val();
                 const wallet = $('#wallet').val();
-                theRoute(usuario,grupo,wallet,myFechaDesde,myFechaHasta);
+                const typeTransactions  = $('#typeTransactions').val();
+                theRoute(usuario,grupo,wallet,typeTransactions, myFechaDesde,myFechaHasta);
             });
 
 
+            $('#typeTransactions').on('change', function (){
+
+                const usuario           = $('#userole').val();
+                const grupo             = $('#group').val();
+                const wallet            = $('#wallet').val();
+                const typeTransactions  = $('#typeTransactions').val();
+                let myFechaDesde = 0, myFechaHasta;
+                // alert('aqui -> ' + typeTransactions + ` fechaDesde ${myFechaDesde}`);
+                // theRoute(usuario, grupo, wallet,typeTransactions,myFechaDesde,myFechaHasta);
+                theRoute(usuario, grupo, wallet, typeTransactions, myFechaDesde, myFechaHasta);
+
+                });
 
         })
 
 
-        function theRoute(usuario = 0, grupo = 0, wallet = 0, fechaDesde = 0, fechaHasta = 0){
+        function theRoute(usuario = 0, grupo = 0, wallet = 0, typeTransactions = 0, fechaDesde = 0, fechaHasta = 0){
 
             if (usuario === "") usuario = 0;
             if (grupo   === "") grupo = 0;
             if (wallet  === "") wallet  = 0;
+            if (typeTransactions  === "") typeTransactions  = 0;
+            
+            /*
+            alert(
+                `
+                Usuario - > ${usuario} 
+                grupo   -> ${grupo} 
+                wallet  -> ${wallet} 
+                typeTransactions -> ${typeTransactions} 
+                fechaDesde -> ${fechaDesde} 
+                fechaHasta -> ${fechaHasta} 
+                `
+            );
+            */
 
             let myRoute = "";
-                myRoute = "{{ route('estadisticasDetalle', ['usuario' => 'usuario2', 'grupo' => 'grupo2', 'wallet' => 'wallet2', 'fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2']) }}";
+                myRoute = "{{ route('estadisticasDetalle', ['usuario' => 'usuario2', 'grupo' => 'grupo2', 'wallet' => 'wallet2' , 'typeTransactions' => 'typeTransactions2', 'fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2']) }}";
                 myRoute = myRoute.replace('grupo2',grupo);
                 myRoute = myRoute.replace('usuario2',usuario);
                 myRoute = myRoute.replace('wallet2',wallet);
+                myRoute = myRoute.replace('typeTransactions2',typeTransactions);                
                 myRoute = myRoute.replace('fechaDesde2',fechaDesde);
                 myRoute = myRoute.replace('fechaHasta2',fechaHasta);
-            console.log(myRoute);
+
             // alert(myRoute);
             location.href = myRoute;
 
@@ -554,6 +605,25 @@ if (isset($balance->Total)){
                         $("#wallet option[value="+ miWallet +"]").attr("selected",true);
                     }
                     // alert("BuscaWallet aqui ->  the val " + $(this).val() + " text -> " + $(this).text());
+                });
+            });
+            //
+        }
+
+
+        function BuscaTypeTransactions(miTypeTransactions){
+            if (miTypeTransactions===0){
+                return;
+            }
+            // alert("BuscaTypeTransactions - miSupplier -> " + miTypeTransactions);
+            $('#typeTransactions').each( function(index, element){
+                // alert ("BuscaTypeTransactions -> " + $(this).val() + " text -> " + $(this).text()+ " y con index -> " + $(this).prop('selectedIndex'));
+                $(this).children("option").each(function(){
+                    if ($(this).val() === miTypeTransactions.toString()){
+                        // alert('BuscaTypeTransactions - encontro');
+                        $("#typeTransactions option[value="+ miTypeTransactions +"]").attr("selected",true);
+                    }
+                    // alert("BuscaTypeTransactions aqui ->  the val " + $(this).val() + " text -> " + $(this).text());
                 });
             });
             //

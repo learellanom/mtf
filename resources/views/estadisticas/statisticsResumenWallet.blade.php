@@ -228,17 +228,18 @@ $config4 = [
 
     }
 
-    function theRoute2(usuario = 0, grupo = 0, wallet = 0, fechaDesde = 0, fechaHasta = 0){
+    function theRoute2(usuario = 0, grupo = 0, wallet = 0, typeTransactions = 0, fechaDesde = 0, fechaHasta = 0){
 
         if (usuario === "") usuario = 0;
         if (grupo   === "") grupo = 0;
         if (wallet  === "") wallet  = 0;
 
         let myRoute = "";
-            myRoute = "{{ route('estadisticasDetalle', ['usuario' => 'usuario2', 'grupo' => 'grupo2', 'wallet' => 'wallet2', 'fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2']) }}";
+            myRoute = "{{ route('estadisticasDetalle', ['usuario' => 'usuario2', 'grupo' => 'grupo2', 'wallet' => 'wallet2', 'typeTransactions' => 'typeTransactions2','fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2']) }}";
             myRoute = myRoute.replace('grupo2',grupo);
             myRoute = myRoute.replace('usuario2',usuario);
             myRoute = myRoute.replace('wallet2',wallet);
+            myRoute = myRoute.replace('typeTransactions2',typeTransactions);            
             myRoute = myRoute.replace('fechaDesde2',fechaDesde);
             myRoute = myRoute.replace('fechaHasta2',fechaHasta);
         console.log(myRoute);

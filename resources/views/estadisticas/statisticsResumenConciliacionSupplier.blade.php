@@ -153,8 +153,8 @@ $config4 = [
                                     <th style="width:10%;">Cant Operaciones</th>
                                     <th style="width:10%;">Monto Operaciones</th>
                                     <th style="width:10%;">Saldo</th>
-                                    <th style="width:1%;" >Accion</th>                                    
-                                    <th style="width:1%;" >Accion</th>                                         
+                                    <th style="width:1%;" >Ver Supplier</th>                                    
+                                    <th style="width:1%;" >Ver Operaciones</th>                                         
                                 </tr>
                             </thead>                            
                             @php
@@ -189,15 +189,16 @@ $config4 = [
                                         <a href="#"
                                             title="Detalles"
                                             class="btn btn-xl text-primary mx-1 shadow text-center"
-                                            onClick="theRoute2({{$row->SupplierId}})">
+                                            onClick="theRoute2({{$row->SupplierId}},{{$row->WalletId}},{{$row->TypeTransactionId}})">
                                             <i class="fa fa-lg fa-fw fa-eye"></i>
                                         </a>                                        
                                     </td>
+
                                     <td class="text-center">
                                         <a href="#"
                                             title="Detalles"
                                             class="btn btn-xl text-primary mx-1 shadow text-center"
-                                            onClick="theRoute2({{$row->SupplierId}})">
+                                            onClick="theRoute3({{$row->SupplierId}},{{$row->WalletId}},{{$row->TypeTransactionId}})">
                                             <i class="fa fa-lg fa-fw fa-eye"></i>
                                         </a>                                        
                                     </td>                                    
@@ -296,13 +297,18 @@ $config4 = [
 
     }
 
-    function theRoute3(proveedor = 0, fechaDesde = 0, fechaHasta = 0 ){
+    function theRoute3(proveedor = 0, wallet = 0, typeTransactions = 0, fechaDesde = 0, fechaHasta = 0 ){
 
-        if (proveedor   === "") proveedor = 0;
+        if (proveedor   === "")         proveedor           = 0;
+        if (wallet === "")              wallet              = 0;
+        if (typeTransactions === "")    typeTransactions    = 0;
 
         let myRoute = "";
-            myRoute = "{{ route('estadisticasDetalleProveedorCon', ['supplier' => 'proveedor2',  'fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2']) }}";
+            //                 Route::get('estadisticasDetalleProveedorTran/{supplier?}/{wallet?}/{typeTransactions?}/{fechaDesde?}/{fechaHasta?}',        
+            myRoute = "{{ route('estadisticasDetalleProveedorTran', ['supplier' => 'proveedor2',  'wallet' => 'wallet2', 'typeTransactions' => 'typeTransactions2', 'fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2']) }}";
             myRoute = myRoute.replace('proveedor2',proveedor);
+            myRoute = myRoute.replace('wallet2',wallet);
+            myRoute = myRoute.replace('typeTransactions2',typeTransactions);
             myRoute = myRoute.replace('fechaDesde2',fechaDesde);
             myRoute = myRoute.replace('fechaHasta2',fechaHasta);
         // console.log(myRoute);

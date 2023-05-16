@@ -127,15 +127,18 @@ Route::resource('cajas', WalletController::class)->middleware('auth')->except('s
 Route::resource('tipo_transaccion', Type_transactionController::class)->middleware('auth')->except('show')->middleware('can:type_transactions.index')->names('type_transactions');
 Route::resource('tipo_moneda', Type_coinController::class)->middleware('auth')->except('show')->middleware('can:type_coins.index')->names('type_coins');
 Route::resource('permisos', PermissionController::class)->middleware('auth')->except('show')->names('permissions');
-
-
 //
 //
 // Estadisticas Detalle
 //
 //
-Route::get('estadisticasDetalle',[App\Http\Controllers\statisticsController::class, 'index_all'])->middleware('can:estadisticasDetalle.index')->name('estadisticasDetalle');
-Route::get('estadisticasDetalle/{usuario}/{grupo?}/{wallet?}/{fechaDesde?}/{fechaHasta?}',[App\Http\Controllers\statisticsController::class, 'index_all'])->middleware('can:estadisticasDetalle.index')->name('estadisticasDetalle');
+Route::get('estadisticasDetalle',[App\Http\Controllers\statisticsController::class, 'index_all'])
+            ->middleware('can:estadisticasDetalle.index')
+            ->name('estadisticasDetalle');
+
+Route::get('estadisticasDetalle/{usuario}/{grupo?}/{wallet?}/{typeTransactions?}/{fechaDesde?}/{fechaHasta?}',[App\Http\Controllers\statisticsController::class, 'index_all'])
+            ->middleware('can:estadisticasDetalle.index')
+            ->name('estadisticasDetalle');
 //
 //
 // Estadisticas Master
@@ -177,6 +180,21 @@ Route::get('estadisticasDetalleProveedorCon/{supplier?}/{wallet?}/{typeTransacti
             [App\Http\Controllers\statisticsController::class, 'supplierDetailConciliation'])
     ->middleware('can:estadisticasDetalle.index')
     ->name('estadisticasDetalleProveedorCon');    
+//
+//
+//
+//
+// Estadisticas Proveedor conciliacion tran
+//
+//
+Route::get('estadisticasDetalleProveedorTran',[App\Http\Controllers\statisticsController::class, 'supplierDetailConciliationTran'])
+    ->middleware('can:estadisticasDetalle.index')
+    ->name('estadisticasDetalleProveedorTran');
+
+Route::get('estadisticasDetalleProveedorTran/{supplier?}/{wallet?}/{typeTransactions?}/{fechaDesde?}/{fechaHasta?}',
+            [App\Http\Controllers\statisticsController::class, 'supplierDetailConciliationTran'])
+    ->middleware('can:estadisticasDetalle.index')
+    ->name('estadisticasDetalleProveedorTran');    
 //
 //
 //
