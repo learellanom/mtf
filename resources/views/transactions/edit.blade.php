@@ -22,15 +22,15 @@
 
 
 
-            <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
-                <li class="nav-item" role="presentation">
-                  <button class="nav-link active" id="pills-home-tab" data-toggle="pill" data-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">Movimiento</button>
-                </li>
-                <li class="nav-item" role="presentation">
-                  <button class="nav-link" id="pills-profile-tab" data-toggle="pill" data-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">Referencias</button>
-                </li>
-                <span class="badge badge-secondary text-lg text-uppercase">Transacción numero # 000- {{ $transactions->id }}</span>
-              </ul>
+      <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+        <li class="nav-item" role="presentation">
+          <button class="nav-link active" id="pills-home-tab" data-toggle="pill" data-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">Movimiento</button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="pills-profile-tab" data-toggle="pill" data-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">Referencias</button>
+        </li>
+        <span class="badge badge-secondary text-lg text-uppercase">Transacción numero # 000- {{ $transactions->id }}</span>
+      </ul>
 
 
 
@@ -64,6 +64,7 @@
                             <div class="input-group-text">
                                 <i class="fa-fw fas fa-coins mr-2"></i>
                             {!! Form::number('amount_foreign_currency',null, ['class' => 'form-control', 'required' => true, 'id' => 'monto', 'min' => 0, 'readonly' => true]) !!}
+                            
                             </div>
                         </div>
 
@@ -71,10 +72,23 @@
                             {!! Form::Label('amount', "Monto en dolares:") !!}
                             <div class="input-group-text">
                                 <i class="fa-fw fas fas fa-funnel-dollar mr-2"></i>
-                            {!! Form::number('amount', null, ['class' => 'form-control', 'required' => true, 'id' => 'monto_dolares', 'min' => 0, 'readonly' => true]) !!}
+
+                            {!! Form::number('amount', null, ['class' => 'form-control number', 'required' => true, 'id' => 'monto_dolares', 'min' => 0, 'readonly' => true, 'step'=>'any'] ) !!}                                                   
+                            
+
                             </div>
                         </div>
+                        <div class="form-group col-md-4">
+                            {!! Form::Label('amount', "Monto en dolares:") !!}
+                            <div class="input-group-text">
+                                <i class="fa-fw fas fas fa-funnel-dollar mr-2"></i>
 
+                            
+                            {!! Form::number('amount',null,['class' => 'form-control number', 'readonly' => true, 'required' => true, 'min' => 0, 'readonly' => true, 'id' => 'monto_dolares' ]) !!}                            
+                            
+
+                            </div>
+                        </div>
 
                     </div>
 

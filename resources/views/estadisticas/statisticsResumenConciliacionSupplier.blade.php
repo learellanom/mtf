@@ -153,8 +153,8 @@ $config4 = [
                                     <th style="width:10%;">Cant Operaciones</th>
                                     <th style="width:10%;">Monto Operaciones</th>
                                     <th style="width:10%;">Saldo</th>
-                                    <th style="width:1%;" >Ver Supplier</th>                                    
-                                    <th style="width:1%;" >Ver Operaciones</th>                                         
+                                    <th style="width:1%;" >Proveedor sin Conciliar</th>                                    
+                                    <th style="width:1%;" >Operaciones sin conciliar</th>                                         
                                 </tr>
                             </thead>                            
                             @php

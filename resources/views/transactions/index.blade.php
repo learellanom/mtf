@@ -34,7 +34,7 @@
                         <table class="table table-bordered table-responsive-lg" id="table" style="width:100%;">
                             <thead>
                                 <tr>
-                                    <th style="width:1%;">Numero de transacción</th>
+                                    <th style="width:1%;">Nro transacción</th>
                                     <th style="width:1%;">Cliente</th>
                                     <th style="display:none;">Token</th>
                                     <th>Fecha</th>
