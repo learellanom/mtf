@@ -224,6 +224,9 @@ if (isset($balance->Total)){
                                     <th style="width:1%;">Ver <i class="fas fa-search"></i></th>
                                 </tr>
                             </thead>
+                            @php
+                                $myTotal = 0;
+                            @endphp
                             @foreach($config['data'] as $row)
                                 <tr>
                                     <td>{!! $row->FechaTransaccion !!}</td>
@@ -274,6 +277,7 @@ if (isset($balance->Total)){
                                     </td>
                                 </tr>
                             @endforeach
+
                         </table>
                     </div>
                 </div>
@@ -289,7 +293,26 @@ if (isset($balance->Total)){
 @section('js')
     @routes
     <script>
+    
+    const miGrupo               = {!! $myGroup !!};
+    const miUsuario             = {!! $myUser !!};
+    const miWallet              = {!! $myWallet !!};
+    const miTypeTransactions    = {!! $myTypeTransactions !!};
+    const miTotal               = {!! $myTotal !!};    
+    // alert ('myTotal ->' +);
+    // console.log(miCliente);
 
+    // alert('miCLiente -> ' + miCliente);
+    // alert('miUser    -> ' + miUsuario);
+    // alert('miWallet  -> ' + miWallet);
+
+    const miGrupoDes = BuscaGrupo(miGrupo);
+
+    // BuscaCliente(miCliente);
+    BuscaUsuario(miUsuario);
+    BuscaWallet(miWallet);
+    BuscaTypeTransactions(miTypeTransactions); 
+    
     $('#table').DataTable( {
 
         language: {
@@ -312,19 +335,40 @@ if (isset($balance->Total)){
                 "previous": "Anterior"
             }
         },
-        "order": [[ 2, 'desc' ]],
+        "order": [[ 0, 'asc' ]],
         'dom' : 'Bfrtilp',
         'buttons':[
             {
                 extend:  'excelHtml5',
-                exportOptions: { columns: [ 1, 2, 3,4,5,6,7,8,9,10,11,12,13 ] },
+                exportOptions: { columns: [ 0, 1, 2, 3,4,5,6,7,8,9,10,11] },
                 text:    '<i class="fas fa-file-excel"></i>',
+                title: `Detalle de Movimientos`,
                 titleAttr: 'Exportar Excel',
                 className: 'btn btn-success',
                 "excelStyles": [
                     {
                         "template": ["title_medium", "gold_medium"]
                     },
+
+                    {
+                        "cells": "1",
+                        "content": "prueba",
+                        "height": 40,
+                        "style": {
+                            "font": {
+                                "size": "40",
+                                "color": "FFFFFF"
+                            },
+                            "fill": {
+                                "pattern": {
+                                    "size": "25",
+                                    "type": "solid",
+                                    "color": "0B2447",
+                                }
+                            }
+                        }
+                    },
+
                     {
                         "cells": "2",
                         "style": {
@@ -341,55 +385,115 @@ if (isset($balance->Total)){
 
                         }
                     },
+
+                    // {
+                    //     "cells": "3",
+                    //     "style": {
+                    //         "font": {
+                    //             "size": "18",
+                    //             "color": "FFFFFF"
+                    //         },
+                    //         "fill": {
+                    //             "pattern": {
+                    //                 "size": "25",
+                    //                 "type": "solid",
+                    //                 "color": "0B2447",
+                    //             }
+                    //         }
+                    //     }
+                    // },                    
                     {
-                        "cells": "1",
+                        "cells": "sC",
+                        "width": 30
+                    },                    
+                    {
+                        "cells": "sE",
+                        "width": 25,                        
                         "style": {
-                            "font": {
-                                "size": "20",
-                                "color": "FFFFFF"
-                            },
-                            "fill": {
-                                "pattern": {
-                                    "size": "25",
-                                    "type": "solid",
-                                    "color": "0B2447",
-                                }
+                            "alignment":{
+                                "vertical": "right",
+                                "horizontal" : "right"
                             }
                         }
                     },
                     {
                         "cells": "sF",
-                        "condition": {
-                            "type": "dataBar",
-                            "dataBar": {
-                                "color": [
-                                    "0081B4"
-                                ]
+                        "width": 10,
+                        "style": {
+                            "numFmt": "#,##0;(#,##0)",
+                            "alignment":{
+                                "vertical": "right",
+                                "horizontal" : "right"
                             }
                         }
                     },
                     {
-                        "cells": "sE",
-                        "condition": {
-                            "type": "dataBar",
-                            "dataBar": {
-                                "color": [
-                                    "0081B4"
-                                ]
+                        "cells": "sG",
+                        "width": 20,
+                        "style": {
+                            "numFmt": "#,##0;(#,##0)",
+                            "alignment":{
+                                "vertical": "right",
+                                "horizontal" : "right"
+                            }
+                        }
+                    }, 
+                    {
+                        "cells": "I",
+                        "width": 20,
+                        "style": {
+                            "numFmt": "#,##0;(#,##0)",
+                            "alignment":{
+                                "vertical": "right",
+                                "horizontal" : "right"
                             }
                         }
                     },
-                        {
-                            'cells': "sB",
-                            'template': "date_long",
-                        },
-                        {
-                            "cells": "F",
-                            "style": {
-                                "numFmt": "#,##0;(#,##0)"
+                    {
+                        "cells": "sJ",
+                        "width": 20,
+                        "style": {
+                            "numFmt": "#,##0;(#,##0)",
+                            "alignment":{
+                                "horizontal" : "right"
                             }
                         }
-                ]
+                    },
+                    {
+                        "cells": "K",
+                        "width": 20,
+                        "style": {
+                            "numFmt": "#,##0;(#,##0)",
+                            "alignment":{
+                                "horizontal" : "right"
+                            }
+                        }
+                    } ,
+                    {
+                        "cells": "l",
+                        "width": 20,
+                        "style": {
+                            "alignment":{
+                                "vertical": "left",                                
+                                "horizontal" : "left"
+                            }
+                        }
+                    }           
+                ],
+                // "insertCells": [
+                //     {
+                //         "cells": "A2:B2",
+                //         "content": ["Cliente", `${miGrupoDes}`]
+                //         ,
+                //         "pushRow": true
+                //     },
+                //     {
+                //         "cells": "A3:B3",
+                //         "content": ["Saldo", `${miTotal}`]
+                //         ,
+                //         "pushRow": true
+                //     }                    
+                // ]                                                                                                                   
             },
             {
                 extend:  'pdfHtml5',
@@ -409,21 +513,7 @@ if (isset($balance->Total)){
         ]
     });
 
-    const miGrupo               = {!! $myGroup !!};
-    const miUsuario             = {!! $myUser !!};
-    const miWallet              = {!! $myWallet !!};
-    const miTypeTransactions    = {!! $myTypeTransactions !!};
-    // console.log(miCliente);
 
-    // alert('miCLiente -> ' + miCliente);
-    // alert('miUser    -> ' + miUsuario);
-    // alert('miWallet  -> ' + miWallet);
-
-    BuscaGrupo(miGrupo);
-    // BuscaCliente(miCliente);
-    BuscaUsuario(miUsuario);
-    BuscaWallet(miWallet);
-    BuscaTypeTransactions(miTypeTransactions); 
 
         $(() => {
 
@@ -552,10 +642,12 @@ if (isset($balance->Total)){
                     if ($(this).val() === miGrupo.toString()){
                         //alert('Busca Grupo - encontro');
                         $("#group option[value="+ miGrupo +"]").attr("selected",true);
+                        
                     }
 
                 });
             });
+            return  $("#group option:selected").text().trim();
             //
         }
 
