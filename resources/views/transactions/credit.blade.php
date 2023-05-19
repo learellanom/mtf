@@ -91,18 +91,7 @@
                     </div>
                 </div>
 
-
-
-
                         {!! Form::hidden('amount_total',null, ['class' => 'form-control montototal', 'required' => true, 'min' => 0, 'id' => 'montototal', 'readonly' => true]) !!}
-
-
-
-
-
-
-
-
 
                         {!! Form::hidden('status', 'Activo', null, ['class' => 'form-control']) !!}
                     {{-- {{ dd($type_transaction) }} --}}

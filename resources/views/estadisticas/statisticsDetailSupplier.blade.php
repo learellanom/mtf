@@ -241,6 +241,7 @@ if (isset($balance->Total)){
                                             case 5:
                                             case 7:
                                             case 9:
+                                            case 11:
                                                 $myTotal = $myTotal + ($row->MontoTotal * -1);
                                                 break;
                                             case 4:

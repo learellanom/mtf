@@ -27,6 +27,9 @@ use Illuminate\Support\Facades\DB;
 
 class statisticsController extends Controller
 {
+
+    private $myCredits   = "1,3,5,7,9,11";
+    private $myDebits    = "2,4,6,8,10";
     /*
     *
     *
@@ -117,7 +120,7 @@ class statisticsController extends Controller
                 'Transactions.id                        as Id',
                 'Transactions.amount_foreign_currency   as MontoMoneda',
                 'Transactions.exchange_rate             as TasaCambio',
-             // 'Transactions.type_coin_id              as TipoMonedaId',
+                'Transactions.type_coin_id              as TipoMonedaId',
                 'type_coins.name                        as TipoMoneda',
                 'users.name                             as AgenteName',
                 'Transactions.amount                    as Monto',
@@ -126,12 +129,13 @@ class statisticsController extends Controller
                 'Transactions.amount_commission         as MontoComision',
                 'Transactions.type_transaction_id       as TransactionId',
                 'type_transactions.name                 as TipoTransaccion',
-            //  'Transactions.client_id                 as ClienteId',
-            //  'transactions.wallet_id                 As WalletId',
+                'Transactions.client_id                 as ClienteId',
+                'transactions.wallet_id                 As WalletId',
                 'wallets.name                           As WalletName',
                 'transactions.description               as Descripcion',
                 'transactions.transaction_date          as FechaTransaccion',
                 'groups.name                            as ClientName',
+                'transactions.token                     as token'
             )->leftJoin(
                 'users','users.id', '=', 'transactions.user_id'
             )->leftJoin(
@@ -152,42 +156,43 @@ class statisticsController extends Controller
 
         }else{
             
-        $Transacciones = Transaction::select(
-            'Transactions.id                        as Id',
-            'Transactions.amount_foreign_currency   as MontoMoneda',
-            'Transactions.exchange_rate             as TasaCambio',
-        //  'Transactions.type_coin_id              as TipoMonedaId',
-            'type_coins.name                        as TipoMoneda',
-            'users.name                             as AgenteName',
-            'Transactions.amount                    as Monto',            
-            'Transactions.amount_total              as MontoTotal',
-            'Transactions.percentage                as PorcentajeComision',
-            'Transactions.amount_commission         as MontoComision',
-            'Transactions.type_transaction_id       as TransactionId',
-            'type_transactions.name                 as TipoTransaccion',
-        //  'Transactions.client_id                 as ClienteId',
-        //  'transactions.wallet_id                 As WalletId',
-            'wallets.name                           As WalletName',
-            'transactions.description               as Descripcion',
-            'transactions.transaction_date          as FechaTransaccion',
-            'groups.name                            as ClientName',
-        )->leftJoin(
-            'users','users.id', '=', 'transactions.user_id'
-        )->leftJoin(
-            'type_transactions', 'type_transactions.id', '=', 'transactions.type_transaction_id'
-        )->leftJoin(
-            'wallets', 'wallets.id', '=', 'transactions.wallet_id'
-        )->leftJoin(
-            'groups', 'groups.id', '=', 'transactions.group_id'
-        )->leftJoin(
-                'type_coins', 'type_coins.id', '=', 'transactions.type_coin_id'            
-        )->whereBetween('Transactions.user_id',                 [$myUserDesde, $myUserHasta]
-        )->whereBetween('Transactions.wallet_id',               [$myWalletDesde, $myWalletHasta]
-        )->whereBetween('Transactions.transaction_date',        [$myFechaDesde, $myFechaHasta]
-        )->whereBetween('Transactions.type_transaction_id',     [$myTypeTransactionsDesde, $myTypeTransactionsHasta]            
-        )->where('Transactions.status', '=', 'Activo'
-        )->orderBy('Transactions.transaction_date','ASC'
-        )->get();
+            $Transacciones = Transaction::select(
+                'Transactions.id                        as Id',
+                'Transactions.amount_foreign_currency   as MontoMoneda',
+                'Transactions.exchange_rate             as TasaCambio',
+                'Transactions.type_coin_id              as TipoMonedaId',
+                'type_coins.name                        as TipoMoneda',
+                'users.name                             as AgenteName',
+                'Transactions.amount                    as Monto',            
+                'Transactions.amount_total              as MontoTotal',
+                'Transactions.percentage                as PorcentajeComision',
+                'Transactions.amount_commission         as MontoComision',
+                'Transactions.type_transaction_id       as TransactionId',
+                'type_transactions.name                 as TipoTransaccion',
+                'Transactions.client_id                 as ClienteId',
+                'transactions.wallet_id                 As WalletId',
+                'wallets.name                           As WalletName',
+                'transactions.description               as Descripcion',
+                'transactions.transaction_date          as FechaTransaccion',
+                'groups.name                            as ClientName',
+                'transactions.token                     as token'
+            )->leftJoin(
+                'users','users.id', '=', 'transactions.user_id'
+            )->leftJoin(
+                'type_transactions', 'type_transactions.id', '=', 'transactions.type_transaction_id'
+            )->leftJoin(
+                'wallets', 'wallets.id', '=', 'transactions.wallet_id'
+            )->leftJoin(
+                'groups', 'groups.id', '=', 'transactions.group_id'
+            )->leftJoin(
+                    'type_coins', 'type_coins.id', '=', 'transactions.type_coin_id'            
+            )->whereBetween('Transactions.user_id',                 [$myUserDesde, $myUserHasta]
+            )->whereBetween('Transactions.wallet_id',               [$myWalletDesde, $myWalletHasta]
+            )->whereBetween('Transactions.transaction_date',        [$myFechaDesde, $myFechaHasta]
+            )->whereBetween('Transactions.type_transaction_id',     [$myTypeTransactionsDesde, $myTypeTransactionsHasta]            
+            )->where('Transactions.status', '=', 'Activo'
+            )->orderBy('Transactions.transaction_date','ASC'
+            )->get();  
                 
                 // dd($Transacciones);
         }
@@ -215,9 +220,13 @@ class statisticsController extends Controller
         return view('estadisticas.index', compact('myUser','userole','Transacciones','group','wallet','myGroup','myUser','myWallet','balance','typeTransactions','myTypeTransactions'));
 
     }
-    //
-    // transacciones master
-    //
+    /*
+    *
+    *
+    *       masterDetail
+    *
+    *
+    */
     public function masterDetail(Request $request)
     {
         
@@ -775,6 +784,7 @@ class statisticsController extends Controller
                 mtf.transactions.amount_total				as MontoTotal,
                 mtf.transactions.amount_commission			as MontoComision, 
                 mtf.groups.name                             as ClientName,
+                mtf.transactions.token                                   as token,
                 (	select count(*) 			
                     from mtf.transaction_suppliers
                     where 	mtf.transaction_suppliers.wallet_id 			= WalletId  
@@ -1340,7 +1350,7 @@ class statisticsController extends Controller
         return view('estadisticas.statisticsResumenGrupo', compact('myGroup','groups','Type_transactions','Transacciones'));            
         
     }
-        /*
+    /*
     *
     *
     *       supplierSummary
@@ -1369,7 +1379,13 @@ class statisticsController extends Controller
         return view('estadisticas.statisticsResumenSupplier', compact('mySupplier','suppliers','Type_transactions','Transacciones'));            
         
     }
-   
+    /*
+    *
+    *
+    *       conciliationSummaryDateGroup
+    *
+    *
+    */
 
     public function conciliationSummaryDateGroup(Request $request)
     {
@@ -1400,22 +1416,7 @@ class statisticsController extends Controller
             $myFechaHasta = $request->fechaHasta;
         }     
 
-
-        // $Transacciones = DB::table('transactions')
-        //     ->select(DB::raw('
-        //         groups.name as GroupName,
-        //         type_transactions.name as TipoTransaccion,
-        //         count(*)    as cant_transactions,
-        //         sum(amount) as total_amount,
-        //         sum(amount_commission) as total_commission,
-        //         sum(amount_total) as total'))
-        //     ->leftJoin('groups','groups.id', '=', 'transactions.group_id')
-        //     ->leftJoin('type_transactions', 'type_transactions.id', '=', 'transactions.type_transaction_id')             
-        //     ->whereBetween('Transactions.type_transaction_id', [$myTypeTransactionDesde, $myTypeTransactionHasta])            
-        //     ->whereBetween('Transactions.group_id', [$myGroupDesde, $myGroupHasta])
-        //     ->whereBetween('Transactions.transaction_date', [$myFechaDesde, $myFechaHasta])   
-        //     ->groupBy('GroupName', 'TipoTransaccion')
-        //     ->get();        
+   
 
 
         $Transacciones = DB::select("
@@ -1484,6 +1485,7 @@ class statisticsController extends Controller
     */
     public function conciliationSummarySupplier(Request $request)
     {
+        
         $mySupplier = ($request->proveedor) ? $request->proveedor : 0;
 
         $mySupplierDesde = 0;
@@ -1515,9 +1517,9 @@ class statisticsController extends Controller
             type_transaction_id 		as TypeTransactionId,
             mtf.type_transactions.name 	as TypeTransactionsName,
             count(supplier_id)			as CantSupplier,
-            sum(amount_total) 			as TotalSupplier,
+            sum(amount) 			as TotalSupplier,
             (select COUNT(*) 			from mtf.transactions where mtf.transactions.wallet_id = WalletId and type_transaction_id = TypeTransactionId and status <> 'Anulado') as CantWallet,
-            (select sum(amount_total)   from mtf.transactions where mtf.transactions.wallet_id = WalletId and type_transaction_id = TypeTransactionId and status <> 'Anulado') as MontoWallet
+            (select sum(amount)   from mtf.transactions where mtf.transactions.wallet_id = WalletId and type_transaction_id = TypeTransactionId and status <> 'Anulado') as MontoWallet
         from
             mtf.transaction_suppliers
         left join mtf.suppliers         on mtf.transaction_suppliers.supplier_id         = mtf.suppliers.id 
@@ -1525,7 +1527,7 @@ class statisticsController extends Controller
         left join mtf.wallets           on mtf.transaction_suppliers.wallet_id           = mtf.wallets.id
         where
                 status <> 'Anulado'
-            and type_transaction_id in (1,3,5,7,9)
+            and type_transaction_id in ($this->myCredits)
             and Supplier_id between $mySupplierDesde and $mySupplierHasta
         group by
                 supplier_id,
@@ -1549,7 +1551,13 @@ class statisticsController extends Controller
         return view('estadisticas.statisticsResumenConciliacionSupplier', compact('mySupplier','suppliers', 'Transacciones'));            
 
     }
-
+    /*
+    *
+    *
+    *       conciliationSummaryDate
+    *
+    *
+    */
     public function conciliationSummaryDate(Request $request)
     {
 
@@ -1567,36 +1575,36 @@ class statisticsController extends Controller
 
         $Transacciones = DB::select("
         select 
-        fecha						as Fecha, 
-        sum(cant) 					as CantTrans, 
-        sum(monto) 					as MontoTrans, 
-        sum(cant2) 					as CantMaster, 
-        sum(monto2) 				as MontoMaster,
-        (sum(cant) - sum(cant2)) 	as Cant,
-        (sum(monto) - sum(monto2)) 	as Monto
-    from(
-    select 
-        myTransactions.transaction_date 		as fecha,  
-        count(myTransactions.transaction_date) 	as cant,
-        sum(myTransactions.amount_total) 		as monto,
-        0 										as cant2,
-        0										as monto2	
-    from mtf.transactions as myTransactions 
-    group by 
-        myTransactions.transaction_date
-    union
-    select
-        myTransactions.transaction_date 		as fecha,  
-        0 										as cant,
-        0										as monto,
-        count(myTransactions.transaction_date) 	as cant2,
-        sum(myTransactions.amount_total) 		as monto2
-    from mtf.transaction_masters as myTransactions 
-    group by 
-        myTransactions.transaction_date
-    ) as t
-    group by
-        fecha
+            fecha						as Fecha, 
+            sum(cant) 					as CantTrans, 
+            sum(monto) 					as MontoTrans, 
+            sum(cant2) 					as CantMaster, 
+            sum(monto2) 				as MontoMaster,
+            (sum(cant) - sum(cant2)) 	as Cant,
+            (sum(monto) - sum(monto2)) 	as Monto
+        from(
+            select 
+                myTransactions.transaction_date 		as fecha,  
+                count(myTransactions.transaction_date) 	as cant,
+                sum(myTransactions.amount_total) 		as monto,
+                0 										as cant2,
+                0										as monto2	
+            from mtf.transactions as myTransactions 
+            group by 
+                myTransactions.transaction_date
+            union
+            select
+                myTransactions.transaction_date 		as fecha,  
+                0 										as cant,
+                0										as monto,
+                count(myTransactions.transaction_date) 	as cant2,
+                sum(myTransactions.amount_total) 		as monto2
+            from mtf.transaction_masters as myTransactions 
+            group by 
+                myTransactions.transaction_date
+        ) as t
+        group by
+            fecha
         ");
 
         // dd($Transacciones);
@@ -1635,9 +1643,11 @@ class statisticsController extends Controller
         return $supplier2; 
     }
     /*
-
-        Carga los tipos de transacciones
-
+    *
+    *
+    *    Carga los tipos de transacciones
+    *
+    *
     */
     function getTypeTransactions(){
         $Type_transactions = Type_transaction::select('type_transactions.id', 'type_transactions.name')
@@ -1648,7 +1658,13 @@ class statisticsController extends Controller
         }
         return $Type_transactions2;
     }
-
+    /*
+    *
+    *
+    *   getWallet
+    *
+    *
+    */
     function getWallet(){
         $wallet = Wallet::select('wallets.id', 'wallets.name')
         ->get();
@@ -1660,10 +1676,11 @@ class statisticsController extends Controller
 
     }
     /*
-
-        getClient
-
-
+    *
+    *
+    *    getClient
+    *
+    *
     */
     function getClient(){
         $cliente2 = array();
@@ -1672,7 +1689,13 @@ class statisticsController extends Controller
         }
         return $cliente2;       
     }
-
+    /*
+    *
+    *
+    *   getUser
+    *
+    *
+    */
     function getUser(){
         $userole2 = User::select('users.id', 'users.name', 'model_has_roles.role_id')
         ->join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
@@ -1685,7 +1708,13 @@ class statisticsController extends Controller
         }
         return $userole;
     }
-
+    /*
+    *
+    *
+    *       getBalance
+    *
+    *
+    */
     function getBalance($grupo = 0){
         
         if ($grupo === 0){
@@ -1717,7 +1746,7 @@ class statisticsController extends Controller
         //  5 mercancia
         //  7 notas de credito
         //  9 switft
-        //
+        //  11 pago usdt
         //
         $myQuery =
         "
@@ -1736,7 +1765,7 @@ class statisticsController extends Controller
         FROM mtf.transactions
         left join  mtf.groups on mtf.transactions.group_id  = mtf.groups.id
         where
-            type_transaction_id in (4,8,2,6,10)
+            type_transaction_id in ($this->myDebits)
             and
             transaction_date between '0000-00-00' and '9999-12-31' 
             and
@@ -1754,7 +1783,7 @@ class statisticsController extends Controller
         FROM mtf.transactions
         left join  mtf.groups on mtf.transactions.group_id  = mtf.groups.id
         where
-            type_transaction_id in(1,3,5,7,9)
+            type_transaction_id in($this->myCredits)
             and
             transaction_date between '0000-00-00' and '9999-12-31'   
             and
@@ -1788,7 +1817,13 @@ class statisticsController extends Controller
             return $Transacciones;
         }
     }
-
+    /*
+    *
+    *
+    *       getBalanceWallet
+    *
+    *
+    */
     
     function getBalanceWallet($wallet = 0, $master = false){
 
@@ -1826,7 +1861,7 @@ class statisticsController extends Controller
         //  5 mercancia
         //  7 notas de credito
         //  9 switft
-        //
+        //  11 pago usdt
         //
         $myQuery =
         "
@@ -1845,7 +1880,7 @@ class statisticsController extends Controller
         FROM $myTable 
         left join  mtf.wallets on mtf.transactions.wallet_id  = mtf.wallets.id
         where
-            type_transaction_id in (4,8,2,6,10)
+            type_transaction_id in ($this->myDebits)
             and
             transaction_date    between '0000-00-00' and '9999-12-31' 
             and
@@ -1863,7 +1898,7 @@ class statisticsController extends Controller
         FROM $myTable 
         left join  mtf.wallets on mtf.transactions.wallet_id  = mtf.wallets.id
         where
-            type_transaction_id in(1,3,5,7,9)
+            type_transaction_id in ($this->myCredits)
             and
             transaction_date between '0000-00-00' and '9999-12-31'   
             and
@@ -1897,9 +1932,13 @@ class statisticsController extends Controller
             return $Transacciones;
         }
     }
-
-
-
+    /*
+    *
+    *
+    *       getBalanceSupplier
+    *
+    *
+    */
     function getBalanceSupplier($proveedor = 0){
         
         if ($proveedor === 0){
@@ -1952,7 +1991,7 @@ class statisticsController extends Controller
         FROM $tabla 
         left join  mtf.suppliers on $tabla.supplier_id  = mtf.suppliers.id
         where
-            type_transaction_id in (4,8,2,6,10)
+            type_transaction_id in ($this->myDebits)
             and
             transaction_date between '0000-00-00' and '9999-12-31' 
             and
@@ -1970,7 +2009,7 @@ class statisticsController extends Controller
         FROM $tabla
         left join  mtf.suppliers on $tabla.supplier_id  = mtf.suppliers.id
         where
-            type_transaction_id in(1,3,5,7,9)
+            type_transaction_id in($this->myCredits)
             and
             transaction_date between '0000-00-00' and '9999-12-31'   
             and

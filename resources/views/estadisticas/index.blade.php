@@ -207,9 +207,10 @@ if (isset($balance->Total)){
                             style="width:100%;">
                             <thead>
                                 <tr>
-                                    <th style="width:7%;">Fecha</th>
+                                    <th style="width:10%;">Fecha</th>
                                     <th style="width:1%;">Transacción</th>
                                     <th style="width:10%;">Descripción</th>
+                                    <th style="width:7%;">Token</th>
                                     <th style="width:1%;"><p style="display:none;">P - %</p>Moneda</th>
                                     <th style="width:6%;">Monto Moneda </th>
                                     <th style="width:1%;">Tasa</th>
@@ -232,6 +233,7 @@ if (isset($balance->Total)){
                                     <td>{!! $row->FechaTransaccion !!}</td>
                                     <td>{!! $row->TipoTransaccion !!}</td>
                                     <td>{!! $row->Descripcion !!}</td>
+                                    <td>{!! $row->token !!}</td>
                                     <td>{!! $row->TipoMoneda !!}</td>
                                     <td class="text-right">{!! number_format($row->MontoMoneda,2,",",".") !!}</td>
                                     <td class="text-left">{!! $row->TasaCambio !!}</td>
@@ -337,6 +339,7 @@ if (isset($balance->Total)){
         },
         "order": [[ 0, 'asc' ]],
         'dom' : 'Bfrtilp',
+        'pageLength' : 7, 
         'buttons':[
             {
                 extend:  'excelHtml5',

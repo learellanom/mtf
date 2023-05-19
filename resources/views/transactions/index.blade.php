@@ -60,22 +60,22 @@
                             @foreach($transferencia as $transferencias)
 
                                 <tr>
-                                    <td class="font-weight-bold"><i class="fas fa-asterisk"></i>{{ $transferencias->id }}</td>
+                                    <td class="font-weight-bold">{{ $transferencias->id }}</td>
                                     <td class="font-weight-bold">
-                                            {{ $transferencias->group->name ?? 'SIN CLIENTE'}}
+                                            {{ $transferencias->group->name ?? ''}}
                                     </td>
 
                                     <td class="font-weight-bold" style="display:none;">{!! $transferencias->token !!}</td>
 
-                                    <td class="font-weight-bold">{!! $transferencias->transaction_date !!}</td>
+                                    <td class="font-weight-bold" style="min-width: 80px;">{!! $transferencias->transaction_date !!}</td>
 
                                     <td class="font-weight-bold"><div style='width:60px; height:60px; overflow:hidden;'>{!!  $transferencias->description !!}</div></td>
 
-                                    <td class="font-weight-bold">{!! $transferencias->percentage ?? 'TRANSACCIÓN SIN PORCENTAJE'!!} </td>
+                                    <td class="font-weight-bold">{!! $transferencias->percentage ?? ''!!} </td>
 
-                                    <td>{!! number_format($transferencias->amount_foreign_currency) ?? 'TRANSACCIÓN NO TIENE MONEDA EXTRANJERA' !!}</td>
+                                    <td>{!! number_format($transferencias->amount_foreign_currency) ?? '' !!}</td>
 
-                                    <td>{!! $transferencias->amount_commission ?? 'TRANSACCIÓN SIN COMISIÓN' !!} </td>
+                                    <td>{!! $transferencias->amount_commission ?? '' !!} </td>
 
                                     <td class="font-weight-bold">{!! number_format($transferencias->amount) !!} <i class="fas fa-dollar-sign"></i></td>
                                     <td class="font-weight-bold">{!! number_format($transferencias->amount_total) !!} <i class="fas fa-dollar-sign"></i></td>
@@ -85,29 +85,29 @@
                                     <td>{!! $transferencias->type_transaction->name !!}</td>
                                     <td style="display: none;">{!! $transferencias->wallet->name !!}</td>
                                     @can('transactions.update_status')
-                                    <td class="text-center">
-                                        {!! Form::model($transferencias->id, ['route' => ['transactions.update_status', $transferencias->id],'method' => 'put']) !!}
+                                        <td class="text-center">
+                                            {!! Form::model($transferencias->id, ['route' => ['transactions.update_status', $transferencias->id],'method' => 'put']) !!}
 
-                                            @if($transferencias->status == 'Activo')
-                                            <button class="btn btn-xl text-success mx-1 shadow text-center" title="Activo">
-                                                <i class="fa fa-lg fa-fw fas fa-check"></i><p style="display: none;">Activo</p>
-                                            </button>
+                                                @if($transferencias->status == 'Activo')
+                                                <button class="btn btn-xl text-success mx-1 shadow text-center" title="Activo">
+                                                    <i class="fa fa-lg fa-fw fas fa-check"></i><p style="display: none;">Activo</p>
+                                                </button>
 
-                                            @elseif($transferencias->status == 'Anulado')
-                                            <button class="btn btn-xl text-danger mx-1 shadow text-center" title="Anulado">
-                                                <i class="fa fa-lg fa-fw fas fa-times"></i><p style="display: none;">Anulado</p>
-                                            </button>
-                                            @endif
-                                        {!! Form::close() !!}
-                                    </td>
+                                                @elseif($transferencias->status == 'Anulado')
+                                                <button class="btn btn-xl text-danger mx-1 shadow text-center" title="Anulado">
+                                                    <i class="fa fa-lg fa-fw fas fa-times"></i><p style="display: none;">Anulado</p>
+                                                </button>
+                                                @endif
+                                            {!! Form::close() !!}
+                                        </td>
                                     @endcan
                                     @can('transactions.edit')
-                                    <td class="text-center">
-                                        <a href="{{route('transactions.edit', $transferencias->id)}}" class="btn btn-xl text-dark mx-1 shadow text-center"><i class="fas fa-lg fa-fw fa-coins"></i></a>
-                                    </td>
+                                        <td class="text-center">
+                                            <a href="{{route('transactions.edit', $transferencias->id)}}" class="btn btn-xl text-dark mx-1 shadow text-center"><i class="fas fa-lg fa-fw fa-coins"></i></a>
+                                        </td>
                                     @endcan
                                     <td>
-                                    <a href="{{ route('transactions.show', $transferencias->id) }}" class="btn btn-xl text-dark mx-1 shadow text-center"><i class="fa fa-lg fa-fw fas fa-search"></i></a>
+                                        <a href="{{ route('transactions.show', $transferencias->id) }}" class="btn btn-xl text-dark mx-1 shadow text-center"><i class="fa fa-lg fa-fw fas fa-search"></i></a>
                                     </td>
 
                                 </tr>
