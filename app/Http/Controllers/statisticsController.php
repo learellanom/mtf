@@ -28,7 +28,7 @@ use Illuminate\Support\Facades\DB;
 class statisticsController extends Controller
 {
 
-    private $myCredits   = "1,3,5,7,9,11";
+    private $myCredits   = "1,3,5,7,9,11,12";
     private $myDebits    = "2,4,6,8,10";
     /*
     *
@@ -1225,29 +1225,41 @@ class statisticsController extends Controller
             $myFechaHasta = $request->fechaHasta;
         }
        //
-
-
-
-       $Type_transactions = Type_transaction::select('type_transactions.id', 'type_transactions.name')
-       ->get();
-       $Type_transactions2 = array();
-       foreach($Type_transactions as $Type_transactions){
-           $Type_transactions2 [$Type_transactions->id] =  $Type_transactions->name;
+       $myWalletDesde   = 0;
+       $myWalletHasta   = 9999;
+       $myWallet        = 0;
+       if ($request->wallet){
+           $myWalletDesde   = $request->wallet;
+           $myWalletHasta   = $request->wallet;
+           $myWallet        = $request->wallet;
        }
-       $Type_transactions = $Type_transactions2;
+
+        $Type_transactions = Type_transaction::select('type_transactions.id', 'type_transactions.name')
+        ->get();
+        $Type_transactions2 = array();
+        foreach($Type_transactions as $Type_transactions){
+            $Type_transactions2 [$Type_transactions->id] =  $Type_transactions->name;
+        }
+        $Type_transactions = $Type_transactions2;
 
 
         $Transacciones = DB::table('transactions')
             ->select(DB::raw(' 
-                type_transactions.name      as TipoTransaccion,                
-                count(*)                    as cant_transactions, 
-                sum(amount)                 as total_amount, 
+                id                          as id,
+                wallet_id                   as WalletId,
+                wallets.name                as WalletName,
+                type_transaction_id         as TypeTransactionId,
+                type_transactions.name      as TipoTransaccion,
+                count(*)                    as cant_transactions,
+                sum(amount)                 as total_amount,
                 sum(amount_commission)      as total_commission,
                 sum(amount_total)           as total'))
             ->leftJoin('type_transactions', 'type_transactions.id', '=', 'transactions.type_transaction_id')             
+            ->leftJoin('wallets', 'wallets.id', '=', 'transactions.wallet_id')                         
+            ->whereBetween('Transactions.wallet_id',            [$myWalletDesde, $myWalletHasta])            
             ->whereBetween('Transactions.type_transaction_id',  [$myTypeTransactionDesde, $myTypeTransactionHasta])
             ->whereBetween('Transactions.transaction_date',     [$myFechaDesde, $myFechaHasta])
-            ->groupBy('TipoTransaccion')
+            ->groupBy('id', 'WalletId', 'WalletName', 'TypeTransactionId', 'TipoTransaccion')
             ->get();
   
   

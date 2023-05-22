@@ -100,7 +100,7 @@
                         {!! Form::Label('type_transaction_id', "Tipo de transacción:") !!}
                         <div class="input-group-text">
                             <i class="fa-fw fas fas fa-trademark mr-2"></i>
-                        {!! Form::select('type_transaction_id', $type_transaction, null, ['class' => 'form-control transaccion', 'readonly' => true]) !!}
+                        {!! Form::select('type_transaction_id', $type_transaction, null, ['class' => 'form-control transaccion']) !!}
                     </div>
                 </div>
 

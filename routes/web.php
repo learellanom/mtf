@@ -62,7 +62,7 @@ require __DIR__.'/auth.php';
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->middleware('can:home')->name('home');
+Route::get('/home', [App\Http\Controllers\HomeController::class, ''])->middleware('can:home')->name('home');
 
 /* TRANSACCIONES A CLIENTES */
 Route::group(['middleware' => 'auth'], function () {
