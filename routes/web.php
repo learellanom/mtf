@@ -14,6 +14,7 @@ use App\Http\Controllers\WalletController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\Type_transactionController;
 use App\Http\Controllers\Type_coinController;
+
 use JeroenNoten\LaravelAdminLte\Http\Controllers\DarkModeController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -62,8 +63,8 @@ require __DIR__.'/auth.php';
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, ''])->middleware('can:home')->name('home');
-
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->middleware('can:home')->name('home');
+                     
 /* TRANSACCIONES A CLIENTES */
 Route::group(['middleware' => 'auth'], function () {
     Route::get('movimientos/efectivo', [TransactionController::class, 'create_efectivo'])->middleware('can:transactions.create_efectivo')->name('transactions.create_efectivo');
