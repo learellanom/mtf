@@ -5,7 +5,7 @@
 @section('title', 'Transacciones de credito')
 @section('content_header')
 
-    <h1 class="text-center text-dark font-weight-bold">{{ __('NOTA DE CREDITO A CAJAS') }}<i class="fas fa-donate"></i> </h1></a>
+    <h1 class="text-center text-dark font-weight-bold">{{ __('NOTA DE CREDITO / DEBITO A CAJAS') }}<i class="fas fa-donate"></i> </h1></a>
 
 
 @stop
@@ -14,13 +14,13 @@
 @section('content')
 
 <div class="d-flex justify-content-center">
- <div class="card col-md-6" style="min-height: 500px !important; max-height:100%; height:100%; widht:100%"">
-  <div class="card-body">
+  <div class="card col-md-6" style="min-height: 500px !important; max-height:100%; height:100%; widht:100%"">
+    <div class="card-body">
 
-    {!! Form::open(['route' => 'transactions.store', 'autocomplete' => 'off', 'files' => true, 'enctype' =>'multipart/form-data']) !!}
+      {!! Form::open(['route' => 'transactions.store', 'autocomplete' => 'off', 'files' => true, 'enctype' =>'multipart/form-data']) !!}
 
 
-            <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+          <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
                 <li class="nav-item" role="presentation">
                   <button class="nav-link active" id="pills-home-tab" data-toggle="pill" data-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">{{ __('Movimiento') }}</button>
                 </li>
@@ -75,20 +75,20 @@
 
 
                 <div class="form-row">
-                <div class="form-group col-md-6">
-                    {!! Form::Label('amount', "Monto en dolares:") !!}
-                    <div class="input-group-text">
-                        <i class="fa-fw fas fas fa-funnel-dollar mr-2"></i>
-                    {!! Form::text('amount', null, ['class' => 'form-control', 'required' => true, 'id' => 'monto_dolares', 'readonly' => true]) !!}
-                    </div>
-                </div>
-                    <div class="form-group col-md-6">
-                        {!! Form::Label('transaction_date', "Fecha:") !!}
-                        <div class="input-group-text">
-                            <i class="fa-fw fas fas fa-calendar-week mr-2"></i>
-                        {!! Form::date('transaction_date', null, ['class' => 'form-control', 'required' => true, 'id' => 'fecha']) !!}
-                        </div>
-                    </div>
+                  <div class="form-group col-md-6">
+                      {!! Form::Label('amount', "Monto en dolares:") !!}
+                      <div class="input-group-text">
+                          <i class="fa-fw fas fas fa-funnel-dollar mr-2"></i>
+                      {!! Form::text('amount', null, ['class' => 'form-control', 'required' => true, 'id' => 'monto_dolares', 'readonly' => true]) !!}
+                      </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                      {!! Form::Label('transaction_date', "Fecha:") !!}
+                      <div class="input-group-text">
+                          <i class="fa-fw fas fas fa-calendar-week mr-2"></i>
+                      {!! Form::date('transaction_date', null, ['class' => 'form-control', 'required' => true, 'id' => 'fecha']) !!}
+                      </div>
+                  </div>
                 </div>
 
                         {!! Form::hidden('amount_total',null, ['class' => 'form-control montototal', 'required' => true, 'min' => 0, 'id' => 'montototal', 'readonly' => true]) !!}
@@ -141,21 +141,13 @@
 
 
 
-                    {!! Form::Submit('GUARDAR', ['class' => 'btn btn-primary btn-block font-weight-bold', 'style' => "max-height: 400px;" , 'id' => 'publish']) !!}
-                </div>
-
-              </div>
-
-
-
-
-
-
-
-                {!! Form::close() !!}
+            {!! Form::Submit('GUARDAR', ['class' => 'btn btn-primary btn-block font-weight-bold', 'style' => "max-height: 400px;" , 'id' => 'publish']) !!}
+          </div>
 
         </div>
+      {!! Form::close() !!}
     </div>
+  </div>
 </div>
 
 @endsection

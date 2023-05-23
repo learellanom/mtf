@@ -158,6 +158,51 @@ class TransactionController extends Controller
 
 
     }
+    /*
+    *
+    *
+    * transferWallet
+    * 23-05-2023
+    *
+    *
+    */
+    public function transferWallet(Request $request)
+    {
+        $transaction = new Transaction;
+
+        $transaction->type_transaction_id   = $request->input('type_transaction_id');
+        $transaction->wallet_id             = $request->input('wallet_id');
+        $transaction->type_coind_id         = $request->input('type_coind_id');
+        $transaction->amount                = $request->input('amount');
+        $transaction->amount_total          = $request->input('amount_total');
+        $transaction->transaction_date      = $request->input('transaction_date');
+        $transaction->description           = $request->input('description');
+
+        $transaction->save();
+
+
+
+
+
+        $transaction2 = new Transaction;
+
+        $transaction2->type_transaction_id   = $request->input('type_transaction_id');
+        $transaction2->wallet_id             = $request->input('wallet_id');
+        $transaction2->type_coind_id         = $request->input('type_coind_id');
+        $transaction2->amount                = $request->input('amount');
+        $transaction2->amount_total          = $request->input('amount_total');
+        $transaction2->transaction_date      = $request->input('transaction_date');
+        $transaction2->description           = $request->input('description');
+
+        $transaction2->save();
+
+
+
+        flash()->addSuccess('Movimiento guardado', 'Transacción', ['timeOut' => 3000]);
+
+        // return Redirect::route('transactions.index');
+
+    }
 
     public function store_efectivo(Request $request)
     {

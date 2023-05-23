@@ -1234,14 +1234,8 @@ class statisticsController extends Controller
            $myWallet        = $request->wallet;
        }
 
-        $Type_transactions = Type_transaction::select('type_transactions.id', 'type_transactions.name')
-        ->get();
-        $Type_transactions2 = array();
-        foreach($Type_transactions as $Type_transactions){
-            $Type_transactions2 [$Type_transactions->id] =  $Type_transactions->name;
-        }
-        $Type_transactions = $Type_transactions2;
-
+        $Type_transactions  = $this->getTypeTransactions();
+        $wallet             = $this->getWallet();
 
         $Transacciones = DB::table('transactions')
             ->select(DB::raw(' 
@@ -1249,24 +1243,26 @@ class statisticsController extends Controller
                 wallet_id                   as WalletId,
                 wallets.name                as WalletName,
                 type_transaction_id         as TypeTransactionId,
-                type_transactions.name      as TipoTransaccion,
+                type_transactions.name      as TypeTransaccionName,
                 count(*)                    as cant_transactions,
                 sum(amount)                 as total_amount,
                 sum(amount_commission)      as total_commission,
                 sum(amount_total)           as total'))
             ->leftJoin('type_transactions', 'type_transactions.id', '=', 'transactions.type_transaction_id')             
-            ->leftJoin('wallets', 'wallets.id', '=', 'transactions.wallet_id')                         
+            ->leftJoin('wallets',           'wallets.id', '=', 'transactions.wallet_id')                         
             ->whereBetween('Transactions.wallet_id',            [$myWalletDesde, $myWalletHasta])            
             ->whereBetween('Transactions.type_transaction_id',  [$myTypeTransactionDesde, $myTypeTransactionHasta])
             ->whereBetween('Transactions.transaction_date',     [$myFechaDesde, $myFechaHasta])
             ->groupBy('id', 'WalletId', 'WalletName', 'TypeTransactionId', 'TipoTransaccion')
+            ->orderBy('WalletId','ASC')
+            ->orderBy('TypeTransactionId','ASC')            
             ->get();
   
   
             // dd($Transacciones);
         
-        return view('estadisticas.statisticsResumenTransaccion', compact('myTypeTransaction', 'Type_transactions', 'Transacciones'));
-        return $myUsers2;
+        return view('estadisticas.statisticsResumenTransaccion', compact('myWallet','wallet','myTypeTransaction', 'Type_transactions', 'Transacciones'));
+        
     }
    /*
     *

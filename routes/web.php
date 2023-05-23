@@ -73,7 +73,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('movimientos/credito', [TransactionController::class, 'credit'])->middleware('can:transactions.credit')->name('transactions.credit');
     Route::get('movimientos/{movimiento}/editar_credito', [TransactionController::class, 'credit_edit'])->middleware('can:transactions.credit_edit')->name('transactions.credit_edit');
     Route::resource('movimientos', TransactionController::class)->middleware('auth')->names('transactions');
-    Route::match(['put', 'patch'], 'movimientos/{movimiento}/estatus', [TransactionController::class, 'update_status'])->name('transactions.update_status');
+    Route::match(['put', 'patch'], 'movimientos/{movimiento}/ecstatus', [TransactionController::class, 'update_status'])->name('transactions.update_status');
     Route::delete('movimientos/eliminar/{movimiento}', [TransactionController::class, 'destroyImg'])->name('transactions.destroyimg');
 
 });
@@ -99,10 +99,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::delete('movimientos_proveedores/eliminar/{movimiento}', [TransactionSupplierController::class, 'destroyImg'])->middleware('can:transactions_supplier.index')->name('transactions_supplier.destroyimg');
 
 });
-
-
-
-
 
 Route::pattern('usuarios', '[0-9]+');
 
@@ -211,6 +207,11 @@ Route::get('estadisticasResumenCliente/{cliente}/{fechaDesde?}/{fechaHasta?}',[A
 
 Route::get('estadisticasResumenGrupo',[App\Http\Controllers\statisticsController::class, 'groupSummary'])->name('estadisticasResumenGrupo');
 Route::get('estadisticasResumenGrupo/{grupo}/{fechaDesde?}/{fechaHasta?}',[App\Http\Controllers\statisticsController::class, 'groupSummary'])->name('estadisticasResumenGrupo');
+//
+// Resumen Grupo Transaccion
+//
+Route::get('estadisticasResumenGrupoTran',[App\Http\Controllers\statisticsController::class, 'groupSummary'])->name('estadisticasResumenGrupoTran');
+Route::get('estadisticasResumenGrupoTran/{wallet?}/{transaction?}/{fechaDesde?}/{fechaHasta?}',[App\Http\Controllers\statisticsController::class, 'groupSummary'])->name('estadisticasResumenGrupoTran');
 
 
 Route::get('estadisticasResumenProveedor',[App\Http\Controllers\statisticsController::class, 'supplierSummary'])->name('estadisticasResumenProveedor');
