@@ -362,13 +362,19 @@ return [
             'can'  => 'estadisticasDetalle.statisticsResumenWallet',
         ],
         [
-            'text' => 'Conciliacion por Grupo',
-            'url'  => 'estadisticasConciliacionGrupo',
-            'active' => ['estadisticasConciliacionGrupo*'],
+            'text' => 'Resumen por Caja Transaccion',
+            'url'  => 'estadisticasResumenWalletTran',
+            'active' => ['estadisticasResumenWalletTran','regex:@^estadisticasResumenWalletTran/[0-9]+/*@' ],
             'icon' => 'fas fa-fw fas fa-chart-bar',
-            'can'  => 'estadisticasDetalle.statisticsResumenConciliacionFechaGrupo'
-        ],
-
+            'can'  => 'estadisticasDetalle.estadisticasResumenWalletTran',
+        ],              
+        // [
+        //     'text' => 'Conciliacion por Grupo',
+        //     'url'  => 'estadisticasConciliacionGrupo',
+        //     'active' => ['estadisticasConciliacionGrupo*'],
+        //     'icon' => 'fas fa-fw fas fa-chart-bar',
+        //     'can'  => 'estadisticasDetalle.statisticsResumenConciliacionFechaGrupo'
+        // ],
         ['header' => 'Operaciones',
         'classes' =>'text-uppercase font-weight-bold text-light',],
         [

@@ -1123,7 +1123,7 @@ class statisticsController extends Controller
                 sum(amount_total) as total'))
             ->leftJoin('clients','clients.id', '=', 'transactions.client_id')                
             ->leftJoin('type_transactions', 'type_transactions.id', '=', 'transactions.type_transaction_id')                    
-            ->whereBetween('Transactions.client_id', [$myClienteDesde, $myClienteHasta])
+            ->whereBetween('Transactions.client_id',        [$myClienteDesde, $myClienteHasta])
             ->whereBetween('Transactions.transaction_date', [$myFechaDesde, $myFechaHasta])   
             ->groupBy('ClientName', 'TipoTransaccion')
             ->get();
@@ -1195,20 +1195,20 @@ class statisticsController extends Controller
     *
     *
     *       transactionSummary
-    *
+    *       ajua
     *
     */  
-    public function transactionSummary(Request $request)
+    public function walletTransactionSummary(Request $request)
     {
-
+        // dd($request->transaction);
         //
         $myTypeTransaction      = 0;
         $myTypeTransactionDesde = 0;
         $myTypeTransactionHasta = 9999;        
-        if ($request->type_transaction) {
-            $myTypeTransaction      = $request->type_transaction;
-            $myTypeTransactionDesde = $request->type_transaction;
-            $myTypeTransactionHasta = $request->type_transaction;        
+        if ($request->transaction) {
+            $myTypeTransaction      = $request->transaction;
+            $myTypeTransactionDesde = $request->transaction;
+            $myTypeTransactionHasta = $request->transaction;        
     
         }
 
@@ -1224,6 +1224,9 @@ class statisticsController extends Controller
         if ($request->fechaHasta){
             $myFechaHasta = $request->fechaHasta;
         }
+
+        // dd('Fecha desde -> ' . $myFechaDesde . ' Fecha Hasta -> ' . $myFechaHasta);
+
        //
        $myWalletDesde   = 0;
        $myWalletHasta   = 9999;
@@ -1239,7 +1242,6 @@ class statisticsController extends Controller
 
         $Transacciones = DB::table('transactions')
             ->select(DB::raw(' 
-                id                          as id,
                 wallet_id                   as WalletId,
                 wallets.name                as WalletName,
                 type_transaction_id         as TypeTransactionId,
@@ -1253,15 +1255,15 @@ class statisticsController extends Controller
             ->whereBetween('Transactions.wallet_id',            [$myWalletDesde, $myWalletHasta])            
             ->whereBetween('Transactions.type_transaction_id',  [$myTypeTransactionDesde, $myTypeTransactionHasta])
             ->whereBetween('Transactions.transaction_date',     [$myFechaDesde, $myFechaHasta])
-            ->groupBy('id', 'WalletId', 'WalletName', 'TypeTransactionId', 'TipoTransaccion')
+            ->groupBy('WalletId', 'WalletName', 'TypeTransactionId', 'TypeTransaccionName')
             ->orderBy('WalletId','ASC')
             ->orderBy('TypeTransactionId','ASC')            
             ->get();
   
   
-            // dd($Transacciones);
+        // dd($Transacciones);
         
-        return view('estadisticas.statisticsResumenTransaccion', compact('myWallet','wallet','myTypeTransaction', 'Type_transactions', 'Transacciones'));
+        return view('estadisticas.statisticsResumenWalletTransaccion', compact('myWallet','wallet','myTypeTransaction', 'Type_transactions', 'Transacciones','myFechaDesde','myFechaHasta'));
         
     }
    /*
