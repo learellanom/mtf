@@ -44,10 +44,10 @@
                         </div>
 
                         <div class="form-group col-md-6">
-                            {!! Form::Label('wallet_id', "Caja destino:") !!}
+                            {!! Form::Label('wallet2_id', "Caja destino:") !!}
                             <div class="input-group-text col-md-12">
                                 <i class="fa-fw fas fa-random"></i>
-                            {!! Form::select('wallet_id', $wallet, null, ['class' => 'form-control wallet2', 'required' => true, 'id'=>'wallet2', 'readonly' => false]) !!}
+                            {!! Form::select('wallet2_id', $wallet, null, ['class' => 'form-control wallet2', 'required' => true, 'id'=>'wallet2', 'readonly' => false]) !!}
                             </div>
                         </div>
                     </div>
@@ -81,6 +81,14 @@
                         <div class="input-group-text">
                             <i class="fa-fw fas fas fa-trademark mr-2"></i>
                         {!! Form::select('type_transaction_id', $type_transaction, null, ['class' => 'form-control transaccion']) !!}
+                    </div>
+                    </div>
+
+                    <div class="form-group col-md-12">
+                        {!! Form::Label('type_transaction2_id', "Tipo de transacción:") !!}
+                        <div class="input-group-text">
+                            <i class="fa-fw fas fas fa-trademark mr-2"></i>
+                        {!! Form::select('type_transaction2_id', $type_transaction, null, ['class' => 'form-control transaccion']) !!}
                     </div>
                 </div>
 

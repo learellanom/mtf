@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Transaction;
 use App\Models\Type_coin;
 use App\Models\Type_transaction;
@@ -11,9 +14,8 @@ use App\Models\Wallet;
 use App\Models\Group;
 use App\Models\Image;
 use App\Models\User;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Redirect;
 use Carbon\Carbon;
+
 
 
 class TransactionController extends Controller
@@ -185,15 +187,16 @@ class TransactionController extends Controller
 
     public function transfer_wallet(Request $request)
     {
+        $user = Auth::id();
         $transaction = new Transaction;
 
         $transaction->type_transaction_id   = $request->input('type_transaction_id');
         $transaction->wallet_id             = $request->input('wallet_id');
-        $transaction->type_coind_id         = $request->input('type_coind_id');
         $transaction->amount                = $request->input('amount');
         $transaction->amount_total          = $request->input('amount_total');
         $transaction->transaction_date      = $request->input('transaction_date');
         $transaction->description           = $request->input('description');
+        $transaction->user_id               = $user;
 
         $transaction->save();
 
@@ -203,13 +206,13 @@ class TransactionController extends Controller
 
         $transaction2 = new Transaction;
 
-        $transaction2->type_transaction_id   = $request->input('type_transaction_id');
-        $transaction2->wallet_id             = $request->input('wallet_id');
-        $transaction2->type_coind_id         = $request->input('type_coind_id');
+        $transaction2->type_transaction_id   = $request->input('type_transaction2_id');
+        $transaction2->wallet_id             = $request->input('wallet2_id');
         $transaction2->amount                = $request->input('amount');
         $transaction2->amount_total          = $request->input('amount_total');
         $transaction2->transaction_date      = $request->input('transaction_date');
         $transaction2->description           = $request->input('description');
+        $transaction2->user_id               = $user;
 
         $transaction2->save();
 
@@ -217,7 +220,7 @@ class TransactionController extends Controller
 
         flash()->addSuccess('Movimiento guardado', 'Transacción', ['timeOut' => 3000]);
 
-        // return Redirect::route('transactions.index');
+         return Redirect::route('transactions.index');
 
     }
 
