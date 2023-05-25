@@ -324,7 +324,6 @@ $(document).ready(function () {
 
         BuscaFechas(myFechaDesde, myFechaHasta);
     
-
         $('#wallet').on('change', function (){
 
             const wallet        = $('#wallet').val();
@@ -398,6 +397,9 @@ $(document).ready(function () {
         if (grupo  === "") grupo  = 0;        
         if (wallet  === "") wallet  = 0;
         if (typeTransactions  === "") typeTransactions  = 0;
+
+        fechaDesde = $('#drCustomRanges').data('daterangepicker').startDate.format('YYYY-MM-DD')
+        fechaDesde = $('#drCustomRanges').data('daterangepicker').endDate.format('YYYY-MM-DD')
 
         //                      'estadisticasDetalle/{usuario}/{grupo?}/{wallet?}/{typeTransactions?}/{fechaDesde?}/{fechaHasta?}'
         let myRoute = "";
@@ -573,7 +575,7 @@ $(document).ready(function () {
         // alert('myLocation -> ' + myLocation);
         // obtener fecha inicio
         // alert('ggggg ' + $('#drCustomRanges').data('daterangepicker').startDate.format('YYYY-MM-DD'));
-        
+
         myArray     = myLocation.split("/");
         if (myArray.length > 4){
             FechaDesde = myArray[6];

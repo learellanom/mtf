@@ -565,7 +565,7 @@ if (isset($balance->Total)){
             // alert('***** wallet ' +  wallet);
                 theRoute(usuario,grupo,wallet, typeTransactions);
 
-            });
+        });
 
         $('#drCustomRanges').on('change', function () {
             // alert('Fechas rnagos -> ' + $('#drCustomRanges').val());
@@ -585,10 +585,13 @@ if (isset($balance->Total)){
                             ($('#drCustomRanges').val()).substr(13,2)
                             ;
 
+            myFechaDesde = $('#drCustomRanges').data('daterangepicker').startDate.format('YYYY-MM-DD');
+            myFechaHasta = $('#drCustomRanges').data('daterangepicker').endDate.format('YYYY-MM-DD');
+
             // alert('Fecha Desde -> ' + myFechaDesde + ' Fecha Hasta -> ' + myFechaHasta);
-            const usuario = $('#userole').val();
-            const grupo   = $('#group').val();
-            const wallet = $('#wallet').val();
+            const usuario           = $('#userole').val();
+            const grupo             = $('#group').val();
+            const wallet            = $('#wallet').val();
             const typeTransactions  = $('#typeTransactions').val();
             theRoute(usuario,grupo,wallet,typeTransactions, myFechaDesde,myFechaHasta);
         });
@@ -607,7 +610,7 @@ if (isset($balance->Total)){
 
             });
 
-        })
+        });
 
 
         function theRoute(usuario = 0, grupo = 0, wallet = 0, typeTransactions = 0, fechaDesde = 0, fechaHasta = 0){
