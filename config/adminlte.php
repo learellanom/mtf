@@ -519,7 +519,7 @@ return [
             'url'  => 'permisos',
             'active'      => ['permisos*'],
             'icon'    => 'fas fa-fw fa-key',
-            //'can'         => 'permissions.index',
+            'can'         => 'permissions.index',
         ],
         [
             'text' => 'Proveedores',

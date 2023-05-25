@@ -171,12 +171,12 @@ class TransactionController extends Controller
 
         $type_coin          = Type_coin::pluck('name', 'id');
         $type_transaction   = Type_transaction::whereIn('id', ['8','9'])->pluck('name', 'id');
-        $wallet             = Wallet::whereIn('type_wallet', ['transacciones'])->whereNotIn('id', [3])->pluck('name', 'id');
+        $wallet             = Wallet::pluck('name', 'id');
         $group              = Group::pluck('name', 'id');
         $user               = User::pluck('name', 'id');
         $fecha              = Carbon::now();
 
-        $number_referencia  = Carbon::createFromFormat('Y-m-d H', '1975-05-21 22')->toDateTimeString();
+        $number_referencia  = Carbon::now();
 
 
 
@@ -197,6 +197,7 @@ class TransactionController extends Controller
         $transaction->transaction_date      = $request->input('transaction_date');
         $transaction->description           = $request->input('description');
         $transaction->user_id               = $user;
+        $transaction->transfer_number       = $request->input('transfer_number');
 
         $transaction->save();
 
@@ -213,6 +214,7 @@ class TransactionController extends Controller
         $transaction2->transaction_date      = $request->input('transaction_date');
         $transaction2->description           = $request->input('description');
         $transaction2->user_id               = $user;
+        $transaction2->transfer_number        = $request->input('transfer_number');
 
         $transaction2->save();
 

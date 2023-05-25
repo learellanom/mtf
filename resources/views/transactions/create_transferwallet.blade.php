@@ -89,8 +89,9 @@
                     {!! Form::Label('reference_number', "Numero de referencia:") !!}
                         <div class="input-group-text">
                             <i class="fas fa-sort-numeric-up mr-2"></i>
-                        {!! Form::text('reference_number',$number_referencia, ['class' => 'form-control', 'required' => true, 'readonly' => true]) !!}
+                        {!! Form::text('transfer_number', 000,['class' => 'form-control', 'required' => true, 'readonly' => true]) !!}
                         </div>
+                        {!! Form::text('transfer_number2', 000, ['class' => 'form-control', 'required' => true, 'readonly' => true]) !!}
                 </div>
 
                 <div class="form-group">
