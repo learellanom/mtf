@@ -324,7 +324,6 @@ $(document).ready(function () {
 
         BuscaFechas(myFechaDesde, myFechaHasta);
     
-
         $('#wallet').on('change', function (){
 
             const wallet        = $('#wallet').val();
@@ -573,7 +572,7 @@ $(document).ready(function () {
         // alert('myLocation -> ' + myLocation);
         // obtener fecha inicio
         // alert('ggggg ' + $('#drCustomRanges').data('daterangepicker').startDate.format('YYYY-MM-DD'));
-        
+
         myArray     = myLocation.split("/");
         if (myArray.length > 4){
             FechaDesde = myArray[6];

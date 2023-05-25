@@ -84,7 +84,8 @@ class statisticsController extends Controller
         
         $balance = "";
         if ($myGroup > 0){
-            $balance = $this->getBalance($myGroup);
+               $balance = $this->getBalance($myGroup);
+            // $balance = $this->getBalance($myGroup, $myFechaDesde, $myFechaHasta);            
         };
         
         if ($myWallet > 0){
@@ -1725,7 +1726,7 @@ class statisticsController extends Controller
     *
     *
     */
-    function getBalance($grupo = 0){
+    function getBalance($grupo = 0, $myFechaDesde = "2001-01-01", $myFechaHasta = "9999-12-31"){
         
         if ($grupo === 0){
             $grupoDesde = 00000;
@@ -1735,12 +1736,14 @@ class statisticsController extends Controller
             $grupoDesde = $grupo;
             $grupoHasta = $grupo;           
         }
-        \Log::info('leam grupo      *** -> ' . $grupo);        
-        \Log::info('leam grupoDesde *** -> ' . $grupoDesde); 
-        \Log::info('leam grupoHasta *** -> ' . $grupoHasta); 
+        \Log::info('leam getBalance grupo        *** -> ' . $grupo);        
+        \Log::info('leam getBalance grupoDesde   *** -> ' . $grupoDesde); 
+        \Log::info('leam getBalance grupoHasta   *** -> ' . $grupoHasta); 
+        \Log::info('leam getBalance myFechaDesde *** -> ' . $myFechaDesde); 
+        \Log::info('leam getBalance myFechaHasta *** -> ' . $myFechaHasta);         
         
-        $myFechaDesde = "2001-01-01";
-        $myFechaHasta = "9999-12-31";
+        // $myFechaDesde = "2001-01-01";
+        // $myFechaHasta = "9999-12-31";
         //
         // 04-05-2023
         //
@@ -1777,7 +1780,7 @@ class statisticsController extends Controller
         where
             type_transaction_id in ($this->myDebits)
             and
-            transaction_date between '0000-00-00' and '9999-12-31' 
+            transaction_date between '$myFechaDesde' and '$myFechaHasta'
             and
             group_id between $grupoDesde and $grupoHasta
             and status <> 'Anulado'    
@@ -1795,7 +1798,7 @@ class statisticsController extends Controller
         where
             type_transaction_id in($this->myCredits)
             and
-            transaction_date between '0000-00-00' and '9999-12-31'   
+            transaction_date between '$myFechaDesde' and '$myFechaHasta'  
             and
             group_id between $grupoDesde and $grupoHasta
             and status <> 'Anulado'   
@@ -1810,6 +1813,7 @@ class statisticsController extends Controller
             NombreGrupo
         ";
             
+        // dd($myQuery);
 
         $Transacciones = DB::select($myQuery);
        
