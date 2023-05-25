@@ -14,7 +14,7 @@
 @section('content')
 
 <div class="d-flex justify-content-center">
-  <div class="card col-md-5" style="min-height: 600px !important; max-height:100%; height:100%; widht:100%">
+  <div class="card col-md-5" style="min-height:500px !important; max-height:100%; height:100%; widht:100%;">
     <div class="card-body">
 
       {!! Form::open(['route' => 'transactions.transfer_wallet', 'autocomplete' => 'off', 'files' => true, 'enctype' =>'multipart/form-data']) !!}
@@ -76,20 +76,14 @@
                         {!! Form::hidden('status', 'Activo', null, ['class' => 'form-control']) !!}
 
 
-                    <div class="form-group col-md-12">
-                        {!! Form::Label('type_transaction_id', "Tipo de transacción:") !!}
-                        <div class="input-group-text">
-                            <i class="fa-fw fas fas fa-trademark mr-2"></i>
-                        {!! Form::select('type_transaction_id', $type_transaction, null, ['class' => 'form-control transaccion']) !!}
-                    </div>
-                    </div>
 
-                    <div class="form-group col-md-12">
-                        {!! Form::Label('type_transaction2_id', "Tipo de transacción:") !!}
-                        <div class="input-group-text">
-                            <i class="fa-fw fas fas fa-trademark mr-2"></i>
-                        {!! Form::select('type_transaction2_id', $type_transaction, null, ['class' => 'form-control transaccion']) !!}
-                    </div>
+                        {!! Form::hidden('type_transaction_id', 9, null, ['class' => 'form-control transaccion']) !!}
+
+
+
+
+                        {!! Form::hidden('type_transaction2_id', 8, null, ['class' => 'form-control transaccion']) !!}
+
                 </div>
 
                 <div class="form-group">
@@ -131,8 +125,8 @@
                     @enderror
 
 
+                  </div>
                 </div>
-            </div>
 
 
 
@@ -270,7 +264,7 @@ $(".status").select2({
 });
 
 $(".wallet").select2({
-  placeholder: "Seleccionar Caja",
+  placeholder: "Seleccionar caja origen",
   theme: 'bootstrap4',
   search: false,
   allowClear: true,
@@ -278,8 +272,9 @@ $(".wallet").select2({
 });
 $("#wallet").val("")
 $("#wallet").trigger("change");
+
 $(".wallet2").select2({
-  placeholder: "Seleccionar Caja",
+  placeholder: "Seleccionar caja destino",
   theme: 'bootstrap4',
   search: false,
   allowClear: true,
