@@ -374,16 +374,22 @@
 
 @section('js')
 <script>
-$('#monto_dolares').mask('###0.00', { reverse: true });
+$('#monto_dolares').mask('###0.00', {reverse: true});
 $('#monto').mask('###0.00', { reverse: true });
 $('#tasa').mask('###0.00', { reverse: true });
-$('#montototal').mask('###0.00', { reverse: true });
+$('#montototal').mask('#.##0.00', { reverse: true });
 $('#percentage').mask('00.0', { reverse: true });
 $('#comision').mask('###0.00', { reverse: true });
 
 
 
-
+/* $('#monto_dolares').mask('#.##0,00', { reverse: true });
+  $('#monto_dolares').blur(function(){
+    $(this).unmask();
+  });
+  $('#monto_dolares').focus(function(){
+    $(this).mask('#.##0,00', { reverse: true });
+  }); */
 
 
 
@@ -636,7 +642,7 @@ incluir.click = function (){
       $('#percentage').attr("readonly", false);
       $('#percentage_base').attr("readonly", false);
 
-      monto_real.value = (parseFloat($('#monto_dolares').val()) + parseFloat($('#comision').val())).toFixed(2);
+      monto_real.value = (parseDouble($('#monto_dolares').val()) + parseFloat($('#comision').val())).toFixed(2);
 
 }
 descontar.click = function (){

@@ -64,7 +64,7 @@ require __DIR__.'/auth.php';
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->middleware('can:home')->name('home');
-                     
+
 /* TRANSACCIONES A CLIENTES */
 Route::group(['middleware' => 'auth'], function () {
     Route::get('movimientos/efectivo', [TransactionController::class, 'create_efectivo'])->middleware('can:transactions.create_efectivo')->name('transactions.create_efectivo');
@@ -72,6 +72,12 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('movimientos/crear_efectivo', [TransactionController::class, 'store_efectivo'])->name('transactions.store_efectivo');
     Route::get('movimientos/credito', [TransactionController::class, 'credit'])->middleware('can:transactions.credit')->name('transactions.credit');
     Route::get('movimientos/{movimiento}/editar_credito', [TransactionController::class, 'credit_edit'])->middleware('can:transactions.credit_edit')->name('transactions.credit_edit');
+
+
+    Route::get('movimientos/entre_cajas', [TransactionController::class, 'create_transferwallet'])->middleware('can:transactions.transfer_wallet')->name('transactions.create_transferwallet');
+
+    Route::post('movimientos/cajas', [TransactionController::class, 'transfer_wallet'])->name('transactions.transfer_wallet');
+
     Route::resource('movimientos', TransactionController::class)->middleware('auth')->names('transactions');
     Route::match(['put', 'patch'], 'movimientos/{movimiento}/ecstatus', [TransactionController::class, 'update_status'])->name('transactions.update_status');
     Route::delete('movimientos/eliminar/{movimiento}', [TransactionController::class, 'destroyImg'])->name('transactions.destroyimg');
@@ -176,7 +182,7 @@ Route::get('estadisticasDetalleProveedorCon',[App\Http\Controllers\statisticsCon
 Route::get('estadisticasDetalleProveedorCon/{supplier?}/{wallet?}/{typeTransactions?}/{fechaDesde?}/{fechaHasta?}',
             [App\Http\Controllers\statisticsController::class, 'supplierDetailConciliation'])
     ->middleware('can:estadisticasDetalle.index')
-    ->name('estadisticasDetalleProveedorCon');    
+    ->name('estadisticasDetalleProveedorCon');
 //
 //
 //
@@ -191,7 +197,7 @@ Route::get('estadisticasDetalleProveedorTran',[App\Http\Controllers\statisticsCo
 Route::get('estadisticasDetalleProveedorTran/{supplier?}/{wallet?}/{typeTransactions?}/{fechaDesde?}/{fechaHasta?}',
             [App\Http\Controllers\statisticsController::class, 'supplierDetailConciliationTran'])
     ->middleware('can:estadisticasDetalle.index')
-    ->name('estadisticasDetalleProveedorTran');    
+    ->name('estadisticasDetalleProveedorTran');
 //
 //
 //

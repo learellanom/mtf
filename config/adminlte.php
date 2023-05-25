@@ -381,6 +381,15 @@ return [
             'label_color' =>'success',
         ],
         [
+            'text'        => 'Transacciónes de caja a caja',
+            'url'         => 'movimientos/entre_cajas',
+            'active'      => ['movimientos', 'regex:@^movimientos/[0-9]+/*@', 'movimientos/create'],
+            'can'         => 'transactions.index',
+            'icon'        => 'fas fa-fw fas fa-retweet',
+            'label'       => 'OP',
+            'label_color' =>'success',
+        ],
+        [
             'text'        => 'Transacciónes en efectivo',
             'url'         => 'movimientos/efectivo',
             'active'      => ['movimientos/create_efectivo'],
@@ -504,7 +513,7 @@ return [
             'url'  => 'permisos',
             'active'      => ['permisos*'],
             'icon'    => 'fas fa-fw fa-key',
-            'can'         => 'permissions.index',
+            //'can'         => 'permissions.index',
         ],
         [
             'text' => 'Proveedores',
