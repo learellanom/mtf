@@ -217,7 +217,7 @@ class statisticsController extends Controller
 
         $typeTransactions   = $this->getTypeTransactions(); 
 
-        return view('estadisticas.index', compact('myUser','userole','Transacciones','group','wallet','myGroup','myUser','myWallet','balance','typeTransactions','myTypeTransactions'));
+        return view('estadisticas.index', compact('myUser','userole','Transacciones','group','wallet','myGroup','myUser','myWallet','balance','typeTransactions','myTypeTransactions','myFechaDesde','myFechaHasta'));
 
     }
     /*
