@@ -1,5 +1,5 @@
 @extends('adminlte::page')
-@section('title', 'Estadisticas por Grupo')
+@section('title', 'Estadisticas por Caja Transaccion')
 @section('content')
 {{-- Setup data for datatables --}}
 
@@ -11,12 +11,16 @@ $heads = [
     ['label' => 'Actions',      'no-export' => true, 'width' => 5],
 ];
 
+
+
 $btnEdit = '<button class="btn btn-xs btn-default text-primary mx-1 shadow" title="Edit">
                 <i class="fa fa-lg fa-fw fa-pen"></i>
             </button>';
+
 $btnDelete = '<button class="btn btn-xs btn-default text-danger mx-1 shadow" title="Delete">
                   <i class="fa fa-lg fa-fw fa-trash"></i>
               </button>';
+
 $btnDetails = '<button class="btn btn-xs btn-default text-teal mx-1 shadow" title="Details">
                    <i class="fa fa-lg fa-fw fa-eye"></i>
                </button>';
@@ -55,12 +59,12 @@ $config4 = [
 
 <br>
 <br>
-<h1 class="text-center text-dark font-weight-bold text-uppercase">{{ __('Resumen de Movimiento por Grupo') }} <i class="fas fa-users"></i></h1>
+<h1 class="text-center text-dark font-weight-bold text-uppercase">{{ __('Resumen de Movimiento por Caja Transaccion') }} <i class="fas fa-users"></i></h1>
 <br>
 <br>
 {{-- Disabled --}}
 
-<div class="container">
+<div class="container-left">
     <div class="row col-12">
 
 
@@ -101,13 +105,24 @@ $config4 = [
                         <i class="fas fa-user-tie"></i>
                     </div>
                 </x-slot>
-
                 <x-adminlte-options :options="$Type_transactions" empty-option="Selecciona una Transaccion .."/>
             </x-adminlte-select2>
         </div>
 
         <div class ="col-12 col-sm-2">
+            <x-adminlte-date-range 
+            name="drCustomRanges" 
+                enable-default-ranges="Last 30 Days" 
+                style="height: 30px;" 
+                :config="$config3">
+                <x-slot name="prependSlot">
+                    <div class="input-group-text bg-gradient-dark">
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                </x-slot>
+            </x-adminlte-date-range>
         </div>
+
 
     </div>
 
@@ -121,7 +136,7 @@ $config4 = [
     <div class="col-md-12">
         <div class="card mb-4">
             <div class="card-header">
-                <h3 class="card-title text-uppercase font-weight-bold">{{ __('Estadisticas| Resumen por Grupo') }}</h3>
+                <h3 class="card-title text-uppercase font-weight-bold">{{ __('Estadisticas| Resumen por Caja Transaccion') }}</h3>
             </div>
             <div class="card-body">
                 <div class="row">
@@ -141,13 +156,13 @@ $config4 = [
                                 <tr>
                                     <td>{!! $row->WalletName !!}</td>
                                     <td>{!! $row->TypeTransaccionName !!}</td>                                    
-                                    <td>{!! number_format($row->cant_transactions,2,",",".") !!}</td>                                    
+                                    <td>{!! number_format($row->cant_transactions,0,",",".") !!}</td>                                    
                                     <td>{!! number_format($row->total_amount,2,",",".") !!}</td>
                                     <td class="text-center">
                                         <a href="#"
                                             title="Detalles"
                                             class="btn btn-xl text-primary mx-1 shadow text-center"
-                                            onClick="theRoute2({{0}},{{$row->IdGrupo}})">
+                                            onClick="theRoute2({{0}}, {{0}}, {{$row->WalletId}}, {{$row->TypeTransactionId}})">
                                             <i class="fa fa-lg fa-fw fa-eye"></i>
                                         </a>
                                     </td>
@@ -275,7 +290,7 @@ $(document).ready(function () {
             extend:  'pdfHtml5',
             text:    '<i class="fas fa-file-pdf"></i>',
             orientation: 'landscape',
-            title: 'MTF | LISTA DE TRANSACIÓNES',
+            title: 'MTF | Resumen Caja Transaccion',
             titleAttr: 'Exportar PDF',
             className: 'btn btn-danger',
 
@@ -301,6 +316,11 @@ $(document).ready(function () {
 
     BuscaTransaccion(miTypeTransaction);
 
+    const myFechaDesde = {!! $myFechaDesde !!};
+    const myFechaHasta = {!! $myFechaHasta !!};
+
+    BuscaFecha(myFechaDesde, myFechaHasta);
+
     $(() => {
 
 
@@ -316,12 +336,16 @@ $(document).ready(function () {
 
             const wallet        = $('#wallet').val();
             const transaccion   = $('#transaccion').val();
+
+            // alert('transaccion -> ' + transaccion)
             theRoute(wallet, transaccion);
 
         });
 
         $('#drCustomRanges').on('change', function () {
+
             // alert('ggggg ' + $('#drCustomRanges').val());
+
             let myFechaDesde, myFechaHasta;
 
             myFechaDesde =  ($('#drCustomRanges').val()).substr(6,4) +
@@ -337,12 +361,19 @@ $(document).ready(function () {
                             '-' +
                             ($('#drCustomRanges').val()).substr(13,2)
                             ;
+            //
+            //
+            //
+            //
+            //
+            //
 
-            //alert('Fecha Desde ' + myFechaDesde + 'Fecha Hasta ' + myFechaHasta);
-            const usuario = $('#userole').val();
-            const cliente = $('#cliente').val();
-            const wallet = $('#wallet').val();
-            theRoute(usuario,cliente,wallet,myFechaDesde,myFechaHasta);
+
+
+
+            const wallet        = $('#wallet').val();
+            const transaccion   = $('#transaccion').val();            
+            theRoute(wallet, transaccion, myFechaDesde,myFechaHasta);
         });
 
     })
@@ -354,7 +385,7 @@ $(document).ready(function () {
 
         let myRoute = "";
 
-            myRoute = "{{ route('estadisticasResumenGrupoTran', ['wallet' => 'wallet2', 'transaction' => 'transaction2', 'fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2']) }}";
+            myRoute = "{{ route('estadisticasResumenWalletTran', ['wallet' => 'wallet2', 'transaction' => 'transaction2', 'fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2']) }}";
             myRoute = myRoute.replace('wallet2',wallet);
             myRoute = myRoute.replace('transaction2',transaction);            
             myRoute = myRoute.replace('fechaDesde2',fechaDesde);
@@ -366,9 +397,10 @@ $(document).ready(function () {
     }
 
 
-    function theRoute2(wallet = 0, typeTransactions = 0, fechaDesde = 0, fechaHasta = 0){
+    function theRoute2(usuario = 0, grupo = 0, wallet = 0, typeTransactions = 0, fechaDesde = 0, fechaHasta = 0){
 
-
+        if (usuario  === "") usuario  = 0;
+        if (grupo  === "") grupo  = 0;        
         if (wallet  === "") wallet  = 0;
         if (typeTransactions  === "") typeTransactions  = 0;
 
@@ -378,7 +410,7 @@ $(document).ready(function () {
             myRoute = myRoute.replace('grupo2',grupo);
             myRoute = myRoute.replace('usuario2',usuario);
             myRoute = myRoute.replace('wallet2',wallet);
-            myRoute = myRoute.replace('typeTransactions2',typeTransactions);            
+            myRoute = myRoute.replace('typeTransactions2',typeTransactions);
             myRoute = myRoute.replace('fechaDesde2',fechaDesde);
             myRoute = myRoute.replace('fechaHasta2',fechaHasta);
         // console.log(myRoute);
@@ -538,6 +570,11 @@ $(document).ready(function () {
             },
         ]
     });
+
+
+    function BuscaFecha(myFechaDesde, myFechaHasta){
+        // alert('   ->' + myFechaDesde + ' ->' + myFechaHasta);
+    }
 
 </script>
 
