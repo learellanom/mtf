@@ -301,7 +301,8 @@ if (isset($balance->Total)){
     const miUsuario             = {!! $myUser !!};
     const miWallet              = {!! $myWallet !!};
     const miTypeTransactions    = {!! $myTypeTransactions !!};
-    const miTotal               = {!! $myTotal !!};    
+    const miTotal               = {!! $myTotal !!};   
+     
     // alert ('myTotal ->' +);
     // console.log(miCliente);
 
@@ -519,87 +520,92 @@ if (isset($balance->Total)){
 
 
 
-        $(() => {
+    $(() => {
+
+        const myFechaDesde = {!! isset($myFechaDesde) ?? 0 !!};
+        const myFechaHasta = {!! isset($myFechaHasta) ?? 0 !!};
+
+        BuscaFechas(myFechaDesde, myFechaHasta);
 
 
-            $('#userole').on('change', function (){
+        $('#userole').on('change', function (){
 
-                const usuario           = $('#userole').val();
-                const grupo             = $('#group').val();
-                const wallet            = $('#wallet').val();
-                const typeTransactions  = $('#typeTransactions').val();
+            const usuario           = $('#userole').val();
+            const grupo             = $('#group').val();
+            const wallet            = $('#wallet').val();
+            const typeTransactions  = $('#typeTransactions').val();
+            theRoute(usuario,grupo,wallet, typeTransactions);
+
+        });
+
+        $('#group').on('change', function (){
+
+            const usuario = $('#userole').val();
+
+            const grupo   = $('#group').val();
+            const wallet = $('#wallet').val();
+            const seleccionado = $('#group').prop('selectedIndex');
+            const typeTransactions  = $('#typeTransactions').val();
+            // alert('***** cliente ' +  cliente + " --- selected index --- " + seleccionado);
+
+            var URLactual = window.location;
+            // alert(URLactual);
+
+            theRoute(usuario,grupo,wallet, typeTransactions);
+
+
+        });
+
+        $('#wallet').on('change', function (){
+
+            const usuario = $('#userole').val();
+            const grupo   = $('#group').val();
+            const wallet = $('#wallet').val();
+            const typeTransactions  = $('#typeTransactions').val();
+            // alert('***** wallet ' +  wallet);
                 theRoute(usuario,grupo,wallet, typeTransactions);
 
             });
 
-            $('#group').on('change', function (){
+        $('#drCustomRanges').on('change', function () {
+            // alert('Fechas rnagos -> ' + $('#drCustomRanges').val());
+            let myFechaDesde, myFechaHasta;
 
-                const usuario = $('#userole').val();
+            myFechaDesde =  ($('#drCustomRanges').val()).substr(6,4) +
+                            '-' +
+                            ($('#drCustomRanges').val()).substr(3,2) +
+                            '-' +
+                            ($('#drCustomRanges').val()).substr(0,2)
+                            ;
 
-                const grupo   = $('#group').val();
-                const wallet = $('#wallet').val();
-                const seleccionado = $('#group').prop('selectedIndex');
-                const typeTransactions  = $('#typeTransactions').val();
-                // alert('***** cliente ' +  cliente + " --- selected index --- " + seleccionado);
+            myFechaHasta =  ($('#drCustomRanges').val()).substr(19,4) +
+                            '-' +
+                            ($('#drCustomRanges').val()).substr(16,2) +
+                            '-' +
+                            ($('#drCustomRanges').val()).substr(13,2)
+                            ;
 
-                var URLactual = window.location;
-                // alert(URLactual);
+            // alert('Fecha Desde -> ' + myFechaDesde + ' Fecha Hasta -> ' + myFechaHasta);
+            const usuario = $('#userole').val();
+            const grupo   = $('#group').val();
+            const wallet = $('#wallet').val();
+            const typeTransactions  = $('#typeTransactions').val();
+            theRoute(usuario,grupo,wallet,typeTransactions, myFechaDesde,myFechaHasta);
+        });
 
-                theRoute(usuario,grupo,wallet, typeTransactions);
 
+        $('#typeTransactions').on('change', function (){
+
+            const usuario           = $('#userole').val();
+            const grupo             = $('#group').val();
+            const wallet            = $('#wallet').val();
+            const typeTransactions  = $('#typeTransactions').val();
+            let myFechaDesde = 0, myFechaHasta;
+            // alert('aqui -> ' + typeTransactions + ` fechaDesde ${myFechaDesde}`);
+            // theRoute(usuario, grupo, wallet,typeTransactions,myFechaDesde,myFechaHasta);
+            theRoute(usuario, grupo, wallet, typeTransactions, myFechaDesde, myFechaHasta);
 
             });
-
-            $('#wallet').on('change', function (){
-
-                const usuario = $('#userole').val();
-                const grupo   = $('#group').val();
-                const wallet = $('#wallet').val();
-                const typeTransactions  = $('#typeTransactions').val();
-                // alert('***** wallet ' +  wallet);
-                 theRoute(usuario,grupo,wallet, typeTransactions);
-
-             });
-
-            $('#drCustomRanges').on('change', function () {
-                // alert('Fechas rnagos -> ' + $('#drCustomRanges').val());
-                let myFechaDesde, myFechaHasta;
-
-                myFechaDesde =  ($('#drCustomRanges').val()).substr(6,4) +
-                                '-' +
-                                ($('#drCustomRanges').val()).substr(3,2) +
-                                '-' +
-                                ($('#drCustomRanges').val()).substr(0,2)
-                                ;
-
-                myFechaHasta =  ($('#drCustomRanges').val()).substr(19,4) +
-                                '-' +
-                                ($('#drCustomRanges').val()).substr(16,2) +
-                                '-' +
-                                ($('#drCustomRanges').val()).substr(13,2)
-                                ;
-
-                // alert('Fecha Desde -> ' + myFechaDesde + ' Fecha Hasta -> ' + myFechaHasta);
-                const usuario = $('#userole').val();
-                const grupo   = $('#group').val();
-                const wallet = $('#wallet').val();
-                const typeTransactions  = $('#typeTransactions').val();
-                theRoute(usuario,grupo,wallet,typeTransactions, myFechaDesde,myFechaHasta);
-            });
-
-
-            $('#typeTransactions').on('change', function (){
-
-                const usuario           = $('#userole').val();
-                const grupo             = $('#group').val();
-                const wallet            = $('#wallet').val();
-                const typeTransactions  = $('#typeTransactions').val();
-                let myFechaDesde = 0, myFechaHasta;
-                // alert('aqui -> ' + typeTransactions + ` fechaDesde ${myFechaDesde}`);
-                // theRoute(usuario, grupo, wallet,typeTransactions,myFechaDesde,myFechaHasta);
-                theRoute(usuario, grupo, wallet, typeTransactions, myFechaDesde, myFechaHasta);
-
-                });
 
         })
 
@@ -723,6 +729,44 @@ if (isset($balance->Total)){
                 });
             });
             //
+        }
+
+        function BuscaFechas(FechaDesde = 0,FechaHasta = 0){
+
+            myLocation  = window.location.toString();
+
+            // alert('myLocation -> ' + myLocation);
+            // obtener fecha inicio
+            // alert('ggggg ' + $('#drCustomRanges').data('daterangepicker').startDate.format('YYYY-MM-DD'));
+
+            myArray     = myLocation.split("/");
+            if (myArray.length > 4){
+                FechaDesde = myArray[6];
+                FechaHasta = myArray[7];
+            }else{
+                FechaDesde = 0;
+                FechaHasta = 0;       
+            }
+
+            if (FechaDesde == 0) return;
+
+
+            let myFechaDesde, myFechaHasta, myFecha;
+
+            myFechaDesde = FechaDesde.toString().substr(8,2)  + '-' + FechaDesde.toString().substr(5,2) + '-' + FechaDesde.toString().substr(0,4);
+            myFechaHasta = FechaHasta.toString().substr(8,2)  + '-' + FechaHasta.toString().substr(5,2) + '-' + FechaHasta.toString().substr(0,4);
+
+            myFecha = myFechaDesde.toString()  + ' - ' + myFechaHasta.toString();
+
+            // alert('myFecha -> ' + myFecha );
+
+            // $('#drCustomRanges').val(myFecha);
+            // alert(' Mi Fecha desde -> ' + myFechaDesde);
+            // alert('gggggsssss ' + $('#drCustomRanges').data('daterangepicker').startDate.format('YYYY-MM-DD'));
+
+            $('#drCustomRanges').data('daterangepicker').setStartDate(myFechaDesde);
+            $('#drCustomRanges').data('daterangepicker').setEndDate(myFechaHasta);
+
         }
 
     </script>

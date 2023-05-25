@@ -123,7 +123,6 @@ $config4 = [
             </x-adminlte-date-range>
         </div>
 
-
     </div>
 
 </div>
@@ -316,13 +315,15 @@ $(document).ready(function () {
 
     BuscaTransaccion(miTypeTransaction);
 
-    const myFechaDesde = {!! $myFechaDesde !!};
-    const myFechaHasta = {!! $myFechaHasta !!};
 
-    BuscaFecha(myFechaDesde, myFechaHasta);
 
     $(() => {
 
+        const myFechaDesde = {!! $myFechaDesde !!};
+        const myFechaHasta = {!! $myFechaHasta !!};
+
+        BuscaFechas(myFechaDesde, myFechaHasta);
+    
 
         $('#wallet').on('change', function (){
 
@@ -344,7 +345,10 @@ $(document).ready(function () {
 
         $('#drCustomRanges').on('change', function () {
 
-            // alert('ggggg ' + $('#drCustomRanges').val());
+            // alert('ggggg ' + $('#drCustomRanges').val());\
+            
+            // obtener fecha inicio
+            // alert('ggggg ' + $('#drCustomRanges').data('daterangepicker').startDate.format('YYYY-MM-DD'));
 
             let myFechaDesde, myFechaHasta;
 
@@ -361,15 +365,6 @@ $(document).ready(function () {
                             '-' +
                             ($('#drCustomRanges').val()).substr(13,2)
                             ;
-            //
-            //
-            //
-            //
-            //
-            //
-
-
-
 
             const wallet        = $('#wallet').val();
             const transaccion   = $('#transaccion').val();            
@@ -571,9 +566,41 @@ $(document).ready(function () {
         ]
     });
 
+    function BuscaFechas(FechaDesde = 0,FechaHasta = 0){
 
-    function BuscaFecha(myFechaDesde, myFechaHasta){
-        // alert('   ->' + myFechaDesde + ' ->' + myFechaHasta);
+        myLocation  = window.location.toString();
+        
+        // alert('myLocation -> ' + myLocation);
+        // obtener fecha inicio
+        // alert('ggggg ' + $('#drCustomRanges').data('daterangepicker').startDate.format('YYYY-MM-DD'));
+        
+        myArray     = myLocation.split("/");
+        if (myArray.length > 4){
+            FechaDesde = myArray[6];
+            FechaHasta = myArray[7];
+        }else{
+            FechaDesde = 0;
+            FechaHasta = 0;       
+        }
+
+        if (FechaDesde == 0) return;
+        
+
+        let myFechaDesde, myFechaHasta, myFecha;
+
+        myFechaDesde = FechaDesde.toString().substr(8,2)  + '-' + FechaDesde.toString().substr(5,2) + '-' + FechaDesde.toString().substr(0,4);
+        myFechaHasta = FechaHasta.toString().substr(8,2)  + '-' + FechaHasta.toString().substr(5,2) + '-' + FechaHasta.toString().substr(0,4);
+
+        myFecha = myFechaDesde.toString()  + ' - ' + myFechaHasta.toString();
+        
+        // alert('myFecha -> ' + myFecha );
+        
+        // $('#drCustomRanges').val(myFecha);
+        // alert(' Mi Fecha desde -> ' + myFechaDesde);
+        // alert('gggggsssss ' + $('#drCustomRanges').data('daterangepicker').startDate.format('YYYY-MM-DD'));
+
+        $('#drCustomRanges').data('daterangepicker').setStartDate(myFechaDesde);
+        $('#drCustomRanges').data('daterangepicker').setEndDate(myFechaHasta);
     }
 
 </script>
