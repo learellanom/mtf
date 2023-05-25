@@ -367,7 +367,7 @@ return [
             'active' => ['estadisticasResumenWalletTran','regex:@^estadisticasResumenWalletTran/[0-9]+/*@' ],
             'icon' => 'fas fa-fw fas fa-chart-bar',
             'can'  => 'estadisticasDetalle.estadisticasResumenWalletTran',
-        ],              
+        ],
         // [
         //     'text' => 'Conciliacion por Grupo',
         //     'url'  => 'estadisticasConciliacionGrupo',
@@ -387,13 +387,13 @@ return [
             'label_color' =>'success',
         ],
         [
-            'text'        => 'Transacciónes de caja a caja',
+            'text'        => 'Transacciónes entre cajas',
             'url'         => 'movimientos/entre_cajas',
-            'active'      => ['movimientos', 'regex:@^movimientos/[0-9]+/*@', 'movimientos/create'],
-            'can'         => 'transactions.index',
-            'icon'        => 'fas fa-fw fas fa-retweet',
+            'active'      => ['movimientos/entre_cajas'],
+            'can'         => 'transactions.transfer_wallet',
+            'icon'        => 'fas fa-fw fas fa-undo',
             'label'       => 'OP',
-            'label_color' =>'success',
+            'label_color' =>'success'
         ],
         [
             'text'        => 'Transacciónes en efectivo',
