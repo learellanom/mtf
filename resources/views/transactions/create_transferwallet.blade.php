@@ -31,7 +31,6 @@
 
               <div class="tab-content" id="pills-tabContent">
                 <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
-                    {!! Form::hidden('user_id',auth()->id(), null, ['class' => 'form-control', 'required' => true]) !!}
 
                     <div class="form-row">
 
@@ -84,7 +83,7 @@
 
                         {!! Form::hidden('type_transaction2_id', 8, null, ['class' => 'form-control transaccion']) !!}
 
-                </div>
+
 
                 <div class="form-group">
                     {!! Form::Label('reference_number', "Numero de referencia:") !!}
@@ -127,8 +126,6 @@
 
                   </div>
                 </div>
-
-
 
             {!! Form::Submit('GUARDAR', ['class' => 'btn btn-primary btn-block font-weight-bold', 'style' => "max-height: 400px;" , 'id' => 'publish']) !!}
           </div>
@@ -289,10 +286,19 @@ $("#wallet2").trigger("change");
         $('#montototal').val(input1Value);
      });
 
-/* $(document).ready(function() {
-  //$('#monto_dolares').toFixed(2);
+     $("#wallet").on("change", function() {
+            // Capturar dato seleccionado
+            var selectedValue = this.value;
+            var option = $("#wallet option:selected").text();
+            var option2 = $("#wallet2 option:selected").text();
+            // Realizar la acción deseada en función del valor seleccionado
+            if (option === option2) {
+                $("#wallet2 option:selected").text().hidden();
+            } else if (!option) {
+                option2.show();
 
-})//CIERRE DEL READY */
+            }
+        });
 
 
 
@@ -397,30 +403,35 @@ $("#wallet2").trigger("change");
 
 
 
-$('#file').on('filebatchpreupload', function (event, data) {
-    //Si quieres que haga algo antes de enviar la informacion
-    $("#divResult").text("Enviando...");
-});
 
-//Para procesar los archivos despues de haberlos subido
-$('#file').on('filebatchuploadsuccess', function (event, data) {
-    var response = data.response;
-    $("#divResult").text("Procesados...");
-    //Despues de procesar la informacion el servidor respondera con esto... puedes decidir que hacer.. ya se mostrar un mensaje al usuairo
-});
 
-$('#file').on('filecleared', function () {
-    //Si queires que haga algo al limpiar los archivos
-    //alert('0 archivos');
-    Swal.fire(
-    'Cancelada la subida de archivos',
-    '',
-    'error'
-    )
 
-});
 
-/* REFERENCIAS PARA RESPALDO DE MOVIMIENTO */
+
+    $('#file').on('filebatchpreupload', function (event, data) {
+        //Si quieres que haga algo antes de enviar la informacion
+        $("#divResult").text("Enviando...");
+    });
+
+    //Para procesar los archivos despues de haberlos subido
+    $('#file').on('filebatchuploadsuccess', function (event, data) {
+        var response = data.response;
+        $("#divResult").text("Procesados...");
+        //Despues de procesar la informacion el servidor respondera con esto... puedes decidir que hacer.. ya se mostrar un mensaje al usuairo
+    });
+
+    $('#file').on('filecleared', function () {
+        //Si queires que haga algo al limpiar los archivos
+        //alert('0 archivos');
+        Swal.fire(
+        'Cancelada la subida de archivos',
+        '',
+        'error'
+        )
+
+    });
+
+    /* REFERENCIAS PARA RESPALDO DE MOVIMIENTO */
 
 
 
