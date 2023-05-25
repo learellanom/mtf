@@ -601,16 +601,29 @@ $(document).ready(function() {
 
         exonerar.click = function (){
 
+            $('#comision').val(""); // LIMPIAR COMISION
+            $('#percentage').val("");  // LIMPIAR PORCENTAJE
+            $('#percentage_base').val("");  // LIMPIAR PORCENTAJE
+            $('#comision_base').val("");  // LIMPIAR PORCENTAJE
+
+            $('#percentage').attr("readonly", true);
+            $('#percentage_base').attr("readonly", true);
+
               montottotal = (montototal.value);
               monto_real.value =  montottotal;
         }
         incluir.click = function (){
+            $('#percentage').attr("required", true);
+            $('#percentage').attr("readonly", false);
+            $('#percentage_base').attr("readonly", false);
 
             monto_real.value = (parseFloat(montototal.value) + parseFloat(comision.value)).toFixed(2);
 
         }
         descontar.click = function (){
-
+            $('#percentage').attr("required", true);
+            $('#percentage').attr("readonly", false);
+            $('#percentage_base').attr("readonly", false);
             monto_real.value = (parseFloat(montototal.value) - parseFloat(comision.value)).toFixed(2);
 
         }
