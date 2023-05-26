@@ -69,8 +69,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('movimientos/{movimiento}/editar_credito', [TransactionController::class, 'credit_edit'])->middleware('can:transactions.credit_edit')->name('transactions.credit_edit');
 
 
+    Route::get('movimientos/cajas', [TransactionController::class, 'index_transferwallet'])->middleware('can:transactions.index_transfer_wallet')->name('transactions.index_transferwallet');
     Route::get('movimientos/entre_cajas', [TransactionController::class, 'create_transferwallet'])->middleware('can:transactions.transfer_wallet')->name('transactions.create_transferwallet');
-
     Route::post('movimientos/cajas', [TransactionController::class, 'transfer_wallet'])->name('transactions.transfer_wallet');
 
     Route::resource('movimientos', TransactionController::class)->middleware('auth')->names('transactions');

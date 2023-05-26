@@ -96,8 +96,11 @@ class RoleSeeder extends Seeder
         Permission::create(['name' => 'transactions.credit', 'description' => 'Crear credito a la caja'])->assignRole($role1);
         Permission::create(['name' => 'transactions.credit_edit', 'description' => 'Modificar credito a la caja'])->assignRole($role1);
 
-        Permission::create(['name' => 'transactions.credit', 'description' => 'Crear credito a la caja'])->assignRole([$role1, $role2, $role3]);
-        
+        Permission::create(['name' => 'transactions.update_status', 'description' => 'Cambiar estatus de la transacción'])->syncRoles([$role1, $role2, $role3]);
 
+        Permission::create(['name' => 'transactions.transfer_wallet', 'description' => 'Crear transacciones de caja a caja'])->syncRoles([$role1, $role2, $role3]);
+        Permission::create(['name' => 'transactions.index_transfer_wallet', 'description' => 'Ver transacciones de caja a caja'])->syncRoles([$role1, $role2, $role3]);
+
+        Permission::create(['name' => 'permissions.index', 'description' => 'Ver los permisos del sistema'])->assignRole($role1);
     }
 }

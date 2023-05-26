@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use App\Models\Transaction;
 use App\Models\Type_coin;
 use App\Models\Type_transaction;
@@ -28,15 +29,13 @@ class TransactionController extends Controller
          foreach(auth()->user()->roles as $roles)
          {
             if($roles->name == 'Administrador' || $roles->name == 'Supervisor'){
-                $transferencia = Transaction::all();
+                $transferencia = Transaction::whereNull('transfer_number')->get();
             }
             else{
                 $transferencia = Transaction::where('user_id', '=', auth()->id())->get();
             }
 
          }
-
-
 
 
          return view('transactions.index', compact('transferencia'));
@@ -157,28 +156,42 @@ class TransactionController extends Controller
 
 
     }
-    /*
-    *
-    *
-    * transferWallet
-    * 23-05-2023
-    *
-    *
-    */
+
+
+    public function index_transferwallet(transaction $transaction)
+    {
+         foreach(auth()->user()->roles as $roles)
+         {
+            if($roles->name == 'Administrador' || $roles->name == 'Supervisor'){
+
+                $transferencia = Transaction::whereNotNull('transfer_number')->get();
+
+            }
+            else{
+                $transferencia = Transaction::where('user_id', '=', auth()->id())->get();
+            }
+
+         }
+
+
+         return view('transactions.index_transferwallet', compact('transferencia'));
+
+    }
+
+
 
     public function create_transferwallet(transaction $transaction)
     {
 
         $type_coin          = Type_coin::pluck('name', 'id');
         $type_transaction   = Type_transaction::whereIn('id', ['8','9'])->pluck('name', 'id');
-        $wallet             = Wallet::whereIn('type_wallet', ['transacciones'])->whereNotIn('id', [3])->pluck('name', 'id');
+        $wallet             = Wallet::pluck('name', 'id');
         $group              = Group::pluck('name', 'id');
         $user               = User::pluck('name', 'id');
         $fecha              = Carbon::now();
 
-        $number_referencia  = Carbon::createFromFormat('Y-m-d H', '1975-05-21 22')->toDateTimeString();
 
-
+        $number_referencia = date('YmdHis');
 
 
         return view('transactions.create_transferwallet', compact('type_coin', 'type_transaction', 'number_referencia', 'wallet', 'group', 'user', 'transaction', 'fecha'));
@@ -197,6 +210,7 @@ class TransactionController extends Controller
         $transaction->transaction_date      = $request->input('transaction_date');
         $transaction->description           = $request->input('description');
         $transaction->user_id               = $user;
+        $transaction->transfer_number       = $request->input('transfer_number');
 
         $transaction->save();
 
@@ -213,6 +227,7 @@ class TransactionController extends Controller
         $transaction2->transaction_date      = $request->input('transaction_date');
         $transaction2->description           = $request->input('description');
         $transaction2->user_id               = $user;
+        $transaction2->transfer_number        = $request->input('transfer_number');
 
         $transaction2->save();
 

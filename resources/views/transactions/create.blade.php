@@ -591,7 +591,7 @@ $(document).ready(function() {
 
             //monto_real = document.getElementById("montototal");
 
-                if(porcentage.value > 0){
+            if(porcentage.value > 0){
                     montottotal = (montototal.value * porcentage.value / 100);
                     comision.value =  montottotal.toFixed(2).toString();
 
@@ -599,13 +599,16 @@ $(document).ready(function() {
                      montoreal.value = (parseFloat($('#monto_dolares').val()) + parseFloat($('#comision').val())).toFixed(2);
 
                      }
-                     else if(descontar.checked){
+
+                     if(descontar.checked){
                         montoreal.value = (parseFloat($('#monto_dolares').val()) - parseFloat($('#comision').val())).toFixed(2);
                      }
-                     else if(exonerar.checked){
+
+                }else if(is_null(porcentage.value)){
+                      if(exonerar.checked){
                         monto_real.value = parseFloat(montototal.value).toFixed(2);
                      }
-                    }
+                }
 
              })
 
@@ -622,7 +625,7 @@ $(document).ready(function() {
     incluir = document.getElementById("radio3");
 
 
-exonerar.click = function (){
+    exonerar.click = function (){
 
     $('#comision').val(""); // LIMPIAR COMISION
     $('#percentage').val("");  // LIMPIAR PORCENTAJE
@@ -634,25 +637,25 @@ exonerar.click = function (){
     montottotal = (montototal.value);
     monto_real.value = parseFloat(montototal.value).toFixed(2);
 
-}
-incluir.click = function (){
-      //var selectedValue = this.value;
+    }
+    incluir.click = function (){
+    //var selectedValue = this.value;
 
-      $('#percentage').attr("required", true);
-      $('#percentage').attr("readonly", false);
-      $('#percentage_base').attr("readonly", false);
+    $('#percentage').attr("required", true);
+    $('#percentage').attr("readonly", false);
+    $('#percentage_base').attr("readonly", false);
 
-      monto_real.value = (parseDouble($('#monto_dolares').val()) + parseFloat($('#comision').val())).toFixed(2);
+    monto_real.value = (parseFloat($('#monto_dolares').val()) + parseFloat($('#comision').val())).toFixed(2);
 
-}
-descontar.click = function (){
+    }
+    descontar.click = function (){
     //$('.comi').show();
     $('#percentage').attr("required", true);
     $('#percentage').attr("readonly", false);
     $('#percentage_base').attr("readonly", false);
 
     monto_real.value = (parseFloat($('#monto_dolares').val()) - parseFloat($('#comision').val())).toFixed(2);
-}
+    }
 
 mas = document.getElementById("mas");
 menos = document.getElementById("menos");

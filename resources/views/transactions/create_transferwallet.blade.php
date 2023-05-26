@@ -24,9 +24,9 @@
                 <li class="nav-item" role="presentation">
                   <button class="nav-link active" id="pills-home-tab" data-toggle="pill" data-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">{{ __('Movimiento') }}</button>
                 </li>
-                <li class="nav-item" role="presentation">
+                {{-- <li class="nav-item" role="presentation">
                   <button class="nav-link" id="pills-profile-tab" data-toggle="pill" data-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">{{ __('Referencias') }}</button>
-                </li>
+                </li> --}}
               </ul>
 
               <div class="tab-content" id="pills-tabContent">
@@ -34,24 +34,22 @@
 
                     <div class="form-row">
 
-                        <div class="form-group col-md-6">
+                        <div class="form-group col-md-6" >
                             {!! Form::Label('wallet_id', "Caja de origen:") !!}
                             <div class="input-group-text col-md-12">
-                                <i class="fa-fw fas fa-random"></i>
-                            {!! Form::select('wallet_id', $wallet, null, ['class' => 'form-control wallet', 'required' => true, 'id'=>'wallet', 'readonly' => false]) !!}
+                                <i class="fa-fw fas fa-random mr-2"></i>
+                            {!! Form::select('wallet_id', $wallet, null, ['class' => 'form-control wallet muestra', 'required' => true, 'id'=>'wallet', 'readonly' => false]) !!}
                             </div>
                         </div>
 
                         <div class="form-group col-md-6">
                             {!! Form::Label('wallet2_id', "Caja destino:") !!}
                             <div class="input-group-text col-md-12">
-                                <i class="fa-fw fas fa-random"></i>
-                            {!! Form::select('wallet2_id', $wallet, null, ['class' => 'form-control wallet2', 'required' => true, 'id'=>'wallet2', 'readonly' => false]) !!}
+                                <i class="fa-fw fas fa-random mr-2"></i>
+                            {!! Form::select('wallet2_id', $wallet, null, ['class' => 'form-control wallet2 oculta', 'required' => true, 'id'=>'wallet2', 'readonly' => false]) !!}
                             </div>
                         </div>
                     </div>
-
-
 
                     <div class="form-row">
                     <div class="form-group col-md-6">
@@ -86,11 +84,10 @@
 
 
                 <div class="form-group">
-                    {!! Form::Label('reference_number', "Numero de referencia:") !!}
-                        <div class="input-group-text">
-                            <i class="fas fa-sort-numeric-up mr-2"></i>
-                        {!! Form::text('reference_number',$number_referencia, ['class' => 'form-control', 'required' => true, 'readonly' => true]) !!}
-                        </div>
+
+
+                        {!! Form::hidden('transfer_number', $number_referencia,['class' => 'form-control', 'required' => true, 'readonly' => true]) !!}
+
                 </div>
 
                 <div class="form-group">
@@ -106,7 +103,7 @@
                 </div>
 
 
-                <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+         {{--        <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
 
                     <div class="form-group">
                         <div class="custom-file col-md-12">
@@ -129,7 +126,7 @@
 
             {!! Form::Submit('GUARDAR', ['class' => 'btn btn-primary btn-block font-weight-bold', 'style' => "max-height: 400px;" , 'id' => 'publish']) !!}
           </div>
-
+ --}}
         </div>
       {!! Form::close() !!}
     </div>
@@ -286,20 +283,33 @@ $("#wallet2").trigger("change");
         $('#montototal').val(input1Value);
      });
 
-     $("#wallet").on("change", function() {
-            // Capturar dato seleccionado
-            var selectedValue = this.value;
-            var option = $("#wallet option:selected").text();
-            var option2 = $("#wallet2 option:selected").text();
-            // Realizar la acción deseada en función del valor seleccionado
-            if (option === option2) {
-                $("#wallet2 option:selected").text().hidden();
-            } else if (!option) {
-                option2.show();
+     /* OCULTAR LA CAJA SELECCIONADA */
+     $('.muestra,.oculta').select2({
+        'theme':'bootstrap4'
+     });
 
-            }
+     $('.muestra').change(function() {
+        const opciones = $(this).val();
+
+        [...$('.oculta option')].forEach(o => {
+
+        o.disabled = (opciones.includes(o.value)) ? true : false;
+
         });
 
+    });
+
+    $('.oculta').change(function() {
+        const opciones = $(this).val();
+
+        [...$('.muestra option')].forEach(o => {
+
+        o.disabled = (opciones.includes(o.value)) ? true : false;
+
+        });
+
+    });
+    /* OCULTAR LA CAJA SELECCIONADA */
 
 
 /* REFERENCIAS PARA RESPALDO DE MOVIMIENTO */

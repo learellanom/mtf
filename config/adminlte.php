@@ -387,10 +387,10 @@ return [
             'label_color' =>'success',
         ],
         [
-            'text'        => 'Transacciónes entre cajas',
-            'url'         => 'movimientos/entre_cajas',
-            'active'      => ['movimientos/entre_cajas'],
-            'can'         => 'transactions.transfer_wallet',
+            'text'        => 'Transferencias entre cajas',
+            'url'         => 'movimientos/cajas',
+            'active'      => ['movimientos/cajas'],
+            'can'         => 'transactions.index_transfer_wallet',
             'icon'        => 'fas fa-fw fas fa-undo',
             'label'       => 'OP',
             'label_color' =>'success'
@@ -519,7 +519,7 @@ return [
             'url'  => 'permisos',
             'active'      => ['permisos*'],
             'icon'    => 'fas fa-fw fa-key',
-            //'can'         => 'permissions.index',
+            'can'         => 'permissions.index',
         ],
         [
             'text' => 'Proveedores',
