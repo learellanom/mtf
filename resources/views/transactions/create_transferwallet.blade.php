@@ -257,25 +257,7 @@ $(".status").select2({
   search: false
 });
 
-$(".wallet").select2({
-  placeholder: "Seleccionar caja origen",
-  theme: 'bootstrap4',
-  search: false,
-  allowClear: true,
-  width:'100%'
-});
-$("#wallet").val("")
-$("#wallet").trigger("change");
 
-$(".wallet2").select2({
-  placeholder: "Seleccionar caja destino",
-  theme: 'bootstrap4',
-  search: false,
-  allowClear: true,
-  width:'100%'
-});
-$("#wallet2").val("")
-$("#wallet2").trigger("change");
 
 
       $('#monto_dolares').on('input', function() {
@@ -285,8 +267,13 @@ $("#wallet2").trigger("change");
 
      /* OCULTAR LA CAJA SELECCIONADA */
      $('.muestra,.oculta').select2({
-        'theme':'bootstrap4'
+        'theme':'bootstrap4',
+        search: false,
+        allowClear: true,
+        width:'100%'
      });
+     $(".muestra,.oculta").val("")
+     $(".muestra,.oculta").trigger("change");
 
      $('.muestra').change(function() {
         const opciones = $(this).val();
