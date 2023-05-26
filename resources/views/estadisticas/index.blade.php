@@ -524,7 +524,7 @@ if (isset($balance->Total)){
 
         const myFechaDesde = {!! isset($myFechaDesde) ?? 0 !!};
         const myFechaHasta = {!! isset($myFechaHasta) ?? 0 !!};
-
+        
         BuscaFechas(myFechaDesde, myFechaHasta);
 
 
@@ -744,8 +744,8 @@ if (isset($balance->Total)){
 
             myArray     = myLocation.split("/");
             if (myArray.length > 4){
-                FechaDesde = myArray[6];
-                FechaHasta = myArray[7];
+                FechaDesde = myArray[8];
+                FechaHasta = myArray[9];
             }else{
                 FechaDesde = 0;
                 FechaHasta = 0;       
@@ -760,8 +760,6 @@ if (isset($balance->Total)){
             myFechaHasta = FechaHasta.toString().substr(8,2)  + '-' + FechaHasta.toString().substr(5,2) + '-' + FechaHasta.toString().substr(0,4);
 
             myFecha = myFechaDesde.toString()  + ' - ' + myFechaHasta.toString();
-
-            // alert('myFecha -> ' + myFecha );
 
             // $('#drCustomRanges').val(myFecha);
             // alert(' Mi Fecha desde -> ' + myFechaDesde);

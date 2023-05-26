@@ -1,5 +1,5 @@
 @extends('adminlte::page')
-@section('title', 'Estadisticas por Caja Transaccion')
+@section('title', 'Resumen por Caja Transaccion')
 @section('content')
 {{-- Setup data for datatables --}}
 
@@ -135,8 +135,30 @@ $config4 = [
     <div class="col-md-12">
         <div class="card mb-4">
             <div class="card-header">
-                <h3 class="card-title text-uppercase font-weight-bold">{{ __('Estadisticas| Resumen por Caja Transaccion') }}</h3>
-            </div>
+                <div class= "row">     
+                    <div class="col-md-4">           
+                        <h3 class="card-title text-uppercase font-weight-bold">{{ __('Resumen| Resumen por Caja Transaccion') }}</h3>
+                        @php
+                             echo var_dump($balance);
+                            // die();  
+                        @endphp
+                    </div>
+                    <div class="col-md-4">   
+                        @if($balance< 0)
+                        <h4 class='text-uppercase font-weight-bold'>{{__('Saldo A favor' )}}: {{ number_format(abs($balance),2,",",".") }} $</h4>
+                        @else
+                        <h4 class='text-uppercase font-weight-bold'>{{__('Saldo A favor' )}}: {{ number_format(0,2,",",".") }} $</h4>
+                        @endif
+                    </div>
+                    <div class="col-md-4">
+                        @if($balance< 0)
+                        <h4 class='text-uppercase font-weight-bold'>{{__('Saldo Pendiente' )}}: {{ number_format(0,2,",",".") }} $</h4>
+                        @else
+                        <h4 class='text-uppercase font-weight-bold'>{{__('Saldo Pendiente' )}}: {{ number_format($balance,2,",",".") }} $</h4>
+                        @endif
+                    </div>
+                </div>
+            </div>            
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-12">
@@ -204,82 +226,71 @@ $(document).ready(function () {
             "previous": "Anterior"
         }
     },
-    "order": [[ 2, 'desc' ]],
+    "order": [[ 1, 'asc' ]],
     'dom' : 'Bfrtilp',
     'buttons':[
         {
             extend:  'excelHtml5',
-            exportOptions: { columns: [ 0, 1 ] },
+            exportOptions: { columns: [ 0, 1, 2, 3 ] },
             text:    '<i class="fas fa-file-excel"></i>',
             titleAttr: 'Exportar Excel',
             className: 'btn btn-success',
             "excelStyles": [
-            {
-                "template": ["title_medium", "gold_medium"]
-            },
-
-            {
-                "cells": "2",
-                "style": {
-                    "font": {
-                        "size": "18",
-                        "color": "FFFFFF"
-                    },
-                    "fill": {
-                        "pattern": {
-                            "type": "solid",
-                            "color": "002B5B"
-                        }
-                    },
-
-                }
-            },
-            {
-                "cells": "1",
-                "style": {
-                    "font": {
-                        "size": "20",
-                        "color": "FFFFFF"
-                    },
-                    "fill": {
-                        "pattern": {
-                            "size": "25",
-                            "type": "solid",
-                            "color": "0B2447",
-                        }
-                    }
-                }
-            },
-            {
-            "cells": "sF",
-            "condition": {
-                "type": "dataBar",
-                "dataBar": {
-                    "color": [
-                        "0081B4"
-                    ]
-                }
-              }
-            },
-             {
-                "cells": "sE",
-            "condition": {
-                "type": "dataBar",
-                "dataBar": {
-                    "color": [
-                        "0081B4"
-                    ]
-                  }
-                 }
-              },
                 {
-                    'cells': "sB",
-                    'template': "date_long",
+                    "template": ["title_medium", "gold_medium"]
                 },
                 {
-                    "cells": "F",
+                    "cells": "1",
+                    "style": {
+                        "font": {
+                            "size": "20",
+                            "color": "FFFFFF"
+                        },
+                        "fill": {
+                            "pattern": {
+                                "size": "25",
+                                "type": "solid",
+                                "color": "0B2447",
+                            }
+                        }
+                    }
+                },
+                {
+                    "cells": "2",
+                    "style": {
+                        "font": {
+                            "size": "18",
+                            "color": "FFFFFF"
+                        },
+                        "fill": {
+                            "pattern": {
+                                "type": "solid",
+                                "color": "002B5B"
+                            }
+                        },
+
+                    }
+                },
+                {
+                    "cells": "sA",
+                    "width": 25,
+                },
+                {
+                    "cells": "sB",
+                    "width": 45,
+                },
+                {
+                    'cells': "sC",
+                    "width": 15,
                     "style": {
                         "numFmt": "#,##0;(#,##0)"
+                    }                    
+                },
+                {
+                    "cells": "sD",
+                    "width": 20,                 
+                    "style": {
+                        "numFmt": "#,#0;(#,#0)"
                     }
                 }
            ]
@@ -399,7 +410,7 @@ $(document).ready(function () {
         if (typeTransactions  === "") typeTransactions  = 0;
 
         fechaDesde = $('#drCustomRanges').data('daterangepicker').startDate.format('YYYY-MM-DD')
-        fechaDesde = $('#drCustomRanges').data('daterangepicker').endDate.format('YYYY-MM-DD')
+        fechaHasta = $('#drCustomRanges').data('daterangepicker').endDate.format('YYYY-MM-DD')
 
         //                      'estadisticasDetalle/{usuario}/{grupo?}/{wallet?}/{typeTransactions?}/{fechaDesde?}/{fechaHasta?}'
         let myRoute = "";
@@ -554,7 +565,7 @@ $(document).ready(function () {
                 extend:  'pdfHtml5',
                 text:    '<i class="fas fa-file-pdf"></i>',
                 orientation: 'landscape',
-                title: 'MTF | LISTA DE TRANSACIÓNES',
+                title: 'MTF | Resumen por Caja Transaccion',
                 titleAttr: 'Exportar PDF',
                 className: 'btn btn-danger',
 

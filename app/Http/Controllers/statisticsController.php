@@ -1195,7 +1195,7 @@ class statisticsController extends Controller
     /* 
     *
     *
-    *       transactionSummary
+    *       walletTransactionSummary
     *       ajua
     *
     */  
@@ -1238,6 +1238,14 @@ class statisticsController extends Controller
            $myWallet        = $request->wallet;
        }
 
+       $balance = 0;
+       if ($myWallet > 0){
+              $balance2 = $this->getBalanceWallet($myWallet);
+              $balance  = $balance2->Total;
+           // $balance = $this->getBalancemyWallet($myWallet, $myFechaDesde, $myFechaHasta);            
+       };
+       // dd($balance);
+
         $Type_transactions  = $this->getTypeTransactions();
         $wallet             = $this->getWallet();
 
@@ -1252,7 +1260,8 @@ class statisticsController extends Controller
                 sum(amount_commission)      as total_commission,
                 sum(amount_total)           as total'))
             ->leftJoin('type_transactions', 'type_transactions.id', '=', 'transactions.type_transaction_id')             
-            ->leftJoin('wallets',           'wallets.id', '=', 'transactions.wallet_id')                         
+            ->leftJoin('wallets',           'wallets.id', '=', 'transactions.wallet_id')     
+            ->where('status','<>','Anulado')                    
             ->whereBetween('Transactions.wallet_id',            [$myWalletDesde, $myWalletHasta])            
             ->whereBetween('Transactions.type_transaction_id',  [$myTypeTransactionDesde, $myTypeTransactionHasta])
             ->whereBetween('Transactions.transaction_date',     [$myFechaDesde, $myFechaHasta])
@@ -1264,7 +1273,7 @@ class statisticsController extends Controller
   
         // dd($Transacciones);
         
-        return view('estadisticas.statisticsResumenWalletTransaccion', compact('myWallet','wallet','myTypeTransaction', 'Type_transactions', 'Transacciones','myFechaDesde','myFechaHasta'));
+        return view('estadisticas.statisticsResumenWalletTransaccion', compact('myWallet','wallet','myTypeTransaction', 'Type_transactions', 'Transacciones','myFechaDesde','myFechaHasta','balance'));
         
     }
    /*
@@ -1838,8 +1847,7 @@ class statisticsController extends Controller
     *
     *
     */
-    
-    function getBalanceWallet($wallet = 0, $master = false){
+    function getBalanceWallet($wallet = 0){
 
         if ($wallet === 0){
             $walletDesde = 00000;
@@ -1857,9 +1865,7 @@ class statisticsController extends Controller
         $myFechaHasta = "9999-12-31";
 
         $myTable = "mtf.transactions";
-        if ($master){
-            $myTable = "mtf.transaction_master";
-        }
+
         //
         // 26-04-2023
         //
@@ -1890,7 +1896,7 @@ class statisticsController extends Controller
             wallet_id         as IdWallet,
             mtf.wallets.name  as NombreWallet,
             0 				  as MontoCreditos,
-            sum(amount_total) as MontoDebitos
+            sum(amount) as MontoDebitos
         FROM $myTable 
         left join  mtf.wallets on mtf.transactions.wallet_id  = mtf.wallets.id
         where
@@ -1907,7 +1913,7 @@ class statisticsController extends Controller
         SELECT 
             wallet_id          as IdWallet,
             mtf.wallets.name   as NombreWallet,
-            sum(amount_total)  as MontoCreditos,
+            sum(amount)  as MontoCreditos,
             0 as MontoDebitos
         FROM $myTable 
         left join  mtf.wallets on mtf.transactions.wallet_id  = mtf.wallets.id
@@ -1932,8 +1938,8 @@ class statisticsController extends Controller
 
         $Transacciones = DB::select($myQuery);
        
-         \Log::info('leam grupo query  *** -> ' . print_r($myQuery,true));    
-         \Log::info('leam grupo transacciones *** -> ' . print_r($Transacciones,true));    
+         \Log::info('leam grupo query           *** -> ' . print_r($myQuery,true));    
+         \Log::info('leam grupo transacciones   *** -> ' . print_r($Transacciones,true));    
 
         if (empty($Transacciones)) {
             // \Log::info('leam vacio *** -> ' . print_r($Transacciones,true));   
