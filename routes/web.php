@@ -72,9 +72,11 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('movimientos/cajas', [TransactionController::class, 'index_transferwallet'])->middleware('can:transactions.index_transfer_wallet')->name('transactions.index_transferwallet');
     Route::get('movimientos/entre_cajas', [TransactionController::class, 'create_transferwallet'])->middleware('can:transactions.transfer_wallet')->name('transactions.create_transferwallet');
     Route::post('movimientos/cajas', [TransactionController::class, 'transfer_wallet'])->name('transactions.transfer_wallet');
+    Route::match(['put', 'patch'], 'movimientos/{movimiento}/estatus_cajas', [TransactionController::class, 'updatestatus_transfer'])->name('transactions.updatestatus_transfer');
+
 
     Route::resource('movimientos', TransactionController::class)->middleware('auth')->names('transactions');
-    Route::match(['put', 'patch'], 'movimientos/{movimiento}/ecstatus', [TransactionController::class, 'update_status'])->name('transactions.update_status');
+    Route::match(['put', 'patch'], 'movimientos/{movimiento}/estatus', [TransactionController::class, 'update_status'])->name('transactions.update_status');
     Route::delete('movimientos/eliminar/{movimiento}', [TransactionController::class, 'destroyImg'])->name('transactions.destroyimg');
 
 });

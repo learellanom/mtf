@@ -162,14 +162,24 @@ class TransactionController extends Controller
     {
          foreach(auth()->user()->roles as $roles)
          {
-            if($roles->name == 'Administrador' || $roles->name == 'Supervisor'){
-
-                $transferencia = Transaction::whereNotNull('transfer_number')->get();
-
-            }
-            else{
-                $transferencia = Transaction::where('user_id', '=', auth()->id())->get();
-            }
+                $transferencia = DB::select('select
+                mtf.transactions.id as TransactionId,
+                    transfer_number as TransferNumber,
+                IF(type_transactions.name = "Nota de credito", "Destino", "Origen") as TransferType,
+                    wallet_id as WalletIdOrigen,
+                    wallets.name as WalletNameOrigen,
+                    amount_total as Amount,
+                    transaction_date as TransactionDate,
+                    users.name as Agente,
+                    status as estatus,
+                    type_transaction_id as TypeTransactionId,
+                    transactions.description as Description,
+                    type_transactions.name as TypeTransactionName
+                    from mtf.transactions
+                    left join  mtf.wallets on mtf.transactions.wallet_id = wallets.id
+                    left join  mtf.type_transactions on mtf.transactions.type_transaction_id  = mtf.type_transactions.id
+                    left join  mtf.users on mtf.transactions.user_id  = mtf.users.id
+                    where transfer_number != "" order by transfer_number, TransferType desc');
 
          }
 
@@ -237,6 +247,31 @@ class TransactionController extends Controller
         flash()->addSuccess('Movimiento guardado', 'Transacción', ['timeOut' => 3000]);
 
          return Redirect::route('transactions.index_transferwallet');
+
+    }
+
+    public function updatestatus_transfer(Request $request, $transaction)
+    {
+            $transactin = Transaction::all();
+            dd($transaction);
+             if($transactin->status == 'Activo'){
+
+                $transactions = Transaction::where('transfer_number')->update(['status' => 'Anulado']);
+
+                   return Redirect::route('transactions.index_transferwallet')->with('error', 'Transferencia anulada  <strong># '. $transactions . '</strong>');
+
+            }
+
+            elseif($transactin->status == 'Anulado'){
+
+                $transactions = Transaction::where('transfer_number')->update(['status' => 'Activo']);
+
+                return Redirect::route('transactions.index_transferwallet')->with('success', 'Transferencia activa  <strong># </strong>');
+
+            }
+
+
+            //return Redirect::route('transactions.index_transferwallet')->with('success', 'Transferencia activa  <strong># '. $transactions->transfer_number . '</strong>');
 
     }
 

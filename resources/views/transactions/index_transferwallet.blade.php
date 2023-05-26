@@ -39,7 +39,6 @@
                                     <th style="width:10%;">Monto Total</th>
                                     <th>Agente</th>
                                     <th>Tipo de Movimiento</th>
-                                    <th style="width:11%;">Caja de origen <i class="fas fa-box"></i></th>
                                     <th style="width:10%;">Caja destino <i class="fas fa-box"></i></th>
                                     @can('transactions.update_status')
                                     <th style="width:1%;">Activo/Anulado</th>
@@ -53,29 +52,28 @@
                             @foreach($transferencia as $transferencias)
 
                                 <tr>
-                                    <td class="font-weight-bold">{{ $transferencias->transfer_number }}</td>
+                                    <td class="font-weight-bold">{{ $transferencias->TransferNumber }}</td>
 
 
-                                    <td class="font-weight-bold" style="min-width: 80px;">{!! $transferencias->transaction_date !!}</td>
+                                    <td class="font-weight-bold" style="min-width: 80px;">{!! $transferencias->TransactionDate !!}</td>
 
-                                    <td class="font-weight-bold"><div style='width:60px; height:60px; overflow:hidden;'>{!!  $transferencias->description !!}</div></td>
+                                    <td class="font-weight-bold"><div style='width:60px; height:60px; overflow:hidden;'>{!!  $transferencias->Description !!}</div></td>
 
-                                    <td class="font-weight-bold">{!! number_format($transferencias->amount_total) !!} <i class="fas fa-dollar-sign"></i></td>
+                                    <td class="font-weight-bold">{!! number_format($transferencias->Amount) !!} <i class="fas fa-dollar-sign"></i></td>
 
-                                    <td class="font-weight-bold">{!! $transferencias->user->name !!}</td>
-                                    <td>{!! $transferencias->type_transaction->name !!}</td>
-                                    <td>{!! $transferencias->wallet->name !!}</td>
-                                    <td>{!! $transferencias->wallet->name !!}</td>
+                                    <td class="font-weight-bold">{!! $transferencias->Agente !!}</td>
+                                    <td>{!! $transferencias->TransferType !!}</td>
+                                    <td>{!! $transferencias->WalletNameOrigen !!}</td>
                                     @can('transactions.update_status')
                                         <td class="text-center">
-                                            {!! Form::model($transferencias->id, ['route' => ['transactions.update_status', $transferencias->id],'method' => 'put']) !!}
+                                            {!! Form::model($transferencias->TransferNumber, ['route' => ['transactions.updatestatus_transfer', $transferencias->TransferNumber],'method' => 'put']) !!}
 
-                                                @if($transferencias->status == 'Activo')
+                                                @if($transferencias->estatus == 'Activo')
                                                 <button class="btn btn-xl text-success mx-1 shadow text-center" title="Activo">
                                                     <i class="fa fa-lg fa-fw fas fa-check"></i><p style="display: none;">Activo</p>
                                                 </button>
 
-                                                @elseif($transferencias->status == 'Anulado')
+                                                @elseif($transferencias->estatus == 'Anulado')
                                                 <button class="btn btn-xl text-danger mx-1 shadow text-center" title="Anulado">
                                                     <i class="fa fa-lg fa-fw fas fa-times"></i><p style="display: none;">Anulado</p>
                                                 </button>
@@ -85,7 +83,7 @@
                                     @endcan
 
                                     <td>
-                                        <a href="{{ route('transactions.show', $transferencias->id) }}" class="btn btn-xl text-dark mx-1 shadow text-center"><i class="fa fa-lg fa-fw fas fa-search"></i></a>
+                                        <a href="{{ route('transactions.show', $transferencias->TransactionId) }}" class="btn btn-xl text-dark mx-1 shadow text-center"><i class="fa fa-lg fa-fw fas fa-search"></i></a>
                                     </td>
 
                                 </tr>
