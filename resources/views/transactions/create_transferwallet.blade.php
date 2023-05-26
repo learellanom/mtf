@@ -73,14 +73,14 @@
                         {!! Form::hidden('status', 'Activo', null, ['class' => 'form-control']) !!}
 
 
+                        @foreach($type_transaction as $type)
+                        {!! Form::hidden('type_transaction_id', $type, null, ['class' => 'form-control transaccion']) !!}
+                        @endforeach
 
-                        {!! Form::hidden('type_transaction_id', 9, null, ['class' => 'form-control transaccion']) !!}
 
-
-
-
-                        {!! Form::hidden('type_transaction2_id', 8, null, ['class' => 'form-control transaccion']) !!}
-
+                         @foreach($type_transaction2 as $type2)
+                        {!! Form::hidden('type_transaction2_id', $type2, null, ['class' => 'form-control transaccion']) !!}
+                         @endforeach
 
 
                 <div class="form-group">

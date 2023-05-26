@@ -184,7 +184,8 @@ class TransactionController extends Controller
     {
 
         $type_coin          = Type_coin::pluck('name', 'id');
-        $type_transaction   = Type_transaction::whereIn('id', ['8','9'])->pluck('name', 'id');
+        $type_transaction   = Type_transaction::whereIn('name', ['Nota de debito'])->pluck('id');
+        $type_transaction2  = Type_transaction::whereIn('name', ['Nota de credito'])->pluck('id');
         $wallet             = Wallet::pluck('name', 'id');
         $group              = Group::pluck('name', 'id');
         $user               = User::pluck('name', 'id');
@@ -194,7 +195,7 @@ class TransactionController extends Controller
         $number_referencia = date('YmdHis');
 
 
-        return view('transactions.create_transferwallet', compact('type_coin', 'type_transaction', 'number_referencia', 'wallet', 'group', 'user', 'transaction', 'fecha'));
+        return view('transactions.create_transferwallet', compact('type_coin', 'type_transaction', 'type_transaction2', 'number_referencia', 'wallet', 'group', 'user', 'transaction', 'fecha'));
     }
 
 
@@ -235,7 +236,7 @@ class TransactionController extends Controller
 
         flash()->addSuccess('Movimiento guardado', 'Transacción', ['timeOut' => 3000]);
 
-         return Redirect::route('transactions.index');
+         return Redirect::route('transactions.index_transferwallet');
 
     }
 
