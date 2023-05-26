@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use App\Models\Transaction;
 use App\Models\Type_coin;
 use App\Models\Type_transaction;
@@ -28,15 +29,13 @@ class TransactionController extends Controller
          foreach(auth()->user()->roles as $roles)
          {
             if($roles->name == 'Administrador' || $roles->name == 'Supervisor'){
-                $transferencia = Transaction::all();
+                $transferencia = Transaction::whereNull('transfer_number')->get();
             }
             else{
                 $transferencia = Transaction::where('user_id', '=', auth()->id())->get();
             }
 
          }
-
-
 
 
          return view('transactions.index', compact('transferencia'));
@@ -157,14 +156,29 @@ class TransactionController extends Controller
 
 
     }
-    /*
-    *
-    *
-    * transferWallet
-    * 23-05-2023
-    *
-    *
-    */
+
+
+    public function index_transferwallet(transaction $transaction)
+    {
+         foreach(auth()->user()->roles as $roles)
+         {
+            if($roles->name == 'Administrador' || $roles->name == 'Supervisor'){
+
+                $transferencia = Transaction::whereNotNull('transfer_number')->get();
+
+            }
+            else{
+                $transferencia = Transaction::where('user_id', '=', auth()->id())->get();
+            }
+
+         }
+
+
+         return view('transactions.index_transferwallet', compact('transferencia'));
+
+    }
+
+
 
     public function create_transferwallet(transaction $transaction)
     {
@@ -176,9 +190,8 @@ class TransactionController extends Controller
         $user               = User::pluck('name', 'id');
         $fecha              = Carbon::now();
 
-        $number_referencia  = Carbon::now();
 
-
+        $number_referencia = date('YmdHis');
 
 
         return view('transactions.create_transferwallet', compact('type_coin', 'type_transaction', 'number_referencia', 'wallet', 'group', 'user', 'transaction', 'fecha'));
