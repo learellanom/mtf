@@ -246,6 +246,65 @@ class TransactionController extends Controller
 
     }
 
+    public function create_pagowallet(transaction $transaction)
+    {
+
+        $type_coin          = Type_coin::pluck('name', 'id');
+        $type_transaction   = Type_transaction::whereIn('name', ['Pago Efectivo'])->pluck('id');
+        $type_transaction2  = Type_transaction::whereIn('name', ['Nota de Credito a Caja de efectivo'])->pluck('id');
+        $wallet             = Wallet::pluck('name', 'id');
+        $group              = Group::pluck('name', 'id');
+        $user               = User::pluck('name', 'id');
+        $fecha              = Carbon::now();
+
+        $number_referencia = date('YmdHis').'P-G';
+
+
+        return view('transactions.create_pagowallet', compact('type_coin', 'type_transaction', 'type_transaction2', 'number_referencia', 'wallet', 'group', 'user', 'transaction', 'fecha'));
+    }
+    public function store_pagowallet(Request $request)
+    {
+        $user = Auth::id();
+        $transaction = new Transaction;
+
+        $transaction->type_transaction_id   = $request->input('type_transaction_id');
+        $transaction->wallet_id             = $request->input('wallet_id');
+        $transaction->amount                = $request->input('amount');
+        $transaction->amount_total          = $request->input('amount_total');
+        $transaction->transaction_date      = $request->input('transaction_date');
+        $transaction->description           = $request->input('description');
+        $transaction->transfer_number       = $request->input('pay_number');
+        $transaction->transfer_number       = $request->input('amount_commission_base');
+        $transaction->transfer_number       = $request->input('percentage_base');
+        $transaction->transfer_number       = $request->input('exonerate_base');
+        $transaction->transfer_number       = $request->input('amount_total_base');
+        $transaction->user_id               = $user;
+
+        $transaction->save();
+
+
+
+        $transaction2 = new Transaction;
+
+        $transaction2->type_transaction_id   = $request->input('type_transaction2_id');
+        $transaction2->wallet_id             = $request->input('wallet2_id');
+        $transaction2->amount                = $request->input('amount');
+        $transaction2->amount_total          = $request->input('amount_total');
+        $transaction2->transaction_date      = $request->input('transaction_date');
+        $transaction2->description           = $request->input('description');
+        $transaction2->transfer_number       = $request->input('pay_number');
+        $transaction2->transfer_number       = $request->input('amount_commission_base');
+        $transaction2->transfer_number       = $request->input('percentage_base');
+        $transaction2->transfer_number       = $request->input('exonerate_base');
+        $transaction2->transfer_number       = $request->input('amount_total_base');
+        $transaction2->user_id               = $user;
+        $transaction2->save();
+
+         flash()->addSuccess('Movimiento guardado', 'Transacción', ['timeOut' => 3000]);
+
+         return Redirect::route('transactions.index_transferwallet');
+    }
+
     public function updatestatus_transfer(Request $request, $transaction)
     {
             $transferencia = Transaction::find($transaction);
