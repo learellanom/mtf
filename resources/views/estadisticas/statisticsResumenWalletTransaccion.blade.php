@@ -139,7 +139,7 @@ $config4 = [
                     <div class="col-md-4">           
                         <h3 class="card-title text-uppercase font-weight-bold">{{ __('Resumen| Resumen por Caja Transaccion') }}</h3>
                         @php
-                             echo var_dump($balance);
+                            // echo var_dump($balance);
                             // die();  
                         @endphp
                     </div>
