@@ -179,7 +179,7 @@
                       <div class="info-box bg-light">
                         <div class="info-box-content">
                           <span class="info-box-text text-center text-muted">Monto total (BASE) <i class="fas fa-funnel-dollar"></i></span>
-                          <span class="info-box-number text-center text-muted mb-0">{{ number_format($transactions->amount_total ?? 'SIN BASE') }}$</span>
+                          <span class="info-box-number text-center text-muted mb-0">{{ number_format($transactions->amount_total_base ?? 'SIN BASE') }}$</span>
                         </div>
                       </div>
                     </div>
