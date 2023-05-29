@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', 'Transferencias')
+@section('title', 'transactiones')
 
 @section('content_header')
 
@@ -49,7 +49,7 @@
                                 </tr>
                             </thead>
 
-                            @foreach($transferencia as $transferencias)
+                            @foreach($transactiones as $transferencias)
 
                                 <tr>
                                     <td class="font-weight-bold">{{ $transferencias->TransferNumber }}</td>
@@ -66,7 +66,7 @@
                                     <td>{!! $transferencias->WalletNameOrigen !!}</td>
                                     @can('transactions.update_status')
                                         <td class="text-center">
-                                            {!! Form::model($transferencias->TransferNumber, ['route' => ['transactions.updatestatus_transfer', $transferencias->TransferNumber],'method' => 'put']) !!}
+                                            {!! Form::model($transferencias->TransactionId, ['route' => ['transactions.updatestatus_transfer', $transferencias->TransactionId], 'method' => 'put']) !!}
 
                                                 @if($transferencias->estatus == 'Activo')
                                                 <button class="btn btn-xl text-success mx-1 shadow text-center" title="Activo">
