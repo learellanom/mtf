@@ -31,6 +31,7 @@ return new class extends Migration
             $table->string('token')->nullable(); //TOKEN
             $table->longText('description'); //DESCRIPCION DE LA TRANSFERENCIA
             $table->datetime('transaction_date'); //FECHA DE LA TRANSACCIÓN
+            $table->enum('exonerate_base', [1, 2, 3])->nullable()->default(1); //DESCUENTO, EXONERADO E INCLUIR COMISÓN BASE
             $table->double('percentage_base')->nullable(); //PORCENTAJE DE LA GANANCIA
             $table->double('amount_commission_base')->nullable(); //GANANCIA DE LA COMOSION
             $table->double('amount_total_base')->nullable(); //GANANCIA DE LA COMOSION
