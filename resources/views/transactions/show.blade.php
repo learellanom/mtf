@@ -33,7 +33,7 @@
         <div class="card-header">
           <h3 class="card-title text-uppercase font-weight-bold">Transacción numero #{{ $transactions->id }}
             @if($transactions->status == 'Activo') <span class="badge badge-success">{{ $transactions->status }}</span> @else <span class="badge badge-danger">{{ $transactions->status }}</span> @endif </h3>
-          <p class="card-title text-uppercase font-weight-bold" style="margin-left: 500px;">Cliente: {{ $transactions->group->name ?? 'SIN CLIENTE' }}</p>
+
 
           <div class="card-tools">
             <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
@@ -70,7 +70,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="col-12 col-sm-3">
+                <div class="col-12 col-sm-4">
                     <div class="info-box bg-light">
                       <div class="info-box-content">
                         <span class="info-box-text text-center text-muted">Transacción <i class="fas fa-trademark"></i></span>
@@ -179,7 +179,7 @@
                       <div class="info-box bg-light">
                         <div class="info-box-content">
                           <span class="info-box-text text-center text-muted">Monto total (BASE) <i class="fas fa-funnel-dollar"></i></span>
-                          <span class="info-box-number text-center text-muted mb-0">{{ number_format($transactions->amount_total_base ?? 'SIN BASE') }}$</span>
+                          <span class="info-box-number text-center text-muted mb-0">{{ number_format($transactions->amount_total_base)?? 'SIN BASE' }}$</span>
                         </div>
                       </div>
                     </div>
