@@ -254,7 +254,7 @@ class TransactionController extends Controller
 
                   Transaction::where('transfer_number', $transferencia->transfer_number)->update(['status' => 'Anulado']);
 
-                   return Redirect::route('transactions.index_transferwallet')->with('error', 'Transferencia anulada  <strong># '.$transferencia->transfer_number. '</strong>');
+                   return Redirect::route('transactions.index_transferwallet')->with('info', 'Transferencia anulada  <strong># '.$transferencia->transfer_number. '</strong>');
 
             }
 
