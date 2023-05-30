@@ -398,7 +398,7 @@ return [
         [
             'text'        => 'Pagos entre cajas',
             'url'         => 'movimientos/indice_pagos',
-            'active'      => ['movimientos/indice_pagos'],
+            'active'      => ['movimientos/indice_pagos', 'movimientos/pago_cajas'],
             'can'         => 'transactions.index_pagowallet',
             'icon'        => 'fas fa-fw fas fa-undo',
             'label'       => 'OP',

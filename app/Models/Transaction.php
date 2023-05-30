@@ -47,4 +47,5 @@ class Transaction extends Model implements Auditable
         return $this->morphMany(image::class,'imageable');
     }
 
+
 }

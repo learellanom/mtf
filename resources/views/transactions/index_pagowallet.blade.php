@@ -64,7 +64,7 @@
 
                                     <td class="font-weight-bold">{!! number_format($transferencias->Amount) !!} <i class="fas fa-dollar-sign"></i></td>
 
-                                    <td class="font-weight-bold">{!! number_format($transferencias->PorcentageBase) !!} <i class="fas fa-dollar-sign"></i></td>
+                                    <td class="font-weight-bold">{!! number_format($transferencias->PorcentageBase) !!}</td>
 
                                     <td class="font-weight-bold">{!! number_format($transferencias->ComisionBase) !!} <i class="fas fa-dollar-sign"></i></td>
 
