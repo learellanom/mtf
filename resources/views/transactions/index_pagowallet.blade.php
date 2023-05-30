@@ -4,15 +4,15 @@
 
 @section('content_header')
 
-    <h1 class="text-center text-dark font-weight-bold">{{ __('LISTA DE TRANSFERENCIAS CAJA A CAJA') }} <i class="fas fa-box"></i> </h1></a>
+    <h1 class="text-center text-dark font-weight-bold">{{ __('LISTA DE PAGOS CAJA A CAJA') }} <i class="fas fa-box"></i> </h1></a>
 
 
 @stop
 
 @section('content')
 
-@can('transactions.create')
-<a class="btn btn-dark" title="Crear transaccion" href={{ route('transactions.create_transferwallet') }}>
+@can('transactions.create_pagowallet')
+<a class="btn btn-dark" title="Crear transaccion" href={{ route('transactions.create_pagowallet') }}>
     <i class="fas fa-plus-circle"></i>
     <span class="d-none d-lg-inline-block text-uppercase font-weight-bold">{{ __('Crear') }}</span>
     <span class="d-none d-md-inline-block text-uppercase font-weight-bold">{{ __('Transferencias') }}</span>
@@ -25,7 +25,7 @@
     <div class="col-md-12">
         <div class="card mb-4">
             <div class="card-header">
-                <h3 class="card-title text-uppercase font-weight-bold">{{ __('Transferencias entre cajas') }}</h3>
+                <h3 class="card-title text-uppercase font-weight-bold">{{ __('Pagos entre cajas') }}</h3>
             </div>
             <div class="card-body">
                 <div class="row">
@@ -37,13 +37,16 @@
                                     <th>Fecha</th>
                                     <th>Descripción</th>
                                     <th style="width:10%;">Monto Total</th>
+                                    <th style="width:10%;">Porcentaje Base</th>
+                                    <th style="width:10%;">Comisión Base</th>
+                                    <th style="width:10%;">Monto Total Base</th>
                                     <th>Agente</th>
                                     <th>Tipo de Movimiento</th>
-                                    <th style="width:10%;">Caja destino <i class="fas fa-box"></i></th>
+                                    <th style="width:10%;">Caja <i class="fas fa-box"></i></th>
                                     @can('transactions.update_status')
                                     <th style="width:1%;">Activo/Anulado</th>
                                     @endcan
-
+                                    <th style="width:1%;">Comisión</th>
                                     <th style="width:1%;">Ver <i class="fas fa-search"></i></th>
 
                                 </tr>
@@ -61,12 +64,20 @@
 
                                     <td class="font-weight-bold">{!! number_format($transferencias->Amount) !!} <i class="fas fa-dollar-sign"></i></td>
 
+                                    <td class="font-weight-bold">{!! number_format($transferencias->PorcentageBase) !!} <i class="fas fa-dollar-sign"></i></td>
+
+                                    <td class="font-weight-bold">{!! number_format($transferencias->ComisionBase) !!} <i class="fas fa-dollar-sign"></i></td>
+
+                                    <td class="font-weight-bold">{!! number_format($transferencias->TotalBase) !!} <i class="fas fa-dollar-sign"></i></td>
+
+
+
                                     <td class="font-weight-bold">{!! $transferencias->Agente !!}</td>
                                     <td>{!! $transferencias->TransferType !!}</td>
                                     <td>{!! $transferencias->WalletNameOrigen !!}</td>
                                     @can('transactions.update_status')
                                         <td class="text-center">
-                                            {!! Form::model($transferencias->TransactionId, ['route' => ['transactions.updatestatus_transfer', $transferencias->TransactionId], 'method' => 'put']) !!}
+                                            {!! Form::model($transferencias->TransactionId, ['route' => ['transactions.updatestatus_pago', $transferencias->TransactionId], 'method' => 'put']) !!}
 
                                                 @if($transferencias->estatus == 'Activo')
                                                 <button class="btn btn-xl text-success mx-1 shadow text-center" title="Activo">
@@ -82,9 +93,25 @@
                                         </td>
                                     @endcan
 
+
+                                    <td>
+                                        @if($transferencias->ExonerateBase == 1)
+                                        <span class="badge badge-success text-uppercase h4">Incluida <i class="fa fa-check" aria-hidden="true"></i></span>
+                                        @elseif($transferencias->ExonerateBase == 2)
+                                        <span class="badge badge-primary text-uppercase h4">Exonerada<i class="fas fa-minus" aria-hidden="true"></i> </span>
+                                        @else
+                                        <span class="badge badge-warning text-uppercase h4">Descontada <i class="fa fa-arrow-alt-circle-down" aria-hidden="true"></i></span>
+                                        @endif
+                                    </td>
+
+
+
                                     <td>
                                         <a href="{{ route('transactions.show', $transferencias->TransactionId) }}" class="btn btn-xl text-dark mx-1 shadow text-center"><i class="fa fa-lg fa-fw fas fa-search"></i></a>
                                     </td>
+
+
+
 
                                 </tr>
 

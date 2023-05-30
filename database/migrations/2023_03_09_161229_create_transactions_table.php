@@ -13,7 +13,8 @@ return new class extends Migration
     {
         Schema::create('transactions', function (Blueprint $table) {
             $table->bigIncrements('id'); // IDENTIFICADOR DE LA TABLA
-            $table->string('transfer_number')->nullable(); //NUMERO DE REFEENCIA
+            $table->string('transfer_number')->nullable(); //NUMERO DE REFEENCIA PARA TRANSFERENCIAS ENTRE CAJAS
+            $table->string('pay_number')->nullable(); //NUMERO DE REFEENCIA PARA PAGOS ENTRE CAJAS
             $table->double('amount');  //MONTO EN DOLARES
             $table->double('amount_foreign_currency')->nullable();  //MONTO MONEDA EXTRANJERA
             $table->double('amount_total');  //MONTO TOTAL

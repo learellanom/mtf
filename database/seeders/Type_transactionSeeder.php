@@ -59,6 +59,16 @@ class Type_transactionSeeder extends Seeder
             'type_transaction' => 'Transacciones',
         ]);
         Type_transaction::create([
+            'name' => "Nota de Credito a Caja de efectivo",
+            'description' => "Notificación de saldo positivo, credito (Ganancia) ",
+            'type_transaction' => 'Credito',
+        ]);
+        Type_transaction::create([
+            'name' => "Nota de Debito a Caja de Efectivo",
+            'description' => "Notificación de saldo ",
+            'type_transaction' => 'Efectivo',
+        ]);
+        Type_transaction::create([
             'name' => "Swift",
             'description' => "Ajustes del Swift",
             'type_transaction' => 'Transacciones',

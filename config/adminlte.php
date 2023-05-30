@@ -396,6 +396,15 @@ return [
             'label_color' =>'success'
         ],
         [
+            'text'        => 'Pagos entre cajas',
+            'url'         => 'movimientos/indice_pagos',
+            'active'      => ['movimientos/indice_pagos'],
+            'can'         => 'transactions.index_pagowallet',
+            'icon'        => 'fas fa-fw fas fa-undo',
+            'label'       => 'OP',
+            'label_color' =>'success'
+        ],
+        [
             'text'        => 'Transacciónes en efectivo',
             'url'         => 'movimientos/efectivo',
             'active'      => ['movimientos/create_efectivo'],
