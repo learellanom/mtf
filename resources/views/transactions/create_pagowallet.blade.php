@@ -44,7 +44,7 @@
                             {!! Form::Label('wallet2_id', "Caja destino:") !!}
                             <div class="input-group-text col-md-12">
                                 <i class="fa-fw fas fa-random mr-2"></i>
-                            {!! Form::select('wallet2_id', $wallet, null, ['class' => 'form-control wallet2 oculta', 'required' => true, 'id'=>'wallet2', 'readonly' => false]) !!}
+                            {!! Form::select('wallet2_id', $wallet2, null, ['class' => 'form-control wallet2 oculta', 'required' => true, 'id'=>'wallet2', 'readonly' => false]) !!}
                             </div>
                         </div>
                     </div>
@@ -113,19 +113,19 @@
                 <div class="form-group col-md-12 d-flex justify-content-center">
 
                     <label class="form-check-label mx-auto esconder comi" for="radio1_base">
-                        {!! Form::radio('exonerate_base',2, null, ['id' => 'radio1_base', 'class' => 'exonerar_base', 'required' => true,]) !!}
+                        {!! Form::radio('exonerate_base',2, null, ['id' => 'radio1_base', 'class' => 'exonerar_base']) !!}
                         Exonerar comisión base
                     </label>
 
                     <label class="form-check-label mx-auto esconder comi" for="radio3_base">
-                        {!! Form::radio('exonerate_base',1, null, ['id' => 'radio3_base', 'class' => 'incluir_base','required' => true,]) !!}
+                        {!! Form::radio('exonerate_base',1, null, ['id' => 'radio3_base', 'class' => 'incluir_base']) !!}
                         Incluir comisión base
                     </label>
 
 
                     <label class="form-check-label mx-auto esconder comi" for="radio2_base">
                         Descontar comisión base
-                        {!! Form::radio('exonerate_base',3, null, ['id' => 'radio2_base', 'class' => 'descontar_base', 'required' => true,]) !!}
+                        {!! Form::radio('exonerate_base',3, null, ['id' => 'radio2_base', 'class' => 'descontar_base']) !!}
                     </label>
 
                 </div>
@@ -133,7 +133,7 @@
                     {!! Form::Label('amount_total_base', "Monto total Base:") !!}
                     <div class="input-group-text">
                         <i class="fa-fw fas fas fa-coins mr-2"></i>
-                    {!! Form::number('amount_total_base', null, ['class' => 'form-control', 'required' => true, 'id' => 'montototal_base', 'readonly' => true ]) !!}
+                    {!! Form::number('amount_total_base', null, ['class' => 'form-control', 'id' => 'montototal_base', 'readonly' => true ]) !!}
                     </div>
                 </div>
 
