@@ -216,7 +216,6 @@ class TransactionController extends Controller
 
          }
 
-
          return view('transactions.index_pagowallet', compact('transactiones'));
 
     }
