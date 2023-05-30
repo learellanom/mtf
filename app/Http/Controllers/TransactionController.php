@@ -29,7 +29,7 @@ class TransactionController extends Controller
          foreach(auth()->user()->roles as $roles)
          {
             if($roles->name == 'Administrador' || $roles->name == 'Supervisor'){
-                $transferencia = Transaction::whereNull('transfer_number')->get();
+                $transferencia = Transaction::whereNull(['transfer_number','pay_number'])->get();
             }
             else{
                 $transferencia = Transaction::where('user_id', '=', auth()->id())->get();
@@ -48,8 +48,7 @@ class TransactionController extends Controller
         $type_coin          = Type_coin::pluck('name', 'id');
         $type_transaction   = Type_transaction::whereIn('type_transaction', ['Credito'])->pluck('name', 'id');
         $type_transaction   = Type_transaction::whereIn('id', ['6','7','8','12'])->pluck('name', 'id');
-        // $wallet             = Wallet::whereIn('type_wallet', ['efectivo'])->pluck('name', 'id');
-        // $wallet             = Wallet::whereIn('type_wallet', ['efectivo'])->pluck('name', 'id');
+
         $wallet             = Wallet::pluck('name', 'id');
         $group              = Group::pluck('name', 'id');
         $user               = User::pluck('name', 'id');
@@ -188,6 +187,43 @@ class TransactionController extends Controller
 
     }
 
+    public function index_pagowallet(transaction $transaction)
+    {
+         foreach(auth()->user()->roles as $roles)
+         {
+                $transactiones = DB::select('select
+                mtf.transactions.id as TransactionId,
+                    pay_number as TransferNumber,
+                IF(type_transactions.name = "Nota de Credito a Caja de efectivo", "Destino", "Origen") as TransferType,
+                    wallet_id as WalletIdOrigen,
+                    wallets.name as WalletNameOrigen,
+                    amount_total as Amount,
+                    transaction_date as TransactionDate,
+                    users.name as Agente,
+                    status as estatus,
+                    type_transaction_id as TypeTransactionId,
+                    transactions.description as Description,
+                    type_transactions.name as TypeTransactionName,
+                    transactions.amount_commission_base as ComisionBase,
+                    transactions.percentage_base as PorcentageBase,
+                    transactions.exonerate_base as ExonerateBase,
+                    transactions.amount_total_base as TotalBase
+                    from mtf.transactions
+                    left join  mtf.wallets on mtf.transactions.wallet_id = wallets.id
+                    left join  mtf.type_transactions on mtf.transactions.type_transaction_id  = mtf.type_transactions.id
+                    left join  mtf.users on mtf.transactions.user_id  = mtf.users.id
+                    where pay_number != "" order by pay_number, TransferType desc');
+
+         }
+
+
+         return view('transactions.index_pagowallet', compact('transactiones'));
+
+    }
+
+
+
+
 
 
     public function create_transferwallet(transaction $transaction)
@@ -253,57 +289,83 @@ class TransactionController extends Controller
         $type_transaction   = Type_transaction::whereIn('name', ['Pago Efectivo'])->pluck('id');
         $type_transaction2  = Type_transaction::whereIn('name', ['Nota de Credito a Caja de efectivo'])->pluck('id');
         $wallet             = Wallet::pluck('name', 'id');
-        $group              = Group::pluck('name', 'id');
         $user               = User::pluck('name', 'id');
         $fecha              = Carbon::now();
 
-        $number_referencia = date('YmdHis').'P-G';
+        $number = date('YmdHis').'P-G';
 
 
-        return view('transactions.create_pagowallet', compact('type_coin', 'type_transaction', 'type_transaction2', 'number_referencia', 'wallet', 'group', 'user', 'transaction', 'fecha'));
+        return view('transactions.create_pagowallet', compact('type_coin', 'type_transaction', 'type_transaction2', 'number', 'wallet', 'user', 'transaction', 'fecha'));
     }
     public function store_pagowallet(Request $request)
     {
         $user = Auth::id();
-        $transaction = new Transaction;
+        $transactions = new Transaction;
 
-        $transaction->type_transaction_id   = $request->input('type_transaction_id');
-        $transaction->wallet_id             = $request->input('wallet_id');
-        $transaction->amount                = $request->input('amount');
-        $transaction->amount_total          = $request->input('amount_total');
-        $transaction->transaction_date      = $request->input('transaction_date');
-        $transaction->description           = $request->input('description');
-        $transaction->transfer_number       = $request->input('pay_number');
-        $transaction->transfer_number       = $request->input('amount_commission_base');
-        $transaction->transfer_number       = $request->input('percentage_base');
-        $transaction->transfer_number       = $request->input('exonerate_base');
-        $transaction->transfer_number       = $request->input('amount_total_base');
-        $transaction->user_id               = $user;
+        $transactions->type_transaction_id   = $request->input('type_transaction_id');
+        $transactions->wallet_id             = $request->input('wallet_id');
+        $transactions->amount                = $request->input('amount');
+        $transactions->amount_total          = $request->input('amount_total');
+        $transactions->transaction_date      = $request->input('transaction_date');
+        $transactions->description           = $request->input('description');
+        $transactions->pay_number            = $request->input('pay_number');
+        $transactions->amount_commission_base = $request->input('amount_commission_base');
+        $transactions->percentage_base       = $request->input('percentage_base');
+        $transactions->exonerate_base        = $request->input('exonerate_base');
+        $transactions->amount_total_base     = $request->input('amount_total_base');
+        $transactions->user_id               = $user;
 
-        $transaction->save();
+        $transactions->save();
 
 
 
-        $transaction2 = new Transaction;
+        $transactions2 = new Transaction;
 
-        $transaction2->type_transaction_id   = $request->input('type_transaction2_id');
-        $transaction2->wallet_id             = $request->input('wallet2_id');
-        $transaction2->amount                = $request->input('amount');
-        $transaction2->amount_total          = $request->input('amount_total');
-        $transaction2->transaction_date      = $request->input('transaction_date');
-        $transaction2->description           = $request->input('description');
-        $transaction2->transfer_number       = $request->input('pay_number');
-        $transaction2->transfer_number       = $request->input('amount_commission_base');
-        $transaction2->transfer_number       = $request->input('percentage_base');
-        $transaction2->transfer_number       = $request->input('exonerate_base');
-        $transaction2->transfer_number       = $request->input('amount_total_base');
-        $transaction2->user_id               = $user;
-        $transaction2->save();
+        $transactions2->type_transaction_id   = $request->input('type_transaction2_id');
+        $transactions2->wallet_id             = $request->input('wallet2_id');
+        $transactions2->amount                = $request->input('amount');
+        $transactions2->amount_total          = $request->input('amount_total');
+        $transactions2->transaction_date      = $request->input('transaction_date');
+        $transactions2->description           = $request->input('description');
+        $transactions2->pay_number            = $request->input('pay_number');
+        $transactions2->amount_commission_base = $request->input('amount_commission_base');
+        $transactions2->percentage_base       = $request->input('percentage_base');
+        $transactions2->exonerate_base        = $request->input('exonerate_base');
+        $transactions2->amount_total_base     = $request->input('amount_total_base');
+        $transactions2->user_id               = $user;
+        $transactions2->save();
 
          flash()->addSuccess('Movimiento guardado', 'Transacción', ['timeOut' => 3000]);
 
-         return Redirect::route('transactions.index_transferwallet');
+         return Redirect::route('transactions.index_pagowallet');
     }
+
+    public function updatestatus_pago(Request $request, $transaction)
+    {
+            $transferencia = Transaction::find($transaction);
+
+             if($transferencia->status == 'Activo'){
+
+                  Transaction::where('pay_number', $transferencia->pay_number)->update(['status' => 'Anulado']);
+
+                   return Redirect::route('transactions.index_pagowallet')->with('info', 'Transferencia anulada  <strong># '.$transferencia->pay_number. '</strong>');
+
+            }
+
+            elseif($transferencia->status == 'Anulado'){
+
+                Transaction::where('pay_number', $transferencia->pay_number)->update(['status' => 'Activo']);
+
+                return Redirect::route('transactions.index_pagowallet')->with('success', 'Transferencia activa  <strong>#'.$transferencia->pay_number.'</strong>');
+
+            }
+
+    }
+
+
+
+
+
 
     public function updatestatus_transfer(Request $request, $transaction)
     {
