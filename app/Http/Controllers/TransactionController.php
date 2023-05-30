@@ -288,14 +288,15 @@ class TransactionController extends Controller
         $type_coin          = Type_coin::pluck('name', 'id');
         $type_transaction   = Type_transaction::whereIn('name', ['Pago Efectivo'])->pluck('id');
         $type_transaction2  = Type_transaction::whereIn('name', ['Nota de Credito a Caja de efectivo'])->pluck('id');
-        $wallet             = Wallet::pluck('name', 'id');
+        $wallet             = Wallet::whereIn('type_wallet', ['Transacciones'])->pluck('name', 'id');
+        $wallet2            = Wallet::whereIn('type_wallet', ['Efectivo'])->pluck('name', 'id');
         $user               = User::pluck('name', 'id');
         $fecha              = Carbon::now();
 
         $number = date('YmdHis').'P-G';
 
 
-        return view('transactions.create_pagowallet', compact('type_coin', 'type_transaction', 'type_transaction2', 'number', 'wallet', 'user', 'transaction', 'fecha'));
+        return view('transactions.create_pagowallet', compact('type_coin', 'type_transaction', 'type_transaction2', 'number', 'wallet', 'wallet2', 'user', 'transaction', 'fecha'));
     }
     public function store_pagowallet(Request $request)
     {
