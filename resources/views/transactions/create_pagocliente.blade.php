@@ -2,10 +2,10 @@
 
 
 
-@section('title', 'Transferencias a cajas')
+@section('title', 'Transferencias entre clientes')
 @section('content_header')
 
-    <h1 class="text-center text-dark font-weight-bold">{{ __('PAGOS ENTRE CAJAS') }}<i class="fas fa-donate"></i> </h1></a>
+    <h1 class="text-center text-dark font-weight-bold">{{ __('TRANSFERENCIAS ENTRE CLIENTES') }}<i class="fas fa-donate"></i> </h1></a>
 
 
 @stop
@@ -17,12 +17,12 @@
   <div class="card col-md-5" style="min-height:500px !important; max-height:100%; height:100%; widht:100%;">
     <div class="card-body">
 
-      {!! Form::open(['route' => 'transactions.store_pagowallet', 'autocomplete' => 'off', 'files' => true, 'enctype' =>'multipart/form-data']) !!}
+      {!! Form::open(['route' => 'transactions.store_pagocliente', 'autocomplete' => 'off', 'files' => true, 'enctype' =>'multipart/form-data']) !!}
 
 
               <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
                 <li class="nav-item" role="presentation">
-                  <button class="nav-link active text-uppercase font-weight-bold" id="pills-home-tab" data-toggle="pill" data-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">{{ __('Transferencia') }}</button>
+                  <button class="nav-link active" id="pills-home-tab" data-toggle="pill" data-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">{{ __('Movimiento') }}</button>
                 </li>
 
               </ul>
@@ -33,21 +33,27 @@
                     <div class="form-row">
 
                         <div class="form-group col-md-6" >
-                            {!! Form::Label('wallet_id', "Caja de origen:") !!}
+                            {!! Form::Label('group_id', "Cliente de origen:") !!}
                             <div class="input-group-text col-md-12">
                                 <i class="fa-fw fas fa-random mr-2"></i>
-                            {!! Form::select('wallet_id', $wallet, null, ['class' => 'form-control wallet muestra', 'required' => true, 'id'=>'wallet', 'readonly' => false]) !!}
+                            {!! Form::select('group_id', $group, null, ['class' => 'form-control wallet muestra', 'required' => true, 'id'=>'wallet', 'readonly' => false]) !!}
                             </div>
                         </div>
 
                         <div class="form-group col-md-6">
-                            {!! Form::Label('wallet2_id', "Caja destino:") !!}
+                            {!! Form::Label('group2_id', "Cliente destino:") !!}
                             <div class="input-group-text col-md-12">
                                 <i class="fa-fw fas fa-random mr-2"></i>
-                            {!! Form::select('wallet2_id', $wallet2, null, ['class' => 'form-control wallet2 oculta', 'required' => true, 'id'=>'wallet2', 'readonly' => false]) !!}
+                            {!! Form::select('group2_id', $group, null, ['class' => 'form-control wallet2 oculta', 'required' => true, 'id'=>'wallet2', 'readonly' => false]) !!}
                             </div>
                         </div>
                     </div>
+                    @foreach($wallet as $wallet2)
+                    {!! Form::hidden('wallet_id', $wallet2, null, ['class' => 'form-control transaccion']) !!}
+                    {!! Form::hidden('wallet2_id', $wallet2, null, ['class' => 'form-control transaccion']) !!}
+                     @endforeach
+
+
 
                     <div class="form-row">
                     <div class="form-group col-md-6">
@@ -71,30 +77,14 @@
                         {!! Form::hidden('status', 'Activo', null, ['class' => 'form-control']) !!}
 
 
+                        @foreach($type_transaction as $type)
+                        {!! Form::hidden('type_transaction_id', $type, null, ['class' => 'form-control transaccion']) !!}
+                        @endforeach
 
 
-
-
-
-
-                        <div class="form-row">
-
-                            <div class="form-group col-md">
-                                {!! Form::Label('type_transaction_id', "Tipo de transacción:") !!}
-                                <div class="input-group-text">
-                                    <i class="fa-fw fa fas fa-exchange-alt mr-2"></i>
-                                    {!! Form::select('type_transaction_id', $type_transaction, null, ['class' => 'form-control transaccion', 'id' => 'typetransaccion' ]) !!}
-                                </div>
-                            </div>
-
-
-
-                                    {!! Form::hidden('type_transaction2_id', null, ['class' => 'form-control transaccion','required' => true, 'id' => 'typetransaccion2']) !!}
-
-
-                            </div>
-                        </div>
-
+                         @foreach($type_transaction2 as $type2)
+                        {!! Form::hidden('type_transaction2_id', $type2, null, ['class' => 'form-control transaccion']) !!}
+                         @endforeach
 
 
                 <div class="form-group">
@@ -103,6 +93,7 @@
                         {!! Form::hidden('pay_number', $number,['class' => 'form-control', 'required' => true, 'readonly' => true]) !!}
 
                 </div>
+
                 <hr class="bg-dark esconder comi" style="height:1px;">
                 <h4 class="text-uppercase font-weight-bold text-center esconder comi">Comisión Base  </h4>
                 <div class="form-row esconder comi">
@@ -159,9 +150,6 @@
 
 
                 <hr class="bg-dark esconder comi" style="height:1px;">
-
-
-
 
                 <div class="form-group">
                     {!! Form::Label('description', "Descripción:") !!}
@@ -667,3 +655,4 @@ $('#comision_base').prop('readonly', true);
 
 
 @endsection
+

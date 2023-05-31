@@ -4,15 +4,15 @@
 
 @section('content_header')
 
-    <h1 class="text-center text-dark font-weight-bold">{{ __('LISTA DE PAGOS CAJA A CAJA') }} <i class="fas fa-box"></i> </h1></a>
+    <h1 class="text-center text-dark font-weight-bold">{{ __('LISTA DE TRANSFERENCIAS ENTRE CLIENTES') }} <i class="fas fa-box"></i> </h1></a>
 
 
 @stop
 
 @section('content')
 
-@can('transactions.create_pagowallet')
-<a class="btn btn-dark" title="Crear transaccion" href={{ route('transactions.create_pagowallet') }}>
+@can('transactions.create')
+<a class="btn btn-dark" title="Crear transaccion" href={{ route('transactions.create_pagoclientes') }}>
     <i class="fas fa-plus-circle"></i>
     <span class="d-none d-lg-inline-block text-uppercase font-weight-bold">{{ __('Crear') }}</span>
     <span class="d-none d-md-inline-block text-uppercase font-weight-bold">{{ __('Transferencias') }}</span>
@@ -25,7 +25,7 @@
     <div class="col-md-12">
         <div class="card mb-4">
             <div class="card-header">
-                <h3 class="card-title text-uppercase font-weight-bold">{{ __('Pagos entre cajas') }}</h3>
+                <h3 class="card-title text-uppercase font-weight-bold">{{ __('Transferencias entre clientes') }}</h3>
             </div>
             <div class="card-body">
                 <div class="row">
@@ -37,12 +37,13 @@
                                     <th>Fecha</th>
                                     <th>Descripción</th>
                                     <th style="width:10%;">Monto Total</th>
-                                    <th style="width:10%;">Porcentaje Base</th>
+                                    <th style="width:5%;">Porcentaje Base</th>
                                     <th style="width:10%;">Comisión Base</th>
                                     <th style="width:10%;">Monto Total Base</th>
                                     <th>Agente</th>
-                                    <th>Tipo de Movimiento</th>
                                     <th style="width:10%;">Caja <i class="fas fa-box"></i></th>
+                                    <th>Tipo de Movimiento</th>
+                                    <th style="width:10%;">Cliente </th>
                                     @can('transactions.update_status')
                                     <th style="width:1%;">Activo/Anulado</th>
                                     @endcan
@@ -73,8 +74,9 @@
 
 
                                     <td class="font-weight-bold">{!! $transferencias->Agente !!}</td>
-                                    <td>{!! $transferencias->TransferType !!}</td>
                                     <td>{!! $transferencias->WalletNameOrigen !!}</td>
+                                    <td>{!! $transferencias->TransferType !!}</td>
+                                    <td>{!! $transferencias->GroupNameOrigen !!}</td>
                                     @can('transactions.update_status')
                                         <td class="text-center">
                                             {!! Form::model($transferencias->TransactionId, ['route' => ['transactions.updatestatus_pago', $transferencias->TransactionId], 'method' => 'put']) !!}

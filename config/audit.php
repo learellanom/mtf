@@ -72,7 +72,7 @@ return [
     |
     */
 
-    'strict' => false,
+    'strict' => true,
 
     /*
     |--------------------------------------------------------------------------
@@ -103,7 +103,10 @@ return [
 
     'empty_values'         => true,
     'allowed_empty_values' => [
-        'retrieved'
+        'retrieved',
+        'created',
+        'updated',
+        'deleted',
     ],
 
     /*
