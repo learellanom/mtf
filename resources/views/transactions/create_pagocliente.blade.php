@@ -2,10 +2,10 @@
 
 
 
-@section('title', 'Transferencias entre clientes')
+@section('title', 'Pagos entre clientes')
 @section('content_header')
 
-    <h1 class="text-center text-dark font-weight-bold">{{ __('TRANSFERENCIAS ENTRE CLIENTES') }}<i class="fas fa-donate"></i> </h1></a>
+    <h1 class="text-center text-dark font-weight-bold">{{ __('PAGOS ENTRE CLIENTES') }}<i class="fas fa-donate"></i> </h1></a>
 
 
 @stop

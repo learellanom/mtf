@@ -349,7 +349,7 @@ class TransactionController extends Controller
                 $transactiones = DB::select('select
                 mtf.transactions.id as TransactionId,
                     pay_number as TransferNumber,
-                IF(type_transactions.name = "Cobro en efectivo", "Destino", "Origen") as TransferType,
+                IF(type_transactions.name = "Pago Efectivo", "Destino", "Origen") as TransferType,
                     wallet_id as WalletIdOrigen,
                     wallets.name as WalletNameOrigen,
                     group_id  as GroupIdOrigen,
@@ -383,8 +383,8 @@ class TransactionController extends Controller
     {
 
         $type_coin          = Type_coin::pluck('name', 'id');
-        $type_transaction2   = Type_transaction::whereIn('name', ['Cobro en efectivo'])->pluck('id');
-        $type_transaction  = Type_transaction::whereIn('name', ['Pago Efectivo'])->pluck('id');
+        $type_transaction   = Type_transaction::whereIn('name', ['Cobro en efectivo'])->pluck('id');
+        $type_transaction2  = Type_transaction::whereIn('name', ['Pago Efectivo'])->pluck('id');
         $wallet             = Wallet::whereIn('name', ['Caja Puente'])->pluck('id');
         $group              = Group::pluck('name', 'id');
         $group2             = Group::pluck('name', 'id');
