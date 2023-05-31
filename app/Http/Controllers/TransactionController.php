@@ -194,7 +194,7 @@ class TransactionController extends Controller
                 $transactiones = DB::select('select
                 mtf.transactions.id as TransactionId,
                     pay_number as TransferNumber,
-                IF(type_transactions.name = "Nota de Credito a Caja de efectivo", "Destino", "Origen") as TransferType,
+                IF(type_transactions.name = "Nota de Credito a Caja de efectivo" or type_transactions.name = "Nota de credito", "Destino", "Origen") as TransferType,
                     wallet_id as WalletIdOrigen,
                     wallets.name as WalletNameOrigen,
                     amount_total as Amount,
@@ -212,7 +212,7 @@ class TransactionController extends Controller
                     left join  mtf.wallets on mtf.transactions.wallet_id = wallets.id
                     left join  mtf.type_transactions on mtf.transactions.type_transaction_id  = mtf.type_transactions.id
                     left join  mtf.users on mtf.transactions.user_id  = mtf.users.id
-                    where pay_number != "" order by pay_number, TransferType desc');
+                    where pay_number LIKE "%P-G" != "" order by pay_number desc');
 
          }
 
@@ -272,7 +272,7 @@ class TransactionController extends Controller
         $transaction2->transaction_date      = $request->input('transaction_date');
         $transaction2->description           = $request->input('description');
         $transaction2->user_id               = $user;
-        $transaction2->transfer_number        = $request->input('transfer_number');
+        $transaction2->transfer_number       = $request->input('transfer_number');
 
         $transaction2->save();
 
@@ -286,8 +286,8 @@ class TransactionController extends Controller
     {
 
         $type_coin          = Type_coin::pluck('name', 'id');
-        $type_transaction   = Type_transaction::whereIn('name', ['Pago Efectivo'])->pluck('id');
-        $type_transaction2  = Type_transaction::whereIn('name', ['Nota de Credito a Caja de efectivo'])->pluck('id');
+        $type_transaction   = Type_transaction::whereIn('name', ['Pago Efectivo', 'Pago en Transferencia', 'Pago Mercancia', 'Swift'])->pluck('name','id');
+        $type_transaction2  = Type_transaction::whereIn('name', ['Nota de Credito a Caja de efectivo', 'Nota de credito'])->pluck('name','id');
         $wallet             = Wallet::whereIn('type_wallet', ['Transacciones'])->pluck('name', 'id');
         $wallet2            = Wallet::pluck('name', 'id');
         $user               = User::pluck('name', 'id');
@@ -298,6 +298,7 @@ class TransactionController extends Controller
 
         return view('transactions.create_pagowallet', compact('type_coin', 'type_transaction', 'type_transaction2', 'number', 'wallet', 'wallet2', 'user', 'transaction', 'fecha'));
     }
+
     public function store_pagowallet(Request $request)
     {
         $user = Auth::id();
@@ -341,13 +342,50 @@ class TransactionController extends Controller
          return Redirect::route('transactions.index_pagowallet');
     }
 
+    public function index_pagoclientes(transaction $transaction)
+    {
+         foreach(auth()->user()->roles as $roles)
+         {
+                $transactiones = DB::select('select
+                mtf.transactions.id as TransactionId,
+                    pay_number as TransferNumber,
+                IF(type_transactions.name = "Cobro en efectivo", "Destino", "Origen") as TransferType,
+                    wallet_id as WalletIdOrigen,
+                    wallets.name as WalletNameOrigen,
+                    group_id  as GroupIdOrigen,
+                    groups.name as GroupNameOrigen,
+                    amount_total as Amount,
+                    transaction_date as TransactionDate,
+                    users.name as Agente,
+                    status as estatus,
+                    type_transaction_id as TypeTransactionId,
+                    transactions.description as Description,
+                    type_transactions.name as TypeTransactionName,
+                    transactions.amount_commission_base as ComisionBase,
+                    transactions.percentage_base as PorcentageBase,
+                    transactions.exonerate_base as ExonerateBase,
+                    transactions.amount_total_base as TotalBase
+                    from mtf.transactions
+                    left join  mtf.wallets on mtf.transactions.wallet_id = wallets.id
+                    left join  mtf.groups on mtf.transactions.group_id = groups.id
+                    left join  mtf.type_transactions on mtf.transactions.type_transaction_id  = mtf.type_transactions.id
+                    left join  mtf.users on mtf.transactions.user_id  = mtf.users.id
+                    where pay_number LIKE "%T-C" != "" order by pay_number desc');
 
-    public function create_pagocliente(transaction $transaction)
+         }
+
+
+         return view('transactions.index_pagoclientes', compact('transactiones'));
+
+    }
+
+    public function create_pagoclientes(transaction $transaction)
     {
 
         $type_coin          = Type_coin::pluck('name', 'id');
-        $type_transaction   = Type_transaction::whereIn('name', ['Pago Efectivo'])->pluck('id');
-        $type_transaction2  = Type_transaction::whereIn('name', ['Nota de Credito a Caja de efectivo'])->pluck('id');
+        $type_transaction2   = Type_transaction::whereIn('name', ['Cobro en efectivo'])->pluck('id');
+        $type_transaction  = Type_transaction::whereIn('name', ['Pago Efectivo'])->pluck('id');
+        $wallet             = Wallet::whereIn('name', ['Caja Puente'])->pluck('id');
         $group              = Group::pluck('name', 'id');
         $group2             = Group::pluck('name', 'id');
         $user               = User::pluck('name', 'id');
@@ -356,7 +394,7 @@ class TransactionController extends Controller
         $number = date('YmdHis').'T-C';
 
 
-        return view('transactions.create_pagowallet', compact('type_coin', 'type_transaction', 'type_transaction2', 'number', 'group', 'group2', 'user', 'transaction', 'fecha'));
+        return view('transactions.create_pagocliente', compact('type_coin', 'type_transaction', 'wallet', 'type_transaction2', 'number', 'group', 'group2', 'user', 'transaction', 'fecha'));
     }
 
     public function store_pagocliente(Request $request)
@@ -366,6 +404,7 @@ class TransactionController extends Controller
 
         $transactions->type_transaction_id   = $request->input('type_transaction_id');
         $transactions->group_id              = $request->input('group_id');
+        $transactions->wallet_id              = $request->input('wallet_id');
         $transactions->amount                = $request->input('amount');
         $transactions->amount_total          = $request->input('amount_total');
         $transactions->transaction_date      = $request->input('transaction_date');
@@ -385,6 +424,7 @@ class TransactionController extends Controller
 
         $transactions2->type_transaction_id   = $request->input('type_transaction2_id');
         $transactions2->group_id              = $request->input('group2_id');
+        $transactions2->wallet_id              = $request->input('wallet2_id');
         $transactions2->amount                = $request->input('amount');
         $transactions2->amount_total          = $request->input('amount_total');
         $transactions2->transaction_date      = $request->input('transaction_date');
@@ -399,7 +439,7 @@ class TransactionController extends Controller
 
          flash()->addSuccess('Movimiento guardado', 'Transacción entre clientes :D', ['timeOut' => 3000]);
 
-         return Redirect::route('transactions.index_pagowallet');
+         return Redirect::route('transactions.index_pagoclientes');
     }
 
     public function updatestatus_pago(Request $request, $transaction)
@@ -411,7 +451,7 @@ class TransactionController extends Controller
                   Transaction::where('pay_number', $transferencia->pay_number)->update(['status' => 'Anulado']);
 
 
-                   return Redirect::route('transactions.index_pagowallet')->with('info', 'Transferencia anulada  <strong># '.$transferencia->pay_number. '</strong>');
+                   return Redirect::back()->with('info', 'Transferencia anulada  <strong># '.$transferencia->pay_number. '</strong>');
 
             }
 
@@ -420,7 +460,7 @@ class TransactionController extends Controller
                 Transaction::where('pay_number', $transferencia->pay_number)->update(['status' => 'Activo']);
 
 
-                return Redirect::route('transactions.index_pagowallet')->with('success', 'Transferencia activa  <strong>#'.$transferencia->pay_number.'</strong>');
+                return Redirect::back()->with('success', 'Transferencia activa  <strong>#'.$transferencia->pay_number.'</strong>');
 
             }
 

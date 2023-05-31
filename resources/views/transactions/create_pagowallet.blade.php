@@ -71,14 +71,30 @@
                         {!! Form::hidden('status', 'Activo', null, ['class' => 'form-control']) !!}
 
 
-                        @foreach($type_transaction as $type)
-                        {!! Form::hidden('type_transaction_id', $type, null, ['class' => 'form-control transaccion']) !!}
-                        @endforeach
 
 
-                         @foreach($type_transaction2 as $type2)
-                        {!! Form::hidden('type_transaction2_id', $type2, null, ['class' => 'form-control transaccion']) !!}
-                         @endforeach
+
+
+
+
+                        <div class="form-row">
+
+                            <div class="form-group col-md">
+                                {!! Form::Label('type_transaction_id', "Tipo de transacción:") !!}
+                                <div class="input-group-text">
+                                    <i class="fa-fw fa fas fa-exchange-alt mr-2"></i>
+                                    {!! Form::select('type_transaction_id', $type_transaction, null, ['class' => 'form-control transaccion', 'id' => 'typetransaccion' ]) !!}
+                                </div>
+                            </div>
+
+
+
+                                    {!! Form::hidden('type_transaction2_id', null, ['class' => 'form-control transaccion','required' => true, 'id' => 'typetransaccion2']) !!}
+
+
+                            </div>
+                        </div>
+
 
 
                 <div class="form-group">
@@ -308,12 +324,14 @@ $(".typecoin").select2({
 $("#typecoin").val("")
 $("#typecoin").trigger("change");
 
-$(".status").select2({
-  placeholder: "Seleccionar estatus",
+$("#typetransaccion").select2({
+  placeholder: "Selecciona tipo transferencia",
   theme: 'bootstrap4',
-  search: false
+  search: false,
+  width: '100%'
 });
-
+$("#typetransaccion").val("")
+$("#typetransaccion").trigger("change");
 
 
 
@@ -327,6 +345,7 @@ $(".status").select2({
         'theme':'bootstrap4',
         search: false,
         allowClear: true,
+        placeholder: "Selecciona la caja",
         width:'100%'
      });
      $(".muestra,.oculta").val("")
@@ -486,6 +505,24 @@ $('#comision_base').prop('readonly', true);
         })
         })
 /* PORCENTAJE BASE */
+
+
+
+        $("#typetransaccion").on("change", function() {
+            // Capturar dato seleccionado
+            var selectedValue = this.value;
+            var option = $("#typetransaccion option:selected").text();
+            // Realizar la acción deseada en función del valor seleccionado
+            if (option == 'Pago Efectivo')
+            {
+                $('#typetransaccion2').val(10);
+                //$('#typetransaccion2 option[value="8"]').attr('disabled', 'true');
+            }
+            else
+            {
+                $('#typetransaccion2').val(8);
+            }
+        });
 
 
 

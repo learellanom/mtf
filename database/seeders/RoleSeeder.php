@@ -103,6 +103,8 @@ class RoleSeeder extends Seeder
         Permission::create(['name' => 'transactions.create_pagowallet', 'description' => 'Crear pagos entre cajas'])->syncRoles([$role1, $role2, $role3]);
         Permission::create(['name' => 'transactions.index_pagowallet', 'description' => 'Ver pagos de caja a caja'])->syncRoles([$role1, $role2, $role3]);
 
+        Permission::create(['name' => 'transactions.index_pagoclientes', 'description' => 'Ver pagos entre clientes'])->syncRoles([$role1, $role2, $role3]);
+        Permission::create(['name' => 'transactions.create_pagoclientes', 'description' => 'Crear pagos entre clientes'])->syncRoles([$role1, $role2, $role3]);
 
         Permission::create(['name' => 'permissions.index', 'description' => 'Ver los permisos del sistema'])->assignRole($role1);
     }

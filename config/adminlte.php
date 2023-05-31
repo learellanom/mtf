@@ -387,6 +387,15 @@ return [
             'label_color' =>'success',
         ],
         [
+            'text'        => 'Transacciónes en efectivo',
+            'url'         => 'movimientos/efectivo',
+            'active'      => ['movimientos/create_efectivo'],
+            'can'         => 'transactions.create_efectivo',
+            'icon'        => 'fas fa-fw fa-money-bill-wave',
+            'label'       => 'OP',
+            'label_color' =>'success',
+        ],
+        [
             'text'        => 'Transferencias entre cajas',
             'url'         => 'movimientos/cajas',
             'active'      => ['movimientos/cajas'],
@@ -400,19 +409,20 @@ return [
             'url'         => 'movimientos/indice_pagos',
             'active'      => ['movimientos/indice_pagos', 'movimientos/pago_cajas'],
             'can'         => 'transactions.index_pagowallet',
-            'icon'        => 'fas fa-fw fas fa-undo',
+            'icon'        => 'fas fa-fw fas fa-box-open',
             'label'       => 'OP',
             'label_color' =>'success'
         ],
         [
-            'text'        => 'Transacciónes en efectivo',
-            'url'         => 'movimientos/efectivo',
-            'active'      => ['movimientos/create_efectivo'],
-            'can'         => 'transactions.create_efectivo',
-            'icon'        => 'fas fa-fw fa-money-bill-wave',
-            'label'       => 'OP',
-            'label_color' =>'success',
+            'text'        => 'Transferencias entre clientes',
+            'url'         => 'movimientos/indice_pagoclientes',
+            'active'      => ['movimientos/indice_pagoclientes','movimientos/pago_clientes'],
+            'can'         => 'transactions.index_pagoclientes',
+            'icon'        => 'fas fa-fw fa-user-friends',
+            'label'       => 'T',
+            'label_color' =>'danger'
         ],
+
         [
             'text'        => 'Credito y Debito a Caja',
             'url'         => "movimientos/credito",

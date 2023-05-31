@@ -175,6 +175,21 @@
                       </div>
                     </div>
 
+                    <div class="col-12 col-sm-2">
+                    <div class="info-box bg-light">
+                        <div class="info-box-content">
+                          <span class="info-box-text text-center text-muted">Comisión Base <i class="fas fa-receipt"></i></span>
+                          @if($transactions->exonerate_base == 1)
+                          <span class="info-box-number mb-0 text-uppercase badge badge-success text-center">{{ 'Incluida' }} </span>
+                          @elseif($transactions->exonerate_base == 2)
+                          <span class="info-box-number mb-0 text-uppercase badge badge-warning text-center">{{ 'Exonerada' }} </span>
+                          @else
+                          <span class="info-box-number mb-0 text-uppercase badge badge-danger text-center">{{ 'Descontada' }} </span>
+                          @endif
+                        </div>
+                      </div>
+                    </div>
+
                     <div class="col-12 col-sm-3">
                       <div class="info-box bg-light">
                         <div class="info-box-content">
