@@ -55,15 +55,24 @@ class statisticsController extends Controller
             $myWallet = $request->wallet;
         }
 
-        $myFechaDesde = "2001-01-01";
-        $myFechaHasta = "9999-12-31";
+        $myHoraDesde = "00:00:00";
+        $myHoraHasta = "12:59:00";
+
+        $myFechaDesde = "2001-01-01 00:00:00";
+        $myFechaHasta = "9999-12-31 12:59:00";
         if ($request->fechaDesde){
             $myFechaDesde = $request->fechaDesde;
             $myFechaHasta = $request->fechaHasta;
+
+            $myFechaDesde = $myFechaDesde . " 00:00:00";
+            $myFechaHasta = $myFechaHasta . " 12:59:00";
+
+
         }
 
         if ($request->fechaHasta){
             $myFechaHasta = $request->fechaHasta;
+            $myFechaHasta = $myFechaHasta . " 12:59:00";           
         }
 
         $myTypeTransactions         = 0;
@@ -114,8 +123,8 @@ class statisticsController extends Controller
             $myWalletHasta = $myWallet;
         }
 
-        // print_r($myGroup);
-        // die($myGroup);
+        //  print_r($myGroup);
+        //  die($myGroup);
         if ($myGroup != 0){
             $Transacciones = Transaction::select(
                 'Transactions.id                        as Id',
@@ -131,8 +140,8 @@ class statisticsController extends Controller
                 'Transactions.type_transaction_id       as TransactionId',
                 'type_transactions.name                 as TipoTransaccion',
                 'Transactions.client_id                 as ClienteId',
-                'transactions.wallet_id                 As WalletId',
-                'wallets.name                           As WalletName',
+                'transactions.wallet_id                 as WalletId',
+                'wallets.name                           as WalletName',
                 'transactions.description               as Descripcion',
                 'transactions.transaction_date          as FechaTransaccion',
                 'groups.name                            as ClientName',
@@ -155,8 +164,64 @@ class statisticsController extends Controller
             )->orderBy('Transactions.transaction_date','ASC'
             )->get();
 
+            $Transacciones2 = array();
+            foreach($Transacciones as $tran){
+                $value1 = json_decode($tran);
+    
+                $value2 = array_values(json_decode(json_encode($tran), true));
+    
+                array_push($Transacciones2, $value2);
+            }
+    
+
         }else{
-            
+
+            $myQuery =
+            "
+                select
+                    Transactions.id                        as Id,
+                    Transactions.amount_foreign_currency   as MontoMoneda,
+                    Transactions.exchange_rate             as TasaCambio,
+                    Transactions.type_coin_id              as TipoMonedaId,
+                    type_coins.name                        as TipoMoneda,
+                    users.name                             as AgenteName,
+                    Transactions.amount                    as Monto,            
+                    Transactions.amount_total              as MontoTotal,
+                    Transactions.percentage                as PorcentajeComision,
+                    Transactions.amount_commission         as MontoComision,
+                    Transactions.type_transaction_id       as TransactionId,
+                    type_transactions.name                 as TipoTransaccion,
+                    Transactions.client_id                 as ClienteId,
+                    transactions.wallet_id                 as WalletId,
+                    wallets.name                           as WalletName,
+                    transactions.description               as Descripcion,
+                    transactions.transaction_date          as FechaTransaccion,
+                    groups.name                            as ClientName,
+                    transactions.token                     as token
+                from
+                    mtf.transactions
+                left join mtf.type_transactions on mtf.transactions.type_transaction_id = mtf.type_transactions.id
+                left join mtf.wallets           on mtf.transactions.wallet_id           = mtf.wallets.id
+                left join mtf.users             on mtf.transactions.user_id             = mtf.users.id
+                left join mtf.type_coins        on mtf.transactions.type_coin_id        = mtf.type_coins.id
+                left join mtf.groups            on mtf.Transactions.group_id            = mtf.groups.id
+                where
+                        status = 'Activo'
+                    and user_id             between $myUserDesde                and $myUserHasta                        
+                    and wallet_id           between $myWalletDesde              and $myWalletHasta
+                    and type_transaction_id between $myTypeTransactionsDesde    and $myTypeTransactionsHasta
+                    and transaction_date    between '$myFechaDesde'               and '$myFechaHasta'
+                order by
+                    Transactions.transaction_date ASC
+
+            ";
+    
+            // dd($myQuery);
+    
+            $Transacciones = DB::select($myQuery);
+            // dd($Transacciones);
+            /*
+
             $Transacciones = Transaction::select(
                 'Transactions.id                        as Id',
                 'Transactions.amount_foreign_currency   as MontoMoneda',
@@ -175,7 +240,7 @@ class statisticsController extends Controller
                 'wallets.name                           As WalletName',
                 'transactions.description               as Descripcion',
                 'transactions.transaction_date          as FechaTransaccion',
-                'groups.name                            as ClientName',
+                '" "                             as ClientName',
                 'transactions.token                     as token'
             )->leftJoin(
                 'users','users.id', '=', 'transactions.user_id'
@@ -184,9 +249,7 @@ class statisticsController extends Controller
             )->leftJoin(
                 'wallets', 'wallets.id', '=', 'transactions.wallet_id'
             )->leftJoin(
-                'groups', 'groups.id', '=', 'transactions.group_id'
-            )->leftJoin(
-                    'type_coins', 'type_coins.id', '=', 'transactions.type_coin_id'            
+                    'type_coins', 'type_coins.id', '=', 'transactions.type_coin_id'  
             )->whereBetween('Transactions.user_id',                 [$myUserDesde, $myUserHasta]
             )->whereBetween('Transactions.wallet_id',               [$myWalletDesde, $myWalletHasta]
             )->whereBetween('Transactions.transaction_date',        [$myFechaDesde, $myFechaHasta]
@@ -194,21 +257,23 @@ class statisticsController extends Controller
             )->where('Transactions.status', '=', 'Activo'
             )->orderBy('Transactions.transaction_date','ASC'
             )->get();  
-                
+            */
+
                 // dd($Transacciones);
+
         }
 
         // dd($Transacciones);
         // die();
 
-        $Transacciones2 = array();
-        foreach($Transacciones as $tran){
-            $value1 = json_decode($tran);
+        // $Transacciones2 = array();
+        // foreach($Transacciones as $tran){
+        //     $value1 = json_decode($tran);
 
-            $value2 = array_values(json_decode(json_encode($tran), true));
+        //     $value2 = array_values(json_decode(json_encode($tran), true));
 
-            array_push($Transacciones2, $value2);
-        }
+        //     array_push($Transacciones2, $value2);
+        // }
 
         $userole            = $this->getUser();
 
@@ -1217,15 +1282,23 @@ class statisticsController extends Controller
 
         $myFechaDesde = "2001-01-01";
         $myFechaHasta = "9999-12-31";
+
+        $myFechaDesde2 = "2001-01-01";
+        $myFechaHasta2 = "9999-12-31";
+
         if ($request->fechaDesde){
             $myFechaDesde = $request->fechaDesde;
             $myFechaHasta = $request->fechaHasta;
+
+            $myFechaDesde2 = $myFechaDesde . " 00:00:00";
+            $myFechaHasta2 = $myFechaHasta . " 12:59:00";
         }
 
         if ($request->fechaHasta){
             $myFechaHasta = $request->fechaHasta;
+            $myFechaHasta2 = $myFechaHasta . " 12:59:00";            
         }
-
+        // var_dump($myFechaDesde);
         // dd('Fecha desde -> ' . $myFechaDesde . ' Fecha Hasta -> ' . $myFechaHasta);
 
        //
@@ -1264,7 +1337,7 @@ class statisticsController extends Controller
             ->where('status','<>','Anulado')                    
             ->whereBetween('Transactions.wallet_id',            [$myWalletDesde, $myWalletHasta])            
             ->whereBetween('Transactions.type_transaction_id',  [$myTypeTransactionDesde, $myTypeTransactionHasta])
-            ->whereBetween('Transactions.transaction_date',     [$myFechaDesde, $myFechaHasta])
+            ->whereBetween('Transactions.transaction_date',     [$myFechaDesde2, $myFechaHasta2])
             ->groupBy('WalletId', 'WalletName', 'TypeTransactionId', 'TypeTransaccionName')
             ->orderBy('WalletId','ASC')
             ->orderBy('TypeTransactionId','ASC')            

@@ -249,13 +249,15 @@ if (isset($balance->Total)){
                                             case 5:
                                             case 7:
                                             case 9:
-                                            case 12:
+                                            case 11:
                                                 $myTotal = $myTotal + ($row->MontoTotal * -1);
                                                 break;
-                                            case 4:
-                                            case 8:
                                             case 2:
-                                            case 6:
+                                            case 4:
+                                            case 6:                                                
+                                            case 8:
+                                            case 10:                                                                                                
+                                            case 12:                                                
                                                 $myTotal = ($myTotal) + ($row->MontoTotal);
                                                 break;
                                             default:
