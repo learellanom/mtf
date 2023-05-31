@@ -251,13 +251,23 @@ $(".typecoin").select2({
 $("#typecoin").val("")
 $("#typecoin").trigger("change");
 
-$(".status").select2({
-  placeholder: "Seleccionar estatus",
+$(".muestra").select2({
+  placeholder: "Seleccionar caja",
   theme: 'bootstrap4',
-  search: false
+  allowClear: true,
+  width:'100%'
 });
+$(".muestra").val("")
+$(".muestra").trigger("change");
 
-
+$(".oculta").select2({
+  placeholder: "Seleccionar caja",
+  theme: 'bootstrap4',
+  allowClear: true,
+  width:'100%'
+});
+$(".oculta").val("")
+$(".oculta").trigger("change");
 
 
       $('#monto_dolares').on('input', function() {
@@ -265,13 +275,7 @@ $(".status").select2({
         $('#montototal').val(input1Value);
      });
 
-     /* OCULTAR LA CAJA SELECCIONADA */
-     $('.muestra,.oculta').select2({
-        'theme':'bootstrap4',
-        search: false,
-        allowClear: true,
-        width:'100%'
-     });
+
      $(".muestra,.oculta").val("")
      $(".muestra,.oculta").trigger("change");
 
