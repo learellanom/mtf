@@ -232,7 +232,7 @@ class TransactionController extends Controller
         $type_coin          = Type_coin::pluck('name', 'id');
         $type_transaction   = Type_transaction::whereIn('name', ['Nota de Debito a Caja de Efectivo'])->pluck('id');
         $type_transaction2  = Type_transaction::whereIn('name', ['Nota de Credito a Caja de efectivo'])->pluck('id');
-        $wallet             = Wallet::pluck('name', 'id');
+        $wallet             = Wallet::whereIn('type_wallet', ['Efectivo'])->pluck('name', 'id');
         $group              = Group::pluck('name', 'id');
         $user               = User::pluck('name', 'id');
         $fecha              = Carbon::now();
