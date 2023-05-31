@@ -164,7 +164,7 @@ class TransactionController extends Controller
                 $transactiones = DB::select('select
                 mtf.transactions.id as TransactionId,
                     transfer_number as TransferNumber,
-                IF(type_transactions.name = "Nota de credito", "Destino", "Origen") as TransferType,
+                IF(type_transactions.name = "Nota de Credito a Caja de efectivo", "Destino", "Origen") as TransferType,
                     wallet_id as WalletIdOrigen,
                     wallets.name as WalletNameOrigen,
                     amount_total as Amount,
