@@ -414,7 +414,7 @@ return [
             'label_color' =>'success'
         ],
         [
-            'text'        => 'Transferencias entre clientes',
+            'text'        => 'Pagos entre clientes',
             'url'         => 'movimientos/indice_pagoclientes',
             'active'      => ['movimientos/indice_pagoclientes','movimientos/pago_clientes'],
             'can'         => 'transactions.index_pagoclientes',
