@@ -111,7 +111,7 @@
                         {!! Form::Label('percentage_base', "Porcentaje Base:") !!}
                         <div class="input-group-text">
                             <i class="fa-fw fas fa-percentage mr-2"></i>
-                        {!! Form::text('percentage_base',null, ['class' => 'form-control percentage_base',  'min' => 0, 'id' => 'percentage_base']) !!}
+                        {!! Form::text('percentage_base',null, ['class' => 'form-control percentage_base', 'readonly'=>true,  'min' => 0, 'id' => 'percentage_base']) !!}
                         </div>
                     </div>
 
@@ -164,10 +164,17 @@
 
 
                 <div class="form-group">
-                    {!! Form::Label('description', "Descripción:") !!}
+                    {!! Form::Label('description', "Descripción origen:") !!}
                         <div class="input-group-text">
                             <i class="fa-fw fas fa-text-width mr-2"></i>
-                        {!! Form::textarea('description',null, ['rows' => 3, 'class' => 'form-control', 'required' => true]) !!}
+                        {!! Form::text('description','Entregado a caja', ['id' => 'descripcion', 'class' => 'form-control', 'readonly' => true, 'required' => true, 'value' => 'Recibido de cliente']) !!}
+                        </div>
+                </div>
+                <div class="form-group">
+                    {!! Form::Label('description2', "Descripción destino:") !!}
+                        <div class="input-group-text">
+                            <i class="fa-fw fas fa-text-width mr-2"></i>
+                        {!! Form::text('description2','Recibido de la caja', ['id' => 'descripcion2','class' => 'form-control', 'readonly' => true, 'required' => true]) !!}
                         </div>
                 </div>
 
@@ -516,13 +523,28 @@ $('#comision_base').prop('readonly', true);
             // Realizar la acción deseada en función del valor seleccionado
             if (option == 'Pago Efectivo')
             {
-                $('#typetransaccion2').val(10);
+                $('#typetransaccion2').val(6);
                 //$('#typetransaccion2 option[value="8"]').attr('disabled', 'true');
             }
             else
             {
-                $('#typetransaccion2').val(8);
+                $('#typetransaccion2').val(7);
             }
+        });
+
+        $("#wallet").change(function() {
+        var valor = $(this).val(); // Capturamos el valor del select
+        var texto = $(this).find('option:selected').text(); // Capturamos el texto del option seleccionado
+
+          $("#descripcion2").val('Recibido de caja ' +texto);
+        });
+
+        $("#wallet2").change(function() {
+        var valor = $(this).val(); // Capturamos el valor del select
+        var texto = $(this).find('option:selected').text(); // Capturamos el texto del option seleccionado
+
+            $("#descripcion").val('Entregado a caja ' +texto);
+
         });
 
 

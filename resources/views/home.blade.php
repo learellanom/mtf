@@ -20,9 +20,9 @@
                     <div class="card-body" id="cajas">
 
 
-                        <x-adminlte-info-box title="{{ $wallets->NombreWallet }}"  icon="fas fa-lg fa-box-open text-light"
+                        <x-adminlte-info-box title="{{ $wallets->NombreWallet }}" text="Saldo total: {{ number_format($wallets->Total) }} $" icon="fas fa-lg fa-box-open text-light"
                         theme="dark"
-                        description="Saldo total: {{ $wallets->Total }} $"/>
+                        description="Saldo total: {{ number_format($wallets->Total) }} $"/>
 
 
 

@@ -786,13 +786,18 @@ return [
 
             ],
         ],
-        'Pagination' => [
+        'InputMask' => [
             'active' => true,
             'files' => [
                 [
                     'type' => 'js',
                     'asset' => true,
-                    'location' => 'vendor/jquery/pagination.js',
+                    'location' => 'vendor/InputMask/jquery.inputmask.js',
+                ],
+                [
+                    'type' => 'js',
+                    'asset' => true,
+                    'location' => 'vendor/InputMask/myInputMask.js',
                 ],
             ],
         ],
