@@ -536,14 +536,14 @@ $('#comision_base').prop('readonly', true);
         var valor = $(this).val(); // Capturamos el valor del select
         var texto = $(this).find('option:selected').text(); // Capturamos el texto del option seleccionado
 
-          $("#descripcion2").val('Recibido de caja ' +texto);
+          $("#descripcion2").val('Recibido de  ' +texto);
         });
 
         $("#wallet2").change(function() {
         var valor = $(this).val(); // Capturamos el valor del select
         var texto = $(this).find('option:selected').text(); // Capturamos el texto del option seleccionado
 
-            $("#descripcion").val('Entregado a caja ' +texto);
+            $("#descripcion").val('Entregado a ' +texto);
 
         });
 
