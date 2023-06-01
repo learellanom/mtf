@@ -786,6 +786,16 @@ return [
 
             ],
         ],
+        'Pagination' => [
+            'active' => true,
+            'files' => [
+                [
+                    'type' => 'js',
+                    'asset' => true,
+                    'location' => 'vendor/jquery/pagination.js',
+                ],
+            ],
+        ],
         'Fontawesome' => [
             'active' => true,
             'files' => [

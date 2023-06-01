@@ -9,18 +9,18 @@
             <div class="card">
                 <div class="card-header font-weight-bold">{{ __('Información general del sistema MTF') }}</div>
 
-                <div class="card-body">
+                <div class="card-body" id="cajas">
                    {{-- Updatable --}}
                     @foreach ($wallet as $wallets)
-                    <x-adminlte-info-box title="{{ $wallets->name }}" text="{{ $wallets->direction }}" icon="fas fa-lg fa-box text-dark"
-                    theme="secondary"
-                    description="{{ $wallets->description }}"/>
+                    <x-adminlte-info-box title="{{ $wallets->NombreWallet }}"  icon="fas fa-lg fa-box text-dark"
+                    theme="light"
+                    description="Saldo total: {{ $wallets->Total }} $"/>
 
                     @endforeach
 
                 </div>
                 <div class="card-footer">
-                    {{$wallet->links()}}
+                  {{--  {{$wallet->links()}} --}}
                 </div>
 
 
@@ -37,3 +37,7 @@
 
 @endsection
 
+@section('js')
+
+
+@endsection
