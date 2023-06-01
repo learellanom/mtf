@@ -18,8 +18,8 @@
                     <div class="card-body" id="cajas">
                     {{-- Updatable --}}
                         @foreach ($wallet as $wallets)
-                        <x-adminlte-info-box title="{{ $wallets->NombreWallet }}"  icon="fas fa-lg fa-box text-dark"
-                        theme="light"
+                        <x-adminlte-info-box title="{{ $wallets->NombreWallet }}"  icon="fas fa-lg fa-box-open text-light"
+                        theme="dark"
                         description="Saldo total: {{ $wallets->Total }} $"/>
 
                         @endforeach
@@ -70,7 +70,7 @@
                 "previous": "Anterior"
             }
         },
-
+        info:false,
         });
     });
     </script>
