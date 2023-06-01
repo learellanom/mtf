@@ -151,11 +151,19 @@
 
                 <hr class="bg-dark esconder comi" style="height:1px;">
 
+
                 <div class="form-group">
-                    {!! Form::Label('description', "Descripción:") !!}
+                    {!! Form::Label('description', "Descripción origen:") !!}
                         <div class="input-group-text">
                             <i class="fa-fw fas fa-text-width mr-2"></i>
-                        {!! Form::textarea('description',null, ['rows' => 3, 'class' => 'form-control', 'required' => true]) !!}
+                        {!! Form::text('description','Entregado a cliente', ['id' => 'descripcion', 'class' => 'form-control', 'readonly' => true, 'required' => true, 'value' => 'Recibido de cliente']) !!}
+                        </div>
+                </div>
+                <div class="form-group">
+                    {!! Form::Label('description2', "Descripción destino:") !!}
+                        <div class="input-group-text">
+                            <i class="fa-fw fas fa-text-width mr-2"></i>
+                        {!! Form::text('description2','Recibido de cliente', ['id' => 'descripcion2','class' => 'form-control', 'readonly' => true, 'required' => true]) !!}
                         </div>
                 </div>
 
@@ -333,7 +341,7 @@ $("#typetransaccion").trigger("change");
         'theme':'bootstrap4',
         search: false,
         allowClear: true,
-        placeholder: "Selecciona la caja",
+        placeholder: "Seleccionar cliente",
         width:'100%'
      });
      $(".muestra,.oculta").val("")
@@ -511,6 +519,24 @@ $('#comision_base').prop('readonly', true);
                 $('#typetransaccion2').val(8);
             }
         });
+
+
+        $("#wallet").change(function() {
+        var valor = $(this).val(); // Capturamos el valor del select
+        var texto = $(this).find('option:selected').text(); // Capturamos el texto del option seleccionado
+
+          $("#descripcion2").val('Recibido de cliente ' +texto);
+        });
+
+        $("#wallet2").change(function() {
+        var valor = $(this).val(); // Capturamos el valor del select
+        var texto = $(this).find('option:selected').text(); // Capturamos el texto del option seleccionado
+
+            $("#descripcion").val('Entregado a cliente ' +texto);
+
+        });
+
+
 
 
 

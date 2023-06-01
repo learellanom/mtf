@@ -14,8 +14,8 @@
 @can('transactions.create_pagowallet')
 <a class="btn btn-dark" title="Crear transaccion" href={{ route('transactions.create_pagowallet') }}>
     <i class="fas fa-plus-circle"></i>
-    <span class="d-none d-lg-inline-block text-uppercase font-weight-bold">{{ __('Crear') }}</span>
-    <span class="d-none d-md-inline-block text-uppercase font-weight-bold">{{ __('Transferencias') }}</span>
+    <span class="d-none d-lg-inline-block text-uppercase font-weight-bold">{{ __('Pago') }}</span>
+    <span class="d-none d-md-inline-block text-uppercase font-weight-bold">{{ __('entre cajas') }}</span>
 </a>
 @endcan
 

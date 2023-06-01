@@ -171,6 +171,7 @@
                         </div>
                 </div>
 
+
                 {!! Form::Submit('GUARDAR', ['class' => 'btn btn-primary btn-block font-weight-bold', 'style' => "max-height: 400px;" , 'id' => 'publish']) !!}
 
                 </div>
