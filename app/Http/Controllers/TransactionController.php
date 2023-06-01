@@ -327,7 +327,7 @@ class TransactionController extends Controller
         $transactions2->amount                = $request->input('amount');
         $transactions2->amount_total          = $request->input('amount_total');
         $transactions2->transaction_date      = $request->input('transaction_date');
-        $transactions2->description           = $request->input('description');
+        $transactions2->description           = $request->input('description2');
         $transactions2->pay_number            = $request->input('pay_number');
         $transactions2->amount_commission_base = $request->input('amount_commission_base');
         $transactions2->percentage_base       = $request->input('percentage_base');
