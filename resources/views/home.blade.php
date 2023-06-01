@@ -14,20 +14,22 @@
                             <th>CAJAS</th>
                         </tr>
                     </thead>
+                    @foreach ($wallet as $wallets)
                   <tr>
                   <td>
                     <div class="card-body" id="cajas">
 
-                        @foreach ($wallet as $wallets)
+
                         <x-adminlte-info-box title="{{ $wallets->NombreWallet }}"  icon="fas fa-lg fa-box-open text-light"
                         theme="dark"
                         description="Saldo total: {{ $wallets->Total }} $"/>
 
-                        @endforeach
+
 
                     </div>
                  </td>
                 </tr>
+                @endforeach
                 </table>
                 <div class="card-footer">
 
