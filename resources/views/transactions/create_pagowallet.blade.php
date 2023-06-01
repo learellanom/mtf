@@ -532,18 +532,23 @@ $('#comision_base').prop('readonly', true);
             }
         });
 
-        $("#wallet").change(function() {
+        $("#wallet, #typetransaccion").change(function() {
         var valor = $(this).val(); // Capturamos el valor del select
-        var texto = $(this).find('option:selected').text(); // Capturamos el texto del option seleccionado
+        var texto = $("#wallet option:selected").text(); // Capturamos el texto del option seleccionado
+        var texto2 = $("#typetransaccion option:selected").text(); //Capturamos el texto del option tipo transacción seleccionado
 
-          $("#descripcion2").val('Recibido de  ' +texto);
+          $("#descripcion2").val('Recibido de  ' +texto +'/' + texto2);
         });
 
-        $("#wallet2").change(function() {
+        $("#wallet2, #typetransaccion").change(function() {
         var valor = $(this).val(); // Capturamos el valor del select
-        var texto = $(this).find('option:selected').text(); // Capturamos el texto del option seleccionado
+        var texto = $("#wallet2 option:selected").text(); // Capturamos el texto del option seleccionado
 
-            $("#descripcion").val('Entregado a ' +texto);
+        var texto2 = $("#typetransaccion option:selected").text(); //Capturamos el texto del option tipo transacción seleccionado
+
+        //alert(tipo);
+
+            $("#descripcion").val('Entregado a ' + texto + '/' + texto2);
 
         });
 
