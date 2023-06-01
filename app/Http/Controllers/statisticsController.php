@@ -1934,8 +1934,8 @@ class statisticsController extends Controller
         \Log::info('leam walletDesde *** -> ' . $walletDesde); 
         \Log::info('leam walletHasta *** -> ' . $walletHasta); 
         
-        $myFechaDesde = "2001-01-01";
-        $myFechaHasta = "9999-12-31";
+        $myFechaDesde = "2001-01-01 00:00:00";
+        $myFechaHasta = "9999-12-31 12:59:00";
 
         $myTable = "mtf.transactions";
 
