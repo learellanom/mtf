@@ -14,9 +14,10 @@
                             <th>CAJAS</th>
                         </tr>
                     </thead>
-                <td>
+                  <tr>
+                  <td>
                     <div class="card-body" id="cajas">
-                    {{-- Updatable --}}
+
                         @foreach ($wallet as $wallets)
                         <x-adminlte-info-box title="{{ $wallets->NombreWallet }}"  icon="fas fa-lg fa-box-open text-light"
                         theme="dark"
@@ -25,10 +26,11 @@
                         @endforeach
 
                     </div>
-                </td>
+                 </td>
+                </tr>
                 </table>
                 <div class="card-footer">
-                  {{--  {{$wallet->links()}} --}}
+
                 </div>
 
 

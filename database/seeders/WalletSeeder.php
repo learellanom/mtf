@@ -39,9 +39,39 @@ class WalletSeeder extends Seeder
             'type_wallet' => 'Efectivo'
         ]);
         Wallet::create([
-            'name' => "CAJA USDT",
+            'name' => "CAJA PRUEBA1",
             'description' => "recargas de usdt",
-            'direction' => "CAJA USDT",
+            'direction' => "CAJA PRUEBA1",
+            'type_wallet' => 'Transacciones'
+        ]);
+        Wallet::create([
+            'name' => "CAJA PRUEBA2",
+            'description' => "recargas de PRUEBA2",
+            'direction' => "CAJA PRUEBA2",
+            'type_wallet' => 'Transacciones'
+        ]);
+        Wallet::create([
+            'name' => "CAJA PRUEBA3",
+            'description' => "recargas de PRUEBA3",
+            'direction' => "CAJA PRUEBA3",
+            'type_wallet' => 'Transacciones'
+        ]);
+        Wallet::create([
+            'name' => "CAJA PRUEBA4",
+            'description' => "recargas de PRUEBA4",
+            'direction' => "CAJA PRUEBA4",
+            'type_wallet' => 'Transacciones'
+        ]);
+        Wallet::create([
+            'name' => "CAJA PRUEBA5",
+            'description' => "recargas de PRUEBA5",
+            'direction' => "CAJA PRUEBA5",
+            'type_wallet' => 'Transacciones'
+        ]);
+        Wallet::create([
+            'name' => "CAJA PRUEBA6",
+            'description' => "recargas de PRUEBA6",
+            'direction' => "CAJA PRUEBA6",
             'type_wallet' => 'Transacciones'
         ]);
     }
