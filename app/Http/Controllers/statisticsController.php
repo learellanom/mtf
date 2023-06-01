@@ -56,23 +56,23 @@ class statisticsController extends Controller
         }
 
         $myHoraDesde = "00:00:00";
-        $myHoraHasta = "12:59:00";
+        $myHoraHasta = "23:59:00";
 
         $myFechaDesde = "2001-01-01 00:00:00";
-        $myFechaHasta = "9999-12-31 12:59:00";
+        $myFechaHasta = "9999-12-31 23:59:00";
         if ($request->fechaDesde){
             $myFechaDesde = $request->fechaDesde;
             $myFechaHasta = $request->fechaHasta;
 
             $myFechaDesde = $myFechaDesde . " 00:00:00";
-            $myFechaHasta = $myFechaHasta . " 12:59:00";
+            $myFechaHasta = $myFechaHasta . " 23:59:00";
 
 
         }
 
         if ($request->fechaHasta){
             $myFechaHasta = $request->fechaHasta;
-            $myFechaHasta = $myFechaHasta . " 12:59:00";           
+            $myFechaHasta = $myFechaHasta . " 23:59:00";           
         }
 
         $myTypeTransactions         = 0;
@@ -176,7 +176,6 @@ class statisticsController extends Controller
 
         }else{
 
-<<<<<<< HEAD
             $myQuery =
             "
                 select
@@ -223,8 +222,6 @@ class statisticsController extends Controller
             // dd($Transacciones);
             /*
 
-=======
->>>>>>> 37a9a3334227a117121c092d9c928e88929d36ae
             $Transacciones = Transaction::select(
                 'Transactions.id                        as Id',
                 'Transactions.amount_foreign_currency   as MontoMoneda',
@@ -252,31 +249,21 @@ class statisticsController extends Controller
             )->leftJoin(
                 'wallets', 'wallets.id', '=', 'transactions.wallet_id'
             )->leftJoin(
-<<<<<<< HEAD
                     'type_coins', 'type_coins.id', '=', 'transactions.type_coin_id'  
-=======
-                'groups', 'groups.id', '=', 'transactions.group_id'
-            )->leftJoin(
-                    'type_coins', 'type_coins.id', '=', 'transactions.type_coin_id'
->>>>>>> 37a9a3334227a117121c092d9c928e88929d36ae
             )->whereBetween('Transactions.user_id',                 [$myUserDesde, $myUserHasta]
             )->whereBetween('Transactions.wallet_id',               [$myWalletDesde, $myWalletHasta]
             )->whereBetween('Transactions.transaction_date',        [$myFechaDesde, $myFechaHasta]
             )->whereBetween('Transactions.type_transaction_id',     [$myTypeTransactionsDesde, $myTypeTransactionsHasta]
             )->where('Transactions.status', '=', 'Activo'
             )->orderBy('Transactions.transaction_date','ASC'
-<<<<<<< HEAD
             )->get();  
             */
-=======
-            )->get();
->>>>>>> 37a9a3334227a117121c092d9c928e88929d36ae
 
                 // dd($Transacciones);
 
         }
 
-        // dd($Transacciones);
+         // dd($Transacciones);
         // die();
 
         // $Transacciones2 = array();
@@ -1342,8 +1329,10 @@ class statisticsController extends Controller
                 type_transaction_id         as TypeTransactionId,
                 type_transactions.name      as TypeTransaccionName,
                 count(*)                    as cant_transactions,
-                sum(amount)                 as total_amount,
+                sum(amount)                 as total_amount,                
+                sum(amount_commission_base) as total_amount_commission_base,
                 sum(amount_commission)      as total_commission,
+                (sum(amount_commission)-sum(amount_commission_base)) as total_commission_profit,
                 sum(amount_total)           as total'))
             ->leftJoin('type_transactions', 'type_transactions.id', '=', 'transactions.type_transaction_id')
             ->leftJoin('wallets',           'wallets.id', '=', 'transactions.wallet_id')
@@ -1943,21 +1932,12 @@ class statisticsController extends Controller
             $walletDesde = $wallet;
             $walletHasta = $wallet;
         }
-<<<<<<< HEAD
         \Log::info('leam wallet      *** -> ' . $wallet);        
         \Log::info('leam walletDesde *** -> ' . $walletDesde); 
         \Log::info('leam walletHasta *** -> ' . $walletHasta); 
         
         $myFechaDesde = "2001-01-01 00:00:00";
         $myFechaHasta = "9999-12-31 12:59:00";
-=======
-        \Log::info('leam wallet      *** -> ' . $wallet);
-        \Log::info('leam walletDesde *** -> ' . $walletDesde);
-        \Log::info('leam walletHasta *** -> ' . $walletHasta);
-
-        $myFechaDesde = "2001-01-01";
-        $myFechaHasta = "9999-12-31";
->>>>>>> 37a9a3334227a117121c092d9c928e88929d36ae
 
         $myTable = "mtf.transactions";
 
