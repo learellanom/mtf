@@ -137,6 +137,9 @@ class statisticsController extends Controller
                 'Transactions.amount_total              as MontoTotal',
                 'Transactions.percentage                as PorcentajeComision',
                 'Transactions.amount_commission         as MontoComision',
+                'Transactions.amount_total_base         as MontoTotalBase',
+                'Transactions.percentage_base           as PorcentajeComisionBase',
+                'Transactions.amount_commission_base    as MontoComisionBase',
                 'Transactions.type_transaction_id       as TransactionId',
                 'type_transactions.name                 as TipoTransaccion',
                 'Transactions.client_id                 as ClienteId',
@@ -189,6 +192,9 @@ class statisticsController extends Controller
                     Transactions.amount_total              as MontoTotal,
                     Transactions.percentage                as PorcentajeComision,
                     Transactions.amount_commission         as MontoComision,
+                    Transactions.amount_total_base         as MontoTotalBase,
+                    Transactions.percentage_base           as PorcentajeComisionBase,
+                    Transactions.amount_commission_base    as MontoComisionBase,
                     Transactions.type_transaction_id       as TransactionId,
                     type_transactions.name                 as TipoTransaccion,
                     Transactions.client_id                 as ClienteId,
@@ -263,7 +269,7 @@ class statisticsController extends Controller
 
         }
 
-         // dd($Transacciones);
+        //  dd($Transacciones);
         // die();
 
         // $Transacciones2 = array();
@@ -273,7 +279,7 @@ class statisticsController extends Controller
         //     $value2 = array_values(json_decode(json_encode($tran), true));
 
         //     array_push($Transacciones2, $value2);
-        // }
+        // 
 
         $userole            = $this->getUser();
 
@@ -1967,41 +1973,41 @@ class statisticsController extends Controller
             sum(MontoDebitos)   as Debitos,
             (sum(MontoCreditos) - sum(MontoDebitos) ) as Total
         from(
-        SELECT
-            wallet_id         as IdWallet,
-            mtf.wallets.name  as NombreWallet,
-            0 				  as MontoCreditos,
-            sum(amount) as MontoDebitos
-        FROM $myTable
-        left join  mtf.wallets on mtf.transactions.wallet_id  = mtf.wallets.id
-        where
-            type_transaction_id in ($this->myDebits)
-            and
-            transaction_date    between '0000-00-00' and '9999-12-31'
-            and
-            wallet_id           between $walletDesde and $walletHasta
-            and status <> 'Anulado'
-        group by
-            IdWallet,
-            NombreWallet
+            SELECT
+                wallet_id           as IdWallet,
+                mtf.wallets.name    as NombreWallet,
+                0 				    as MontoCreditos,
+                sum(amount_total_base)         as MontoDebitos
+            FROM $myTable
+            left join  mtf.wallets on mtf.transactions.wallet_id  = mtf.wallets.id
+            where
+                type_transaction_id in ($this->myDebits)
+                and
+                transaction_date    between '0000-00-00' and '9999-12-31'
+                and
+                wallet_id           between $walletDesde and $walletHasta
+                and status <> 'Anulado'
+            group by
+                IdWallet,
+                NombreWallet
         union
-        SELECT
-            wallet_id          as IdWallet,
-            mtf.wallets.name   as NombreWallet,
-            sum(amount)  as MontoCreditos,
-            0 as MontoDebitos
-        FROM $myTable
-        left join  mtf.wallets on mtf.transactions.wallet_id  = mtf.wallets.id
-        where
-            type_transaction_id in ($this->myCredits)
-            and
-            transaction_date between '0000-00-00' and '9999-12-31'
-            and
-            wallet_id between $walletDesde and $walletHasta
-            and status <> 'Anulado'
-        group by
-            IdWallet,
-            NombreWallet
+            SELECT
+                wallet_id           as IdWallet,
+                mtf.wallets.name    as NombreWallet,
+                sum(amount_total_base)         as MontoCreditos,
+                0 as MontoDebitos
+            FROM $myTable
+            left join  mtf.wallets on mtf.transactions.wallet_id  = mtf.wallets.id
+            where
+                type_transaction_id in ($this->myCredits)
+                and
+                transaction_date between '0000-00-00' and '9999-12-31'
+                and
+                wallet_id between $walletDesde and $walletHasta
+                and status <> 'Anulado'
+            group by
+                IdWallet,
+                NombreWallet
         )
         as t
         group by
