@@ -235,12 +235,12 @@ if (isset($balance->Total)){
                                          //       dd($myWallet);
                                         $myPorcentajeComision   = $row->PorcentajeComisionBase;
                                         $myMontoComision        = $row->MontoComisionBase;
-                                        $myTotal                = $row->MontoTotalBase;
+                                        $myTotal2                = $row->MontoTotalBase;
                                     }else{
                                         
                                         $myPorcentajeComision   = $row->PorcentajeComision;
                                         $myMontoComision        = $row->MontoComision;
-                                        $myTotal                = $row->MontoTotal;
+                                        $myTotal2                = $row->MontoTotal;
                                     }
                                     // 'Transactions.amount_total_base         as MontoTotalBase',
                                     // 'Transactions.percentage_base           as PorcentajeComisionBase',
@@ -260,7 +260,7 @@ if (isset($balance->Total)){
                                     <td class="text-right"  >{!! number_format($row->Monto,2,",",".") !!}</td>
                                     <td class="text-left"   >{!! number_format($myPorcentajeComision,2,",",".") !!}</td>
                                     <td class="text-right"  >{!! number_format($myMontoComision,2,",",".") !!}</td>
-                                    <td class="text-right"  >{!! number_format($myTotal,2,",",".") !!}</td>
+                                    <td class="text-right"  >{!! number_format($myTotal2,2,",",".") !!}</td>
 
                                     @php
                                         switch  ($row->TransactionId){
@@ -270,7 +270,8 @@ if (isset($balance->Total)){
                                             case 7:
                                             case 9:
                                             case 11:
-                                                $myTotal = $myTotal + ($row->MontoTotal * -1);
+                                                // $myTotal = $myTotal + ($row->MontoTotal * -1);
+                                                $myTotal = $myTotal + ($myTotal2 * -1);                                                
                                                 break;
                                             case 2:
                                             case 4:
@@ -278,7 +279,8 @@ if (isset($balance->Total)){
                                             case 8:
                                             case 10:                                                                                                
                                             case 12:                                                
-                                                $myTotal = ($myTotal) + ($row->MontoTotal);
+                                                // $myTotal = ($myTotal) + ($row->MontoTotal);
+                                                $myTotal = ($myTotal) + ($myTotal2);                                                
                                                 break;
                                             default:
                                                 $myTotal = 0;
