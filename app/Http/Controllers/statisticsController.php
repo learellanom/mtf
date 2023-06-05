@@ -147,7 +147,7 @@ class statisticsController extends Controller
                 'wallets.name                           as WalletName',
                 'transactions.description               as Descripcion',
                 'transactions.transaction_date          as FechaTransaccion',
-                'groups.name                            as ClientName',
+                '   groups.name                            as ClientName',
                 'transactions.token                     as token'
             )->leftJoin(
                 'users','users.id', '=', 'transactions.user_id'
