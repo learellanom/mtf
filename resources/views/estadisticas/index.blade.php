@@ -3,11 +3,9 @@
 @section('content')
 {{-- Setup data for datatables --}}
 
-use app\Http\Controllers\statisticsController;
+
 
 @php
-
-
 
 
 $config = [
@@ -265,6 +263,9 @@ if (isset($balance->Total)){
                                     <td class="text-left"   >{!! number_format($myPorcentajeComision,2,",",".") !!}</td>
                                     <td class="text-right"  >{!! number_format($myMontoComision,2,",",".") !!}</td>
                                     <td class="text-right"  >{!! number_format($myTotal2,2,",",".") !!}</td>
+    
+
+
 
                                     @php
                                         switch  ($row->TransactionId){
@@ -274,7 +275,7 @@ if (isset($balance->Total)){
                                             case 7:
                                             case 9:
                                             case 11:
-                                            case 13:                                                
+                                            case 12:                                                
                                                 // $myTotal = $myTotal + ($row->MontoTotal * -1);
                                                 $myTotal = $myTotal + ($myTotal2 * -1);                                                
                                                 break;
@@ -283,7 +284,7 @@ if (isset($balance->Total)){
                                             case 6:                                                
                                             case 8:
                                             case 10:                                                                                                
-                                            case 12:                                                
+                                            case 13:                                                
                                                 // $myTotal = ($myTotal) + ($row->MontoTotal);
                                                 $myTotal = ($myTotal) + ($myTotal2);                                                
                                                 break;

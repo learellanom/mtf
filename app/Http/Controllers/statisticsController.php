@@ -151,11 +151,11 @@ class statisticsController extends Controller
                 'Transactions.amount_commission_base    as MontoComisionBase',
                 'Transactions.type_transaction_id       as TransactionId',
                 'type_transactions.name                 as TipoTransaccion',
-                'Transactions.client_id                 as ClienteId',
                 'transactions.wallet_id                 as WalletId',
                 'wallets.name                           as WalletName',
                 'transactions.description               as Descripcion',
                 'transactions.transaction_date          as FechaTransaccion',
+                'Transactions.group_id                  as ClienteId',                
                 'groups.name                            as ClientName',
                 'transactions.token                     as token'
             )->leftJoin(
