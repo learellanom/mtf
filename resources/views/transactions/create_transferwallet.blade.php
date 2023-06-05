@@ -69,6 +69,7 @@
                     </div>
 
                         {!! Form::hidden('amount_total',null, ['class' => 'form-control montototal', 'required' => true, 'min' => 0, 'id' => 'montototal', 'readonly' => true]) !!}
+                        {!! Form::hidden('amount_total_base',null, ['class' => 'form-control monto_base', 'id' => 'monto_base', 'readonly' => true]) !!}
 
                         {!! Form::hidden('status', 'Activo', null, ['class' => 'form-control']) !!}
 
@@ -271,8 +272,9 @@ $(".oculta").trigger("change");
 
 
       $('#monto_dolares').on('input', function() {
-        var input1Value = $('#monto_dolares').val();
-        $('#montototal').val(input1Value);
+        var dolares = $('#monto_dolares').val();
+        $('#montototal').val(dolares);
+        $('#monto_base').val(dolares);
      });
 
 

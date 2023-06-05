@@ -131,7 +131,7 @@
 
                     </div>
                 </div>
-
+{{--
                 <div class="form-row comisiones comi">
 
                     <div class="form-group col-md-6">
@@ -151,7 +151,7 @@
                         </div>
 
                     </div>
-                </div>
+                </div> --}}
 
                 <div class="form-group col-md-12 d-flex justify-content-center">
 
@@ -184,7 +184,8 @@
                     {!! Form::Label('amount_total', "Monto Total:") !!}
                         <div class="input-group-text">
                             <i class="fa-fw fas fa-coins mr-2"></i>
-                            {!! Form::number('amount_total',null, ['class' => 'form-control montototal', 'required' => true, 'min' => 0, 'id' => 'montototal', 'readonly' => true]) !!}
+                            {!! Form::number('amount_total', null,['class' => 'form-control montototal', 'required' => true, 'min' => 0, 'id' => 'montototal', 'readonly' => true]) !!}
+                            {!! Form::hidden('amount_total_base', null,['class' => 'form-control monto_base', 'id' => 'monto_base', 'readonly' => true]) !!}
                         </div>
                     </div>
 
@@ -433,13 +434,14 @@ $(document).ready(function() {
   //$('#monto_dolares').toFixed(2);
   $('#monto_dolares').mask('###0.00', { reverse: true });
   $('#monto').mask('###0.00', { reverse: true });
-  const input = document.getElementById("monto_dolares");
+    const input = document.getElementById("monto_dolares");
     const log = document.getElementById("montototal");
-
+    const log2 = document.getElementById("monto_base");
     input.addEventListener("input", updateValue);
 
     function updateValue(e) {
       log.value = e.target.value;
+      log2.value = e.target.value;
      }
 
      $( function() {

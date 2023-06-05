@@ -86,13 +86,13 @@
                       {!! Form::Label('transaction_date', "Fecha:") !!}
                       <div class="input-group-text">
                           <i class="fa-fw fas fas fa-calendar-week mr-2"></i>
-                      {!! Form::date('transaction_date', null, ['class' => 'form-control', 'required' => true, 'id' => 'fecha']) !!}
+                      {!! Form::datetimeLocal('transaction_date', $fecha, ['class' => 'form-control', 'required' => true, 'id' => 'fecha']) !!}
                       </div>
                   </div>
                 </div>
 
                         {!! Form::hidden('amount_total',null, ['class' => 'form-control montototal', 'required' => true, 'min' => 0, 'id' => 'montototal', 'readonly' => true]) !!}
-
+                        {!! Form::hidden('amount_total_base',null, ['class' => 'form-control monto_base', 'required' => true, 'min' => 0, 'id' => 'monto_base', 'readonly' => true]) !!}
                         {!! Form::hidden('status', 'Activo', null, ['class' => 'form-control']) !!}
                     {{-- {{ dd($type_transaction) }} --}}
 
@@ -268,10 +268,11 @@ $(".typecoin").select2({
 $("#typecoin").val("")
 $("#typecoin").trigger("change");
 
-$(".status").select2({
-  placeholder: "Seleccionar estatus",
+$(".transaccion").select2({
+  placeholder: "Seleccionar movimiento",
   theme: 'bootstrap4',
-  search: false
+  search: false,
+  width:'100%'
 });
 
 $(".wallet").select2({
@@ -308,6 +309,7 @@ $(document).ready(function() {
             monto = document.getElementById("monto");
             monto_dolares = document.getElementById("monto_dolares");
             montototal =   document.getElementById("montototal");
+            monto_base =   document.getElementById("monto_base");
 
             onkeyup = function(){
                 if(tasa.value == null && monto.value == null){
@@ -319,6 +321,7 @@ $(document).ready(function() {
                 if(monto_dolares.value){
                     //monto_total = monto_dolares;
                     montototal.value = monto_dolares.value;
+                    monto_base.value = monto_dolares.value;
                 }
             }
     }
