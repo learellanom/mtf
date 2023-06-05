@@ -270,6 +270,7 @@ if (isset($balance->Total)){
                                             case 7:
                                             case 9:
                                             case 11:
+                                            case 13:                                                
                                                 // $myTotal = $myTotal + ($row->MontoTotal * -1);
                                                 $myTotal = $myTotal + ($myTotal2 * -1);                                                
                                                 break;
@@ -430,7 +431,11 @@ if (isset($balance->Total)){
                     //             }
                     //         }
                     //     }
-                    // },                    
+                    // },     
+                    {
+                        "cells": "sA",
+                        "width": 19
+                    },                                        
                     {
                         "cells": "sC",
                         "width": 45
@@ -471,6 +476,17 @@ if (isset($balance->Total)){
                             }
                         }
                     }, 
+                    {
+                        "cells": "sH",
+                        "width": 21,
+                        "style": {
+                            "numFmt": "#,##0;(#,##0)",
+                            "alignment":{
+                                "vertical": "right",
+                                "horizontal" : "right"
+                            }
+                        }
+                    },                     
                     {
                         "cells": "I",
                         "width": 20,
