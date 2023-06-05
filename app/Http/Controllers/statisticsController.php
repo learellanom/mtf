@@ -93,7 +93,7 @@ class statisticsController extends Controller
 
         $balance = "";
         if ($myGroup > 0){
-               $balance = $this->getBalance($myGroup);
+            $balance = $this->getBalance($myGroup);
             // $balance = $this->getBalance($myGroup, $myFechaDesde, $myFechaHasta);
         };
 
@@ -1216,9 +1216,10 @@ class statisticsController extends Controller
     public function walletSummary(Request $request) {
 
         $myWallet       = ($request->wallet) ? $request->wallet : 0;
-        $master         = ($request->master) ? $request->master : false;
+        
 
-        $Transacciones  = $this->getBalanceWallet($myWallet, $master);
+        $Transacciones  = $this->getBalanceWallet($myWallet);
+        // dd($Transacciones);
 
         //
         // si es un solo grupo devuelve un objeto y debe convertirse a array de 1
@@ -1230,7 +1231,7 @@ class statisticsController extends Controller
         $Type_transactions  = $this->getTypeTransactions();
         $wallets            = $this->getWallet();
 
-        return view('estadisticas.statisticsResumenWallet', compact('myWallet', 'wallets', 'Transacciones','master'));
+        return view('estadisticas.statisticsResumenWallet', compact('myWallet', 'wallets', 'Transacciones'));
     }
 
 

@@ -256,7 +256,7 @@ if (isset($balance->Total)){
                                     <td>{!! $row->token !!}</td>
                                     <td>{!! $row->TipoMoneda !!}</td>
                                     <td class="text-right"  >{!! number_format($row->MontoMoneda,2,",",".") !!}</td>
-                                    <td class="text-left"   >{!! $row->TasaCambio !!}</td>
+                                    <td class="text-left"   >{!! number_format($row->TasaCambio,2,",",".") !!}</td>
                                     <td class="text-right"  >{!! number_format($row->Monto,2,",",".") !!}</td>
                                     <td class="text-left"   >{!! number_format($myPorcentajeComision,2,",",".") !!}</td>
                                     <td class="text-right"  >{!! number_format($myMontoComision,2,",",".") !!}</td>
