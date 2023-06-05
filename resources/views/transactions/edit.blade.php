@@ -29,9 +29,11 @@
         <li class="nav-item" role="presentation">
           <button class="nav-link" id="pills-profile-tab" data-toggle="pill" data-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">Referencias</button>
         </li>
-        <span class="badge badge-primary text-lg text-uppercase">Transacción numero # - {{ $transactions->id }}</span>
-      </ul>
+    </ul>
 
+    <div class="d-flex justify-content-end">
+        <span class="badge badge-primary text-lg text-uppercase">Transacción numero # - {{ $transactions->id }}</span>
+    </div>
 
 
               <div class="tab-content" id="pills-tabContent">
@@ -40,9 +42,9 @@
 
 
 
-
-
-
+                                        <div class="d-flex justify-content-end">
+                                          <span class="badge badge-dark "><h6 class="font-weight-bold text-uppercase">Moneda| {{ $transactions->type_coin->name }} </h6></span>
+                                        </div>
 
                          <div class="form-group col">
                             {!! Form::Label('exchange_rate', "Tasa:") !!}
@@ -74,7 +76,6 @@
 
                 <br>
                 <div class="form-row">
-
                     <div class="form-group col-md-6">
                         {!! Form::Label('percentage', "Porcentaje:") !!}
                         <div class="input-group-text">
@@ -88,7 +89,7 @@
                         {!! Form::Label('amount_commission', "Monto Comisión:") !!}
                         <div class="input-group-text">
                             <i class="fa-fw fas fa-coins mr-2"></i>
-                        {!! Form::number('amount_commission',null, ['class' => 'form-control comision', 'required' => true, 'min' => 0, 'readonly' => true, 'id' => 'comision']) !!}
+                        {!! Form::text('amount_commission',null, ['class' => 'form-control comision general', 'required' => true, 'min' => 0, 'readonly' => true, 'id' => 'comision']) !!}
                         </div>
 
                     </div>
