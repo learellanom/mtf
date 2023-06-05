@@ -29,7 +29,7 @@ class statisticsController extends Controller
 {
 
     private $myCredits   = "1,3,5,7,9,11,12";
-    private $myDebits    = "2,4,6,8,10";
+    private $myDebits    = "2,4,6,8,10,13";
     /*
     *
     *
@@ -124,7 +124,7 @@ class statisticsController extends Controller
         }
 
         //  print_r($myGroup);
-        //  die($myGroup);
+         // dd($myGroup);
         if ($myGroup != 0){
             $Transacciones = Transaction::select(
                 'Transactions.id                        as Id',
@@ -147,7 +147,7 @@ class statisticsController extends Controller
                 'wallets.name                           as WalletName',
                 'transactions.description               as Descripcion',
                 'transactions.transaction_date          as FechaTransaccion',
-                '   groups.name                            as ClientName',
+                'groups.name                            as ClientName',
                 'transactions.token                     as token'
             )->leftJoin(
                 'users','users.id', '=', 'transactions.user_id'
@@ -1215,10 +1215,12 @@ class statisticsController extends Controller
     */
     public function walletSummary(Request $request) {
 
-        $myWallet       = ($request->wallet) ? $request->wallet : 0;
-        
+        $myWallet       = ($request->wallet)        ? $request->wallet : 0;
+        $fechaDesde     = ($request->fechaDesde)    ? $request->fechaDesde : '2001-01-01';  
+        $fechaHasta     = ($request->fechaHasta)    ? $request->fechaHasta : '9999-12-31';
 
-        $Transacciones  = $this->getBalanceWallet($myWallet);
+        // dd($fechaDesde . " - " . $fechaHasta);
+        $Transacciones  = $this->getBalanceWallet($myWallet, $fechaDesde, $fechaHasta);
         // dd($Transacciones);
 
         //
@@ -1247,7 +1249,7 @@ class statisticsController extends Controller
         $myWallet       = ($request->wallet) ? $request->wallet : 0;
         $master         = true;
 
-        $Transacciones  = $this->getBalanceWallet($myWallet, $master);
+        $Transacciones  = $this->getBalanceWallet($myWallet);
 
         //
         // si es un solo grupo devuelve un objeto y debe convertirse a array de 1
@@ -1929,7 +1931,7 @@ class statisticsController extends Controller
     *
     *
     */
-    function getBalanceWallet($wallet = 0){
+    function getBalanceWallet($wallet = 0, $fechaDesde = "2001-01-01", $fechaHasta = "9999-12-31"){
 
         if ($wallet === 0){
             $walletDesde = 00000;
@@ -1940,11 +1942,14 @@ class statisticsController extends Controller
             $walletHasta = $wallet;
         }
         \Log::info('leam wallet      *** -> ' . $wallet);        
-        \Log::info('leam walletDesde *** -> ' . $walletDesde); 
-        \Log::info('leam walletHasta *** -> ' . $walletHasta); 
+        \Log::info('leam fecha Desde *** -> ' . $fechaDesde); 
+        \Log::info('leam fecha Hasta *** -> ' . $fechaHasta); 
         
-        $myFechaDesde = "2001-01-01 00:00:00";
-        $myFechaHasta = "9999-12-31 12:59:00";
+        $horaDesde = " 00:00:00";
+        $horaHasta = " 12:59:00";
+
+        $myFechaDesde = $fechaDesde . $horaDesde;
+        $myFechaHasta = $fechaHasta . $horaHasta;
 
         $myTable = "mtf.transactions";
 
@@ -1968,23 +1973,28 @@ class statisticsController extends Controller
         $myQuery =
         "
         select
-            IdWallet            as IdWallet,
-            NombreWallet        as NombreWallet,
-            sum(MontoCreditos)  as Creditos,
-            sum(MontoDebitos)   as Debitos,
-            (sum(MontoCreditos) - sum(MontoDebitos) ) as Total
+            IdWallet                                        as IdWallet,
+            NombreWallet                                    as NombreWallet,
+            sum(MontoCreditos)                              as Creditos,
+            sum(MontoDebitos)                               as Debitos,
+            sum(MontoComision)                              as Comision,
+            sum(MontoComisionBase)                          as ComisionBase,
+            (sum(MontoCreditos) - sum(MontoDebitos) )       as Total,
+            (sum(MontoComision) - sum(MontoComisionBase) )  as ComisionGanancia
         from(
             SELECT
-                wallet_id           as IdWallet,
-                mtf.wallets.name    as NombreWallet,
-                0 				    as MontoCreditos,
-                sum(amount_total_base)         as MontoDebitos
+                wallet_id                   as IdWallet,
+                mtf.wallets.name            as NombreWallet,
+                0 				            as MontoCreditos,
+                sum(amount_total_base)      as MontoDebitos,
+                sum(amount_commission)      as MontoComision,
+                sum(amount_commission_base) as MontoComisionBase
             FROM $myTable
             left join  mtf.wallets on mtf.transactions.wallet_id  = mtf.wallets.id
             where
                 type_transaction_id in ($this->myDebits)
                 and
-                transaction_date    between '0000-00-00' and '9999-12-31'
+                transaction_date    between '$myFechaDesde' and '$myFechaHasta'
                 and
                 wallet_id           between $walletDesde and $walletHasta
                 and status <> 'Anulado'
@@ -1993,16 +2003,18 @@ class statisticsController extends Controller
                 NombreWallet
         union
             SELECT
-                wallet_id           as IdWallet,
-                mtf.wallets.name    as NombreWallet,
-                sum(amount_total_base)         as MontoCreditos,
-                0 as MontoDebitos
+                wallet_id                   as IdWallet,
+                mtf.wallets.name            as NombreWallet,
+                sum(amount_total_base)      as MontoCreditos,
+                0                           as MontoDebitos,
+                sum(amount_commission)      as MontoComision,
+                sum(amount_commission_base) as MontoComisionBase                
             FROM $myTable
             left join  mtf.wallets on mtf.transactions.wallet_id  = mtf.wallets.id
             where
                 type_transaction_id in ($this->myCredits)
                 and
-                transaction_date between '0000-00-00' and '9999-12-31'
+                transaction_date between '$myFechaDesde' and '$myFechaHasta'
                 and
                 wallet_id between $walletDesde and $walletHasta
                 and status <> 'Anulado'
@@ -2016,11 +2028,11 @@ class statisticsController extends Controller
             NombreWallet
         ";
 
-
+        // dd($myQuery);
         $Transacciones = DB::select($myQuery);
 
-         \Log::info('leam grupo query           *** -> ' . print_r($myQuery,true));
-         \Log::info('leam grupo transacciones   *** -> ' . print_r($Transacciones,true));
+        // \Log::info('leam grupo query           *** -> ' . print_r($myQuery,true));
+        // \Log::info('leam grupo transacciones   *** -> ' . print_r($Transacciones,true));
 
         if (empty($Transacciones)) {
             // \Log::info('leam vacio *** -> ' . print_r($Transacciones,true));

@@ -433,8 +433,12 @@ if (isset($balance->Total)){
                     // },                    
                     {
                         "cells": "sC",
-                        "width": 30
-                    },                    
+                        "width": 45
+                    },     
+                    {
+                        "cells": "sD",
+                        "width": 12
+                    },                                     
                     {
                         "cells": "sE",
                         "width": 25,                        
@@ -447,7 +451,7 @@ if (isset($balance->Total)){
                     },
                     {
                         "cells": "sF",
-                        "width": 10,
+                        "width": 11,
                         "style": {
                             "numFmt": "#,##0;(#,##0)",
                             "alignment":{
@@ -458,7 +462,7 @@ if (isset($balance->Total)){
                     },
                     {
                         "cells": "sG",
-                        "width": 20,
+                        "width": 9,
                         "style": {
                             "numFmt": "#,##0;(#,##0)",
                             "alignment":{
