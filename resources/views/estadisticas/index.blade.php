@@ -3,7 +3,11 @@
 @section('content')
 {{-- Setup data for datatables --}}
 
+use app\Http\Controllers\statisticsController;
+
 @php
+
+
 
 
 $config = [
