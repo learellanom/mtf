@@ -52,8 +52,9 @@ class TransactionController extends Controller
         $wallet             = Wallet::pluck('name', 'id');
         $group              = Group::pluck('name', 'id');
         $user               = User::pluck('name', 'id');
+        $fecha              = Carbon::now();
 
-        return view('transactions.credit', compact('type_coin', 'type_transaction', 'wallet', 'group', 'user', 'transaction'));
+        return view('transactions.credit', compact('type_coin', 'type_transaction', 'wallet', 'group', 'fecha', 'user', 'transaction'));
 
     }
 
@@ -253,6 +254,7 @@ class TransactionController extends Controller
         $transaction->wallet_id             = $request->input('wallet_id');
         $transaction->amount                = $request->input('amount');
         $transaction->amount_total          = $request->input('amount_total');
+        $transaction->amount_total_base     = $request->input('amount_total_base');
         $transaction->transaction_date      = $request->input('transaction_date');
         $transaction->description           = $request->input('description');
         $transaction->user_id               = $user;
@@ -268,6 +270,7 @@ class TransactionController extends Controller
         $transaction2->wallet_id             = $request->input('wallet2_id');
         $transaction2->amount                = $request->input('amount');
         $transaction2->amount_total          = $request->input('amount_total');
+        $transaction2->amount_total_base     = $request->input('amount_total_base');
         $transaction2->transaction_date      = $request->input('transaction_date');
         $transaction2->description           = $request->input('description');
         $transaction2->user_id               = $user;
@@ -275,7 +278,7 @@ class TransactionController extends Controller
 
         $transaction2->save();
 
-        flash()->addSuccess('Movimiento guardado', 'Transacción', ['timeOut' => 3000]);
+        flash()->addSuccess('Transferencia a caja guardado', 'Transacción', ['timeOut' => 3000]);
 
          return Redirect::route('transactions.index_transferwallet');
 
