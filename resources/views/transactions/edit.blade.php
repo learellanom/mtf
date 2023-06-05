@@ -44,7 +44,7 @@
 
 
 
-                   {{--      <div class="form-group col-md-4">
+                         <div class="form-group col">
                             {!! Form::Label('exchange_rate', "Tasa:") !!}
                             <div class="input-group-text">
                                 <i class="fa-fw fas fa-random mr-2"></i>
@@ -52,7 +52,7 @@
                             </div>
                         </div>
 
-                        <div class="form-group col-md-4">
+                        <div class="form-group col">
 
                             {!! Form::Label('amount_foreign_currency', "Monto en moneda extranjera:") !!}
                             <div class="input-group-text">
@@ -60,12 +60,15 @@
                             {!! Form::text('amount_foreign_currency',null, ['class' => 'form-control general', 'required' => true, 'id' => 'monto',]) !!}
 
                             </div>
-                        </div> --}}
+                        </div>
 
-
-
-                            {!! Form::hidden('amount',null,['class' => 'form-control number general', 'required' => true, 'min' => 0, 'id' => 'monto_dolares' ]) !!}
-
+                            <div class="form-group col">
+                                {!! Form::Label('monto_dolares', "Monto en dolares:") !!}
+                                <div class="input-group-text">
+                                    <i class="fa-fw fas fa-coins mr-2"></i>
+                                    {!! Form::text('amount',null,['class' => 'form-control number general', 'required' => true, 'readonly' => true, 'min' => 0, 'id' => 'monto_dolares' ]) !!}
+                                    </div>
+                                </div>
 
 
 
@@ -382,6 +385,84 @@ $(".typetrasnferencia").select2({
 });
 //$("#typetrasnferencia").val("")
 //$("#typetrasnferencia").trigger("change");
+
+$(document).ready(function() {
+  //$('#monto_dolares').toFixed(2);
+
+    if ($(this).val() == 1) {
+      $('#tasa').attr("readonly", true);
+      $('#monto').attr("readonly", true);
+      $('#monto_dolares').attr("readonly", false);
+
+            tasa = document.getElementById("tasa");
+            monto = document.getElementById("monto");
+            monto_dolares = document.getElementById("monto_dolares");
+            //const log = document.getElementById("montototal");
+
+            onkeyup = function(){
+                if(tasa.value == null && monto.value == null){
+                    monto_total = monto_dolares;
+                    monto_dolares.value =  monto_total.toFixed(2);
+                    //log.value =  monto_total.toFixed(2);
+                }
+        }
+    }
+    else if ($(this).val() == null)
+    {
+      $('#tasa').attr("readonly", true);
+      $('#monto').attr("readonly", true);
+      $('#monto_dolares').prop('readonly', true);
+
+      $('#tasa').val("");
+      $('#monto').val("");
+      $('#monto_dolares').val("");
+
+    }
+    else {
+        $('#tasa').prop("readonly", false);
+        $('#monto').prop("readonly", false);
+        $('#monto_dolares').prop('readonly', true);
+
+
+            tasa = document.getElementById("tasa");
+            monto = document.getElementById("monto");
+
+            monto_dolares = document.getElementById("monto_dolares");
+            const log = document.getElementById("montototal");
+
+
+
+            onkeyup = function(){
+                if(tasa.value > 0 && monto.value > 0){
+                    monto_total = (monto.value / tasa.value);
+                    monto_dolares.value =  monto_total.toFixed(2);
+                    log.value =  monto_total.toFixed(2);
+                }
+                else if(monto_dolares.value == NaN){
+                    monto_dolares.value = 'Por favor use punto en vez de coma.'
+
+                }else{
+
+                    log.value = monto_dolares.toFixed(2);
+                }
+
+            };
+
+            onkeyup = function(){
+            if(tasa.value!="" && monto.value!=""){
+                monto_total = (monto.value / tasa.value);
+                monto_dolares.value =  monto_total.toFixed(2);
+
+            }
+
+        };
+
+
+
+     } //CIERRE DE CONDICION QUE CALCULA TIPO DE CAMBIO
+  }) //CIERRE DE .READY
+
+
 
   $('.percentage').keyup(function(e) {
 
