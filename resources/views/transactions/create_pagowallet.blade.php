@@ -318,7 +318,7 @@ $("#typetransaccion").select2({
 $("#typetransaccion").val("")
 $("#typetransaccion").trigger("change");
 
-  $('.general').inputmask({
+$('.general').inputmask({
 			alias: 'decimal',
 			allowMinus: false,
 			autoUnmask:true,
@@ -384,7 +384,7 @@ $("#typetransaccion").trigger("change");
      $(".muestra,.oculta").val("")
      $(".muestra,.oculta").trigger("change");
 
-     $('.muestra').change(function() {
+     $('.muestra').on('change', function() {
         const opciones = $(this).val();
 
         [...$('.oculta option')].forEach(o => {
@@ -395,7 +395,7 @@ $("#typetransaccion").trigger("change");
 
     });
 
-    $('.oculta').change(function() {
+    $('.oculta').on('change', function() {
         const opciones = $(this).val();
 
         [...$('.muestra option')].forEach(o => {

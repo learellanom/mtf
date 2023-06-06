@@ -250,17 +250,9 @@
 
 
 
-                        {{-- {!! Form::file('file[]', ['class' => 'form-file-input clone', 'accept' => 'image/*', 'multiple' => 'multiple', 'id' => 'file']) !!} --}}
-
-
-                      {{-- <img id="imagenPrevisualizacion"> --}}
-
-
 
                       <div class="file-loading">
                             {!! Form::file('file[]', ['class' => 'form-file-input file', 'accept' => 'image/*', 'multiple' => 'multiple', 'id' => 'file', 'data-allowed-file-extensions' => '["pdf","jpg","jpeg","png","gif"]']) !!}
-
-
                       </div>
 
                     @error('file')
@@ -403,15 +395,6 @@ $('#montototal').mask('#.##0.00', { reverse: true });
 $('#percentage').mask('00.0', { reverse: true });
 $('#comision').mask('###0.00', { reverse: true });
 
-
-
-/* $('#monto_dolares').mask('#.##0,00', { reverse: true });
-  $('#monto_dolares').blur(function(){
-    $(this).unmask();
-  });
-  $('#monto_dolares').focus(function(){
-    $(this).mask('#.##0,00', { reverse: true });
-  }); */
 
 
 
