@@ -7,6 +7,13 @@
 
 @php
 
+$myClass = new app\Http\Controllers\statisticsController;
+$myCredits = $myClass->getCredits();
+$myDebits  = $myClass->getDebits();
+
+// dd($myCredits . ' - ' . $myDebits);
+
+// $myCredits = app\Http\Controllers\statisticsController::getCredits();
 
 $config = [
     'data' => $Transacciones,
