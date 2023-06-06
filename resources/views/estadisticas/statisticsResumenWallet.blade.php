@@ -7,9 +7,12 @@
 
 $heads = [
     'Wallet',
+    'Comision',
+    'Comision Base',
+    'Ganancia comision',
     'Monto Creditos',
     'Monto Debitos',
-    'Monto Total',
+    'Saldo Total',
     ['label' => 'Actions', 'no-export' => true, 'width' => 5],
 ];
 
@@ -129,11 +132,14 @@ $config4 = [
                             @foreach($Transacciones as $row)
                                 <tr>
                                     <td>{!! $row->NombreWallet !!}</td>
+                                    
+                                    <td class="text-right">{!! number_format($row->Comision,2,",",".") !!}</td>
+                                    <td class="text-right">{!! number_format($row->ComisionBase,2,",",".") !!}</td>
+                                    <td class="text-right">{!! number_format($row->ComisionGanancia,2,",",".") !!}</td>
 
-
-                                    <td>{!! number_format($row->Creditos,2,",",".") !!}</td>
-                                    <td>{!! number_format($row->Debitos,2,",",".") !!}</td>
-                                    <td>{!! number_format($row->Total,2,",",".") !!}</td>
+                                    <td class="text-right">{!! number_format($row->Creditos,2,",",".") !!}</td>
+                                    <td class="text-right">{!! number_format($row->Debitos,2,",",".") !!}</td>
+                                    <td class="text-right">{!! number_format($row->Total,2,",",".") !!}</td>
 
                                     <!-- <td class="text-center">
                                         <button class="btn btn-xl text-teal mx-auto shadow" title="Detalles">

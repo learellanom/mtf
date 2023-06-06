@@ -258,7 +258,7 @@ Route::get('estadisticasResumenConciliacionProveedor/{proveedor}/{fechaDesde?}/{
 //
 //
 Route::get('estadisticasResumenWallet',[App\Http\Controllers\statisticsController::class, 'walletSummary'])->middleware('can:estadisticasDetalle.statisticsResumenWallet')->name('estadisticasResumenWallet');
-Route::get('estadisticasResumenWallet/{wallet}/{fechaDesde?}/{fechaHasta?}/{master?}',[App\Http\Controllers\statisticsController::class, 'walletSummary'])->name('estadisticasResumenWallet');
+Route::get('estadisticasResumenWallet/{wallet}/{fechaDesde?}/{fechaHasta?}',[App\Http\Controllers\statisticsController::class, 'walletSummary'])->name('estadisticasResumenWallet');
 
 //
 

@@ -3,6 +3,8 @@
 @section('content')
 {{-- Setup data for datatables --}}
 
+
+
 @php
 
 
@@ -256,11 +258,14 @@ if (isset($balance->Total)){
                                     <td>{!! $row->token !!}</td>
                                     <td>{!! $row->TipoMoneda !!}</td>
                                     <td class="text-right"  >{!! number_format($row->MontoMoneda,2,",",".") !!}</td>
-                                    <td class="text-left"   >{!! $row->TasaCambio !!}</td>
+                                    <td class="text-left"   >{!! number_format($row->TasaCambio,2,",",".") !!}</td>
                                     <td class="text-right"  >{!! number_format($row->Monto,2,",",".") !!}</td>
                                     <td class="text-left"   >{!! number_format($myPorcentajeComision,2,",",".") !!}</td>
                                     <td class="text-right"  >{!! number_format($myMontoComision,2,",",".") !!}</td>
                                     <td class="text-right"  >{!! number_format($myTotal2,2,",",".") !!}</td>
+    
+
+
 
                                     @php
                                         switch  ($row->TransactionId){
@@ -270,6 +275,7 @@ if (isset($balance->Total)){
                                             case 7:
                                             case 9:
                                             case 11:
+                                            case 12:                                                
                                                 // $myTotal = $myTotal + ($row->MontoTotal * -1);
                                                 $myTotal = $myTotal + ($myTotal2 * -1);                                                
                                                 break;
@@ -278,7 +284,7 @@ if (isset($balance->Total)){
                                             case 6:                                                
                                             case 8:
                                             case 10:                                                                                                
-                                            case 12:                                                
+                                            case 13:                                                
                                                 // $myTotal = ($myTotal) + ($row->MontoTotal);
                                                 $myTotal = ($myTotal) + ($myTotal2);                                                
                                                 break;
@@ -430,11 +436,19 @@ if (isset($balance->Total)){
                     //             }
                     //         }
                     //     }
-                    // },                    
+                    // },     
+                    {
+                        "cells": "sA",
+                        "width": 19
+                    },                                        
                     {
                         "cells": "sC",
-                        "width": 30
-                    },                    
+                        "width": 45
+                    },     
+                    {
+                        "cells": "sD",
+                        "width": 12
+                    },                                     
                     {
                         "cells": "sE",
                         "width": 25,                        
@@ -447,7 +461,7 @@ if (isset($balance->Total)){
                     },
                     {
                         "cells": "sF",
-                        "width": 10,
+                        "width": 11,
                         "style": {
                             "numFmt": "#,##0;(#,##0)",
                             "alignment":{
@@ -458,7 +472,7 @@ if (isset($balance->Total)){
                     },
                     {
                         "cells": "sG",
-                        "width": 20,
+                        "width": 9,
                         "style": {
                             "numFmt": "#,##0;(#,##0)",
                             "alignment":{
@@ -467,6 +481,17 @@ if (isset($balance->Total)){
                             }
                         }
                     }, 
+                    {
+                        "cells": "sH",
+                        "width": 21,
+                        "style": {
+                            "numFmt": "#,##0;(#,##0)",
+                            "alignment":{
+                                "vertical": "right",
+                                "horizontal" : "right"
+                            }
+                        }
+                    },                     
                     {
                         "cells": "I",
                         "width": 20,

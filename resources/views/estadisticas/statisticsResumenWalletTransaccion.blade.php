@@ -199,12 +199,12 @@ $config4 = [
                                 <tr>
                                     <td>{!! $row->WalletName !!}</td>
                                     <td>{!! $row->TypeTransaccionName !!}</td>                                    
-                                    <td>{!! number_format($row->cant_transactions,0,",",".") !!}</td>                                    
-                                    <td>{!! number_format($row->total_amount,2,",",".") !!}</td>
-                                    <td>{!! number_format($row->total_amount_commission_base,2,",",".") !!}</td>                                    
-                                    <td>{!! number_format($row->total_commission,2,",",".") !!}</td>                                       
-                                    <!-- <td>{!! number_format($row->total_commission_profit,2,",",".") !!}</td>                                           -->
-                                    <td>{!! number_format($myTotal,2,",",".") !!}</td>  
+                                    <td class="text-right">{!! number_format($row->cant_transactions,0,",",".") !!}</td>                                    
+                                    <td class="text-right">{!! number_format($row->total_amount,2,",",".") !!}</td>
+                                    <td class="text-right">{!! number_format($row->total_amount_commission_base,2,",",".") !!}</td>                                    
+                                    <td class="text-right">{!! number_format($row->total_commission,2,",",".") !!}</td>                                       
+                                    <!-- <td class="text-right">{!! number_format($row->total_commission_profit,2,",",".") !!}</td>                                           -->
+                                    <td class="text-right">{!! number_format($myTotal,2,",",".") !!}</td>  
                                     <td class="text-center">
                                         <a href="#"
                                             title="Detalles"
