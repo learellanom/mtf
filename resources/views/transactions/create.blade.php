@@ -208,7 +208,7 @@
                     </label>
 
                 </div>
-                <div class="form-group col-md">
+                <div class="form-group col-md esconder">
                     {!! Form::Label('amount_total_base', "Monto total Base:") !!}
                     <div class="input-group-text">
                         <i class="fa-fw fas fas fa-coins mr-2"></i>
@@ -250,17 +250,9 @@
 
 
 
-                        {{-- {!! Form::file('file[]', ['class' => 'form-file-input clone', 'accept' => 'image/*', 'multiple' => 'multiple', 'id' => 'file']) !!} --}}
-
-
-                      {{-- <img id="imagenPrevisualizacion"> --}}
-
-
 
                       <div class="file-loading">
                             {!! Form::file('file[]', ['class' => 'form-file-input file', 'accept' => 'image/*', 'multiple' => 'multiple', 'id' => 'file', 'data-allowed-file-extensions' => '["pdf","jpg","jpeg","png","gif"]']) !!}
-
-
                       </div>
 
                     @error('file')
@@ -403,15 +395,6 @@ $('#montototal').mask('#.##0.00', { reverse: true });
 $('#percentage').mask('00.0', { reverse: true });
 $('#comision').mask('###0.00', { reverse: true });
 
-
-
-/* $('#monto_dolares').mask('#.##0,00', { reverse: true });
-  $('#monto_dolares').blur(function(){
-    $(this).unmask();
-  });
-  $('#monto_dolares').focus(function(){
-    $(this).mask('#.##0,00', { reverse: true });
-  }); */
 
 
 
@@ -902,23 +885,28 @@ $('#comision_base').prop('readonly', true);
             // Realizar la acción deseada en función del valor seleccionado
             if (option === 'Nota de debito' || option === 'Nota de credito') {
 
-                $('.esconder').hide();
+
                 $('.boton').hide();
-                $('#radio1').attr("required", false);
-                $('#radio2').attr("required", false);
-                $('#radio3').attr("required", false);
-                $('#percentage').attr("required", false);
-                $('#wallet').attr("required", false);
-                $('#typecoin').attr("required", false);
+                $('.esconder').hide();
+                $('#radio1').prop("required", false);
+                $('#radio2').prop("required", false);
+                $('#radio3').prop("required", false);
+                $('#radio1_base').prop("required", false);
+                $('#radio2_base').prop("required", false);
+                $('#radio3_base').prop("required", false);
+                $('#percentage').prop("required", false);
+                $('#wallet').prop("required", false);
+                $('#typecoin').prop("required", false);
                 $('#monto_dolares').attr("readonly", false);
                 $('.movi').attr("class", 'card col-md-7 h-100');
                 const input = document.getElementById("monto_dolares");
                 const log = document.getElementById("montototal");
-
+                const log2 = document.getElementById("montototal_base");
                 input.addEventListener("input", updateValue);
 
                 function updateValue(e) {
                 log.value = e.target.value;
+                log2.value = e.target.value;
                 }
 
             } else if (selectedValue) {

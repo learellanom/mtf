@@ -31,9 +31,7 @@
         </li>
     </ul>
 
-    <div class="d-flex justify-content-end">
-        <span class="badge badge-primary text-lg text-uppercase">Transacción numero # - {{ $transactions->id }}</span>
-    </div>
+
 
 
               <div class="tab-content" id="pills-tabContent">
@@ -41,11 +39,26 @@
                     {!! Form::hidden('user_id',auth()->id(), null, ['class' => 'form-control', 'required' => true]) !!}
 
 
-
+                                        <div class="d-flex justify-content-start">
+                                            <span class="badge badge-primary text-lg text-uppercase"><h6 class="font-weight-bold text-uppercase"> Transacción numero # - {{ $transactions->id }}</h6></span>
+                                        </div>
                                         <div class="d-flex justify-content-end">
                                           <span class="badge badge-dark "><h6 class="font-weight-bold text-uppercase">Moneda| {{ $transactions->type_coin->name }} </h6></span>
+
                                         </div>
 
+
+                         @if($transactions->type_coin->name == 'USD')
+
+                         <div class="form-group col">
+                            {!! Form::Label('monto_dolares', "Monto en dolares:") !!}
+                            <div class="input-group-text">
+                                <i class="fa-fw fas fa-coins mr-2"></i>
+                                {!! Form::text('amount',null,['class' => 'form-control number general', 'required' => true, 'readonly' => true, 'min' => 0, 'id' => 'monto_dolares' ]) !!}
+                                </div>
+                         </div>
+
+                         @else
                          <div class="form-group col">
                             {!! Form::Label('exchange_rate', "Tasa:") !!}
                             <div class="input-group-text">
@@ -64,14 +77,7 @@
                             </div>
                         </div>
 
-                            <div class="form-group col">
-                                {!! Form::Label('monto_dolares', "Monto en dolares:") !!}
-                                <div class="input-group-text">
-                                    <i class="fa-fw fas fa-coins mr-2"></i>
-                                    {!! Form::text('amount',null,['class' => 'form-control number general', 'required' => true, 'readonly' => true, 'min' => 0, 'id' => 'monto_dolares' ]) !!}
-                                    </div>
-                                </div>
-
+                         @endif
 
 
                 <br>

@@ -60,7 +60,7 @@
                         {!! Form::Label('amount', "Monto en dolares:") !!}
                         <div class="input-group-text">
                             <i class="fa-fw fas fas fa-funnel-dollar mr-2"></i>
-                        {!! Form::text('amount', null, ['class' => 'form-control', 'required' => true, 'id' => 'monto_dolares']) !!}
+                        {!! Form::text('amount', null, ['class' => 'form-control general', 'required' => true, 'id' => 'monto_dolares']) !!}
                         </div>
                     </div>
                     <div class="form-group col-md-6">
@@ -72,7 +72,7 @@
                     </div>
                     </div>
 
-                        {!! Form::hidden('amount_total',null, ['class' => 'form-control montototal', 'required' => true, 'min' => 0, 'id' => 'montototal', 'readonly' => true]) !!}
+                        {!! Form::hidden('amount_total',null, ['class' => 'form-control montototal', 'required' => true, 'min' => 0, 'id' => 'montototal']) !!}
 
                         {!! Form::hidden('status', 'Activo', null, ['class' => 'form-control']) !!}
 
@@ -102,7 +102,7 @@
                         {!! Form::Label('percentage_base', "Porcentaje Base:") !!}
                         <div class="input-group-text">
                             <i class="fa-fw fas fa-percentage mr-2"></i>
-                        {!! Form::text('percentage_base',null, ['class' => 'form-control percentage_base',  'min' => 0, 'id' => 'percentage_base']) !!}
+                        {!! Form::text('percentage_base',null, ['class' => 'form-control percentage_base rateMask',  'min' => 0, 'id' => 'percentage_base']) !!}
                         </div>
                     </div>
 
@@ -111,7 +111,7 @@
                         {!! Form::Label('amount_commission_base', "Monto Comisión Base:") !!}
                         <div class="input-group-text">
                             <i class="fa-fw fas fa-coins mr-2"></i>
-                        {!! Form::number('amount_commission_base',null, ['class' => 'form-control comision_base', 'min' => 0, 'readonly' => true, 'id' => 'comision_base']) !!}
+                        {!! Form::text('amount_commission_base',null, ['class' => 'form-control comision_base general', 'min' => 0, 'readonly' => true, 'id' => 'comision_base']) !!}
                         </div>
 
                     </div>
@@ -140,7 +140,7 @@
                     {!! Form::Label('amount_total_base', "Monto total Base:") !!}
                     <div class="input-group-text">
                         <i class="fa-fw fas fas fa-coins mr-2"></i>
-                    {!! Form::number('amount_total_base', null, ['class' => 'form-control', 'id' => 'montototal_base', 'readonly' => true ]) !!}
+                    {!! Form::text('amount_total_base', null, ['class' => 'form-control', 'id' => 'montototal_base', 'readonly' => true ]) !!}
                     </div>
                 </div>
 
@@ -171,31 +171,6 @@
 
                 </div>
 
-
-         {{--        <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
-
-                    <div class="form-group">
-                        <div class="custom-file col-md-12">
-                        {!! Form::label('file', 'Referencia:') !!}
-
-
-                      <div class="file-loading">
-                            {!! Form::file('file[]', ['class' => 'form-file-input file', 'accept' => 'image/*', 'multiple' => 'multiple', 'id' => 'file', 'data-allowed-file-extensions' => '["pdf","jpg","jpeg","png","gif"]']) !!}
-
-
-                      </div>
-
-                    @error('file')
-                        <small class="text-danger">{{$message}}</small>
-                    @enderror
-
-
-                  </div>
-                </div>
-
-            {!! Form::Submit('GUARDAR', ['class' => 'btn btn-primary btn-block font-weight-bold', 'style' => "max-height: 400px;" , 'id' => 'publish']) !!}
-          </div>
- --}}
         </div>
       {!! Form::close() !!}
     </div>
@@ -309,8 +284,6 @@
 
 @section('js')
 <script>
-$('#monto_dolares').mask('###0.00', { reverse: true });
-$('#monto').mask('###0.00', { reverse: true });
 $(".typecoin").select2({
   placeholder: "Seleccionar Moneda",
   theme: 'bootstrap4',
@@ -331,176 +304,338 @@ $("#typetransaccion").trigger("change");
 
 
 
-      $('#monto_dolares').on('input', function() {
-        var input1Value = $('#monto_dolares').val();
-        $('#montototal').val(input1Value);
-     });
+$('.general').inputmask({
+			alias: 'decimal',
+			allowMinus: false,
+			autoUnmask:true,
+			removeMaskOnSubmit:true,
+			rightAlign: true,
+			groupSeparator:".",
+			undoOnEscape:true,
+			insertMode:false,
+			clearIncomplete:true,
+			digits: 2,
+            autoClear: true,
+			insertMode:true,
+        });
+
+
+       $(".rateMask").attr("minlength","5");
+	   $(".rateMask").attr("maxlength","5");
+	   $(".rateMask").inputmask({
+			alias: 'decimal',
+			repeat: 4,
+			allowMinus: false,
+			autoUnmask:true,
+			removeMaskOnSubmit:true,
+			rightAlign: true,
+            autoClear: true,
+			groupSeparator:".",
+			undoOnEscape:true,
+			insertMode: false,
+			clearIncomplete:true,
+			digits: 2,
+			insertMode:true,
+		});
+
+
+
+$('#monto_dolares').on('input', function() {
+        var dolar = $('#monto_dolares').val();
+        $('#montototal_base').val(dolar).inputmask({
+                alias: 'decimal',
+                allowMinus: false,
+                autoUnmask:true,
+                removeMaskOnSubmit:true,
+                rightAlign: true,
+                groupSeparator:".",
+                undoOnEscape:true,
+                insertMode:false,
+                clearIncomplete:true,
+                digits: 2,
+                insertMode:true,
+            });
+
+        $('#montototal').val(dolar);
+});
 
      /* OCULTAR LA CAJA SELECCIONADA */
-     $('.muestra,.oculta').select2({
+     $('.muestra').select2({
         'theme':'bootstrap4',
         search: false,
         allowClear: true,
         placeholder: "Seleccionar cliente",
         width:'100%'
      });
-     $(".muestra,.oculta").val("")
-     $(".muestra,.oculta").trigger("change");
+     $(".muestra").val("")
+     $(".muestra").trigger("change");
+     $('.oculta').select2({
+        'theme':'bootstrap4',
+        search: false,
+        allowClear: true,
+        placeholder: "Seleccionar cliente",
+        width:'100%'
+     });
+     $(".oculta").val("")
+     $(".oculta").trigger("change");
 
-     $('.muestra').change(function() {
-        const opciones = $(this).val();
+     $('.muestra').on('change', function () {
+        var selected = $(this).val();
+        var selected2 = $('#wallet2 option:selected').val();
 
-        [...$('.oculta option')].forEach(o => {
-
-        o.disabled = (opciones.includes(o.value)) ? true : false;
-
-        });
+        if(selected)
+        {
+            $('#wallet2 option[value="'+selected+'"]').prop('disabled', true);
+        }
+        else
+        {
+            $('#wallet2 option').prop('disabled', false);
+        }
 
     });
 
-    $('.oculta').change(function() {
-        const opciones = $(this).val();
+    $('.oculta').on('change', function () {
+        var selected = $(this).val();
+        var selected2 = $('#wallet option:selected').val();
 
-        [...$('.muestra option')].forEach(o => {
-
-        o.disabled = (opciones.includes(o.value)) ? true : false;
-
-        });
+        if(selected)
+        {
+            $('#wallet option[value="'+selected+'"]').prop('disabled', true);
+        }
+        else
+        {
+            $('#wallet option').prop('disabled', false);
+        }
 
     });
     /* OCULTAR LA CAJA SELECCIONADA */
 
 
-    $('.percentage_base').keyup(function(e) { //FUNCION DE PORCENTAJE BASE
+$('.percentage_base').on('input', function() { //FUNCION DE PORCENTAJE BASE
 
-    $('#comision_base').prop('readonly', true);
-    $('#montototal_base').prop('readonly', true);
-
-    comision_base = document.getElementById("comision_base");
-    porcentage_base = document.getElementById("percentage_base");
-    montototal_base = document.getElementById("monto_dolares");
-    montoreal_base =  document.getElementById("montototal_base");
-
-    exonerar_base = document.getElementById("radio1_base");
-    descontar_base = document.getElementById("radio2_base");
-    incluir_base = document.getElementById("radio3_base");
+$('#comision_base').prop('readonly', true);
+$('#montototal_base').prop('readonly', true);
 
 
+comision_base = $('#comision_base').val();
+porcentage_base = $('#percentage_base').val();
+montototal_base = $('#monto_dolares').val();
+montoreal_base = $('#montototal_base').val();
+
+exonerar_base = document.getElementById("radio1_base");
+descontar_base = document.getElementById("radio2_base");
+incluir_base = document.getElementById("radio3_base");
 
 
-if(porcentage_base.value > 0){
-        montottotal = (montototal_base.value * porcentage_base.value / 100);
-        comision_base.value =  montottotal.toFixed(2).toString();
+if(porcentage_base > 0){
+     monto_base = (Number(montototal_base) * Number(porcentage_base) / 100);
+    $('#comision_base').val(monto_base).inputmask({
+        alias: 'decimal',
+        autoClear: true,
+        allowMinus: false,
+        autoUnmask:true,
+        removeMaskOnSubmit:true,
+        rightAlign: true,
+        groupSeparator:".",
+        undoOnEscape:true,
+        insertMode:false,
+        clearIncomplete:true,
+        digits: 2,
+        insertMode:true });
 
-        if(incluir_base.checked){
-        montoreal_base.value = (parseFloat($('#monto_dolares').val()) + parseFloat($('#comision_base').val())).toFixed(2);
 
-        }
+    if(incluir_base.checked){
 
-        if(descontar_base.checked){
-            montoreal_base.value = (parseFloat($('#monto_dolares').val()) - parseFloat($('#comision_base').val())).toFixed(2);
-        }
+    monto_base = (Number(montototal_base) + Number(comision_base));
+    $('#montototal_base').val(monto_base).inputmask({
+        alias: 'decimal',
+        allowMinus: false,
+        autoUnmask:true,
+        autoClear: true,
+        removeMaskOnSubmit:true,
+        rightAlign: true,
+        groupSeparator:".",
+        undoOnEscape:true,
+        insertMode:false,
+        clearIncomplete:true,
+        digits: 2,
+        insertMode:true });
+     }
 
-    }else if(is_null(porcentage_base.value)){
-            if(exonerar_base.checked){
-            monto_real.value = parseFloat(montototal_base.value).toFixed(2);
-        }
+    if(descontar_base.checked){
+        monto_base = (Number(montototal_base) - Number(comision_base));
+        $('#montototal_base').val(monto_base).inputmask({
+        alias: 'decimal',
+        allowMinus: false,
+        autoUnmask:true,
+        removeMaskOnSubmit:true,
+        autoClear: true,
+        rightAlign: true,
+        groupSeparator:".",
+        undoOnEscape:true,
+        insertMode:false,
+        clearIncomplete:true,
+        digits: 2,
+        insertMode:true });
     }
 
-}) // CIERRE DE PORCENTAJE BASE
+ }else if(porcentage_base == null){
+    if(exonerar_base.checked){
+          monto_base = Number($('#monto_dolares').val());
+          $('#montototal_base').val(monto_base).inputmask({
+            alias: 'decimal',
+            allowMinus: false,
+            autoUnmask:true,
+            removeMaskOnSubmit:true,
+            rightAlign: true,
+            autoClear: true,
+            groupSeparator:".",
+            undoOnEscape:true,
+            insertMode:false,
+            clearIncomplete:true,
+            digits: 2,
+            insertMode:true });
+      }
+    }
+
+}); // CIERRE DE PORCENTAJE BASE
 
 
 /* LLAMADO DE CALCULO DE COMISIONES BASE */
-comision_base = document.getElementById("comision_base");
-    porcentage_base = document.getElementById("percentage_base");
-    montototal_base = document.getElementById("monto_dolares");
-    monto_real_base = document.getElementById("montototal_base");
+comision_base = $('#comision_base').val();
+porcentage_base = $('#percentage_base').val();
+montototal_base = $('#monto_dolares').val();
+monto_real_base = $('#montototal_base').val();
 
-    exonerar_base = document.getElementById("radio1_base");
-    descontar_base = document.getElementById("radio2_base");
-    incluir_base = document.getElementById("radio3_base");
+exonerar_base = document.getElementById("radio1_base");
+descontar_base = document.getElementById("radio2_base");
+incluir_base = document.getElementById("radio3_base");
 
+$("#radio1_base").on('click', function() {
 
-    exonerar_base.click = function (){
+    //$('#comision_base').val('');  // LIMPIAR PORCENTAJE
 
-    $('#percentage_base').val("");  // LIMPIAR PORCENTAJE
-    $('#comision_base').val("");  // LIMPIAR PORCENTAJE
+    //$('#percentage_base').val(''); // LIMPIAR PORCENTAJE
 
-    //$('#percentage').attr("readonly", true);
     $('#percentage_base').attr("readonly", true);
-    montottotal = (montototal_base.value);
-    monto_real_base.value = parseFloat(montototal_base.value).toFixed(2);
 
-    }
-    incluir_base.click = function (){
-    //var selectedValue = this.value;
+    var monto_final = $('#monto_dolares').val();
+     $('#montototal_base').val(monto_final).inputmask({
+            alias: 'decimal',
+            allowMinus: false,
+            autoUnmask:true,
+            removeMaskOnSubmit:true,
+            rightAlign: true,
+            groupSeparator:".",
+            undoOnEscape:true,
+            clearIncomplete:true,
+            digits: 2,
+            insertMode:true, });
+
+    });
+
+    $('#radio3_base').on('change', function() {
 
     $('#percentage_base').attr("required", true);
-    //$('#percentage').attr("readonly", false);
+
     $('#percentage_base').attr("readonly", false);
 
-    monto_real_base.value = (parseFloat($('#monto_dolares').val()) + parseFloat($('#comision_base').val())).toFixed(2);
+    monto_final2 = (Number(montototal_base) + Number(comision_base));
 
-    }
-    descontar_base.click = function (){
-    //$('.comi').show();
+    $('#montototal_base').val(monto_final2).inputmask({
+            alias: 'decimal',
+            allowMinus: false,
+            autoUnmask:true,
+            removeMaskOnSubmit:true,
+            rightAlign: true,
+            groupSeparator:".",
+            undoOnEscape:true,
+            clearIncomplete:true,
+            digits: 2,
+            insertMode:true, });
+
+    });
+
+
+$('#radio2_base').change(function() {
+    if(this.checked) {
     $('#percentage_base').attr("required", true);
     $('#percentage_base').attr("readonly", false);
     //$('#percentage_base').attr("readonly", false);
 
-    monto_real_base.value = (parseFloat($('#monto_dolares').val()) - parseFloat($('#comision_base').val())).toFixed(2);
-    }
+    monto_final = (Number(montototal_base) - Number(comision_base));
+    $('#montototal_base').val(monto_final).inputmask({
+            alias: 'decimal',
+            allowMinus: false,
+            autoUnmask:true,
+            removeMaskOnSubmit:true,
+            rightAlign: true,
+            groupSeparator:".",
+            undoOnEscape:true,
+            insertMode:false,
+            clearIncomplete:true,
+            digits: 2,
+            insertMode:true, });
+
+  }
+
+});
 /* LLAMADO DE CALCULO DE COMISIONES BASE */
 
 
-$('.percentage_base').keyup(function(e) {
+$('.percentage_base').on('input', function() {
 
 $('#comision_base').prop('readonly', true);
 
 
-      comision_base = document.getElementById("comision_base");
-      porcentage_base = document.getElementById("percentage_base");
-      montototal_base = document.getElementById("monto_dolares");
+    comision_base = $('#comision_base').val();
+    porcentage_base = $('#percentage_base').val();
+    montototal_base = $('#monto_dolares').val();
 
 
-          if(porcentage_base.value > 0){
-              mto = (montototal_base.value * porcentage_base.value / 100);
-              comision_base.value =  mto.toFixed(2);
-
-           }
+      if(porcentage_base > 0){
+          mto = (montototal_base * porcentage_base / 100);
+          comision_base =  mto.toFixed(2);
+       }
 
 });
 
-         /* PORCENTAJE BASE */
-         $('.exonerar_base').click(function() {
 
-        exonerar_base.click(function (){
-        if(exonerar_base.click()){
-            return;
+    $("#typetransaccion").on("change", function() {
+        // Capturar dato seleccionado
+        var selectedValue = this.value;
+        var option = $("#typetransaccion option:selected").text();
+        // Realizar la acción deseada en función del valor seleccionado
+        if (option == 'Pago Efectivo')
+        {
+            $('#typetransaccion2').val(6);
+
         }
-        })
-
-        })
-
-        $('.incluir_base').click(function() {
-
-        incluir_base.click(function (){
-        if(incluir_base.click()){
-            return;
+        else
+        {
+            $('#typetransaccion2').val(7);
         }
-        })
+    });
 
-        })
+    $("#wallet, #typetransaccion").change(function() {
+    var valor = $(this).val(); // Capturamos el valor del select
+    var texto = $("#wallet option:selected").text(); // Capturamos el texto del option seleccionado
+    var texto2 = $("#typetransaccion option:selected").text(); //Capturamos el texto del option tipo transacción seleccionado
 
-        $('.descontar_base').click(function() {
+      $("#descripcion2").val('Recibido de  ' +texto +'/' + texto2);
+    });
 
-        descontar_base.click(function (){
-            if(descontar_base.click()){
-            return;
-            }
-        })
-        })
-/* PORCENTAJE BASE */
+    $("#wallet2, #typetransaccion").change(function() {
+    var valor = $(this).val(); // Capturamos el valor del select
+    var texto = $("#wallet2 option:selected").text(); // Capturamos el texto del option seleccionado
+
+    var texto2 = $("#typetransaccion option:selected").text(); //Capturamos el texto del option tipo transacción seleccionado
+
+    //alert(tipo);
+
+        $("#descripcion").val('Entregado a ' + texto + '/' + texto2);
+
+    });
 
 
 
