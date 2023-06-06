@@ -93,7 +93,7 @@
                     {!! Form::Label('amount', "Monto en dolares:") !!}
                     <div class="input-group-text">
                         <i class="fa-fw fas fas fa-funnel-dollar mr-2"></i>
-                    {!! Form::text('amount', null, ['class' => 'form-control', 'required' => true, 'id' => 'monto_dolares', 'min' => 0, 'readonly' => true, 'placeholder' => 'Monto en dolares']) !!}
+                    {!! Form::text('amount', null, ['class' => 'form-control general', 'required' => true, 'id' => 'monto_dolares', 'min' => 0, 'readonly' => true, 'placeholder' => 'Monto en dolares']) !!}
                     </div>
                 </div>
                      <div class="form-group col-md-6">
@@ -117,7 +117,7 @@
                         {!! Form::Label('percentage', "Porcentaje:") !!}
                         <div class="input-group-text">
                             <i class="fa-fw fas fa-percentage mr-2"></i>
-                        {!! Form::text('percentage',null, ['class' => 'form-control percentage', 'required' => true, 'min' => 0, 'id' => 'percentage']) !!}
+                        {!! Form::text('percentage',null, ['class' => 'form-control percentage rateMask', 'required' => true, 'min' => 0, 'id' => 'percentage']) !!}
                         </div>
                     </div>
 
@@ -126,7 +126,7 @@
                         {!! Form::Label('amount_commission', "Monto Comisión:") !!}
                         <div class="input-group-text">
                             <i class="fa-fw fas fa-coins mr-2"></i>
-                        {!! Form::text('amount_commission',null, ['class' => 'form-control comision', 'required' => true, 'min' => 0, 'readonly' => true, 'id' => 'comision']) !!}
+                        {!! Form::text('amount_commission',null, ['class' => 'form-control comision general', 'required' => true, 'min' => 0, 'readonly' => true, 'id' => 'comision']) !!}
                         </div>
 
                     </div>
@@ -184,7 +184,7 @@
                     {!! Form::Label('amount_total', "Monto Total:") !!}
                         <div class="input-group-text">
                             <i class="fa-fw fas fa-coins mr-2"></i>
-                            {!! Form::number('amount_total', null,['class' => 'form-control montototal', 'required' => true, 'min' => 0, 'id' => 'montototal', 'readonly' => true]) !!}
+                            {!! Form::text('amount_total', null,['class' => 'form-control montototal general', 'required' => true, 'min' => 0, 'id' => 'montototal', 'readonly' => true]) !!}
                             {!! Form::hidden('amount_total_base', null,['class' => 'form-control monto_base', 'id' => 'monto_base', 'readonly' => true]) !!}
                         </div>
                     </div>
@@ -432,8 +432,8 @@ $("#typetrasnferencia").trigger("change");
 
 $(document).ready(function() {
   //$('#monto_dolares').toFixed(2);
-  $('#monto_dolares').mask('###0.00', { reverse: true });
-  $('#monto').mask('###0.00', { reverse: true });
+  //$('#monto_dolares').mask('###0.00', { reverse: true });
+  //$('#monto').mask('###0.00', { reverse: true });
     const input = document.getElementById("monto_dolares");
     const log = document.getElementById("montototal");
     const log2 = document.getElementById("monto_base");
@@ -443,6 +443,39 @@ $(document).ready(function() {
       log.value = e.target.value;
       log2.value = e.target.value;
      }
+
+     $('.general').inputmask({
+			alias: 'decimal',
+			allowMinus: false,
+			autoUnmask:true,
+			removeMaskOnSubmit:true,
+			rightAlign: true,
+			groupSeparator:".",
+			undoOnEscape:true,
+			insertMode:false,
+			clearIncomplete:true,
+			digits: 2,
+            autoClear: true,
+			insertMode:true, });
+
+
+       $(".rateMask").attr("minlength","5");
+	   $(".rateMask").attr("maxlength","5");
+	   $(".rateMask").inputmask({
+			alias: 'decimal',
+			repeat: 4,
+			allowMinus: false,
+			autoUnmask:true,
+			removeMaskOnSubmit:true,
+			rightAlign: true,
+            autoClear: true,
+			groupSeparator:".",
+			undoOnEscape:true,
+			insertMode: false,
+			clearIncomplete:true,
+			digits: 2,
+			insertMode:true,
+		});
 
      $( function() {
     var availableTags = [

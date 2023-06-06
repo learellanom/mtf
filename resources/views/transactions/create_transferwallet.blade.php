@@ -56,7 +56,7 @@
                         {!! Form::Label('amount', "Monto en dolares:") !!}
                         <div class="input-group-text">
                             <i class="fa-fw fas fas fa-funnel-dollar mr-2"></i>
-                        {!! Form::text('amount', null, ['class' => 'form-control', 'required' => true, 'id' => 'monto_dolares']) !!}
+                        {!! Form::text('amount', null, ['class' => 'form-control general', 'required' => true, 'id' => 'monto_dolares']) !!}
                         </div>
                     </div>
                     <div class="form-group col-md-6">
@@ -241,8 +241,6 @@
 
 @section('js')
 <script>
-$('#monto_dolares').mask('###0.00', { reverse: true });
-$('#monto').mask('###0.00', { reverse: true });
 $(".typecoin").select2({
   placeholder: "Seleccionar Moneda",
   theme: 'bootstrap4',
@@ -271,6 +269,24 @@ $(".oculta").val("")
 $(".oculta").trigger("change");
 
 
+$('.general').inputmask({
+			alias: 'decimal',
+			allowMinus: false,
+			autoUnmask:true,
+			removeMaskOnSubmit:true,
+			rightAlign: true,
+			groupSeparator:".",
+			undoOnEscape:true,
+			insertMode:false,
+			clearIncomplete:true,
+			digits: 2,
+            autoClear: true,
+			insertMode:true, });
+
+
+
+
+
       $('#monto_dolares').on('input', function() {
         var dolares = $('#monto_dolares').val();
         $('#montototal').val(dolares);
@@ -278,31 +294,57 @@ $(".oculta").trigger("change");
      });
 
 
-     $(".muestra,.oculta").val("")
-     $(".muestra,.oculta").trigger("change");
 
-     $('.muestra').change(function() {
-        const opciones = $(this).val();
+  /* OCULTAR LA CAJA SELECCIONADA */
+  $('.muestra').select2({
+        'theme':'bootstrap4',
+        search: false,
+        allowClear: true,
+        placeholder: "Seleccionar cliente",
+        width:'100%'
+     });
+     $(".muestra").val("")
+     $(".muestra").trigger("change");
+     $('.oculta').select2({
+        'theme':'bootstrap4',
+        search: false,
+        allowClear: true,
+        placeholder: "Seleccionar cliente",
+        width:'100%'
+     });
+     $(".oculta").val("")
+     $(".oculta").trigger("change");
 
-        [...$('.oculta option')].forEach(o => {
+     $('.muestra').on('change', function () {
+        var selected = $(this).val();
+        var selected2 = $('#wallet2 option:selected').val();
 
-        o.disabled = (opciones.includes(o.value)) ? true : false;
-
-        });
+        if(selected)
+        {
+            $('#wallet2 option[value="'+selected+'"]').prop('disabled', true);
+        }
+        else
+        {
+            $('#wallet2 option').prop('disabled', false);
+        }
 
     });
 
-    $('.oculta').change(function() {
-        const opciones = $(this).val();
+    $('.oculta').on('change', function () {
+        var selected = $(this).val();
+        var selected2 = $('#wallet option:selected').val();
 
-        [...$('.muestra option')].forEach(o => {
-
-        o.disabled = (opciones.includes(o.value)) ? true : false;
-
-        });
+        if(selected)
+        {
+            $('#wallet option[value="'+selected+'"]').prop('disabled', true);
+        }
+        else
+        {
+            $('#wallet option').prop('disabled', false);
+        }
 
     });
-    /* OCULTAR LA CAJA SELECCIONADA */
+ /* OCULTAR LA CAJA SELECCIONADA */
 
 
 /* REFERENCIAS PARA RESPALDO DE MOVIMIENTO */
