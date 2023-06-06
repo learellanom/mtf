@@ -72,7 +72,7 @@
                         {!! Form::Label('exchange_rate', "Tasa:") !!}
                         <div class="input-group-text">
                             <i class="fa-fw fas fa-random mr-2"></i>
-                        {!! Form::text('exchange_rate',null, ['class' => 'form-control', 'required' => true, 'id' => 'tasa', 'min' => 0, 'readonly' => true]) !!}
+                        {!! Form::text('exchange_rate',null, ['class' => 'form-control rateMask', 'required' => true, 'id' => 'tasa', 'min' => 0, 'readonly' => true]) !!}
                         </div>
                     </div>
 
@@ -81,7 +81,7 @@
                         {!! Form::Label('amount_foreign_currency', "Monto en moneda extranjera:") !!}
                         <div class="input-group-text">
                             <i class="fa-fw fas fa-coins mr-2"></i>
-                        {!! Form::text('amount_foreign_currency',null, ['class' => 'form-control', 'required' => true, 'id' => 'monto', 'readonly' => true]) !!}
+                        {!! Form::text('amount_foreign_currency',null, ['class' => 'form-control general', 'required' => true, 'id' => 'monto', 'readonly' => true]) !!}
                         </div>
 
                     </div>
@@ -193,7 +193,7 @@
                         {!! Form::Label('amount_commission_base', "Monto Comisión Base:") !!}
                         <div class="input-group-text">
                             <i class="fa-fw fas fa-coins mr-2"></i>
-                        {!! Form::number('amount_commission_base',null, ['class' => 'form-control comision_base general', 'min' => 0, 'readonly' => true, 'id' => 'comision_base']) !!}
+                        {!! Form::text('amount_commission_base',null, ['class' => 'form-control comision_base general', 'min' => 0, 'readonly' => true, 'id' => 'comision_base']) !!}
                         </div>
 
                     </div>
