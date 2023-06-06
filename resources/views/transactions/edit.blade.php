@@ -60,7 +60,7 @@
 
                          @else
                          <div class="form-group col">
-                            {!! Form::Label('exchange_rate', "Tasa:") !!}
+                            {!! Form::Label('tasa', "Tasa:") !!}
                             <div class="input-group-text">
                                 <i class="fa-fw fas fa-random mr-2"></i>
                             {!! Form::text('exchange_rate',null, ['class' => 'form-control rateMask', 'required' => true, 'id' => 'tasa']) !!}
@@ -69,13 +69,21 @@
 
                         <div class="form-group col">
 
-                            {!! Form::Label('amount_foreign_currency', "Monto en moneda extranjera:") !!}
+                            {!! Form::Label('monto', "Monto en moneda extranjera:") !!}
                             <div class="input-group-text">
                                 <i class="fa-fw fas fa-coins mr-2"></i>
                             {!! Form::text('amount_foreign_currency',null, ['class' => 'form-control general', 'required' => true, 'id' => 'monto',]) !!}
 
                             </div>
                         </div>
+
+                        <div class="form-group col">
+                            {!! Form::Label('monto_dolares', "Monto en dolares:") !!}
+                            <div class="input-group-text">
+                                <i class="fa-fw fas fa-coins mr-2"></i>
+                                {!! Form::text('amount',null,['class' => 'form-control number general', 'required' => true, 'readonly' => true, 'min' => 0, 'id' => 'monto_dolares' ]) !!}
+                                </div>
+                         </div>
 
                          @endif
 
@@ -92,7 +100,7 @@
 
                     <div class="form-group col-md-6">
 
-                        {!! Form::Label('amount_commission', "Monto Comisión:") !!}
+                        {!! Form::Label('comision', "Monto Comisión:") !!}
                         <div class="input-group-text">
                             <i class="fa-fw fas fa-coins mr-2"></i>
                         {!! Form::text('amount_commission',null, ['class' => 'form-control comision general', 'required' => true, 'min' => 0, 'readonly' => true, 'id' => 'comision']) !!}
@@ -124,6 +132,48 @@
                 </div>
 
 
+                <div class="form-row esconder comi">
+
+                    <div class="form-group col-md-6">
+                        {!! Form::Label('percentage_base', "Porcentaje Base:") !!}
+                        <div class="input-group-text">
+                            <i class="fa-fw fas fa-percentage mr-2"></i>
+                        {!! Form::text('percentage_base',null, ['class' => 'form-control percentage_base rateMask',  'min' => 0, 'id' => 'percentage_base']) !!}
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-6">
+
+                        {!! Form::Label('comision_base', "Monto Comisión Base:") !!}
+                        <div class="input-group-text">
+                            <i class="fa-fw fas fa-coins mr-2"></i>
+                        {!! Form::number('amount_commission_base',null, ['class' => 'form-control comision_base general', 'min' => 0, 'readonly' => true, 'id' => 'comision_base']) !!}
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="form-group col-md-12 d-flex justify-content-center">
+
+                    <label class="form-check-label mx-auto esconder comi" for="radio1_base">
+                        {!! Form::radio('exonerate_base',2, null, ['id' => 'radio1_base', 'required' => true, 'class' => 'exonerar_base']) !!}
+                        Exonerar comisión base
+                    </label>
+
+                    <label class="form-check-label mx-auto esconder comi" for="radio3_base">
+                        {!! Form::radio('exonerate_base',1, null, ['id' => 'radio3_base', 'required' => true, 'class' => 'incluir_base']) !!}
+                        Incluir comisión base
+                    </label>
+
+
+                    <label class="form-check-label mx-auto esconder comi" for="radio2_base">
+                        Descontar comisión base
+                        {!! Form::radio('exonerate_base',3, null, ['id' => 'radio2_base', 'required' => true, 'class' => 'descontar_base']) !!}
+                    </label>
+
+                </div>
+
+
 
 
                 <hr class="bg-dark" style="height:1px;">
@@ -131,7 +181,9 @@
 
                         {!! Form::Label('montototal', "Monto total:") !!}
                         {!! Form::text('amount_total',null, ['class' => 'form-control montototal general font-weight-bold h1', 'required' => true, 'min' => 0, 'id' => 'montototal', 'readonly' => true]) !!}
-                        {!! Form::hidden('amount_total_base',null, ['class' => 'form-control montototal general', 'required' => true, 'min' => 0, 'id' => 'monto_base', 'readonly' => true]) !!}
+
+                        {!! Form::Label('montototal', "Monto total base:") !!}
+                        {!! Form::text('amount_total_base',null, ['class' => 'form-control montototal general font-weight-bold', 'required' => true, 'min' => 0, 'id' => 'monto_base', 'readonly' => true]) !!}
 
 
                     <br>
@@ -601,6 +653,79 @@ $('.descontar').click(function() {
  })
 })
 
+
+ /* LLAMADO DE CALCULO DE COMISIONES BASE */
+    comision_base = document.getElementById("comision_base");
+    porcentage_base = document.getElementById("percentage_base");
+    montototal_base = document.getElementById("monto_dolares");
+    monto_real_base = document.getElementById("monto_base");
+
+    exonerar_base = document.getElementById("radio1_base");
+    descontar_base = document.getElementById("radio2_base");
+    incluir_base = document.getElementById("radio3_base");
+
+
+    exonerar_base.click = function (){
+
+    $('#percentage_base').val("");  // LIMPIAR PORCENTAJE
+    $('#comision_base').val("");  // LIMPIAR PORCENTAJE
+
+    //$('#percentage').attr("readonly", true);
+    $('#percentage_base').attr("readonly", true);
+    montottotal = (montototal_base.value);
+    monto_real_base.value = parseFloat(montototal_base.value).toFixed(2);
+
+    }
+    incluir_base.click = function (){
+    //var selectedValue = this.value;
+
+    $('#percentage_base').attr("required", true);
+    //$('#percentage').attr("readonly", false);
+    $('#percentage_base').attr("readonly", false);
+
+    monto_real_base.value = (parseFloat($('#monto_dolares').val()) + parseFloat($('#comision_base').val())).toFixed(2);
+
+    }
+    descontar_base.click = function (){
+    //$('.comi').show();
+    $('#percentage_base').attr("required", true);
+    $('#percentage_base').attr("readonly", false);
+    //$('#percentage_base').attr("readonly", false);
+
+    monto_real_base.value = (parseFloat($('#monto_dolares').val()) - parseFloat($('#comision_base').val())).toFixed(2);
+    }
+
+
+
+            /* PORCENTAJE BASE */
+            $('.exonerar_base').click(function() {
+
+        exonerar_base.click(function (){
+        if(exonerar_base.click()){
+            return;
+        }
+        })
+
+        })
+
+        $('.incluir_base').click(function() {
+
+        incluir_base.click(function (){
+        if(incluir_base.click()){
+            return;
+        }
+        })
+
+        })
+
+        $('.descontar_base').click(function() {
+
+        descontar_base.click(function (){
+            if(descontar_base.click()){
+            return;
+            }
+         })
+        })
 
 
 
