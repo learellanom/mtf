@@ -111,7 +111,7 @@
                         {!! Form::Label('amount_commission_base', "Monto Comisión Base:") !!}
                         <div class="input-group-text">
                             <i class="fa-fw fas fa-coins mr-2"></i>
-                        {!! Form::number('amount_commission_base',null, ['class' => 'form-control comision_base general', 'min' => 0, 'readonly' => true, 'id' => 'comision_base']) !!}
+                        {!! Form::text('amount_commission_base',null, ['class' => 'form-control comision_base general', 'min' => 0, 'readonly' => true, 'id' => 'comision_base']) !!}
                         </div>
 
                     </div>
@@ -140,7 +140,7 @@
                     {!! Form::Label('amount_total_base', "Monto total Base:") !!}
                     <div class="input-group-text">
                         <i class="fa-fw fas fas fa-coins mr-2"></i>
-                    {!! Form::number('amount_total_base', null, ['class' => 'form-control', 'id' => 'montototal_base', 'readonly' => true ]) !!}
+                    {!! Form::text('amount_total_base', null, ['class' => 'form-control', 'id' => 'montototal_base', 'readonly' => true ]) !!}
                     </div>
                 </div>
 
@@ -360,40 +360,54 @@ $('#monto_dolares').on('input', function() {
 });
 
      /* OCULTAR LA CAJA SELECCIONADA */
-     $('.muestra,.oculta').select2({
+     $('.muestra').select2({
         'theme':'bootstrap4',
         search: false,
         allowClear: true,
         placeholder: "Seleccionar cliente",
         width:'100%'
      });
-     $(".muestra,.oculta").val("")
-     $(".muestra,.oculta").trigger("change");
+     $(".muestra").val("")
+     $(".muestra").trigger("change");
+     $('.oculta').select2({
+        'theme':'bootstrap4',
+        search: false,
+        allowClear: true,
+        placeholder: "Seleccionar cliente",
+        width:'100%'
+     });
+     $(".oculta").val("")
+     $(".oculta").trigger("change");
 
+     $('.muestra').on('change', function () {
+        var selected = $(this).val();
+        var selected2 = $('#wallet2 option:selected').val();
 
-    $('#wallet').on('change', function() {
-        const opciones = $(this).val();
-        const uno = $('#wallet2').val();
-        if(opciones == uno){
-            [...$('#wallet option')].forEach(o => {
-
-            o.disabled = (opciones.includes(o.value)) ? true : false;
-          })
+        if(selected)
+        {
+            $('#wallet2 option[value="'+selected+'"]').prop('disabled', true);
         }
+        else
+        {
+            $('#wallet2 option').prop('disabled', false);
+        }
+
     });
 
-    $('#wallet2').on('change', function() {
-        const opciones = $(this).val();
-        var dos = $('#wallet').val();
-        if(opciones == dos){
-        [...$('#wallet2 option')].forEach(o => {
+    $('.oculta').on('change', function () {
+        var selected = $(this).val();
+        var selected2 = $('#wallet option:selected').val();
 
-          o.disabled = (opciones.includes(o.value)) ? true : false;
+        if(selected)
+        {
+            $('#wallet option[value="'+selected+'"]').prop('disabled', true);
+        }
+        else
+        {
+            $('#wallet option').prop('disabled', false);
+        }
 
-        });
-       }
     });
-
     /* OCULTAR LA CAJA SELECCIONADA */
 
 

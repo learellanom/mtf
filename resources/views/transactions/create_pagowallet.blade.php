@@ -373,40 +373,56 @@ $('.general').inputmask({
 
      });
 
-     /* OCULTAR LA CAJA SELECCIONADA */
-     $('.muestra,.oculta').select2({
+  /* OCULTAR LA CAJA SELECCIONADA */
+  $('.muestra').select2({
         'theme':'bootstrap4',
         search: false,
         allowClear: true,
-        placeholder: "Selecciona la caja",
+        placeholder: "Seleccionar cliente",
         width:'100%'
      });
-     $(".muestra,.oculta").val("")
-     $(".muestra,.oculta").trigger("change");
+     $(".muestra").val("")
+     $(".muestra").trigger("change");
+     $('.oculta').select2({
+        'theme':'bootstrap4',
+        search: false,
+        allowClear: true,
+        placeholder: "Seleccionar cliente",
+        width:'100%'
+     });
+     $(".oculta").val("")
+     $(".oculta").trigger("change");
 
-     $('.muestra').on('change', function() {
-        const opciones = $(this).val();
+     $('.muestra').on('change', function () {
+        var selected = $(this).val();
+        var selected2 = $('#wallet2 option:selected').val();
 
-        [...$('.oculta option')].forEach(o => {
-
-        o.disabled = (opciones.includes(o.value)) ? true : false;
-
-        });
+        if(selected)
+        {
+            $('#wallet2 option[value="'+selected+'"]').prop('disabled', true);
+        }
+        else
+        {
+            $('#wallet2 option').prop('disabled', false);
+        }
 
     });
 
-    $('.oculta').on('change', function() {
-        const opciones = $(this).val();
+    $('.oculta').on('change', function () {
+        var selected = $(this).val();
+        var selected2 = $('#wallet option:selected').val();
 
-        [...$('.muestra option')].forEach(o => {
-
-        o.disabled = (opciones.includes(o.value)) ? true : false;
-
-        });
+        if(selected)
+        {
+            $('#wallet option[value="'+selected+'"]').prop('disabled', true);
+        }
+        else
+        {
+            $('#wallet option').prop('disabled', false);
+        }
 
     });
-    /* OCULTAR LA CAJA SELECCIONADA */
-
+ /* OCULTAR LA CAJA SELECCIONADA */
 
 $('.percentage_base').on('input', function() { //FUNCION DE PORCENTAJE BASE
 
