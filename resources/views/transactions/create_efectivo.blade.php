@@ -78,7 +78,7 @@
 
                     <div class="form-group col-md-4">
 
-                        {!! Form::Label('amount_foreign_currency', "Monto en moneda extranjera:") !!}
+                        {!! Form::Label('monto', "Monto en moneda extranjera:") !!}
                         <div class="input-group-text">
                             <i class="fa-fw fas fa-coins mr-2"></i>
                         {!! Form::text('amount_foreign_currency',null, ['class' => 'form-control', 'required' => true, 'id' => 'monto', 'min' => 0, 'readonly' => true]) !!}
@@ -90,7 +90,7 @@
 
                 <div class="form-row">
                 <div class="form-group col-md-6">
-                    {!! Form::Label('amount', "Monto en dolares:") !!}
+                    {!! Form::Label('monto_dolares', "Monto en dolares:") !!}
                     <div class="input-group-text">
                         <i class="fa-fw fas fas fa-funnel-dollar mr-2"></i>
                     {!! Form::text('amount', null, ['class' => 'form-control general', 'required' => true, 'id' => 'monto_dolares', 'min' => 0, 'readonly' => true, 'placeholder' => 'Monto en dolares']) !!}
@@ -181,7 +181,7 @@
 
                 <div class="form-row">
                     <div class="form-group col-md-6 comisiones">
-                    {!! Form::Label('amount_total', "Monto Total:") !!}
+                    {!! Form::Label('montototal', "Monto Total:") !!}
                         <div class="input-group-text">
                             <i class="fa-fw fas fa-coins mr-2"></i>
                             {!! Form::text('amount_total', null,['class' => 'form-control montototal general', 'required' => true, 'min' => 0, 'id' => 'montototal', 'readonly' => true]) !!}
@@ -431,18 +431,13 @@ $("#typetrasnferencia").val("")
 $("#typetrasnferencia").trigger("change");
 
 $(document).ready(function() {
-  //$('#monto_dolares').toFixed(2);
-  //$('#monto_dolares').mask('###0.00', { reverse: true });
-  //$('#monto').mask('###0.00', { reverse: true });
-    const input = document.getElementById("monto_dolares");
-    const log = document.getElementById("montototal");
-    const log2 = document.getElementById("monto_base");
-    input.addEventListener("input", updateValue);
 
-    function updateValue(e) {
-      log.value = e.target.value;
-      log2.value = e.target.value;
-     }
+     $('#monto_dolares').on('input', function() {
+        var input1Value = $('#monto_dolares').val();
+        $('#montototal').val(input1Value);
+        $('#monto_base').val(input1Value);
+
+     });
 
      $('.general').inputmask({
 			alias: 'decimal',
