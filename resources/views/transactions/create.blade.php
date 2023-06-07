@@ -103,7 +103,7 @@
                     {!! Form::datetimeLocal('transaction_date', $fecha, ['class' => 'form-control', 'required' => true, 'id' => 'fecha']) !!}
                     </div>
                 </div>
-            </div>
+                </div>
 
                 <div class="paginate text-right">
                     </div>
@@ -669,6 +669,7 @@ $(document).ready(function() {
                 var dolares = $('#monto_dolares').val();
                 var exonerar = document.getElementById("radio1");
                 var exonerar_base = document.getElementById("radio1_base");
+
                 $('.base').show();
                 $('.tasa_basee').show();
                 $('.comisionbase').hide();
@@ -1029,6 +1030,7 @@ $('#comision_base').prop('readonly', true);
                 $('#radio2').prop("required", false);
                 $('#radio3').prop("required", false);
 
+
                 $('#radio1').prop("disabled", true);
                 $('#radio2').prop("disabled", true);
                 $('#radio3').prop("disabled", true);
@@ -1036,6 +1038,7 @@ $('#comision_base').prop('readonly', true);
                 $('#radio1_base').prop("required", false);
                 $('#radio2_base').prop("required", false);
                 $('#radio3_base').prop("required", false);
+
                 $('#percentage').prop("required", false);
                 $('#tasa_base').prop("required", false);
                 $('#tasa_base').prop("readonly", true);
@@ -1048,7 +1051,9 @@ $('#comision_base').prop('readonly', true);
                 $('#wallet').prop("disabled", true);
                 $('#typecoin').prop("disabled", true);
 
+                $('#monto').val('');
                 $('#percentage_base').val('');
+                $('#percentage').val('');
                 $('#comision_base').val('');
                 $('#wallet').prop("required", false);
                 $('#typecoin').prop("required", false);
