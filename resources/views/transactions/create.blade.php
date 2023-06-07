@@ -1051,7 +1051,14 @@ $('#comision_base').prop('readonly', true);
                 $('#wallet').prop("disabled", true);
                 $('#typecoin').prop("disabled", true);
 
+                $("#typecoin").val(1);
+                $("#typecoin").trigger("change");
+
+                $("#wallet").val('');
+                $("#wallet").trigger("change");
+
                 $('#monto').val('');
+                $('#typecoin').val('');
                 $('#percentage_base').val('');
                 $('#percentage').val('');
                 $('#comision_base').val('');
