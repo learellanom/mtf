@@ -19,7 +19,8 @@ return new class extends Migration
             $table->double('amount_foreign_currency')->nullable();  //MONTO MONEDA EXTRANJERA
             $table->double('amount_total');  //MONTO TOTAL
             $table->double('amount_commission')->nullable();  //MONTO COMISION
-            $table->double('exchange_rate')->nullable(); // TAZA DE CAMBIO
+            $table->double('exchange_rate')->nullable(); //TASA DE CAMBIO
+            $table->double('exchange_rate_base')->nullable(); //TASA BASE
             $table->enum('exonerate', [1, 2, 3])->nullable()->default(2); //DESCUENTO, EXONERADO E INCLUIR COMOSIÓN
             $table->double('percentage')->nullable(); //PORCENTAJE DE LA TRANSFERENCIA
             $table->foreignId('type_coin_id')->default(1)->references('id')->on('type_coins'); // TIPO DE MONEDA DE LA TRANSFERENCIA
@@ -35,6 +36,7 @@ return new class extends Migration
             $table->enum('exonerate_base', [1, 2, 3])->nullable()->default(2); //DESCUENTO, EXONERADO E INCLUIR COMISÓN BASE
             $table->double('percentage_base')->nullable(); //PORCENTAJE DE LA GANANCIA
             $table->double('amount_commission_base')->nullable(); //GANANCIA DE LA COMOSION
+            $table->double('amount_base')->nullable(); //MONTO BASE PARA CALCULAR COMISION POR TASA
             $table->double('amount_total_base')->nullable(); //GANANCIA DE LA COMOSION
             $table->timestamps(); //CREACION Y MODIFICACION POR DEFECTO (TOMADO POR EL SERVIDOR)
         });
