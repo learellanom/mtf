@@ -338,7 +338,7 @@ $config4 = [
                             "alignment":{
                                 "vertical": "right",
                                 "horizontal" : "right"
-                            }                        
+                            }
                         }
                     },
                     {
@@ -351,7 +351,18 @@ $config4 = [
                                 "horizontal" : "right"
                             }                            
                         }
-                    }                                      
+                    },
+                    {
+                        "cells": "sG",
+                        "width": 40,                 
+                        "style": {
+                            "numFmt": "#,#0;(#,#0)",
+                            "alignment":{
+                                "vertical": "right",
+                                "horizontal" : "right"
+                            }                            
+                        }
+                    }                                                       
             ]                    
             
 
