@@ -2,10 +2,10 @@
 
 
 
-@section('title', 'Transferencias a cajas')
+@section('title', 'Pagos del Proveedor')
 @section('content_header')
 
-    <h1 class="text-center text-dark font-weight-bold">{{ __('PAGOS ENTRE CAJAS') }}<i class="fas fa-donate"></i> </h1></a>
+    <h1 class="text-center text-dark font-weight-bold">{{ __('Pagos del Proveedor') }}<i class="fas fa-donate"></i> </h1></a>
 
 
 @stop
@@ -22,7 +22,15 @@
 
               <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
                 <li class="nav-item" role="presentation">
-                  <button class="nav-link active text-uppercase font-weight-bold" id="pills-home-tab" data-toggle="pill" data-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">{{ __('Transferencia') }}</button>
+                  <button 
+                      class="nav-link active text-uppercase font-weight-bold" 
+                      id="pills-home-tab" 
+                      data-toggle="pill" 
+                      data-target="#pills-home" 
+                      type="button" 
+                      role="tab" 
+                      aria-controls="pills-home" 
+                      aria-selected="true">{{ __('Pagos') }}</button>
                 </li>
 
               </ul>
@@ -33,7 +41,7 @@
                     <div class="form-row">
 
                         <div class="form-group col-md-6" >
-                            {!! Form::Label('wallet_id', "Caja de origen:") !!}
+                            {!! Form::Label('wallet_id', "Caja de origen (Proveedor):") !!}
                             <div class="input-group-text col-md-12">
                                 <i class="fa-fw fas fa-random mr-2"></i>
                             {!! Form::select('wallet_id', $wallet, null, ['class' => 'form-control wallet muestra', 'required' => true, 'id'=>'wallet', 'readonly' => false]) !!}

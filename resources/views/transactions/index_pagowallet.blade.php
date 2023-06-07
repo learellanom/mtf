@@ -4,7 +4,7 @@
 
 @section('content_header')
 
-    <h1 class="text-center text-dark font-weight-bold">{{ __('LISTA DE PAGOS CAJA A CAJA') }} <i class="fas fa-box"></i> </h1></a>
+    <h1 class="text-center text-dark font-weight-bold">{{ __('Pagos del Proveedor') }} <i class="fas fa-box"></i> </h1></a>
 
 
 @stop
@@ -15,7 +15,7 @@
 <a class="btn btn-dark" title="Crear transaccion" href={{ route('transactions.create_pagowallet') }}>
     <i class="fas fa-plus-circle"></i>
     <span class="d-none d-lg-inline-block text-uppercase font-weight-bold">{{ __('Pago') }}</span>
-    <span class="d-none d-md-inline-block text-uppercase font-weight-bold">{{ __('entre cajas') }}</span>
+    <span class="d-none d-md-inline-block text-uppercase font-weight-bold">{{ __('del Proveedor') }}</span>
 </a>
 @endcan
 
@@ -25,7 +25,7 @@
     <div class="col-md-12">
         <div class="card mb-4">
             <div class="card-header">
-                <h3 class="card-title text-uppercase font-weight-bold">{{ __('Pagos entre cajas') }}</h3>
+                <h3 class="card-title text-uppercase font-weight-bold">{{ __('Pagos del Proveedor') }}</h3>
             </div>
             <div class="card-body">
                 <div class="row">
@@ -237,7 +237,7 @@ $(document).ready(function () {
             extend:  'pdfHtml5',
             text:    '<i class="fas fa-file-pdf"></i>',
             orientation: 'landscape',
-            title: 'MTF | LISTA DE TRANSACIÓNES',
+            title: 'MTF | Pagos del Proveedor',
             titleAttr: 'Exportar PDF',
             className: 'btn btn-danger',
 

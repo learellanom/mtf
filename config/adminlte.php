@@ -405,7 +405,7 @@ return [
             'label_color' =>'success'
         ],
         [
-            'text'        => 'Pagos entre cajas',
+            'text'        => 'Pagos del proveedor',
             'url'         => 'movimientos/indice_pagos',
             'active'      => ['movimientos/indice_pagos', 'movimientos/pago_cajas'],
             'can'         => 'transactions.index_pagowallet',
