@@ -179,16 +179,6 @@ $config4 = [
                             </thead>
                             @foreach($Transacciones as $row)
 
-                <!-- wallet_id                   as WalletId,
-                wallets.name                as WalletName,
-                type_transaction_id         as TypeTransactionId,
-                type_transactions.name      as TypeTransaccionName,
-                count(*)                    as cant_transactions,
-                sum(amount)                 as total_amount,                
-                sum(amount_commission_base) as total_amount_commission_base,
-                sum(amount_commission)      as total_commission,
-                (sum(amount_commission)-sum(amount_commission_base)) as total_commission_profit,
-                sum(amount_total)           as total')) -->
                                 @php
                                     if($row->total_amount_commission_base <= 0){
                                         $myTotal = 0;
@@ -229,120 +219,164 @@ $config4 = [
 @section('js')
 
 <script>
-$(document).ready(function () {
-    $('#table').DataTable( {
 
-        language: {
-        "decimal": "",
-        "emptyTable": "No hay transacciones.",
-        "info": "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
-        "infoEmpty": "Mostrando 0 to 0 de 0 Entradas",
-        "infoFiltered": "(Filtrado de _MAX_ total entradas)",
-        "infoPostFix": "",
-        "thousands": ",",
-        "lengthMenu": "Mostrar _MENU_ Entradas",
-        "loadingRecords": "Cargando...",
-        "processing": "Procesando...",
-        "search": "Buscar:",
-        "zeroRecords": "Sin resultados encontrados",
-        "paginate": {
-            "first": "Primero",
-            "last": "Ultimo",
-            "next": "Siguiente",
-            "previous": "Anterior"
-        }
-    },
-    "order": [[ 1, 'asc' ]],
-    'dom' : 'Bfrtilp',
-    'buttons':[
-        {
-            extend:  'excelHtml5',
-            exportOptions: { columns: [ 0, 1, 2, 3 ] },
-            text:    '<i class="fas fa-file-excel"></i>',
-            titleAttr: 'Exportar Excel',
-            className: 'btn btn-success',
-            "excelStyles": [
-                {
-                    "template": ["title_medium", "gold_medium"]
-                },
-                {
-                    "cells": "1",
-                    "style": {
-                        "font": {
-                            "size": "20",
-                            "color": "FFFFFF"
-                        },
-                        "fill": {
-                            "pattern": {
-                                "size": "25",
-                                "type": "solid",
-                                "color": "0B2447",
+    $(document).ready(function () {
+        $('#table').DataTable( {
+
+            language: {
+            "decimal": "",
+            "emptyTable": "No hay transacciones.",
+            "info": "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
+            "infoEmpty": "Mostrando 0 to 0 de 0 Entradas",
+            "infoFiltered": "(Filtrado de _MAX_ total entradas)",
+            "infoPostFix": "",
+            "thousands": ",",
+            "lengthMenu": "Mostrar _MENU_ Entradas",
+            "loadingRecords": "Cargando...",
+            "processing": "Procesando...",
+            "search": "Buscar:",
+            "zeroRecords": "Sin resultados encontrados",
+            "paginate": {
+                "first": "Primero",
+                "last": "Ultimo",
+                "next": "Siguiente",
+                "previous": "Anterior"
+            }
+        },
+        "order": [[ 1, 'asc' ]],
+        'dom' : 'Bfrtilp',
+        'buttons':[
+            {
+                extend:  'excelHtml5',
+                exportOptions: { columns: [ 0, 1, 2, 3, 4, 5, 6 ] },
+                text:    '<i class="fas fa-file-excel"></i>',
+                titleAttr: 'Exportar Excel',
+                className: 'btn btn-success',
+                "excelStyles": [
+                    {
+                        "template": ["title_medium", "gold_medium"]
+                    },
+                    {
+                        "cells": "1",
+                        "style": {
+                            "font": {
+                                "size": "20",
+                                "color": "FFFFFF"
+                            },
+                            "fill": {
+                                "pattern": {
+                                    "size": "25",
+                                    "type": "solid",
+                                    "color": "0B2447",
+                                }
                             }
                         }
-                    }
-                },
-                {
-                    "cells": "2",
-                    "style": {
-                        "font": {
-                            "size": "18",
-                            "color": "FFFFFF"
-                        },
-                        "fill": {
-                            "pattern": {
-                                "type": "solid",
-                                "color": "002B5B"
+                    },
+                    {
+                        "cells": "2",
+                        "style": {
+                            "font": {
+                                "size": "18",
+                                "color": "FFFFFF"
+                            },
+                            "fill": {
+                                "pattern": {
+                                    "type": "solid",
+                                    "color": "002B5B"
+                                }
+                            },
+
+                        }
+                    },
+                    {
+                        "cells": "sA",
+                        "width": 25,
+                        
+                    },
+                    {
+                        "cells": "sB",
+                        "width": 45,
+                    },
+                    {
+                        'cells': "sC",
+                        "width": 15,
+                        "style": {
+                            "numFmt": "#,##0;(#,##0)",
+                            "alignment":{
+                                "vertical": "right",
+                                "horizontal" : "right"
+                            }                            
+                        }                    
+                    },
+                    {
+                        "cells": "sD",
+                        "width": 20,                 
+                        "style": {
+                            "numFmt": "#,#0;(#,#0)",
+                            "alignment":{
+                                "vertical": "right",
+                                "horizontal" : "right"
                             }
-                        },
+                        }
+                    },
+                    {
+                        "cells": "sE",
+                        "width": 20,                 
+                        "style": {
+                            "numFmt": "#,#0;(#,#0)",
+                            "alignment":{
+                                "vertical": "right",
+                                "horizontal" : "right"
+                            }
+                        }
+                    },
+                    {
+                        "cells": "sF",
+                        "width": 20,                 
+                        "style": {
+                            "numFmt": "#,#0;(#,#0)",
+                            "alignment":{
+                                "vertical": "right",
+                                "horizontal" : "right"
+                            }                        
+                        }
+                    },
+                    {
+                        "cells": "sF",
+                        "width": 20,                 
+                        "style": {
+                            "numFmt": "#,#0;(#,#0)",
+                            "alignment":{
+                                "vertical": "right",
+                                "horizontal" : "right"
+                            }                            
+                        }
+                    }                                      
+            ]                    
+            
 
-                    }
-                },
-                {
-                    "cells": "sA",
-                    "width": 25,
-                },
-                {
-                    "cells": "sB",
-                    "width": 45,
-                },
-                {
-                    'cells': "sC",
-                    "width": 15,
-                    "style": {
-                        "numFmt": "#,##0;(#,##0)"
-                    }                    
-                },
-                {
-                    "cells": "sD",
-                    "width": 20,                 
-                    "style": {
-                        "numFmt": "#,#0;(#,#0)"
-                    }
-                }
-           ]
+            },
+            {
+                extend:  'pdfHtml5',
+                text:    '<i class="fas fa-file-pdf"></i>',
+                orientation: 'landscape',
+                title: 'MTF | Resumen Caja Transaccion',
+                titleAttr: 'Exportar PDF',
+                className: 'btn btn-danger',
 
-        },
-        {
-            extend:  'pdfHtml5',
-            text:    '<i class="fas fa-file-pdf"></i>',
-            orientation: 'landscape',
-            title: 'MTF | Resumen Caja Transaccion',
-            titleAttr: 'Exportar PDF',
-            className: 'btn btn-danger',
-
-        },
-        {
-            extend:  'print',
-            text:    '<i class="fas fa-print"></i>',
-            titleAttr: 'Capture de pantalla',
-            className: 'btn btn-info'
-        },
-    ]
+            },
+            {
+                extend:  'print',
+                text:    '<i class="fas fa-print"></i>',
+                titleAttr: 'Capture de pantalla',
+                className: 'btn btn-info'
+            },
+        ]
 
 
 
+        });
     });
-});
 
     const miWallet = {!! $myWallet !!};
 
@@ -488,123 +522,7 @@ $(document).ready(function () {
             });
         });
     }
-
-    $('#table3').DataTable({
-        language: {
-            "decimal": "",
-            "emptyTable": "No hay transacciones.",
-            "info": "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
-            "infoEmpty": "Mostrando 0 to 0 de 0 Entradas",
-            "infoFiltered": "(Filtrado de _MAX_ total entradas)",
-            "infoPostFix": "",
-            "thousands": ",",
-            "lengthMenu": "Mostrar _MENU_ Entradas",
-            "loadingRecords": "Cargando...",
-            "processing": "Procesando...",
-            "search": "Buscar:",
-            "zeroRecords": "Sin resultados encontrados",
-            "paginate": {
-                "first": "Primero",
-                "last": "Ultimo",
-                "next": "Siguiente",
-                "previous": "Anterior"
-            }
-        },
-        "order": [[ 2, 'desc' ]],
-        'dom' : 'Bfrtilp',
-        'buttons':[
-            {
-                extend:  'excelHtml5',
-                exportOptions: { columns: [ 0, 1] },
-                text:    '<i class="fas fa-file-excel"></i>',
-                titleAttr: 'Exportar Excel',
-                className: 'btn btn-success',
-                "excelStyles": [
-                    {
-                        "template": ["title_medium", "gold_medium"]
-                    },
-                    {
-                        "cells": "2",
-                        "style": {
-                            "font": {
-                                "size": "18",
-                                "color": "FFFFFF"
-                            },
-                            "fill": {
-                                "pattern": {
-                                    "type": "solid",
-                                    "color": "002B5B"
-                                }
-                            },
-                        }
-                    },
-                    {
-                        "cells": "1",
-                        "style": {
-                            "font": {
-                                "size": "20",
-                                "color": "FFFFFF"
-                            },
-                            "fill": {
-                                "pattern": {
-                                    "size": "25",
-                                    "type": "solid",
-                                    "color": "0B2447",
-                                }
-                            }
-                        }
-                    },
-                    {
-                        "cells": "sF",
-                        "condition": {
-                            "type": "dataBar",
-                            "dataBar": {
-                                "color": [
-                                    "0081B4"
-                                ]
-                            }
-                        }
-                    },
-                    {
-                        "cells": "sE",
-                        "condition": {
-                        "type": "dataBar",
-                        "dataBar": {
-                            "color": [
-                                "0081B4"
-                            ]
-                        }
-                        }
-                    },
-                    {
-                        'cells': "sB",
-                        'template': "date_long",
-                    },
-                    {
-                        "cells": "F",
-                        "style": {
-                            "numFmt": "#,##0;(#,##0)"
-                        }
-                    }
-                ]
-            },
-            {
-                extend:  'pdfHtml5',
-                text:    '<i class="fas fa-file-pdf"></i>',
-                orientation: 'landscape',
-                title: 'MTF | Resumen por Caja Transaccion',
-                titleAttr: 'Exportar PDF',
-                className: 'btn btn-danger',
-
-            },
-            {
-                extend:  'print',
-                text:    '<i class="fas fa-print"></i>',
-                titleAttr: 'Capture de pantalla',
-                className: 'btn btn-info'
-            },
-        ]
-    });
+   
 
     function BuscaFechas(FechaDesde = 0,FechaHasta = 0){
 
