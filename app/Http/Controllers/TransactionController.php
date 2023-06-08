@@ -306,18 +306,19 @@ class TransactionController extends Controller
         $user = Auth::id();
         $transactions = new Transaction;
 
-        $transactions->type_transaction_id   = $request->input('type_transaction_id');
-        $transactions->wallet_id             = $request->input('wallet_id');
-        $transactions->amount                = $request->input('amount');
-        $transactions->amount_total          = $request->input('amount_total');
-        $transactions->transaction_date      = $request->input('transaction_date');
-        $transactions->description           = $request->input('description');
-        $transactions->pay_number            = $request->input('pay_number');
-        $transactions->amount_commission_base = $request->input('amount_commission_base');
-        $transactions->percentage_base       = $request->input('percentage_base');
-        $transactions->exonerate_base        = $request->input('exonerate_base');
-        $transactions->amount_total_base     = $request->input('amount_total_base');
-        $transactions->user_id               = $user;
+        $transactions->type_transaction_id      = $request->input('type_transaction_id');
+        $transactions->wallet_id                = $request->input('wallet_id');
+        $transactions->amount                   = $request->input('amount');
+        $transactions->amount_total             = $request->input('amount_total');
+        $transactions->transaction_date         = $request->input('transaction_date');
+        $transactions->description              = $request->input('description');
+        $transactions->pay_number               = $request->input('pay_number');
+        $transactions->amount_commission_base   = $request->input('amount_commission_base');
+        $transactions->percentage_base          = $request->input('percentage_base');
+        $transactions->exonerate_base           = $request->input('exonerate_base');
+        $transactions->amount_base              = $request->input('amount');        
+        $transactions->amount_total_base        = $request->input('amount_total_base');
+        $transactions->user_id                  = $user;
 
         $transactions->save();
 
@@ -325,18 +326,19 @@ class TransactionController extends Controller
 
         $transactions2 = new Transaction;
 
-        $transactions2->type_transaction_id   = $request->input('type_transaction2_id');
-        $transactions2->wallet_id             = $request->input('wallet2_id');
-        $transactions2->amount                = $request->input('amount');
-        $transactions2->amount_total          = $request->input('amount_total');
-        $transactions2->transaction_date      = $request->input('transaction_date');
-        $transactions2->description           = $request->input('description2');
-        $transactions2->pay_number            = $request->input('pay_number');
-        $transactions2->amount_commission_base = $request->input('amount_commission_base');
-        $transactions2->percentage_base       = $request->input('percentage_base');
-        $transactions2->exonerate_base        = $request->input('exonerate_base');
-        $transactions2->amount_total_base     = $request->input('amount_total_base');
-        $transactions2->user_id               = $user;
+        $transactions2->type_transaction_id     = $request->input('type_transaction2_id');
+        $transactions2->wallet_id               = $request->input('wallet2_id');
+        $transactions2->amount                  = $request->input('amount');
+        $transactions2->amount_total            = $request->input('amount_total');
+        $transactions2->transaction_date        = $request->input('transaction_date');
+        $transactions2->description             = $request->input('description2');
+        $transactions2->pay_number              = $request->input('pay_number');
+        $transactions2->amount_commission_base  = $request->input('amount_commission_base');
+        $transactions2->percentage_base         = $request->input('percentage_base');
+        $transactions2->exonerate_base          = $request->input('exonerate_base');
+        $transactions2->amount_base             = $request->input('amount');                
+        $transactions2->amount_total_base       = $request->input('amount_total_base');
+        $transactions2->user_id                 = $user;
         $transactions2->save();
 
          flash()->addSuccess('Movimiento guardado', 'Transacción', ['timeOut' => 3000]);
