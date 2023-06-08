@@ -58,7 +58,7 @@
                   <div class="info-box bg-light">
                     <div class="info-box-content">
                       <span class="info-box-text text-center text-muted">Monto en dolar <i class="fas fa-dollar-sign"></i></span>
-                      <span class="info-box-number text-center text-muted mb-0">{{ number_format($transactions->amount) }}$</span>
+                      <span class="info-box-number text-center text-muted mb-0">{{ number_format(abs($transactions->amount),2,",",".") }}$</span>
                     </div>
                   </div>
                 </div>
@@ -66,7 +66,7 @@
                   <div class="info-box bg-light">
                     <div class="info-box-content">
                       <span class="info-box-text text-center text-muted">Monto total <i class="fas fa-funnel-dollar"></i></span>
-                      <span class="info-box-number text-center text-muted mb-0">{{ number_format($transactions->amount_total) }}$</span>
+                      <span class="info-box-number text-center text-muted mb-0">{{ number_format(abs($transactions->amount_total),2,",",".") }}$</span>
                     </div>
                   </div>
                 </div>
@@ -194,7 +194,7 @@
                       <div class="info-box bg-light">
                         <div class="info-box-content">
                           <span class="info-box-text text-center text-muted">Monto total (BASE) <i class="fas fa-funnel-dollar"></i></span>
-                          <span class="info-box-number text-center text-muted mb-0">{{ number_format($transactions->amount_total_base)?? 'SIN BASE' }}$</span>
+                          <span class="info-box-number text-center text-muted mb-0">{{  number_format(abs($transactions->amount_total_base),2,",",".") ?? 'SIN BASE' }}$</span>
                         </div>
                       </div>
                     </div>
@@ -207,6 +207,34 @@
 
                 </div>
               </div>
+
+              <div class="row">
+                <div class="col-12">
+                <hr>
+
+
+
+
+                <div class="row">
+                    <div class="col-12">
+                      <div class="info-box bg-light">
+                        <div class="info-box-content">
+                          <span class="info-box-text text-center text-muted">Descripción <i class="fas fa-text-width"></i></span>
+                          <span class="info-box-number text-center text-muted mb-0 text-uppercase">{{ $transactions->description ?? 'SIN DESCRIPCIÓN' }}</span>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+
+
+
+
+
+                </div>
+              </div>
+
+
 
 
 
@@ -226,7 +254,7 @@
                       <div class="info-box bg-light">
                         <div class="info-box-content">
                           <span class="info-box-text text-center text-muted">Comisión <i class="fas fa-comment-dollar"></i></span>
-                          <span class="info-box-number text-center text-muted mb-0 text-uppercase">{{ $transactions->amount_commission ?? 'Sin comisión' }}</span>
+                          <span class="info-box-number text-center text-muted mb-0 text-uppercase">{{ number_format(abs($transactions->amount_commission),2,",",".") ?? 'Sin comisión' }}</span>
                         </div>
                       </div>
                     </div>

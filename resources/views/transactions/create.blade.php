@@ -632,16 +632,7 @@ $(document).ready(function() {
 
      } //CIERRE DE CONDICION QUE CALCULA TIPO DE CAMBIO
   }) //CIERRE DE .READY
-  /* $('.typecoin').change(function(e) {
 
-    if ($(this).val() !== 1) {
-
-
-
-
-      }
-
-  }) */
 
 
 
@@ -649,6 +640,7 @@ $(document).ready(function() {
                 //$('.boton').show();
                 //$('.esconder').show();
                 var exonerar = document.getElementById("radio1");
+                var exonerar_base = document.getElementById("radio1_base");
 
                 $('.tasa').show();
                 $('.base').hide();
