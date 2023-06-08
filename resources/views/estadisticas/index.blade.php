@@ -244,12 +244,20 @@ if (isset($balance->Total)){
                                          //       dd($myWallet);
                                         $myPorcentajeComision   = $row->PorcentajeComisionBase;
                                         $myMontoComision        = $row->MontoComisionBase;
-                                        $myTotal2                = $row->MontoTotalBase;
+                                        $myTotal2               = $row->MontoTotalBase;
+
+                                        $TasaCambio             = $row->TasaCambioBase;
+                                        $Monto                  = $row->MontoBase;
+                                     
+
                                     }else{
                                         
                                         $myPorcentajeComision   = $row->PorcentajeComision;
                                         $myMontoComision        = $row->MontoComision;
-                                        $myTotal2                = $row->MontoTotal;
+                                        $myTotal2               = $row->MontoTotal;
+
+                                        $TasaCambio             = $row->TasaCambio;                                        
+                                        $Monto                  = $row->Monto;
                                     }
                                     // 'Transactions.amount_total_base         as MontoTotalBase',
                                     // 'Transactions.percentage_base           as PorcentajeComisionBase',
@@ -265,14 +273,11 @@ if (isset($balance->Total)){
                                     <td>{!! $row->token !!}</td>
                                     <td>{!! $row->TipoMoneda !!}</td>
                                     <td class="text-right"  >{!! number_format($row->MontoMoneda,2,",",".") !!}</td>
-                                    <td class="text-left"   >{!! number_format($row->TasaCambio,2,",",".") !!}</td>
-                                    <td class="text-right"  >{!! number_format($row->Monto,2,",",".") !!}</td>
+                                    <td class="text-left"   >{!! number_format($TasaCambio,2,",",".") !!}</td>
+                                    <td class="text-right"  >{!! number_format($Monto,2,",",".") !!}</td>
                                     <td class="text-left"   >{!! number_format($myPorcentajeComision,2,",",".") !!}</td>
                                     <td class="text-right"  >{!! number_format($myMontoComision,2,",",".") !!}</td>
                                     <td class="text-right"  >{!! number_format($myTotal2,2,",",".") !!}</td>
-    
-
-
 
                                     @php
                                         switch  ($row->TransactionId){
