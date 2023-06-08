@@ -73,12 +73,12 @@
 
                                     <td class="font-weight-bold">{!! $transferencias->percentage ?? ''!!} </td>
 
-                                    <td>{!! number_format($transferencias->amount_foreign_currency) ?? '' !!}</td>
+                                    <td>{!! number_format(abs($transferencias->amount_foreign_currency),2,",",".") ?? '' !!}</td>
 
-                                    <td>{!! $transferencias->amount_commission ?? '' !!} </td>
+                                    <td>{!! number_format(abs($transferencias->amount_commission),2,",",".") ?? '' !!} </td>
 
-                                    <td class="font-weight-bold">{!! number_format($transferencias->amount) !!} <i class="fas fa-dollar-sign"></i></td>
-                                    <td class="font-weight-bold">{!! number_format($transferencias->amount_total) !!} <i class="fas fa-dollar-sign"></i></td>
+                                    <td class="font-weight-bold">{!!  number_format(abs($transferencias->amount),2,",",".") !!} <i class="fas fa-dollar-sign"></i></td>
+                                    <td class="font-weight-bold">{!! number_format(abs($transferencias->amount_total),2,",",".") !!} <i class="fas fa-dollar-sign"></i></td>
 
 
                                     <td class="font-weight-bold">{!! $transferencias->user->name !!}</td>

@@ -87,7 +87,7 @@
 
                          @endif
 
-
+                @if($transactions->exchange_rate_base == NULL)
                 <br>
                 <div class="form-row">
                     <div class="form-group col-md-6">
@@ -108,8 +108,10 @@
 
                     </div>
                 </div>
+                @else
+                @endif
 
-
+                @if($transactions->exchange_rate_base == NULL)
                 <div class="form-group col-md-12 d-flex justify-content-center">
 
                     <label class="form-check-label mx-auto" for="radio1">
@@ -130,10 +132,13 @@
                     </label>
 
                 </div>
+                @else
 
+                @endif
 
                 <div class="form-row esconder comi">
 
+                    @if($transactions->exchange_rate_base == NULL)
                     <div class="form-group col-md-6">
                         {!! Form::Label('percentage_base', "Porcentaje Base:") !!}
                         <div class="input-group-text">
@@ -142,16 +147,28 @@
                         </div>
                     </div>
 
+                    @else
+                    <div class="form-group col-md-6">
+                        {!! Form::Label('tasa_base', "Tasa base:") !!}
+                        <div class="input-group-text">
+                            <i class="fa-fw fas fa-percentage mr-2"></i>
+                        {!! Form::text('exchange_rate_base',null, ['class' => 'form-control percentage_base rateMask', 'id' => 'tasa_base']) !!}
+                        </div>
+                    </div>
+                    {!! Form::hidden('amount_base',null, ['class' => 'form-control comision_base', 'min' => 0, 'readonly' => true, 'id' => 'monto_extranjera_base']) !!}
+                    @endif
+
                     <div class="form-group col-md-6">
 
                         {!! Form::Label('comision_base', "Monto Comisión Base:") !!}
                         <div class="input-group-text">
                             <i class="fa-fw fas fa-coins mr-2"></i>
-                        {!! Form::number('amount_commission_base',null, ['class' => 'form-control comision_base general', 'min' => 0, 'readonly' => true, 'id' => 'comision_base']) !!}
+                        {!! Form::text('amount_commission_base',null, ['class' => 'form-control comision_base general', 'min' => 0, 'readonly' => true, 'id' => 'comision_base']) !!}
                         </div>
 
                     </div>
                 </div>
+                @if($transactions->exchange_rate_base == NULL)
 
                 <div class="form-group col-md-12 d-flex justify-content-center">
 
@@ -172,7 +189,8 @@
                     </label>
 
                 </div>
-
+                @else
+                @endif
 
 
 
@@ -373,7 +391,7 @@ $('.general').inputmask({
 			rightAlign: true,
 			groupSeparator:".",
 			undoOnEscape:true,
-			insertMode:false,
+			//insertMode:false,
 			clearIncomplete:true,
 			digits: 2,
             autoClear: true,
@@ -384,7 +402,6 @@ $('.general').inputmask({
 	   $(".rateMask").attr("maxlength","5");
 	   $(".rateMask").inputmask({
 			alias: 'decimal',
-			repeat: 4,
 			allowMinus: false,
 			autoUnmask:true,
 			removeMaskOnSubmit:true,
@@ -392,61 +409,13 @@ $('.general').inputmask({
             autoClear: true,
 			groupSeparator:".",
 			undoOnEscape:true,
-			insertMode: false,
+			insertMode: true,
 			clearIncomplete:true,
 			digits: 2,
-			insertMode:true,
 		});
 
 
-$(".clientes").select2({
-  placeholder: "Seleccionar cliente",
-  theme: 'bootstrap4',
-  notEmpty: false,
-  allowClear: true,
-  clearing: true,
-  width: '100%'
-});
-//$("#clientes").val("")
-//$("#clientes").trigger("change");
-
-$(".typecoin").select2({
-  //placeholder: "Seleccionar Moneda",
-  theme: 'bootstrap4',
-  allowClear: true,
-  width: '100%'
-});
-//$("#typecoin").val("")
-//$("#typecoin").trigger("change");
-
-$(".status").select2({
-  placeholder: "Seleccionar estatus",
-  theme: 'bootstrap4',
-  search: false,
-
-});
-
-$(".wallet").select2({
-  placeholder: "Seleccionar Caja | Wallet",
-  theme: 'bootstrap4',
-  search: false,
-  allowClear: true,
-  width: '100%'
-});
-//$("#wallet").val("")
-//$("#wallet").trigger("change");
-
-$(".typetrasnferencia").select2({
-  placeholder: "Seleccionar tipo de movimiento",
-  theme: 'bootstrap4',
-  allowClear: true,
-  width: '100%'
-});
-//$("#typetrasnferencia").val("")
-//$("#typetrasnferencia").trigger("change");
-
 $(document).ready(function() {
-  //$('#monto_dolares').toFixed(2);
 
     if ($(this).val() == 1) {
       $('#tasa').attr("readonly", true);
@@ -458,7 +427,7 @@ $(document).ready(function() {
             monto_dolares = document.getElementById("monto_dolares");
             //const log = document.getElementById("montototal");
 
-            onkeyup = function(){
+            oninput = function(){
                 if(tasa.value == null && monto.value == null){
                     monto_total = monto_dolares;
                     monto_dolares.value =  monto_total.toFixed(2);
@@ -491,7 +460,7 @@ $(document).ready(function() {
 
 
 
-            onkeyup = function(){
+            oninput = function(){
                 if(tasa.value > 0 && monto.value > 0){
                     monto_total = (monto.value / tasa.value);
                     monto_dolares.value =  monto_total.toFixed(2);
@@ -507,7 +476,7 @@ $(document).ready(function() {
 
             };
 
-            onkeyup = function(){
+            keyup = function(){
             if(tasa.value!="" && monto.value!=""){
                 monto_total = (monto.value / tasa.value);
                 monto_dolares.value =  monto_total.toFixed(2);
@@ -523,7 +492,40 @@ $(document).ready(function() {
 
 
 
-  $('.percentage').keyup(function(e) {
+        $('#tasa_base').on('input',function() { //FUNCION DE PORCENTAJE
+
+                var dolares = $('#monto_dolares').val();
+
+                $('#percentage').prop('required', false);
+                $('#montototal').val(dolares);
+
+                tasa_b = document.getElementById("tasa_base");
+                monto_b = document.getElementById("monto_extranjera_base");
+                monto = document.getElementById("monto");
+                monto_dolares = document.getElementById("monto_dolares");
+                comision_base = document.getElementById("comision_base");
+                monto_base_comision = document.getElementById("monto_base");
+
+
+
+            oninput = function(){
+                if(tasa_b.value > 0 && monto.value > 0){
+
+                    monto_final = (monto.value / tasa_b.value);
+
+                    monto_b.value =  monto_final.toFixed(2);
+
+                    comision_base.value =   (parseFloat(monto_dolares.value) - parseFloat(monto_b.value)).toFixed(2);
+
+                    monto_base_comision.value = monto_final.toFixed(2);
+                }
+          }
+
+        });
+
+
+
+  $('.percentage').on('input', function(e) {
 
     $('#comision').prop('readonly', true);
     $('#montototal').prop('readonly', true);
@@ -569,11 +571,10 @@ $(document).ready(function() {
 
             //monto_real = document.getElementById("comision_base");
 
-            onkeyup = function(){
+            keyup = function(){
                 if(porcentage.value > 0){
                     montottotal = (montototal.value * porcentage.value / 100);
                     comision.value =  montottotal.toFixed(2);
-
                 }
 
             }
