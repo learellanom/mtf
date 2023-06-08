@@ -184,6 +184,7 @@ return [
         Illuminate\View\ViewServiceProvider::class,
         Spatie\Permission\PermissionServiceProvider::class,
         OwenIt\Auditing\AuditingServiceProvider::class,
+        Flasher\Laravel\FlasherServiceProvider::class,
 
 
         /*
@@ -200,7 +201,11 @@ return [
         App\Providers\RouteServiceProvider::class,
         Ladumor\LaravelPwa\PWAServiceProvider::class,
 
+
+
     ],
+
+    'Flasher' => Flasher\Laravel\Facade\Flasher::class,
 
     /*
     |--------------------------------------------------------------------------

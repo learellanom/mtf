@@ -42,4 +42,6 @@ class ToastrPlugin extends Plugin
             ),
         );
     }
+
+
 }

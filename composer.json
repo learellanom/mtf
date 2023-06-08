@@ -17,7 +17,7 @@
         "laravel/ui": "^4.2",
         "laravelcollective/html": "^6.4",
         "owen-it/laravel-auditing": "^13.1",
-        "php-flasher/flasher-laravel": "^1.13",
+        "php-flasher/flasher-laravel": "^1.15",
         "php-flasher/flasher-toastr-laravel": "^1.13",
         "silviolleite/laravelpwa": "^2.0",
         "spatie/laravel-permission": "^5.9",

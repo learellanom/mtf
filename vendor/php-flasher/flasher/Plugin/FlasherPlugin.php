@@ -164,8 +164,8 @@ final class FlasherPlugin extends Plugin
                 $config['scripts'] = array('cdn' => $config['scripts'], 'local' => $config['scripts']);
             }
 
-            $config['scripts']['cdn'] = (array) $config['scripts']['cdn'];
-            $config['scripts']['local'] = (array) $config['scripts']['local'];
+            //$config['scripts']['cdn'] = (array) $config['scripts']['cdn'];
+            //$config['scripts']['local'] = (array) $config['scripts']['local'];
         }
 
         $deprecatedKeys = array();
