@@ -248,6 +248,7 @@ if (isset($balance->Total)){
 
                                         $TasaCambio             = $row->TasaCambioBase;
                                         $Monto                  = $row->MontoBase;
+                                        $Monto                  = $row->Monto;
                                      
 
                                     }else{
