@@ -1,21 +1,21 @@
 @extends('adminlte::page')
 
-@section('title', 'Pagos del Proveedor')
+@section('title', 'Cobros del Proveedor')
 
 @section('content_header')
 
-    <h1 class="text-center text-dark font-weight-bold text-uppercase">{{ __('Pagos del Proveedor') }} <i class="fas fa-box"></i> </h1></a>
+    <h1 class="text-center text-dark font-weight-bold text-uppercase">{{ __('Cobros del Proveedor') }} <i class="fas fa-box"></i> </h1></a>
 
 
 @stop
 
 @section('content')
 
-@can('transactions.create_pagowallet')
-<a class="btn btn-dark" title="Crear transaccion" href={{ route('transactions.create_pagowallet') }}>
+@can('transactions.create_cobrowallet')
+<a class="btn btn-dark" title="Crear transaccion" href={{ route('transactions.create_cobrowallet') }}>
     <i class="fas fa-plus-circle"></i>
-    <span class="d-none d-lg-inline-block text-uppercase font-weight-bold">{{ __('Pago') }}</span>
-    <span class="d-none d-md-inline-block text-uppercase font-weight-bold">{{ __('del Proveedor') }}</span>
+    <span class="d-none d-lg-inline-block text-uppercase font-weight-bold">{{ __('Cobros') }}</span>
+    <span class="d-none d-md-inline-block text-uppercase font-weight-bold">{{ __('al Proveedor') }}</span>
 </a>
 @endcan
 
@@ -25,7 +25,7 @@
     <div class="col-md-12">
         <div class="card mb-4">
             <div class="card-header">
-                <h3 class="card-title text-uppercase font-weight-bold">{{ __('Pagos del Proveedor') }}</h3>
+                <h3 class="card-title text-uppercase font-weight-bold">{{ __('Cobros del Proveedor') }}</h3>
             </div>
             <div class="card-body">
                 <div class="row">

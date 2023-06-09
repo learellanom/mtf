@@ -448,6 +448,110 @@ class TransactionController extends Controller
          return Redirect::route('transactions.index_pagoclientes');
     }
 
+    public function index_cobrowallet(transaction $transaction)
+    {
+         foreach(auth()->user()->roles as $roles)
+         {
+                $transactiones = DB::select('select
+                mtf.transactions.id as TransactionId,
+                    pay_number as TransferNumber,
+                IF(type_transactions.name = "Nota de Debito a Caja de Efectivo" or type_transactions.name = "Nota de debito", "Destino", "Origen") as TransferType,
+                    wallet_id as WalletIdOrigen,
+                    wallets.name as WalletNameOrigen,
+                    group_id  as GroupIdOrigen,
+                    groups.name as GroupNameOrigen,
+                    amount_total as Amount,
+                    transaction_date as TransactionDate,
+                    users.name as Agente,
+                    status as estatus,
+                    type_transaction_id as TypeTransactionId,
+                    transactions.description as Description,
+                    type_transactions.name as TypeTransactionName,
+                    transactions.amount_commission as ComisionBase,
+                    transactions.percentage as PorcentageBase,
+                    transactions.exonerate as ExonerateBase,
+                    transactions.amount_total as TotalBase
+                    from mtf.transactions
+                    left join  mtf.wallets on mtf.transactions.wallet_id = wallets.id
+                    left join  mtf.groups on mtf.transactions.group_id = groups.id
+                    left join  mtf.type_transactions on mtf.transactions.type_transaction_id  = mtf.type_transactions.id
+                    left join  mtf.users on mtf.transactions.user_id  = mtf.users.id
+                    where pay_number LIKE "%C-G" != "" order by pay_number desc');
+
+         }
+
+
+         return view('transactions.index_cobrowallet', compact('transactiones'));
+
+    }
+
+    public function create_cobrowallet(transaction $transaction)
+    {
+
+        $type_coin          = Type_coin::pluck('name', 'id');
+        $type_transaction   = Type_transaction::whereIn('name', ['Cobro en efectivo', 'Cobro en Transferencia', 'Cobro Mercancia'])->pluck('name','id');
+        $type_transaction2  = Type_transaction::whereIn('name', ['Nota de Debito a Caja de Efectivo', 'Nota de debito'])->pluck('name','id');
+        $wallet             = Wallet::pluck('name', 'id');
+        $wallet2            = Wallet::pluck('name', 'id');
+        $user               = User::pluck('name', 'id');
+        $fecha              = Carbon::now();
+
+        $number = date('YmdHis').'C-G';
+
+
+        return view('transactions.create_cobrowallet', compact('type_coin', 'type_transaction', 'type_transaction2', 'number', 'wallet', 'wallet2', 'user', 'transaction', 'fecha'));
+    }
+
+    public function store_cobrowallet(Request $request)
+    {
+        $user = Auth::id();
+        $transactions = new Transaction;
+
+        $transactions->type_transaction_id      = $request->input('type_transaction_id');
+        $transactions->wallet_id                = $request->input('wallet_id');
+        $transactions->amount                   = $request->input('amount');
+        $transactions->amount_total             = $request->input('amount_total');
+        $transactions->transaction_date         = $request->input('transaction_date');
+        $transactions->description              = $request->input('description');
+        $transactions->pay_number               = $request->input('pay_number');
+        $transactions->amount_commission_base   = $request->input('amount_commission_base');
+        $transactions->percentage_base          = $request->input('percentage_base');
+        $transactions->exonerate_base           = $request->input('exonerate_base');
+        $transactions->amount_base              = $request->input('amount');
+        $transactions->amount_total_base        = $request->input('amount_total_base');
+        $transactions->user_id                  = $user;
+
+        $transactions->save();
+
+
+
+        $transactions2 = new Transaction;
+
+        $transactions2->type_transaction_id     = $request->input('type_transaction2_id');
+        $transactions2->wallet_id               = $request->input('wallet2_id');
+        $transactions2->amount                  = $request->input('amount');
+        $transactions2->amount_total            = $request->input('amount_total');
+        $transactions2->transaction_date        = $request->input('transaction_date');
+        $transactions2->description             = $request->input('description2');
+        $transactions2->pay_number              = $request->input('pay_number');
+        $transactions2->amount_commission_base  = $request->input('amount_commission_base');
+        $transactions2->percentage_base         = $request->input('percentage_base');
+        $transactions2->exonerate_base          = $request->input('exonerate_base');
+        $transactions2->amount_base             = $request->input('amount');
+        $transactions2->amount_total_base       = $request->input('amount_total_base');
+        $transactions2->user_id                 = $user;
+        $transactions2->save();
+
+         flash()->addSuccess('Movimiento guardado', 'Cobro entre proveedores :D', ['timeOut' => 3000]);
+
+         return Redirect::route('transactions.index_cobrowallet');
+    }
+
+
+
+
+
+
     public function updatestatus_pago(Request $request, $transaction)
     {
             $transferencia = Transaction::find($transaction);

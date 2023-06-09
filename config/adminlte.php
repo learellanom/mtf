@@ -410,8 +410,17 @@ return [
             'active'      => ['movimientos/indice_pagos', 'movimientos/pago_cajas'],
             'can'         => 'transactions.index_pagowallet',
             'icon'        => 'fas fa-fw fas fa-box-open',
-            'label'       => 'OP',
-            'label_color' =>'success'
+            'label'       => 'T-G',
+            'label_color' => 'light'
+        ],
+        [
+            'text'        => 'Cobros del proveedor',
+            'url'         => 'movimientos/indice_cobros',
+            'active'      => ['movimientos/indice_cobros', 'movimientos/cobros_proveedores'],
+            'can'         => 'transactions.index_cobrowallet',
+            'icon'        => 'fas fa-fw fas fa-archive',
+            'label'       => 'C-G',
+            'label_color' =>'primary'
         ],
         [
             'text'        => 'Pagos entre clientes',
@@ -419,7 +428,7 @@ return [
             'active'      => ['movimientos/indice_pagoclientes','movimientos/pago_clientes'],
             'can'         => 'transactions.index_pagoclientes',
             'icon'        => 'fas fa-fw fa-user-friends',
-            'label'       => 'T',
+            'label'       => 'T-C',
             'label_color' =>'danger'
         ],
 
@@ -429,8 +438,8 @@ return [
             'active'      => ['credito'],
             'icon'        => 'fas fa-fw fas fa-box',
             'can'         => 'transactions.credit',
-            'label'       => 'OP',
-            'label_color' =>'success',
+            'label'       => 'C-D',
+            'label_color' => 'secondary',
         ],
         //
         // Master
