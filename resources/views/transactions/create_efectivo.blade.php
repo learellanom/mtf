@@ -72,7 +72,7 @@
                         {!! Form::Label('exchange_rate', "Tasa:") !!}
                         <div class="input-group-text">
                             <i class="fa-fw fas fa-random mr-2"></i>
-                        {!! Form::text('exchange_rate',null, ['class' => 'form-control', 'required' => true, 'id' => 'tasa', 'min' => 0, 'readonly' => true]) !!}
+                        {!! Form::text('exchange_rate',null, ['class' => 'form-control rateMask', 'required' => true, 'id' => 'tasa', 'min' => 0, 'readonly' => true]) !!}
                         </div>
                     </div>
 
@@ -81,7 +81,7 @@
                         {!! Form::Label('monto', "Monto en moneda extranjera:") !!}
                         <div class="input-group-text">
                             <i class="fa-fw fas fa-coins mr-2"></i>
-                        {!! Form::text('amount_foreign_currency',null, ['class' => 'form-control', 'required' => true, 'id' => 'monto', 'min' => 0, 'readonly' => true]) !!}
+                        {!! Form::text('amount_foreign_currency',null, ['class' => 'form-control general', 'required' => true, 'id' => 'monto', 'min' => 0, 'readonly' => true]) !!}
                         </div>
 
                     </div>
