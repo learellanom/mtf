@@ -194,7 +194,7 @@ class statisticsController extends Controller
                     Transactions.id                        as Id,
                     Transactions.amount_foreign_currency   as MontoMoneda,
                     Transactions.exchange_rate             as TasaCambio,
-                    Transactions.exchange_rate_base        as TasaCambioBase,                    
+                    Transactions.exchange_rate_base        as TasaCambioBase,
                     Transactions.type_coin_id              as TipoMonedaId,
                     type_coins.name                        as TipoMoneda,
                     users.name                             as AgenteName,
