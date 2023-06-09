@@ -22,7 +22,7 @@
 
               <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
                 <li class="nav-item" role="presentation">
-                  <button class="nav-link active" id="pills-home-tab" data-toggle="pill" data-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">{{ __('Movimiento') }}</button>
+                  <button class="nav-link active text-uppercase font-weight-bold" id="pills-home-tab" data-toggle="pill" data-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">{{ __('PAGOS') }}</button>
                 </li>
 
               </ul>
@@ -32,7 +32,7 @@
 
                     <div class="form-row">
 
-                        <div class="form-group col-md-6" >
+                        <div class="form-group col-md-6">
                             {!! Form::Label('group_id', "Cliente de origen:") !!}
                             <div class="input-group-text col-md-12">
                                 <i class="fa-fw fas fa-random mr-2"></i>
@@ -72,7 +72,7 @@
                     </div>
                     </div>
 
-                        {!! Form::hidden('amount_total',null, ['class' => 'form-control montototal', 'required' => true, 'min' => 0, 'id' => 'montototal']) !!}
+                        {!! Form::hidden('amount_total_2',null, ['class' => 'form-control montototal', 'required' => true, 'min' => 0, 'id' => 'montototal2']) !!}
 
                         {!! Form::hidden('status', 'Activo', null, ['class' => 'form-control']) !!}
 
@@ -95,23 +95,23 @@
                 </div>
 
                 <hr class="bg-dark esconder comi" style="height:1px;">
-                <h4 class="text-uppercase font-weight-bold text-center esconder comi">Comisión Base  </h4>
+                <h4 class="text-uppercase font-weight-bold text-center esconder comi">Comisión Origen  </h4>
                 <div class="form-row esconder comi">
 
                     <div class="form-group col-md-6">
-                        {!! Form::Label('percentage_base', "Porcentaje Base:") !!}
+                        {!! Form::Label('percentage_base', "Porcentaje Origen:") !!}
                         <div class="input-group-text">
                             <i class="fa-fw fas fa-percentage mr-2"></i>
-                        {!! Form::text('percentage_base',null, ['class' => 'form-control percentage_base rateMask',  'min' => 0, 'id' => 'percentage_base']) !!}
+                        {!! Form::text('percentage',null, ['class' => 'form-control percentage rateMask',  'min' => 0, 'id' => 'percentage_base']) !!}
                         </div>
                     </div>
 
                     <div class="form-group col-md-6">
 
-                        {!! Form::Label('amount_commission_base', "Monto Comisión Base:") !!}
+                        {!! Form::Label('comision_base', "Monto Comisión Origen:") !!}
                         <div class="input-group-text">
                             <i class="fa-fw fas fa-coins mr-2"></i>
-                        {!! Form::text('amount_commission_base',null, ['class' => 'form-control comision_base general', 'min' => 0, 'readonly' => true, 'id' => 'comision_base']) !!}
+                        {!! Form::text('commission',null, ['class' => 'form-control comision_base general', 'min' => 0, 'readonly' => true, 'id' => 'comision_base']) !!}
                         </div>
 
                     </div>
@@ -120,27 +120,27 @@
                 <div class="form-group col-md-12 d-flex justify-content-center">
 
                     <label class="form-check-label mx-auto esconder comi" for="radio1_base">
-                        {!! Form::radio('exonerate_base',2, null, ['id' => 'radio1_base', 'class' => 'exonerar_base']) !!}
-                        Exonerar comisión base
+                        {!! Form::radio('exonerate',2, null, ['id' => 'radio1_base', 'class' => 'exonerar_base']) !!}
+                        Exonerar comisión origen
                     </label>
 
                     <label class="form-check-label mx-auto esconder comi" for="radio3_base">
-                        {!! Form::radio('exonerate_base',1, null, ['id' => 'radio3_base', 'class' => 'incluir_base']) !!}
-                        Incluir comisión base
+                        {!! Form::radio('exonerate',1, null, ['id' => 'radio3_base', 'class' => 'incluir_base']) !!}
+                        Incluir comisión origen
                     </label>
 
 
                     <label class="form-check-label mx-auto esconder comi" for="radio2_base">
-                        Descontar comisión base
-                        {!! Form::radio('exonerate_base',3, null, ['id' => 'radio2_base', 'class' => 'descontar_base']) !!}
+                        Descontar comisión origen
+                        {!! Form::radio('exonerate',3, null, ['id' => 'radio2_base', 'class' => 'descontar_base']) !!}
                     </label>
 
                 </div>
                 <div class="form-group col-md">
-                    {!! Form::Label('amount_total_base', "Monto total Base:") !!}
+                    {!! Form::Label('montototal', "Monto total:") !!}
                     <div class="input-group-text">
                         <i class="fa-fw fas fas fa-coins mr-2"></i>
-                    {!! Form::text('amount_total_base', null, ['class' => 'form-control', 'id' => 'montototal_base', 'readonly' => true ]) !!}
+                    {!! Form::text('amount_total', null, ['class' => 'form-control', 'id' => 'montototal', 'readonly' => true ]) !!}
                     </div>
                 </div>
 
@@ -342,7 +342,7 @@ $('.general').inputmask({
 
 $('#monto_dolares').on('input', function() {
         var dolar = $('#monto_dolares').val();
-        $('#montototal_base').val(dolar).inputmask({
+        $('#montototal').val(dolar).inputmask({
                 alias: 'decimal',
                 allowMinus: false,
                 autoUnmask:true,
@@ -411,10 +411,10 @@ $('#monto_dolares').on('input', function() {
     /* OCULTAR LA CAJA SELECCIONADA */
 
 
-$('.percentage_base').on('input', function() { //FUNCION DE PORCENTAJE BASE
+$('.percentage').on('input', function() { //FUNCION DE PORCENTAJE BASE
 
 $('#comision_base').prop('readonly', true);
-$('#montototal_base').prop('readonly', true);
+$('#montototal').prop('readonly', true);
 
 
 comision_base = $('#comision_base').val();
@@ -447,7 +447,7 @@ if(porcentage_base > 0){
     if(incluir_base.checked){
 
     monto_base = (Number(montototal_base) + Number(comision_base));
-    $('#montototal_base').val(monto_base).inputmask({
+    $('#montototal').val(monto_base).inputmask({
         alias: 'decimal',
         allowMinus: false,
         autoUnmask:true,
@@ -464,7 +464,7 @@ if(porcentage_base > 0){
 
     if(descontar_base.checked){
         monto_base = (Number(montototal_base) - Number(comision_base));
-        $('#montototal_base').val(monto_base).inputmask({
+        $('#montototal').val(monto_base).inputmask({
         alias: 'decimal',
         allowMinus: false,
         autoUnmask:true,
@@ -482,7 +482,7 @@ if(porcentage_base > 0){
  }else if(porcentage_base == null){
     if(exonerar_base.checked){
           monto_base = Number($('#monto_dolares').val());
-          $('#montototal_base').val(monto_base).inputmask({
+          $('#montototal').val(monto_base).inputmask({
             alias: 'decimal',
             allowMinus: false,
             autoUnmask:true,
@@ -505,7 +505,7 @@ if(porcentage_base > 0){
 comision_base = $('#comision_base').val();
 porcentage_base = $('#percentage_base').val();
 montototal_base = $('#monto_dolares').val();
-monto_real_base = $('#montototal_base').val();
+monto_real_base = $('#montototal').val();
 
 exonerar_base = document.getElementById("radio1_base");
 descontar_base = document.getElementById("radio2_base");
@@ -520,7 +520,7 @@ $("#radio1_base").on('click', function() {
     $('#percentage_base').attr("readonly", true);
 
     var monto_final = $('#monto_dolares').val();
-     $('#montototal_base').val(monto_final).inputmask({
+     $('#montototal').val(monto_final).inputmask({
             alias: 'decimal',
             allowMinus: false,
             autoUnmask:true,
@@ -542,7 +542,7 @@ $("#radio1_base").on('click', function() {
 
     monto_final2 = (Number(montototal_base) + Number(comision_base));
 
-    $('#montototal_base').val(monto_final2).inputmask({
+    $('#montototal').val(monto_final2).inputmask({
             alias: 'decimal',
             allowMinus: false,
             autoUnmask:true,
@@ -564,7 +564,7 @@ $('#radio2_base').change(function() {
     //$('#percentage_base').attr("readonly", false);
 
     monto_final = (Number(montototal_base) - Number(comision_base));
-    $('#montototal_base').val(monto_final).inputmask({
+    $('#montototal').val(monto_final).inputmask({
             alias: 'decimal',
             allowMinus: false,
             autoUnmask:true,
@@ -583,7 +583,7 @@ $('#radio2_base').change(function() {
 /* LLAMADO DE CALCULO DE COMISIONES BASE */
 
 
-$('.percentage_base').on('input', function() {
+$('.percentage').on('input', function() {
 
 $('#comision_base').prop('readonly', true);
 

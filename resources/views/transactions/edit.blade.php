@@ -571,13 +571,16 @@ $(document).ready(function() {
 
             //monto_real = document.getElementById("comision_base");
 
-            keyup = function(){
+
                 if(porcentage.value > 0){
                     montottotal = (montototal.value * porcentage.value / 100);
                     comision.value =  montottotal.toFixed(2);
                 }
+                else if(porcentage.value === null){
+                    console.log('..')
+                }
 
-            }
+
 
         })
 

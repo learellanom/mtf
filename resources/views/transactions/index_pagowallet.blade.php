@@ -4,7 +4,7 @@
 
 @section('content_header')
 
-    <h1 class="text-center text-dark font-weight-bold">{{ __('Pagos del Proveedor') }} <i class="fas fa-box"></i> </h1></a>
+    <h1 class="text-center text-dark font-weight-bold text-uppercase">{{ __('Pagos del Proveedor') }} <i class="fas fa-box"></i> </h1></a>
 
 
 @stop

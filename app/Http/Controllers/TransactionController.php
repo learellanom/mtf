@@ -316,7 +316,7 @@ class TransactionController extends Controller
         $transactions->amount_commission_base   = $request->input('amount_commission_base');
         $transactions->percentage_base          = $request->input('percentage_base');
         $transactions->exonerate_base           = $request->input('exonerate_base');
-        $transactions->amount_base              = $request->input('amount');        
+        $transactions->amount_base              = $request->input('amount');
         $transactions->amount_total_base        = $request->input('amount_total_base');
         $transactions->user_id                  = $user;
 
@@ -336,7 +336,7 @@ class TransactionController extends Controller
         $transactions2->amount_commission_base  = $request->input('amount_commission_base');
         $transactions2->percentage_base         = $request->input('percentage_base');
         $transactions2->exonerate_base          = $request->input('exonerate_base');
-        $transactions2->amount_base             = $request->input('amount');                
+        $transactions2->amount_base             = $request->input('amount');
         $transactions2->amount_total_base       = $request->input('amount_total_base');
         $transactions2->user_id                 = $user;
         $transactions2->save();
@@ -365,10 +365,10 @@ class TransactionController extends Controller
                     type_transaction_id as TypeTransactionId,
                     transactions.description as Description,
                     type_transactions.name as TypeTransactionName,
-                    transactions.amount_commission_base as ComisionBase,
-                    transactions.percentage_base as PorcentageBase,
-                    transactions.exonerate_base as ExonerateBase,
-                    transactions.amount_total_base as TotalBase
+                    transactions.amount_commission as ComisionBase,
+                    transactions.percentage as PorcentageBase,
+                    transactions.exonerate as ExonerateBase,
+                    transactions.amount_total as TotalBase
                     from mtf.transactions
                     left join  mtf.wallets on mtf.transactions.wallet_id = wallets.id
                     left join  mtf.groups on mtf.transactions.group_id = groups.id
@@ -408,16 +408,17 @@ class TransactionController extends Controller
 
         $transactions->type_transaction_id   = $request->input('type_transaction_id');
         $transactions->group_id              = $request->input('group_id');
-        $transactions->wallet_id              = $request->input('wallet_id');
+        $transactions->wallet_id             = $request->input('wallet_id');
         $transactions->amount                = $request->input('amount');
-        $transactions->amount_total          = $request->input('amount_total');
+        $transactions->amount_total_base     = $request->input('amount');
+        $transactions->amount_base           = $request->input('amount');
         $transactions->transaction_date      = $request->input('transaction_date');
         $transactions->description           = $request->input('description');
         $transactions->pay_number            = $request->input('pay_number');
-        $transactions->amount_commission_base = $request->input('amount_commission_base');
-        $transactions->percentage_base       = $request->input('percentage_base');
-        $transactions->exonerate_base        = $request->input('exonerate_base');
-        $transactions->amount_total_base     = $request->input('amount_total_base');
+        $transactions->amount_commission     = $request->input('commission');
+        $transactions->percentage            = $request->input('percentage');
+        $transactions->exonerate             = $request->input('exonerate');
+        $transactions->amount_total          = $request->input('amount_total');
         $transactions->user_id               = $user;
 
         $transactions->save();
@@ -428,16 +429,17 @@ class TransactionController extends Controller
 
         $transactions2->type_transaction_id   = $request->input('type_transaction2_id');
         $transactions2->group_id              = $request->input('group2_id');
-        $transactions2->wallet_id              = $request->input('wallet2_id');
+        $transactions2->wallet_id             = $request->input('wallet2_id');
         $transactions2->amount                = $request->input('amount');
-        $transactions2->amount_total          = $request->input('amount_total');
+        $transactions2->amount_total_base     = $request->input('amount');
+        $transactions2->amount_base           = $request->input('amount');
         $transactions2->transaction_date      = $request->input('transaction_date');
         $transactions2->description           = $request->input('description2');
         $transactions2->pay_number            = $request->input('pay_number');
-        $transactions2->amount_commission_base = $request->input('amount_commission_base');
-        $transactions2->percentage_base       = $request->input('percentage_base');
-        $transactions2->exonerate_base        = $request->input('exonerate_base');
-        $transactions2->amount_total_base     = $request->input('amount_total_base');
+        $transactions2->amount_commission     = 0;
+        $transactions2->percentage            = 0;
+        $transactions2->exonerate             = 2;
+        $transactions2->amount_total          = $request->input('amount');
         $transactions2->user_id               = $user;
         $transactions2->save();
 

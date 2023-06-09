@@ -93,6 +93,7 @@
 
                         {!! Form::hidden('amount_total',null, ['class' => 'form-control montototal', 'required' => true, 'min' => 0, 'id' => 'montototal', 'readonly' => true]) !!}
                         {!! Form::hidden('amount_total_base',null, ['class' => 'form-control monto_base', 'required' => true, 'min' => 0, 'id' => 'monto_base', 'readonly' => true]) !!}
+                        {!! Form::hidden('amount_base',null, ['class' => 'form-control monto_base', 'required' => true, 'min' => 0, 'id' => 'monto_base_extranjera', 'readonly' => true]) !!}
                         {!! Form::hidden('status', 'Activo', null, ['class' => 'form-control']) !!}
                     {{-- {{ dd($type_transaction) }} --}}
 
@@ -342,6 +343,7 @@ $(document).ready(function() {
             monto_dolares = document.getElementById("monto_dolares");
             montototal =   document.getElementById("montototal");
             monto_base =   document.getElementById("monto_base");
+            monto_base =   document.getElementById("monto_base");
 
             onkeyup = function(){
                 if(tasa.value == null && monto.value == null){
@@ -354,6 +356,7 @@ $(document).ready(function() {
                     //monto_total = monto_dolares;
                     montototal.value = monto_dolares.value;
                     monto_base.value = monto_dolares.value;
+                    monto_base_extranjera.value = monto_dolares.value;
                 }
             }
     }
