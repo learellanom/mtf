@@ -547,20 +547,13 @@ if (isset($balance->Total)){
                         }
                     }           
                 ],
-                // "insertCells": [
+                // insertCells: [                  // Add an insertCells config option 
                 //     {
-                //         "cells": "A2:B2",
-                //         "content": ["Cliente", `${miGrupoDes}`]
-                //         ,
-                //         "pushRow": true
+                //         cells: 's5:6',              // Target data row 5 and 6
+                //         content: '',                // Add empty content
+                //         pushRow: true               // push the rows down to insert the content
                 //     },
-                //     {
-                //         "cells": "A3:B3",
-                //         "content": ["Saldo", `${miTotal}`]
-                //         ,
-                //         "pushRow": true
-                //     }                    
-                // ]                                                                                                                   
+                //     ],                                                                                                               
             },
             {
                 extend:  'pdfHtml5',
