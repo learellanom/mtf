@@ -545,7 +545,7 @@ $("#typetrasnferencia").trigger("change");
 $(document).ready(function() {
     //$('#monto_dolares').toFixed(2);
 
-    $('.typecoin').change(function() {
+    $('.typecoin').on('change', function() {
 
         $('#tasa').val(""); // LIMPIAR TASA DE CAMBIO
         $('#monto').val(""); // LIMPIAR MONTO DE MONEDA EXTRANJERA
@@ -595,12 +595,12 @@ $(document).ready(function() {
             const total_base = document.getElementById("montototal_base");
 
             $('#monto').keyup(function(){
-                if(tasa.value > 0 || monto.value > 0){
+                //if(tasa.value > 0 || monto.value > 0){
                     monto_total = (monto.value / tasa.value);
                     monto_dolares.value =  monto_total.toFixed(2);
                     total.value =  monto_total.toFixed(2);
                     //total_base.value = monto_total.toFixed(2);
-                }
+               // }
 
             });
 
@@ -654,7 +654,8 @@ $(document).ready(function() {
         var exonerar = document.getElementById("radio1");
         var exonerar_base = document.getElementById("radio1_base");
 
-
+        $('#comision_base').prop('required', false);
+        $('#percentage_base').prop('required', false);
         $('#percentage').prop('required', false);
         $('#radio1_base').prop('required', false);
         $('#radio2_base').prop('required', false);

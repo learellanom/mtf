@@ -713,6 +713,7 @@ $('.descontar').click(function() {
 
     //$('#percentage').attr("readonly", true);
     $('#percentage_base').attr("readonly", true);
+    $('#comision_base').attr("readonly", true);
     montottotal = (montototal_base.value);
     monto_real_base.value = parseFloat(montototal_base.value).toFixed(2);
 
