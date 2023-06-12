@@ -1606,37 +1606,76 @@ class statisticsController extends Controller
 
     }
 
-        public function getWalletTransactionGroupTotal($Transacciones, $Transacciones2){
-            // dd($Transacciones);
-            // var_dump($Transacciones2);       
-            // dd();
-            
-            $myTransaccion3 = array();
-            foreach($Transacciones as $Tran){
-                foreach($Transacciones2 as $Tran2){
-                    if (
-                        $Tran->WalletId             == $Tran2->WalletId 
-                    and $Tran->TypeTransactionId    == $Tran2->TypeTransactionId               
-                    ){
-                        // $tran->miGroup = "******";
-                        echo "<br>";
-                        echo "<br>";
-                        echo "<br> del tran";
-                        echo print_r($Tran);
-                        echo "<br>";
-                        echo print_r($Tran2);
-                        echo "<br> con el encode";
-                        echo print_r(json_encode($Tran2));
+    public function getWalletTransactionGroupTotal($Transacciones, $Transacciones2){
+        // dd($Transacciones);
+        // var_dump($Transacciones2);       
+        // dd();
+        
+        $myTransaccion3 = array();
+        $myObj = [];
+        foreach($Transacciones as $Tran){
 
-                    };
+
+            $myTran2 = [];
+            foreach($Transacciones2 as $Tran2){
+                if (
+                    $Tran->WalletId             == $Tran2->WalletId 
+                and $Tran->TypeTransactionId    == $Tran2->TypeTransactionId               
+                ){
+                    array_push($myTran2,$Tran2);
+                    // $tran->miGroup = "******";
+                    // echo "<br>";
+                    // echo "<br>";
+                    // echo "<br> del tran";
+                    // echo print_r($Tran);
+                    // echo "<br>";
+                    // echo print_r($Tran2);
+                    // echo "<br> con el encode";
+                    // echo print_r(json_encode($Tran2));
+                    // echo "<br> **** myObj";
+                    // echo print_r($myObj);
                 };
+            };
 
-         
-                
-            }
-                   // dd($Transacciones2);
-            die();
+            $myObj2 = (object) array_merge(
+                (array) $Tran, 
+                (array) $myTran2);
+
+                $myObj2 = (object) array_merge(
+                    (array) $Tran, 
+                     $myTran2);
+    
+
+            array_push($myObj,json_encode($myObj2));
+
+            /*
+            echo "<br>";
+            echo "<br>";
+            echo "<br> myTran2";
+            echo print_r($myTran2);
+            */
+
+
+
+
         }
+        // dd($Transacciones2);
+
+        // echo "<br>";
+        // echo "<br>";
+        // echo "<br> myObj";
+        // echo print_r($myObj);
+
+        foreach($myObj as $Val){
+            echo "<br>";
+            echo "<br>";
+            echo "<br>";
+            echo "<br>";
+            echo "<br> myVal es : " . $Val;
+        };
+
+            die();
+    }
    /*
     *
     *
