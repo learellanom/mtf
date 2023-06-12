@@ -705,7 +705,7 @@ $(document).ready(function() {
 
 
     $('.percentage').keyup(function(e) { //FUNCION DE PORCENTAJE
-    
+
         $('#comision').prop('readonly', true);
         $('#montototal').prop('readonly', true);
 
@@ -734,7 +734,7 @@ $(document).ready(function() {
 
         }else if(is_null(porcentage.value)){
                       if(exonerar.checked){
-                        monto_real.value = parseFloat(montototal.value).toFixed(2);
+                        montoreal.value = parseFloat(montototal.value).toFixed(2);
                      }
         }
 
@@ -760,8 +760,7 @@ $(document).ready(function() {
             comision_base.value =  montottotal.toFixed(2).toString();
 
             if(incluir_base.checked){
-            montoreal_base.value = (parseFloat($('#monto_dolares').val()) + parseFloat($('#comision_base').val())).toFixed(2);
-
+                montoreal_base.value = (parseFloat($('#monto_dolares').val()) + parseFloat($('#comision_base').val())).toFixed(2);
             }
 
             if(descontar_base.checked){
@@ -807,7 +806,7 @@ $(document).ready(function() {
 
     }
     incluir.click = function (){
-        
+
         //var selectedValue = this.value;
 
         $('#percentage').attr("required", true);
