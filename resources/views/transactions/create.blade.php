@@ -848,6 +848,7 @@ $(document).ready(function() {
 
     //$('#percentage').attr("readonly", true);
     $('#percentage_base').attr("readonly", true);
+    $('#comision_base').attr("readonly", true);
 
     monto_real_base.value = parseFloat($('#monto_dolares').val()).toFixed(2);
     }
@@ -1030,7 +1031,7 @@ $('#comision_base').prop('readonly', true);
                 $('#radio3_base').prop("disabled", false);
                 $('#percentage').prop("readonly", false);
                 $('#percentage_base').prop("readonly", false);
-                $('#comision_base').prop("readonly", false);
+                $('#comision_base').prop("readonly", true);
                 $('#wallet').prop("disabled", false);
                 $('#typecoin').prop("disabled", false);
                 $('#wallet').prop("required", true);
