@@ -1305,7 +1305,7 @@ class statisticsController extends Controller
 
             $Transacciones  = $this->getwalletTransactionSummary($request);
             $Transacciones2 = $this->getWalletTransactionGroupSummary($request);
-            $this->getWalletTransactionGroupTotal($Transacciones, $Transacciones2);
+            // $this->getWalletTransactionGroupTotal($Transacciones, $Transacciones2);
 
             $balance = 0;
             if ($myWallet > 0){
@@ -1610,18 +1610,32 @@ class statisticsController extends Controller
             // dd($Transacciones);
             // var_dump($Transacciones2);       
             // dd();
-            /*
+            
+            $myTransaccion3 = array();
             foreach($Transacciones as $Tran){
-                foreach($Transacciones as $Tran2){
+                foreach($Transacciones2 as $Tran2){
+                    if (
+                        $Tran->WalletId             == $Tran2->WalletId 
+                    and $Tran->TypeTransactionId    == $Tran2->TypeTransactionId               
+                    ){
+                        // $tran->miGroup = "******";
+                        echo "<br>";
+                        echo "<br>";
+                        echo "<br> del tran";
+                        echo print_r($Tran);
+                        echo "<br>";
+                        echo print_r($Tran2);
+                        echo "<br> con el encode";
+                        echo print_r(json_encode($Tran2));
 
-                        echo $Tran2->WalletId;
-                
+                    };
                 };
 
-                dd($Transacciones2);
-
+         
+                
             }
-            */
+                   // dd($Transacciones2);
+            die();
         }
    /*
     *
