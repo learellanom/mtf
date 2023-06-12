@@ -610,9 +610,10 @@ $(document).ready(function() {
 
 
 
-    $('#c_porcentaje').change(function() { //FUNCION DE PORCENTAJE
+    $('#c_porcentaje').on('change', function() { //FUNCION DE PORCENTAJE
         //$('.boton').show();
         //$('.esconder').show();
+        //if(this.checked) {
         var dolares = $('#monto_dolares').val();
         var exonerar        = document.getElementById("radio1");
         var exonerar_base   = document.getElementById("radio1_base");
@@ -641,15 +642,26 @@ $(document).ready(function() {
 
         exonerar.removeAttribute('checked');
         exonerar_base.removeAttribute('checked');
+
+       // }// THIS CHEKED
     });
 
 
-    $('#c_tasa').change(function() { //FUNCION DE PORCENTAJE
-        //$('.boton').hide();
-        //$('.esconder').hide();
+    $('#c_tasa').on('change', function() { //FUNCION DE PORCENTAJE
+
+
         var dolares = $('#monto_dolares').val();
         var exonerar = document.getElementById("radio1");
         var exonerar_base = document.getElementById("radio1_base");
+
+
+        $('#percentage').prop('required', false);
+        $('#radio1_base').prop('required', false);
+        $('#radio2_base').prop('required', false);
+        $('#radio3_base').prop('required', false);
+        $('#radio1').prop('required', false);
+        $('#radio2').prop('required', false);
+        $('#radio3').prop('required', false);
 
         $('.base').show();
         $('.tasa_basee').show();
@@ -659,13 +671,7 @@ $(document).ready(function() {
         $('.monto_extranjera_base').show();
         $('.comi').hide();
         $('#comision').val('');
-        $('#percentage').prop('required', false);
-        $('#radio1_base').prop('required', false);
-        $('#radio2_base').prop('required', false);
-        $('#radio3_base').prop('required', false);
-        $('#radio1').prop('required', false);
-        $('#radio2').prop('required', false);
-        $('#radio3').prop('required', false);
+
         $('#percentage').val('');
         $('#percentage_base').val('');
         $('#comision_base').val('');
@@ -1015,7 +1021,7 @@ $('#comision_base').prop('readonly', true);
                 $('#radio1_base').prop("required", true);
                 $('#radio2_base').prop("required", true);
                 $('#radio3_base').prop("required", true);
-                $('#percentage').prop("required", true);
+                //$('#percentage').prop("required", true);
                 $('#tasa_base').prop("required", false);
                 $('#tasa_base').prop("readonly", false);
                 $('#radio1_base').prop("disabled", false);

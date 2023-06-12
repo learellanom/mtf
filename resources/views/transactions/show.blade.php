@@ -116,7 +116,7 @@
                                     Monto en Moneda Extranjera<i class="fas fa-exclamation-triangle"></i>
                                 </span>
                                 <span class="info-box-number text-center text-muted mb-0 text-uppercase">
-                                  {{ number_format($transactions->amount_foreign_currency,2,",",".") ?? '0.00' }} 
+                                  {{ number_format($transactions->amount_foreign_currency,2,",",".") ?? '0.00' }}
                                 </span>
                               </div>
                             </div>
@@ -127,7 +127,7 @@
 
                       <div class="row">
                         <div class="col-12">
-                        
+
                         <div class="row">
                             @if($transactions->transfer_number)
                             <div class="col-12 col-sm-3">
@@ -191,7 +191,7 @@
                                   <div class="info-box-content">
                                       <span class="info-box-text text-center text-muted">Comision Base <i class="fas fa-exclamation-triangle"></i></span>
                                       <span class="info-box-number text-center text-muted mb-0 text-uppercase">
-                                          {{ number_format($transactions->amount_commission_base,2,",",".") ?? '0,00' }} 
+                                          {{ number_format($transactions->amount_commission_base,2,",",".") ?? '0,00' }}
                                       </span>
                                   </div>
                               </div>
@@ -232,19 +232,11 @@
 
 
                       <div class="row">
-                        <div class="col-12 col-sm-2">
-                            <div class="info-box bg-light">
-                              <div class="info-box-content">
-                                <span class="info-box-text text-center text-muted">Tipo de moneda <i class="fas fa-funnel-dollar"></i></span>
-                                <span class="info-box-number text-center text-muted mb-0">{{ $transactions->type_coin->name }}</span>
-                              </div>
-                            </div>
-                          </div>
 
                           <div class="col-3 col-sm-2">
                               <div class="info-box bg-light">
                                 <div class="info-box-content">
-                                  <span class="info-box-text text-center text-muted">Tasa de cambio base<i class="fas fa-sync"></i></span>
+                                  <span class="info-box-text text-center text-muted">Tasa de cambio base <i class="fas fa-sync"></i></span>
                                   <span class="info-box-number text-center text-muted mb-0 text-uppercase">
                                     {{ number_format($transactions->exchange_rate_base,2,",",".") }}
                                   </span>
@@ -256,10 +248,10 @@
                             <div class="info-box bg-light">
                               <div class="info-box-content">
                                 <span class="info-box-text text-center text-muted">
-                                    Monto en Moneda Extranjera<i class="fas fa-exclamation-triangle"></i>
+                                    Monto Base<i class="fas fa-exclamation-triangle"></i>
                                 </span>
                                 <span class="info-box-number text-center text-muted mb-0 text-uppercase">
-                                  {{ number_format($transactions->amount_foreign_currency,2,",",".") ?? '0.00' }} 
+                                  {{ number_format($transactions->amount_base,2,",",".") ?? '0.00' }}
                                 </span>
                               </div>
                             </div>
