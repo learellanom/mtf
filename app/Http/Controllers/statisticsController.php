@@ -1305,9 +1305,10 @@ class statisticsController extends Controller
             // ajua
             $Transacciones          = $this->getwalletTransactionSummary($request);
             $Transacciones2         = $this->getWalletTransactionGroupSummary($request);
-            $TransaccionesGroups    = $this->getWalletGroups($request);            
+            $TransaccionesGroups    = $this->getWalletGroups($request);  
+            // dd($Transacciones2);            
             // dd($TransaccionesGroups);
-            // $this->getWalletTransactionGroupTotal($Transacciones, $Transacciones2);
+             $this->getWalletTransactionGroupTotal($Transacciones, $Transacciones2);
 
             $balance = 0;
             if ($myWallet > 0){
@@ -1718,9 +1719,9 @@ class statisticsController extends Controller
             $Tran->GrupoDetail = $myTran2;
 
         }
-        if(count($Transacciones[2]->GrupoDetail) > 0) {
-            dd($Transacciones[2]->GrupoDetail[0]->GroupName);
-        }
+        // if(count($Transacciones[2]->GrupoDetail) > 0) {
+        //     dd($Transacciones[2]->GrupoDetail[0]->GroupName);
+        // }
         
         dd($Transacciones);
 
