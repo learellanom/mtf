@@ -1302,9 +1302,11 @@ class statisticsController extends Controller
             ->orderBy('TypeTransactionId','ASC')
             ->get(); */
 
-
-            $Transacciones  = $this->getwalletTransactionSummary($request);
-            $Transacciones2 = $this->getWalletTransactionGroupSummary($request);
+            // ajua
+            $Transacciones          = $this->getwalletTransactionSummary($request);
+            $Transacciones2         = $this->getWalletTransactionGroupSummary($request);
+            $TransaccionesGroups    = $this->getWalletGroups($request);            
+            // dd($TransaccionesGroups);
             // $this->getWalletTransactionGroupTotal($Transacciones, $Transacciones2);
 
             $balance = 0;
@@ -1606,8 +1608,95 @@ class statisticsController extends Controller
 
     }
 
+    // ajua
+    public function getWalletGroups(Request $request){
+        // dd($request->wallet);
+        //
+        $myTypeTransaction      = 0;
+        $myTypeTransactionDesde = 0;
+        $myTypeTransactionHasta = 9999;
+        if ($request->transaction) {
+            $myTypeTransaction      = $request->transaction;
+            $myTypeTransactionDesde = $request->transaction;
+            $myTypeTransactionHasta = $request->transaction;
+
+        }
+
+        //
+
+        $myFechaDesde = "2001-01-01";
+        $myFechaHasta = "9999-12-31";
+
+        $myFechaDesde2 = "2001-01-01";
+        $myFechaHasta2 = "9999-12-31";
+
+        if ($request->fechaDesde){
+            $myFechaDesde = $request->fechaDesde;
+            $myFechaHasta = $request->fechaHasta;
+
+            $myFechaDesde2 = $myFechaDesde . " 00:00:00";
+            $myFechaHasta2 = $myFechaHasta . " 12:59:00";
+        }
+
+        if ($request->fechaHasta){
+            $myFechaHasta = $request->fechaHasta;
+            $myFechaHasta2 = $myFechaHasta . " 12:59:00";            
+        }
+        // var_dump($myFechaDesde);
+        // dd('Fecha desde -> ' . $myFechaDesde . ' Fecha Hasta -> ' . $myFechaHasta);
+
+       //
+       $myWalletDesde   = 0;
+       $myWalletHasta   = 9999;
+       $myWallet        = 0;
+       if ($request->wallet){
+           $myWalletDesde   = $request->wallet;
+           $myWalletHasta   = $request->wallet;
+           $myWallet        = $request->wallet;
+       }
+       
+       $myGroupDesde   = 0;
+       $myGroupHasta   = 9999;
+       $myGroup        = 0;
+       if ($request->group){
+           $myGroupDesde   = $request->group;
+           $myGroupHasta   = $request->group;
+           $myGroup        = $request->group;
+       }      
+
+        $Transacciones = DB::table('transactions')
+        ->select(DB::raw('
+            wallet_id                   as WalletId,
+            wallets.name                as WalletName,      
+            group_id                    as GroupId,
+            groups.name                 as GroupName,
+            count(*)                    as cant_transactions
+            '
+            ))
+        ->leftJoin('type_transactions', 'type_transactions.id', '=', 'transactions.type_transaction_id')
+        ->leftJoin('wallets',           'wallets.id', '=', 'transactions.wallet_id')
+        ->leftJoin('groups',            'groups.id', '=', 'transactions.group_id')            
+        ->where('status','<>','Anulado')
+        ->whereBetween('Transactions.wallet_id',            [$myWalletDesde, $myWalletHasta])
+        ->whereBetween('Transactions.group_id',             [$myGroupDesde, $myGroupHasta])            
+        ->whereBetween('Transactions.type_transaction_id',  [$myTypeTransactionDesde, $myTypeTransactionHasta])
+        ->whereBetween('Transactions.transaction_date',     [$myFechaDesde2, $myFechaHasta2])
+        ->groupBy('WalletId', 'WalletName', 'GroupId', 'GroupName')
+        ->orderBy('WalletId','ASC')
+        ->orderBy('GroupId','ASC')
+        ->get();
+
+       return $Transacciones;
+
+    }
+
+
+
+    //
+    // ajua
+    //
     public function getWalletTransactionGroupTotal($Transacciones, $Transacciones2){
-        // dd($Transacciones);
+         // dd($Transacciones);
         // var_dump($Transacciones2);       
         // dd();
         
@@ -1623,58 +1712,20 @@ class statisticsController extends Controller
                 and $Tran->TypeTransactionId    == $Tran2->TypeTransactionId               
                 ){
                     array_push($myTran2,$Tran2);
-                    // $tran->miGroup = "******";
-                    // echo "<br>";
-                    // echo "<br>";
-                    // echo "<br> del tran";
-                    // echo print_r($Tran);
-                    // echo "<br>";
-                    // echo print_r($Tran2);
-                    // echo "<br> con el encode";
-                    // echo print_r(json_encode($Tran2));
-                    // echo "<br> **** myObj";
-                    // echo print_r($myObj);
                 };
             };
 
-            $myObj2 = (object) array_merge(
-                (array) $Tran, 
-                (array) $myTran2);
-
-                $myObj2 = (object) array_merge(
-                    (array) $Tran, 
-                     $myTran2);
-    
-
-            array_push($myObj,json_encode($myObj2));
-
-            /*
-            echo "<br>";
-            echo "<br>";
-            echo "<br> myTran2";
-            echo print_r($myTran2);
-            */
-
-
-
+            $Tran->GrupoDetail = $myTran2;
 
         }
-        // dd($Transacciones2);
+        if(count($Transacciones[2]->GrupoDetail) > 0) {
+            dd($Transacciones[2]->GrupoDetail[0]->GroupName);
+        }
+        
+        dd($Transacciones);
 
-        // echo "<br>";
-        // echo "<br>";
-        // echo "<br> myObj";
-        // echo print_r($myObj);
+        die();
 
-        foreach($myObj as $Val){
-            echo "<br>";
-            echo "<br>";
-            echo "<br>";
-            echo "<br>";
-            echo "<br> myVal es : " . $Val;
-        };
-
-            die();
     }
    /*
     *
