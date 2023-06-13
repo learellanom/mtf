@@ -1308,7 +1308,7 @@ class statisticsController extends Controller
             $TransaccionesGroups    = $this->getWalletGroups($request);  
             // dd($Transacciones2);            
             // dd($TransaccionesGroups);
-             $this->getWalletTransactionGroupTotal($Transacciones, $Transacciones2);
+            // $this->getWalletTransactionGroupTotal($Transacciones, $Transacciones2);
 
             $balance = 0;
             if ($myWallet > 0){
@@ -1713,6 +1713,7 @@ class statisticsController extends Controller
                 and $Tran->TypeTransactionId    == $Tran2->TypeTransactionId               
                 ){
                     array_push($myTran2,$Tran2);
+                    
                 };
             };
 
@@ -1723,7 +1724,7 @@ class statisticsController extends Controller
         //     dd($Transacciones[2]->GrupoDetail[0]->GroupName);
         // }
         
-        dd($Transacciones);
+        // dd($Transacciones);
 
         die();
 
