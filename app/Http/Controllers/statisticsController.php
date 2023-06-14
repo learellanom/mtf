@@ -1306,6 +1306,8 @@ class statisticsController extends Controller
             $Transacciones          = $this->getwalletTransactionSummary($request);
             $Transacciones2         = $this->getWalletTransactionGroupSummary($request);
             $TransaccionesGroups    = $this->getWalletGroups($request);  
+            $groups             = $this->getGroups();
+            dd($groups);
             // dd($Transacciones2);            
             // dd($TransaccionesGroups);
             // $this->getWalletTransactionGroupTotal($Transacciones, $Transacciones2);
