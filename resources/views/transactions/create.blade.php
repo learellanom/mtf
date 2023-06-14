@@ -594,13 +594,13 @@ $(document).ready(function() {
             const total = document.getElementById("montototal");
             const total_base = document.getElementById("montototal_base");
 
-            $('#monto').keyup(function(){
+            $('#monto, #tasa').on('input',function(){
                 //if(tasa.value > 0 || monto.value > 0){
                     monto_total = (monto.value / tasa.value);
                     monto_dolares.value =  monto_total.toFixed(2);
                     total.value =  monto_total.toFixed(2);
-                    //total_base.value = monto_total.toFixed(2);
-               // }
+
+                //}
 
             });
 
