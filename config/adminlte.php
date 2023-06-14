@@ -398,7 +398,7 @@ return [
         [
             'text'        => 'Transferencias entre cajas',
             'url'         => 'movimientos/cajas',
-            'active'      => ['movimientos/cajas'],
+            'active'      => ['movimientos/cajas', 'movimientos/entre_cajas'],
             'can'         => 'transactions.index_transfer_wallet',
             'icon'        => 'fas fa-fw fas fa-undo',
             'label'       => 'OP',
