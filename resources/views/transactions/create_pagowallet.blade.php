@@ -17,7 +17,7 @@
   <div class="card col-md-5" style="min-height:500px !important; max-height:100%; height:100%; widht:100%;">
     <div class="card-body">
 
-      {!! Form::open(['route' => 'transactions.store_pagowallet', 'autocomplete' => 'off', 'files' => true, 'enctype' =>'multipart/form-data']) !!}
+      {!! Form::open(['route' => 'transactions.store_pagowallet', 'autocomplete' => 'off', 'files' => true, 'enctype' =>'multipart/form-data', 'id' => 'entre']) !!}
 
 
               <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
@@ -387,34 +387,14 @@ $('.general').inputmask({
      $(".oculta").val("")
      $(".oculta").trigger("change");
 
-     $('.muestra').on('change', function () {
-        var selected = $(this).val();
-        var selected2 = $('#wallet2 option:selected').val();
+        $('#entre').on('submit', function() {
+        var val1 = $('#wallet').val();
+        var val2 = $('#wallet2').val();
 
-        if(selected)
-        {
-            $('#wallet2 option[value="'+selected+'"]').prop('disabled', true);
+        if (val1 == val2) {
+            Swal.fire('Las cajas no pueden ser iguales')
+            return false; //prevent form submission
         }
-        else
-        {
-            $('#wallet2 option').prop('disabled', false);
-        }
-
-    });
-
-    $('.oculta').on('change', function () {
-        var selected = $(this).val();
-        var selected2 = $('#wallet option:selected').val();
-
-        if(selected)
-        {
-            $('#wallet option[value="'+selected+'"]').prop('disabled', true);
-        }
-        else
-        {
-            $('#wallet option').prop('disabled', false);
-        }
-
     });
  /* OCULTAR LA CAJA SELECCIONADA */
 
@@ -499,23 +479,23 @@ $('.percentage_base').on('input', function() { //FUNCION DE PORCENTAJE BASE
 
     });
 
-/* LLAMADO DE CALCULO DE COMISIONES BASE */
-$('.percentage_base').on('input', function() {
+    /* LLAMADO DE CALCULO DE COMISIONES BASE */
+    $('.percentage_base').on('input', function() {
 
-$('#comision_base').prop('readonly', true);
+    $('#comision_base').prop('readonly', true);
 
-      comision_base = $('#comision_base').val();
-      porcentage_base = $('#percentage_base').val();
-      montototal_base = $('#monto_dolares').val();
+        comision_base = $('#comision_base').val();
+        porcentage_base = $('#percentage_base').val();
+        montototal_base = $('#monto_dolares').val();
 
 
-          if(porcentage_base > 0)
-           {
-              mto = (montototal_base * porcentage_base / 100);
-              comision_base =  mto.toFixed(2);
-           }
+            if(porcentage_base > 0)
+            {
+                mto = (montototal_base * porcentage_base / 100);
+                comision_base =  mto.toFixed(2);
+            }
 
-    });
+        });
 
 
         $("#typetransaccion").on("change", function() {
