@@ -461,7 +461,7 @@ $(document).ready(function() {
 
 
 
-            $('#tasa').on('input', function(){
+            $('#tasa, #monto').on('input', function(){
                 if(tasa.value > 0 && monto.value > 0){
                     monto_total = (monto.value / tasa.value);
                     monto_dolares.value =  monto_total.toFixed(2);
