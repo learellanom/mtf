@@ -17,7 +17,7 @@
   <div class="card col-md-5" style="min-height:500px !important; max-height:100%; height:100%; widht:100%;">
     <div class="card-body">
 
-      {!! Form::open(['route' => 'transactions.store_pagocliente', 'autocomplete' => 'off', 'files' => true, 'enctype' =>'multipart/form-data']) !!}
+      {!! Form::open(['route' => 'transactions.store_pagocliente', 'autocomplete' => 'off', 'files' => true, 'enctype' =>'multipart/form-data', 'id' => 'entre']) !!}
 
 
               <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
@@ -379,34 +379,15 @@ $('#monto_dolares').on('input', function() {
      $(".oculta").val("")
      $(".oculta").trigger("change");
 
-     $('.muestra').on('change', function () {
-        var selected = $(this).val();
-        var selected2 = $('#wallet2 option:selected').val();
+     $('#entre').on('submit', function() {
+        var val1 = $('#wallet').val();
+        var val2 = $('#wallet2').val();
 
-        if(selected)
-        {
-            $('#wallet2 option[value="'+selected+'"]').prop('disabled', true);
+        if (val1 == val2) {
+            Swal.fire('Los clientes no pueden ser iguales')
+            //alert('Las clientes no pueden ser iguales');
+            return false; //prevent form submission
         }
-        else
-        {
-            $('#wallet2 option').prop('disabled', false);
-        }
-
-    });
-
-    $('.oculta').on('change', function () {
-        var selected = $(this).val();
-        var selected2 = $('#wallet option:selected').val();
-
-        if(selected)
-        {
-            $('#wallet option[value="'+selected+'"]').prop('disabled', true);
-        }
-        else
-        {
-            $('#wallet option').prop('disabled', false);
-        }
-
     });
     /* OCULTAR LA CAJA SELECCIONADA */
 
