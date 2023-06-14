@@ -106,6 +106,7 @@
                 </div>
 
                 <div class="paginate text-right">
+                    <button onclick="location.reload()" class="btn btn-primary font-weight-bold"> REFRESCAR <i class="fas fa-sync-alt"></i></button>
                     </div>
 
                       <div class="btn-group botones" data-toggle="buttons">
@@ -115,7 +116,13 @@
                         <label class="btn btn-primary" [ngClass]="{'active': !s}">
                           <input type="radio" name="options" id="c_tasa" class="c_tasa" autocomplete="off"(click)="s=false; blah();" value="2"> COMISIÓN TASA
                         </label>
-                      </div>
+
+
+                    </div>
+
+
+
+
                       <br>
                 <h4 class="text-uppercase font-weight-bold text-center esconder comi">Comisiones  </h4>
 

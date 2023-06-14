@@ -201,7 +201,7 @@
                         {!! Form::text('amount_total',null, ['class' => 'form-control montototal general font-weight-bold h1', 'required' => true, 'min' => 0, 'id' => 'montototal', 'readonly' => true]) !!}
 
 
-                        {!! Form::Label('montototal', "Monto total base:") !!}
+                        {!! Form::Label('monto_base', "Monto total base:") !!}
                         {!! Form::text('amount_total_base',null, ['class' => 'form-control montototal general font-weight-bold', 'required' => true, 'min' => 0, 'id' => 'monto_base', 'readonly' => true]) !!}
 
 
@@ -380,7 +380,7 @@
 $('#monto_dolares').on('input', function() {
         var input1Value = $('#monto_dolares').val();
         $('#montototal').val(input1Value);
-        $('#montototal_base').val(input1Value);
+        $('#monto_base').val(input1Value);
      });
 
 
@@ -434,7 +434,7 @@ $(document).ready(function() {
                     monto_dolares.value =  monto_total.toFixed(2);
                     //log.value =  monto_total.toFixed(2);
                 }
-        }
+         }
     }
     else if ($(this).val() == null)
     {
@@ -458,37 +458,53 @@ $(document).ready(function() {
 
             monto_dolares = document.getElementById("monto_dolares");
             const log = document.getElementById("montototal");
-
+            const log_base = document.getElementById("monto_base");
 
 
             $('#tasa, #monto').on('input', function(){
                 if(tasa.value > 0 && monto.value > 0){
                     monto_total = (monto.value / tasa.value);
                     monto_dolares.value =  monto_total.toFixed(2);
-                    log.value =  monto_total.toFixed(2);
+                    log.value =  parseFloat(monto_total);
+                    log_base.value = parseFloat(monto_total);
                 }
-                else if(monto_dolares.value == NaN){
-                    monto_dolares.value = 'Por favor use punto en vez de coma.'
+                else{
 
-                }else{
-
-                    log.value = monto_dolares.toFixed(2);
+                    log.value = parseFloat(monto_dolares);
+                    log_base.value = parseFloat(monto_dolares);
                 }
 
             });
 
-            keyup = function(){
+         /*    keyup = function(){
             if(tasa.value!="" && monto.value!=""){
                 monto_total = (monto.value / tasa.value);
-                monto_dolares.value =  monto_total.toFixed(2);
+                monto_dolares.value =  parseFloat(monto_total);
 
             }
 
-        };
+        }; */
 
 
 
      } //CIERRE DE CONDICION QUE CALCULA TIPO DE CAMBIO
+
+        var exonerar        = document.getElementById("radio1");
+        var descontar        = document.getElementById("radio2");
+        var incluir        = document.getElementById("radio3");
+
+        var exonerar_base   = document.getElementById("radio1_base");
+        var descontar_base   = document.getElementById("radio2_base");
+        var incluir_base   = document.getElementById("radio3_base");
+
+        exonerar.removeAttribute('checked');
+        exonerar_base.removeAttribute('checked');
+        incluir.removeAttribute('checked');
+        incluir_base.removeAttribute('checked');
+        descontar.removeAttribute('checked');
+        descontar_base.removeAttribute('checked');
+
+
   }) //CIERRE DE .READY
 
 
@@ -617,15 +633,18 @@ if($("#radio1").length == 0) {
 else{
     exonerar.click = function (){
 
-    $('#comision').val(""); // LIMPIAR COMISION
-    $('#percentage').val("");  // LIMPIAR PORCENTAJE
-    $('#percentage_base').val("");  // LIMPIAR PORCENTAJE
-    $('#comision_base').val("");  // LIMPIAR PORCENTAJE
+    if( $('#radio1').is(':checked') ) {
 
-    $('#percentage').attr("readonly", true);
-    $('#percentage_base').attr("readonly", true);
-    montottotal = (montototal.value);
-    monto_real.value = parseFloat(montototal.value).toFixed(2);
+        $('#comision').val(""); // LIMPIAR COMISION
+        $('#percentage').val("");  // LIMPIAR PORCENTAJE
+
+
+        $('#percentage').attr("readonly", true);
+
+        montottotal = (montototal.value);
+        monto_real.value = parseFloat(montototal.value);
+
+    }
 
   }
 }
@@ -636,13 +655,16 @@ if($("#radio3").length == 0) {
 }
 else{
 incluir.click = function (){
-      //var selectedValue = this.value;
 
-      $('#percentage').attr("required", true);
-      $('#percentage').attr("readonly", false);
-      $('#percentage_base').attr("readonly", false);
+    if( $('#radio3').is(':checked') ) {
 
-      monto_real.value = (parseFloat($('#monto_dolares').val()) + parseFloat($('#comision').val())).toFixed(2);
+        $('#percentage').attr("required", true);
+        $('#percentage').attr("readonly", false);
+
+
+        monto_real.value = (parseFloat($('#monto_dolares').val()) + parseFloat($('#comision').val()));
+     }
+
     }
 }
 if($("#radio2").length == 0) {
@@ -651,12 +673,14 @@ if($("#radio2").length == 0) {
 }
 else{
     descontar.click = function (){
-        //$('.comi').show();
-        $('#percentage').attr("required", true);
-        $('#percentage').attr("readonly", false);
-        $('#percentage_base').attr("readonly", false);
+        if( $('#radio2').is(':checked') ) {
 
-        monto_real.value = (parseFloat($('#monto_dolares').val()) - parseFloat($('#comision').val())).toFixed(2);
+            $('#percentage').attr("required", true);
+            $('#percentage').attr("readonly", false);
+
+
+            monto_real.value = (parseFloat($('#monto_dolares').val()) - parseFloat($('#comision').val()));
+        }
     }
 }
 
@@ -754,31 +778,31 @@ $('.descontar').click(function() {
             /* PORCENTAJE BASE */
             $('.exonerar_base').click(function() {
 
-        exonerar_base.click(function (){
-        if(exonerar_base.click()){
-            return;
-        }
-        })
+            exonerar_base.click(function (){
+            if(exonerar_base.click()){
+                return;
+            }
+            })
 
         })
 
         $('.incluir_base').click(function() {
 
-        incluir_base.click(function (){
-        if(incluir_base.click()){
-            return;
-        }
-        })
+            incluir_base.click(function (){
+            if(incluir_base.click()){
+                return;
+            }
+            })
 
         })
 
         $('.descontar_base').click(function() {
 
-        descontar_base.click(function (){
-            if(descontar_base.click()){
-            return;
-            }
-         })
+            descontar_base.click(function (){
+                if(descontar_base.click()){
+                return;
+                }
+            })
         })
 
 
