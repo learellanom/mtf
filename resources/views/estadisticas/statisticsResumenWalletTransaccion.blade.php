@@ -161,8 +161,10 @@ $config4 = [
             </div>            
             <div class="card-body">
                 <div class="row">
-                    <div class="col-md-12">
-                        <table class="table table-bordered table-responsive-lg" id="table" style="width:100%;">
+                    
+                    <div class="col-md-12" style="position: relative; overflow: auto; width: 100%;">
+                    <!-- <div class="col-md-12" style="position: relative; overflow: auto; width: 100%;">                     -->
+                        <table class="table table-bordered table-responsive-lg  nowrap"  id="table" >
                             <thead>
                                 <tr>
 
@@ -175,11 +177,18 @@ $config4 = [
                                     <th style="width:10%;">Monto comision</th>
                                     <th style="width:10%;">Monto Ganancia comision</th>                                    
                                     <th style="width:1%;">Ver <i class="fas fa-search"></i></th>
-                                </tr>
+                                    @foreach($groups as $grs)
+                                            <th style="width:10%;">{!! $grs !!}</th>
+                                    @endforeach
+                                    <!-- @for($i=1;$i<20;$i++)
+                                        <th style="width:10%;">Columna adicional {!! $i !!}</th>    
+                                    @endfor -->
+                                </tr>                                
                             </thead>
                             @foreach($Transacciones as $row)
 
                                 @php
+                                    // dd($Transacciones);
                                     if($row->total_amount_commission_base <= 0){
                                         $myTotal = 0;
                                     }else{
@@ -203,6 +212,15 @@ $config4 = [
                                             <i class="fa fa-lg fa-fw fa-eye"></i>
                                         </a>
                                     </td>
+
+                                    <!-- @for($i=1;$i<20;$i++)
+                                        <td >Columna adicional {!! $i !!}</td>    
+                                    @endfor      -->
+
+                                    @foreach($row->GrupoDetail as $grs)
+                                        <td style="width:10%;">{!! $grs->total_amount !!}</td>
+                                    @endforeach                                                                   
+
                                 </tr>
 
                             @endforeach
@@ -222,171 +240,197 @@ $config4 = [
 
     $(document).ready(function () {
         $('#table').DataTable( {
-
             language: {
-            "decimal": "",
-            "emptyTable": "No hay transacciones.",
-            "info": "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
-            "infoEmpty": "Mostrando 0 to 0 de 0 Entradas",
-            "infoFiltered": "(Filtrado de _MAX_ total entradas)",
-            "infoPostFix": "",
-            "thousands": ",",
-            "lengthMenu": "Mostrar _MENU_ Entradas",
-            "loadingRecords": "Cargando...",
-            "processing": "Procesando...",
-            "search": "Buscar:",
-            "zeroRecords": "Sin resultados encontrados",
-            "paginate": {
-                "first": "Primero",
-                "last": "Ultimo",
-                "next": "Siguiente",
-                "previous": "Anterior"
-            }
-        },
-        "order": [[ 1, 'asc' ]],
-        'dom' : 'Bfrtilp',
-        'buttons':[
-            {
-                extend:  'excelHtml5',
-                exportOptions: { columns: [ 0, 1, 2, 3, 4, 5, 6 ] },
-                text:    '<i class="fas fa-file-excel"></i>',
-                titleAttr: 'Exportar Excel',
-                className: 'btn btn-success',
-                "excelStyles": [
-                    {
-                        "template": ["title_medium", "gold_medium"]
-                    },
-                    {
-                        "cells": "1",
-                        "style": {
-                            "font": {
-                                "size": "20",
-                                "color": "FFFFFF"
-                            },
-                            "fill": {
-                                "pattern": {
-                                    "size": "25",
-                                    "type": "solid",
-                                    "color": "0B2447",
+                "decimal": "",
+                "emptyTable": "No hay transacciones.",
+                "info": "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
+                "infoEmpty": "Mostrando 0 to 0 de 0 Entradas",
+                "infoFiltered": "(Filtrado de _MAX_ total entradas)",
+                "infoPostFix": "",
+                "thousands": ",",
+                "lengthMenu": "Mostrar _MENU_ Entradas",
+                "loadingRecords": "Cargando...",
+                "processing": "Procesando...",
+                "search": "Buscar:",
+                "zeroRecords": "Sin resultados encontrados",
+                "paginate": {
+                    "first": "Primero",
+                    "last": "Ultimo",
+                    "next": "Siguiente",
+                    "previous": "Anterior"
+                }
+            },
+            "order": [[ 1, 'asc' ]],
+            scrollX:        true,
+            scrollCollapse: true,
+            paging:         true, 
+            // fixedColumns: true,
+            // fixedColumns:   {
+            //     left: 1
+            // },                 
+            'dom' : 'Bfrtilp',
+            'buttons':[
+                {
+                    extend:  'excelHtml5',
+                    exportOptions: { columns: [ 0, 1, 2, 3, 4, 5, 6 ] },
+                    text:    '<i class="fas fa-file-excel"></i>',
+                    titleAttr: 'Exportar Excel',
+                    className: 'btn btn-success',
+                    "excelStyles": [
+                        {
+                            "template": ["title_medium", "gold_medium"]
+                        },
+                        {
+                            "cells": "1",
+                            "style": {
+                                "font": {
+                                    "size": "20",
+                                    "color": "FFFFFF"
+                                },
+                                "fill": {
+                                    "pattern": {
+                                        "size": "25",
+                                        "type": "solid",
+                                        "color": "0B2447",
+                                    }
                                 }
                             }
-                        }
-                    },
-                    {
-                        "cells": "2",
-                        "style": {
-                            "font": {
-                                "size": "18",
-                                "color": "FFFFFF"
-                            },
-                            "fill": {
-                                "pattern": {
-                                    "type": "solid",
-                                    "color": "002B5B"
+                        },
+                        {
+                            "cells": "2",
+                            "style": {
+                                "font": {
+                                    "size": "18",
+                                    "color": "FFFFFF"
+                                },
+                                "fill": {
+                                    "pattern": {
+                                        "type": "solid",
+                                        "color": "002B5B"
+                                    }
+                                },
+
+                            }
+                        },
+                        {
+                            "cells": "sA",
+                            "width": 25,
+                            
+                        },
+                        {
+                            "cells": "sB",
+                            "width": 45,
+                        },
+                        {
+                            'cells': "sC",
+                            "width": 15,
+                            "style": {
+                                "numFmt": "#,##0;(#,##0)",
+                                "alignment":{
+                                    "vertical": "right",
+                                    "horizontal" : "right"
+                                }                            
+                            }                    
+                        },
+                        {
+                            "cells": "sD",
+                            "width": 20,                 
+                            "style": {
+                                "numFmt": "#,#0;(#,#0)",
+                                "alignment":{
+                                    "vertical": "right",
+                                    "horizontal" : "right"
                                 }
-                            },
-
-                        }
-                    },
-                    {
-                        "cells": "sA",
-                        "width": 25,
-                        
-                    },
-                    {
-                        "cells": "sB",
-                        "width": 45,
-                    },
-                    {
-                        'cells': "sC",
-                        "width": 15,
-                        "style": {
-                            "numFmt": "#,##0;(#,##0)",
-                            "alignment":{
-                                "vertical": "right",
-                                "horizontal" : "right"
-                            }                            
-                        }                    
-                    },
-                    {
-                        "cells": "sD",
-                        "width": 20,                 
-                        "style": {
-                            "numFmt": "#,#0;(#,#0)",
-                            "alignment":{
-                                "vertical": "right",
-                                "horizontal" : "right"
                             }
-                        }
-                    },
-                    {
-                        "cells": "sE",
-                        "width": 20,                 
-                        "style": {
-                            "numFmt": "#,#0;(#,#0)",
-                            "alignment":{
-                                "vertical": "right",
-                                "horizontal" : "right"
+                        },
+                        {
+                            "cells": "sE",
+                            "width": 20,                 
+                            "style": {
+                                "numFmt": "#,#0;(#,#0)",
+                                "alignment":{
+                                    "vertical": "right",
+                                    "horizontal" : "right"
+                                }
                             }
-                        }
-                    },
-                    {
-                        "cells": "sF",
-                        "width": 20,                 
-                        "style": {
-                            "numFmt": "#,#0;(#,#0)",
-                            "alignment":{
-                                "vertical": "right",
-                                "horizontal" : "right"
+                        },
+                        {
+                            "cells": "sF",
+                            "width": 20,                 
+                            "style": {
+                                "numFmt": "#,#0;(#,#0)",
+                                "alignment":{
+                                    "vertical": "right",
+                                    "horizontal" : "right"
+                                }
                             }
-                        }
-                    },
-                    {
-                        "cells": "sF",
-                        "width": 20,                 
-                        "style": {
-                            "numFmt": "#,#0;(#,#0)",
-                            "alignment":{
-                                "vertical": "right",
-                                "horizontal" : "right"
-                            }                            
-                        }
-                    },
-                    {
-                        "cells": "sG",
-                        "width": 40,                 
-                        "style": {
-                            "numFmt": "#,#0;(#,#0)",
-                            "alignment":{
-                                "vertical": "right",
-                                "horizontal" : "right"
-                            }                            
-                        }
-                    }                                                       
-            ]                    
-            
+                        },
+                        {
+                            "cells": "sF",
+                            "width": 20,                 
+                            "style": {
+                                "numFmt": "#,#0;(#,#0)",
+                                "alignment":{
+                                    "vertical": "right",
+                                    "horizontal" : "right"
+                                }                            
+                            }
+                        },
+                        {
+                            "cells": "sG",
+                            "width": 40,                 
+                            "style": {
+                                "numFmt": "#,#0;(#,#0)",
+                                "alignment":{
+                                    "vertical": "right",
+                                    "horizontal" : "right"
+                                }                            
+                            }
+                        }                                                       
+                    ]
+                },
+                {
+                    extend:  'pdfHtml5',
+                    text:    '<i class="fas fa-file-pdf"></i>',
+                    orientation: 'landscape',
+                    title: 'MTF | Resumen Caja Transaccion',
+                    titleAttr: 'Exportar PDF',
+                    className: 'btn btn-danger',
 
-            },
-            {
-                extend:  'pdfHtml5',
-                text:    '<i class="fas fa-file-pdf"></i>',
-                orientation: 'landscape',
-                title: 'MTF | Resumen Caja Transaccion',
-                titleAttr: 'Exportar PDF',
-                className: 'btn btn-danger',
-
-            },
-            {
-                extend:  'print',
-                text:    '<i class="fas fa-print"></i>',
-                titleAttr: 'Capture de pantalla',
-                className: 'btn btn-info'
-            },
-        ]
-
-
-
+                },
+                {
+                    extend:  'print',
+                    text:    '<i class="fas fa-print"></i>',
+                    titleAttr: 'Capture de pantalla',
+                    className: 'btn btn-info'
+                },
+            ]
         });
+        /*
+        $('#table th').each(function(index, element) {
+            // Get the column index
+            var colIndex = $(element).index();
+            
+            // Loop through each DataTable row
+            $('#table tr').each(function(rowIndex, rowElement) {
+                // Hide the corresponding td element if the column is empty
+                var tdElement = $(rowElement).find('td').eq(colIndex);
+                // if (!tdElement.html().trim()) {
+                if ($.trim(tdElement.html()) == "") {                    
+                tdElement.hide();
+                }
+            });
+            
+            // Hide the corresponding th element if the column is empty
+            
+            if ($('#table tr td:nth-child(' + (colIndex + 1) + '):not(:hidden)').length === 0) {
+                $(element).hide();
+            }
+            
+        });
+        */
+        
+
     });
 
     const miWallet = {!! $myWallet !!};
@@ -571,7 +615,7 @@ $config4 = [
         $('#drCustomRanges').data('daterangepicker').setStartDate(myFechaDesde);
         $('#drCustomRanges').data('daterangepicker').setEndDate(myFechaHasta);
     }
-
+    
 </script>
 
 @endsection

@@ -702,11 +702,15 @@ return [
                     'location' => 'vendor/datatables-plugins/responsive/js/dataTables.responsive.js',
                 ],
                 [
+                    'type' => 'js',
+                    'asset' => true,
+                    'location' => 'vendor/datatables-plugins/fixedcolumns/js/dataTables.fixedColumns.min.js',
+                ],                
+                [
                     'type' => 'css',
                     'asset' => true,
                     'location' => 'vendor/datatables-plugins/buttons/css/buttons.bootstrap4.min.css',
-                ],
-
+                ]
             ],
         ],
         'Select2' => [

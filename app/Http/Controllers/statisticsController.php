@@ -1303,30 +1303,30 @@ class statisticsController extends Controller
             ->get(); */
 
             // ajua
-            $Transacciones          = $this->getwalletTransactionSummary($request);
-            $Transacciones2         = $this->getWalletTransactionGroupSummary($request);
-            $TransaccionesGroups    = $this->getWalletGroups($request);  
-            $groups                 = $this->getGroups();
-            // dd($groups);
-            // dd($Transacciones2);            
-            // dd($TransaccionesGroups);
-             $this->getWalletTransactionGroupTotal($Transacciones, $Transacciones2, $groups);
+        $Transacciones          = $this->getwalletTransactionSummary($request);
+        $Transacciones2         = $this->getWalletTransactionGroupSummary($request);
+        $TransaccionesGroups    = $this->getWalletGroups($request);  
+        $groups                 = $this->getGroups();
+        // dd($groups);
+        // dd($Transacciones2);            
+        // dd($TransaccionesGroups);
+        $this->getWalletTransactionGroupTotal($Transacciones, $Transacciones2, $groups);
 
-            $balance = 0;
-            if ($myWallet > 0){
-                   $balance2 = $this->getBalanceWallet($myWallet);
-                   $balance  = $balance2->Total;
-                // $balance = $this->getBalancemyWallet($myWallet, $myFechaDesde, $myFechaHasta);
-            };
-            // dd($balance);
-     
-             $Type_transactions  = $this->getTypeTransactions();
-             $wallet             = $this->getWallet();
+        $balance = 0;
+        if ($myWallet > 0){
+                $balance2 = $this->getBalanceWallet($myWallet);
+                $balance  = $balance2->Total;
+            // $balance = $this->getBalancemyWallet($myWallet, $myFechaDesde, $myFechaHasta);
+        };
+        // dd($balance);
+    
+            $Type_transactions  = $this->getTypeTransactions();
+            $wallet             = $this->getWallet();
 
-         // dd($Transacciones2);             
-         // dd($Transacciones2);
+        // dd($Transacciones2);             
+        // dd($Transacciones2);
 
-        return view('estadisticas.statisticsResumenWalletTransaccion', compact('myWallet','wallet','myTypeTransaction', 'Type_transactions', 'Transacciones','myFechaDesde','myFechaHasta','balance'));
+        return view('estadisticas.statisticsResumenWalletTransaccion', compact('myWallet','wallet','myTypeTransaction', 'Type_transactions', 'Transacciones','myFechaDesde','myFechaHasta','balance','groups'));
 
     }
     /*
@@ -1701,21 +1701,22 @@ class statisticsController extends Controller
     public function getWalletTransactionGroupTotal($Transacciones, $Transacciones2, $groups){
          // dd($Transacciones);
         // var_dump($Transacciones2);       
-        // dd();
+         // dd($groups);
         
         $myTransaccion3 = array();
         $myObj = [];
         foreach($Transacciones as $Tran){
+            $myTran2 = [];
 
-            $myObj = (object) [];
 
-            foreach($groups as $gr){
+            foreach($groups as $ky => $gr){
+                $myObj = (object) [];
                 $myObj->WalletId = $Tran->WalletId;
                 $myObj->WalletName = $Tran->WalletName;
                 $myObj->TypeTransactionId = $Tran->TypeTransactionId;
                 $myObj->TypeTransaccionName = $Tran->TypeTransaccionName;
-                $myObj->GroupId= "test";
-                $myObj->GroupName= "test";
+                $myObj->GroupId= $ky;
+                $myObj->GroupName= $gr;
                 $myObj->cant_transactions = null;
                 $myObj->total_amount = null;
                 $myObj->total_amount_base = null;
@@ -1724,34 +1725,36 @@ class statisticsController extends Controller
                 $myObj->total = null;
                 $myObj->total_Base = null;
                 $myObj->total_commission_profit = null;
-                // dd($myObj);
-                }
+                //echo "<br>" . $ky . '-' . $gr;
+                
+                $myTran2[$ky] = $myObj;
+                
+            }
 
-            $myTran2 = [];
+            //    dd($myTran2);
+
+
             foreach($Transacciones2 as $Tran2){
                 if (
                     $Tran->WalletId             == $Tran2->WalletId 
                 and $Tran->TypeTransactionId    == $Tran2->TypeTransactionId               
                 ){
                  //   array_push($myTran2,$Tran2);
-
-
-
                     $myTran2[$Tran2->GroupId] = $Tran2;
 
                 };
             };
-
-            $Tran->GrupoDetail = $myTran2;
+            //    dd($myTran2);
+             $Tran->GrupoDetail = $myTran2;
 
         }
         // if(count($Transacciones[2]->GrupoDetail) > 0) {
         //     dd($Transacciones[2]->GrupoDetail[0]->GroupName);
         // }
         
-         dd($Transacciones);
+         // dd($Transacciones);
 
-        die();
+        // die();
 
     }
    /*
