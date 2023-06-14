@@ -47,7 +47,7 @@
  <!-- Language Dropdown Menu -->
  <li class="nav-item dropdown">
     <a class="nav-link" data-toggle="dropdown" href="#">
-      <i class="fas fa-flag"></i>
+        <i class="fas fa-lg fa-caret-down"></i>
     </a>
     <div class="dropdown-menu dropdown-menu-right p-0">
       <a href="{{route('lang', $en)}}" class="dropdown-item">
