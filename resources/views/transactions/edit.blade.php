@@ -47,6 +47,33 @@
 
                                         </div>
 
+                    @if($transactions->type_transaction->name == 'Nota de debito' || $transactions->type_transaction->name == 'Nota de credito')
+
+
+
+                                        <br>
+                                        <h2 class="text-center font-weight-bold">NO SE PUEDEN MODIFICAR NOTAS DE DEBITO NI NOTAS DE CREDITO</h2>
+
+                                        <button class="btn btn-danger font-weight-bold" onclick="history.back()" type="button">REGRESAR <i class="fas fa-history"></i></button>
+
+
+                    @else
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
                          @if($transactions->type_coin->name == 'USD')
 
@@ -266,6 +293,7 @@
         </div>
     </div>
 </div>
+@endif
 
 @endsection
 

@@ -711,9 +711,9 @@ class TransactionController extends Controller
         }
       }
 
-        flash()->addInfo('Transacción modificada..', 'Transacción <strong># ' . $transaction . '</strong>', ['timeOut' => 3000]);
 
-        return Redirect::route('transactions.index');
+
+        return Redirect::route('transactions.index')->with('warning', 'Transacción Modificada <strong># ' . $transaction . '</strong>');
     }
 
     /**
@@ -729,7 +729,7 @@ class TransactionController extends Controller
         Transaction::findOrFail($transaction)->update([
             'status' => 'Anulado',
         ]);
-           return Redirect::route('transactions.index')->with('error', 'Transacción anulada  <strong># '. $transaction . '</strong>');
+           return Redirect::route('transactions.index')->with('info', 'Transacción anulada  <strong># '. $transaction . '</strong>');
         }
         elseif($transactions->status == 'Anulado'){
             Transaction::findOrFail($transaction)->update([
