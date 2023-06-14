@@ -1721,7 +1721,7 @@ class statisticsController extends Controller
             $myObj->total_amount_commission_base = null;
             $myObj->total = null;
             $myObj->total_Base = null;
-            $myObj->total_commission_profit null;
+            $myObj->total_commission_profit = null;
             // dd($myObj);
 
             $myTran2 = [];
