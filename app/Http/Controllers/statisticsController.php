@@ -1708,21 +1708,24 @@ class statisticsController extends Controller
         foreach($Transacciones as $Tran){
 
             $myObj = (object) [];
-            $myObj->WalletId = $myObj->WalletId;
-            $myObj->WalletName = $myObj->WalletName;
-            $myObj->TypeTransactionId = "test";
-            $myObj->TypeTransaccionName = "test";
-            $myObj->GroupId= "test";
-            $myObj->GroupName= "test";
-            $myObj->cant_transactions = null;
-            $myObj->total_amount = null;
-            $myObj->total_amount_base = null;
-            $myObj->total_commission = null;
-            $myObj->total_amount_commission_base = null;
-            $myObj->total = null;
-            $myObj->total_Base = null;
-            $myObj->total_commission_profit = null;
-            // dd($myObj);
+
+            foreach($groups as $gr){
+                $myObj->WalletId = $Tran->WalletId;
+                $myObj->WalletName = $Tran->WalletName;
+                $myObj->TypeTransactionId = $Tran->TypeTransactionId;
+                $myObj->TypeTransaccionName = $Tran->TypeTransaccionName;
+                $myObj->GroupId= "test";
+                $myObj->GroupName= "test";
+                $myObj->cant_transactions = null;
+                $myObj->total_amount = null;
+                $myObj->total_amount_base = null;
+                $myObj->total_commission = null;
+                $myObj->total_amount_commission_base = null;
+                $myObj->total = null;
+                $myObj->total_Base = null;
+                $myObj->total_commission_profit = null;
+                // dd($myObj);
+                }
 
             $myTran2 = [];
             foreach($Transacciones2 as $Tran2){
