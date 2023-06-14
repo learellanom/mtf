@@ -115,12 +115,12 @@
                 <div class="form-group col-md-12 d-flex justify-content-center">
 
                     <label class="form-check-label mx-auto" for="radio1">
-                        {!! Form::radio('exonerate',2, null, ['id' => 'radio1', 'name'=>'optradio', 'class' => 'exonerar']) !!}
+                        {!! Form::radio('exonerate',2, null, ['id' => 'radio1', 'required' => true, 'class' => 'exonerar']) !!}
                         Exonerar comisión
                     </label>
 
                     <label class="form-check-label mx-auto" for="radio3">
-                        {!! Form::radio('exonerate',1, null, ['id' => 'radio3', 'name'=>'optradio', 'class' => 'incluir']) !!}
+                        {!! Form::radio('exonerate',1, null, ['id' => 'radio3', 'required' => true, 'class' => 'incluir']) !!}
                         Incluir comisión
                     </label>
 
@@ -128,7 +128,7 @@
 
                     <label class="form-check-label mx-auto" for="radio2">
                         Descontar comisión
-                        {!! Form::radio('discount',3, null, ['id' => 'radio2', 'name'=>'optradio', 'class' => 'descontar']) !!}
+                        {!! Form::radio('exonerate',3, null, ['id' => 'radio2', 'required' => true, 'class' => 'descontar']) !!}
                     </label>
 
                 </div>
@@ -464,15 +464,33 @@ $(document).ready(function() {
             $('#tasa, #monto').on('input', function(){
                 if(tasa.value > 0 && monto.value > 0){
                     monto_total = (monto.value / tasa.value);
-                    monto_dolares.value =  monto_total.toFixed(2);
+                    monto_dolares.value =  parseFloat(monto_total);
                     log.value =  parseFloat(monto_total);
                     log_base.value = parseFloat(monto_total);
+
+
                 }
                 else{
 
                     log.value = parseFloat(monto_dolares);
                     log_base.value = parseFloat(monto_dolares);
                 }
+
+                    var exonerar        = document.getElementById("radio1");
+                    var descontar        = document.getElementById("radio2");
+                    var incluir        = document.getElementById("radio3");
+
+                    var exonerar_base   = document.getElementById("radio1_base");
+                    var descontar_base   = document.getElementById("radio2_base");
+                    var incluir_base   = document.getElementById("radio3_base");
+
+                    exonerar.removeAttribute('checked');
+                    exonerar_base.removeAttribute('checked');
+                    incluir.removeAttribute('checked');
+                    incluir_base.removeAttribute('checked');
+                    descontar.removeAttribute('checked');
+                    descontar_base.removeAttribute('checked');
+
 
             });
 
@@ -489,20 +507,7 @@ $(document).ready(function() {
 
      } //CIERRE DE CONDICION QUE CALCULA TIPO DE CAMBIO
 
-        var exonerar        = document.getElementById("radio1");
-        var descontar        = document.getElementById("radio2");
-        var incluir        = document.getElementById("radio3");
 
-        var exonerar_base   = document.getElementById("radio1_base");
-        var descontar_base   = document.getElementById("radio2_base");
-        var incluir_base   = document.getElementById("radio3_base");
-
-        exonerar.removeAttribute('checked');
-        exonerar_base.removeAttribute('checked');
-        incluir.removeAttribute('checked');
-        incluir_base.removeAttribute('checked');
-        descontar.removeAttribute('checked');
-        descontar_base.removeAttribute('checked');
 
 
   }) //CIERRE DE .READY
@@ -739,7 +744,7 @@ $('.descontar').click(function() {
     $('#percentage_base').attr("readonly", true);
     $('#comision_base').attr("readonly", true);
     montottotal = (montototal_base.value);
-    monto_real_base.value = parseFloat(montototal_base.value).toFixed(2);
+    monto_real_base.value = parseFloat(montototal_base.value);
 
     }
     }
@@ -755,7 +760,7 @@ $('.descontar').click(function() {
     //$('#percentage').attr("readonly", false);
     $('#percentage_base').attr("readonly", false);
 
-    monto_real_base.value = (parseFloat($('#monto_dolares').val()) + parseFloat($('#comision_base').val())).toFixed(2);
+    monto_real_base.value = (parseFloat($('#monto_dolares').val()) + parseFloat($('#comision_base').val()));
 
     }
     }
@@ -770,7 +775,7 @@ $('.descontar').click(function() {
     $('#percentage_base').attr("readonly", false);
     //$('#percentage_base').attr("readonly", false);
 
-    monto_real_base.value = (parseFloat($('#monto_dolares').val()) - parseFloat($('#comision_base').val())).toFixed(2);
+    monto_real_base.value = (parseFloat($('#monto_dolares').val()) - parseFloat($('#comision_base').val()));
     }
     }
 
