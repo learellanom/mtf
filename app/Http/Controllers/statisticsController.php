@@ -1306,11 +1306,11 @@ class statisticsController extends Controller
             $Transacciones          = $this->getwalletTransactionSummary($request);
             $Transacciones2         = $this->getWalletTransactionGroupSummary($request);
             $TransaccionesGroups    = $this->getWalletGroups($request);  
-            $groups             = $this->getGroups();
-            dd($groups);
+            $groups                 = $this->getGroups();
+            // dd($groups);
             // dd($Transacciones2);            
             // dd($TransaccionesGroups);
-            // $this->getWalletTransactionGroupTotal($Transacciones, $Transacciones2);
+             $this->getWalletTransactionGroupTotal($Transacciones, $Transacciones2, $groups);
 
             $balance = 0;
             if ($myWallet > 0){
@@ -1698,7 +1698,7 @@ class statisticsController extends Controller
     //
     // ajua
     //
-    public function getWalletTransactionGroupTotal($Transacciones, $Transacciones2){
+    public function getWalletTransactionGroupTotal($Transacciones, $Transacciones2, $groups){
          // dd($Transacciones);
         // var_dump($Transacciones2);       
         // dd();
@@ -1707,6 +1707,22 @@ class statisticsController extends Controller
         $myObj = [];
         foreach($Transacciones as $Tran){
 
+            $myObj = (object) [];
+            $myObj->WalletId = $myObj->WalletId;
+            $myObj->WalletName = $myObj->WalletName;
+            $myObj->TypeTransactionId = "test";
+            $myObj->TypeTransaccionName = "test";
+            $myObj->GroupId= "test";
+            $myObj->GroupName= "test";
+            $myObj->cant_transactions = null;
+            $myObj->total_amount = null;
+            $myObj->total_amount_base = null;
+            $myObj->total_commission = null;
+            $myObj->total_amount_commission_base = null;
+            $myObj->total = null;
+            $myObj->total_Base = null;
+            $myObj->total_commission_profit null;
+            // dd($myObj);
 
             $myTran2 = [];
             foreach($Transacciones2 as $Tran2){
@@ -1714,8 +1730,12 @@ class statisticsController extends Controller
                     $Tran->WalletId             == $Tran2->WalletId 
                 and $Tran->TypeTransactionId    == $Tran2->TypeTransactionId               
                 ){
-                    array_push($myTran2,$Tran2);
-                    
+                 //   array_push($myTran2,$Tran2);
+
+
+
+                    $myTran2[$Tran2->GroupId] = $Tran2;
+
                 };
             };
 
@@ -1726,7 +1746,7 @@ class statisticsController extends Controller
         //     dd($Transacciones[2]->GrupoDetail[0]->GroupName);
         // }
         
-        // dd($Transacciones);
+         dd($Transacciones);
 
         die();
 
