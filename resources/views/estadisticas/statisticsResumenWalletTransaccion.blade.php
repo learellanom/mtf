@@ -177,12 +177,11 @@ $config4 = [
                                     <th style="width:10%;">Monto comision</th>
                                     <th style="width:10%;">Monto Ganancia comision</th>                                    
                                     <th style="width:1%;">Ver <i class="fas fa-search"></i></th>
+                                    <!--
                                     @foreach($groups as $grs)
                                             <th style="width:10%;">{!! $grs !!}</th>
                                     @endforeach
-                                    <!-- @for($i=1;$i<20;$i++)
-                                        <th style="width:10%;">Columna adicional {!! $i !!}</th>    
-                                    @endfor -->
+                                    -->
                                 </tr>                                
                             </thead>
                             @foreach($Transacciones as $row)
@@ -213,13 +212,11 @@ $config4 = [
                                         </a>
                                     </td>
 
-                                    <!-- @for($i=1;$i<20;$i++)
-                                        <td >Columna adicional {!! $i !!}</td>    
-                                    @endfor      -->
 
-                                    @foreach($row->GrupoDetail as $grs)
+
+                                    <!-- @foreach($row->GrupoDetail as $grs)
                                         <td style="width:10%;">{!! $grs->total_amount !!}</td>
-                                    @endforeach                                                                   
+                                    @endforeach                                                                    -->
 
                                 </tr>
 
@@ -406,7 +403,7 @@ $config4 = [
                 },
             ]
         });
-        /*
+        
         $('#table th').each(function(index, element) {
             // Get the column index
             var colIndex = $(element).index();
@@ -428,7 +425,7 @@ $config4 = [
             }
             
         });
-        */
+        
         
 
     });
