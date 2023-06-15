@@ -214,9 +214,11 @@ $config4 = [
 
 
 
-                                    <!-- @foreach($row->GrupoDetail as $grs)
+                                    <!--
+                                    @foreach($row->GrupoDetail as $grs)
                                         <td style="width:10%;">{!! $grs->total_amount !!}</td>
-                                    @endforeach                                                                    -->
+                                    @endforeach                                             
+                                    -->
 
                                 </tr>
 
@@ -404,24 +406,34 @@ $config4 = [
             ]
         });
         
-        $('#table th').each(function(index, element) {
-            // Get the column index
-            var colIndex = $(element).index();
-            
-            // Loop through each DataTable row
-            $('#table tr').each(function(rowIndex, rowElement) {
-                // Hide the corresponding td element if the column is empty
-                var tdElement = $(rowElement).find('td').eq(colIndex);
-                // if (!tdElement.html().trim()) {
-                if ($.trim(tdElement.html()) == "") {                    
-                tdElement.hide();
-                }
-            });
+        // $('#table th').each(function(index, element) {
+        //     // Get the column index
+        //     var colIndex = $(element).index();
+        //     // alert('columna es ' + colIndex);
+        //     // Loop through each DataTable row
+        //     if (colIndex >= 7){
+        //         $('#table tr').each(function(rowIndex, rowElement) {
+        //             if (rowIndex >= 0){
+
+                        
+        //                 // Hide the corresponding td element if the column is empty
+        //                 var tdElement = $(rowElement).find('td').eq(colIndex);
+
+        //                 // alert('esta es la columna : ' + colIndex + ' este es el rowIndex ' + rowIndex + ' element es : ' + tdElement.html());
+
+        //                 // if (!tdElement.html().trim()) {
+        //                 if ($.trim(tdElement.html()) == "") {                    
+        //                 // tdElement.hide();
+        //                 // alert('este el el coindex' + tdElement);
+        //                 }
+        //             }
+        //         });
+        //     }
             
             // Hide the corresponding th element if the column is empty
             
             if ($('#table tr td:nth-child(' + (colIndex + 1) + '):not(:hidden)').length === 0) {
-                $(element).hide();
+                // $(element).hide();
             }
             
         });
