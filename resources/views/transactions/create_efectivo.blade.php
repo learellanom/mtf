@@ -17,7 +17,7 @@
  <div class="card col-md-7 movi" style="min-height: 500px !important; max-height:100%; height:100%; widht:100%"">
   <div class="card-body">
 
-    {!! Form::open(['route' => 'transactions.store_efectivo', 'autocomplete' => 'off', 'files' => true, 'enctype' =>'multipart/form-data']) !!}
+    {!! Form::open(['route' => 'transactions.store_efectivo', 'autocomplete' => 'off', 'files' => true, 'enctype' =>'multipart/form-data', 'id' => 'entre']) !!}
 
 
 
@@ -117,7 +117,7 @@
                         {!! Form::Label('percentage', "Porcentaje:") !!}
                         <div class="input-group-text">
                             <i class="fa-fw fas fa-percentage mr-2"></i>
-                        {!! Form::text('percentage',null, ['class' => 'form-control percentage rateMask', 'required' => true, 'min' => 0, 'id' => 'percentage']) !!}
+                        {!! Form::text('percentage',null, ['class' => 'form-control percentage rateMask', 'min' => 0, 'id' => 'percentage']) !!}
                         </div>
                     </div>
 
@@ -384,6 +384,29 @@
 
 @section('js')
 <script>
+
+$('#entre').on('submit', function() {
+exonerar = $('#radio1').is(':checked');
+if(!exonerar){
+    if ($('#percentage').val() <= 0) {
+     Swal.fire('Porcentaje, no puede ser cero o menor a cero. :(');
+     return false;
+  }
+}
+        if ($('#monto_dolares').val() <= 0) {
+            Swal.fire('Monto en dolares, no puede ser cero o menor a cero. ');
+            return false;
+        }
+        else if($('#monto_dolares').val().length == 0){
+            Swal.fire('Monto en dolares, no puede estar vacio :( ');
+            return false;
+        }
+
+
+
+});
+
+
 $(".clientes").select2({
   placeholder: "Seleccionar cliente",
   theme: 'bootstrap4',
@@ -513,6 +536,23 @@ $(document).ready(function() {
     });
   });
 
+  $('#radio1').on('click', function() {
+    $('#percentage').val("");
+    $('#comision').val("");
+    $('#comision').attr("readonly", true);
+    $('#percentage').attr("readonly", true);
+  });
+
+  $('#radio2').on('click', function() {
+
+    $('#percentage').attr("readonly", false);
+  });
+
+  $('#radio3').on('click', function() {
+
+    $('#percentage').attr("readonly", false);
+  });
+
 
   $('.typecoin').on('change', function() {
 
@@ -573,7 +613,9 @@ $(document).ready(function() {
 
 
                             if(!exonerar) {
+
                                 if(incluir) {
+
                                  montoreal = (monto_dolares + comision).toFixed(2);
                                 $('#montototal').val((monto_dolares + comision));
                                 //alert(montoreal);
@@ -584,6 +626,8 @@ $(document).ready(function() {
                                 }
                             }
                             else {
+                                $('#percentage').val('');
+                                $('#comision').val('');
                                 montoreal = monto_dolares.toFixed(2);
                                 $('#montototal').val(montoreal);
                              }
