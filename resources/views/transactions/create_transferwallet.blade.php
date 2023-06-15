@@ -324,6 +324,14 @@ $('.general').inputmask({
         Swal.fire('Las cajas no pueden ser iguales')
         return false; //prevent form submission
     }
+        if ($('#monto_dolares').val() <= 0) {
+            Swal.fire('Monto en dolares, no puede ser cero o menor a cero. ');
+            return false;
+        }
+        else if($('#monto_dolares').val().length == 0){
+            Swal.fire('Monto en dolares, no puede estar vacio :( ');
+            return false;
+        }
     });
 
  /* OCULTAR LA CAJA SELECCIONADA */
