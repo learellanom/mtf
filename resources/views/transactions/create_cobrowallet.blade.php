@@ -158,7 +158,7 @@
                     {!! Form::Label('montototal_base', "Monto total Base:") !!}
                     <div class="input-group-text">
                         <i class="fa-fw fas fas fa-coins mr-2"></i>
-                    {!! Form::text('amount_total_base', null, ['class' => 'form-control general', 'id' => 'montototal_base', 'readonly' => true]) !!}
+                    {!! Form::text('amount_total_base', null, ['class' => 'form-control general', 'id' => 'monto_base', 'readonly' => true]) !!}
                     </div>
                 </div>
 
@@ -397,105 +397,66 @@ $('.general').inputmask({
     });
  /* OCULTAR LA CAJA SELECCIONADA */
 
-$('.percentage_base').on('input', function() { //FUNCION DE PORCENTAJE BASE
+            /* CALCULO DE PORCENTAJE */
+            tasa = document.getElementById("tasa");
+            monto = document.getElementById("monto");
+            monto_dolares = document.getElementById("monto_dolares");
+            //const log = document.getElementById("montototal");
 
-    $('#comision_base').prop('readonly', true);
-    $('#montototal_base').prop('readonly', true);
+            $('#monto_dolares, #percentage_base').on('input', function() {
 
-    porcentage_base = $('#percentage_base').val();
-    exonerar_base = document.getElementById("radio1_base");
-    descontar_base = document.getElementById("radio2_base");
-    incluir_base = document.getElementById("radio3_base");
+                    let comision_base = parseFloat($('#comision_base').val());
+                    let porcentage_base = parseFloat($('#percentage_base').val());
+                    let montoreal_base = parseFloat($('#monto_base').val());
 
+                    let exonerar_base = $('#radio1_base').is(':checked');
+                    let descontar_base = $('#radio2_base').is(':checked');
+                    let incluir_base = $('#radio3_base').is(':checked');
 
-    if(porcentage_base > 0){
-         monto_base_comi = (($('#monto_dolares').val()) * ($('#percentage_base').val()) / 100);
-         $('#comision_base').val(monto_base_comi);
+                    updateMontorealBase(exonerar_base, descontar_base, incluir_base, comision_base, porcentage_base, montoreal_base);
 
-            if(incluir_base.checked){
-                monto_base = (parseFloat(($('#monto_dolares').val())) + parseFloat(($('#comision_base').val())));
-                $('#montototal_base').val(monto_base);
-            }
+                $('#radio1_base, #radio2_base, #radio3_base').on('click', function() {
+                            let comision_base = parseFloat($('#comision_base').val());
+                            let porcentage_base = parseFloat($('#percentage_base').val());
+                            let montoreal_base = parseFloat($('#monto_base').val());
 
-            if(descontar_base.checked){
-                monto_base = (parseFloat(($('#monto_dolares').val())) - parseFloat(($('#comision_base').val())));
-                $('#montototal_base').val(monto_base);
-            }
-        }
+                            let exonerar_base = $('#radio1_base').is(':checked');
+                            let descontar_base = $('#radio2_base').is(':checked');
+                            let incluir_base = $('#radio3_base').is(':checked');
+                     updateMontorealBase(exonerar_base, descontar_base, incluir_base, comision_base, porcentage_base, montoreal_base);
+                 });
 
-        if(exonerar_base.checked){
-              monto_base = ($('#monto_dolares').val().toFixed(2));
-              $('#montototal_base').val(monto_base);
-        }
+                 function updateMontorealBase(exonerar_base, descontar_base, incluir_base, comision_base, porcentage_base, montoreal_base) {
+                            let monto_dolares = parseFloat($('#monto_dolares').val());
 
-
-   }); // CIERRE DE PORCENTAJE BASE
-
-
-/* LLAMADO DE CALCULO DE COMISIONES BASE */
-    comision_base = $('#comision_base').val();
-    porcentage_base = $('#percentage_base').val();
-    montototal_base = $('#monto_dolares').val();
-    monto_real_base = $('#montototal_base').val();
-
-    exonerar_base = document.getElementById("radio1_base");
-    descontar_base = document.getElementById("radio2_base");
-    incluir_base = document.getElementById("radio3_base");
-
-        $("#radio1_base").change(function() {
-
-            $('#comision_base').val('');  // LIMPIAR PORCENTAJE
-
-            $('#percentage_base').val(''); // LIMPIAR PORCENTAJE
-
-            $('#percentage_base').attr("readonly", true);
-
-            var monto_final3 = $('#monto_dolares').val();
-            $('#montototal_base').val(monto_final3);
-
-        });
-
-      $('#radio3_base').change(function() {
-
-            $('#percentage_base').attr("required", true);
-
-            $('#percentage_base').attr("readonly", false);
-
-            monto_final2 = (parseFloat($('#monto_dolares').val()) + parseFloat($('#comision_base').val()));
-
-            $('#montototal_base').val(monto_final2);
-
-      });
-
-    $('#radio2_base').change(function() {
-            //if(this.checked) {
-            $('#percentage_base').attr("required", true);
-            $('#percentage_base').attr("readonly", false);
-            //$('#percentage_base').attr("readonly", false);
-
-            monto_final = (parseFloat($('#monto_dolares').val()) - parseFloat($('#comision_base').val()));
-            $('#montototal_base').val(monto_final);
-
-    });
-
-/* LLAMADO DE CALCULO DE COMISIONES BASE */
-$('.percentage_base').on('input', function() {
-
-$('#comision_base').prop('readonly', true);
-
-      comision_base = $('#comision_base').val();
-      porcentage_base = $('#percentage_base').val();
-      montototal_base = $('#monto_dolares').val();
+                            if(porcentage_base > 0){
+                               $('#comision_base').val((monto_dolares * (porcentage_base / 100)));
+                               comision_base = (monto_dolares * (porcentage_base / 100));
+                                //alert(comision);
+                            }
 
 
-          if(porcentage_base > 0)
-           {
-              mto = (montototal_base * porcentage_base / 100);
-              comision_base =  mto.toFixed(2);
-           }
+                            if(!exonerar_base) {
+                                if(incluir_base) {
+                                 montoreal_base = (monto_dolares + comision_base).toFixed(2);
+                                $('#monto_base').val((monto_dolares + comision_base));
+                                //alert(montoreal);
 
-    });
+                                } else if(descontar_base) {
+                                    montoreal_base = (monto_dolares - comision_base).toFixed(2);
+                                $('#monto_base').val((monto_dolares - comision_base));
+                                }
+                            }
+                            else {
+                                $('#percentage_base').val('');
+                                $('#comision_base').val('');
+                                montoreal_base = monto_dolares.toFixed(2);
+                                $('#monto_base').val(monto_dolares);
+                             }
+                          }
 
+            });
+            /* CALCULO DE PORCENTAJE */
 
         $("#typetransaccion").on("change", function() {
             // Capturar dato seleccionado
