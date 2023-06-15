@@ -392,7 +392,11 @@ $('.general').inputmask({
 
         if (val1 == val2) {
             Swal.fire('Las cajas no pueden ser iguales')
-            return false; //prevent form submission
+            return false;
+        }
+        if ($('#monto_base').val().length == 0) {
+            Swal.fire('Monto total base, no puede estar vacio :(');
+            return false;
         }
     });
  /* OCULTAR LA CAJA SELECCIONADA */

@@ -17,7 +17,7 @@
  <div class="card col-md-7 movi" style="min-height: 500px !important; max-height:100%; height:100%; widht:100%"">
   <div class="card-body">
 
-    {!! Form::open(['route' => 'transactions.store', 'autocomplete' => 'on', 'files' => true, 'enctype' =>'multipart/form-data']) !!}
+    {!! Form::open(['route' => 'transactions.store', 'autocomplete' => 'on', 'files' => true, 'enctype' =>'multipart/form-data', 'id' => 'entre']) !!}
 
 
 
@@ -173,7 +173,7 @@
                     {!! Form::Label('montototal', "Monto Total:") !!}
                         <div class="input-group-text">
                             <i class="fa-fw fas fa-coins mr-2"></i>
-                        {!! Form::text('amount_total',null, ['class' => 'form-control montototal general', 'required' => true, 'id' => 'montototal', 'readonly' => true]) !!}
+                        {!! Form::text('amount_total',null, ['class' => 'form-control montototal general', 'required' => true, "minlength" => "3", 'id' => 'montototal', 'readonly' => true]) !!}
                         </div>
                     </div>
 
@@ -545,6 +545,15 @@ $("#typetrasnferencia").trigger("change");
 $(document).ready(function() {
     //$('#monto_dolares').toFixed(2);
 
+    $('#entre').on('submit', function() {
+
+        if ($('#montototal').val().length == 0) {
+            Swal.fire('Monto total, no puede estar vacio :(');
+            return false;
+        }
+    });
+
+
     $('.typecoin').on('change', function() {
 
         $('#tasa').val(""); // LIMPIAR TASA DE CAMBIO
@@ -763,8 +772,10 @@ $(document).ready(function() {
                                     }
                                 }
                                 else {
+                                    $('#percentage').val(0);
+                                    $('#comision').val('');
                                     montoreal = monto_dolares.toFixed(2);
-                                    $('#montototal').val(montoreal);
+                                    $('#montototal').val(monto_dolares);
                                  }
                               }
 
@@ -828,6 +839,8 @@ $(document).ready(function() {
                                     }
                                 }
                                 else {
+                                    $('#percentage_base').val('');
+                                    $('#comision_base').val('');
                                     montoreal_base = monto_dolares.toFixed(2);
                                     $('#montototal_base').val(monto_dolares);
                                  }

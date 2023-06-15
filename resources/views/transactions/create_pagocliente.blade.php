@@ -388,7 +388,12 @@ $('#monto_dolares').on('input', function() {
             //alert('Las clientes no pueden ser iguales');
             return false; //prevent form submission
         }
+        if ($('#monto_base').val().length == 0) {
+            Swal.fire('Monto total, no puede estar vacio :(');
+            return false;
+        }
     });
+
     /* OCULTAR LA CAJA SELECCIONADA */
 
             tasa = document.getElementById("tasa");

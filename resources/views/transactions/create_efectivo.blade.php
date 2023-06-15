@@ -17,7 +17,7 @@
  <div class="card col-md-7 movi" style="min-height: 500px !important; max-height:100%; height:100%; widht:100%"">
   <div class="card-body">
 
-    {!! Form::open(['route' => 'transactions.store_efectivo', 'autocomplete' => 'off', 'files' => true, 'enctype' =>'multipart/form-data']) !!}
+    {!! Form::open(['route' => 'transactions.store_efectivo', 'autocomplete' => 'off', 'files' => true, 'enctype' =>'multipart/form-data', 'id' => 'entre']) !!}
 
 
 
@@ -384,6 +384,16 @@
 
 @section('js')
 <script>
+
+$('#entre').on('submit', function() {
+
+if ($('#montototal').val().length == 0) {
+    Swal.fire('Monto total, no puede estar vacio :(');
+    return false;
+}
+});
+
+
 $(".clientes").select2({
   placeholder: "Seleccionar cliente",
   theme: 'bootstrap4',
