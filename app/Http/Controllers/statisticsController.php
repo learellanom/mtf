@@ -1220,9 +1220,9 @@ class statisticsController extends Controller
             ->get();
 
 
-            // dd($Transacciones);
+             //   dd($Transacciones);
 
-        return view('estadisticas.statisticsFechaTokens', compact('Transacciones'));
+        return view('estadisticas.statisticsFechaTokens', compact('Transacciones', 'myFechaDesde', 'myFechaHasta'));
         return $myUsers2;
     }
 

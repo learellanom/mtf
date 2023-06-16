@@ -375,13 +375,13 @@ return [
             'icon' => 'fas fa-fw fas fa-chart-bar',
             'can'  => 'estadisticasDetalle.estadisticasResumenWalletTranGroup',
         ],
-        // [
-        //     'text' => 'Resumen por Fecha y Tokens',
-        //     'url'  => 'estadisticasFechaTokens',
-        //     'active' => ['estadisticasFechaTokes','regex:@^estadisticasFechaTokens/[0-9]+/*@' ],
-        //     'icon' => 'fas fa-fw fas fa-chart-bar',
-        //     'can'  => 'estadisticasDetalle.estadisticasFechaTokens',
-        // ],        
+        [
+            'text' => 'Resumen por Fecha y Tokens',
+            'url'  => 'estadisticasFechaTokens',
+            'active' => ['estadisticasFechaTokes','regex:@^estadisticasFechaTokens/[0-9]+/*@' ],
+            'icon' => 'fas fa-fw fas fa-chart-bar',
+            'can'  => 'estadisticasDetalle.estadisticasFechaTokens',
+        ],        
         ['header' => 'Operaciones',
         'classes' =>'text-uppercase font-weight-bold text-light',],
         [
