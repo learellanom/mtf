@@ -231,7 +231,19 @@ Route::get('estadisticasResumenGrupo/{grupo}/{fechaDesde?}/{fechaHasta?}',[App\H
 Route::get('estadisticasResumenWalletTran',[App\Http\Controllers\statisticsController::class, 'walletTransactionSummary'])->name('estadisticasResumenWalletTran');
 Route::get('estadisticasResumenWalletTran/{wallet?}/{transaction?}/{fechaDesde?}/{fechaHasta?}',[App\Http\Controllers\statisticsController::class, 'walletTransactionSummary'])->name('estadisticasResumenWalletTran');
 
-
+//
+// Resumen Wallet Transaccion grupo
+//
+Route::get('estadisticasResumenWalletTranGroup',[App\Http\Controllers\statisticsController::class, 'walletTransactionGroupSummary'])->name('estadisticasResumenWalletTranGroup');
+Route::get('estadisticasResumenWalletTranGroup/{wallet?}/{transaction?}/{fechaDesde?}/{fechaHasta?}',[App\Http\Controllers\statisticsController::class, 'walletTransactionGroupSummary'])->name('estadisticasResumenWalletTranGroup');
+//
+// Resumen Fecha Tokens
+//
+Route::get('estadisticasFechaTokens',[App\Http\Controllers\statisticsController::class, 'fechaTokensSummary'])->name('estadisticasFechaTokens');
+Route::get('estadisticasFechaTokens/{fechaDesde?}/{fechaHasta?}',[App\Http\Controllers\statisticsController::class, 'fechaTokensSummary'])->name('estadisticasFechaTokens');
+//
+//
+//
 Route::get('estadisticasResumenProveedor',[App\Http\Controllers\statisticsController::class, 'supplierSummary'])->name('estadisticasResumenProveedor');
 Route::get('estadisticasResumenProveedor/{proveedor}/{fechaDesde?}/{fechaHasta?}',[App\Http\Controllers\statisticsController::class, 'supplierSummary'])->name('estadisticasResumenProveedor');
 //

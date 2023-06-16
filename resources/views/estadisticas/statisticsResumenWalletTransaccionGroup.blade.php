@@ -1,5 +1,5 @@
 @extends('adminlte::page')
-@section('title', 'Resumen por Caja Transaccion')
+@section('title', 'Resumen por Caja Transaccion Grupo')
 @section('content')
 {{-- Setup data for datatables --}}
 
@@ -59,7 +59,7 @@ $config4 = [
 
 <br>
 <br>
-<h1 class="text-center text-dark font-weight-bold text-uppercase">{{ __('Resumen de Movimiento por Caja Transaccion') }} <i class="fas fa-users"></i></h1>
+<h1 class="text-center text-dark font-weight-bold text-uppercase">{{ __('Resumen de Movimiento por Caja Transaccion Grupo') }} <i class="fas fa-users"></i></h1>
 <br>
 <br>
 {{-- Disabled --}}
@@ -137,7 +137,7 @@ $config4 = [
             <div class="card-header">
                 <div class= "row">     
                     <div class="col-md-4">           
-                        <h3 class="card-title text-uppercase font-weight-bold">{{ __('Resumen| Resumen por Caja Transaccion') }}</h3>
+                        <h3 class="card-title text-uppercase font-weight-bold">{{ __('Resumen| Resumen por Caja Transaccion Grupo') }}</h3>
                         @php
                             // echo var_dump($balance);
                             // die();  
@@ -171,6 +171,7 @@ $config4 = [
 
                                     <th style="width:10%;">Caja</th>
                                     <th style="width:10%;">Transaccion</th>
+                                    <th style="width:10%;">Grupo</th>                                    
                                     <th style="width:10%;">Cant</th>
                                     <th style="width:10%;">Monto</th>   
                                     <th style="width:10%;">Monto comision base</th>   
@@ -193,6 +194,7 @@ $config4 = [
                                 <tr>
                                     <td>{!! $row->WalletName !!}</td>
                                     <td>{!! $row->TypeTransaccionName !!}</td>                                    
+                                    <td>{!! $row->GroupName !!}</td>   
                                     <td class="text-right">{!! number_format($row->cant_transactions,0,",",".") !!}</td>                                    
                                     <td class="text-right">{!! number_format($row->total_amount,2,",",".") !!}</td>
                                     <td class="text-right">{!! number_format($row->total_amount_commission_base,2,",",".") !!}</td>                                    
@@ -248,8 +250,8 @@ $config4 = [
                 }
             },
             "order": [[ 1, 'asc' ]],
-            scrollX:        true,
-            scrollCollapse: true,
+            // scrollX:        true,
+            // scrollCollapse: true,
             paging:         true, 
             // fixedColumns: true,
             // fixedColumns:   {
@@ -502,7 +504,7 @@ $config4 = [
 
         let myRoute = "";
 
-            myRoute = "{{ route('estadisticasResumenWalletTran', ['wallet' => 'wallet2', 'transaction' => 'transaction2', 'fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2']) }}";
+            myRoute = "{{ route('estadisticasResumenWalletTranGroup', ['wallet' => 'wallet2', 'transaction' => 'transaction2', 'fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2']) }}";
             myRoute = myRoute.replace('wallet2',wallet);
             myRoute = myRoute.replace('transaction2',transaction);            
             myRoute = myRoute.replace('fechaDesde2',fechaDesde);

@@ -1168,6 +1168,64 @@ class statisticsController extends Controller
         return view('estadisticas.statisticsResumenCliente', compact('myCliente','cliente','Transacciones'));
         return $myUsers2;
     }
+
+    /*
+    *
+    *
+    *       clientSummary
+    *
+    *
+    */
+    public function fechaTokensSummary(Request $request)
+    {
+
+        $myCliente = 0;
+        if ($request->cliente) {
+            $myCliente = $request->cliente;
+        }
+
+        $myClienteDesde = 0;
+        $myClienteHasta = 9999;
+
+
+        if ($myCliente != 0){
+            $myClienteDesde = $myCliente;
+            $myClienteHasta = $myCliente;
+        }
+
+        $myFechaDesde = "2001-01-01";
+        $myFechaHasta = "9999-12-31";
+        if ($request->fechaDesde){
+            $myFechaDesde = $request->fechaDesde;
+            $myFechaHasta = $request->fechaHasta;
+        }
+
+        if ($request->fechaHasta){
+            $myFechaHasta = $request->fechaHasta;
+        }
+
+        //
+
+        $Transacciones = DB::table('transactions')
+            ->select(DB::raw('
+                transaction_date        as fechaTransaccion,
+                count(*)                as cant_transactions,
+                sum(amount)             as total_amount,
+                sum(amount_commission)  as total_commission,
+                sum(amount_total)   as total'))
+            ->where('status','<>','Anulado')
+            ->where('token','<>','')
+            ->whereBetween('Transactions.transaction_date', [$myFechaDesde, $myFechaHasta])
+            ->groupBy('fechaTransaccion')
+            ->get();
+
+
+            // dd($Transacciones);
+
+        return view('estadisticas.statisticsFechaTokens', compact('Transacciones'));
+        return $myUsers2;
+    }
+
     /*
     *
     *
@@ -1304,13 +1362,10 @@ class statisticsController extends Controller
 
             // ajua
         $Transacciones          = $this->getwalletTransactionSummary($request);
-        $Transacciones2         = $this->getWalletTransactionGroupSummary($request);
-        $TransaccionesGroups    = $this->getWalletGroups($request);  
-        $groups                 = $this->getGroups();
-        // dd($groups);
-        // dd($Transacciones2);            
-        // dd($TransaccionesGroups);
-        $this->getWalletTransactionGroupTotal($Transacciones, $Transacciones2, $groups);
+        // $Transacciones2         = $this->getWalletTransactionGroupSummary($request);
+        // $groups                 = $this->getGroups();
+
+        // $this->getWalletTransactionGroupTotal($Transacciones, $Transacciones2, $groups);
 
         $balance = 0;
         if ($myWallet > 0){
@@ -1326,9 +1381,89 @@ class statisticsController extends Controller
         // dd($Transacciones2);             
         // dd($Transacciones2);
 
-        return view('estadisticas.statisticsResumenWalletTransaccion', compact('myWallet','wallet','myTypeTransaction', 'Type_transactions', 'Transacciones','myFechaDesde','myFechaHasta','balance','groups'));
+        return view('estadisticas.statisticsResumenWalletTransaccion', compact('myWallet','wallet','myTypeTransaction', 'Type_transactions', 'Transacciones','myFechaDesde','myFechaHasta','balance'));
 
     }
+    /*
+    *
+    *
+    *       walletTransactionGroupSummary
+    *       ajua
+    *
+    */
+    public function walletTransactionGroupSummary(Request $request)
+    {
+        // dd($request->transaction);
+        //
+        $myTypeTransaction      = 0;
+        $myTypeTransactionDesde = 0;
+        $myTypeTransactionHasta = 9999;
+        if ($request->transaction) {
+            $myTypeTransaction      = $request->transaction;
+            $myTypeTransactionDesde = $request->transaction;
+            $myTypeTransactionHasta = $request->transaction;
+
+        }
+
+        //
+
+        $myFechaDesde = "2001-01-01";
+        $myFechaHasta = "9999-12-31";
+
+        $myFechaDesde2 = "2001-01-01";
+        $myFechaHasta2 = "9999-12-31";
+
+        if ($request->fechaDesde){
+            $myFechaDesde = $request->fechaDesde;
+            $myFechaHasta = $request->fechaHasta;
+
+            $myFechaDesde2 = $myFechaDesde . " 00:00:00";
+            $myFechaHasta2 = $myFechaHasta . " 12:59:00";
+        }
+
+        if ($request->fechaHasta){
+            $myFechaHasta = $request->fechaHasta;
+            $myFechaHasta2 = $myFechaHasta . " 12:59:00";            
+        }
+        // var_dump($myFechaDesde);
+        // dd('Fecha desde -> ' . $myFechaDesde . ' Fecha Hasta -> ' . $myFechaHasta);
+
+       //
+       $myWalletDesde   = 0;
+       $myWalletHasta   = 9999;
+       $myWallet        = 0;
+       if ($request->wallet){
+           $myWalletDesde   = $request->wallet;
+           $myWalletHasta   = $request->wallet;
+           $myWallet        = $request->wallet;
+       }
+
+            // ajua
+        $Transacciones1          = $this->getwalletTransactionSummary($request);
+        $Transacciones2         = $this->getWalletTransactionGroupSummary($request);
+        $groups                 = $this->getGroups();
+
+        $this->getWalletTransactionGroupTotal($Transacciones1, $Transacciones2);
+       $Transacciones       = $Transacciones2;
+       // dd($Transacciones);
+
+        $balance = 0;
+        if ($myWallet > 0){
+                $balance2 = $this->getBalanceWallet($myWallet);
+                $balance  = $balance2->Total;
+            // $balance = $this->getBalancemyWallet($myWallet, $myFechaDesde, $myFechaHasta);
+        };
+        // dd($balance);
+    
+            $Type_transactions  = $this->getTypeTransactions();
+            $wallet             = $this->getWallet();
+
+        // dd($Transacciones2);             
+        // dd($Transacciones2);
+
+        return view('estadisticas.statisticsResumenWalletTransaccionGroup', compact('myWallet','wallet','myTypeTransaction', 'Type_transactions', 'Transacciones','myFechaDesde','myFechaHasta','balance'));
+
+    }    
     /*
     *
     *
@@ -1698,64 +1833,32 @@ class statisticsController extends Controller
     //
     // ajua
     //
-    public function getWalletTransactionGroupTotal($Transacciones, $Transacciones2, $groups){
-         // dd($Transacciones);
-        // var_dump($Transacciones2);       
-         // dd($groups);
-        
-        $myTransaccion3 = array();
-        $myObj = [];
+    public function getWalletTransactionGroupTotal($Transacciones, $Transacciones2){
+        // dd($Transacciones);
+        // dd($Transacciones2);       
+
         foreach($Transacciones as $Tran){
-            $myTran2 = [];
-
-
-            foreach($groups as $ky => $gr){
-                $myObj = (object) [];
-                $myObj->WalletId = $Tran->WalletId;
-                $myObj->WalletName = $Tran->WalletName;
-                $myObj->TypeTransactionId = $Tran->TypeTransactionId;
-                $myObj->TypeTransaccionName = $Tran->TypeTransaccionName;
-                $myObj->GroupId= $ky;
-                $myObj->GroupName= $gr;
-                $myObj->cant_transactions = null;
-                $myObj->total_amount = null;
-                $myObj->total_amount_base = null;
-                $myObj->total_commission = null;
-                $myObj->total_amount_commission_base = null;
-                $myObj->total = null;
-                $myObj->total_Base = null;
-                $myObj->total_commission_profit = null;
-                //echo "<br>" . $ky . '-' . $gr;
-                
-                $myTran2[$ky] = $myObj;
-                
-            }
-
-            //    dd($myTran2);
-
 
             foreach($Transacciones2 as $Tran2){
                 if (
                     $Tran->WalletId             == $Tran2->WalletId 
                 and $Tran->TypeTransactionId    == $Tran2->TypeTransactionId               
                 ){
-                 //   array_push($myTran2,$Tran2);
-                    $myTran2[$Tran2->GroupId] = $Tran2;
 
+                    $Tran2->cant_transactions_wallet            = $Tran->cant_transactions;
+                    $Tran2->total_amount_wallet                 = $Tran->total_amount;
+                    $Tran2->total_amount_commission_base_wallet = $Tran->total_amount_commission_base;
+                    $Tran2->total_commission_wallet             = $Tran->total_commission;
+                    $Tran2->total_commission_profit_wallet      = $Tran->total_commission_profit;
+                    $Tran2->total_wallet                        = $Tran->total;
                 };
             };
-            //    dd($myTran2);
-             $Tran->GrupoDetail = $myTran2;
 
-        }
-        // if(count($Transacciones[2]->GrupoDetail) > 0) {
-        //     dd($Transacciones[2]->GrupoDetail[0]->GroupName);
-        // }
-        
          // dd($Transacciones);
 
         // die();
-
+    
+        }
     }
    /*
     *

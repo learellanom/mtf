@@ -368,13 +368,20 @@ return [
             'icon' => 'fas fa-fw fas fa-chart-bar',
             'can'  => 'estadisticasDetalle.estadisticasResumenWalletTran',
         ],
+        [
+            'text' => 'Resumen por Caja Tran Grupo',
+            'url'  => 'estadisticasResumenWalletTranGroup',
+            'active' => ['estadisticasResumenWalletTranGroup','regex:@^estadisticasResumenWalletTranGroup/[0-9]+/*@' ],
+            'icon' => 'fas fa-fw fas fa-chart-bar',
+            'can'  => 'estadisticasDetalle.estadisticasResumenWalletTranGroup',
+        ],
         // [
-        //     'text' => 'Conciliacion por Grupo',
-        //     'url'  => 'estadisticasConciliacionGrupo',
-        //     'active' => ['estadisticasConciliacionGrupo*'],
+        //     'text' => 'Resumen por Fecha y Tokens',
+        //     'url'  => 'estadisticasFechaTokens',
+        //     'active' => ['estadisticasFechaTokes','regex:@^estadisticasFechaTokens/[0-9]+/*@' ],
         //     'icon' => 'fas fa-fw fas fa-chart-bar',
-        //     'can'  => 'estadisticasDetalle.statisticsResumenConciliacionFechaGrupo'
-        // ],
+        //     'can'  => 'estadisticasDetalle.estadisticasFechaTokens',
+        // ],        
         ['header' => 'Operaciones',
         'classes' =>'text-uppercase font-weight-bold text-light',],
         [

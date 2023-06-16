@@ -1,5 +1,5 @@
 @extends('adminlte::page')
-@section('title', 'Resumen por Caja Transaccion')
+@section('title', 'Resumen por Fecha y tokens')
 @section('content')
 {{-- Setup data for datatables --}}
 
@@ -59,7 +59,7 @@ $config4 = [
 
 <br>
 <br>
-<h1 class="text-center text-dark font-weight-bold text-uppercase">{{ __('Resumen de Movimiento por Caja Transaccion') }} <i class="fas fa-users"></i></h1>
+<h1 class="text-center text-dark font-weight-bold text-uppercase">{{ __('Resumen de Movimiento por Fecha y Tokens) }} <i class="fas fa-users"></i></h1>
 <br>
 <br>
 {{-- Disabled --}}
@@ -68,50 +68,9 @@ $config4 = [
     <div class="row col-12">
 
 
-        <!-- Wallet -->
-
-        <div class ="col-12 col-sm-2">
-            <x-adminlte-select2 id="wallet"
-                                name="optionsWallet"
-                                igroup-size="sm"
-                                label-class="text-lightblue"
-                                data-placeholder="Wallet ..."
-                                :config="$config1"
-                                >
-                <x-slot name="prependSlot">
-                    <div class="input-group-text bg-gradient-dark">
-                        <!-- <i class="fas fa-car-side"></i> -->
-                        <i class="fas fa-box"></i>
-                    </div>
-                </x-slot>
-
-                <x-adminlte-options :options="$wallet" empty-option="Selecciona un Wallet.."/>
-            </x-adminlte-select2>
-        </div>
-
-        <!-- Transaction -->
-
-        <div class ="col-12 col-sm-2">
-            <x-adminlte-select2 id="transaccion"
-                                name="optionsTransaccion"
-                                igroup-size="sm"
-                                label-class="text-lightblue"
-                                data-placeholder="Transaccion ..."
-                                :config="$config1"
-                                >
-                <x-slot name="prependSlot">
-                    <div class="input-group-text bg-gradient-info">
-                        <!-- <i class="fas fa-car-side"></i> -->
-                        <i class="fas fa-user-tie"></i>
-                    </div>
-                </x-slot>
-                <x-adminlte-options :options="$Type_transactions" empty-option="Selecciona una Transaccion .."/>
-            </x-adminlte-select2>
-        </div>
-
         <div class ="col-12 col-sm-2">
             <x-adminlte-date-range 
-            name="drCustomRanges" 
+                name="drCustomRanges" 
                 enable-default-ranges="Last 30 Days" 
                 style="height: 30px;" 
                 :config="$config3">
@@ -137,7 +96,7 @@ $config4 = [
             <div class="card-header">
                 <div class= "row">     
                     <div class="col-md-4">           
-                        <h3 class="card-title text-uppercase font-weight-bold">{{ __('Resumen| Resumen por Caja Transaccion') }}</h3>
+                        <h3 class="card-title text-uppercase font-weight-bold">{{ __('Resumen| Resumen por Fecha y Tokens') }}</h3>
                         @php
                             // echo var_dump($balance);
                             // die();  
@@ -169,13 +128,9 @@ $config4 = [
                                 <tr>
 
 
-                                    <th style="width:10%;">Caja</th>
-                                    <th style="width:10%;">Transaccion</th>
-                                    <th style="width:10%;">Cant</th>
-                                    <th style="width:10%;">Monto</th>   
-                                    <th style="width:10%;">Monto comision base</th>   
-                                    <th style="width:10%;">Monto comision</th>
-                                    <th style="width:10%;">Monto Ganancia comision</th>                                    
+                                    <th style="width:10%;">Fecha</th>
+                                    <th style="width:10%;">Cant Tokens</th>
+                                    <th style="width:10%;">Monto Tokens</th>                                    
                                     <th style="width:1%;">Ver <i class="fas fa-search"></i></th>
 
                                 </tr>                                
@@ -191,14 +146,9 @@ $config4 = [
                                     }
                                 @endphp
                                 <tr>
-                                    <td>{!! $row->WalletName !!}</td>
-                                    <td>{!! $row->TypeTransaccionName !!}</td>                                    
+                                    <td>{!! $row->fechaTransaccion !!}</td> 
                                     <td class="text-right">{!! number_format($row->cant_transactions,0,",",".") !!}</td>                                    
                                     <td class="text-right">{!! number_format($row->total_amount,2,",",".") !!}</td>
-                                    <td class="text-right">{!! number_format($row->total_amount_commission_base,2,",",".") !!}</td>                                    
-                                    <td class="text-right">{!! number_format($row->total_commission,2,",",".") !!}</td>                                       
-                                    <!-- <td class="text-right">{!! number_format($row->total_commission_profit,2,",",".") !!}</td>                                    -->
-                                    <td class="text-right">{!! number_format($myTotal,2,",",".") !!}</td>  
                                     <td class="text-center">
                                         <a href="#"
                                             title="Detalles"
@@ -248,8 +198,8 @@ $config4 = [
                 }
             },
             "order": [[ 1, 'asc' ]],
-            scrollX:        true,
-            scrollCollapse: true,
+            // scrollX:        true,
+            // scrollCollapse: true,
             paging:         true, 
             // fixedColumns: true,
             // fixedColumns:   {
@@ -495,14 +445,12 @@ $config4 = [
 
     })
 
-    function theRoute(wallet = 0, transaction = 0, fechaDesde = 0, fechaHasta = 0){
+    function theRoute(fechaDesde = 0, fechaHasta = 0){
 
-        if (wallet   === "") wallet  = 0;
-        if (transaction   === "") transaction  = 0;
 
         let myRoute = "";
 
-            myRoute = "{{ route('estadisticasResumenWalletTran', ['wallet' => 'wallet2', 'transaction' => 'transaction2', 'fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2']) }}";
+            myRoute = "{{ route('estadisticasResumenWalletTranGroup', ['wallet' => 'wallet2', 'transaction' => 'transaction2', 'fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2']) }}";
             myRoute = myRoute.replace('wallet2',wallet);
             myRoute = myRoute.replace('transaction2',transaction);            
             myRoute = myRoute.replace('fechaDesde2',fechaDesde);
