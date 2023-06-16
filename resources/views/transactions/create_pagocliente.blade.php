@@ -383,15 +383,46 @@ $('#monto_dolares').on('input', function() {
         var val1 = $('#wallet').val();
         var val2 = $('#wallet2').val();
 
+        exonerar_base = $('#radio1_base').is(':checked');
+
         if (val1 == val2) {
-            Swal.fire('Los clientes no pueden ser iguales')
-            //alert('Las clientes no pueden ser iguales');
+            Swal.fire('Las cajas no pueden ser iguales')
             return false; //prevent form submission
         }
-        if ($('#monto_base').val().length == 0) {
-            Swal.fire('Monto total, no puede estar vacio :(');
+
+        if ($('#monto_dolares').val().length == 0) {
+            Swal.fire('Monto en dolares, no puede estar vacio :(');
             return false;
         }
+
+        if ($('#monto_dolares').val() <= 0) {
+            Swal.fire('Monto en dolares, no puede ser cero o menor a cero. :(');
+            return false;
+        }
+
+        if(!exonerar_base){
+            if ($('#percentage_base').val() <= 0) {
+            Swal.fire('Porcentage origen, no puede ser cero o menor a cero. :(');
+            return false;
+           }
+        }
+    });
+
+    $('#radio1_base').on('click', function() {
+        $('#percentage_base').val("");
+        $('#comision_base').val("");
+        $('#comision_base').attr("readonly", true);
+        $('#percentage_base').attr("readonly", true);
+    });
+
+    $('#radio2_base').on('click', function() {
+
+        $('#percentage_base').attr("readonly", false);
+    });
+
+    $('#radio3_base').on('click', function() {
+
+        $('#percentage_base').attr("readonly", false);
     });
 
     /* OCULTAR LA CAJA SELECCIONADA */
