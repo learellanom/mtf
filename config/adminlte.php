@@ -550,13 +550,6 @@ return [
             'can'         => 'permissions.index',
         ],
         [
-            'text' => 'Proveedores',
-            'url'  => 'proveedores',
-            'active'      => ['proveedores*'],
-            'icon' => 'fas fa-fw fa-donate',
-            'can'         => 'suppliers.index'
-        ],
-        [
             'text' => 'Grupos',
             'url'  => 'grupos',
             'active'      => ['grupos*'],
