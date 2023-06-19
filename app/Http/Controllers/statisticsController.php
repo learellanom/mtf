@@ -1765,6 +1765,26 @@ class statisticsController extends Controller
         ->orderBy('GroupId','ASC')
         ->get();
 
+
+        // $Transacciones = DB::select($myQuery);
+
+        // $myQuery = "
+        // select
+        //     wallet_id                   as WalletId,
+        //     wallets.name                as WalletName,
+        //     type_transaction_id         as TypeTransactionId,
+        //     type_transactions.name      as TypeTransaccionName,            
+        //     group_id                    as GroupId,
+        //     groups.name                 as GroupName,
+        //     count(*)                    as cant_transactions,
+        //     sum(amount)                 as total_amount,
+        //     sum(amount_base)            as total_amount_base,
+        //     sum(amount_commission)      as total_commission,
+        //     sum(amount_commission_base) as total_amount_commission_base,
+        //     sum(amount_total)           as total,
+        //     sum(amount_total_base)      as total_Base,
+        //     (sum(amount_commission)-sum(amount_commission_base)) as total_commission_profit        
+        // ";
        return $Transacciones;
 
     }
