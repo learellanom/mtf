@@ -151,7 +151,7 @@ Route::get('estadisticasDetalle',[App\Http\Controllers\statisticsController::cla
             ->middleware('can:estadisticasDetalle.index')
             ->name('estadisticasDetalle');
 
-Route::get('estadisticasDetalle/{usuario}/{grupo?}/{wallet?}/{typeTransactions?}/{fechaDesde?}/{fechaHasta?}',[App\Http\Controllers\statisticsController::class, 'index_all'])
+Route::get('estadisticasDetalle/{usuario}/{grupo?}/{wallet?}/{typeTransactions?}/{fechaDesde?}/{fechaHasta?}/{token?}',[App\Http\Controllers\statisticsController::class, 'index_all'])
             ->middleware('can:estadisticasDetalle.index')
             ->name('estadisticasDetalle');
 //

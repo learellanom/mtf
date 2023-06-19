@@ -577,6 +577,10 @@ if (isset($balance->Total)){
 
     $(() => {
 
+
+        
+
+
         const myFechaDesde = {!! isset($myFechaDesde) ?? 0 !!};
         const myFechaHasta = {!! isset($myFechaHasta) ?? 0 !!};
         

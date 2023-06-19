@@ -138,7 +138,7 @@ $config4 = [
                                         <a href="#"
                                             title="Detalles"
                                             class="btn btn-xl text-primary mx-1 shadow text-center"
-                                            onClick="theRoute2({{0}}, {{0}}, {{0}}, {{0}})">
+                                            onClick="theRoute2({{0}}, {{0}}, {{0}}, {{0}}, '{{$row->fechaTransaccion}}', '{{$row->fechaTransaccion}}')">
                                             <i class="fa fa-lg fa-fw fa-eye"></i>
                                         </a>
                                     </td>
@@ -375,24 +375,6 @@ $config4 = [
 
         BuscaFechas(myFechaDesde, myFechaHasta);
     
-        $('#wallet').on('change', function (){
-
-            const wallet        = $('#wallet').val();
-            const transaccion   = $('#transaccion').val();
-            theRoute(wallet, transaccion);
-
-        });
-
-        $('#transaccion').on('change', function (){
-
-            const wallet        = $('#wallet').val();
-            const transaccion   = $('#transaccion').val();
-
-            // alert('transaccion -> ' + transaccion)
-            theRoute(wallet, transaccion);
-
-        });
-
         $('#drCustomRanges').on('change', function () {
 
             // alert('ggggg ' + $('#drCustomRanges').val());\
@@ -416,25 +398,21 @@ $config4 = [
                             ($('#drCustomRanges').val()).substr(13,2)
                             ;
 
-            const wallet        = $('#wallet').val();
-            const transaccion   = $('#transaccion').val();            
-            theRoute(wallet, transaccion, myFechaDesde,myFechaHasta);
+            theRoute(myFechaDesde,myFechaHasta);
+
         });
 
     })
 
-    function theRoute(wallet = 0, transaction = 0, fechaDesde = 0, fechaHasta = 0){
+    function theRoute( fechaDesde = 0, fechaHasta = 0){
 
-        if (wallet   === "") wallet  = 0;
-        if (transaction   === "") transaction  = 0;
+
 
         let myRoute = "";
 
-            myRoute = "{{ route('estadisticasFechaTokens', ['fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2']) }}";
-            // myRoute = myRoute.replace('wallet2',wallet);
-            // myRoute = myRoute.replace('transaction2',transaction);            
-            myRoute = myRoute.replace('fechaDesde2',fechaDesde);
-            myRoute = myRoute.replace('fechaHasta2',fechaHasta);
+        myRoute = "{{ route('estadisticasFechaTokens', ['fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2']) }}";
+        myRoute = myRoute.replace('fechaDesde2',fechaDesde);
+        myRoute = myRoute.replace('fechaHasta2',fechaHasta);
         // console.log(myRoute);
         // alert(myRoute);
         location.href = myRoute;
@@ -444,24 +422,29 @@ $config4 = [
 
     function theRoute2(usuario = 0, grupo = 0, wallet = 0, typeTransactions = 0, fechaDesde = 0, fechaHasta = 0){
 
-        if (usuario  === "") usuario  = 0;
-        if (grupo  === "") grupo  = 0;        
-        if (wallet  === "") wallet  = 0;
-        if (typeTransactions  === "") typeTransactions  = 0;
+        if (usuario  === "")            usuario  = 0;
+        if (grupo  === "")              grupo  = 0;        
+        if (wallet  === "")             wallet  = 0;
+        if (typeTransactions  === "")   typeTransactions  = 0;
 
-        fechaDesde = $('#drCustomRanges').data('daterangepicker').startDate.format('YYYY-MM-DD')
-        fechaHasta = $('#drCustomRanges').data('daterangepicker').endDate.format('YYYY-MM-DD')
+        if (fechaDesde == 0){
+            fechaDesde = $('#drCustomRanges').data('daterangepicker').startDate.format('YYYY-MM-DD')
+            fechaHasta = $('#drCustomRanges').data('daterangepicker').endDate.format('YYYY-MM-DD')
+        }
+
+        // alert(`Fecha Desde ${fechaDesde.toString()} and Fecha hasta ${fechaHasta.toString()}`);
 
         //                      'estadisticasDetalle/{usuario}/{grupo?}/{wallet?}/{typeTransactions?}/{fechaDesde?}/{fechaHasta?}'
         //     http://localhost:8080/estadisticasDetalle/0/0/8/11/2023-05-02/2023-05-31
         let myRoute = "";
-            myRoute = "{{ route('estadisticasDetalle', ['usuario' => 'usuario2', 'grupo' => 'grupo2', 'wallet' => 'wallet2', 'typeTransactions' => 'typeTransactions2','fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2']) }}";
-            myRoute = myRoute.replace('grupo2',grupo);
-            myRoute = myRoute.replace('usuario2',usuario);
-            myRoute = myRoute.replace('wallet2',wallet);
-            myRoute = myRoute.replace('typeTransactions2',typeTransactions);
-            myRoute = myRoute.replace('fechaDesde2',fechaDesde);
-            myRoute = myRoute.replace('fechaHasta2',fechaHasta);
+        myRoute = "{{ route('estadisticasDetalle', ['usuario' => 'usuario2', 'grupo' => 'grupo2', 'wallet' => 'wallet2', 'typeTransactions' => 'typeTransactions2','fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2','token'=> 'token2']) }}";
+        myRoute = myRoute.replace('grupo2',grupo);
+        myRoute = myRoute.replace('usuario2',usuario);
+        myRoute = myRoute.replace('wallet2',wallet);
+        myRoute = myRoute.replace('typeTransactions2',typeTransactions);
+        myRoute = myRoute.replace('fechaDesde2',fechaDesde);
+        myRoute = myRoute.replace('fechaHasta2',fechaHasta);
+        myRoute = myRoute.replace('token2',1);        
         // console.log(myRoute);
         // alert(myRoute);
         location.href = myRoute;
@@ -514,8 +497,8 @@ $config4 = [
 
         myArray     = myLocation.split("/");
         if (myArray.length > 4){
-            FechaDesde = myArray[6];
-            FechaHasta = myArray[7];
+            FechaDesde = myArray[4];
+            FechaHasta = myArray[5];
         }else{
             FechaDesde = 0;
             FechaHasta = 0;       
@@ -536,7 +519,9 @@ $config4 = [
         // $('#drCustomRanges').val(myFecha);
         // alert(' Mi Fecha desde -> ' + myFechaDesde);
         // alert('gggggsssss ' + $('#drCustomRanges').data('daterangepicker').startDate.format('YYYY-MM-DD'));
-
+        //
+        // asigna las fechas al control
+        //
         $('#drCustomRanges').data('daterangepicker').setStartDate(myFechaDesde);
         $('#drCustomRanges').data('daterangepicker').setEndDate(myFechaHasta);
     }
