@@ -35,9 +35,51 @@ class HomeController extends Controller
 
         $wallet = app(statisticsController::class)->getBalanceWallet();
 
+        //$this->getwalletTransactionSummary($request);
+        // $Transacciones2         = $this->getWalletTransactionGroupSummary($request);
 
         return view('home', compact('wallet'));
     }
+
+    public function graphics(request $request)
+    {
+        $wallet_summary = app(statisticsController::class)->getwalletTransactionSummary($request);
+
+        $wallet_groupsummary = app(statisticsController::class)->getWalletTransactionGroupSummary($request);
+
+        $wallet = app(statisticsController::class)->getWallet();
+
+        $typeTransactions = app(statisticsController::class)->getTypeTransactions();
+
+
+
+        /* MANTENER VALOR BUSCADO EN EL URL */
+       $myWalletDesde   = 0;
+       $myWalletHasta   = 9999;
+       $myWallet        = 0;
+       if ($request->wallet){
+           $myWalletDesde   = $request->wallet;
+           $myWalletHasta   = $request->wallet;
+           $myWallet        = $request->wallet;
+       }
+       $myTypeTransaction      = 0;
+       $myTypeTransactionDesde = 0;
+       $myTypeTransactionHasta = 9999;
+       if ($request->transaction) {
+           $myTypeTransaction      = $request->transaction;
+           $myTypeTransactionDesde = $request->transaction;
+           $myTypeTransactionHasta = $request->transaction;
+
+       }
+        /* MANTENER VALOR BUSCADO EN EL URL */
+
+
+        //dd($wallet_groupsummary);
+
+        return view('dashboardest', compact('wallet_summary', 'wallet_groupsummary', 'wallet', 'typeTransactions', 'myWallet', 'myTypeTransaction'));
+    }
+
+
 
 
 

@@ -59,6 +59,10 @@ require __DIR__.'/auth.php';
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->middleware('can:home')->name('home');
+Route::get('dashboardest', [App\Http\Controllers\HomeController::class, 'graphics'])->name('dashboardest');
+Route::get('dashboardest/{wallet}', [App\Http\Controllers\HomeController::class, 'graphics'])->name('dashboardest');
+Route::get('dashboardest/{wallet}/{transaction?}/', [App\Http\Controllers\HomeController::class, 'graphics'])->name('dashboardest');
+
 
 /* TRANSACCIONES A CLIENTES */
 Route::group(['middleware' => 'auth'], function () {
@@ -301,17 +305,6 @@ Route::get('estadisticasConciliacionGrupo/{grupo}/{fechaDesde?}/{fechaHasta?}',[
 
 Route::get('estadisticasConciliacionFecha',[App\Http\Controllers\statisticsController::class, 'conciliationSummaryDate'])->name('estadisticasConciliacionFecha');
 Route::get('estadisticasConciliacionFecha/{fechaDesde?}/{fechaHasta?}',[App\Http\Controllers\statisticsController::class, 'conciliationSummaryDate'])->name('estadisticasConciliacionFecha');
-
-
-
-
-Route::get('comanda', function () {
-    return view('master.comanda');
-})->name('comanda');
-
-Route::get('dashboardest', function () {
-    return view('dashboardest');
-})->name('dashboardtest');
 
 
 
