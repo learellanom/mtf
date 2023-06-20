@@ -96,9 +96,24 @@ class statisticsController extends Controller
             $myTypeTransactionsHasta = 9999;
         }
 
+
+        // token
+
+        $myToken            = 0;
+        $myTokenDesde       = "";
+        $myTokenHasta       = "ZZZZZZZZZZZZZZZZZZZZZZZZZZZZ";
+        $myTokenCondition   = "";
+
+        if ($request->token){
+            if($request->token == 1){
+                $myTokenCondition = " and token    between '$myTokenDesde'             and '$myTokenHasta'";
+            }
+        }
+
         // \Log::info('leam usuario *** -> ' . $request->usuario);
         // \Log::info('leam cliente *** -> ' . $request->cliente);
-        // \Log::info('leam wallet *** -> ' . $request->wallet);
+        // \Log::info('leam wallet ***  -> ' . $request->wallet);
+           \Log::info('leam token ***   -> ' . $request->token);
 
         $balance = "";
         if ($myGroup > 0){
@@ -228,13 +243,14 @@ class statisticsController extends Controller
                     and wallet_id           between $myWalletDesde              and $myWalletHasta
                     and type_transaction_id between $myTypeTransactionsDesde    and $myTypeTransactionsHasta
                     and transaction_date    between '$myFechaDesde'             and '$myFechaHasta'
+                    $myTokenCondition
                 order by
                     Transactions.transaction_date ASC
 
             ";
     
             // dd($myQuery);
-    
+            \Log::info('leam My query *** -> ' . $myQuery);
             $Transacciones = DB::select($myQuery);
     
 
@@ -1205,22 +1221,29 @@ class statisticsController extends Controller
         }
 
         //
+         
+
+        $myFechaDesde = $myFechaDesde;
+        $myFechaHasta = $myFechaHasta;
+
+        // dd(" Fecha desde : " . $myFechaDesde . " Fecha Hasta : " . $myFechaHasta);
 
         $Transacciones = DB::table('transactions')
             ->select(DB::raw('
-                transaction_date        as fechaTransaccion,
-                count(*)                as cant_transactions,
-                sum(amount)             as total_amount,
-                sum(amount_commission)  as total_commission,
-                sum(amount_total)   as total'))
+                substring(transaction_date,1,10)    as fechaTransaccion,
+                count(*)                            as cant_transactions,
+                sum(amount)                         as total_amount,
+                sum(amount_commission)              as total_commission,
+                sum(amount_total)                   as total'))
             ->where('status','<>','Anulado')
             ->where('token','<>','')
-            ->whereBetween('Transactions.transaction_date', [$myFechaDesde, $myFechaHasta])
+            ->whereBetween('Transactions.transaction_date', [$myFechaDesde . " 00:00:00", $myFechaHasta . " 23:59:59"])
             ->groupBy('fechaTransaccion')
+            ->orderBy('fechaTransaccion', 'DESC')
             ->get();
 
 
-             //   dd($Transacciones);
+            //    dd($Transacciones);
 
         return view('estadisticas.statisticsFechaTokens', compact('Transacciones', 'myFechaDesde', 'myFechaHasta'));
         return $myUsers2;
@@ -1742,6 +1765,26 @@ class statisticsController extends Controller
         ->orderBy('GroupId','ASC')
         ->get();
 
+
+        // $Transacciones = DB::select($myQuery);
+
+        // $myQuery = "
+        // select
+        //     wallet_id                   as WalletId,
+        //     wallets.name                as WalletName,
+        //     type_transaction_id         as TypeTransactionId,
+        //     type_transactions.name      as TypeTransaccionName,            
+        //     group_id                    as GroupId,
+        //     groups.name                 as GroupName,
+        //     count(*)                    as cant_transactions,
+        //     sum(amount)                 as total_amount,
+        //     sum(amount_base)            as total_amount_base,
+        //     sum(amount_commission)      as total_commission,
+        //     sum(amount_commission_base) as total_amount_commission_base,
+        //     sum(amount_total)           as total,
+        //     sum(amount_total_base)      as total_Base,
+        //     (sum(amount_commission)-sum(amount_commission_base)) as total_commission_profit        
+        // ";
        return $Transacciones;
 
     }
