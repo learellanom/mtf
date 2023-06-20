@@ -186,6 +186,7 @@
                             <i class="fa-fw fas fa-coins mr-2"></i>
                             {!! Form::text('amount_total', null,['class' => 'form-control montototal general', 'required' => true, 'min' => 0, 'id' => 'montototal', 'readonly' => true]) !!}
                             {!! Form::hidden('amount_total_base', null,['class' => 'form-control monto_base', 'id' => 'monto_base', 'readonly' => true]) !!}
+                            {!! Form::hidden('amount_base', null,['class' => 'form-control monto_base', 'id' => 'monto_base2', 'readonly' => true]) !!}
                         </div>
                     </div>
 
@@ -459,6 +460,7 @@ $(document).ready(function() {
         var input1Value = $('#monto_dolares').val();
         $('#montototal').val(input1Value);
         $('#monto_base').val(input1Value);
+        $('#monto_base2').val(input1Value);
 
      });
 
@@ -630,6 +632,9 @@ $(document).ready(function() {
                                 $('#comision').val('');
                                 montoreal = monto_dolares.toFixed(2);
                                 $('#montototal').val(montoreal);
+                                $('#monto_base').val(montoreal);
+                                $('#monto_base2').val(montoreal);
+
                              }
                           }
 

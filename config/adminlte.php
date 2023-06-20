@@ -381,7 +381,7 @@ return [
             'active' => ['estadisticasFechaTokes','regex:@^estadisticasFechaTokens/[0-9]+/*@' ],
             'icon' => 'fas fa-fw fas fa-chart-bar',
             'can'  => 'estadisticasDetalle.estadisticasFechaTokens',
-        ],        
+        ],
         ['header' => 'Operaciones',
         'classes' =>'text-uppercase font-weight-bold text-light',],
         [
@@ -705,7 +705,7 @@ return [
                     'type' => 'js',
                     'asset' => true,
                     'location' => 'vendor/datatables-plugins/fixedcolumns/js/dataTables.fixedColumns.min.js',
-                ],                
+                ],
                 [
                     'type' => 'css',
                     'asset' => true,
@@ -745,6 +745,11 @@ return [
                     'type' => 'js',
                     'asset' => true,
                     'location' => 'vendor/chart.js/Chart.js',
+                ],
+                [
+                    'type' => 'css',
+                    'asset' => true,
+                    'location' => 'vendor/chart.js/Chart.css',
                 ],
             ],
         ],
