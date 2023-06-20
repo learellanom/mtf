@@ -185,8 +185,8 @@
                         <div class="input-group-text">
                             <i class="fa-fw fas fa-coins mr-2"></i>
                             {!! Form::text('amount_total', null,['class' => 'form-control montototal general', 'required' => true, 'min' => 0, 'id' => 'montototal', 'readonly' => true]) !!}
-                            {!! Form::hidden('amount_total_base', null,['class' => 'form-control monto_base', 'id' => 'monto_base', 'readonly' => true]) !!}
-                            {!! Form::hidden('amount_base', null,['class' => 'form-control monto_base', 'id' => 'monto_base2', 'readonly' => true]) !!}
+                            {!! Form::hidden('amount_total_base', null,['class' => 'form-control monto_base general', 'id' => 'monto_base', 'readonly' => true]) !!}
+                            {!! Form::hidden('amount_base', null,['class' => 'form-control monto_base general', 'id' => 'monto_base2', 'readonly' => true]) !!}
                         </div>
                     </div>
 
@@ -461,8 +461,8 @@ $(document).ready(function() {
         $('#montototal').val(input1Value);
         $('#monto_base').val(input1Value);
         $('#monto_base2').val(input1Value);
-
      });
+
 
      $('.general').inputmask({
 			alias: 'decimal',
@@ -597,6 +597,7 @@ $(document).ready(function() {
                             let comision = parseFloat($('#comision').val());
                             let porcentage = parseFloat($('#percentage').val());
                             let montoreal = parseFloat($('#montototal').val());
+                            let monto_dolares = parseFloat($('#monto_dolares').val());
 
                             let exonerar = $('#radio1').is(':checked');
                             let descontar = $('#radio2').is(':checked');
@@ -613,28 +614,26 @@ $(document).ready(function() {
                                 //alert(comision);
                             }
 
-
                             if(!exonerar) {
 
                                 if(incluir) {
 
                                  montoreal = (monto_dolares + comision).toFixed(2);
+                                 d = monto_dolares.toFixed(2);
                                 $('#montototal').val((monto_dolares + comision));
-                                //alert(montoreal);
 
                                 } else if(descontar) {
                                 montoreal = (monto_dolares - comision).toFixed(2);
+                                d = monto_dolares.toFixed(2);
                                 $('#montototal').val((monto_dolares - comision));
+
                                 }
                             }
                             else {
                                 $('#percentage').val('');
                                 $('#comision').val('');
-                                montoreal = monto_dolares.toFixed(2);
-                                $('#montototal').val(montoreal);
-                                $('#monto_base').val(montoreal);
-                                $('#monto_base2').val(montoreal);
-
+                                d = monto_dolares.toFixed(2);
+                                $('#montototal').val(d);
                              }
                           }
 
@@ -664,6 +663,8 @@ $(document).ready(function() {
                             if(tasa > 0 && monto > 0) {
                                 let monto_total = (monto / tasa).toFixed(2);
                                 $('#monto_dolares').val(monto_total);
+                                $('#monto_base').val(monto_total);
+                                $('#monto_base2').val(monto_total);
                             }
 
                             let comision = parseFloat($('#comision').val());
