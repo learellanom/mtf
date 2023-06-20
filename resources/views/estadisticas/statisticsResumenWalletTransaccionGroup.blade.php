@@ -257,9 +257,9 @@ $config4 = [
             // fixedColumns:   {
             //     left: 1
             // },       
-            rowGroup: {
-                dataSrc: [0,1]
-            },                         
+            // rowGroup: {
+            //     dataSrc: [0,1]
+            // },                         
             'dom' : 'Bfrtilp',
             'buttons':[
                 {
