@@ -1452,22 +1452,23 @@ class statisticsController extends Controller
         // dd('Fecha desde -> ' . $myFechaDesde . ' Fecha Hasta -> ' . $myFechaHasta);
 
        //
-       $myWalletDesde   = 0;
-       $myWalletHasta   = 9999;
-       $myWallet        = 0;
-       if ($request->wallet){
-           $myWalletDesde   = $request->wallet;
-           $myWalletHasta   = $request->wallet;
-           $myWallet        = $request->wallet;
-       }
+        $myWalletDesde   = 0;
+        $myWalletHasta   = 9999;
+        $myWallet        = 0;
+        if ($request->wallet){
+            $myWalletDesde   = $request->wallet;
+            $myWalletHasta   = $request->wallet;
+            $myWallet        = $request->wallet;
+        }
 
             // ajua
-        $Transacciones1          = $this->getwalletTransactionSummary($request);
+        $Transacciones1         = $this->getwalletTransactionSummary($request);
         $Transacciones2         = $this->getWalletTransactionGroupSummary($request);
         $groups                 = $this->getGroups();
 
         $this->getWalletTransactionGroupTotal($Transacciones1, $Transacciones2);
-       $Transacciones       = $Transacciones2;
+        $Transacciones       = $Transacciones2;
+       // dd($Transacciones2);
        // dd($Transacciones);
 
         $balance = 0;
@@ -1478,8 +1479,8 @@ class statisticsController extends Controller
         };
         // dd($balance);
     
-            $Type_transactions  = $this->getTypeTransactions();
-            $wallet             = $this->getWallet();
+        $Type_transactions  = $this->getTypeTransactions();
+        $wallet             = $this->getWallet();
 
         // dd($Transacciones2);             
         // dd($Transacciones2);
