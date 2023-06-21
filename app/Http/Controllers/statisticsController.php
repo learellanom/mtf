@@ -1744,7 +1744,8 @@ class statisticsController extends Controller
             left join  mtf.groups               on group_id                 = mtf.groups.id
             left join  mtf.type_transactions    on type_transaction_id      = mtf.type_transactions.id     
         where        
-                mtf.Transactions.wallet_id             between  $myWalletDesde          and     $myWalletHasta
+                mtf.Transactions.status <> 'Anulado'
+        and     mtf.Transactions.wallet_id             between  $myWalletDesde          and     $myWalletHasta
         and     mtf.Transactions.type_transaction_id   between  $myTypeTransactionDesde and     $myTypeTransactionHasta      
         and     mtf.Transactions.transaction_date      between  '$myFechaDesde2 00:00:00'   and     '$myFechaHasta2 23:59:00'
         $condicionGroup                  
@@ -1764,10 +1765,10 @@ class statisticsController extends Controller
 
         // dd($myQuery);
 
-        $Transacciones3 = DB::select($myQuery);
+        $Transacciones = DB::select($myQuery);
        // dd($Transacciones2);
-        \Log::info('leam *** $myQUery -> ' . $myQuery);       
-        \Log::info('leam *** $Transacciones3 -> ' . print_r($Transacciones3,true));
+       //  \Log::info('leam *** $myQUery -> ' . $myQuery);       
+       //  \Log::info('leam *** $Transacciones3 -> ' . print_r($Transacciones3,true));
        
        return $Transacciones;
 
