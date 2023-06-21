@@ -540,41 +540,52 @@ $("#typetrasnferencia").trigger("change");
 		});
 
 
-
+    $('#monto_dolares').on('input', function() {
+        var input1Value = $('#monto_dolares').val();
+        $('#montototal').val(input1Value);
+        $('#montototal_base').val(input1Value);
+        //$('#monto_extranjera_base').val(input1Value);
+     });
 
 $(document).ready(function() {
     //$('#monto_dolares').toFixed(2);
 
     $('#entre').on('submit', function() {
 
-        /* if ($('#montototal').val().length == 0) {
-            Swal.fire('Monto total, no puede estar vacio :(');
-            return false;
-        } */
         tasa = $('#c_tasa').is(':checked');
         porcentage = $('#c_porcentaje').is(':checked');
         exonerar = $('#radio1').is(':checked');
         exonerar_base = $('#radio1_base').is(':checked');
+        transferencia = $("#typetrasnferencia option:selected").text();
 
-        if(porcentage && !exonerar){
-            if ($('#percentage').val() <= 0) {
-            Swal.fire('Porcentage, no puede ser cero o menor a cero. :(');
-            return false;
-           }
-        }
-        if(porcentage && !exonerar_base){
-            if ($('#percentage_base').val() <= 0) {
-            Swal.fire('Porcentage base, no puede ser cero o menor a cero. :(');
-            return false;
-           }
-        }
-        if(tasa){
-           if ($('#tasa_base').val() <= 0) {
-            Swal.fire('Tasa base, no puede ser cero o menor a cero. :(');
-            return false;
-           }
-        }
-      });
+
+        if (transferencia === 'Nota de debito' || transferencia === 'Nota de credito'){
+                    if ($('#percentage').val() <= 0) {
+                    Swal.fire('El tipo es nota y pasa.');
+                    return true;
+                    }
+           }else{
+                    if(porcentage && !exonerar){
+                        if ($('#percentage').val() <= 0) {
+                        Swal.fire('Porcentage, no puede ser cero o menor a cero. :(');
+                        return false;
+                    }
+                    }
+                    if(porcentage && !exonerar_base){
+                        if ($('#percentage_base').val() <= 0) {
+                        Swal.fire('Porcentage base, no puede ser cero o menor a cero. :(');
+                        return false;
+                    }
+                    }
+
+                    if(tasa){
+                    if ($('#tasa_base').val() <= 0) {
+                        Swal.fire('Tasa base, no puede ser cero o menor a cero. :(');
+                        return false;
+                    }
+                    }
+               }
+    });
 
 
 

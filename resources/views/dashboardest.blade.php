@@ -92,7 +92,7 @@ $config4 = [
         </div>
       </div>
 
-      <div class="row">
+      <div class="row esconder">
         <div class="col-md-6">
             <div class="card">
               <div class="card-body">
@@ -111,7 +111,7 @@ $config4 = [
           </div>
         </div>
 
-        <div class="row">
+        <div class="row esconder">
             <div class="col-md-6">
                 <div class="card">
                   <div class="card-body">
@@ -130,7 +130,7 @@ $config4 = [
               </div>
             </div>
 
-            <div class="row">
+            <div class="row esconder">
                 <div class="col-md-6">
                     <div class="card">
                       <div class="card-body">
@@ -149,7 +149,7 @@ $config4 = [
                   </div>
                 </div>
 
-                <div class="row">
+                <div class="row esconder">
                     <div class="col-md-6">
                         <div class="card">
                           <div class="card-body">
@@ -168,7 +168,7 @@ $config4 = [
                       </div>
                     </div>
 
-                    <div class="row">
+                    <div class="row esconder">
                         <div class="col-md-6">
                             <div class="card">
                               <div class="card-body">
@@ -187,7 +187,7 @@ $config4 = [
                           </div>
                         </div>
 
-                        <div class="row">
+                        <div class="row esconder">
                             <div class="col-md-6">
                                 <div class="card">
                                   <div class="card-body">
@@ -205,7 +205,7 @@ $config4 = [
                                 </div>
                               </div>
                             </div>
-                            <div class="row">
+                            <div class="row esconder">
                                 <div class="col-md-6">
                                     <div class="card">
                                       <div class="card-body">
@@ -224,7 +224,7 @@ $config4 = [
                                   </div>
                                 </div>
 
-                                <div class="row">
+                                <div class="row esconder">
                                     <div class="col-md-6">
                                         <div class="card">
                                           <div class="card-body">
@@ -243,7 +243,7 @@ $config4 = [
                                       </div>
                                     </div>
 
-                                    <div class="row">
+                                    <div class="row esconder">
                                         <div class="col-md-6">
                                             <div class="card">
                                               <div class="card-body">
@@ -262,7 +262,7 @@ $config4 = [
                                           </div>
                                         </div>
 
-                                        <div class="row">
+                                        <div class="row esconder">
                                             <div class="col-md-6">
                                                 <div class="card">
                                                   <div class="card-body">
@@ -281,7 +281,7 @@ $config4 = [
                                               </div>
                                             </div>
 
-                                            <div class="row">
+                                            <div class="row esconder">
                                                 <div class="col-md-6">
                                                     <div class="card">
                                                       <div class="card-body">
@@ -300,7 +300,7 @@ $config4 = [
                                                   </div>
                                                 </div>
 
-                                                <div class="row">
+                                                <div class="row esconder">
                                                     <div class="col-md-6">
                                                         <div class="card">
                                                           <div class="card-body">
@@ -318,7 +318,7 @@ $config4 = [
                                                         </div>
                                                       </div>
                                                     </div>
-                                                    <div class="row">
+                                                    <div class="row esconder">
                                                         <div class="col-md-6">
                                                             <div class="card">
                                                               <div class="card-body">
@@ -336,7 +336,7 @@ $config4 = [
                                                             </div>
                                                           </div>
                                                         </div>
-                                                        <div class="row">
+                                                        <div class="row esconder">
                                                             <div class="col-md-6">
                                                                 <div class="card">
                                                                   <div class="card-body">
@@ -364,6 +364,77 @@ $config4 = [
 
 
 <script>
+/*  const esconder = $('.esconder').hide();
+
+$('#wallet').change(function (){
+
+if($(this).val() == ''){
+    $('.esconder').hide();
+   } else {
+    $('.esconder').show();
+  }
+
+});
+
+$('#typeTransactions').change(function (){
+
+if($(this).val() == ''){
+    $('.esconder').hide();
+   } else {
+    $('.esconder').show();
+  }
+
+}); */
+
+function handleSelectChange(selectElement, className, storageKey) {
+  const selectedValue = selectElement.val();
+  const hiddenElement = $(className);
+
+  if (selectedValue === 'true') {
+    alert(selectedValue)
+    hiddenElement.show();
+  } else {
+    hiddenElement.hide();
+  }
+
+  localStorage.setItem(storageKey, selectedValue);
+}
+
+const walletSelect = $('#wallet');
+const walletHiddenElement = $('.esconder');
+const walletStorageKey = 'wallet';
+const walletSelectedValue = localStorage.getItem(walletStorageKey);
+
+if (walletSelectedValue.trim() == "") {
+  walletHiddenElement.hide();
+} else {
+  walletHiddenElement.show();
+}
+
+walletSelect.on('change', () => {
+  handleSelectChange(walletSelect, '.esconder.wallet', 'wallet');
+});
+
+
+const typeTransactionsSelect = $('#typeTransactions');
+const typeTransactionsHiddenElement = $('.esconder');
+const typeTransactionsStorageKey = 'typeTransactions';
+const typeTransactionsSelectedValue = localStorage.getItem(typeTransactionsStorageKey);
+
+if (typeTransactionsSelectedValue.trim() == "") {
+  typeTransactionsHiddenElement.hide();
+} else {
+  typeTransactionsHiddenElement.show();
+}
+
+typeTransactionsSelect.on('change', () => {
+  handleSelectChange(typeTransactionsSelect, '.esconder.typeTransactions', 'typeTransactions');
+});
+
+
+
+
+
 
 const miWallet = {!! $myWallet !!};
 
@@ -398,95 +469,65 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         },
         data: {
-            labels: [@foreach($wallet_groupsummary as $wallets) "{{$wallets->GroupName }}", @endforeach],
+            labels: ['Caja Banesco', 'Caja USDT', 'Abu Mahmoud'],
             datasets: [{
                 label: 'Monto total de las transacciones',
-                data: [@foreach($wallet_groupsummary as $wallets) {{$wallets->total_amount. ',' }} @endforeach],
+                data: [600,50,200,33,45,80],
                 backgroundColor: [
-                    @foreach($wallet_summary as $wallet)
-                    @if($wallet->TypeTransactionId == 1)
                     'rgb(0, 173, 181)',
-                    @endif
-                    @if($wallet->TypeTransactionId == 2)
+
                     'rgb(58, 16, 120)',
-                    @endif
-                    @if($wallet->TypeTransactionId == 3)
+
                     'rgb(255, 184, 76)',
-                    @endif
-                    @if($wallet->TypeTransactionId == 4)
+
                     'rgb(49, 225, 247)',
-                    @endif
-                    @if($wallet->TypeTransactionId == 5)
+
                     'rgb(8, 2, 2)',
-                    @endif
-                    @if($wallet->TypeTransactionId == 6)
+
                     'rgb(0, 129, 180)',
-                    @endif
-                    @if($wallet->TypeTransactionId == 7)
+
                     'rgb(7, 10, 82)',
-                    @endif
-                    @if($wallet->TypeTransactionId == 8)
+
                     'rgb(213, 206, 163)',
-                    @endif
-                    @if($wallet->TypeTransactionId == 9)
+
                     'rgb(60, 42, 33)',
-                    @endif
-                    @if($wallet->TypeTransactionId == 10)
+
                     'rgb(2, 89, 85)',
-                    @endif
-                    @if($wallet->TypeTransactionId == 11)
+
                     'rgb(255, 132, 0)',
-                    @endif
-                    @if($wallet->TypeTransactionId == 12)
+
                     'rgb(184, 98, 27)',
-                    @endif
-                    @if($wallet->TypeTransactionId == 13)
+
                     'rgb(114, 0, 27)',
-                    @endif
-                    @endforeach
                 ],
                 borderColor: [
-                    @foreach($wallet_summary as $wallet)
-                    @if($wallet->TypeTransactionId == 1)
+
                     'rgb(0, 173, 181)',
-                    @endif
-                    @if($wallet->TypeTransactionId == 2)
+
                     'rgb(58, 16, 120)',
-                    @endif
-                    @if($wallet->TypeTransactionId == 3)
+
                     'rgb(255, 184, 76)',
-                    @endif
-                    @if($wallet->TypeTransactionId == 4)
+
                     'rgb(49, 225, 247)',
-                    @endif
-                    @if($wallet->TypeTransactionId == 5)
+
                     'rgb(8, 2, 2)',
-                    @endif
-                    @if($wallet->TypeTransactionId == 6)
+
                     'rgb(0, 129, 180)',
-                    @endif
-                    @if($wallet->TypeTransactionId == 7)
+
                     'rgb(7, 10, 82)',
-                    @endif
-                    @if($wallet->TypeTransactionId == 8)
+
                     'rgb(213, 206, 163)',
-                    @endif
-                    @if($wallet->TypeTransactionId == 9)
+
                     'rgb(60, 42, 33)',
-                    @endif
-                    @if($wallet->TypeTransactionId == 10)
+
                     'rgb(2, 89, 85)',
-                    @endif
-                    @if($wallet->TypeTransactionId == 11)
+
                     'rgb(255, 132, 0)',
-                    @endif
-                    @if($wallet->TypeTransactionId == 12)
+
                     'rgb(184, 98, 27)',
-                    @endif
-                    @if($wallet->TypeTransactionId == 13)
+
                     'rgb(114, 0, 27)',
-                    @endif
-                    @endforeach
+
 
                 ],
                 borderWidth: 4
@@ -505,53 +546,39 @@ document.addEventListener('DOMContentLoaded', function () {
     const myChart2 = new Chart(ctx2, {
         type: 'doughnut',
         data : {
-            labels: [@foreach($wallet_summary as $wallet) "{{$wallet->TypeTransaccionName }}", @endforeach],
+            labels: ['Pago transferencia', 'Cobro en transferencia', 'Pago en efectivo', 'Cobro en efectivo', 'Pago Mercancía', 'Nota de Credito a Caja de efectivo', 'Nota de credito', 'Nota de debito', 'Swift', 'Cobro mercancia', 'Pago USDT'],
             datasets: [
                 {
                 label: 'Dataset 1',
-                data: [@foreach($wallet_summary as $wallet) {{$wallet->cant_transactions. ',' }} @endforeach],
+                data: [600,50,200,33,45,80],
                 backgroundColor: [
-                    @foreach($wallet_summary as $wallet)
-                    @if($wallet->TypeTransactionId == 1)
+
                     'rgb(0, 173, 181)',
-                    @endif
-                    @if($wallet->TypeTransactionId == 2)
+
                     'rgb(58, 16, 120)',
-                    @endif
-                    @if($wallet->TypeTransactionId == 3)
+
                     'rgb(255, 184, 76)',
-                    @endif
-                    @if($wallet->TypeTransactionId == 4)
+
                     'rgb(49, 225, 247)',
-                    @endif
-                    @if($wallet->TypeTransactionId == 5)
+
                     'rgb(8, 2, 2)',
-                    @endif
-                    @if($wallet->TypeTransactionId == 6)
+
                     'rgb(0, 129, 180)',
-                    @endif
-                    @if($wallet->TypeTransactionId == 7)
+
                     'rgb(7, 10, 82)',
-                    @endif
-                    @if($wallet->TypeTransactionId == 8)
+
                     'rgb(213, 206, 163)',
-                    @endif
-                    @if($wallet->TypeTransactionId == 9)
+
                     'rgb(60, 42, 33)',
-                    @endif
-                    @if($wallet->TypeTransactionId == 10)
+
                     'rgb(2, 89, 85)',
-                    @endif
-                    @if($wallet->TypeTransactionId == 11)
-                    'rgb(255, 132, 0)',
-                    @endif
-                    @if($wallet->TypeTransactionId == 12)
+
+                    'rgb(255, 184, 0)',
+
                     'rgb(184, 98, 27)',
-                    @endif
-                    @if($wallet->TypeTransactionId == 13)
+
                     'rgb(114, 0, 27)',
-                    @endif
-                    @endforeach
+
                 ],
                 hoverOffset: 4
             }]
@@ -630,8 +657,61 @@ document.addEventListener('DOMContentLoaded', function () {
             datasets: [{
                 label: '',
                 data: [@foreach($wallet_groupsummary as $wallets) @if($wallets->TypeTransactionId == 1) {{$wallets->total_amount. ',' }}  @endif  @endforeach],
-                backgroundColor: color,
-                borderColor: color,
+                backgroundColor: [
+                    'rgb(0, 173, 181)',
+
+                    'rgb(58, 16, 120)',
+
+                    'rgb(255, 184, 76)',
+
+                    'rgb(49, 225, 247)',
+
+                    'rgb(8, 2, 2)',
+
+                    'rgb(0, 129, 180)',
+
+                    'rgb(7, 10, 82)',
+
+                    'rgb(213, 206, 163)',
+
+                    'rgb(60, 42, 33)',
+
+                    'rgb(2, 89, 85)',
+
+                    'rgb(255, 132, 0)',
+
+                    'rgb(184, 98, 27)',
+
+                    'rgb(114, 0, 27)',
+                ],
+                borderColor: [
+                    'rgb(0, 173, 181)',
+
+                    'rgb(58, 16, 120)',
+
+                    'rgb(255, 184, 76)',
+
+                    'rgb(49, 225, 247)',
+
+                    'rgb(8, 2, 2)',
+
+                    'rgb(0, 129, 180)',
+
+                    'rgb(7, 10, 82)',
+
+                    'rgb(213, 206, 163)',
+
+                    'rgb(60, 42, 33)',
+
+                    'rgb(2, 89, 85)',
+
+                    'rgb(255, 132, 0)',
+
+                    'rgb(184, 98, 27)',
+
+                    'rgb(114, 0, 27)',
+
+                ],
                 borderWidth: 6
             }]
         }
@@ -1453,15 +1533,15 @@ const DATA_COUNT16 = 1500;
 
  }, true);
 
-
+ //$('.esconder').hide();
 
  $(() => {
 
 $('#wallet').on('change', function (){
 
-const wallet        = $('#wallet').val();
-const transaccion   = $('#typeTransactions').val();
-theRoute(wallet, transaccion);
+    const wallet        = $('#wallet').val();
+    const transaccion   = $('#typeTransactions').val();
+    theRoute(wallet, transaccion);
 
 });
 
@@ -1470,10 +1550,14 @@ $('#typeTransactions').on('change', function (){
 const wallet        = $('#wallet').val();
 const transaccion   = $('#typeTransactions').val();
 
-// alert('transaccion -> ' + transaccion)
 theRoute(wallet, transaccion);
 
 });
+
+
+
+
+
 
 
 });

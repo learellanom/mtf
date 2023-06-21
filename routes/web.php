@@ -62,7 +62,7 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->midd
 Route::get('dashboardest', [App\Http\Controllers\HomeController::class, 'graphics'])->name('dashboardest');
 Route::get('dashboardest/{wallet}', [App\Http\Controllers\HomeController::class, 'graphics'])->name('dashboardest');
 Route::get('dashboardest/{wallet}/{transaction?}/', [App\Http\Controllers\HomeController::class, 'graphics'])->name('dashboardest');
-
+Route::get('dashboardest/{wallet}/{transaction?}/{fechaDesde?}/{fechaHasta?}', [App\Http\Controllers\HomeController::class, 'graphics'])->name('dashboardest');
 
 /* TRANSACCIONES A CLIENTES */
 Route::group(['middleware' => 'auth'], function () {
