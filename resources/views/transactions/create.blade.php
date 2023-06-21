@@ -561,7 +561,7 @@ $(document).ready(function() {
 
         if (transferencia === 'Nota de debito' || transferencia === 'Nota de credito'){
                     if ($('#percentage').val() <= 0) {
-                    Swal.fire('El tipo es nota y pasa.');
+
                     return true;
                     }
            }else{

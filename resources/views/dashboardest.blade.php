@@ -364,40 +364,23 @@ $config4 = [
 
 
 <script>
-/*  const esconder = $('.esconder').hide();
 
-$('#wallet').change(function (){
-
-if($(this).val() == ''){
-    $('.esconder').hide();
-   } else {
-    $('.esconder').show();
-  }
-
-});
-
-$('#typeTransactions').change(function (){
-
-if($(this).val() == ''){
-    $('.esconder').hide();
-   } else {
-    $('.esconder').show();
-  }
-
-}); */
 
 function handleSelectChange(selectElement, className, storageKey) {
   const selectedValue = selectElement.val();
   const hiddenElement = $(className);
 
   if (selectedValue === 'true') {
-    alert(selectedValue)
     hiddenElement.show();
   } else {
     hiddenElement.hide();
   }
 
-  localStorage.setItem(storageKey, selectedValue);
+  try {
+    localStorage.setItem(storageKey, selectedValue);
+  } catch (e) {
+    console.error(`Error storing ${selectedValue} to ${storageKey}: ${e}`);
+  }
 }
 
 const walletSelect = $('#wallet');
@@ -416,6 +399,22 @@ walletSelect.on('change', () => {
 });
 
 
+
+function handleSelectChange2(selectElement, className, storageKey) {
+  const selectedValue = selectElement.val();
+  const hiddenElement = $(className);
+
+  if (selectedValue === 'true') {
+    alert(selectedValue)
+    hiddenElement.show();
+  } else {
+    hiddenElement.hide();
+  }
+
+  localStorage.setItem(storageKey, selectedValue);
+}
+
+
 const typeTransactionsSelect = $('#typeTransactions');
 const typeTransactionsHiddenElement = $('.esconder');
 const typeTransactionsStorageKey = 'typeTransactions';
@@ -428,7 +427,7 @@ if (typeTransactionsSelectedValue.trim() == "") {
 }
 
 typeTransactionsSelect.on('change', () => {
-  handleSelectChange(typeTransactionsSelect, '.esconder.typeTransactions', 'typeTransactions');
+  handleSelectChange2(typeTransactionsSelect, '.esconder.typeTransactions', 'typeTransactions');
 });
 
 
