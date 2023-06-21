@@ -113,7 +113,7 @@ class statisticsController extends Controller
         // \Log::info('leam usuario *** -> ' . $request->usuario);
         // \Log::info('leam cliente *** -> ' . $request->cliente);
         // \Log::info('leam wallet ***  -> ' . $request->wallet);
-           \Log::info('leam token ***   -> ' . $request->token);
+        // \Log::info('leam token ***   -> ' . $request->token);
 
         $balance = "";
         if ($myGroup > 0){
@@ -250,7 +250,7 @@ class statisticsController extends Controller
             ";
     
             // dd($myQuery);
-            \Log::info('leam My query *** -> ' . $myQuery);
+            // \Log::info('leam My query *** -> ' . $myQuery);
             $Transacciones = DB::select($myQuery);
     
 
@@ -402,7 +402,6 @@ class statisticsController extends Controller
         $wallet     = $this->getWallet();
 
         $group      = $this->getGroups();
-
 
         return view('estadisticas.statisticsDetailMaster', compact('myUser','userole','Transacciones','group','wallet','myGroup','myUser','myWallet','balance'));
 
@@ -694,13 +693,13 @@ class statisticsController extends Controller
 
         // dd($myQuery);
 
-        $Transacciones = DB::select($myQuery);
+        $Transacciones      = DB::select($myQuery);
 
         // dd($Transacciones);
 
-        $supplier = $this->getSuppliers();
+        $supplier           = $this->getSuppliers();
 
-        $wallet = $this->getWallet();
+        $wallet             = $this->getWallet();
 
         $Type_transactions  = $this->getTypeTransactions();
 
@@ -789,26 +788,6 @@ class statisticsController extends Controller
 
 
         $tabla = "mtf.transaction_suppliers";
-
-
-    //     'Transaction_suppliers.id                       as Id',
-    //     'Transaction_suppliers.amount_foreign_currency  as MontoMoneda',
-    //     'Transaction_suppliers.exchange_rate            as TasaCambio',
-    //  // 'Transaction_suppliers.type_coin_id             as TipoMonedaId',
-    //     'type_coins.name                                as TipoMoneda',
-    //     'users.name                                     as AgenteName',
-    //     'Transaction_suppliers.amount                   as Monto',
-    //     'Transaction_suppliers.amount_total             as MontoTotal',
-    //     'Transaction_suppliers.percentage               as PorcentajeComision',
-    //     'Transaction_suppliers.amount_commission        as MontoComision',
-    //     'Transaction_suppliers.type_transaction_id      as TransactionId',
-    //     'type_transactions.name                         as TipoTransaccion',
-    // //  'transaction_suppliers.wallet_id                as WalletId',
-    //     'wallets.name                                   as WalletName',
-    //     'transaction_suppliers.description              as Descripcion',
-    //     'transaction_suppliers.transaction_date         as FechaTransaccion',
-    //     'suppliers.name                                 as SupplierName',
-
 
         $myQuery =
         "
@@ -1184,7 +1163,6 @@ class statisticsController extends Controller
         return view('estadisticas.statisticsResumenCliente', compact('myCliente','cliente','Transacciones'));
         return $myUsers2;
     }
-
     /*
     *
     *
@@ -1360,35 +1338,7 @@ class statisticsController extends Controller
            $myWallet        = $request->wallet;
        }
 
- /*        $Transacciones = DB::table('transactions')
-            ->select(DB::raw('
-                wallet_id                   as WalletId,
-                wallets.name                as WalletName,
-                type_transaction_id         as TypeTransactionId,
-                type_transactions.name      as TypeTransaccionName,
-                count(*)                    as cant_transactions,
-                sum(amount)                 as total_amount,                
-                sum(amount_commission_base) as total_amount_commission_base,
-                sum(amount_commission)      as total_commission,
-                (sum(amount_commission)-sum(amount_commission_base)) as total_commission_profit,
-                sum(amount_total)           as total'))
-            ->leftJoin('type_transactions', 'type_transactions.id', '=', 'transactions.type_transaction_id')
-            ->leftJoin('wallets',           'wallets.id', '=', 'transactions.wallet_id')
-            ->where('status','<>','Anulado')
-            ->whereBetween('Transactions.wallet_id',            [$myWalletDesde, $myWalletHasta])
-            ->whereBetween('Transactions.type_transaction_id',  [$myTypeTransactionDesde, $myTypeTransactionHasta])
-            ->whereBetween('Transactions.transaction_date',     [$myFechaDesde2, $myFechaHasta2])
-            ->groupBy('WalletId', 'WalletName', 'TypeTransactionId', 'TypeTransaccionName')
-            ->orderBy('WalletId','ASC')
-            ->orderBy('TypeTransactionId','ASC')
-            ->get(); */
-
-            // ajua
         $Transacciones          = $this->getwalletTransactionSummary($request);
-        // $Transacciones2         = $this->getWalletTransactionGroupSummary($request);
-        // $groups                 = $this->getGroups();
-
-        // $this->getWalletTransactionGroupTotal($Transacciones, $Transacciones2, $groups);
 
         $balance = 0;
         if ($myWallet > 0){
@@ -1728,11 +1678,15 @@ class statisticsController extends Controller
        $myGroupDesde   = 0;
        $myGroupHasta   = 9999;
        $myGroup        = 0;
+       $condicionGroup = " ";
        if ($request->group){
            $myGroupDesde   = $request->group;
            $myGroupHasta   = $request->group;
            $myGroup        = $request->group;
-       }      
+           $condicionGroup = " and     Transactions.group_id               $myGroupDesde           and     $myGroupHasta";
+       }
+
+     
 
         $Transacciones = DB::table('transactions')
         ->select(DB::raw('
@@ -1766,26 +1720,49 @@ class statisticsController extends Controller
         ->orderBy('GroupId','ASC')
         ->get();
 
+       
 
-        // $Transacciones = DB::select($myQuery);
+        $myQuery =
+        "
+        select
+            wallet_id                   as WalletId,
+            wallets.name                as WalletName,
+            type_transaction_id         as TypeTransactionId,
+            type_transactions.name      as TypeTransaccionName,            
+            group_id                    as GroupId,
+            groups.name                 as GroupName,
+            count(*)                    as cant_transactions,
+            sum(amount)                 as total_amount,
+            sum(amount_base)            as total_amount_base,
+            sum(amount_commission)      as total_commission,
+            sum(amount_commission_base) as total_amount_commission_base,
+            sum(amount_total)           as total,
+            sum(amount_total_base)      as total_Base,
+            (sum(amount_commission)-sum(amount_commission_base)) as total_commission_profit
+        from mtf.transactions
+            left join  mtf.wallets              on wallet_id                = mtf.wallets.id
+            left join  mtf.groups               on group_id                 = mtf.groups.id
+            left join  mtf.type_transactions    on type_transaction_id      = mtf.type_transactions.id     
+        where        
+                Transactions.wallet_id             between  $myWalletDesde          and     $myWalletHasta
+                $condicionGroup
+        and     Transactions.type_transaction_id   between  $myTypeTransactionDesde and     $myTypeTransactionHasta
+        and     Transactions.transaction_date      between  $myFechaDesde2          and     $myFechaHasta2
+        group by
+            WalletId,
+            WalletName,
+            TypeTransactionId,
+            TypeTransaccionName,
+            GroupId,
+            GroupName
+        ";
 
-        // $myQuery = "
-        // select
-        //     wallet_id                   as WalletId,
-        //     wallets.name                as WalletName,
-        //     type_transaction_id         as TypeTransactionId,
-        //     type_transactions.name      as TypeTransaccionName,            
-        //     group_id                    as GroupId,
-        //     groups.name                 as GroupName,
-        //     count(*)                    as cant_transactions,
-        //     sum(amount)                 as total_amount,
-        //     sum(amount_base)            as total_amount_base,
-        //     sum(amount_commission)      as total_commission,
-        //     sum(amount_commission_base) as total_amount_commission_base,
-        //     sum(amount_total)           as total,
-        //     sum(amount_total_base)      as total_Base,
-        //     (sum(amount_commission)-sum(amount_commission_base)) as total_commission_profit        
-        // ";
+        // dd($myQuery);
+
+        $Transacciones3 = DB::select($myQuery);
+       // dd($Transacciones2);
+        \Log::info('$Transacciones3 -> ' . print_r($Transacciones3,true));
+       
        return $Transacciones;
 
     }
