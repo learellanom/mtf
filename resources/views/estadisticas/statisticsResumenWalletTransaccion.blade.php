@@ -110,10 +110,10 @@ $config4 = [
         </div>
 
         <div class ="col-12 col-sm-2">
-            <x-adminlte-date-range 
-            name="drCustomRanges" 
-                enable-default-ranges="Last 30 Days" 
-                style="height: 30px;" 
+            <x-adminlte-date-range
+            name="drCustomRanges"
+                enable-default-ranges="Last 30 Days"
+                style="height: 30px;"
                 :config="$config3">
                 <x-slot name="prependSlot">
                     <div class="input-group-text bg-gradient-dark">
@@ -135,15 +135,15 @@ $config4 = [
     <div class="col-md-12">
         <div class="card mb-4">
             <div class="card-header">
-                <div class= "row">     
-                    <div class="col-md-4">           
+                <div class= "row">
+                    <div class="col-md-4">
                         <h3 class="card-title text-uppercase font-weight-bold">{{ __('Resumen| Resumen por Caja Transaccion') }}</h3>
                         @php
                             // echo var_dump($balance);
-                            // die();  
+                            // die();
                         @endphp
                     </div>
-                    <div class="col-md-4">   
+                    <div class="col-md-4">
                         @if($balance< 0)
                         <h4 class='text-uppercase font-weight-bold'>{{__('Saldo A favor' )}}: {{ number_format(abs($balance),2,",",".") }} $</h4>
                         @else
@@ -158,10 +158,10 @@ $config4 = [
                         @endif
                     </div>
                 </div>
-            </div>            
+            </div>
             <div class="card-body">
                 <div class="row">
-                    
+
                     <div class="col-md-12" style="position: relative; overflow: auto; width: 100%;">
                     <!-- <div class="col-md-12" style="position: relative; overflow: auto; width: 100%;">                     -->
                         <table class="table table-bordered table-responsive-lg  nowrap"  id="table" >
@@ -172,13 +172,13 @@ $config4 = [
                                     <th style="width:10%;">Caja</th>
                                     <th style="width:10%;">Transaccion</th>
                                     <th style="width:10%;">Cant</th>
-                                    <th style="width:10%;">Monto</th>   
-                                    <th style="width:10%;">Monto comision base</th>   
+                                    <th style="width:10%;">Monto</th>
+                                    <th style="width:10%;">Monto comision base</th>
                                     <th style="width:10%;">Monto comision</th>
-                                    <th style="width:10%;">Monto Ganancia comision</th>                                    
+                                    <th style="width:10%;">Monto Ganancia comision</th>
                                     <th style="width:1%;">Ver <i class="fas fa-search"></i></th>
 
-                                </tr>                                
+                                </tr>
                             </thead>
                             @foreach($Transacciones as $row)
 
@@ -192,13 +192,13 @@ $config4 = [
                                 @endphp
                                 <tr>
                                     <td>{!! $row->WalletName !!}</td>
-                                    <td>{!! $row->TypeTransaccionName !!}</td>                                    
-                                    <td class="text-right">{!! number_format($row->cant_transactions,0,",",".") !!}</td>                                    
+                                    <td>{!! $row->TypeTransaccionName !!}</td>
+                                    <td class="text-right">{!! number_format($row->cant_transactions,0,",",".") !!}</td>
                                     <td class="text-right">{!! number_format($row->total_amount,2,",",".") !!}</td>
-                                    <td class="text-right">{!! number_format($row->total_amount_commission_base,2,",",".") !!}</td>                                    
-                                    <td class="text-right">{!! number_format($row->total_commission,2,",",".") !!}</td>                                       
+                                    <td class="text-right">{!! number_format($row->total_amount_commission_base,2,",",".") !!}</td>
+                                    <td class="text-right">{!! number_format($row->total_commission,2,",",".") !!}</td>
                                     <!-- <td class="text-right">{!! number_format($row->total_commission_profit,2,",",".") !!}</td>                                    -->
-                                    <td class="text-right">{!! number_format($myTotal,2,",",".") !!}</td>  
+                                    <td class="text-right">{!! number_format($myTotal,2,",",".") !!}</td>
                                     <td class="text-center">
                                         <a href="#"
                                             title="Detalles"
@@ -250,14 +250,8 @@ $config4 = [
             "order": [[ 1, 'asc' ]],
             scrollX:        true,
             scrollCollapse: true,
-            paging:         true, 
-            // fixedColumns: true,
-            // fixedColumns:   {
-            //     left: 1
-            // },         
-            // rowGroup: {
-            //     dataSrc: 0
-            // },     
+            paging:         true,
+
             'dom' : 'Bfrtilp',
             'buttons':[
                 {
@@ -305,7 +299,7 @@ $config4 = [
                         {
                             "cells": "sA",
                             "width": 25,
-                            
+
                         },
                         {
                             "cells": "sB",
@@ -319,12 +313,12 @@ $config4 = [
                                 "alignment":{
                                     "vertical": "right",
                                     "horizontal" : "right"
-                                }                            
-                            }                    
+                                }
+                            }
                         },
                         {
                             "cells": "sD",
-                            "width": 20,                 
+                            "width": 20,
                             "style": {
                                 "numFmt": "#,#0;(#,#0)",
                                 "alignment":{
@@ -335,7 +329,7 @@ $config4 = [
                         },
                         {
                             "cells": "sE",
-                            "width": 20,                 
+                            "width": 20,
                             "style": {
                                 "numFmt": "#,#0;(#,#0)",
                                 "alignment":{
@@ -346,7 +340,7 @@ $config4 = [
                         },
                         {
                             "cells": "sF",
-                            "width": 20,                 
+                            "width": 20,
                             "style": {
                                 "numFmt": "#,#0;(#,#0)",
                                 "alignment":{
@@ -357,26 +351,26 @@ $config4 = [
                         },
                         {
                             "cells": "sF",
-                            "width": 20,                 
+                            "width": 20,
                             "style": {
                                 "numFmt": "#,#0;(#,#0)",
                                 "alignment":{
                                     "vertical": "right",
                                     "horizontal" : "right"
-                                }                            
+                                }
                             }
                         },
                         {
                             "cells": "sG",
-                            "width": 40,                 
+                            "width": 40,
                             "style": {
                                 "numFmt": "#,#0;(#,#0)",
                                 "alignment":{
                                     "vertical": "right",
                                     "horizontal" : "right"
-                                }                            
+                                }
                             }
-                        }                                                       
+                        }
                     ]
                 },
                 {
@@ -396,40 +390,7 @@ $config4 = [
                 },
             ]
         });
-        
-        // $('#table th').each(function(index, element) {
-        //     // Get the column index
-        //     var colIndex = $(element).index();
-        //     // alert('columna es ' + colIndex);
-        //     // Loop through each DataTable row
-        //     if (colIndex >= 7){
-        //         $('#table tr').each(function(rowIndex, rowElement) {
-        //             if (rowIndex >= 0){
 
-                        
-        //                 // Hide the corresponding td element if the column is empty
-        //                 var tdElement = $(rowElement).find('td').eq(colIndex);
-
-        //                 // alert('esta es la columna : ' + colIndex + ' este es el rowIndex ' + rowIndex + ' element es : ' + tdElement.html());
-
-        //                 // if (!tdElement.html().trim()) {
-        //                 if ($.trim(tdElement.html()) == "") {                    
-        //                 // tdElement.hide();
-        //                 // alert('este el el coindex' + tdElement);
-        //                 }
-        //             }
-        //         });
-        //     }
-            
-            // Hide the corresponding th element if the column is empty
-            
-        //     if ($('#table tr td:nth-child(' + (colIndex + 1) + '):not(:hidden)').length === 0) {
-        //         // $(element).hide();
-        //     }
-            
-        // });
-        
-        
 
     });
 
@@ -449,7 +410,7 @@ $config4 = [
         const myFechaHasta = {!! $myFechaHasta !!};
 
         BuscaFechas(myFechaDesde, myFechaHasta);
-    
+
         $('#wallet').on('change', function (){
 
             const wallet        = $('#wallet').val();
@@ -471,7 +432,7 @@ $config4 = [
         $('#drCustomRanges').on('change', function () {
 
             // alert('ggggg ' + $('#drCustomRanges').val());\
-            
+
             // obtener fecha inicio
             // alert('ggggg ' + $('#drCustomRanges').data('daterangepicker').startDate.format('YYYY-MM-DD'));
 
@@ -492,7 +453,7 @@ $config4 = [
                             ;
 
             const wallet        = $('#wallet').val();
-            const transaccion   = $('#transaccion').val();            
+            const transaccion   = $('#transaccion').val();
             theRoute(wallet, transaccion, myFechaDesde,myFechaHasta);
         });
 
@@ -507,7 +468,7 @@ $config4 = [
 
             myRoute = "{{ route('estadisticasResumenWalletTran', ['wallet' => 'wallet2', 'transaction' => 'transaction2', 'fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2']) }}";
             myRoute = myRoute.replace('wallet2',wallet);
-            myRoute = myRoute.replace('transaction2',transaction);            
+            myRoute = myRoute.replace('transaction2',transaction);
             myRoute = myRoute.replace('fechaDesde2',fechaDesde);
             myRoute = myRoute.replace('fechaHasta2',fechaHasta);
         // console.log(myRoute);
@@ -520,7 +481,7 @@ $config4 = [
     function theRoute2(usuario = 0, grupo = 0, wallet = 0, typeTransactions = 0, fechaDesde = 0, fechaHasta = 0){
 
         if (usuario  === "") usuario  = 0;
-        if (grupo  === "") grupo  = 0;        
+        if (grupo  === "") grupo  = 0;
         if (wallet  === "") wallet  = 0;
         if (typeTransactions  === "") typeTransactions  = 0;
 
@@ -577,12 +538,12 @@ $config4 = [
             });
         });
     }
-   
+
 
     function BuscaFechas(FechaDesde = 0,FechaHasta = 0){
 
         myLocation  = window.location.toString();
-        
+
         // alert('myLocation -> ' + myLocation);
         // obtener fecha inicio
         // alert('ggggg ' + $('#drCustomRanges').data('daterangepicker').startDate.format('YYYY-MM-DD'));
@@ -593,11 +554,11 @@ $config4 = [
             FechaHasta = myArray[7];
         }else{
             FechaDesde = 0;
-            FechaHasta = 0;       
+            FechaHasta = 0;
         }
 
         if (FechaDesde == 0) return;
-        
+
 
         let myFechaDesde, myFechaHasta, myFecha;
 
@@ -605,9 +566,9 @@ $config4 = [
         myFechaHasta = FechaHasta.toString().substr(8,2)  + '-' + FechaHasta.toString().substr(5,2) + '-' + FechaHasta.toString().substr(0,4);
 
         myFecha = myFechaDesde.toString()  + ' - ' + myFechaHasta.toString();
-        
+
         // alert('myFecha -> ' + myFecha );
-        
+
         // $('#drCustomRanges').val(myFecha);
         // alert(' Mi Fecha desde -> ' + myFechaDesde);
         // alert('gggggsssss ' + $('#drCustomRanges').data('daterangepicker').startDate.format('YYYY-MM-DD'));
@@ -615,7 +576,7 @@ $config4 = [
         $('#drCustomRanges').data('daterangepicker').setStartDate(myFechaDesde);
         $('#drCustomRanges').data('daterangepicker').setEndDate(myFechaHasta);
     }
-    
+
 </script>
 
 @endsection
