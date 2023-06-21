@@ -241,15 +241,23 @@ if (isset($balance->Total)){
 
                                 @php
                                     if ($myWallet != 0){
-                                         //       dd($myWallet);
-                                        $myPorcentajeComision   = $row->PorcentajeComisionBase;
-                                        $myMontoComision        = $row->MontoComisionBase;
-                                        $myTotal2               = $row->MontoTotalBase;
+                                        if ($myTypeTransactions == 0){
+                                            //       dd($myWallet);
+                                            $myPorcentajeComision   = $row->PorcentajeComisionBase;
+                                            $myMontoComision        = $row->MontoComisionBase;
+                                            $myTotal2               = $row->MontoTotalBase;
 
-                                        $TasaCambio             = $row->TasaCambioBase;
-                                        $Monto                  = $row->MontoBase;
-                                        $Monto                  = $row->Monto;
-                                     
+                                            $TasaCambio             = $row->TasaCambioBase;
+                                            $Monto                  = $row->MontoBase;
+                                            $Monto                  = $row->Monto;
+                                        }else{
+                                            $myPorcentajeComision   = $row->PorcentajeComision;
+                                            $myMontoComision        = $row->MontoComision;
+                                            $myTotal2               = $row->MontoTotal;
+
+                                            $TasaCambio             = $row->TasaCambio;                                        
+                                            $Monto                  = $row->Monto;                                            
+                                        }
 
                                     }else{
                                         
@@ -273,12 +281,12 @@ if (isset($balance->Total)){
                                     <td>{!! $row->Descripcion !!}</td>
                                     <td>{!! $row->token !!}</td>
                                     <td>{!! $row->TipoMoneda !!}</td>
-                                    <td class="text-right"  >{!! number_format($row->MontoMoneda,2,",",".") !!}</td>
-                                    <td class="text-left"   >{!! number_format($TasaCambio,2,",",".") !!}</td>
-                                    <td class="text-right"  >{!! number_format($Monto,2,",",".") !!}</td>
-                                    <td class="text-left"   >{!! number_format($myPorcentajeComision,2,",",".") !!}</td>
-                                    <td class="text-right"  >{!! number_format($myMontoComision,2,",",".") !!}</td>
-                                    <td class="text-right"  >{!! number_format($myTotal2,2,",",".") !!}</td>
+                                    <td class="text-right"  >{!! number_format($row->MontoMoneda,2) !!}</td>
+                                    <td class="text-left"   >{!! number_format($TasaCambio,2) !!}</td>
+                                    <td class="text-right"  >{!! number_format($Monto,2) !!}</td>
+                                    <td class="text-left"   >{!! number_format($myPorcentajeComision,2) !!}</td>
+                                    <td class="text-right"  >{!! number_format($myMontoComision,2) !!}</td>
+                                    <td class="text-right"  >{!! number_format($myTotal2,2) !!}</td>
 
                                     @php
                                         switch  ($row->TransactionId){
@@ -306,7 +314,7 @@ if (isset($balance->Total)){
                                                 break;
                                         }
                                     @endphp
-                                    <td class="text-right">{!! number_format($myTotal,2,",",".") !!}</td>
+                                    <td class="text-right">{!! number_format($myTotal,2) !!}</td>
 
 
                                     <td>{!! $row->ClientName !!}</td>
@@ -463,8 +471,9 @@ if (isset($balance->Total)){
                         "width": 12
                     },                                     
                     {
+                        // moneda
                         "cells": "sE",
-                        "width": 25,                        
+                        "width": 20,                        
                         "style": {
                             "alignment":{
                                 "vertical": "right",
@@ -473,6 +482,7 @@ if (isset($balance->Total)){
                         }
                     },
                     {
+                        // monto
                         "cells": "sF",
                         "width": 11,
                         "style": {
@@ -484,10 +494,11 @@ if (isset($balance->Total)){
                         }
                     },
                     {
+                        // tasa
                         "cells": "sG",
                         "width": 9,
                         "style": {
-                            "numFmt": "#,##0;(#,##0)",
+                            "numFmt": "#,##0.00;(#,##0.00)",
                             "alignment":{
                                 "vertical": "right",
                                 "horizontal" : "right"
@@ -495,10 +506,11 @@ if (isset($balance->Total)){
                         }
                     }, 
                     {
+                        // monto $
                         "cells": "sH",
                         "width": 21,
                         "style": {
-                            "numFmt": "#,##0;(#,##0)",
+                            "numFmt": "#,##0.00;(#,##0.00)",
                             "alignment":{
                                 "vertical": "right",
                                 "horizontal" : "right"
@@ -506,10 +518,11 @@ if (isset($balance->Total)){
                         }
                     },                     
                     {
+                        // %
                         "cells": "I",
                         "width": 20,
                         "style": {
-                            "numFmt": "#,##0;(#,##0)",
+                            "numFmt": "#,##0.00;(#,##0.00)",
                             "alignment":{
                                 "vertical": "right",
                                 "horizontal" : "right"
@@ -517,29 +530,33 @@ if (isset($balance->Total)){
                         }
                     },
                     {
+                        // comision
                         "cells": "sJ",
                         "width": 20,
                         "style": {
-                            "numFmt": "#,##0;(#,##0)",
+                            "numFmt": "#,##0.00;(#,##0.00)",
                             "alignment":{
                                 "horizontal" : "right"
                             }
                         }
                     },
                     {
-                        "cells": "K",
+                        // monto total
+                        "cells": "sK",
                         "width": 20,
                         "style": {
-                            "numFmt": "#,##0;(#,##0)",
+                            "numFmt": "#,##0.00;(#,##0.00)",
                             "alignment":{
                                 "horizontal" : "right"
                             }
                         }
                     } ,
                     {
+                        // saldo
                         "cells": "l",
                         "width": 20,
                         "style": {
+                            "numFmt": "#,##0.00;(#,##0.00)",                            
                             "alignment":{
                                 "vertical": "left",                                
                                 "horizontal" : "left"

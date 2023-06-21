@@ -1318,12 +1318,12 @@ class statisticsController extends Controller
             $myFechaHasta = $request->fechaHasta;
 
             $myFechaDesde2 = $myFechaDesde . " 00:00:00";
-            $myFechaHasta2 = $myFechaHasta . " 12:59:00";
+            $myFechaHasta2 = $myFechaHasta . " 23:59:00";
         }
 
         if ($request->fechaHasta){
             $myFechaHasta = $request->fechaHasta;
-            $myFechaHasta2 = $myFechaHasta . " 12:59:00";            
+            $myFechaHasta2 = $myFechaHasta . " 23:59:00";            
         }
         // var_dump($myFechaDesde);
         // dd('Fecha desde -> ' . $myFechaDesde . ' Fecha Hasta -> ' . $myFechaHasta);
@@ -1351,7 +1351,7 @@ class statisticsController extends Controller
             $Type_transactions  = $this->getTypeTransactions();
             $wallet             = $this->getWallet();
 
-        // dd($Transacciones2);             
+        // dd($Transacciones);             
         // dd($Transacciones2);
 
         return view('estadisticas.statisticsResumenWalletTransaccion', compact('myWallet','wallet','myTypeTransaction', 'Type_transactions', 'Transacciones','myFechaDesde','myFechaHasta','balance'));
@@ -1391,12 +1391,12 @@ class statisticsController extends Controller
             $myFechaHasta = $request->fechaHasta;
 
             $myFechaDesde2 = $myFechaDesde . " 00:00:00";
-            $myFechaHasta2 = $myFechaHasta . " 12:59:00";
+            $myFechaHasta2 = $myFechaHasta . " 23:59:00";
         }
 
         if ($request->fechaHasta){
             $myFechaHasta = $request->fechaHasta;
-            $myFechaHasta2 = $myFechaHasta . " 12:59:00";            
+            $myFechaHasta2 = $myFechaHasta . " 23:59:00";            
         }
         // var_dump($myFechaDesde);
         // dd('Fecha desde -> ' . $myFechaDesde . ' Fecha Hasta -> ' . $myFechaHasta);
@@ -1491,12 +1491,12 @@ class statisticsController extends Controller
             $myFechaHasta = $request->fechaHasta;
 
             $myFechaDesde2 = $myFechaDesde . " 00:00:00";
-            $myFechaHasta2 = $myFechaHasta . " 12:59:00";
+            $myFechaHasta2 = $myFechaHasta . " 23:59:00";
         }
 
         if ($request->fechaHasta){
             $myFechaHasta = $request->fechaHasta;
-            $myFechaHasta2 = $myFechaHasta . " 12:59:00";            
+            $myFechaHasta2 = $myFechaHasta . " 23:59:00";            
         }
         // var_dump($myFechaDesde);
         // dd('Fecha desde -> ' . $myFechaDesde . ' Fecha Hasta -> ' . $myFechaHasta);
@@ -1582,12 +1582,12 @@ class statisticsController extends Controller
             $myFechaHasta = $request->fechaHasta;
 
             $myFechaDesde2 = $myFechaDesde . " 00:00:00";
-            $myFechaHasta2 = $myFechaHasta . " 12:59:00";
+            $myFechaHasta2 = $myFechaHasta . " 23:59:00";
         }
 
         if ($request->fechaHasta){
             $myFechaHasta = $request->fechaHasta;
-            $myFechaHasta2 = $myFechaHasta . " 12:59:00";            
+            $myFechaHasta2 = $myFechaHasta . " 23:59:00";            
         }
         // var_dump($myFechaDesde);
         // dd('Fecha desde -> ' . $myFechaDesde . ' Fecha Hasta -> ' . $myFechaHasta);
@@ -1655,12 +1655,12 @@ class statisticsController extends Controller
             $myFechaHasta = $request->fechaHasta;
 
             $myFechaDesde2 = $myFechaDesde . " 00:00:00";
-            $myFechaHasta2 = $myFechaHasta . " 12:59:00";
+            $myFechaHasta2 = $myFechaHasta . " 23:59:00";
         }
 
         if ($request->fechaHasta){
             $myFechaHasta = $request->fechaHasta;
-            $myFechaHasta2 = $myFechaHasta . " 12:59:00";            
+            $myFechaHasta2 = $myFechaHasta . " 23:59:00";            
         }
         // var_dump($myFechaDesde);
         // dd('Fecha desde -> ' . $myFechaDesde . ' Fecha Hasta -> ' . $myFechaHasta);
@@ -1678,7 +1678,7 @@ class statisticsController extends Controller
        $myGroupDesde   = 0;
        $myGroupHasta   = 9999;
        $myGroup        = 0;
-       $condicionGroup = " ";
+       $condicionGroup = "";
        if ($request->group){
            $myGroupDesde   = $request->group;
            $myGroupHasta   = $request->group;
@@ -1744,10 +1744,10 @@ class statisticsController extends Controller
             left join  mtf.groups               on group_id                 = mtf.groups.id
             left join  mtf.type_transactions    on type_transaction_id      = mtf.type_transactions.id     
         where        
-                Transactions.wallet_id             between  $myWalletDesde          and     $myWalletHasta
-                $condicionGroup
-        and     Transactions.type_transaction_id   between  $myTypeTransactionDesde and     $myTypeTransactionHasta
-        and     Transactions.transaction_date      between  $myFechaDesde2          and     $myFechaHasta2
+                mtf.Transactions.wallet_id             between  $myWalletDesde          and     $myWalletHasta
+        and     mtf.Transactions.type_transaction_id   between  $myTypeTransactionDesde and     $myTypeTransactionHasta      
+        and     mtf.Transactions.transaction_date      between  '$myFechaDesde2 00:00:00'   and     '$myFechaHasta2 23:59:00'
+        $condicionGroup                  
         group by
             WalletId,
             WalletName,
@@ -1757,11 +1757,17 @@ class statisticsController extends Controller
             GroupName
         ";
 
+       /*
+        and     mtf.Transactions.type_transaction_id   between  $myTypeTransactionDesde and     $myTypeTransactionHasta
+        and     mtf.Transactions.transaction_date      between  '$myFechaDesde2 00:00:00'   and     '$myFechaHasta2 59:59:99'
+       */
+
         // dd($myQuery);
 
         $Transacciones3 = DB::select($myQuery);
        // dd($Transacciones2);
-        \Log::info('$Transacciones3 -> ' . print_r($Transacciones3,true));
+        \Log::info('leam *** $myQUery -> ' . $myQuery);       
+        \Log::info('leam *** $Transacciones3 -> ' . print_r($Transacciones3,true));
        
        return $Transacciones;
 
@@ -1794,12 +1800,12 @@ class statisticsController extends Controller
             $myFechaHasta = $request->fechaHasta;
 
             $myFechaDesde2 = $myFechaDesde . " 00:00:00";
-            $myFechaHasta2 = $myFechaHasta . " 12:59:00";
+            $myFechaHasta2 = $myFechaHasta . " 23:59:00";
         }
 
         if ($request->fechaHasta){
             $myFechaHasta = $request->fechaHasta;
-            $myFechaHasta2 = $myFechaHasta . " 12:59:00";            
+            $myFechaHasta2 = $myFechaHasta . " 23:59:00";            
         }
         // var_dump($myFechaDesde);
         // dd('Fecha desde -> ' . $myFechaDesde . ' Fecha Hasta -> ' . $myFechaHasta);
@@ -2467,7 +2473,7 @@ class statisticsController extends Controller
         \Log::info('leam fecha Hasta *** -> ' . $fechaHasta); 
         
         $horaDesde = " 00:00:00";
-        $horaHasta = " 12:59:00";
+        $horaHasta = " 23:59:00";
 
         $myFechaDesde = $fechaDesde . $horaDesde;
         $myFechaHasta = $fechaHasta . $horaHasta;

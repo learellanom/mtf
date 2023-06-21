@@ -174,9 +174,9 @@ $config4 = [
                                     <th style="width:10%;">Grupo</th>                                    
                                     <th style="width:10%;">Cant</th>
                                     <th style="width:10%;">Monto</th>   
-                                    <th style="width:10%;">Monto comision base</th>   
-                                    <th style="width:10%;">Monto comision</th>
-                                    <th style="width:10%;">Monto Ganancia comision</th>                                    
+                                    <th style="width:10%;">Mto comision base</th>   
+                                    <th style="width:10%;">Mto comision</th>
+                                    <th style="width:10%;">Mto Ganancia comision</th>                                    
                                     <th style="width:1%;">Ver <i class="fas fa-search"></i></th>
 
                                 </tr>                                
@@ -195,17 +195,17 @@ $config4 = [
                                     <td>{!! $row->WalletName !!}</td>
                                     <td>{!! $row->TypeTransaccionName !!}</td>                                    
                                     <td>{!! $row->GroupName !!}</td>   
-                                    <td class="text-right">{!! number_format($row->cant_transactions,0,",",".") !!}</td>                                    
-                                    <td class="text-right">{!! number_format($row->total_amount,2,",",".") !!}</td>
-                                    <td class="text-right">{!! number_format($row->total_amount_commission_base,2,",",".") !!}</td>                                    
-                                    <td class="text-right">{!! number_format($row->total_commission,2,",",".") !!}</td>                                       
-                                    <!-- <td class="text-right">{!! number_format($row->total_commission_profit,2,",",".") !!}</td>                                    -->
-                                    <td class="text-right">{!! number_format($myTotal,2,",",".") !!}</td>  
+                                    <td class="text-right">{!! number_format($row->cant_transactions,0) !!}</td>                                    
+                                    <td class="text-right">{!! number_format($row->total_amount,2) !!}</td>
+                                    <td class="text-right">{!! number_format($row->total_amount_commission_base,2) !!}</td>                                    
+                                    <td class="text-right">{!! number_format($row->total_commission,2) !!}</td>                                       
+                                    <!-- <td class="text-right">{!! number_format($row->total_commission_profit,2) !!}</td>                                    -->
+                                    <td class="text-right">{!! number_format($myTotal,2) !!}</td>  
                                     <td class="text-center">
                                         <a href="#"
                                             title="Detalles"
                                             class="btn btn-xl text-primary mx-1 shadow text-center"
-                                            onClick="theRoute2({{0}}, {{0}}, {{$row->WalletId}}, {{$row->TypeTransactionId}})">
+                                            onClick="theRoute2({{0}}, {{$row->GroupId}}, {{$row->WalletId}}, {{$row->TypeTransactionId}})">
                                             <i class="fa fa-lg fa-fw fa-eye"></i>
                                         </a>
                                     </td>
@@ -264,7 +264,7 @@ $config4 = [
             'buttons':[
                 {
                     extend:  'excelHtml5',
-                    exportOptions: { columns: [ 0, 1, 2, 3, 4, 5, 6 ] },
+                    exportOptions: { columns: [ 0, 1, 2, 3, 4, 5, 6, 7 ] },
                     text:    '<i class="fas fa-file-excel"></i>',
                     titleAttr: 'Exportar Excel',
                     className: 'btn btn-success',
@@ -305,19 +305,21 @@ $config4 = [
                             }
                         },
                         {
+                            // caja
                             "cells": "sA",
                             "width": 25,
                             
                         },
                         {
+                            // transaccion
                             "cells": "sB",
-                            "width": 45,
+                            "width": 35,
                         },
                         {
+                            // grupo
                             'cells': "sC",
-                            "width": 15,
+                            "width": 35,
                             "style": {
-                                "numFmt": "#,##0;(#,##0)",
                                 "alignment":{
                                     "vertical": "right",
                                     "horizontal" : "right"
@@ -325,10 +327,11 @@ $config4 = [
                             }                    
                         },
                         {
+                            // cant
                             "cells": "sD",
-                            "width": 20,                 
+                            "width": 15,                 
                             "style": {
-                                "numFmt": "#,#0;(#,#0)",
+                                "numFmt": "#,###0;(#,###0)",
                                 "alignment":{
                                     "vertical": "right",
                                     "horizontal" : "right"
@@ -336,10 +339,11 @@ $config4 = [
                             }
                         },
                         {
+                            // monto 
                             "cells": "sE",
-                            "width": 20,                 
+                            "width": 25,                 
                             "style": {
-                                "numFmt": "#,#0;(#,#0)",
+                                "numFmt": "#,##0.00;(#,##0.00)",
                                 "alignment":{
                                     "vertical": "right",
                                     "horizontal" : "right"
@@ -347,10 +351,11 @@ $config4 = [
                             }
                         },
                         {
+                            // monto comision base
                             "cells": "sF",
-                            "width": 20,                 
+                            "width": 25,                 
                             "style": {
-                                "numFmt": "#,#0;(#,#0)",
+                                "numFmt": "#,##0.00;(#,##0.00)",
                                 "alignment":{
                                     "vertical": "right",
                                     "horizontal" : "right"
@@ -358,8 +363,9 @@ $config4 = [
                             }
                         },
                         {
+                            // monto ganancia comision
                             "cells": "sF",
-                            "width": 20,                 
+                            "width": 35,                 
                             "style": {
                                 "numFmt": "#,#0;(#,#0)",
                                 "alignment":{
@@ -367,18 +373,7 @@ $config4 = [
                                     "horizontal" : "right"
                                 }                            
                             }
-                        },
-                        {
-                            "cells": "sG",
-                            "width": 40,                 
-                            "style": {
-                                "numFmt": "#,#0;(#,#0)",
-                                "alignment":{
-                                    "vertical": "right",
-                                    "horizontal" : "right"
-                                }                            
-                            }
-                        }                                                       
+                        }                                                    
                     ]
                 },
                 {
