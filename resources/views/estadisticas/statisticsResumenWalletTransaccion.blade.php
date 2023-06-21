@@ -173,9 +173,9 @@ $config4 = [
                                     <th style="width:10%;">Transaccion</th>
                                     <th style="width:10%;">Cant</th>
                                     <th style="width:10%;">Monto</th>
-                                    <th style="width:10%;">Monto comision base</th>
-                                    <th style="width:10%;">Monto comision</th>
-                                    <th style="width:10%;">Monto Ganancia comision</th>
+                                    <th style="width:10%;">Mto comision base</th>
+                                    <th style="width:10%;">Mto comision</th>
+                                    <th style="width:10%;">Mto Ganancia comision</th>
                                     <th style="width:1%;">Ver <i class="fas fa-search"></i></th>
 
                                 </tr>
@@ -193,12 +193,12 @@ $config4 = [
                                 <tr>
                                     <td>{!! $row->WalletName !!}</td>
                                     <td>{!! $row->TypeTransaccionName !!}</td>
-                                    <td class="text-right">{!! number_format($row->cant_transactions,0,",",".") !!}</td>
-                                    <td class="text-right">{!! number_format($row->total_amount,2,",",".") !!}</td>
-                                    <td class="text-right">{!! number_format($row->total_amount_commission_base,2,",",".") !!}</td>
-                                    <td class="text-right">{!! number_format($row->total_commission,2,",",".") !!}</td>
-                                    <!-- <td class="text-right">{!! number_format($row->total_commission_profit,2,",",".") !!}</td>                                    -->
-                                    <td class="text-right">{!! number_format($myTotal,2,",",".") !!}</td>
+                                    <td class="text-right">{!! number_format($row->cant_transactions,0) !!}</td>
+                                    <td class="text-right">{!! number_format($row->total_amount,2) !!}</td>
+                                    <td class="text-right">{!! number_format($row->total_amount_commission_base,2) !!}</td>
+                                    <td class="text-right">{!! number_format($row->total_commission,2) !!}</td>
+                                    <!-- <td class="text-right">{!! number_format($row->total_commission_profit,2) !!}</td>                                    -->
+                                    <td class="text-right">{!! number_format($myTotal,2) !!}</td>
                                     <td class="text-center">
                                         <a href="#"
                                             title="Detalles"
@@ -297,15 +297,18 @@ $config4 = [
                             }
                         },
                         {
+                                // caja
                             "cells": "sA",
                             "width": 25,
 
                         },
                         {
+                                // transaccion
                             "cells": "sB",
                             "width": 45,
                         },
                         {
+                            // cant
                             'cells': "sC",
                             "width": 15,
                             "style": {
@@ -317,10 +320,11 @@ $config4 = [
                             }
                         },
                         {
+                                // monto
                             "cells": "sD",
                             "width": 20,
                             "style": {
-                                "numFmt": "#,#0;(#,#0)",
+                                "numFmt": "#,##0.00;(#,##0.00)",
                                 "alignment":{
                                     "vertical": "right",
                                     "horizontal" : "right"
@@ -328,10 +332,11 @@ $config4 = [
                             }
                         },
                         {
+                                // Monto comision base
                             "cells": "sE",
-                            "width": 20,
+                            "width": 35,
                             "style": {
-                                "numFmt": "#,#0;(#,#0)",
+                                "numFmt": "#,##0.00;(#,##0.00)",
                                 "alignment":{
                                     "vertical": "right",
                                     "horizontal" : "right"
@@ -339,10 +344,11 @@ $config4 = [
                             }
                         },
                         {
+                            // monto comision
                             "cells": "sF",
-                            "width": 20,
+                            "width": 35,
                             "style": {
-                                "numFmt": "#,#0;(#,#0)",
+                                "numFmt": "#,##0.00;(#,##0.00)",
                                 "alignment":{
                                     "vertical": "right",
                                     "horizontal" : "right"
@@ -350,10 +356,11 @@ $config4 = [
                             }
                         },
                         {
+                            // monto ganancia comision
                             "cells": "sF",
-                            "width": 20,
+                            "width": 35,
                             "style": {
-                                "numFmt": "#,#0;(#,#0)",
+                                "numFmt": "#,##0.00;(#,##0.00)",
                                 "alignment":{
                                     "vertical": "right",
                                     "horizontal" : "right"
@@ -361,16 +368,17 @@ $config4 = [
                             }
                         },
                         {
+                            // monto ganancia comision
                             "cells": "sG",
-                            "width": 40,
+                            "width": 35,
                             "style": {
-                                "numFmt": "#,#0;(#,#0)",
+                                "numFmt": "#,##0.00;(#,##0.00)",
                                 "alignment":{
                                     "vertical": "right",
                                     "horizontal" : "right"
                                 }
                             }
-                        }
+                        }                        
                     ]
                 },
                 {
