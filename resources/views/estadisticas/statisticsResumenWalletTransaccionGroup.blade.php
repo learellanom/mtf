@@ -367,7 +367,7 @@ $config4 = [
                             "cells": "sF",
                             "width": 35,                 
                             "style": {
-                                "numFmt": "#,#0;(#,#0)",
+                                "numFmt": "#,##0.00;(#,##0.00)",
                                 "alignment":{
                                     "vertical": "right",
                                     "horizontal" : "right"
