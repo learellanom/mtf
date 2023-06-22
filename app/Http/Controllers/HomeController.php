@@ -71,12 +71,30 @@ class HomeController extends Controller
            $myTypeTransactionHasta = $request->transaction;
 
        }
-        /* MANTENER VALOR BUSCADO EN EL URL */
 
+       $myFechaDesde = "2001-01-01";
+       $myFechaHasta = "9999-12-31";
+
+       $myFechaDesde2 = "2001-01-01";
+       $myFechaHasta2 = "9999-12-31";
+
+        if ($request->fechaDesde){
+            $myFechaDesde = $request->fechaDesde;
+            $myFechaHasta = $request->fechaHasta;
+
+            $myFechaDesde2 = $myFechaDesde . " 00:00:00";
+            $myFechaHasta2 = $myFechaHasta . " 12:59:00";
+        }
+
+        if ($request->fechaHasta){
+            $myFechaHasta = $request->fechaHasta;
+            $myFechaHasta2 = $myFechaHasta . " 12:59:00";
+        /* MANTENER VALOR BUSCADO EN EL URL */
+        }
 
         //dd($wallet_groupsummary);
 
-        return view('dashboardest', compact('wallet_summary', 'wallet_groupsummary', 'wallet', 'typeTransactions', 'myWallet', 'myTypeTransaction'));
+        return view('dashboardest', compact('wallet_summary', 'wallet_groupsummary', 'wallet', 'typeTransactions', 'myWallet', 'myTypeTransaction', 'myFechaDesde', 'myFechaHasta'));
     }
 
 

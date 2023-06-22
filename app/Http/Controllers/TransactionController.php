@@ -238,10 +238,7 @@ class TransactionController extends Controller
         $fecha              = Carbon::now();
 
 
-        $number_referencia = date('YmdHis');
-
-
-        return view('transactions.create_transferwallet', compact('type_coin', 'type_transaction', 'type_transaction2', 'number_referencia', 'wallet', 'group', 'user', 'transaction', 'fecha'));
+        return view('transactions.create_transferwallet', compact('type_coin', 'type_transaction', 'type_transaction2', 'wallet', 'group', 'user', 'transaction', 'fecha'));
     }
 
 
@@ -249,6 +246,8 @@ class TransactionController extends Controller
     {
         $user = Auth::id();
         $transaction = new Transaction;
+
+        $number_referencia = date('YmdHis'). rand(100,200);
 
         $transaction->type_transaction_id   = $request->input('type_transaction_id');
         $transaction->wallet_id             = $request->input('wallet_id');
@@ -258,7 +257,7 @@ class TransactionController extends Controller
         $transaction->transaction_date      = $request->input('transaction_date');
         $transaction->description           = $request->input('description');
         $transaction->user_id               = $user;
-        $transaction->transfer_number       = $request->input('transfer_number');
+        $transaction->transfer_number       = $number_referencia;
 
         $transaction->save();
 
@@ -274,13 +273,13 @@ class TransactionController extends Controller
         $transaction2->transaction_date      = $request->input('transaction_date');
         $transaction2->description           = $request->input('description');
         $transaction2->user_id               = $user;
-        $transaction2->transfer_number       = $request->input('transfer_number');
+        $transaction2->transfer_number       = $number_referencia;
 
         $transaction2->save();
 
         flash()->addSuccess('Transferencia a caja guardado', 'Transacción', ['timeOut' => 3000]);
 
-         return Redirect::route('transactions.index_transferwallet');
+        return Redirect::back()->withInput();
 
     }
 
@@ -295,10 +294,10 @@ class TransactionController extends Controller
         $user               = User::pluck('name', 'id');
         $fecha              = Carbon::now();
 
-        $number = date('YmdHis').'P-G';
 
 
-        return view('transactions.create_pagowallet', compact('type_coin', 'type_transaction', 'type_transaction2', 'number', 'wallet', 'wallet2', 'user', 'transaction', 'fecha'));
+
+        return view('transactions.create_pagowallet', compact('type_coin', 'type_transaction', 'type_transaction2', 'wallet', 'wallet2', 'user', 'transaction', 'fecha'));
     }
 
     public function store_pagowallet(Request $request)
@@ -306,13 +305,15 @@ class TransactionController extends Controller
         $user = Auth::id();
         $transactions = new Transaction;
 
+        $number = date('YmdHis'). rand(100,200). 'P-G';
+
         $transactions->type_transaction_id      = $request->input('type_transaction_id');
         $transactions->wallet_id                = $request->input('wallet_id');
         $transactions->amount                   = $request->input('amount');
         $transactions->amount_total             = $request->input('amount_total');
         $transactions->transaction_date         = $request->input('transaction_date');
         $transactions->description              = $request->input('description');
-        $transactions->pay_number               = $request->input('pay_number');
+        $transactions->pay_number               = $number;
         $transactions->amount_commission_base   = $request->input('amount_commission_base');
         $transactions->percentage_base          = $request->input('percentage_base');
         $transactions->exonerate_base           = $request->input('exonerate_base');
@@ -332,24 +333,17 @@ class TransactionController extends Controller
         $transactions2->amount_total            = $request->input('amount_total');
         $transactions2->transaction_date        = $request->input('transaction_date');
         $transactions2->description             = $request->input('description2');
-        $transactions2->pay_number              = $request->input('pay_number');
-
-        //$transactions2->amount_commission_base  = $request->input('amount_commission_base');    
-        //$transactions2->percentage_base         = $request->input('percentage_base');
-        //$transactions2->exonerate_base          = $request->input('exonerate_base');
-        // $transactions2->amount_base             = $request->input('amount');
-        // $transactions2->amount_total_base       = $request->input('amount_total_base');
-
+        $transactions2->pay_number              = $number;
 
         $transactions2->amount_base             = $request->input('amount');
         $transactions2->amount_total_base       = $request->input('amount');
-        
+
         $transactions2->user_id                 = $user;
         $transactions2->save();
 
          flash()->addSuccess('Movimiento guardado', 'Transacción', ['timeOut' => 3000]);
 
-         return Redirect::route('transactions.index_pagowallet');
+         return Redirect::back()->withInput();
     }
 
     public function index_pagoclientes(transaction $transaction)
@@ -401,16 +395,17 @@ class TransactionController extends Controller
         $user               = User::pluck('name', 'id');
         $fecha              = Carbon::now();
 
-        $number = date('YmdHis').'T-C';
+        //$number = date('YmdHis').'T-C';
 
 
-        return view('transactions.create_pagocliente', compact('type_coin', 'type_transaction', 'wallet', 'type_transaction2', 'number', 'group', 'group2', 'user', 'transaction', 'fecha'));
+        return view('transactions.create_pagocliente', compact('type_coin', 'type_transaction', 'wallet', 'type_transaction2', 'group', 'group2', 'user', 'transaction', 'fecha'));
     }
 
     public function store_pagocliente(Request $request)
     {
         $user = Auth::id();
         $transactions = new Transaction;
+        $number = date('YmdHis'). rand(100,200). 'T-C';
 
         $transactions->type_transaction_id   = $request->input('type_transaction_id');
         $transactions->group_id              = $request->input('group_id');
@@ -420,7 +415,7 @@ class TransactionController extends Controller
         $transactions->amount_base           = $request->input('amount');
         $transactions->transaction_date      = $request->input('transaction_date');
         $transactions->description           = $request->input('description');
-        $transactions->pay_number            = $request->input('pay_number');
+        $transactions->pay_number            = $number;
         $transactions->amount_commission     = $request->input('commission');
         $transactions->percentage            = $request->input('percentage');
         $transactions->exonerate             = $request->input('exonerate');
@@ -441,7 +436,7 @@ class TransactionController extends Controller
         $transactions2->amount_base           = $request->input('amount');
         $transactions2->transaction_date      = $request->input('transaction_date');
         $transactions2->description           = $request->input('description2');
-        $transactions2->pay_number            = $request->input('pay_number');
+        $transactions2->pay_number            = $number;
         $transactions2->amount_commission     = 0;
         $transactions2->percentage            = 0;
         $transactions2->exonerate             = 2;
@@ -451,7 +446,7 @@ class TransactionController extends Controller
 
          flash()->addSuccess('Movimiento guardado', 'Transacción entre clientes :D', ['timeOut' => 3000]);
 
-         return Redirect::route('transactions.index_pagoclientes');
+         return Redirect::back()->withInput();
     }
 
     public function index_cobrowallet(transaction $transaction)
@@ -502,16 +497,17 @@ class TransactionController extends Controller
         $user               = User::pluck('name', 'id');
         $fecha              = Carbon::now();
 
-        $number = date('YmdHis').'C-G';
+        //$number = date('YmdHis').'C-G';
 
 
-        return view('transactions.create_cobrowallet', compact('type_coin', 'type_transaction', 'type_transaction2', 'number', 'wallet', 'wallet2', 'user', 'transaction', 'fecha'));
+        return view('transactions.create_cobrowallet', compact('type_coin', 'type_transaction', 'type_transaction2', 'wallet', 'wallet2', 'user', 'transaction', 'fecha'));
     }
 
     public function store_cobrowallet(Request $request)
     {
         $user = Auth::id();
         $transactions = new Transaction;
+        $number = date('YmdHis'). rand(100,200). 'C-G';
 
         $transactions->type_transaction_id      = $request->input('type_transaction_id');
         $transactions->wallet_id                = $request->input('wallet_id');
@@ -519,7 +515,7 @@ class TransactionController extends Controller
         $transactions->amount_total             = $request->input('amount_total');
         $transactions->transaction_date         = $request->input('transaction_date');
         $transactions->description              = $request->input('description');
-        $transactions->pay_number               = $request->input('pay_number');
+        $transactions->pay_number               = $number;
         $transactions->amount_commission_base   = $request->input('amount_commission_base');
         $transactions->percentage_base          = $request->input('percentage_base');
         $transactions->exonerate_base           = $request->input('exonerate_base');
@@ -539,7 +535,7 @@ class TransactionController extends Controller
         $transactions2->amount_total            = $request->input('amount_total');
         $transactions2->transaction_date        = $request->input('transaction_date');
         $transactions2->description             = $request->input('description2');
-        $transactions2->pay_number              = $request->input('pay_number');
+        $transactions2->pay_number              = $number;
         $transactions2->amount_commission_base  = $request->input('amount_commission_base');
         $transactions2->percentage_base         = $request->input('percentage_base');
         $transactions2->exonerate_base          = $request->input('exonerate_base');
@@ -550,7 +546,7 @@ class TransactionController extends Controller
 
          flash()->addSuccess('Movimiento guardado', 'Cobro entre proveedores :D', ['timeOut' => 3000]);
 
-         return Redirect::route('transactions.index_cobrowallet');
+         return Redirect::back()->withInput();
     }
 
 

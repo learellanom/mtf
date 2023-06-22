@@ -471,8 +471,7 @@ $config4 = [
             myRoute = myRoute.replace('transaction2',transaction);
             myRoute = myRoute.replace('fechaDesde2',fechaDesde);
             myRoute = myRoute.replace('fechaHasta2',fechaHasta);
-        // console.log(myRoute);
-        // alert(myRoute);
+
         location.href = myRoute;
 
     }
