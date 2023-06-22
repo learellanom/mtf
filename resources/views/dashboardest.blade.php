@@ -110,9 +110,9 @@ $config4 = [
         </div>
       </div>
 
-
+{{--
                                                         @foreach($wallet_summary as $wallets)
-                                                        @if($wallets->TypeTransactionId)
+                                                         @if(isset($wallets->TypeTransactionId))
                                                         <div class="row esconder">
                                                             <div class="col-md-6">
                                                                 <div class="card">
@@ -125,14 +125,45 @@ $config4 = [
                                                               <div class="col-md-6">
                                                                 <div class="card">
                                                                   <div class="card-body">
-                                                                      <h3 class="text-center">Comparativo de Movimientos</h3>
+                                                                      <h3 class="text-center text-uppercase font-weight-bold">{{ $wallets->TypeTransaccionName }}</h3>
                                                                       <canvas id={{ $wallets->TypeTransactionId. 'A' }}></canvas>
                                                                   </div>
                                                                 </div>
                                                               </div>
                                                             </div>
+                                                            @elseif($wallets->TypeTransactionId == 1)
+                                                            VACIO
                                                             @endif
-                                                           @endforeach
+
+                                                        @endforeach --}}
+
+
+            @if(request()->query())
+                @foreach($wallet_summary as $wallets)
+                    @if(isset($wallets->TypeTransactionId))
+                        <div class="row esconder">
+                            <div class="col-md-6">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h3 class="text-center text-uppercase font-weight-bold">{{ $wallets->TypeTransaccionName }}</h3>
+                                        <canvas id={{ $wallets->TypeTransactionId }}></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h3 class="text-center text-uppercase font-weight-bold">{{ $wallets->TypeTransaccionName }}</h3>
+                                        <canvas id={{ $wallets->TypeTransactionId. 'A' }}></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @else
+                        VACIO
+                    @endif
+                @endforeach
+            @endif
 
 
 
@@ -146,45 +177,7 @@ $config4 = [
 <script>
 
 
-function handleSelectChange(selectElement, className, classN, storageKey) {
-  const selectedValue = selectElement.val();
-  const hiddenElement = $(className);
-  const abrirElement =  $(classN);
 
-  if (selectedValue === 'true') {
-    hiddenElement.show();
-    abrirElement.hide();
-  } else {
-    hiddenElement.hide();
-    abrirElement.show();
-  }
-
-  localStorage.setItem(storageKey, selectedValue);
-}
-
-const walletSelect = $('#wallet');
-const walletHiddenElement = $('.esconder');
-const walletAbrirElement =  $('.abrir');
-const walletStorageKey = 'wallet';
-const walletSelectedValue = localStorage.getItem(walletStorageKey);
-
-if (walletSelectedValue.trim() === "") {
-  walletHiddenElement.hide();
-  walletAbrirElement.show();
-} else {
-  walletHiddenElement.show();
-  walletAbrirElement.hide();
-}
-
-
-$('select').on('change', function() {
-  const selectElement = $(this);
-  const className = '.esconder.' + selectElement.attr('id');
-  const classN = '.abrir.' + selectElement.attr('id');
-  const storageKey = selectElement.attr('id');
-
-  handleSelectChange(selectElement, className, classN, storageKey);
-});
 
 
 const miWallet = {!! $myWallet !!};
@@ -195,6 +188,12 @@ const miTypeTransaction= {!! $myTypeTransaction !!};
 
 BuscaTransaccion(miTypeTransaction);
 
+
+
+
+
+
+
 document.addEventListener('DOMContentLoaded', function () {
 
     const ctx = document.getElementById('myChart');
@@ -203,80 +202,40 @@ document.addEventListener('DOMContentLoaded', function () {
     //alert(total_amount)
     const myChart = new Chart(ctx, {
         type: 'bar',
-        options: {
-        title: {
-        display: true,
-        text: 'TEST'
-        },
-        forceOverride: true,
-        tooltips: {
-            enabled: true,
-            backgroundColor: 'rgb(0, 173, 181)'
-            },
-            colors: {
-                enabled: true,
-                forceOverride: true,
-
-            }
-        },
         data: {
-            labels: ['Caja Banesco', 'Caja USDT', 'Abu Mahmoud'],
+            labels: [@foreach($wallet_summary->take(13) as $wallet)  "{{$wallet->TypeTransaccionName }}", @endforeach],
             datasets: [{
                 label: 'Monto total de las transacciones',
-                data: [600,50,200,33,45,80],
+                data: [@foreach($wallet_summary as $wallet) {{$wallet->total_amount. ',' }} @endforeach],
                 backgroundColor: [
                     'rgb(0, 173, 181)',
-
                     'rgb(58, 16, 120)',
-
                     'rgb(255, 184, 76)',
-
                     'rgb(49, 225, 247)',
-
                     'rgb(8, 2, 2)',
-
                     'rgb(0, 129, 180)',
-
                     'rgb(7, 10, 82)',
-
                     'rgb(213, 206, 163)',
-
                     'rgb(60, 42, 33)',
-
                     'rgb(2, 89, 85)',
-
                     'rgb(255, 132, 0)',
-
                     'rgb(184, 98, 27)',
-
                     'rgb(114, 0, 27)',
                 ],
                 borderColor: [
 
                     'rgb(0, 173, 181)',
-
                     'rgb(58, 16, 120)',
-
                     'rgb(255, 184, 76)',
-
                     'rgb(49, 225, 247)',
-
                     'rgb(8, 2, 2)',
-
                     'rgb(0, 129, 180)',
-
                     'rgb(7, 10, 82)',
-
                     'rgb(213, 206, 163)',
-
                     'rgb(60, 42, 33)',
-
                     'rgb(2, 89, 85)',
-
                     'rgb(255, 132, 0)',
-
                     'rgb(184, 98, 27)',
-
                     'rgb(114, 0, 27)',
 
 
@@ -287,47 +246,31 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-
-
-
-
     const DATA_COUNT2 = 1600;
     const NUMBER_CFG = {count: DATA_COUNT2, min: 0, max: 1500};
     const ctx2 = document.getElementById('myChartDoughnut');
     const myChart2 = new Chart(ctx2, {
         type: 'doughnut',
         data : {
-            labels: ['Pago transferencia', 'Cobro en transferencia', 'Pago en efectivo', 'Cobro en efectivo', 'Pago Mercancía', 'Pago USDT'],
+            labels: [@foreach($wallet_summary->take(13) as $wallet) "{{$wallet->TypeTransaccionName }}", @endforeach ],
             datasets: [
                 {
                 label: 'Dataset 1',
-                data: [600,50,200,33,45,80],
+                data: [@foreach($wallet_summary->take(13) as $wallet) {{$wallet->cant_transactions. ',' }} @endforeach],
                 backgroundColor: [
 
                     'rgb(0, 173, 181)',
-
                     'rgb(58, 16, 120)',
-
                     'rgb(255, 184, 76)',
-
                     'rgb(49, 225, 247)',
-
                     'rgb(8, 2, 2)',
-
                     'rgb(0, 129, 180)',
-
                     'rgb(7, 10, 82)',
-
                     'rgb(213, 206, 163)',
-
                     'rgb(60, 42, 33)',
-
                     'rgb(2, 89, 85)',
-
                     'rgb(255, 184, 0)',
-
                     'rgb(184, 98, 27)',
-
                     'rgb(114, 0, 27)',
 
                 ],
@@ -337,6 +280,14 @@ document.addEventListener('DOMContentLoaded', function () {
 
     });
 
+
+
+@if(request()->query())
+if (window.location.href.indexOf("?") === -1) {
+    $('.esconder').hide();
+} else {
+    $('.esconder').show();
+}
 @foreach($wallet_summary as $wallet) @if($wallet->TypeTransactionId == 1)
 /* PAGO EN TRANSFERENCIA */
     const DATA_COUNT0 = 1500;
@@ -499,10 +450,10 @@ document.addEventListener('DOMContentLoaded', function () {
     const myChart8 = new Chart(ctx8, {
         type: 'bar',
         data: {
-            labels: [@foreach($wallet_groupsummary as $wallets)   "{{$wallets->GroupName ?? $wallets->WalletName}}", @endforeach],
+            labels: [@foreach($wallet_groupsummary as $wallets) @if($wallets->TypeTransactionId == 3) "{{$wallets->GroupName ?? $wallets->WalletName}}", @endif @endforeach],
             datasets: [{
                 label: 'Monto total de las transacciones',
-                data: [@foreach($wallet_groupsummary as $wallets)  {{$wallets->total_amount. ',' }}  @endforeach],
+                data: [@foreach($wallet_groupsummary as $wallets) @if($wallets->TypeTransactionId == 3) {{$wallets->total_amount. ',' }}@endif  @endforeach],
                 backgroundColor: [
                     'rgb(255, 184, 76)',
                 ],
@@ -720,7 +671,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 ],
                 borderColor: [
                     'rgb(7, 10, 82)',
-
                 ],
                 borderWidth: 6
             }]
@@ -729,23 +679,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 /* NOTA DE CREDITO  */
 
-    // obtener objeto de configuración de Chart.js
-    var config = myChart3.config;
-// obtener el número de datasets en la configuración
-var datasetCount = config.data.datasets.length;
 
-// bucle a través de cada uno de los datasets y sus colores
-for (var i = 0; i < datasetCount; i++) {
-  var dataset = config.data.datasets[i];
-  // obtener el número de puntos de datos en el conjunto de datos actual
-  var dataLength = dataset.data.length;
-
-  // bucle a través de cada punto de datos y su color
-  for (var j = 0; j < dataLength; j++) {
-    var color = dataset.backgroundColor[j];
-    // hacer algo con el color aquí
-  }
-}
 @else
 
 @endif
@@ -1114,6 +1048,9 @@ const DATA_COUNT15 = 1500;
 @endif
 @endforeach
 
+
+
+@endif
 
 
 
