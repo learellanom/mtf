@@ -273,37 +273,37 @@ $config4 = [
     }
 
     function BuscaCliente(miCliente){
-            //alert("BuscaCliente - miCliente -> " + miCliente);
-            $('#cliente').each( function(index, element){
-                //alert ("Buscacliente -> " + $(this).val() + " text -> " + $(this).text()+ " y con index -> " + $(this).prop('selectedIndex'));
-                $(this).children("option").each(function(){
-                    if ($(this).val() === miCliente.toString()){
-                        //alert('BUscaCliente - encontro');
-                        $("#cliente option[value="+ miCliente +"]").attr("selected",true);
-                    }
-                    //alert("BuscaClienteaqui ->  the val " + $(this).val() + " text -> " + $(this).text());
-                });
+        //alert("BuscaCliente - miCliente -> " + miCliente);
+        $('#cliente').each( function(index, element){
+            //alert ("Buscacliente -> " + $(this).val() + " text -> " + $(this).text()+ " y con index -> " + $(this).prop('selectedIndex'));
+            $(this).children("option").each(function(){
+                if ($(this).val() === miCliente.toString()){
+                    //alert('BUscaCliente - encontro');
+                    $("#cliente option[value="+ miCliente +"]").attr("selected",true);
+                }
+                //alert("BuscaClienteaqui ->  the val " + $(this).val() + " text -> " + $(this).text());
             });
-            //
-        }
+        });
+        //
+    }
 
 
-        function BuscaWallet(miWallet){
-            if (miWallet===0){
-                return;
-            }
-            // alert("BuscaWallet - miWallet -> " + miWallet);
-            $('#wallet').each( function(index, element){
-                // alert ("BuscaWallet -> " + $(this).val() + " text -> " + $(this).text()+ " y con index -> " + $(this).prop('selectedIndex'));
-                $(this).children("option").each(function(){
-                    if ($(this).val() === miWallet.toString()){
-                        // alert('BuscaWallet - encontro');
-                        $("#wallet option[value="+ miWallet +"]").attr("selected",true);
-                    }
-                    // alert("BuscaWallet aqui ->  the val " + $(this).val() + " text -> " + $(this).text());
-                });
-            });
+    function BuscaWallet(miWallet){
+        if (miWallet===0){
+            return;
         }
+        // alert("BuscaWallet - miWallet -> " + miWallet);
+        $('#wallet').each( function(index, element){
+            // alert ("BuscaWallet -> " + $(this).val() + " text -> " + $(this).text()+ " y con index -> " + $(this).prop('selectedIndex'));
+            $(this).children("option").each(function(){
+                if ($(this).val() === miWallet.toString()){
+                    // alert('BuscaWallet - encontro');
+                    $("#wallet option[value="+ miWallet +"]").attr("selected",true);
+                }
+                // alert("BuscaWallet aqui ->  the val " + $(this).val() + " text -> " + $(this).text());
+            });
+        });
+    }
 
 </script>
 
