@@ -1416,9 +1416,25 @@ class statisticsController extends Controller
         $Transacciones2         = $this->getWalletTransactionGroupSummary($request);
         $groups                 = $this->getGroups();
 
-        $this->getWalletTransactionGroupTotal($Transacciones1, $Transacciones2);
-        $Transacciones       = $Transacciones2;
-       // dd($Transacciones2);
+        // $this->getWalletTransactionGroupTotal($Transacciones1, $Transacciones2);
+
+        $Transacciones3 = [];
+        foreach($Transacciones1 as $Tran){
+            $Transacciones3[] = $Tran;
+        }
+        foreach($Transacciones2 as $Tran){
+            $Transacciones3[] = $Tran;
+        }
+        //  $Transacciones3         = array_merge($Transacciones1, $Transacciones2);
+        // dd($Transacciones1);
+        // dd($Transacciones2);
+        
+         // echo gettype($Transacciones3);
+         // die();
+       // dd($Transacciones3);
+
+        $Transacciones       = $Transacciones3;
+
        // dd($Transacciones);
 
         $balance = 0;
@@ -1603,17 +1619,22 @@ class statisticsController extends Controller
        }
 
         $Transacciones = DB::table('transactions')
-            ->select(DB::raw('
+            ->select(DB::raw("
                 wallet_id                   as WalletId,
                 wallets.name                as WalletName,
                 type_transaction_id         as TypeTransactionId,
                 type_transactions.name      as TypeTransaccionName,
+                1                           as ItemGroup,                      
+                ''                    as GroupId,
+                ''                 as GroupName,                
                 count(*)                    as cant_transactions,
                 sum(amount)                 as total_amount,                
                 sum(amount_commission_base) as total_amount_commission_base,
                 sum(amount_commission)      as total_commission,
+                sum(amount_base)            as total_amount_base,                
+                sum(amount_total_base)      as total_Base,                
                 (sum(amount_commission)-sum(amount_commission_base)) as total_commission_profit,
-                sum(amount_total)           as total'))
+                sum(amount_total)           as total"))
             ->leftJoin('type_transactions', 'type_transactions.id', '=', 'transactions.type_transaction_id')
             ->leftJoin('wallets',           'wallets.id', '=', 'transactions.wallet_id')
             ->where('status','<>','Anulado')
@@ -1624,7 +1645,7 @@ class statisticsController extends Controller
             ->orderBy('WalletId','ASC')
             ->orderBy('TypeTransactionId','ASC')
             ->get();
-
+        // dd($Transacciones);
             return $Transacciones;
     }
 
@@ -1693,7 +1714,7 @@ class statisticsController extends Controller
             wallet_id                   as WalletId,
             wallets.name                as WalletName,
             type_transaction_id         as TypeTransactionId,
-            type_transactions.name      as TypeTransaccionName,            
+            type_transactions.name      as TypeTransaccionName,          
             group_id                    as GroupId,
             groups.name                 as GroupName,
             count(*)                    as cant_transactions,
@@ -1728,7 +1749,8 @@ class statisticsController extends Controller
             wallet_id                   as WalletId,
             wallets.name                as WalletName,
             type_transaction_id         as TypeTransactionId,
-            type_transactions.name      as TypeTransaccionName,            
+            type_transactions.name      as TypeTransaccionName,    
+            2                           as ItemGroup,                      
             group_id                    as GroupId,
             groups.name                 as GroupName,
             count(*)                    as cant_transactions,
@@ -1766,7 +1788,7 @@ class statisticsController extends Controller
         // dd($myQuery);
 
         $Transacciones = DB::select($myQuery);
-       // dd($Transacciones2);
+        // dd($Transacciones);
        //  \Log::info('leam *** $myQUery -> ' . $myQuery);       
        //  \Log::info('leam *** $Transacciones3 -> ' . print_r($Transacciones3,true));
        
