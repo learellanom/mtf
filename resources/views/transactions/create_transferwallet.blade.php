@@ -87,7 +87,7 @@
                 <div class="form-group">
 
 
-                        {!! Form::hidden('transfer_number', $number_referencia,['class' => 'form-control', 'required' => true, 'readonly' => true]) !!}
+                       {{--  {!! Form::hidden('transfer_number', $number_referencia,['class' => 'form-control', 'required' => true, 'readonly' => true]) !!} --}}
 
                 </div>
 

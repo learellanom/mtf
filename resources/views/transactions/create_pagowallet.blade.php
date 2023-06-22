@@ -108,7 +108,7 @@
                 <div class="form-group">
 
 
-                        {!! Form::hidden('pay_number', $number,['class' => 'form-control', 'required' => true, 'readonly' => true]) !!}
+                       {{--  {!! Form::hidden('pay_number', $number,['class' => 'form-control', 'required' => true, 'readonly' => true]) !!} --}}
 
                 </div>
                 <hr class="bg-dark esconder comi" style="height:1px;">
