@@ -171,6 +171,7 @@ $config4 = [
 
                                     <th style="width:10%;">Caja</th>
                                     <th style="width:10%;">Transaccion</th>
+                                    <th style="width:10%;">Item Grupo</th>                                    
                                     <th style="width:10%;">Grupo</th>                                    
                                     <th style="width:10%;">Cant</th>
                                     <th style="width:10%;">Monto</th>   
@@ -194,6 +195,7 @@ $config4 = [
                                 <tr>
                                     <td>{!! $row->WalletName !!}</td>
                                     <td>{!! $row->TypeTransaccionName !!}</td>                                    
+                                    <td>{!! $row->ItemGroup !!}</td>                                       
                                     <td>{!! $row->GroupName !!}</td>   
                                     <td class="text-right">{!! number_format($row->cant_transactions,0) !!}</td>                                    
                                     <td class="text-right">{!! number_format($row->total_amount,2) !!}</td>
@@ -205,7 +207,7 @@ $config4 = [
                                         <a href="#"
                                             title="Detalles"
                                             class="btn btn-xl text-primary mx-1 shadow text-center"
-                                            onClick="theRoute2({{0}}, {{$row->GroupId}}, {{$row->WalletId}}, {{$row->TypeTransactionId}})">
+                                            onClick="theRoute2({{0}}, {{$row->GroupId ?? 0}}, {{$row->WalletId}}, {{$row->TypeTransactionId}})">
                                             <i class="fa fa-lg fa-fw fa-eye"></i>
                                         </a>
                                     </td>
@@ -249,7 +251,7 @@ $config4 = [
                     "previous": "Anterior"
                 }
             },
-            "order": [[ 1, 'asc' ]],
+            "order": [[ 0, 'asc' ], [ 1, 'asc' ],[2,'asc']],
             // scrollX:        true,
             // scrollCollapse: true,
             paging:         true, 
