@@ -110,8 +110,8 @@ $config4 = [
         </div>
       </div>
 
-{{--
-                                                        @foreach($wallet_summary as $wallets)
+
+                                                      {{--   @foreach($wallet_summary as $wallets)
                                                          @if(isset($wallets->TypeTransactionId))
                                                         <div class="row esconder">
                                                             <div class="col-md-6">
@@ -138,9 +138,9 @@ $config4 = [
                                                         @endforeach --}}
 
 
-            @if(request()->query())
+            @if($wallet_summary->count() <= 13)
                 @foreach($wallet_summary as $wallets)
-                    @if(isset($wallets->TypeTransactionId))
+                    @if($wallets->TypeTransactionId)
                         <div class="row esconder">
                             <div class="col-md-6">
                                 <div class="card">
@@ -159,12 +159,10 @@ $config4 = [
                                 </div>
                             </div>
                         </div>
-                    @else
-                        VACIO
+
                     @endif
                 @endforeach
-            @endif
-
+                @endif
 
 
 
@@ -196,55 +194,26 @@ BuscaTransaccion(miTypeTransaction);
 
 document.addEventListener('DOMContentLoaded', function () {
 
+        const COLORS = [
+                    'rgb(0, 173, 181)',
+                    'rgb(58, 16, 120)',
+                    'rgb(255, 184, 76)',
+                    'rgb(49, 225, 247)',
+                    'rgb(8, 2, 2)',
+                    'rgb(0, 129, 180)',
+                    'rgb(7, 10, 82)',
+                    'rgb(213, 206, 163)',
+                    'rgb(60, 42, 33)',
+                    'rgb(2, 89, 85)',
+                    'rgb(255, 132, 0)',
+                    'rgb(184, 98, 27)',
+                    'rgb(114, 0, 27)',
+    ];
+
     const ctx = document.getElementById('myChart');
     //var total_amount = @foreach($wallet_summary as $wallet) {{ $wallet->total_amount. ',' }} @endforeach
 
     //alert(total_amount)
-    const myChart = new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: [@foreach($wallet_summary->take(13) as $wallet)  "{{$wallet->TypeTransaccionName }}", @endforeach],
-            datasets: [{
-                label: 'Monto total de las transacciones',
-                data: [@foreach($wallet_summary as $wallet) {{$wallet->total_amount. ',' }} @endforeach],
-                backgroundColor: [
-                    'rgb(0, 173, 181)',
-                    'rgb(58, 16, 120)',
-                    'rgb(255, 184, 76)',
-                    'rgb(49, 225, 247)',
-                    'rgb(8, 2, 2)',
-                    'rgb(0, 129, 180)',
-                    'rgb(7, 10, 82)',
-                    'rgb(213, 206, 163)',
-                    'rgb(60, 42, 33)',
-                    'rgb(2, 89, 85)',
-                    'rgb(255, 132, 0)',
-                    'rgb(184, 98, 27)',
-                    'rgb(114, 0, 27)',
-                ],
-                borderColor: [
-
-                    'rgb(0, 173, 181)',
-                    'rgb(58, 16, 120)',
-                    'rgb(255, 184, 76)',
-                    'rgb(49, 225, 247)',
-                    'rgb(8, 2, 2)',
-                    'rgb(0, 129, 180)',
-                    'rgb(7, 10, 82)',
-                    'rgb(213, 206, 163)',
-                    'rgb(60, 42, 33)',
-                    'rgb(2, 89, 85)',
-                    'rgb(255, 132, 0)',
-                    'rgb(184, 98, 27)',
-                    'rgb(114, 0, 27)',
-
-
-                ],
-                borderWidth: 4
-
-            }]
-        }
-    });
 
     const DATA_COUNT2 = 1600;
     const NUMBER_CFG = {count: DATA_COUNT2, min: 0, max: 1500};
@@ -257,23 +226,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 {
                 label: 'Dataset 1',
                 data: [@foreach($wallet_summary->take(13) as $wallet) {{$wallet->cant_transactions. ',' }} @endforeach],
-                backgroundColor: [
+                backgroundColor:COLORS.slice(0, DATA_COUNT2),
 
-                    'rgb(0, 173, 181)',
-                    'rgb(58, 16, 120)',
-                    'rgb(255, 184, 76)',
-                    'rgb(49, 225, 247)',
-                    'rgb(8, 2, 2)',
-                    'rgb(0, 129, 180)',
-                    'rgb(7, 10, 82)',
-                    'rgb(213, 206, 163)',
-                    'rgb(60, 42, 33)',
-                    'rgb(2, 89, 85)',
-                    'rgb(255, 184, 0)',
-                    'rgb(184, 98, 27)',
-                    'rgb(114, 0, 27)',
-
-                ],
                 hoverOffset: 4
             }]
         },
@@ -281,14 +235,46 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
 
+    const myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: [@foreach($wallet_summary->take(13) as $wallet)  "{{$wallet->TypeTransaccionName }}", @endforeach],
+            datasets: [{
+                label: 'Monto total de las transacciones',
+                data: [@foreach($wallet_summary as $wallet) {{$wallet->total_amount. ',' }} @endforeach],
+                backgroundColor:COLORS.slice(0, DATA_COUNT2),
+                borderColor:COLORS.slice(0, DATA_COUNT2),
+                borderWidth: 4
 
-@if(request()->query())
+            }]
+        }
+    });
+
+
 if (window.location.href.indexOf("?") === -1) {
-    $('.esconder').hide();
-} else {
     $('.esconder').show();
+    $('#typeTransactions').prop('disabled', true);
+    $('#drCustomRanges').prop('disabled', true);
+
+} else {
+    $('.esconder').hide();
+    $('#typeTransactions').prop('disabled', false);
+    $('#drCustomRanges').prop('disabled', false);
 }
+
+if (window.location.href.match(/\d/) < 1) {
+    $('#typeTransactions').prop('disabled', true);
+    $('#drCustomRanges').prop('disabled', true);
+} else {
+    $('#typeTransactions').prop('disabled', false);
+    $('#drCustomRanges').prop('disabled', false);
+}
+
+
+@if($wallet_summary->count() <= 13)
+
 @foreach($wallet_summary as $wallet) @if($wallet->TypeTransactionId == 1)
+
 /* PAGO EN TRANSFERENCIA */
     const DATA_COUNT0 = 1500;
     const NUMBER_CFG2 = {count: DATA_COUNT0, min: 0, max: 1500};
@@ -302,11 +288,7 @@ if (window.location.href.indexOf("?") === -1) {
                 label: 'Otras transacciónes',
                 data: [@foreach($wallet_summary as $wallet) {{$wallet->cant_transactions. ',' }} @endforeach],
 
-                backgroundColor: [
-
-                    'rgb(0, 173, 181)',
-
-                ],
+                backgroundColor:[@foreach($wallet_summary as $wallet) @if($wallet->TypeTransactionId == 1) 'rgb(0, 173, 181)', @else 'rgb(203, 203, 203)', @endif @endforeach],
                 hoverOffset: 6
                }]
         },
@@ -323,34 +305,22 @@ if (window.location.href.indexOf("?") === -1) {
                 label: '',
                 data: [@foreach($wallet_groupsummary as $wallets) @if($wallets->TypeTransactionId == 1) {{$wallets->total_amount. ',' }} @endif @endforeach],
                 backgroundColor: [
+                    @if($wallet_summary->count())
+                    @foreach($wallet_groupsummary as $wallet)
+                    @if($wallet->TypeTransactionId == 1)
                     'rgb(0, 173, 181)',
-                    'rgb(58, 16, 120)',
-                    'rgb(255, 184, 76)',
-                    'rgb(49, 225, 247)',
-                    'rgb(8, 2, 2)',
-                    'rgb(0, 129, 180)',
-                    'rgb(7, 10, 82)',
-                    'rgb(213, 206, 163)',
-                    'rgb(60, 42, 33)',
-                    'rgb(2, 89, 85)',
-                    'rgb(255, 132, 0)',
-                    'rgb(184, 98, 27)',
-                    'rgb(114, 0, 27)',
+                    @endif
+                    @endforeach
+                    @endif
                 ],
                 borderColor: [
+                    @if($wallet_summary->count())
+                    @foreach($wallet_groupsummary as $wallet)
+                    @if($wallet->TypeTransactionId == 1)
                     'rgb(0, 173, 181)',
-                    'rgb(58, 16, 120)',
-                    'rgb(255, 184, 76)',
-                    'rgb(49, 225, 247)',
-                    'rgb(8, 2, 2)',
-                    'rgb(0, 129, 180)',
-                    'rgb(7, 10, 82)',
-                    'rgb(213, 206, 163)',
-                    'rgb(60, 42, 33)',
-                    'rgb(2, 89, 85)',
-                    'rgb(255, 132, 0)',
-                    'rgb(184, 98, 27)',
-                    'rgb(114, 0, 27)',
+                    @endif
+                    @endforeach
+                    @endif
                 ],
                 borderWidth: 6
             }]
@@ -379,10 +349,7 @@ if (window.location.href.indexOf("?") === -1) {
                 {
                 label: 'Dataset 1',
                 data: [@foreach($wallet_summary as $wallet) {{$wallet->cant_transactions. ',' }} @endforeach],
-                backgroundColor: [
-                    'rgb(203, 203, 203)',
-                    'rgb(58, 16, 120)',
-                ],
+                backgroundColor:[@foreach($wallet_summary as $wallet) @if($wallet->TypeTransactionId == 2)  'rgb(58, 16, 120)', @else 'rgb(203, 203, 203)', @endif @endforeach],
                 hoverOffset: 4
             }]
         },
@@ -399,17 +366,22 @@ if (window.location.href.indexOf("?") === -1) {
                 label: 'Monto total de las transacciones',
                 data: [@foreach($wallet_groupsummary as $wallets) @if($wallets->TypeTransactionId == 2) {{$wallets->total_amount. ',' }} @endif @endforeach],
                 backgroundColor: [
+                    @if($wallet_summary->count())
+                    @foreach($wallet_groupsummary as $wallet)
+                    @if($wallet->TypeTransactionId == 2)
                     'rgb(58, 16, 120)',
-                    'rgb(58, 16, 120)',
-                    'rgb(58, 16, 120)',
-                    'rgb(58, 16, 120)',
+                    @endif
+                    @endforeach
+                    @endif
                 ],
                 borderColor: [
+                    @if($wallet_summary->count())
+                    @foreach($wallet_groupsummary as $wallet)
+                    @if($wallet->TypeTransactionId == 2)
                     'rgb(58, 16, 120)',
-                    'rgb(58, 16, 120)',
-                    'rgb(58, 16, 120)',
-                    'rgb(58, 16, 120)',
-
+                    @endif
+                    @endforeach
+                    @endif
                 ],
                 borderWidth: 6
             }]
@@ -434,12 +406,7 @@ if (window.location.href.indexOf("?") === -1) {
                 {
                 label: 'Dataset 1',
                 data: [@foreach($wallet_summary as $wallet) {{$wallet->cant_transactions. ',' }} @endforeach],
-                backgroundColor: [
-                    'rgb(203, 203, 203)',
-                    'rgb(203, 203, 203)',
-                    'rgb(255, 184, 76)',
-
-                ],
+                backgroundColor: [@foreach($wallet_summary as $wallet) @if($wallet->TypeTransactionId == 3)  'rgb(255, 184, 76)', @else 'rgb(203, 203, 203)', @endif @endforeach],
                 hoverOffset: 4
             }]
         },
@@ -455,11 +422,22 @@ if (window.location.href.indexOf("?") === -1) {
                 label: 'Monto total de las transacciones',
                 data: [@foreach($wallet_groupsummary as $wallets) @if($wallets->TypeTransactionId == 3) {{$wallets->total_amount. ',' }}@endif  @endforeach],
                 backgroundColor: [
+                    @if($wallet_summary->count())
+                    @foreach($wallet_groupsummary as $wallet)
+                    @if($wallet->TypeTransactionId == 3)
                     'rgb(255, 184, 76)',
+                    @endif
+                    @endforeach
+                    @endif
                 ],
                 borderColor: [
+                    @if($wallet_summary->count())
+                    @foreach($wallet_groupsummary as $wallet)
+                    @if($wallet->TypeTransactionId == 3)
                     'rgb(255, 184, 76)',
-
+                    @endif
+                    @endforeach
+                    @endif
                 ],
                 borderWidth: 6
             }]
@@ -478,25 +456,19 @@ if (window.location.href.indexOf("?") === -1) {
     const myChart9 = new Chart(ctx9, {
         type: 'doughnut',
         data : {
-            labels: ["{{$wallet->TypeTransaccionName }}",],
+            labels: [@foreach($wallet_summary as $wallet)  "{{$wallet->TypeTransaccionName }}", @endforeach],
             datasets: [
                 {
                 label: 'Dataset 1',
-                data: [{{$wallet->cant_transactions. ',' }}],
-                backgroundColor: [
-                    'rgb(203, 203, 203)',
-                    'rgb(203, 203, 203)',
-                    'rgb(203, 203, 203)',
-                    'rgb(49, 225, 247)',
-
-                ],
+                data: [@foreach($wallet_summary as $wallet) {{$wallet->cant_transactions. ',' }} @endforeach],
+                backgroundColor:[@foreach($wallet_summary as $wallet) @if($wallet->TypeTransactionId == 4)  'rgb(49, 225, 247)', @else 'rgb(203, 203, 203)', @endif @endforeach],
                 hoverOffset: 4
             }]
         },
 
     });
 
-    const ctx10 = document.getElementById(@if($wallet->TypeTransactionId == 4) "{{$wallet->TypeTransactionId. 'A' }}", @endif);
+    const ctx10 = document.getElementById(@if($wallet->TypeTransactionId == 4) "{{$wallet->TypeTransactionId. 'A' }}", @else '4A', @endif);
     const myChart10 = new Chart(ctx10, {
         type: 'bar',
         data: {
@@ -505,11 +477,22 @@ if (window.location.href.indexOf("?") === -1) {
                 label: 'Monto total de las transacciones',
                 data: [@foreach($wallet_groupsummary as $wallets) @if($wallets->TypeTransactionId == 4) {{$wallets->total_amount. ',' }},  @endif  @endforeach],
                 backgroundColor: [
+                    @if($wallet_summary->count())
+                    @foreach($wallet_groupsummary as $wallet)
+                    @if($wallet->TypeTransactionId == 4)
                     'rgb(49, 225, 247)',
+                    @endif
+                    @endforeach
+                    @endif
                 ],
                 borderColor: [
+                    @if($wallet_summary->count())
+                    @foreach($wallet_groupsummary as $wallet)
+                    @if($wallet->TypeTransactionId == 4)
                     'rgb(49, 225, 247)',
-
+                    @endif
+                    @endforeach
+                    @endif
                 ],
                 borderWidth: 6
             }]
@@ -535,13 +518,7 @@ if (window.location.href.indexOf("?") === -1) {
                 {
                 label: 'Dataset 1',
                 data: [@foreach($wallet_summary as $wallet) {{$wallet->cant_transactions. ',' }} @endforeach],
-                backgroundColor: [
-                    'rgb(203, 203, 203)',
-                    'rgb(203, 203, 203)',
-                    'rgb(203, 203, 203)',
-                    'rgb(203, 203, 203)',
-                    'rgb(8, 2, 2)',
-                ],
+                backgroundColor:[@foreach($wallet_summary as $wallet) @if($wallet->TypeTransactionId == 5)  'rgb(8, 2, 2)', @else 'rgb(203, 203, 203)', @endif @endforeach],
                 hoverOffset: 4
             }]
         },
@@ -557,11 +534,22 @@ if (window.location.href.indexOf("?") === -1) {
                 label: 'Monto total de las transacciones',
                 data: [@foreach($wallet_groupsummary as $wallets) @if($wallets->TypeTransactionId == 5) {{$wallets->total_amount. ',' }},  @endif  @endforeach],
                 backgroundColor: [
+                    @if($wallet_summary->count())
+                    @foreach($wallet_groupsummary as $wallet)
+                    @if($wallet->TypeTransactionId == 5)
                     'rgb(8, 2, 2)',
+                    @endif
+                    @endforeach
+                    @endif
                 ],
                 borderColor: [
+                    @if($wallet_summary->count())
+                    @foreach($wallet_groupsummary as $wallet)
+                    @if($wallet->TypeTransactionId == 5)
                     'rgb(8, 2, 2)',
-
+                    @endif
+                    @endforeach
+                    @endif
                 ],
                 borderWidth: 6
             }]
@@ -587,15 +575,7 @@ if (window.location.href.indexOf("?") === -1) {
                 {
                 label: 'Dataset 1',
                 data: [@foreach($wallet_summary as $wallet)  {{$wallet->cant_transactions. ',' }} @endforeach],
-                backgroundColor: [
-                    'rgb(203, 203, 203)',
-                    'rgb(203, 203, 203)',
-                    'rgb(203, 203, 203)',
-                    'rgb(203, 203, 203)',
-                    'rgb(203, 203, 203)',
-                    'rgb(0, 129, 180)',
-
-                ],
+                backgroundColor: [@foreach($wallet_summary as $wallet) @if($wallet->TypeTransactionId == 6)  'rgb(0, 129, 180)', @else 'rgb(203, 203, 203)', @endif @endforeach],
                 hoverOffset: 4
             }]
         },
@@ -611,11 +591,22 @@ if (window.location.href.indexOf("?") === -1) {
                 label: 'Monto total de las transacciones',
                 data: [@foreach($wallet_groupsummary as $wallets) @if($wallets->TypeTransactionId == 6) {{$wallets->total_amount. ',' }},  @endif  @endforeach],
                 backgroundColor: [
+                    @if($wallet_summary->count())
+                    @foreach($wallet_groupsummary as $wallet)
+                    @if($wallet->TypeTransactionId == 6)
                     'rgb(0, 129, 180)',
+                    @endif
+                    @endforeach
+                    @endif
                 ],
                 borderColor: [
+                    @if($wallet_summary->count())
+                    @foreach($wallet_groupsummary as $wallet)
+                    @if($wallet->TypeTransactionId == 6)
                     'rgb(0, 129, 180)',
-
+                    @endif
+                    @endforeach
+                    @endif
                 ],
                 borderWidth: 6
             }]
@@ -641,15 +632,7 @@ if (window.location.href.indexOf("?") === -1) {
                 {
                 label: 'Dataset 1',
                 data: [@foreach($wallet_summary as $wallet)  {{$wallet->cant_transactions. ',' }} @endforeach],
-                backgroundColor: [
-                    'rgb(203, 203, 203)',
-                    'rgb(203, 203, 203)',
-                    'rgb(203, 203, 203)',
-                    'rgb(203, 203, 203)',
-                    'rgb(203, 203, 203)',
-                    'rgb(203, 203, 203)',
-                    'rgb(7, 10, 82)',
-                ],
+                backgroundColor:[@foreach($wallet_summary as $wallet) @if($wallet->TypeTransactionId == 7)  'rgb(7, 10, 82)', @else 'rgb(203, 203, 203)', @endif @endforeach],
                 hoverOffset: 4
             }]
         },
@@ -667,10 +650,22 @@ if (window.location.href.indexOf("?") === -1) {
                 label: 'Monto total de las transacciones',
                 data: [@foreach($wallet_groupsummary as $wallets) @if($wallets->TypeTransactionId == 7) {{$wallets->total_amount. ',' }}, @endif  @endforeach],
                 backgroundColor: [
+                    @if($wallet_summary->count())
+                    @foreach($wallet_groupsummary as $wallet)
+                    @if($wallet->TypeTransactionId == 7)
                     'rgb(7, 10, 82)',
+                    @endif
+                    @endforeach
+                    @endif
                 ],
                 borderColor: [
+                    @if($wallet_summary->count())
+                    @foreach($wallet_groupsummary as $wallet)
+                    @if($wallet->TypeTransactionId == 7)
                     'rgb(7, 10, 82)',
+                    @endif
+                    @endforeach
+                    @endif
                 ],
                 borderWidth: 6
             }]
@@ -698,20 +693,7 @@ if (window.location.href.indexOf("?") === -1) {
                 {
                 label: 'Dataset 1',
                 data: [@foreach($wallet_summary as $wallet) {{$wallet->cant_transactions. ',' }} @endforeach],
-                backgroundColor: [
-                    'rgb(203, 203, 203)',
-                    'rgb(203, 203, 203)',
-                    'rgb(203, 203, 203)',
-                    'rgb(203, 203, 203)',
-                    'rgb(203, 203, 203)',
-                    'rgb(203, 203, 203)',
-                    'rgb(203, 203, 203)',
-                    'rgb(213, 206, 163)',
-                    'rgb(203, 203, 203)',
-                    'rgb(203, 203, 203)',
-                    'rgb(203, 203, 203)',
-                    'rgb(203, 203, 203)',
-                ],
+                backgroundColor:[@foreach($wallet_summary as $wallet) @if($wallet->TypeTransactionId == 8)  'rgb(213, 206, 163)', @else 'rgb(203, 203, 203)', @endif @endforeach],
                 hoverOffset: 4
             }]
         },
@@ -727,11 +709,22 @@ if (window.location.href.indexOf("?") === -1) {
                 label: 'Monto total de las transacciones',
                 data: [@foreach($wallet_groupsummary as $wallets) @if($wallets->TypeTransactionId == 8) {{$wallets->total_amount. ',' }},  @endif  @endforeach],
                 backgroundColor: [
+                    @if($wallet_summary->count())
+                    @foreach($wallet_groupsummary as $wallet)
+                    @if($wallet->TypeTransactionId == 8)
                     'rgb(213, 206, 163)',
+                    @endif
+                    @endforeach
+                    @endif
                 ],
                 borderColor: [
+                    @if($wallet_summary->count())
+                    @foreach($wallet_groupsummary as $wallet)
+                    @if($wallet->TypeTransactionId == 8)
                     'rgb(213, 206, 163)',
-
+                    @endif
+                    @endforeach
+                    @endif
                 ],
                 borderWidth: 6
             }]
@@ -759,19 +752,7 @@ if (window.location.href.indexOf("?") === -1) {
                 {
                 label: 'Dataset 1',
                 data: [@foreach($wallet_summary as $wallet)  {{$wallet->cant_transactions. ',' }} @endforeach],
-                backgroundColor: [
-                    'rgb(203, 203, 203)',
-                    'rgb(203, 203, 203)',
-                    'rgb(203, 203, 203)',
-                    'rgb(203, 203, 203)',
-                    'rgb(203, 203, 203)',
-                    'rgb(203, 203, 203)',
-                    'rgb(203, 203, 203)',
-                    'rgb(203, 203, 203)',
-                    'rgb(60, 42, 33)',
-
-
-                ],
+                backgroundColor: [@foreach($wallet_summary as $wallet) @if($wallet->TypeTransactionId == 9)  'rgb(60, 42, 33)', @else 'rgb(203, 203, 203)', @endif @endforeach],
                 hoverOffset: 4
             }]
         },
@@ -787,11 +768,22 @@ if (window.location.href.indexOf("?") === -1) {
                 label: 'Monto total de las transacciones',
                 data: [@foreach($wallet_groupsummary as $wallets) @if($wallets->TypeTransactionId == 9) {{$wallets->total_amount. ',' }},  @endif  @endforeach],
                 backgroundColor: [
+                    @if($wallet_summary->count())
+                    @foreach($wallet_groupsummary as $wallet)
+                    @if($wallet->TypeTransactionId == 9)
                     'rgb(60, 42, 33)',
+                    @endif
+                    @endforeach
+                    @endif
                 ],
                 borderColor: [
+                    @if($wallet_summary->count())
+                    @foreach($wallet_groupsummary as $wallet)
+                    @if($wallet->TypeTransactionId == 9)
                     'rgb(60, 42, 33)',
-
+                    @endif
+                    @endforeach
+                    @endif
                 ],
                 borderWidth: 6
             }]
@@ -817,19 +809,7 @@ if (window.location.href.indexOf("?") === -1) {
                 {
                 label: 'Dataset 1',
                 data: [@foreach($wallet_summary as $wallet) {{$wallet->cant_transactions. ',' }} @endforeach],
-                backgroundColor: [
-                    'rgb(203, 203, 203)',
-                    'rgb(203, 203, 203)',
-                    'rgb(203, 203, 203)',
-                    'rgb(203, 203, 203)',
-                    'rgb(203, 203, 203)',
-                    'rgb(203, 203, 203)',
-                    'rgb(203, 203, 203)',
-                    'rgb(203, 203, 203)',
-                    'rgb(203, 203, 203)',
-                    'rgb(2, 89, 85)',
-
-                ],
+                backgroundColor:[@foreach($wallet_summary as $wallet) @if($wallet->TypeTransactionId == 10)  'rgb(2, 89, 85)', @else 'rgb(203, 203, 203)', @endif @endforeach],
                 hoverOffset: 4
             }]
         },
@@ -845,14 +825,22 @@ if (window.location.href.indexOf("?") === -1) {
                 label: 'Monto total de las transacciones',
                 data: [@foreach($wallet_groupsummary as $wallets) @if($wallets->TypeTransactionId == 10) {{$wallets->total_amount. ',' }},  @endif  @endforeach],
                 backgroundColor: [
-
+                    @if($wallet_summary->count())
+                    @foreach($wallet_groupsummary as $wallet)
+                    @if($wallet->TypeTransactionId == 10)
                     'rgb(2, 89, 85)',
-
+                    @endif
+                    @endforeach
+                    @endif
                 ],
                 borderColor: [
-
+                    @if($wallet_summary->count())
+                    @foreach($wallet_groupsummary as $wallet)
+                    @if($wallet->TypeTransactionId == 10)
                     'rgb(2, 89, 85)',
-
+                    @endif
+                    @endforeach
+                    @endif
                 ],
                 borderWidth: 6
             }]
@@ -878,21 +866,7 @@ if (window.location.href.indexOf("?") === -1) {
                 {
                 label: 'Dataset 1',
                 data: [@foreach($wallet_summary as $wallet) {{$wallet->cant_transactions. ',' }} @endforeach],
-                backgroundColor: [
-                    'rgb(203, 203, 203)',
-                    'rgb(203, 203, 203)',
-                    'rgb(203, 203, 203)',
-                    'rgb(203, 203, 203)',
-                    'rgb(203, 203, 203)',
-                    'rgb(203, 203, 203)',
-                    'rgb(203, 203, 203)',
-                    'rgb(203, 203, 203)',
-                    'rgb(203, 203, 203)',
-                    'rgb(203, 203, 203)',
-                    'rgb(203, 203, 203)',
-                    'rgb(255, 132, 0)',
-
-                ],
+                backgroundColor:[@foreach($wallet_summary as $wallet) @if($wallet->TypeTransactionId == 11)  'rgb(255, 132, 0)', @else 'rgb(203, 203, 203)', @endif @endforeach],
                 hoverOffset: 4
             }]
         },
@@ -908,14 +882,22 @@ if (window.location.href.indexOf("?") === -1) {
                 label: 'Monto total de las transacciones',
                 data: [@foreach($wallet_groupsummary as $wallets) @if($wallets->TypeTransactionId == 11) {{$wallets->total_amount. ',' }},  @endif  @endforeach],
                 backgroundColor: [
-
+                    @if($wallet_summary->count())
+                    @foreach($wallet_groupsummary as $wallet)
+                    @if($wallet->TypeTransactionId == 11)
                     'rgb(255, 132, 0)',
-
+                    @endif
+                    @endforeach
+                    @endif
                 ],
                 borderColor: [
-
+                    @if($wallet_summary->count())
+                    @foreach($wallet_groupsummary as $wallet)
+                    @if($wallet->TypeTransactionId == 11)
                     'rgb(255, 132, 0)',
-
+                    @endif
+                    @endforeach
+                    @endif
                 ],
                 borderWidth: 6
             }]
@@ -942,19 +924,7 @@ if (window.location.href.indexOf("?") === -1) {
                 {
                 label: 'Dataset 1',
                 data: [@foreach($wallet_summary as $wallet) {{$wallet->cant_transactions. ',' }} @endforeach],
-                backgroundColor: [
-                'rgb(203, 203, 203)',
-                'rgb(203, 203, 203)',
-                'rgb(203, 203, 203)',
-                'rgb(203, 203, 203)',
-                'rgb(203, 203, 203)',
-                'rgb(203, 203, 203)',
-                'rgb(203, 203, 203)',
-                'rgb(203, 203, 203)',
-                'rgb(203, 203, 203)',
-                'rgb(203, 203, 203)',
-                'rgb(184, 98, 27)',
-                ],
+                backgroundColor:[@foreach($wallet_summary as $wallet) @if($wallet->TypeTransactionId == 12)  'rgb(184, 98, 27)', @else 'rgb(203, 203, 203)', @endif @endforeach],
                 hoverOffset: 4
             }]
         },
@@ -970,13 +940,22 @@ if (window.location.href.indexOf("?") === -1) {
                 label: 'Monto total de las transacciones',
                 data: [@foreach($wallet_groupsummary as $wallets) @if($wallets->TypeTransactionId == 12) {{$wallets->total_amount. ',' }},  @endif  @endforeach],
                 backgroundColor: [
-
+                    @if($wallet_summary->count())
+                    @foreach($wallet_groupsummary as $wallet)
+                    @if($wallet->TypeTransactionId == 12)
                     'rgb(184, 98, 27)',
+                    @endif
+                    @endforeach
+                    @endif
                 ],
                 borderColor: [
-
+                    @if($wallet_summary->count())
+                    @foreach($wallet_groupsummary as $wallet)
+                    @if($wallet->TypeTransactionId == 12)
                     'rgb(184, 98, 27)',
-
+                    @endif
+                    @endforeach
+                    @endif
                 ],
                 borderWidth: 6
             }]
@@ -993,7 +972,7 @@ if (window.location.href.indexOf("?") === -1) {
 /* COBRO USDT  */
 const DATA_COUNT15 = 1500;
     const NUMBER_CFG15 = {count: DATA_COUNT15, min: 0, max: 1500};
-    const ctx28 = document.getElementById("{{$wallet->TypeTransactionId.'A' }}");
+    const ctx28 = document.getElementById(@if($wallet->TypeTransactionId == 13) "{{$wallet->TypeTransactionId}}", @endif);
     const myChart28 = new Chart(ctx28, {
         type: 'doughnut',
         data : {
@@ -1002,20 +981,7 @@ const DATA_COUNT15 = 1500;
                 {
                 label: 'Dataset 1',
                 data: [@foreach($wallet_summary as $wallet) {{$wallet->cant_transactions. ',' }} @endforeach],
-                backgroundColor: [
-                    'rgb(203, 203, 203)',
-                    'rgb(203, 203, 203)',
-                    'rgb(203, 203, 203)',
-                    'rgb(203, 203, 203)',
-                    'rgb(203, 203, 203)',
-                    'rgb(203, 203, 203)',
-                    'rgb(203, 203, 203)',
-                    'rgb(203, 203, 203)',
-                    'rgb(203, 203, 203)',
-                    'rgb(203, 203, 203)',
-                    'rgb(203, 203, 203)',
-                    'rgb(184, 500, 270)',
-                ],
+                backgroundColor: [@foreach($wallet_summary as $wallet) @if($wallet->TypeTransactionId == 13)  'rgb(184, 500, 270)', @else 'rgb(203, 203, 203)', @endif @endforeach],
                 hoverOffset: 4
             }]
         },
@@ -1031,11 +997,22 @@ const DATA_COUNT15 = 1500;
                 label: 'Monto total de las transacciones',
                 data: [@foreach($wallet_groupsummary as $wallets) @if($wallets->TypeTransactionId == 13) {{$wallets->total_amount. ',' }},  @endif  @endforeach],
                 backgroundColor: [
+                    @if($wallet_summary->count())
+                    @foreach($wallet_groupsummary as $wallet)
+                    @if($wallet->TypeTransactionId == 13)
                     'rgb(184, 500, 270)',
+                    @endif
+                    @endforeach
+                    @endif
                 ],
                 borderColor: [
+                    @if($wallet_summary->count())
+                    @foreach($wallet_groupsummary as $wallet)
+                    @if($wallet->TypeTransactionId == 13)
                     'rgb(184, 500, 270)',
-
+                    @endif
+                    @endforeach
+                    @endif
                 ],
                 borderWidth: 6
             }]
@@ -1045,17 +1022,21 @@ const DATA_COUNT15 = 1500;
 /* COBRO USDT  */
 @else
 
+
 @endif
+
 @endforeach
 
+@else
 
 
 @endif
-
 
 
 
  }, true);
+
+
 
 
 
