@@ -238,10 +238,10 @@ document.addEventListener('DOMContentLoaded', function () {
     const myChart = new Chart(ctx, {
         type: 'bar',
         data: {
-            labels: [@foreach($wallet_summary->take(13) as $wallet)  "{{$wallet->TypeTransaccionName }}", @endforeach],
+            labels: [@foreach($wallet_groupsummary as $wallet)  "{{$wallet->TypeTransaccionName }}", @endforeach],
             datasets: [{
                 label: 'Monto total de las transacciones',
-                data: [@foreach($wallet_summary as $wallet) {{$wallet->total_amount. ',' }} @endforeach],
+                data: [@foreach($wallet_groupsummary as $wallet) {{$wallet->total_amount. ',' }} @endforeach],
                 backgroundColor:COLORS.slice(0, DATA_COUNT2),
                 borderColor:COLORS.slice(0, DATA_COUNT2),
                 borderWidth: 4
@@ -250,24 +250,20 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
+let text = window.location.href;
+const myArray = text.split("/");
+const myLength = myArray.length;
 
 if (window.location.href.indexOf("?") === -1) {
     $('.esconder').show();
-    $('#typeTransactions').prop('disabled', true);
-    $('#drCustomRanges').prop('disabled', true);
-
 } else {
     $('.esconder').hide();
-    $('#typeTransactions').prop('disabled', false);
-    $('#drCustomRanges').prop('disabled', false);
 }
 
-if (window.location.href.match(/\d/) < 1) {
-    $('#typeTransactions').prop('disabled', true);
-    $('#drCustomRanges').prop('disabled', true);
+if (myLength == 4 || myLength == 8 && myArray[4] === '0') {
+    $('#typeTransactions, #drCustomRanges').prop('disabled', true);
 } else {
-    $('#typeTransactions').prop('disabled', false);
-    $('#drCustomRanges').prop('disabled', false);
+    $('#typeTransactions, #drCustomRanges').prop('disabled', false);
 }
 
 
@@ -682,6 +678,7 @@ if (window.location.href.match(/\d/) < 1) {
 
 @foreach($wallet_summary as $wallet) @if($wallet->TypeTransactionId == 8)
 /* NOTA DE DEBITO  */
+
     const DATA_COUNT9 = 1500;
     const NUMBER_CFG9 = {count: DATA_COUNT9, min: 0, max: 1500};
     const ctx18 = document.getElementById(@if($wallet->TypeTransactionId == 8) "{{$wallet->TypeTransactionId }}", @endif);
@@ -695,7 +692,8 @@ if (window.location.href.match(/\d/) < 1) {
                 data: [@foreach($wallet_summary as $wallet) {{$wallet->cant_transactions. ',' }} @endforeach],
                 backgroundColor:[@foreach($wallet_summary as $wallet) @if($wallet->TypeTransactionId == 8)  'rgb(213, 206, 163)', @else 'rgb(203, 203, 203)', @endif @endforeach],
                 hoverOffset: 4
-            }]
+               }]
+
         },
 
     });
