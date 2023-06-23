@@ -1573,15 +1573,22 @@ class statisticsController extends Controller
 
 
     public function getWalletTransactionSummary(Request $request){
-        // dd($request->transaction);
+        // dd($request);
         //
         $myTypeTransaction      = 0;
         $myTypeTransactionDesde = 0;
         $myTypeTransactionHasta = 9999;
         if ($request->transaction) {
+            // dd($request->transaction);
             $myTypeTransaction      = $request->transaction;
             $myTypeTransactionDesde = $request->transaction;
             $myTypeTransactionHasta = $request->transaction;
+
+            if ($request->transaction == 0){
+                $myTypeTransaction      = 0;
+                $myTypeTransactionDesde = 0;
+                $myTypeTransactionHasta = 9999;   
+            }
 
         }
 

@@ -43,7 +43,10 @@ class HomeController extends Controller
 
     public function graphics(request $request)
     {
-        $wallet_summary = app(statisticsController::class)->getwalletTransactionSummary($request);
+
+        $request2 = $request;
+        $request2->transaction = 0;
+        $wallet_summary = app(statisticsController::class)->getwalletTransactionSummary($request2);
 
         $wallet_groupsummary = app(statisticsController::class)->getWalletTransactionGroupSummary($request);
 
