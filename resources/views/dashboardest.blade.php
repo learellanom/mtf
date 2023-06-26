@@ -111,6 +111,16 @@ $config4 = [
       </div>
 
 
+
+
+
+
+
+
+
+
+
+
                                                       {{--   @foreach($wallet_summary as $wallets)
                                                          @if(isset($wallets->TypeTransactionId))
                                                         <div class="row esconder">
@@ -169,10 +179,13 @@ $config4 = [
 </div>
 
 @endsection
+
+
 @section('js')
 
 
 <script>
+
 
 
 
@@ -185,10 +198,6 @@ BuscaWallet(miWallet);
 const miTypeTransaction= {!! $myTypeTransaction !!};
 
 BuscaTransaccion(miTypeTransaction);
-
-
-
-
 
 
 
@@ -235,6 +244,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
 
+
     const myChart = new Chart(ctx, {
         type: 'bar',
         data: {
@@ -249,6 +259,7 @@ document.addEventListener('DOMContentLoaded', function () {
             }]
         }
     });
+
 
 let text = window.location.href;
 const myArray = text.split("/");

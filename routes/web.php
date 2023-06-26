@@ -127,6 +127,8 @@ Route::pattern('usuarios', '[0-9]+');
 Route::group(['middleware' => 'auth'], function () {
 
     Route::resource('usuarios', UserController::class)->middleware('auth')->middleware('can:users.index')->except('show', 'update', 'edit')->names('users');
+    Route::get('usuarios/export/', [UserController::class, 'export'])->name('users.excel'); //EXPORTACIÓN DE EXCEL
+
 
     Route::get('/usuarios/editar/{usuario}/', [UserController::class, 'edit'])->name('users.edit');
 

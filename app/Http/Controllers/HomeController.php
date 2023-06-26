@@ -8,6 +8,7 @@ use App\Http\Controllers\statisticsController;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Pagination\Paginator;
 
+
 class HomeController extends Controller
 {
 
@@ -21,8 +22,8 @@ class HomeController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-
     }
+
 
 
     /**
@@ -43,6 +44,7 @@ class HomeController extends Controller
 
     public function graphics(request $request)
     {
+
         $wallet_summary = app(statisticsController::class)->getwalletTransactionSummary($request);
 
         $wallet_groupsummary = app(statisticsController::class)->getWalletTransactionGroupSummary($request);

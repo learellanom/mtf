@@ -30,6 +30,7 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col">
+                            <a class="btn btn-success" href={{route('users.excel')}}><i class="far fa-file-excel"></i></a>
                             <table id="usuarios" class="table table-bordered table-responsive-lg">
                                 <thead>
                                     <tr>
@@ -88,23 +89,9 @@
 
 
 @section('js')
-
-@if (session('destroy') == 'ok')
-    <script>
-        Swal.fire
-        ({
-            title = 'Eliminado',
-            text = 'Usuario eliminado',
-            type = "success",
-            allowOutsideClick = false,
-            allowEscapeKey = false,
-            allowEnterKey = false,
-            width = "300",
-            icon = "success"
-        })
-    </script>
-@endif
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.core.min.js" integrity="sha512-UhlYw//T419BPq/emC5xSZzkjjreRfN3426517rfsg/XIEC02ggQBb680V0VvP+zaDZ78zqse3rqnnI5EJ6rxA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.0/FileSaver.js" integrity="sha512-UNbeFrHORGTzMn3HTt00fvdojBYHLPxJbLChmtoyDwB6P9hX5mah3kMKm0HHNx/EvSPJt14b+SlD8xhuZ4w9Lg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/TableExport/5.2.0/js/tableexport.min.js" integrity="sha512-XmZS54be9JGMZjf+zk61JZaLZyjTRgs41JLSmx5QlIP5F+sSGIyzD2eJyxD4K6kGGr7AsVhaitzZ2WTfzpsQzg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script type="text/javascript">
 $(document).ready(function () {
   $('.borrar_users').submit(function (e) {
@@ -161,6 +148,7 @@ $('#usuarios').DataTable({
         }
     },
 });
+
 
 });
 </script>

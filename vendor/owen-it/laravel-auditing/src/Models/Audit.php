@@ -26,10 +26,4 @@ class Audit extends Model implements \OwenIt\Auditing\Contracts\Audit
     {
         return $this->serializeDate($date);
     }
-
-    protected $auditEvents = [
-        '*ated' => 'getMultiEventAttributes',
-    ];
-
-
 }
