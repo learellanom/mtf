@@ -44,7 +44,7 @@ class HomeController extends Controller
     public function graphics(request $request)
     {
 
-        $request2 = $request;
+        $request2 = clone $request;
         $request2->transaction = 0;
         $wallet_summary = app(statisticsController::class)->getwalletTransactionSummary($request2);
 
@@ -97,7 +97,8 @@ class HomeController extends Controller
 
         //dd($wallet_groupsummary);
 
-        return view('dashboardest', compact('wallet_summary', 'wallet_groupsummary', 'wallet', 'typeTransactions', 'myWallet', 'myTypeTransaction', 'myFechaDesde', 'myFechaHasta'));
+        // return view('dashboardest', compact('wallet_summary', 'wallet_groupsummary', 'wallet', 'typeTransactions', 'myWallet', 'myTypeTransaction', 'myFechaDesde', 'myFechaHasta'));\
+        return view('dashboardest2', compact('wallet_summary', 'wallet_groupsummary', 'wallet', 'typeTransactions', 'myWallet', 'myTypeTransaction', 'myFechaDesde', 'myFechaHasta'));
     }
 
 

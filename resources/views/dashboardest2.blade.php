@@ -111,95 +111,127 @@ $config4 = [
       </div>
 
 
-    {{-- 
-    @foreach($wallet_summary as $wallets)
-        @if(isset($wallets->TypeTransactionId))
-            <div class="row esconder">
-                <div class="col-md-6">
-                    <div class="card">
-                        <div class="card-body">
-                            <h3 class="text-center text-uppercase font-weight-bold">{{ $wallets->TypeTransaccionName }}</h3>
-                            <canvas id={{ $wallets->TypeTransactionId }}></canvas>
-                        </div>
-                    </div>
-                    </div>
-                    <div class="col-md-6">
-                    <div class="card">
-                        <div class="card-body">
-                            <h3 class="text-center text-uppercase font-weight-bold">{{ $wallets->TypeTransaccionName }}</h3>
-                            <canvas id={{ $wallets->TypeTransactionId. 'A' }}></canvas>
-                        </div>
-                    </div>
-                    </div>
-                </div>
-        @elseif($wallets->TypeTransactionId == 1)
-        VACIO
-        @endif
-    @endforeach 
-    --}}
+      <div class ="row mb-4" style="background-color: white;">
+            <div class="col-12 col-md-6">
+                <table class="table thead-light" style="background-color: white;">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th style="width:1%;">Transacción</th>                                        
+                            <th style="width:1%;">Cant transacción</th>
+                            <th style="width:1%;">Monto Transaccion</th>                                        
+                        </tr>
+                    </thead>               
+                    @foreach($wallet_summary as $wallet2)
+                        <tr>
+                                <td>{{ $wallet2->TypeTransaccionName}}</td>                                    
+                                <td>{{ number_format($wallet2->cant_transactions) }}</td>
+                                <td>{{ number_format($wallet2->total_amount,2)}}</td>
+                        </tr>                               
+                    @endforeach
+                </table>                        
+            </div>
+
+            <div class="col-12 col-md-6">
+                <table class="table thead-light" style="background-color: white;">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th style="width:1%;">Grupo</th>                                        
+                            <th style="width:1%;">Cant transacción</th>
+                            <th style="width:1%;">Monto Transaccion</th>                                        
+                        </tr>
+                    </thead>               
+                    @foreach($wallet_groupsummary as $wallet2)
+                        <tr>
+                                <td>{{ $wallet2->GroupName ?? $wallet2->TypeTransaccionName . ' ' . $wallet2->WalletName}}</td>                                    
+                                <td>{{ number_format($wallet2->cant_transactions)}}</td>
+                                <td>{{ number_format($wallet2->total_amount,2)}}</td>
+                        </tr>                               
+                    @endforeach
+                </table>                        
+            </div>
+        </div> 
 
 
     @if($wallet_summary->count() <= 13)
-        @foreach($wallet_summary as $wallets)
-            @if($wallets->TypeTransactionId)
-
-                @php 
-                    echo "aqui hay " . $myTypeTransaction . " y es $wallets->TypeTransactionId";
-
-                @endphp
+        @foreach($wallet_summary as $walletss)
 
 
-                @if($myTypeTransaction == 0)
-
-                    <div class="row esconder">
-                        <div class="col-md-6">
-                            <div class="card">
-                                <div class="card-body">
-                                    <h3 class="text-center text-uppercase font-weight-bold">{{ $wallets->TypeTransaccionName }}</h3>
-                                    <canvas id={{ $wallets->TypeTransactionId }}></canvas>
-                                </div>
+                <div class="row ">
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <h3 class="text-center text-uppercase font-weight-bold">{{ $walletss->TypeTransaccionName }}</h3>
+                                <canvas id={{ $walletss->TypeTransactionId }}></canvas>
                             </div>
                         </div>
-                        <div class="col-md-6">
-                            <div class="card">
-                                <div class="card-body">
-                                    <h3 class="text-center text-uppercase font-weight-bold">{{ $wallets->TypeTransaccionName }}</h3>
-                                    <canvas id={{ $wallets->TypeTransactionId. 'A' }}></canvas>
-                                </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <h3 class="text-center text-uppercase font-weight-bold">{{ $walletss->TypeTransaccionName }}</h3>
+                                <canvas id={{ $walletss->TypeTransactionId. 'A' }}></canvas>
                             </div>
                         </div>
-                    </div>                  
-                @endif
-
-                @if($myTypeTransaction != 0)
-
-                    <div class="row esconder">
-                        <div class="col-md-6">
-                            <div class="card">
-                                <div class="card-body">
-                                    <h3 class="text-center text-uppercase font-weight-bold">{{ $wallets->TypeTransaccionName }}</h3>
-                                    <canvas id={{ $wallets->TypeTransactionId }}></canvas>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="card">
-                                <div class="card-body">
-                                    <h3 class="text-center text-uppercase font-weight-bold">{{ $wallets->TypeTransaccionName }}</h3>
-                                    <canvas id={{ $wallets->TypeTransactionId. 'A' }}></canvas>
-                                </div>
-                            </div>
-                        </div>
-                    </div>  
+                    </div>
 
 
 
-                @endif
+                </div>                  
+   
+                
+        <div class ="row mb-4" style="background-color: white;">
+            <div class="col-12 col-md-6">
+                <table class="table thead-light" style="background-color: white;">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th style="width:1%;">Transacción</th>                                        
+                            <th style="width:1%;">Cant transacción</th>
+                            <th style="width:1%;">Monto Transaccion</th>                                        
+                        </tr>
+                    </thead>               
+                    @foreach($wallet_summary as $wallet2)
+                        <tr>
+                            @if($wallet2->TypeTransactionId == $walletss->TypeTransactionId)
+                                <td class="font-weight-bold" style="color: green;">{{ $wallet2->TypeTransaccionName}}</td>                                    
+                                <td class="font-weight-bold" style="color: green;">{{ number_format($wallet2->cant_transactions) }}</td>
+                                <td class="font-weight-bold" style="color: green;">{{ number_format($wallet2->total_amount,2)}}</td>
+                            @else
+                                <td >{{ $wallet2->TypeTransaccionName}}</td>                                    
+                                <td>{{ number_format($wallet2->cant_transactions) }}</td>
+                                <td>{{ number_format($wallet2->total_amount,2)}}</td>                            
+                            @endif
+                        </tr>                               
+                    @endforeach
+                </table>                        
+            </div>
+
+            <div class="col-12 col-md-6">
+                <table class="table thead-light" style="background-color: white;">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th style="width:1%;">Grupo</th>                                        
+                            <th style="width:1%;">Cant transacción</th>
+                            <th style="width:1%;">Monto Transaccion</th>                                        
+                        </tr>
+                    </thead>               
+                    @foreach($wallet_groupsummary as $wallet2)
+                        @if($wallet2->TypeTransactionId == $walletss->TypeTransactionId)
+                            <tr>
+
+                                    <td class="font-weight-bold" style="color: green;">{{ $wallet2->GroupName ?? "A cajas"}}</td>                                    
+                                    <td class="font-weight-bold" style="color: green;">{{ number_format($wallet2->cant_transactions)}}</td>
+                                    <td class="font-weight-bold" style="color: green;">{{ number_format($wallet2->total_amount,2)}}</td>
+                            </tr> 
+                        @endif                             
+                    @endforeach
+                </table>                        
+            </div>
+        </div> 
 
 
-
-            @endif
+            
         @endforeach
+
     @endif
 
 </div>
@@ -258,7 +290,7 @@ document.addEventListener('DOMContentLoaded', function () {
         type: 'doughnut',
         data : {
             labels: [@foreach($wallet_summary->take(13) as $wallet) "{{$wallet->TypeTransaccionName }}", @endforeach ],
-            datasets: [
+            datasets: [ 
                 {
                 label: 'Dataset 1',
                 data: [@foreach($wallet_summary->take(13) as $wallet) {{$wallet->cant_transactions. ',' }} @endforeach],
@@ -274,7 +306,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const myChart = new Chart(ctx, {
         type: 'bar',
         data: {
-            labels: [@foreach($wallet_groupsummary as $wallet)  "{{$wallet->TypeTransaccionName }}", @endforeach],
+            labels: [@foreach($wallet_groupsummary as $wallet)  "{{$wallet->GroupName }}", @endforeach],
             datasets: [{
                 label: 'Monto total de las transacciones',
                 data: [@foreach($wallet_groupsummary as $wallet) {{$wallet->total_amount. ',' }} @endforeach],
@@ -286,62 +318,49 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-let text = window.location.href;
-const myArray = text.split("/");
-const myLength = myArray.length;
+    // Valida y esconde
 
-if (window.location.href.indexOf("?") === -1) {
-    $('.esconder').show();
-} else {
-    $('.esconder').hide();
-}
+    let text = window.location.href;
+    const myArray = text.split("/");
+    const myLength = myArray.length;
 
-if (myLength == 4 || myLength == 8 && myArray[4] === '0') {
-    $('#typeTransactions, #drCustomRanges').prop('disabled', true);
-} else {
-    $('#typeTransactions, #drCustomRanges').prop('disabled', false);
-}
+    if (window.location.href.indexOf("?") === -1) {
+        $('.esconder').show();
+    } else {
+        $('.esconder').hide();
+    }
+
+    if (myLength == 4 || myLength == 8 && myArray[4] === '0') {
+        // $('#typeTransactions, #drCustomRanges').prop('disabled', true);
+        $('#typeTransactions').prop('disabled', true);        
+    } else {
+        // $('#typeTransactions, #drCustomRanges').prop('disabled', false);
+        $('#typeTransactions').prop('disabled', false);        
+    }
 
 
 @if($wallet_summary->count() <= 13)
 
-@foreach($wallet_summary as $wallet) 
+    @foreach($wallet_summary as $wallet) 
+
+
 
     @if($wallet->TypeTransactionId == 1)
 
-        /* PAGO EN TRANSFERENCIA */
-        const DATA_COUNT0   = 1500;
-        const NUMBER_CFG2   = {count: DATA_COUNT0, min: 0, max: 1500};
-
-        const ctx3          = document.getElementById(
-            @foreach($wallet_summary as $wallet)  
-                @if($wallet->TypeTransactionId == 1) 
-                    "{{$wallet->TypeTransactionId }}", 
-                @endif  
-            @endforeach);
-
+    /* PAGO EN TRANSFERENCIA */
+        const DATA_COUNT0 = 1500;
+        const NUMBER_CFG2 = {count: DATA_COUNT0, min: 0, max: 1500};
+        const ctx3 = document.getElementById(@foreach($wallet_summary as $wallet)  @if($wallet->TypeTransactionId == 1) "{{$wallet->TypeTransactionId }}", @endif  @endforeach);
         const myChart3 = new Chart(ctx3, {
             type: 'doughnut',
             data : {
-                labels: [
-                    @foreach($wallet_summary as $wallet)  
-                        "{{$wallet->TypeTransaccionName }}", 
-                    @endforeach],
+                labels: [@foreach($wallet_summary as $wallet)  "{{$wallet->TypeTransaccionName }}", @endforeach],
                 datasets: [
                     {
                     label: 'Otras transacciónes',
-                    data: [
-                        @foreach($wallet_summary as $wallet) 
-                            {{$wallet->cant_transactions. ',' }} 
-                        @endforeach
-                    ],
-                    backgroundColor:[
-                        @foreach($wallet_summary as $wallet) 
-                            @if($wallet->TypeTransactionId == 1) 
-                                'rgb(0, 173, 181)', 
-                            @else 'rgb(203, 203, 203)', 
-                            @endif 
-                        @endforeach],
+                    data: [@foreach($wallet_summary as $wallet) {{$wallet->cant_transactions. ',' }} @endforeach],
+
+                    backgroundColor:[@foreach($wallet_summary as $wallet) @if($wallet->TypeTransactionId == 1) 'rgb(0, 173, 181)', @else 'rgb(203, 203, 203)', @endif @endforeach],
                     hoverOffset: 6
                 }]
             },
@@ -386,12 +405,14 @@ if (myLength == 4 || myLength == 8 && myArray[4] === '0') {
 
     @endif
 
+
+
+
 @endforeach
 
 /* PAGO EN TRANSFERENCIA */
 
 @foreach($wallet_summary as $wallet) 
-
     @if($wallet->TypeTransactionId == 2)
         /* COBRO EN TRANSFERENCIA */
         const DATA_COUNT3 = 1500;
@@ -409,7 +430,6 @@ if (myLength == 4 || myLength == 8 && myArray[4] === '0') {
                     hoverOffset: 4
                 }]
             },
-
         });
 
         /* COBRO EN TRANSFERENCIA */
@@ -443,10 +463,11 @@ if (myLength == 4 || myLength == 8 && myArray[4] === '0') {
                 }]
             }
         });
-            /* COBRO EN TRANSFERENCIA */
+    /* COBRO EN TRANSFERENCIA */
     @else
 
     @endif
+
 @endforeach
 
 @foreach($wallet_summary as $wallet) @if($wallet->TypeTransactionId == 3)
@@ -462,7 +483,12 @@ if (myLength == 4 || myLength == 8 && myArray[4] === '0') {
                 {
                 label: 'Dataset 1',
                 data: [@foreach($wallet_summary as $wallet) {{$wallet->cant_transactions. ',' }} @endforeach],
-                backgroundColor: [@foreach($wallet_summary as $wallet) @if($wallet->TypeTransactionId == 3)  'rgb(255, 184, 76)', @else 'rgb(203, 203, 203)', @endif @endforeach],
+                backgroundColor: [
+                    @foreach($wallet_summary as $wallet) 
+                        @if($wallet->TypeTransactionId == 3)  'rgb(255, 184, 76)', 
+                        @else 'rgb(203, 203, 203)', 
+                        @endif 
+                    @endforeach],
                 hoverOffset: 4
             }]
         },
@@ -506,10 +532,10 @@ if (myLength == 4 || myLength == 8 && myArray[4] === '0') {
 /* PAGO EFECTIVO */
 @foreach($wallet_summary as $wallet) @if($wallet->TypeTransactionId == 4)
 /* COBRO EN EFECTIVO */
-    const DATA_COUNT5 = 1500;
-    const NUMBER_CFG5 = {count: DATA_COUNT5, min: 0, max: 1500};
-    const ctx9 = document.getElementById(@if($wallet->TypeTransactionId == 4) "{{$wallet->TypeTransactionId}}", @endif);
-    const myChart9 = new Chart(ctx9, {
+    const DATA_COUNT5   = 1500;
+    const NUMBER_CFG5   = {count: DATA_COUNT5, min: 0, max: 1500};
+    const ctx9          = document.getElementById(@if($wallet->TypeTransactionId == 4) "{{$wallet->TypeTransactionId}}", @endif);
+    const myChart9      = new Chart(ctx9, {
         type: 'doughnut',
         data : {
             labels: [@foreach($wallet_summary as $wallet)  "{{$wallet->TypeTransaccionName }}", @endforeach],
@@ -911,8 +937,11 @@ if (myLength == 4 || myLength == 8 && myArray[4] === '0') {
 @endif
 @endforeach
 
-@foreach($wallet_summary as $wallet) @if($wallet->TypeTransactionId == 11)
+@foreach($wallet_summary as $wallet) 
+
+@if($wallet->TypeTransactionId == 11)
 /* PAGO USDT  */
+    
     const DATA_COUNT12 = 1500;
     const NUMBER_CFG12 = {count: DATA_COUNT12, min: 0, max: 1500};
     const ctx24 = document.getElementById("{{$wallet->TypeTransactionId }}");
@@ -1099,81 +1128,76 @@ const DATA_COUNT15 = 1500;
 
 
  $(() => {
+
     const myFechaDesde = {!! $myFechaDesde !!};
     const myFechaHasta = {!! $myFechaHasta !!};
 
     BuscaFechas(myFechaDesde, myFechaHasta);
 
-$('#wallet').on('change', function (){
+    $('#wallet').on('change', function (){
 
-    const wallet        = $('#wallet').val();
-    const transaccion   = $('#typeTransactions').val();
-    theRoute(wallet, transaccion);
+        const wallet        = $('#wallet').val();
+        const transaccion   = $('#typeTransactions').val();
+        theRoute(wallet, transaccion);
 
-});
+    });
 
-$('#typeTransactions').on('change', function (){
+    $('#typeTransactions').on('change', function (){
 
-const wallet        = $('#wallet').val();
-const transaccion   = $('#typeTransactions').val();
+        const wallet        = $('#wallet').val();
+        const transaccion   = $('#typeTransactions').val();
 
-theRoute(wallet, transaccion);
+        theRoute(wallet, transaccion);
 
-});
+    });
 
+    $('#drCustomRanges').on('change', function () {
 
+        let myFechaDesde, myFechaHasta;
+        myFechaDesde =  ($('#drCustomRanges').val()).substr(6,4) +
+                        '-' +
+                        ($('#drCustomRanges').val()).substr(3,2) +
+                        '-' +
+                        ($('#drCustomRanges').val()).substr(0,2)
+                        ;
 
-$('#drCustomRanges').on('change', function () {
+        myFechaHasta =  ($('#drCustomRanges').val()).substr(19,4) +
+                        '-' +
+                        ($('#drCustomRanges').val()).substr(16,2) +
+                        '-' +
+                        ($('#drCustomRanges').val()).substr(13,2)
+                        ;
 
-let myFechaDesde, myFechaHasta;
-myFechaDesde =  ($('#drCustomRanges').val()).substr(6,4) +
-                '-' +
-                ($('#drCustomRanges').val()).substr(3,2) +
-                '-' +
-                ($('#drCustomRanges').val()).substr(0,2)
-                ;
+            const wallet        = $('#wallet').val();
+            const transaccion   = $('#typeTransactions').val();
+            theRoute(wallet, transaccion, myFechaDesde,myFechaHasta);
 
-myFechaHasta =  ($('#drCustomRanges').val()).substr(19,4) +
-                '-' +
-                ($('#drCustomRanges').val()).substr(16,2) +
-                '-' +
-                ($('#drCustomRanges').val()).substr(13,2)
-                ;
+        });
 
-    const wallet        = $('#wallet').val();
-    const transaccion   = $('#typeTransactions').val();
-    theRoute(wallet, transaccion, myFechaDesde,myFechaHasta);
-
-});
-
-
+    });
 
 
-
-});
-
-
- function theRoute(wallet = 0, transaction = 0, fechaDesde = 0, fechaHasta = 0){
+    function theRoute(wallet = 0, transaction = 0, fechaDesde = 0, fechaHasta = 0){
 
 
-    if (wallet   === "") wallet  = 0;
-    if (transaction   === "") transaction  = 0;
+        if (wallet   === "") wallet  = 0;
+        if (transaction   === "") transaction  = 0;
 
-    let myRoute = "";
+        let myRoute = "";
 
-    myRoute = "{{ route('dashboardest', ['wallet' => 'wallet2' , 'transaction' => 'transaction2', 'fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2']) }}";
-    myRoute = myRoute.replace('wallet2',wallet);
-    myRoute = myRoute.replace('transaction2',transaction);
-    myRoute = myRoute.replace('fechaDesde2',fechaDesde);
-    myRoute = myRoute.replace('fechaHasta2',fechaHasta);
+        myRoute = "{{ route('dashboardest', ['wallet' => 'wallet2' , 'transaction' => 'transaction2', 'fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2']) }}";
+        myRoute = myRoute.replace('wallet2',wallet);
+        myRoute = myRoute.replace('transaction2',transaction);
+        myRoute = myRoute.replace('fechaDesde2',fechaDesde);
+        myRoute = myRoute.replace('fechaHasta2',fechaHasta);
 
-location.href = myRoute;
+        location.href = myRoute;
 
-}
+    }
 
 
 
-function BuscaWallet(miWallet){
+    function BuscaWallet(miWallet){
             if (miWallet===0){
                 return;
             }
@@ -1234,6 +1258,8 @@ function BuscaWallet(miWallet){
             $('#drCustomRanges').data('daterangepicker').setStartDate(myFechaDesde);
             $('#drCustomRanges').data('daterangepicker').setEndDate(myFechaHasta);
     }
+
+
 
 </script>
 
