@@ -170,8 +170,7 @@ $config4 = [
 
 
                                     <th style="width:10%;">Caja</th>
-                                    <th style="width:10%;">Transaccion</th>
-                                    <th style="width:10%;">Item Grupo</th>                                    
+                                    <th style="width:10%;">Transaccion</th>                                 
                                     <th style="width:10%;">Grupo</th>                                    
                                     <th style="width:10%;">Cant</th>
                                     <th style="width:10%;">Monto</th>   
@@ -195,14 +194,13 @@ $config4 = [
                                 <tr>
                                     <td>{!! $row->WalletName !!}</td>
                                     <td>{!! $row->TypeTransaccionName !!}</td>                                    
-                                    <td>{!! $row->ItemGroup !!}</td>                                       
-                                    <td>{!! $row->GroupName !!}</td>   
-                                    <td class="text-right">{!! number_format($row->cant_transactions,0) !!}</td>                                    
+                                    <td>{!! $row->GroupName !!}</td>
+                                    <td class="text-right">{!! number_format($row->cant_transactions,0) !!}</td>
                                     <td class="text-right">{!! number_format($row->total_amount,2) !!}</td>
-                                    <td class="text-right">{!! number_format($row->total_amount_commission_base,2) !!}</td>                                    
-                                    <td class="text-right">{!! number_format($row->total_commission,2) !!}</td>                                       
+                                    <td class="text-right">{!! number_format($row->total_amount_commission_base,2) !!}</td>
+                                    <td class="text-right">{!! number_format($row->total_commission,2) !!}</td>                           
                                     <!-- <td class="text-right">{!! number_format($row->total_commission_profit,2) !!}</td>                                    -->
-                                    <td class="text-right">{!! number_format($myTotal,2) !!}</td>  
+                                    <td class="text-right">{!! number_format($myTotal,2) !!}</td>
                                     <td class="text-center">
                                         <a href="#"
                                             title="Detalles"
