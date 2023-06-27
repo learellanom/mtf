@@ -222,12 +222,6 @@ const miTypeTransaction= {!! $myTypeTransaction !!};
 
 BuscaTransaccion(miTypeTransaction);
 
-
-
-
-
-
-
 document.addEventListener('DOMContentLoaded', function () {
 
         const COLORS = [
@@ -286,24 +280,33 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-let text = window.location.href;
-const myArray = text.split("/");
-const myLength = myArray.length;
+    let text = window.location.href;
+    const myArray = text.split("/");
+    const myLength = myArray.length;
 
-if (window.location.href.indexOf("?") === -1) {
-    $('.esconder').show();
-} else {
-    $('.esconder').hide();
-}
+    if (window.location.href.indexOf("?") === -1) {
+        $('.esconder').show();
+    } else {
+        $('.esconder').hide();
+    }
 
-if (myLength == 4 || myLength == 8 && myArray[4] === '0') {
-    $('#typeTransactions, #drCustomRanges').prop('disabled', true);
-} else {
-    $('#typeTransactions, #drCustomRanges').prop('disabled', false);
-}
+    if (myLength == 4 || myLength == 8 && myArray[4] === '0') {
+        $('#typeTransactions, #drCustomRanges').prop('disabled', true);
+    } else {
+        $('#typeTransactions, #drCustomRanges').prop('disabled', false);
+    }
 
 
-@if($wallet_summary->count() <= 13)
+    calculos();
+
+
+
+ }, true);
+
+
+    function calculos(){
+        alert('yuju');
+        @if($wallet_summary->count() <= 13)
 
 @foreach($wallet_summary as $wallet) 
 
@@ -1090,90 +1093,84 @@ const DATA_COUNT15 = 1500;
 
 @endif
 
+    }
 
 
- }, true);
+    $(() => {
+        const myFechaDesde = {!! $myFechaDesde !!};
+        const myFechaHasta = {!! $myFechaHasta !!};
 
+        BuscaFechas(myFechaDesde, myFechaHasta);
 
+        $('#wallet').on('change', function (){
 
+            const wallet        = $('#wallet').val();
+            const transaccion   = $('#typeTransactions').val();
+            theRoute(wallet, transaccion);
 
+        });
 
- $(() => {
-    const myFechaDesde = {!! $myFechaDesde !!};
-    const myFechaHasta = {!! $myFechaHasta !!};
+        $('#typeTransactions').on('change', function (){
 
-    BuscaFechas(myFechaDesde, myFechaHasta);
+        const wallet        = $('#wallet').val();
+        const transaccion   = $('#typeTransactions').val();
 
-$('#wallet').on('change', function (){
+        theRoute(wallet, transaccion);
 
-    const wallet        = $('#wallet').val();
-    const transaccion   = $('#typeTransactions').val();
-    theRoute(wallet, transaccion);
-
-});
-
-$('#typeTransactions').on('change', function (){
-
-const wallet        = $('#wallet').val();
-const transaccion   = $('#typeTransactions').val();
-
-theRoute(wallet, transaccion);
-
-});
+        });
 
 
 
-$('#drCustomRanges').on('change', function () {
+        $('#drCustomRanges').on('change', function () {
 
-let myFechaDesde, myFechaHasta;
-myFechaDesde =  ($('#drCustomRanges').val()).substr(6,4) +
-                '-' +
-                ($('#drCustomRanges').val()).substr(3,2) +
-                '-' +
-                ($('#drCustomRanges').val()).substr(0,2)
-                ;
+        let myFechaDesde, myFechaHasta;
+        myFechaDesde =  ($('#drCustomRanges').val()).substr(6,4) +
+                        '-' +
+                        ($('#drCustomRanges').val()).substr(3,2) +
+                        '-' +
+                        ($('#drCustomRanges').val()).substr(0,2)
+                        ;
 
-myFechaHasta =  ($('#drCustomRanges').val()).substr(19,4) +
-                '-' +
-                ($('#drCustomRanges').val()).substr(16,2) +
-                '-' +
-                ($('#drCustomRanges').val()).substr(13,2)
-                ;
+        myFechaHasta =  ($('#drCustomRanges').val()).substr(19,4) +
+                        '-' +
+                        ($('#drCustomRanges').val()).substr(16,2) +
+                        '-' +
+                        ($('#drCustomRanges').val()).substr(13,2)
+                        ;
 
-    const wallet        = $('#wallet').val();
-    const transaccion   = $('#typeTransactions').val();
-    theRoute(wallet, transaccion, myFechaDesde,myFechaHasta);
+            const wallet        = $('#wallet').val();
+            const transaccion   = $('#typeTransactions').val();
+            theRoute(wallet, transaccion, myFechaDesde,myFechaHasta);
 
-});
+        });
 
 
 
 
 
-});
+    });
 
 
- function theRoute(wallet = 0, transaction = 0, fechaDesde = 0, fechaHasta = 0){
+    function theRoute(wallet = 0, transaction = 0, fechaDesde = 0, fechaHasta = 0){
+
+        if (wallet   === "") wallet  = 0;
+        if (transaction   === "") transaction  = 0;
+
+        let myRoute = "";
+
+        myRoute = "{{ route('dashboardest', ['wallet' => 'wallet2' , 'transaction' => 'transaction2', 'fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2']) }}";
+        myRoute = myRoute.replace('wallet2',wallet);
+        myRoute = myRoute.replace('transaction2',transaction);
+        myRoute = myRoute.replace('fechaDesde2',fechaDesde);
+        myRoute = myRoute.replace('fechaHasta2',fechaHasta);
+
+        location.href = myRoute;
+
+    }
 
 
-    if (wallet   === "") wallet  = 0;
-    if (transaction   === "") transaction  = 0;
 
-    let myRoute = "";
-
-    myRoute = "{{ route('dashboardest', ['wallet' => 'wallet2' , 'transaction' => 'transaction2', 'fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2']) }}";
-    myRoute = myRoute.replace('wallet2',wallet);
-    myRoute = myRoute.replace('transaction2',transaction);
-    myRoute = myRoute.replace('fechaDesde2',fechaDesde);
-    myRoute = myRoute.replace('fechaHasta2',fechaHasta);
-
-location.href = myRoute;
-
-}
-
-
-
-function BuscaWallet(miWallet){
+    function BuscaWallet(miWallet){
             if (miWallet===0){
                 return;
             }
