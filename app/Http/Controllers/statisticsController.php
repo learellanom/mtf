@@ -1429,13 +1429,13 @@ class statisticsController extends Controller
         // dd($Transacciones1);
         // dd($Transacciones2);
         
-         // echo gettype($Transacciones3);
-         // die();
-       // dd($Transacciones3);
+        // echo gettype($Transacciones3);
+        // die();
+        // dd($Transacciones3);
 
-        $Transacciones       = $Transacciones3;
+        $Transacciones       = $Transacciones2;
 
-       // dd($Transacciones);
+        // dd($Transacciones);
 
         $balance = 0;
         if ($myWallet > 0){
@@ -1448,7 +1448,7 @@ class statisticsController extends Controller
         $Type_transactions  = $this->getTypeTransactions();
         $wallet             = $this->getWallet();
 
-        // dd($Transacciones2);             
+        // dd($Transacciones2); 
         // dd($Transacciones2);
 
         return view('estadisticas.statisticsResumenWalletTransaccionGroup', compact('myWallet','wallet','myTypeTransaction', 'Type_transactions', 'Transacciones','myFechaDesde','myFechaHasta','balance'));
