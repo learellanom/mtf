@@ -163,22 +163,19 @@ $config4 = [
                 <div class="row">
                     
                     <div class="col-md-12" style="position: relative; overflow: auto; width: 100%;">
-                    <!-- <div class="col-md-12" style="position: relative; overflow: auto; width: 100%;">                     -->
+                    <!-- <div class="col-md-12" style="position: relative; overflow: auto; width: 100%;">  -->
                         <table class="table table-bordered table-responsive-lg  nowrap"  id="table" >
                             <thead>
                                 <tr>
-
-
                                     <th style="width:10%;">Caja</th>
-                                    <th style="width:10%;">Transaccion</th>                                 
-                                    <th style="width:10%;">Grupo</th>                                    
+                                    <th style="width:10%;">Transaccion</th>
+                                    <th style="width:10%;">Grupo</th>
                                     <th style="width:10%;">Cant</th>
-                                    <th style="width:10%;">Monto</th>   
+                                    <th style="width:10%;">Monto</th>
                                     <th style="width:10%;">Mto comision base</th>   
                                     <th style="width:10%;">Mto comision</th>
-                                    <th style="width:10%;">Mto Ganancia comision</th>                                    
+                                    <th style="width:10%;">Mto Ganancia comision</th>
                                     <th style="width:1%;">Ver <i class="fas fa-search"></i></th>
-
                                 </tr>                                
                             </thead>
                             @foreach($Transacciones as $row)
