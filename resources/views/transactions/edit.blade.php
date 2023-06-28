@@ -607,6 +607,39 @@ $(document).ready(function() {
                                  }
                               }
 
+                                /* TASA BASE */
+                                $('#tasa, #monto, #tasa_base').on('input', function() {
+                                let tasa = parseFloat($('#tasa').val());
+                                let tasa_base = parseFloat($('#tasa_base').val());
+                                let monto = parseFloat($('#monto').val());
+                                let monto_b = parseFloat($('#monto_extranjera_base').val());
+
+                                $('#montototal').val($('#monto_dolares').val());
+
+                                if(tasa_base > 0 && monto > 0){
+
+                                    $('#monto_extranjera_base').val(parseFloat($('#monto').val()) / parseFloat($('#tasa_base').val()));
+
+                                    $('#monto_base').val(parseFloat($('#monto').val()) / parseFloat($('#tasa_base').val()));
+                                }
+
+                                let comision_base = parseFloat($('#comision_base').val());
+                                let montoreal_base = parseFloat($('#monto_base').val());
+
+
+                                updateTasaBase(comision_base, tasa_base, montoreal_base);
+                                });
+
+
+                                function updateTasaBase(comision_base, tasa_base, montoreal_base) {
+                                let monto_dolares = parseFloat($('#monto_dolares').val());
+
+                                if(tasa_base > 0){
+                                   $('#comision_base').val(parseFloat($('#monto_dolares').val()) - parseFloat($('#monto_extranjera_base').val()));
+                                }
+
+                              }
+
 
 
 
@@ -615,7 +648,7 @@ $(document).ready(function() {
                 });
 
 
-
+/*
         $('#tasa_base').on('input',function() { //FUNCION DE PORCENTAJE
 
                 var dolares = $('#monto_dolares').val();
@@ -645,7 +678,7 @@ $(document).ready(function() {
                 }
           }
 
-        });
+        }); */
 
 
 
