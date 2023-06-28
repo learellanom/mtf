@@ -95,7 +95,7 @@ class HomeController extends Controller
         /* MANTENER VALOR BUSCADO EN EL URL */
         }
 
-        //dd($wallet_groupsummary);
+        // dd($wallet_groupsummary);
 
         // return view('dashboardest', compact('wallet_summary', 'wallet_groupsummary', 'wallet', 'typeTransactions', 'myWallet', 'myTypeTransaction', 'myFechaDesde', 'myFechaHasta'));\
         return view('dashboardest2', compact('wallet_summary', 'wallet_groupsummary', 'wallet', 'typeTransactions', 'myWallet', 'myTypeTransaction', 'myFechaDesde', 'myFechaHasta'));
