@@ -63,6 +63,10 @@ Route::get('dashboardest', [App\Http\Controllers\HomeController::class, 'graphic
 Route::get('dashboardest/{wallet}', [App\Http\Controllers\HomeController::class, 'graphics'])->name('dashboardest');
 Route::get('dashboardest/{wallet}/{transaction?}/', [App\Http\Controllers\HomeController::class, 'graphics'])->name('dashboardest');
 Route::get('dashboardest/{wallet}/{transaction?}/{fechaDesde?}/{fechaHasta?}', [App\Http\Controllers\HomeController::class, 'graphics'])->name('dashboardest');
+Route::get('dashboard_est/export/', [App\Http\Controllers\HomeController::class, 'export'])->name('dashboardest.excel'); //EXPORTACIÓN DE EXCEL
+
+
+
 
 /* TRANSACCIONES A CLIENTES */
 Route::group(['middleware' => 'auth'], function () {

@@ -1,4 +1,4 @@
-    @extends('adminlte::page')
+@extends('adminlte::page')
 @section('title', 'Estadisticas')
 <!-- @section('plugins.chartJs', true) -->
 @section('content')
@@ -82,6 +82,7 @@ $config4 = [
                     </x-slot>
                 </x-adminlte-date-range>
             </div>
+
           </div>
 
 
@@ -111,7 +112,7 @@ $config4 = [
       </div>
 
 
-    {{-- 
+    {{--
     @foreach($wallet_summary as $wallets)
         @if(isset($wallets->TypeTransactionId))
             <div class="row esconder">
@@ -135,7 +136,7 @@ $config4 = [
         @elseif($wallets->TypeTransactionId == 1)
         VACIO
         @endif
-    @endforeach 
+    @endforeach
     --}}
 
 
@@ -143,7 +144,7 @@ $config4 = [
         @foreach($wallet_summary as $wallets)
             @if($wallets->TypeTransactionId)
 
-                @php 
+                @php
                     echo "aqui hay " . $myTypeTransaction . " y es $wallets->TypeTransactionId";
 
                 @endphp
@@ -168,7 +169,7 @@ $config4 = [
                                 </div>
                             </div>
                         </div>
-                    </div>                  
+                    </div>
                 @endif
 
                 @if($myTypeTransaction != 0)
@@ -190,7 +191,7 @@ $config4 = [
                                 </div>
                             </div>
                         </div>
-                    </div>  
+                    </div>
 
 
 
@@ -308,7 +309,7 @@ document.addEventListener('DOMContentLoaded', function () {
         alert('yuju');
         @if($wallet_summary->count() <= 13)
 
-@foreach($wallet_summary as $wallet) 
+@foreach($wallet_summary as $wallet)
 
     @if($wallet->TypeTransactionId == 1)
 
@@ -317,33 +318,33 @@ document.addEventListener('DOMContentLoaded', function () {
         const NUMBER_CFG2   = {count: DATA_COUNT0, min: 0, max: 1500};
 
         const ctx3          = document.getElementById(
-            @foreach($wallet_summary as $wallet)  
-                @if($wallet->TypeTransactionId == 1) 
-                    "{{$wallet->TypeTransactionId }}", 
-                @endif  
+            @foreach($wallet_summary as $wallet)
+                @if($wallet->TypeTransactionId == 1)
+                    "{{$wallet->TypeTransactionId }}",
+                @endif
             @endforeach);
 
         const myChart3 = new Chart(ctx3, {
             type: 'doughnut',
             data : {
                 labels: [
-                    @foreach($wallet_summary as $wallet)  
-                        "{{$wallet->TypeTransaccionName }}", 
+                    @foreach($wallet_summary as $wallet)
+                        "{{$wallet->TypeTransaccionName }}",
                     @endforeach],
                 datasets: [
                     {
                     label: 'Otras transacciónes',
                     data: [
-                        @foreach($wallet_summary as $wallet) 
-                            {{$wallet->cant_transactions. ',' }} 
+                        @foreach($wallet_summary as $wallet)
+                            {{$wallet->cant_transactions. ',' }}
                         @endforeach
                     ],
                     backgroundColor:[
-                        @foreach($wallet_summary as $wallet) 
-                            @if($wallet->TypeTransactionId == 1) 
-                                'rgb(0, 173, 181)', 
-                            @else 'rgb(203, 203, 203)', 
-                            @endif 
+                        @foreach($wallet_summary as $wallet)
+                            @if($wallet->TypeTransactionId == 1)
+                                'rgb(0, 173, 181)',
+                            @else 'rgb(203, 203, 203)',
+                            @endif
                         @endforeach],
                     hoverOffset: 6
                 }]
@@ -393,7 +394,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 /* PAGO EN TRANSFERENCIA */
 
-@foreach($wallet_summary as $wallet) 
+@foreach($wallet_summary as $wallet)
 
     @if($wallet->TypeTransactionId == 2)
         /* COBRO EN TRANSFERENCIA */
@@ -1235,4 +1236,3 @@ const DATA_COUNT15 = 1500;
 </script>
 
 @endsection
-

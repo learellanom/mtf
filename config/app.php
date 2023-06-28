@@ -186,7 +186,6 @@ return [
         OwenIt\Auditing\AuditingServiceProvider::class,
         Flasher\Laravel\FlasherServiceProvider::class,
 
-
         /*
          * Package Service Providers...
          */
@@ -200,12 +199,14 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         Ladumor\LaravelPwa\PWAServiceProvider::class,
+        Maatwebsite\Excel\ExcelServiceProvider::class,
 
 
 
     ],
 
     'Flasher' => Flasher\Laravel\Facade\Flasher::class,
+
 
     /*
     |--------------------------------------------------------------------------
@@ -220,6 +221,8 @@ return [
 
     'aliases' => Facade::defaultAliases()->merge([
     'LaravelPwa' => \Ladumor\LaravelPwa\LaravelPwa::class,
+    'Excel' =>Maatwebsite\Excel\Facades\Excel::class,
     ])->toArray(),
+
 
 ];

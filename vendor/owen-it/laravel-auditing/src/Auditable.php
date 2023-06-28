@@ -103,8 +103,12 @@ trait Auditable
 
         // Exclude Timestamps
         if (!$this->getAuditTimestamps()) {
-            array_push($this->excludedAttributes, $this->getCreatedAtColumn(), $this->getUpdatedAtColumn());
-
+            if ($this->getCreatedAtColumn()) {
+                $this->excludedAttributes[] = $this->getCreatedAtColumn();
+            }
+            if ($this->getUpdatedAtColumn()) {
+                $this->excludedAttributes[] = $this->getUpdatedAtColumn();
+            }
             if (in_array(SoftDeletes::class, class_uses_recursive(get_class($this)))) {
                 $this->excludedAttributes[] = $this->getDeletedAtColumn();
             }
@@ -654,11 +658,11 @@ trait Auditable
         $this->auditEvent = 'attach';
         $this->isCustomEvent = true;
         $this->auditCustomOld = [
-            $relationName => $this->{$relationName}()->get()->isEmpty() ? [] : $this->{$relationName}()->get()->toArray()
+            $relationName => $this->{$relationName}()->get()->toArray()
         ];
         $this->{$relationName}()->attach($id, $attributes, $touch);
         $this->auditCustomNew = [
-            $relationName => $this->{$relationName}()->get()->isEmpty() ? [] : $this->{$relationName}()->get()->toArray()
+            $relationName => $this->{$relationName}()->get()->toArray()
         ];
         Event::dispatch(AuditCustom::class, [$this]);
         $this->isCustomEvent = false;
@@ -680,11 +684,11 @@ trait Auditable
         $this->auditEvent = 'detach';
         $this->isCustomEvent = true;
         $this->auditCustomOld = [
-            $relationName => $this->{$relationName}()->get()->isEmpty() ? [] : $this->{$relationName}()->get()->toArray()
+            $relationName => $this->{$relationName}()->get()->toArray()
         ];
         $results = $this->{$relationName}()->detach($ids, $touch);
         $this->auditCustomNew = [
-            $relationName => $this->{$relationName}()->get()->isEmpty() ? [] : $this->{$relationName}()->get()->toArray()
+            $relationName => $this->{$relationName}()->get()->toArray()
         ];
         Event::dispatch(AuditCustom::class, [$this]);
         $this->isCustomEvent = false;
@@ -708,7 +712,7 @@ trait Auditable
         $this->auditEvent = 'sync';
 
         $this->auditCustomOld = [
-            $relationName => $this->{$relationName}()->get()->isEmpty() ? [] : $this->{$relationName}()->get()->toArray()
+            $relationName => $this->{$relationName}()->get()->toArray()
         ];
 
         $changes = $this->{$relationName}()->sync($ids, $detaching);
@@ -718,7 +722,7 @@ trait Auditable
             $this->auditCustomNew = [];
         } else {
             $this->auditCustomNew = [
-                $relationName => $this->{$relationName}()->get()->isEmpty() ? [] : $this->{$relationName}()->get()->toArray()
+                $relationName => $this->{$relationName}()->get()->toArray()
             ];
         }
 

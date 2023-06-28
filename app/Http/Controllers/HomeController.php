@@ -7,6 +7,9 @@ use App\Models\Wallet;
 use App\Http\Controllers\statisticsController;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Pagination\Paginator;
+use App\Exports\DashboardestExport;
+use Maatwebsite\Excel\Facades\Excel;
+
 
 class HomeController extends Controller
 {
@@ -21,8 +24,8 @@ class HomeController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-
     }
+
 
 
     /**
@@ -43,6 +46,8 @@ class HomeController extends Controller
 
     public function graphics(request $request)
     {
+
+        $wallet_summary = app(statisticsController::class)->getwalletTransactionSummary($request);
 
         $request2 = clone $request;
         $request2->transaction = 0;
@@ -102,6 +107,10 @@ class HomeController extends Controller
     }
 
 
+    public function export()
+    {
+        return Excel::download(new DashboardestExport, 'estadisticas.xlsx');
+    }
 
 
 
