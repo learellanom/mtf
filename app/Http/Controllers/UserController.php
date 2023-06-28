@@ -71,11 +71,6 @@ class UserController extends Controller
         //
     }
 
-    public function export()
-    {
-        return Excel::download(new UsersExport, 'users.xlsx');
-    }
-
     /**
      * Show the form for editing the specified resource.
      */

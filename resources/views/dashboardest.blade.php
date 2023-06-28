@@ -1,4 +1,4 @@
-    @extends('adminlte::page')
+@extends('adminlte::page')
 @section('title', 'Estadisticas')
 <!-- @section('plugins.chartJs', true) -->
 @section('content')
@@ -82,6 +82,7 @@ $config4 = [
                     </x-slot>
                 </x-adminlte-date-range>
             </div>
+
           </div>
 
 
@@ -109,16 +110,6 @@ $config4 = [
           </div>
         </div>
       </div>
-
-
-
-
-
-
-
-
-
-
 
 
     {{--
@@ -215,13 +206,10 @@ $config4 = [
 </div>
 
 @endsection
-
-
 @section('js')
 
 
 <script>
-
 
 
 
@@ -234,6 +222,10 @@ BuscaWallet(miWallet);
 const miTypeTransaction= {!! $myTypeTransaction !!};
 
 BuscaTransaccion(miTypeTransaction);
+
+
+
+
 
 
 
@@ -280,7 +272,6 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
 
-
     const myChart = new Chart(ctx, {
         type: 'bar',
         data: {
@@ -295,7 +286,6 @@ document.addEventListener('DOMContentLoaded', function () {
             }]
         }
     });
-
 
 let text = window.location.href;
 const myArray = text.split("/");
@@ -1249,4 +1239,3 @@ function BuscaWallet(miWallet){
 </script>
 
 @endsection
-

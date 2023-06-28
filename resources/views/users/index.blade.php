@@ -30,7 +30,6 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col">
-                            <a class="btn btn-success" href={{route('users.excel')}}><i class="far fa-file-excel"></i></a>
                             <table id="usuarios" class="table table-bordered table-responsive-lg">
                                 <thead>
                                     <tr>

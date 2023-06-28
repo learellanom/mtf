@@ -12,7 +12,7 @@ use PhpOffice\PhpSpreadsheet\Style\Style;
 use PhpOffice\PhpSpreadsheet\Style\Color;
 use Maatwebsite\Excel\Concerns\WithDefaultStyles;
 
-class UsersExport implements WithStyles, FromCollection, WithDefaultStyles
+class UsersExport implements WithStyles, FromCollection
 {
     /**
     * @return \Illuminate\Support\Collection
@@ -24,7 +24,6 @@ class UsersExport implements WithStyles, FromCollection, WithDefaultStyles
 
     public function styles(Worksheet $sheet)
     {
-
 
         return [
             // Style the first row as bold text.
@@ -38,17 +37,5 @@ class UsersExport implements WithStyles, FromCollection, WithDefaultStyles
 
         ];
     }
-    public function defaultStyles(Style $defaultStyle)
-    {
-        // Configure the default styles
-        return $defaultStyle->getFill()->setFillType(Fill::FILL_SOLID);
 
-        // Or return the styles array
-        return [
-            'fill' => [
-                'fillType'   => Fill::FILL_SOLID,
-                'startColor' => ['argb' => Color::RED],
-            ],
-        ];
-    }
 }

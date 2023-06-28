@@ -1,4 +1,4 @@
-    @extends('adminlte::page')
+@extends('adminlte::page')
 @section('title', 'Estadisticas')
 <!-- @section('plugins.chartJs', true) -->
 @section('content')
@@ -82,6 +82,10 @@ $config4 = [
                     </x-slot>
                 </x-adminlte-date-range>
             </div>
+
+              <div class ="col-12 col-md-4">
+                <a class="btn btn-success" href={{route('dashboardest.excel')}}><i class="far fa-file-excel"></i></a>
+              </div>
           </div>
 
 
@@ -116,40 +120,40 @@ $config4 = [
                 <table class="table thead-light" style="background-color: white;">
                     <thead class="thead-dark">
                         <tr>
-                            <th style="width:1%;">Transacción</th>                                        
+                            <th style="width:1%;">Transacción</th>
                             <th style="width:1%;">Cant transacción</th>
-                            <th style="width:1%;">Monto Transaccion</th>                                        
+                            <th style="width:1%;">Monto Transaccion</th>
                         </tr>
-                    </thead>               
+                    </thead>
                     @foreach($wallet_summary as $wallet2)
                         <tr>
-                                <td>{{ $wallet2->TypeTransaccionName}}</td>                                    
+                                <td>{{ $wallet2->TypeTransaccionName}}</td>
                                 <td>{{ number_format($wallet2->cant_transactions) }}</td>
                                 <td>{{ number_format($wallet2->total_amount,2)}}</td>
-                        </tr>                               
+                        </tr>
                     @endforeach
-                </table>                        
+                </table>
             </div>
 
             <div class="col-12 col-md-6">
                 <table class="table thead-light" style="background-color: white;">
                     <thead class="thead-dark">
                         <tr>
-                            <th style="width:1%;">Grupo</th>                                        
+                            <th style="width:1%;">Grupo</th>
                             <th style="width:1%;">Cant transacción</th>
-                            <th style="width:1%;">Monto Transaccion</th>                                        
+                            <th style="width:1%;">Monto Transaccion</th>
                         </tr>
-                    </thead>               
+                    </thead>
                     @foreach($wallet_groupsummary as $wallet2)
                         <tr>
-                                <td>{{ $wallet2->GroupName ?? $wallet2->TypeTransaccionName . ' ' . $wallet2->WalletName}}</td>                                    
+                                <td>{{ $wallet2->GroupName ?? $wallet2->TypeTransaccionName . ' ' . $wallet2->WalletName}}</td>
                                 <td>{{ number_format($wallet2->cant_transactions)}}</td>
                                 <td>{{ number_format($wallet2->total_amount,2)}}</td>
-                        </tr>                               
+                        </tr>
                     @endforeach
-                </table>                        
+                </table>
             </div>
-        </div> 
+        </div>
 
 
     @if($wallet_summary->count() <= 13)
@@ -176,60 +180,60 @@ $config4 = [
 
 
 
-                </div>                  
-   
-                
+                </div>
+
+
         <div class ="row mb-4" style="background-color: white;">
             <div class="col-12 col-md-6">
                 <table class="table thead-light" style="background-color: white;">
                     <thead class="thead-dark">
                         <tr>
-                            <th style="width:1%;">Transacción</th>                                        
+                            <th style="width:1%;">Transacción</th>
                             <th style="width:1%;">Cant transacción</th>
-                            <th style="width:1%;">Monto Transaccion</th>                                        
+                            <th style="width:1%;">Monto Transaccion</th>
                         </tr>
-                    </thead>               
+                    </thead>
                     @foreach($wallet_summary as $wallet2)
                         <tr>
                             @if($wallet2->TypeTransactionId == $walletss->TypeTransactionId)
-                                <td class="font-weight-bold" style="color: green;">{{ $wallet2->TypeTransaccionName}}</td>                                    
+                                <td class="font-weight-bold" style="color: green;">{{ $wallet2->TypeTransaccionName}}</td>
                                 <td class="font-weight-bold" style="color: green;">{{ number_format($wallet2->cant_transactions) }}</td>
                                 <td class="font-weight-bold" style="color: green;">{{ number_format($wallet2->total_amount,2)}}</td>
                             @else
-                                <td >{{ $wallet2->TypeTransaccionName}}</td>                                    
+                                <td >{{ $wallet2->TypeTransaccionName}}</td>
                                 <td>{{ number_format($wallet2->cant_transactions) }}</td>
-                                <td>{{ number_format($wallet2->total_amount,2)}}</td>                            
+                                <td>{{ number_format($wallet2->total_amount,2)}}</td>
                             @endif
-                        </tr>                               
+                        </tr>
                     @endforeach
-                </table>                        
+                </table>
             </div>
 
             <div class="col-12 col-md-6">
                 <table class="table thead-light" style="background-color: white;">
                     <thead class="thead-dark">
                         <tr>
-                            <th style="width:1%;">Grupo</th>                                        
+                            <th style="width:1%;">Grupo</th>
                             <th style="width:1%;">Cant transacción</th>
-                            <th style="width:1%;">Monto Transaccion</th>                                        
+                            <th style="width:1%;">Monto Transaccion</th>
                         </tr>
-                    </thead>               
+                    </thead>
                     @foreach($wallet_groupsummary as $wallet2)
                         @if($wallet2->TypeTransactionId == $walletss->TypeTransactionId)
                             <tr>
 
-                                    <td class="font-weight-bold" style="color: green;">{{ $wallet2->GroupName ?? "A cajas"}}</td>                                    
+                                    <td class="font-weight-bold" style="color: green;">{{ $wallet2->GroupName ?? "A cajas"}}</td>
                                     <td class="font-weight-bold" style="color: green;">{{ number_format($wallet2->cant_transactions)}}</td>
                                     <td class="font-weight-bold" style="color: green;">{{ number_format($wallet2->total_amount,2)}}</td>
-                            </tr> 
-                        @endif                             
+                            </tr>
+                        @endif
                     @endforeach
-                </table>                        
+                </table>
             </div>
-        </div> 
+        </div>
 
 
-            
+
         @endforeach
 
     @endif
@@ -290,7 +294,7 @@ document.addEventListener('DOMContentLoaded', function () {
         type: 'doughnut',
         data : {
             labels: [@foreach($wallet_summary->take(13) as $wallet) "{{$wallet->TypeTransaccionName }}", @endforeach ],
-            datasets: [ 
+            datasets: [
                 {
                 label: 'Dataset 1',
                 data: [@foreach($wallet_summary->take(13) as $wallet) {{$wallet->cant_transactions. ',' }} @endforeach],
@@ -332,16 +336,16 @@ document.addEventListener('DOMContentLoaded', function () {
 
     if (myLength == 4 || myLength == 8 && myArray[4] === '0') {
         // $('#typeTransactions, #drCustomRanges').prop('disabled', true);
-        $('#typeTransactions').prop('disabled', true);        
+        $('#typeTransactions').prop('disabled', true);
     } else {
         // $('#typeTransactions, #drCustomRanges').prop('disabled', false);
-        $('#typeTransactions').prop('disabled', false);        
+        $('#typeTransactions').prop('disabled', false);
     }
 
 
 @if($wallet_summary->count() <= 13)
 
-    @foreach($wallet_summary as $wallet) 
+    @foreach($wallet_summary as $wallet)
 
 
 
@@ -412,7 +416,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 /* PAGO EN TRANSFERENCIA */
 
-@foreach($wallet_summary as $wallet) 
+@foreach($wallet_summary as $wallet)
     @if($wallet->TypeTransactionId == 2)
         /* COBRO EN TRANSFERENCIA */
         const DATA_COUNT3 = 1500;
@@ -484,10 +488,10 @@ document.addEventListener('DOMContentLoaded', function () {
                 label: 'Dataset 1',
                 data: [@foreach($wallet_summary as $wallet) {{$wallet->cant_transactions. ',' }} @endforeach],
                 backgroundColor: [
-                    @foreach($wallet_summary as $wallet) 
-                        @if($wallet->TypeTransactionId == 3)  'rgb(255, 184, 76)', 
-                        @else 'rgb(203, 203, 203)', 
-                        @endif 
+                    @foreach($wallet_summary as $wallet)
+                        @if($wallet->TypeTransactionId == 3)  'rgb(255, 184, 76)',
+                        @else 'rgb(203, 203, 203)',
+                        @endif
                     @endforeach],
                 hoverOffset: 4
             }]
@@ -937,11 +941,11 @@ document.addEventListener('DOMContentLoaded', function () {
 @endif
 @endforeach
 
-@foreach($wallet_summary as $wallet) 
+@foreach($wallet_summary as $wallet)
 
 @if($wallet->TypeTransactionId == 11)
 /* PAGO USDT  */
-    
+
     const DATA_COUNT12 = 1500;
     const NUMBER_CFG12 = {count: DATA_COUNT12, min: 0, max: 1500};
     const ctx24 = document.getElementById("{{$wallet->TypeTransactionId }}");
@@ -1264,4 +1268,3 @@ const DATA_COUNT15 = 1500;
 </script>
 
 @endsection
-

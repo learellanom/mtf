@@ -7,6 +7,8 @@ use App\Models\Wallet;
 use App\Http\Controllers\statisticsController;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Pagination\Paginator;
+use App\Exports\DashboardestExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 
 class HomeController extends Controller
@@ -105,6 +107,10 @@ class HomeController extends Controller
     }
 
 
+    public function export()
+    {
+        return Excel::download(new DashboardestExport, 'estadisticas.xlsx');
+    }
 
 
 
