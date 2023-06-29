@@ -2,6 +2,7 @@
 
 namespace App\Exports;
 
+use App\Http\Controllers\HomeController;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\FromArray;
 use App\Http\Controllers\statisticsController;
@@ -24,74 +25,134 @@ use PhpOffice\PhpSpreadsheet\Style\Alignment;
 
 class DashboardestExport implements FromArray,WithHeadings, ShouldAutoSize, WithStyles
 {
+    use Exportable;
 
+    private $wallet_summary, $wallet_groupsummary;
+
+    public function __construct($wallet_summary, $wallet_groupsummary)
+    {
+        $this->wallet_summary = $wallet_summary; // asignas el valor inyectado a la propiedad
+        $this->wallet_groupsummary = $wallet_groupsummary;
+    }
 
     public function headings(): array
     {
         return [
-            'Nombre del cliente',
-            'Nombre del movimiento',
+            'Transacción',
             'Cantidad de movimientos',
-            'Monto total',
-            '    ',
-            '    ',
-
-
-            'Nombre de la caja',
-            'Nombre del movimiento',
+            'Monto Transacción',
+            '',
+            '',
+            'Grupo',
             'Cantidad de movimientos',
-            'Monto total',
+            'Monto Transacción',
         ];
 
     }
 
 
- public function array(): array
+/*  public function array(): array
  {
-     $request = new Request();
 
-     $data1 = app(statisticsController::class)->getWalletTransactionGroupSummary($request);
-
-     $data2 = app(statisticsController::class)->getwalletTransactionSummary($request);
-
-
-
-
-
-
+     $summary = $this->wallet_summary;
+     $group_summary = $this->wallet_groupsummary;
+     //dd($summary);
 
         $rows = [];
-        foreach ($data1 as $row) {
+        foreach ($group_summary as $row) {
 
-            foreach ($data2 as $row2) {
-                if ($row2->WalletName ==  $row->WalletName){
-                    if ($row->TypeTransaccionName ==  $row2->TypeTransaccionName){
+            $rows = [
+                $row->TypeTransaccionName,
+                $row->cant_transactions,
+                $row->total_amount,
+                '  ',
+                '  ',
 
-                        $rows[] = [
-                            $row->GroupName,
-                            $row->TypeTransaccionName,
-                            $row->cant_transactions,
-                            $row->total_amount,
-                            '  ',
-                            '  ',
-                            $row2->WalletName,
-                            $row2->TypeTransaccionName,
-                            $row2->cant_transactions,
-                            $row2->total_amount
-                        ];
-                    }
-                }
+            ];
+
+        }
+        $rows2 = [];
+        foreach ($summary as $row2) {
+
+                       $rows2 = [
+
+                           $row2->WalletName,
+                           $row2->TypeTransaccionName,
+                           $row2->cant_transactions,
+                           $row2->total_amount
+                       ];
+
+           }
+
+         //dd($rows);
+         $print = array_merge($rows, $rows2);
 
 
-            }
+         return $print;
 
+ } */
+
+
+/*  public function array(): array
+{
+    $summary = $this->wallet_summary;
+    $group_summary = $this->wallet_groupsummary;
+
+    $rows = [];
+    foreach ($group_summary as $row) {
+        $rows[] = [
+            $row->TypeTransaccionName,
+            $row->cant_transactions,
+            $row->total_amount,
+            '',
+            '',
+        ];
+    }
+
+    foreach ($summary as $row) {
+        $rows[] = [
+            $row->WalletName,
+            $row->TypeTransaccionName,
+            $row->cant_transactions,
+            $row->total_amount,
+        ];
+    }
+      //dd($rows);
+     return $rows;
+} */
+
+public function array(): array
+{
+    $summary = $this->wallet_summary ?? [];
+    $group_summary = $this->wallet_groupsummary ?? [];
+
+    $rows = [];
+
+
+    $maxRowCount = max(count($group_summary), count($summary));
+    for($i=0; $i<$maxRowCount; $i++) {
+        $rowData = [
+            '', '', '',
+            '', '',
+            '', '', '',
+        ];
+        if(isset($summary[$i])) {
+            $rowData[0] = $summary[$i]->TypeTransaccionName ?? '';
+            $rowData[1] = $summary[$i]->cant_transactions ?? '';
+            $rowData[2] = $summary[$i]->total_amount ?? '';
+        }
+        if(isset($group_summary[$i])) {
+            $rowData[5] = $group_summary[$i]->TypeTransaccionName ?? '';
+            $rowData[6] = $group_summary[$i]->cant_transactions ?? '';
+            $rowData[7] = $group_summary[$i]->total_amount ?? '';
         }
 
 
-         return $rows;
+        $rows[] = $rowData;
+    }
 
- }
-
+    return $rows;
+}
 
  public function styles(Worksheet $sheet)
  {
@@ -132,11 +193,6 @@ class DashboardestExport implements FromArray,WithHeadings, ShouldAutoSize, With
         'J' => [
             'font' => [
                 'bold' => true,
-            ],
-            'fill' => [
-                'fillType' => Fill::FILL_GRADIENT_LINEAR,
-                'startColor' => ['argb' => '27AE60'],
-                'endColor' => ['argb' => '27AE60'],
             ],
             'numberFormat' => [
                 'formatCode' => '#,##0.00',

@@ -10,7 +10,6 @@ use Illuminate\Pagination\Paginator;
 use App\Exports\DashboardestExport;
 use Maatwebsite\Excel\Facades\Excel;
 
-
 class HomeController extends Controller
 {
 
@@ -100,16 +99,26 @@ class HomeController extends Controller
         /* MANTENER VALOR BUSCADO EN EL URL */
         }
 
-        // dd($wallet_groupsummary);
+        //dd($wallet_summary);
 
         // return view('dashboardest', compact('wallet_summary', 'wallet_groupsummary', 'wallet', 'typeTransactions', 'myWallet', 'myTypeTransaction', 'myFechaDesde', 'myFechaHasta'));\
         return view('dashboardest2', compact('wallet_summary', 'wallet_groupsummary', 'wallet', 'typeTransactions', 'myWallet', 'myTypeTransaction', 'myFechaDesde', 'myFechaHasta'));
     }
 
 
-    public function export()
+    public function export(request $request)
     {
-        return Excel::download(new DashboardestExport, 'estadisticas.xlsx');
+        $wallet_summary = app(statisticsController::class)->getwalletTransactionSummary($request);
+
+        $request2 = clone $request;
+        $request2->transaction = 0;
+
+        $wallet_summary = app(statisticsController::class)->getwalletTransactionSummary($request2);
+
+        $wallet_groupsummary = app(statisticsController::class)->getWalletTransactionGroupSummary($request);
+
+        //dd($wallet_summary);
+        return Excel::download(new DashboardestExport($wallet_summary, $wallet_groupsummary), 'estadisticas.xlsx');
     }
 
 

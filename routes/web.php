@@ -65,7 +65,7 @@ Route::get('dashboardest/{wallet}/{transaction?}/', [App\Http\Controllers\HomeCo
 Route::get('dashboardest/{wallet}/{transaction?}/{fechaDesde?}/{fechaHasta?}', [App\Http\Controllers\HomeController::class, 'graphics'])->name('dashboardest');
 
 Route::get('dashboard_est/export/', [App\Http\Controllers\HomeController::class, 'export'])->name('dashboardest.excel'); //EXPORTACIÓN DE EXCEL
-
+Route::get('dashboard_est/export/{wallet}', [App\Http\Controllers\HomeController::class, 'export'])->name('dashboardest.excel'); //EXPORTACIÓN DE EXCEL
 
 
 /* TRANSACCIONES A CLIENTES */
