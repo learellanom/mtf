@@ -58,50 +58,43 @@
                     </div>
 
                     <div class="form-row">
-                    <div class="form-group col-md-6">
-                        {!! Form::Label('amount', "Monto en dolares:") !!}
-                        <div class="input-group-text">
-                            <i class="fa-fw fas fas fa-funnel-dollar mr-2"></i>
-                        {!! Form::text('amount', null, ['class' => 'form-control general', 'required' => true, 'id' => 'monto_dolares']) !!}
-                        </div>
+                      <div class="form-group col-md-6">
+                          {!! Form::Label('amount', "Monto en dolares:") !!}
+                          <div class="input-group-text">
+                              <i class="fa-fw fas fas fa-funnel-dollar mr-2"></i>
+                          {!! Form::text('amount', null, ['class' => 'form-control general', 'required' => true, 'id' => 'monto_dolares']) !!}
+                          </div>
+                      </div>
+                      <div class="form-group col-md-6">
+                          {!! Form::Label('transaction_date', "Fecha:") !!}
+                          <div class="input-group-text">
+                              <i class="fa-fw fas fas fa-calendar-week mr-2"></i>
+                          {!! Form::datetimeLocal('transaction_date', $fecha, ['class' => 'form-control', 'required' => true, 'id' => 'fecha']) !!}
+                          </div>
+                      </div>
                     </div>
-                    <div class="form-group col-md-6">
-                        {!! Form::Label('transaction_date', "Fecha:") !!}
-                        <div class="input-group-text">
-                            <i class="fa-fw fas fas fa-calendar-week mr-2"></i>
-                        {!! Form::datetimeLocal('transaction_date', $fecha, ['class' => 'form-control', 'required' => true, 'id' => 'fecha']) !!}
-                        </div>
-                    </div>
-                    </div>
 
-                        {!! Form::hidden('amount_total',null, ['class' => 'form-control montototal', 'required' => true, 'min' => 0, 'id' => 'montototal', 'readonly' => true]) !!}
+                    {!! Form::hidden('amount_total',null, ['class' => 'form-control montototal', 'required' => true, 'min' => 0, 'id' => 'montototal', 'readonly' => true]) !!}
 
-                        {!! Form::hidden('status', 'Activo', null, ['class' => 'form-control']) !!}
+                    {!! Form::hidden('status', 'Activo', null, ['class' => 'form-control']) !!}
 
+                    <div class="form-row">
 
-
-
-
-
-
-
-                        <div class="form-row">
-
-                            <div class="form-group col-md">
-                                {!! Form::Label('type_transaction_id', "Tipo de transacción:") !!}
-                                <div class="input-group-text">
-                                    <i class="fa-fw fa fas fa-exchange-alt mr-2"></i>
-                                    {!! Form::select('type_transaction_id', $type_transaction, null, ['class' => 'form-control transaccion', 'required' => true, 'id' => 'typetransaccion' ]) !!}
-                                </div>
-                            </div>
-
-
-
-                                    {!! Form::hidden('type_transaction2_id', null, ['class' => 'form-control transaccion','required' => true, 'id' => 'typetransaccion2']) !!}
-
-
+                        <div class="form-group col-md">
+                            {!! Form::Label('type_transaction_id', "Tipo de transacción:") !!}
+                            <div class="input-group-text">
+                                <i class="fa-fw fa fas fa-exchange-alt mr-2"></i>
+                                {!! Form::select('type_transaction_id', $type_transaction, null, ['class' => 'form-control transaccion', 'required' => true, 'id' => 'typetransaccion' ]) !!}
                             </div>
                         </div>
+
+
+
+                                {!! Form::hidden('type_transaction2_id', null, ['class' => 'form-control transaccion','required' => true, 'id' => 'typetransaccion2']) !!}
+
+
+                        </div>
+                    </div>
 
 
 
