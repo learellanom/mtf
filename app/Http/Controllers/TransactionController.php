@@ -256,6 +256,7 @@ class TransactionController extends Controller
         $transaction->amount_total_base     = $request->input('amount_total_base');
         $transaction->transaction_date      = $request->input('transaction_date');
         $transaction->description           = $request->input('description');
+        $transaction->token                 = $request->input('token');
         $transaction->user_id               = $user;
         $transaction->transfer_number       = $number_referencia;
 
@@ -314,6 +315,7 @@ class TransactionController extends Controller
         $transactions->transaction_date         = $request->input('transaction_date');
         $transactions->description              = $request->input('description');
         $transactions->pay_number               = $number;
+        $transactions->token                    = $request->input('token');
         $transactions->amount_commission_base   = $request->input('amount_commission_base');
         $transactions->percentage_base          = $request->input('percentage_base');
         $transactions->exonerate_base           = $request->input('exonerate_base');
@@ -334,7 +336,7 @@ class TransactionController extends Controller
         $transactions2->transaction_date        = $request->input('transaction_date');
         $transactions2->description             = $request->input('description2');
         $transactions2->pay_number              = $number;
-
+        $transactions2->token                    = $request->input('token');
         $transactions2->amount_base             = $request->input('amount');
         $transactions2->amount_total_base       = $request->input('amount');
 
@@ -516,6 +518,7 @@ class TransactionController extends Controller
         $transactions->transaction_date         = $request->input('transaction_date');
         $transactions->description              = $request->input('description');
         $transactions->pay_number               = $number;
+        $transactions->token                    = $request->input('token');
         $transactions->amount_commission_base   = $request->input('amount_commission_base');
         $transactions->percentage_base          = $request->input('percentage_base');
         $transactions->exonerate_base           = $request->input('exonerate_base');
@@ -536,6 +539,7 @@ class TransactionController extends Controller
         $transactions2->transaction_date        = $request->input('transaction_date');
         $transactions2->description             = $request->input('description2');
         $transactions2->pay_number              = $number;
+        $transactions2->token                   = $request->input('token');
         $transactions2->amount_commission_base  = $request->input('amount_commission_base');
         $transactions2->percentage_base         = $request->input('percentage_base');
         $transactions2->exonerate_base          = $request->input('exonerate_base');
