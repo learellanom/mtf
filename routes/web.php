@@ -67,6 +67,7 @@ Route::get('dashboardest/{wallet}/{transaction?}/{fechaDesde?}/{fechaHasta?}', [
 Route::get('dashboard_est/export/', [App\Http\Controllers\HomeController::class, 'export'])->name('dashboardest.excel'); //EXPORTACIÓN DE EXCEL
 
 
+
 /* TRANSACCIONES A CLIENTES */
 Route::group(['middleware' => 'auth'], function () {
     Route::get('movimientos/efectivo', [TransactionController::class, 'create_efectivo'])->middleware('can:transactions.create_efectivo')->name('transactions.create_efectivo');

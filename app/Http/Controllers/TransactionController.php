@@ -336,7 +336,7 @@ class TransactionController extends Controller
         $transactions2->transaction_date        = $request->input('transaction_date');
         $transactions2->description             = $request->input('description2');
         $transactions2->pay_number              = $number;
-        $transactions2->token                    = $request->input('token');
+        $transactions2->token                   = $request->input('token');
         $transactions2->amount_base             = $request->input('amount');
         $transactions2->amount_total_base       = $request->input('amount');
 
