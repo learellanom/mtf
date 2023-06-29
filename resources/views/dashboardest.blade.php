@@ -299,7 +299,7 @@ $config4 = [
                 theRoute(wallet, transaccion, myFechaDesde,myFechaHasta);
 
         });
-alert('ddddddd');
+
         //   calculos2();   
         // calculos();   
     });
