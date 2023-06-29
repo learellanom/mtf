@@ -65,15 +65,6 @@
                           {!! Form::text('amount', null, ['class' => 'form-control general', 'required' => true, 'id' => 'monto_dolares']) !!}
                           </div>
                       </div>
-<<<<<<< HEAD
-                      <div class="form-group col-md-6">
-                          {!! Form::Label('transaction_date', "Fecha:") !!}
-                          <div class="input-group-text">
-                              <i class="fa-fw fas fas fa-calendar-week mr-2"></i>
-                          {!! Form::datetimeLocal('transaction_date', $fecha, ['class' => 'form-control', 'required' => true, 'id' => 'fecha']) !!}
-                          </div>
-                      </div>
-=======
 
                       <div class="form-group col-md-6">
                         {!! Form::Label('token', "Token:") !!}
@@ -85,7 +76,6 @@
 
                     </div>
 
->>>>>>> e717b26bab8659c1ccccbfff9c8720f6c5b2c2f8
                     </div>
 
                     {!! Form::hidden('amount_total',null, ['class' => 'form-control montototal', 'required' => true, 'min' => 0, 'id' => 'montototal', 'readonly' => true]) !!}
@@ -93,19 +83,12 @@
                     {!! Form::hidden('status', 'Activo', null, ['class' => 'form-control']) !!}
 
                     <div class="form-row">
-<<<<<<< HEAD
-
-                        <div class="form-group col-md">
-=======
                         <div class="form-group col-md-6">
->>>>>>> e717b26bab8659c1ccccbfff9c8720f6c5b2c2f8
                             {!! Form::Label('type_transaction_id', "Tipo de transacción:") !!}
                             <div class="input-group-text">
                                 <i class="fa-fw fa fas fa-exchange-alt mr-2"></i>
                                 {!! Form::select('type_transaction_id', $type_transaction, null, ['class' => 'form-control transaccion', 'required' => true, 'id' => 'typetransaccion' ]) !!}
                             </div>
-<<<<<<< HEAD
-=======
                         </div>
                             <div class="form-group col-md-6">
                                 {!! Form::Label('transaction_date', "Fecha:") !!}
@@ -117,7 +100,6 @@
 
 
                                 {!! Form::hidden('type_transaction2_id', null, ['class' => 'form-control transaccion','required' => true, 'id' => 'typetransaccion2']) !!}
->>>>>>> e717b26bab8659c1ccccbfff9c8720f6c5b2c2f8
                         </div>
                     </div>
 
