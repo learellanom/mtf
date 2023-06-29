@@ -87,91 +87,7 @@ $config4 = [
             </div>
         </div>
     </div>
-
-    {{--
-    <div class="row">
-        <div class="col-md-6">
-            <div class="card">
-                <div class="card-body">
-                    <h3 class="text-center text-uppercase font-weight-bold">Transacciones por caja</h3>
-                    <canvas id="myChartDoughnut"></canvas>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="card">
-                <div class="card-body">
-                    <h3 class="text-center">Comparativo de Movimientos</h3>
-                    <canvas id="myChart"></canvas>
-                </div>
-            </div>
-        </div>
-    </div>
-    --}}
-
-    {{--
-    <div class="row">
-        <div class="col-md-6">
-            <div class="card">
-                <div class="card-body">
-                    <h3 class="text-center text-uppercase font-weight-bold">Transacciones por caja</h3>
-                    <canvas id="myChartDoughnut2"></canvas>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="card">
-                <div class="card-body">
-                    <h3 class="text-center">Comparativo de Movimientos</h3>
-                    <canvas id="myChart2"></canvas>
-                </div>
-            </div>
-        </div>
-    </div>
-    --}}
-
-    {{--
-    <div class ="row mb-4" style="background-color: white;">
-        <div class="col-12 col-md-6">
-            <table class="table thead-light" style="background-color: white;">
-                <thead class="thead-dark">
-                    <tr>
-                        <th style="width:1%;">Transacción</th>
-                        <th style="width:1%;">Cant transacción</th>
-                        <th style="width:1%;">Monto Transaccion</th>
-                    </tr>
-                </thead>
-                @foreach($wallet_summary as $wallet2)
-                    <tr>
-                            <td>{{ $wallet2->TypeTransaccionName}}</td>
-                            <td>{{ number_format($wallet2->cant_transactions) }}</td>
-                            <td>{{ number_format($wallet2->total_amount,2)}}</td>
-                    </tr>
-                @endforeach
-            </table>
-        </div>
-
-        <div class="col-12 col-md-6">
-            <table class="table thead-light" style="background-color: white;">
-                <thead class="thead-dark">
-                    <tr>
-                        <th style="width:1%;">Grupo</th>
-                        <th style="width:1%;">Cant transacción</th>
-                        <th style="width:1%;">Monto Transaccion</th>
-                    </tr>
-                </thead>
-                @foreach($wallet_groupsummary as $wallet2)
-                    <tr>
-                            <td>{{ $wallet2->GroupName ?? $wallet2->TypeTransaccionName . ' ' . $wallet2->WalletName}}</td>
-                            <td>{{ number_format($wallet2->cant_transactions)}}</td>
-                            <td>{{ number_format($wallet2->total_amount,2)}}</td>
-                    </tr>
-                @endforeach
-            </table>
-        </div>
-    </div>
-    --}}
-
+  
     <div id="myCanvas"></div>
 
 </div>
@@ -193,14 +109,14 @@ $config4 = [
     // alert('miTypeTransaction -> ' + miTypeTransaction);
 
 
-    document.addEventListener('DOMContentLoaded', function () {
 
+    $(() => {
 
-        // Valida y esconde
+            // Valida y esconde
 
-        let text = window.location.href;
-        const myArray = text.split("/");
-        const myLength = myArray.length;
+        let text        = window.location.href;
+        const myArray   = text.split("/");
+        const myLength  = myArray.length;
 
         if (window.location.href.indexOf("?") === -1) {
             $('.esconder').show();
@@ -217,11 +133,6 @@ $config4 = [
         }
 
         calculoGeneral();
-
-
-    }, true);
-
-    $(() => {
 
         const myFechaDesde = {!! $myFechaDesde !!};
         const myFechaHasta = {!! $myFechaHasta !!};
