@@ -106,7 +106,26 @@ $config4 = [
             </div>
         </div>
     </div>
-
+    {{--
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h3 class="text-center text-uppercase font-weight-bold">Transacciones por caja</h3>
+                    <canvas id="myChartDoughnut2"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h3 class="text-center">Comparativo de Movimientos</h3>
+                    <canvas id="myChart2"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+    --}}
     <div class ="row mb-4" style="background-color: white;">
         <div class="col-12 col-md-6">
             <table class="table thead-light" style="background-color: white;">
@@ -303,9 +322,10 @@ $config4 = [
                 theRoute(wallet, transaccion, myFechaDesde,myFechaHasta);
 
         });
-
+        // calculoGeneral();
            calculos2();
         // calculos();
+        
     });
 
     $( document ).ready(function() {
@@ -499,6 +519,48 @@ $config4 = [
             }
         @endforeach
     }
+
+
+    function calculoGeneral(){
+
+        const COLORS = [
+                    'rgb(0, 173, 181)',
+                    'rgb(58, 16, 120)',
+                    'rgb(255, 184, 76)',
+                    'rgb(49, 225, 247)',
+                    'rgb(8, 2, 2)',
+                    'rgb(0, 129, 180)',
+                    'rgb(7, 10, 82)',
+                    'rgb(213, 206, 163)',
+                    'rgb(60, 42, 33)',
+                    'rgb(2, 89, 85)',
+                    'rgb(255, 132, 0)',
+                    'rgb(184, 98, 27)',
+                    'rgb(114, 0, 27)',
+        ];
+
+
+
+        const DATA_COUNT2 = 1600;
+        const NUMBER_CFG = {count: DATA_COUNT2, min: 0, max: 1500};
+        const ctx2 = document.getElementById('myChartDoughnut2');
+        const myChart2 = new Chart(ctx2, {
+            type: 'doughnut',
+            data : {
+                labels: [@foreach($transaction_summary as $wallet) "{{$wallet->TypeTransaccionName }}", @endforeach ],
+                datasets: [
+                    {
+                    label: 'Dataset 1',
+                    data: [@foreach($transaction_summary as $wallet) {{$wallet->cant_transactions. ',' }} @endforeach],
+                    backgroundColor:COLORS.slice(0, DATA_COUNT2),
+
+                    hoverOffset: 4
+                }]
+            },
+
+        });        
+    }
+
 
     function calculos(){
 
