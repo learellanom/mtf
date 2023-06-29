@@ -542,7 +542,7 @@ $("#typetrasnferencia").trigger("change");
 
     $('#monto_dolares').on('input', function() {
         var input1Value = $('#monto_dolares').val();
-        $('#montototal').val(input1Value);
+        //$('#montototal').val(input1Value);
         $('#montototal_base').val(input1Value);
         //$('#monto_extranjera_base').val(input1Value);
      });

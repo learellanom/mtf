@@ -87,7 +87,7 @@
                             {!! Form::Label('type_transaction_id', "Tipo de transacción:") !!}
                             <div class="input-group-text">
                                 <i class="fa-fw fa fas fa-exchange-alt mr-2"></i>
-                                {!! Form::select('type_transaction_id', $type_transaction, null, ['class' => 'form-control transaccion', 'required' => true, 'id' => 'typetransaccion' ]) !!}
+                                {!! Form::select('type_transaction_id', $type_transaction, null, ['class' => 'form-control transaccion', 'required' => true, 'id' => 'typetransaccion']) !!}
                             </div>
                         </div>
                             <div class="form-group col-md-6">
