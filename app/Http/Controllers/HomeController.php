@@ -61,7 +61,11 @@ class HomeController extends Controller
 
 
         $request3               = clone $request;
+        $request3->transaction = 0;
         $transaction_summary     = app(statisticsController::class)->getTransactionSummary($request3);
+
+        $request4               = clone $request;
+        $transaction_group_summary     = app(statisticsController::class)->getTransactionGroupSummary($request4);
 
         // dd($transaction_summary);
 
@@ -111,7 +115,7 @@ class HomeController extends Controller
         //     $wallet_summary = $transaction_summary;
         // }
         // return view('dashboardest', compact('wallet_summary', 'wallet_groupsummary', 'wallet', 'typeTransactions', 'myWallet', 'myTypeTransaction', 'myFechaDesde', 'myFechaHasta'));\
-        return view('dashboardest2', compact('transaction_summary','wallet_summary', 'wallet_groupsummary', 'wallet', 'typeTransactions', 'myWallet', 'myTypeTransaction', 'myFechaDesde', 'myFechaHasta'));
+        return view('dashboardest2', compact('transaction_group_summary','transaction_summary','wallet_summary', 'wallet_groupsummary', 'wallet', 'typeTransactions', 'myWallet', 'myTypeTransaction', 'myFechaDesde', 'myFechaHasta'));
 
     }
 

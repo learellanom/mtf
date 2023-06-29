@@ -1883,6 +1883,92 @@ class statisticsController extends Controller
 
     }
 
+    
+
+    public function getTransactionGroupSummary(Request $request){
+        // dd($request);
+        //
+        $myTypeTransaction      = 0;
+        $myTypeTransactionDesde = 0;
+        $myTypeTransactionHasta = 9999;
+        if ($request->transaction) {
+            $myTypeTransaction      = $request->transaction;
+            $myTypeTransactionDesde = $request->transaction;
+            $myTypeTransactionHasta = $request->transaction;
+
+        }
+
+        //
+
+        $myFechaDesde = "2001-01-01";
+        $myFechaHasta = "9999-12-31";
+
+        $myFechaDesde2 = "2001-01-01";
+        $myFechaHasta2 = "9999-12-31";
+
+        if ($request->fechaDesde){
+            $myFechaDesde = $request->fechaDesde;
+            $myFechaHasta = $request->fechaHasta;
+
+            $myFechaDesde2 = $myFechaDesde . " 00:00:00";
+            $myFechaHasta2 = $myFechaHasta . " 23:59:00";
+        }
+
+        if ($request->fechaHasta){
+            $myFechaHasta = $request->fechaHasta;
+            $myFechaHasta2 = $myFechaHasta . " 23:59:00";            
+        }
+
+
+
+        
+        $myQuery =
+        "
+        select
+            0                   as WalletId,
+            ''                as WalletName,
+            type_transaction_id         as TypeTransactionId,
+            type_transactions.name      as TypeTransaccionName,    
+            group_id                    as GroupId,
+            groups.name                 as GroupName,
+            count(*)                    as cant_transactions,
+            sum(amount)                 as total_amount,
+            sum(amount_base)            as total_amount_base,
+            sum(amount_commission)      as total_commission,
+            sum(amount_commission_base) as total_amount_commission_base,
+            sum(amount_total)           as total,
+            sum(amount_total_base)      as total_Base,
+            (sum(amount_commission)-sum(amount_commission_base)) as total_commission_profit
+        from mtf.transactions
+            left join  mtf.groups               on group_id                 = mtf.groups.id
+            left join  mtf.type_transactions    on type_transaction_id      = mtf.type_transactions.id     
+        where        
+                mtf.Transactions.status                 <> 'Anulado'
+        and     mtf.Transactions.type_transaction_id   between  $myTypeTransactionDesde     and     $myTypeTransactionHasta      
+        and     mtf.Transactions.transaction_date      between  '$myFechaDesde2 00:00:00'   and     '$myFechaHasta2 23:59:00'         
+        group by
+            GroupId,
+            GroupName,
+            TypeTransactionId,
+            TypeTransaccionName
+        ";
+
+       /*
+        and     mtf.Transactions.type_transaction_id   between  $myTypeTransactionDesde and     $myTypeTransactionHasta
+        and     mtf.Transactions.transaction_date      between  '$myFechaDesde2 00:00:00'   and     '$myFechaHasta2 59:59:99'
+       */
+
+        // dd($myQuery);
+
+        $Transacciones = DB::select($myQuery);
+        // dd($Transacciones);
+        // \Log::info('leam *** $myQUery -> ' . $myQuery);       
+        // \Log::info('leam *** $Transacciones3 -> ' . print_r($Transacciones3,true));
+       
+        return $Transacciones;
+
+    }
+
     //
     public function getWalletGroups(Request $request){
         // dd($request->wallet);
