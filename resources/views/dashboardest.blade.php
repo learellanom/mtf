@@ -29,210 +29,125 @@ $config4 = [
 <div class="container">
 
     <div class="card">
-    <div class="card-header">
-
-        <div class="row">
-            <div class="col col-md-4">
-
-                <x-adminlte-select2 id="wallet"
-                name="optionsWallets"
-                igroup-size="lg"
-                label-class="text-lightblue"
-                data-placeholder="Seleccione una caja"
-
-                :config="$config4"
-                >
-                <x-slot name="prependSlot">
-                    <div class="input-group-text bg-gradient-light">
-                        <i class="fas fa-box"></i>
-                    </div>
-                </x-slot>
-                <x-adminlte-options :options="$wallet" empty-option="Wallet.."/>
-                </x-adminlte-select2>
-            </div>
-            <div class="col col-md-4">
-                <x-adminlte-select2 id="typeTransactions"
-                name="optionstypeTransactions"
-                igroup-size="lg"
-                label-class="text-lightblue"
-                data-placeholder="Tipo de transacción"
-
-                :config="$config2"
-                >
-                <x-slot name="prependSlot">
-                <div class="input-group-text bg-gradient-light">
-                <i class="fas fa-exchange-alt"></i>
-                </div>
-                </x-slot>
-
-                <x-adminlte-options :options="$typeTransactions" empty-option="Selecciona Transaccion.."/>
-                </x-adminlte-select2>
-            </div>
-
-            <div class ="col-12 col-md-4">
-                <x-adminlte-date-range
-                    name="drCustomRanges"
-                    enable-default-ranges="Last 30 Days"
+        <div class="card-header">
+            <div class="row">
+                <div class="col col-md-4">
+                    <x-adminlte-select2 id="wallet"
+                    name="optionsWallets"
                     igroup-size="lg"
-                    :config="$config3">
+                    label-class="text-lightblue"
+                    data-placeholder="Seleccione una caja"
+
+                    :config="$config4"
+                    >
                     <x-slot name="prependSlot">
                         <div class="input-group-text bg-gradient-light">
-                            <i class="fas fa-calendar-alt"></i>
+                            <i class="fas fa-box"></i>
                         </div>
                     </x-slot>
-                </x-adminlte-date-range>
+                    <x-adminlte-options :options="$wallet" empty-option="Wallet.."/>
+                    </x-adminlte-select2>
+                </div>
+                <div class="col col-md-4">
+                    <x-adminlte-select2 id="typeTransactions"
+                    name="optionstypeTransactions"
+                    igroup-size="lg"
+                    label-class="text-lightblue"
+                    data-placeholder="Tipo de transacción"
+
+                    :config="$config2"
+                    >
+                    <x-slot name="prependSlot">
+                    <div class="input-group-text bg-gradient-light">
+                    <i class="fas fa-exchange-alt"></i>
+                    </div>
+                    </x-slot>
+
+                    <x-adminlte-options :options="$typeTransactions" empty-option="Selecciona Transaccion.."/>
+                    </x-adminlte-select2>
+                </div>
+
+                <div class ="col-12 col-md-4">
+                    <x-adminlte-date-range
+                        name="drCustomRanges"
+                        enable-default-ranges="Last 30 Days"
+                        igroup-size="lg"
+                        :config="$config3">
+                        <x-slot name="prependSlot">
+                            <div class="input-group-text bg-gradient-light">
+                                <i class="fas fa-calendar-alt"></i>
+                            </div>
+                        </x-slot>
+                    </x-adminlte-date-range>
+                </div>
             </div>
-          </div>
-
-
-
-     </div>
+        </div>
     </div>
-
-
 
     <div class="row">
         <div class="col-md-6">
-          <div class="card">
-            <div class="card-body">
-                <h3 class="text-center text-uppercase font-weight-bold">Transacciones por caja</h3>
-                <canvas id="myChartDoughnut"></canvas>
+            <div class="card">
+                <div class="card-body">
+                    <h3 class="text-center text-uppercase font-weight-bold">Transacciones por caja</h3>
+                    <canvas id="myChartDoughnut"></canvas>
+                </div>
             </div>
-          </div>
         </div>
         <div class="col-md-6">
-          <div class="card">
-            <div class="card-body">
-                <h3 class="text-center">Comparativo de Movimientos</h3>
-                <canvas id="myChart"></canvas>
+            <div class="card">
+                <div class="card-body">
+                    <h3 class="text-center">Comparativo de Movimientos</h3>
+                    <canvas id="myChart"></canvas>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
+    </div>
 
-
-      <div class ="row mb-4" style="background-color: white;">
+    <div class ="row mb-4" style="background-color: white;">
         <div class="col-12 col-md-6">
-                <table class="table thead-light" style="background-color: white;">
-                    <thead class="thead-dark">
-                        <tr>
-                            <th style="width:1%;">Transacción</th>                                        
-                            <th style="width:1%;">Cant transacción</th>
-                            <th style="width:1%;">Monto Transaccion</th>                                        
-                        </tr>
-                    </thead>               
-                    @foreach($wallet_summary as $wallet2)
-                        <tr>
-                                <td>{{ $wallet2->TypeTransaccionName}}</td>                                    
-                                <td>{{ number_format($wallet2->cant_transactions) }}</td>
-                                <td>{{ number_format($wallet2->total_amount,2)}}</td>
-                        </tr>                               
-                    @endforeach
-                </table>                        
-            </div>
+            <table class="table thead-light" style="background-color: white;">
+                <thead class="thead-dark">
+                    <tr>
+                        <th style="width:1%;">Transacción</th>                                        
+                        <th style="width:1%;">Cant transacción</th>
+                        <th style="width:1%;">Monto Transaccion</th>                                        
+                    </tr>
+                </thead>               
+                @foreach($wallet_summary as $wallet2)
+                    <tr>
+                            <td>{{ $wallet2->TypeTransaccionName}}</td>                                    
+                            <td>{{ number_format($wallet2->cant_transactions) }}</td>
+                            <td>{{ number_format($wallet2->total_amount,2)}}</td>
+                    </tr>                               
+                @endforeach
+            </table>                        
+        </div>
 
-            <div class="col-12 col-md-6">
-                <table class="table thead-light" style="background-color: white;">
-                    <thead class="thead-dark">
-                        <tr>
-                            <th style="width:1%;">Grupo</th>                                        
-                            <th style="width:1%;">Cant transacción</th>
-                            <th style="width:1%;">Monto Transaccion</th>                                        
-                        </tr>
-                    </thead>               
-                    @foreach($wallet_groupsummary as $wallet2)
-                        <tr>
-                                <td>{{ $wallet2->GroupName ?? $wallet2->TypeTransaccionName . ' ' . $wallet2->WalletName}}</td>                                    
-                                <td>{{ number_format($wallet2->cant_transactions)}}</td>
-                                <td>{{ number_format($wallet2->total_amount,2)}}</td>
-                        </tr>                               
-                    @endforeach
-                </table>                        
-            </div>
-        </div> 
+        <div class="col-12 col-md-6">
+            <table class="table thead-light" style="background-color: white;">
+                <thead class="thead-dark">
+                    <tr>
+                        <th style="width:1%;">Grupo</th>                                        
+                        <th style="width:1%;">Cant transacción</th>
+                        <th style="width:1%;">Monto Transaccion</th>                                        
+                    </tr>
+                </thead>               
+                @foreach($wallet_groupsummary as $wallet2)
+                    <tr>
+                            <td>{{ $wallet2->GroupName ?? $wallet2->TypeTransaccionName . ' ' . $wallet2->WalletName}}</td>                                    
+                            <td>{{ number_format($wallet2->cant_transactions)}}</td>
+                            <td>{{ number_format($wallet2->total_amount,2)}}</td>
+                    </tr>                               
+                @endforeach
+            </table>                        
+        </div>
+    </div> 
 
 
-    @if($wallet_summary->count() <= 13)
-
-        @foreach($wallet_summary as $walletss)
-
-            
-            <div class="row ">
-                <div class="col-md-6">
-                    <div class="card">
-                        <div class="card-body">
-                            <h3 class="text-center text-uppercase font-weight-bold">{{ $walletss->TypeTransaccionName }}</h3>
-                            <canvas id={{ $walletss->TypeTransactionId }}></canvas>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="card">
-                        <div class="card-body">
-                            <h3 class="text-center text-uppercase font-weight-bold">{{ $walletss->TypeTransaccionName }}</h3>
-                            <canvas id={{ $walletss->TypeTransactionId. 'A' }}></canvas>
-                        </div>
-                    </div>
-                </div>
-            </div>     
-   
-
-            <div class ="row mb-4" style="background-color: white;">
-                <div class="col-12 col-md-6">
-                    <table class="table thead-light" style="background-color: white;">
-                        <thead class="thead-dark">
-                            <tr>
-                                <th style="width:1%;">Transacción</th>                                        
-                                <th style="width:1%;">Cant transacción</th>
-                                <th style="width:1%;">Monto Transaccion</th>                                        
-                            </tr>
-                        </thead>               
-                        @foreach($wallet_summary as $wallet2)
-                            <tr>
-                                @if($wallet2->TypeTransactionId == $walletss->TypeTransactionId)
-                                    <td class="font-weight-bold" style="color: green;">{{ $wallet2->TypeTransaccionName}}</td>                                    
-                                    <td class="font-weight-bold" style="color: green;">{{ number_format($wallet2->cant_transactions) }}</td>
-                                    <td class="font-weight-bold" style="color: green;">{{ number_format($wallet2->total_amount,2)}}</td>
-                                @else
-                                    <td >{{ $wallet2->TypeTransaccionName}}</td>                                    
-                                    <td>{{ number_format($wallet2->cant_transactions) }}</td>
-                                    <td>{{ number_format($wallet2->total_amount,2)}}</td>                            
-                                @endif
-                            </tr>                               
-                        @endforeach
-                    </table>                        
-                </div>
-
-                <div class="col-12 col-md-6">
-                    <table class="table thead-light" style="background-color: white;">
-                        <thead class="thead-dark">
-                            <tr>
-                                <th style="width:1%;">Grupo</th>                                        
-                                <th style="width:1%;">Cant transacción</th>
-                                <th style="width:1%;">Monto Transaccion</th>                                        
-                            </tr>
-                        </thead>               
-                        @foreach($wallet_groupsummary as $wallet2)
-                            @if($wallet2->TypeTransactionId == $walletss->TypeTransactionId)
-                                <tr>
-
-                                        <td class="font-weight-bold" style="color: green;">{{ $wallet2->GroupName ?? "A cajas"}}</td>                                    
-                                        <td class="font-weight-bold" style="color: green;">{{ number_format($wallet2->cant_transactions)}}</td>
-                                        <td class="font-weight-bold" style="color: green;">{{ number_format($wallet2->total_amount,2)}}</td>
-                                </tr> 
-                            @endif                             
-                        @endforeach
-                    </table>                        
-                </div>
-            </div> 
-
-        @endforeach
-
-    @endif
+    
 
        
-    <div id="myCanvas">
-    </div>
+    <div id="myCanvas"></div>
 
 </div>
 
@@ -242,109 +157,101 @@ $config4 = [
 
 <script>
 
+    const miWallet = {!! $myWallet !!};
+
+    BuscaWallet(miWallet);
+
+    const miTypeTransaction= {!! $myTypeTransaction !!};
+
+    BuscaTransaccion(miTypeTransaction);
+
+    // alert('miTypeTransaction -> ' + miTypeTransaction);
 
 
+    document.addEventListener('DOMContentLoaded', function () {
+
+        const COLORS = [
+                    'rgb(0, 173, 181)',
+                    'rgb(58, 16, 120)',
+                    'rgb(255, 184, 76)',
+                    'rgb(49, 225, 247)',
+                    'rgb(8, 2, 2)',
+                    'rgb(0, 129, 180)',
+                    'rgb(7, 10, 82)',
+                    'rgb(213, 206, 163)',
+                    'rgb(60, 42, 33)',
+                    'rgb(2, 89, 85)',
+                    'rgb(255, 132, 0)',
+                    'rgb(184, 98, 27)',
+                    'rgb(114, 0, 27)',
+        ];
+
+        const ctx = document.getElementById('myChart');
+        //var total_amount = @foreach($wallet_summary as $wallet) {{ $wallet->total_amount. ',' }} @endforeach
+
+        //alert(total_amount)
+
+        const DATA_COUNT2 = 1600;
+        const NUMBER_CFG = {count: DATA_COUNT2, min: 0, max: 1500};
+        const ctx2 = document.getElementById('myChartDoughnut');
+        const myChart2 = new Chart(ctx2, {
+            type: 'doughnut',
+            data : {
+                labels: [@foreach($wallet_summary->take(13) as $wallet) "{{$wallet->TypeTransaccionName }}", @endforeach ],
+                datasets: [ 
+                    {
+                    label: 'Dataset 1',
+                    data: [@foreach($wallet_summary->take(13) as $wallet) {{$wallet->cant_transactions. ',' }} @endforeach],
+                    backgroundColor:COLORS.slice(0, DATA_COUNT2),
+
+                    hoverOffset: 4
+                }]
+            },
+
+        });
 
 
-const miWallet = {!! $myWallet !!};
+        const myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: [@foreach($wallet_groupsummary as $wallet)  "{{$wallet->GroupName }}", @endforeach],
+                datasets: [{
+                    label: 'Monto total de las transacciones',
+                    data: [@foreach($wallet_groupsummary as $wallet) {{$wallet->total_amount. ',' }} @endforeach],
+                    backgroundColor:COLORS.slice(0, DATA_COUNT2),
+                    borderColor:COLORS.slice(0, DATA_COUNT2),
+                    borderWidth: 4
 
-BuscaWallet(miWallet);
+                }]
+            }
+        });
 
-const miTypeTransaction= {!! $myTypeTransaction !!};
+        // Valida y esconde
 
-BuscaTransaccion(miTypeTransaction);
+        let text = window.location.href;
+        const myArray = text.split("/");
+        const myLength = myArray.length;
 
-// alert('miTypeTransaction -> ' + miTypeTransaction);
-
-
-document.addEventListener('DOMContentLoaded', function () {
-
-    const COLORS = [
-                'rgb(0, 173, 181)',
-                'rgb(58, 16, 120)',
-                'rgb(255, 184, 76)',
-                'rgb(49, 225, 247)',
-                'rgb(8, 2, 2)',
-                'rgb(0, 129, 180)',
-                'rgb(7, 10, 82)',
-                'rgb(213, 206, 163)',
-                'rgb(60, 42, 33)',
-                'rgb(2, 89, 85)',
-                'rgb(255, 132, 0)',
-                'rgb(184, 98, 27)',
-                'rgb(114, 0, 27)',
-    ];
-
-    const ctx = document.getElementById('myChart');
-    //var total_amount = @foreach($wallet_summary as $wallet) {{ $wallet->total_amount. ',' }} @endforeach
-
-    //alert(total_amount)
-
-    const DATA_COUNT2 = 1600;
-    const NUMBER_CFG = {count: DATA_COUNT2, min: 0, max: 1500};
-    const ctx2 = document.getElementById('myChartDoughnut');
-    const myChart2 = new Chart(ctx2, {
-        type: 'doughnut',
-        data : {
-            labels: [@foreach($wallet_summary->take(13) as $wallet) "{{$wallet->TypeTransaccionName }}", @endforeach ],
-            datasets: [ 
-                {
-                label: 'Dataset 1',
-                data: [@foreach($wallet_summary->take(13) as $wallet) {{$wallet->cant_transactions. ',' }} @endforeach],
-                backgroundColor:COLORS.slice(0, DATA_COUNT2),
-
-                hoverOffset: 4
-            }]
-        },
-
-    });
-
-
-    const myChart = new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: [@foreach($wallet_groupsummary as $wallet)  "{{$wallet->GroupName }}", @endforeach],
-            datasets: [{
-                label: 'Monto total de las transacciones',
-                data: [@foreach($wallet_groupsummary as $wallet) {{$wallet->total_amount. ',' }} @endforeach],
-                backgroundColor:COLORS.slice(0, DATA_COUNT2),
-                borderColor:COLORS.slice(0, DATA_COUNT2),
-                borderWidth: 4
-
-            }]
+        if (window.location.href.indexOf("?") === -1) {
+            $('.esconder').show();
+        } else {
+            $('.esconder').hide();
         }
-    });
 
-    // Valida y esconde
+        if (myLength == 4 || myLength == 8 && myArray[4] === '0') {
+            // $('#typeTransactions, #drCustomRanges').prop('disabled', true);
+            $('#typeTransactions').prop('disabled', true);        
+        } else {
+            // $('#typeTransactions, #drCustomRanges').prop('disabled', false);
+            $('#typeTransactions').prop('disabled', false);        
+        }
 
-    let text = window.location.href;
-    const myArray = text.split("/");
-    const myLength = myArray.length;
-
-    if (window.location.href.indexOf("?") === -1) {
-        $('.esconder').show();
-    } else {
-        $('.esconder').hide();
-    }
-
-    if (myLength == 4 || myLength == 8 && myArray[4] === '0') {
-        // $('#typeTransactions, #drCustomRanges').prop('disabled', true);
-        $('#typeTransactions').prop('disabled', true);        
-    } else {
-        // $('#typeTransactions, #drCustomRanges').prop('disabled', false);
-        $('#typeTransactions').prop('disabled', false);        
-    }
-
-    
-    //  calculos();
+        
+        //  calculos();
 
 
 
- }, true);
-
-
-
-
+    }, true);
 
     $(() => {
         
@@ -392,13 +299,11 @@ document.addEventListener('DOMContentLoaded', function () {
                 theRoute(wallet, transaccion, myFechaDesde,myFechaHasta);
 
         });
-
-           calculos2();   
+alert('ddddddd');
+        //   calculos2();   
         // calculos();   
     });
 
-
-    
     $( document ).ready(function() {
         // Handler for .ready() called.
         // ctx3 = "{{$wallet->TypeTransactionId }}";
@@ -420,7 +325,7 @@ document.addEventListener('DOMContentLoaded', function () {
             theTypeTransaction  = {!! $myTypeTransaction !!};
             myIndMuestra        = 1;
 
-            // alert('uno' + "{{$wallet->TypeTransactionId }}" + " myId-> " + myId + " ctx3 " + myobj + " thewallet " + theWallet + " theTypeTransaction -> " + theTypeTransaction);     
+            // alert('$wallet->TypeTransactionId' + "{{$wallet->TypeTransactionId }}" + " myId-> " + myId + " myobj-> " + myobj + " thewallet -> " + theWallet + " theTypeTransaction -> " + theTypeTransaction);     
                
              if (theTypeTransaction){
                  if (theTypeTransaction != 0){
@@ -432,8 +337,6 @@ document.addEventListener('DOMContentLoaded', function () {
  
             if (myIndMuestra == 1){
                 
-
-
                 
                 let myElement;
 
@@ -462,34 +365,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 $("#myCanvas").append(myElement);
                 
 
-                ctx3 = document.getElementById(myId);
-            
-                myChart3 = new Chart(ctx3, {
-                    type: 'doughnut',
-                    data : {
-                        labels: [
-                            "{{$wallet->TypeTransaccionName }}",                         
-                        ],
-                        datasets: [
-                            {
-                            label: 'Otras transacciónes',
-                            data: [
-                                @foreach($wallet_summary as $wallet2) 
-                                    {{$wallet2->cant_transactions. ',' }} 
-                                @endforeach],
-                            backgroundColor:[
-                                @foreach($wallet_summary as $wallet2) 
-                                    @if($wallet2->TypeTransactionId == $wallet->TypeTransactionId) 
-                                        'rgb(0, 173, 181)', 
-                                    @else 
-                                        'rgb(203, 203, 203)', 
-                                    @endif 
-                                @endforeach],
-                            hoverOffset: 6
-                        }]
-                    },
-
-                });
  
 
                 ctx3 = document.getElementById("M" + myId);
@@ -544,26 +419,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 @endforeach
 
 
-                // alert("myLabel -> " + myLabel);
-
-                ctx4 = document.getElementById(
-                    "{{$wallet->TypeTransactionId. 'A' }}",             
-                );
-
-                myChart4 = new Chart(ctx4, {
-                    type: 'bar',
-                    data: {
-                        labels: myLabel,
-                        datasets: [{
-                            label: '',
-                            data: myData,
-                            backgroundColor: myBackGroudColor,
-                            borderColor: myBorderColor,
-                            borderWidth: 6
-                        }]
-                    }
-
-                });
+              
 
 
                 ctx4 = document.getElementById(
