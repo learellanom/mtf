@@ -514,13 +514,13 @@ $('.general').inputmask({
             var selectedValue = this.value;
             var option = $("#typetransaccion option:selected").text();
             // Realizar la acción deseada en función del valor seleccionado
-            if (option == 'Cobro en efectivo')
+            if (option == 'Pago Efectivo')
             {
-                $('#typetransaccion2').val(12);
+                $('#typetransaccion2').val(6);
             }
             else
             {
-                $('#typetransaccion2').val(8);
+                $('#typetransaccion2').val(7);
             }
         });
 
