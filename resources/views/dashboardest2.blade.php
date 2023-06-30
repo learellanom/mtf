@@ -88,7 +88,6 @@ $config4 = [
             </div>
         </div>
     </div>
-
     <div id="myCanvas"></div>
 
 </div>
@@ -132,7 +131,6 @@ $config4 = [
             // $('#typeTransactions, #drCustomRanges').prop('disabled', false);
            // $('#typeTransactions').prop('disabled', false);
         }
-
 
 
         const myFechaDesde = {!! $myFechaDesde !!};

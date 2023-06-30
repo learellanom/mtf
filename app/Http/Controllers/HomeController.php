@@ -59,31 +59,39 @@ class HomeController extends Controller
         $typeTransactions = app(statisticsController::class)->getTypeTransactions();
 
 
+        $request3               = clone $request;
+        $request3->transaction = 0;
+        $transaction_summary     = app(statisticsController::class)->getTransactionSummary($request3);
+
+        $request4               = clone $request;
+        $transaction_group_summary     = app(statisticsController::class)->getTransactionGroupSummary($request4);
+
+        // dd($transaction_summary);
 
         /* MANTENER VALOR BUSCADO EN EL URL */
-       $myWalletDesde   = 0;
-       $myWalletHasta   = 9999;
-       $myWallet        = 0;
-       if ($request->wallet){
-           $myWalletDesde   = $request->wallet;
-           $myWalletHasta   = $request->wallet;
-           $myWallet        = $request->wallet;
-       }
-       $myTypeTransaction      = 0;
-       $myTypeTransactionDesde = 0;
-       $myTypeTransactionHasta = 9999;
-       if ($request->transaction) {
-           $myTypeTransaction      = $request->transaction;
-           $myTypeTransactionDesde = $request->transaction;
-           $myTypeTransactionHasta = $request->transaction;
+        $myWalletDesde   = 0;
+        $myWalletHasta   = 9999;
+        $myWallet        = 0;
+        if ($request->wallet){
+            $myWalletDesde   = $request->wallet;
+            $myWalletHasta   = $request->wallet;
+            $myWallet        = $request->wallet;
+        }
+        $myTypeTransaction      = 0;
+        $myTypeTransactionDesde = 0;
+        $myTypeTransactionHasta = 9999;
+        if ($request->transaction) {
+            $myTypeTransaction      = $request->transaction;
+            $myTypeTransactionDesde = $request->transaction;
+            $myTypeTransactionHasta = $request->transaction;
 
-       }
+        }
 
-       $myFechaDesde = "2001-01-01";
-       $myFechaHasta = "9999-12-31";
+        $myFechaDesde = "2001-01-01";
+        $myFechaHasta = "9999-12-31";
 
-       $myFechaDesde2 = "2001-01-01";
-       $myFechaHasta2 = "9999-12-31";
+        $myFechaDesde2 = "2001-01-01";
+        $myFechaHasta2 = "9999-12-31";
 
         if ($request->fechaDesde){
             $myFechaDesde = $request->fechaDesde;
@@ -96,13 +104,18 @@ class HomeController extends Controller
         if ($request->fechaHasta){
             $myFechaHasta = $request->fechaHasta;
             $myFechaHasta2 = $myFechaHasta . " 12:59:00";
-        /* MANTENER VALOR BUSCADO EN EL URL */
+            /* MANTENER VALOR BUSCADO EN EL URL */
         }
 
         //dd($wallet_summary);
 
+
+        // if ($myWallet ==0){
+        //     $wallet_summary = $transaction_summary;
+        // }
         // return view('dashboardest', compact('wallet_summary', 'wallet_groupsummary', 'wallet', 'typeTransactions', 'myWallet', 'myTypeTransaction', 'myFechaDesde', 'myFechaHasta'));\
-        return view('dashboardest2', compact('wallet_summary', 'wallet_groupsummary', 'wallet', 'typeTransactions', 'myWallet', 'myTypeTransaction', 'myFechaDesde', 'myFechaHasta'));
+        return view('dashboardest2', compact('transaction_group_summary','transaction_summary','wallet_summary', 'wallet_groupsummary', 'wallet', 'typeTransactions', 'myWallet', 'myTypeTransaction', 'myFechaDesde', 'myFechaHasta'));
+
     }
 
 

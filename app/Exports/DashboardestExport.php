@@ -128,7 +128,7 @@ public function array(): array
 
     $rows = [];
 
-
+    //dd($summary);
     $maxRowCount = max(count($group_summary), count($summary));
     for($i=0; $i<$maxRowCount; $i++) {
         $rowData = [
@@ -142,7 +142,7 @@ public function array(): array
             $rowData[2] = $summary[$i]->total_amount ?? '';
         }
         if(isset($group_summary[$i])) {
-            $rowData[5] = $group_summary[$i]->TypeTransaccionName ?? '';
+            $rowData[5] = $group_summary[$i]->GroupName ?? $group_summary[$i]->WalletName . '/'. $group_summary[$i]->TypeTransaccionName;
             $rowData[6] = $group_summary[$i]->cant_transactions ?? '';
             $rowData[7] = $group_summary[$i]->total_amount ?? '';
         }
@@ -190,7 +190,7 @@ public function array(): array
         ],
 
         // Estilo de celdas para totales
-        'J' => [
+        'C' => [
             'font' => [
                 'bold' => true,
             ],
@@ -198,9 +198,12 @@ public function array(): array
                 'formatCode' => '#,##0.00',
             ],
         ],
-        'D' => [
+        'H' => [
             'numberFormat' => [
                 'formatCode' => '#,##0.00',
+            ],
+            'font' => [
+                'bold' => true,
             ],
         ],
 

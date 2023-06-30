@@ -99,7 +99,15 @@
                             </div>
 
 
-                                {!! Form::hidden('type_transaction2_id', null, ['class' => 'form-control transaccion','required' => true, 'id' => 'typetransaccion2']) !!}
+                            {!! Form::hidden('type_transaction2_id', null, ['class' => 'form-control transaccion','required' => true, 'id' => 'typetransaccion2']) !!}
+                        </div>
+                    </div>
+
+
+
+                               
+
+
                         </div>
                     </div>
 
