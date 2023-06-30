@@ -535,7 +535,7 @@ $("#typetrasnferencia").trigger("change");
 			undoOnEscape:true,
 			insertMode: false,
 			clearIncomplete:true,
-			digits: 2,
+			digits: 3,
 			insertMode:true,
 		});
 

@@ -130,8 +130,19 @@ class HomeController extends Controller
 
         $wallet_groupsummary = app(statisticsController::class)->getWalletTransactionGroupSummary($request);
 
+        $request3               = clone $request;
+        $request3->transaction = 0;
+        $transaction_summary     = app(statisticsController::class)->getTransactionSummary($request3);
+
+        $request4               = clone $request;
+        $transaction_group_summary     = app(statisticsController::class)->getTransactionGroupSummary($request4);
+
+
+
+
+
         //dd($wallet_summary);
-        return Excel::download(new DashboardestExport($wallet_summary, $wallet_groupsummary), 'estadisticas.xlsx');
+        return Excel::download(new DashboardestExport($wallet_summary, $wallet_groupsummary, $transaction_summary, $transaction_group_summary), 'estadisticas.xlsx');
     }
 
 

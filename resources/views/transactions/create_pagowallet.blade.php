@@ -105,7 +105,7 @@
 
 
 
-                               
+
 
 
                         </div>
@@ -363,7 +363,7 @@ $('.general').inputmask({
 			undoOnEscape:true,
 			insertMode: false,
 			clearIncomplete:true,
-			digits: 2,
+			digits: 3,
 			insertMode:true,
 		});
 

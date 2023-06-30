@@ -27,17 +27,30 @@ class DashboardestExport implements FromArray,WithHeadings, ShouldAutoSize, With
 {
     use Exportable;
 
-    private $wallet_summary, $wallet_groupsummary;
+    private $wallet_summary, $wallet_groupsummary, $transaction_summary, $transaction_group_summary;
 
-    public function __construct($wallet_summary, $wallet_groupsummary)
+    public function __construct($wallet_summary, $wallet_groupsummary,$transaction_summary,$transaction_group_summary)
     {
-        $this->wallet_summary = $wallet_summary; // asignas el valor inyectado a la propiedad
+        $this->wallet_summary = $wallet_summary;
         $this->wallet_groupsummary = $wallet_groupsummary;
+        $this->transaction_group_summary = $transaction_group_summary;
+        $this->transaction_summary = $transaction_summary;
     }
 
     public function headings(): array
     {
-        return [
+        $summary = $this->wallet_summary;
+        $sw = [];
+        foreach($summary as $sw){
+            $sw = [
+              $sw->WalletName
+            ];
+        }
+        //dd($sw);
+        return[
+        [$sw ?? 'General'],
+
+        [
             'Transacción',
             'Cantidad de movimientos',
             'Monto Transacción',
@@ -46,7 +59,8 @@ class DashboardestExport implements FromArray,WithHeadings, ShouldAutoSize, With
             'Grupo',
             'Cantidad de movimientos',
             'Monto Transacción',
-        ];
+        ],
+     ];
 
     }
 
@@ -125,31 +139,57 @@ public function array(): array
 {
     $summary = $this->wallet_summary ?? [];
     $group_summary = $this->wallet_groupsummary ?? [];
-
+    $general = $this->transaction_summary ?? [];
+    $general2 =  $this->transaction_group_summary ?? [];
+    //dd($general);
     $rows = [];
 
+    if(count($_GET) == 0) {
+        $summary = [];
+        $group_summary = [];
+    }
+
     //dd($summary);
-    $maxRowCount = max(count($group_summary), count($summary));
+    $maxRowCount = max(count($group_summary), count($summary), count($general), count($general2));
     for($i=0; $i<$maxRowCount; $i++) {
         $rowData = [
             '', '', '',
             '', '',
             '', '', '',
         ];
-        if(isset($summary[$i])) {
-            $rowData[0] = $summary[$i]->TypeTransaccionName ?? '';
-            $rowData[1] = $summary[$i]->cant_transactions ?? '';
-            $rowData[2] = $summary[$i]->total_amount ?? '';
-        }
-        if(isset($group_summary[$i])) {
-            $rowData[5] = $group_summary[$i]->GroupName ?? $group_summary[$i]->WalletName . '/'. $group_summary[$i]->TypeTransaccionName;
-            $rowData[6] = $group_summary[$i]->cant_transactions ?? '';
-            $rowData[7] = $group_summary[$i]->total_amount ?? '';
-        }
 
+
+        if(empty($summary) && empty($group_summary) && !empty($general) && !empty($general2)) {
+            //dd($general2);
+            if(isset($general[$i])) {
+                $rowData[0] = $general[$i]->TypeTransaccionName ?? '';
+                $rowData[1] = $general[$i]->cant_transactions ?? '';
+                $rowData[2] = $general[$i]->total_amount ?? '';
+            }
+            if(isset($general2[$i])) {
+                $rowData[5] = $general2[$i]->GroupName ?? $general2[$i]->WalletName . '/' . $general2[$i]->TypeTransaccionName;
+                $rowData[6] = $general2[$i]->cant_transactions ?? '';
+                $rowData[7] = $general2[$i]->total_amount ?? '';
+            }
+         }else{
+            dd($summary);
+            if(isset($summary[$i])) {
+                $rowData[0] = $summary[$i]->TypeTransaccionName ?? '';
+                $rowData[1] = $summary[$i]->cant_transactions ?? '';
+                $rowData[2] = $summary[$i]->total_amount ?? '';
+            }
+
+            if(isset($group_summary[$i])) {
+                $rowData[5] = $group_summary[$i]->GroupName ?? $group_summary[$i]->WalletName . '/'. $group_summary[$i]->TypeTransaccionName;
+                $rowData[6] = $group_summary[$i]->cant_transactions ?? '';
+                $rowData[7] = $group_summary[$i]->total_amount ?? '';
+            }
+
+         }
 
         $rows[] = $rowData;
     }
+    //dd($rows);
 
     return $rows;
 }
@@ -161,6 +201,26 @@ public function array(): array
             'font' => [
                 'bold' => true,
                 'size' => 14,
+                'color' => ['argb' => 'FFFFFF'],
+                'name' => 'Arial',
+            ],
+            'fill' => [
+                'fillType' => Fill::FILL_GRADIENT_LINEAR,
+                'rotation' => 0,
+                'startColor' => ['argb' => '213555'],
+                'endColor' => ['argb' => '213555'],
+            ],
+            'alignment' => [
+                'vertical' => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER,
+                'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
+            ],
+            $sheet->mergeCells('A1:H1')
+
+        ],
+        2 => [
+            'font' => [
+                'bold' => true,
+                'size' => 12,
                 'color' => ['argb' => 'FFFFFF'],
                 'name' => 'Arial',
             ],

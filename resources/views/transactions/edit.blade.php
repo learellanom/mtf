@@ -440,7 +440,7 @@ $('.general').inputmask({
 			undoOnEscape:true,
 			insertMode: true,
 			clearIncomplete:true,
-			digits: 2,
+			digits: 3,
 		});
 
 
