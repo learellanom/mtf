@@ -1095,6 +1095,13 @@ $(document).ready(function() {
                 $('#typecoin').prop("required", false);
                 $('#monto_dolares').attr("readonly", false);
 
+                $('#monto_dolares').on('input', function() {
+                var input1Value = $('#monto_dolares').val();
+                $('#montototal').val(input1Value);
+                //$('#montototal_base').val(input1Value);
+                //$('#monto_extranjera_base').val(input1Value);
+               });
+
                 $('.movi').attr("class", 'card col-md-7 h-100');
 
             }else if (selectedValue) {

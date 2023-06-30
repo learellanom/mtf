@@ -119,7 +119,7 @@ class HomeController extends Controller
     }
 
 
-    public function export(request $request)
+    public function export(request $request, $wallet)
     {
         $wallet_summary = app(statisticsController::class)->getwalletTransactionSummary($request);
 
@@ -138,6 +138,15 @@ class HomeController extends Controller
         $transaction_group_summary     = app(statisticsController::class)->getTransactionGroupSummary($request4);
 
 
+
+        if($wallet == 0) {
+            $wallet_summary = [];
+            $wallet_groupsummary = [];
+
+        }else{
+            $transaction_summary = [];
+            $transaction_group_summary = [];
+        }
 
 
 

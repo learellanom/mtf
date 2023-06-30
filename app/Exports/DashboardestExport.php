@@ -65,75 +65,7 @@ class DashboardestExport implements FromArray,WithHeadings, ShouldAutoSize, With
     }
 
 
-/*  public function array(): array
- {
 
-     $summary = $this->wallet_summary;
-     $group_summary = $this->wallet_groupsummary;
-     //dd($summary);
-
-        $rows = [];
-        foreach ($group_summary as $row) {
-
-            $rows = [
-                $row->TypeTransaccionName,
-                $row->cant_transactions,
-                $row->total_amount,
-                '  ',
-                '  ',
-
-            ];
-
-        }
-        $rows2 = [];
-        foreach ($summary as $row2) {
-
-                       $rows2 = [
-
-                           $row2->WalletName,
-                           $row2->TypeTransaccionName,
-                           $row2->cant_transactions,
-                           $row2->total_amount
-                       ];
-
-           }
-
-         //dd($rows);
-         $print = array_merge($rows, $rows2);
-
-
-         return $print;
-
- } */
-
-
-/*  public function array(): array
-{
-    $summary = $this->wallet_summary;
-    $group_summary = $this->wallet_groupsummary;
-
-    $rows = [];
-    foreach ($group_summary as $row) {
-        $rows[] = [
-            $row->TypeTransaccionName,
-            $row->cant_transactions,
-            $row->total_amount,
-            '',
-            '',
-        ];
-    }
-
-    foreach ($summary as $row) {
-        $rows[] = [
-            $row->WalletName,
-            $row->TypeTransaccionName,
-            $row->cant_transactions,
-            $row->total_amount,
-        ];
-    }
-      //dd($rows);
-     return $rows;
-} */
 
 public function array(): array
 {
@@ -141,18 +73,10 @@ public function array(): array
     $group_summary = $this->wallet_groupsummary ?? [];
     $general = $this->transaction_summary ?? [];
     $general2 =  $this->transaction_group_summary ?? [];
-    //dd($general);
+    //dd($group_summary);
     $rows = [];
 
-    if(count($_GET) == 0) {
-        $summary = [];
-        $group_summary = [];
-    }else{
-        $summary = $this->wallet_summary ?? [];
-        $group_summary = $this->wallet_groupsummary ?? [];
-    }
 
-    //dd($summary);
     $maxRowCount = max(count($group_summary), count($summary), count($general), count($general2));
     for($i=0; $i<$maxRowCount; $i++) {
         $rowData = [
@@ -175,7 +99,7 @@ public function array(): array
                 $rowData[7] = $general2[$i]->total_amount ?? '';
             }
          }else{
-            dd($summary);
+
             if(isset($summary[$i])) {
                 $rowData[0] = $summary[$i]->TypeTransaccionName ?? '';
                 $rowData[1] = $summary[$i]->cant_transactions ?? '';
