@@ -147,6 +147,9 @@ public function array(): array
     if(count($_GET) == 0) {
         $summary = [];
         $group_summary = [];
+    }else{
+        $summary = $this->wallet_summary ?? [];
+        $group_summary = $this->wallet_groupsummary ?? [];
     }
 
     //dd($summary);
