@@ -72,7 +72,7 @@
                         {!! Form::Label('tasa', "Tasa:") !!}
                         <div class="input-group-text">
                             <i class="fa-fw fas fa-random mr-2"></i>
-                        {!! Form::text('exchange_rate',null, ['class' => 'form-control rateMask', 'required' => true, 'id' => 'tasa', 'min' => 0, 'readonly' => true]) !!}
+                        {!! Form::text('exchange_rate',null, ['class' => 'form-control rateMask', 'required' => true, 'id' => 'tasa', 'readonly' => true]) !!}
                         </div>
                     </div>
 
@@ -134,7 +134,7 @@
                         {!! Form::Label('percentage', "Porcentaje:") !!}
                         <div class="input-group-text">
                             <i class="fa-fw fas fa-percentage mr-2"></i>
-                        {!! Form::text('percentage',null, ['class' => 'form-control percentage rateMask', 'required' => true, 'id' => 'percentage']) !!}
+                        {!! Form::text('percentage',null, ['class' => 'form-control percentage rateMasks', 'required' => true, 'id' => 'percentage']) !!}
                         </div>
                     </div>
 
@@ -191,14 +191,14 @@
                         {!! Form::Label('percentage_base', "Porcentaje Base:") !!}
                         <div class="input-group-text">
                             <i class="fa-fw fas fa-percentage mr-2"></i>
-                        {!! Form::text('percentage_base',null, ['class' => 'form-control percentage_base rateMask', 'id' => 'percentage_base']) !!}
+                        {!! Form::text('percentage_base',null, ['class' => 'form-control percentage_base rateMasks', 'id' => 'percentage_base']) !!}
                         </div>
                     </div>
                     <div class="form-group col-md-12 base" style="display:none;">
                         {!! Form::Label('tasa_base', "Tasa base:") !!}
                         <div class="input-group-text">
                             <i class="fa-fw fas fa-random mr-2"></i>
-                        {!! Form::text('exchange_rate_base',null, ['class' => 'form-control rateMask', 'required' => true, 'id' => 'tasa_base', 'min' => 0]) !!}
+                        {!! Form::text('exchange_rate_base',null, ['class' => 'form-control rateMasks', 'required' => true, 'id' => 'tasa_base']) !!}
                         </div>
                     </div>
 
@@ -520,10 +520,9 @@ $("#typetrasnferencia").trigger("change");
         autoClear: true,
         insertMode:true, });
 
-
-        $(".rateMask").attr("minlength","8");
-	   $(".rateMask").attr("maxlength","8");
-	   $(".rateMask").inputmask({
+       $(".rateMasks").attr("minlength","8");
+	   $(".rateMasks").attr("maxlength","8");
+	   $(".rateMasks").inputmask({
 			alias: 'decimal',
 			repeat: 4,
 			allowMinus: false,
