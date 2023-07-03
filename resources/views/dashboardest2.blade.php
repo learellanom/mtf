@@ -489,6 +489,7 @@ $config4 = [
                         <thead class="thead-dark">
                             <tr>
                                 <th style="width:1%;">Grupo</th>
+                                <th style="width:1%;">Transaccion</th>
                                 <th style="width:1%;">Cant transacción</th>
                                 <th style="width:1%;">Monto Transaccion</th>
                             </tr>
@@ -496,6 +497,7 @@ $config4 = [
                         @foreach($wallet_groupsummary as $wallet2)
                             <tr>
                                     <td>{{ $wallet2->GroupName ?? $wallet2->TypeTransaccionName . ' ' . $wallet2->WalletName}}</td>
+                                    <td>{{ $wallet2->TypeTransaccionName}}</td> 
                                     <td>{{ number_format($wallet2->cant_transactions)}}</td>
                                     <td>{{ number_format($wallet2->total_amount,2)}}</td>
                             </tr>

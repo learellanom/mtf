@@ -53,18 +53,18 @@ class HomeController extends Controller
         $wallet_summary = app(statisticsController::class)->getwalletTransactionSummary($request2);
 
         $wallet_groupsummary = app(statisticsController::class)->getWalletTransactionGroupSummary($request);
+        // dd($wallet_groupsummary);
+        $wallet                 = app(statisticsController::class)->getWallet();
 
-        $wallet = app(statisticsController::class)->getWallet();
-
-        $typeTransactions = app(statisticsController::class)->getTypeTransactions();
+        $typeTransactions       = app(statisticsController::class)->getTypeTransactions();
 
 
-        $request3               = clone $request;
-        $request3->transaction = 0;
-        $transaction_summary     = app(statisticsController::class)->getTransactionSummary($request3);
+        $request3                   = clone $request;
+        $request3->transaction      = 0;
+        $transaction_summary        = app(statisticsController::class)->getTransactionSummary($request3);
 
-        $request4               = clone $request;
-        $transaction_group_summary     = app(statisticsController::class)->getTransactionGroupSummary($request4);
+        $request4                   = clone $request;
+        $transaction_group_summary  = app(statisticsController::class)->getTransactionGroupSummary($request4);
 
         // dd($transaction_summary);
 

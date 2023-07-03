@@ -646,7 +646,7 @@ class TransactionController extends Controller
     public function show($transaction)
     {
             $transactions = Transaction::find($transaction);
-
+            // dd($transactions);
             return view('transactions.show', compact('transactions'));
     }
 
