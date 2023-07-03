@@ -125,7 +125,7 @@
                         {!! Form::Label('percentage_base', "Porcentaje Base:") !!}
                         <div class="input-group-text">
                             <i class="fa-fw fas fa-percentage mr-2"></i>
-                        {!! Form::text('percentage_base',null, ['class' => 'form-control percentage_base rateMask',  'min' => 0, 'id' => 'percentage_base']) !!}
+                        {!! Form::text('percentage_base',null, ['class' => 'form-control percentage_base rateMasks', 'id' => 'percentage_base']) !!}
                         </div>
                     </div>
 
@@ -345,9 +345,9 @@ $('.general').inputmask({
 			insertMode:true, });
 
 
-       $(".rateMask").attr("minlength","8");
-	   $(".rateMask").attr("maxlength","8");
-	   $(".rateMask").inputmask({
+       $(".rateMasks").attr("minlength","8");
+	   $(".rateMasks").attr("maxlength","8");
+	   $(".rateMasks").inputmask({
 			alias: 'decimal',
 			repeat: 4,
 			allowMinus: false,
