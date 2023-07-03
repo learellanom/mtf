@@ -84,6 +84,7 @@ class DashboardestExport implements FromArray,WithHeadings, ShouldAutoSize, With
 
 
 
+
 public function array(): array
 {
     $summary = $this->wallet_summary ?? [];
@@ -131,10 +132,9 @@ public function array(): array
                     $rowData[7] = $group_summary[$i]->total_amount ?? '';
 
                 if($group_summary[$i]->TypeTransactionId == 1){
-
-                    $rowData[9] = $group_summary[$i]->GroupName ?? $group_summary[$i]->WalletName . '/'. $group_summary[$i]->TypeTransaccionName;
-                    $rowData[10] = $group_summary[$i]->cant_transactions ?? '';
-                    $rowData[11] = $group_summary[$i]->total_amount ?? '';
+                    $rowData[] = $group_summary[$i]->GroupName ?? $group_summary[$i]->WalletName . '/'. $group_summary[$i]->TypeTransaccionName;
+                    $rowData[] = $group_summary[$i]->cant_transactions ?? '';
+                    $rowData[] = $group_summary[$i]->total_amount ?? '';
 
                 }
             }
