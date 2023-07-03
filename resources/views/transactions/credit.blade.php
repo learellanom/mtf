@@ -36,7 +36,7 @@
                     <div class="form-row">
 
                         <div class="form-group col-md-6">
-                            {!! Form::Label('wallet_id', "Tipo de caja:") !!}
+                            {!! Form::Label('wallet', "Tipo de caja:") !!}
                             <div class="input-group-text col-md-12">
                                 <i class="fa-fw fas fa-random"></i>
                             {!! Form::select('wallet_id', $wallet, null, ['class' => 'form-control wallet', 'required' => true, 'id'=>'wallet', 'readonly' => false]) !!}
@@ -44,7 +44,7 @@
                         </div>
 
                         <div class="form-group col-md-6">
-                            {!! Form::Label('type_coin_id', "Tipo de moneda:") !!}
+                            {!! Form::Label('typecoin', "Tipo de moneda:") !!}
                             <div class="input-group-text">
                                 <i class="fa-fw fas fa-dollar-sign mr-2"></i>
                             {!! Form::select('type_coin_id',$type_coin, null, ['class' => 'form-control typecoin', 'required' => true, 'id' => 'typecoin', 'readonly' => false]) !!}
@@ -54,7 +54,7 @@
                     <div class="form-row">
 
                     <div class="form-group col-md-6">
-                        {!! Form::Label('exchange_rate', "Tasa:") !!}
+                        {!! Form::Label('tasa', "Tasa:") !!}
                         <div class="input-group-text">
                             <i class="fa-fw fas fa-random mr-2"></i>
                         {!! Form::text('exchange_rate',null, ['class' => 'form-control rateMask', 'required' => true, 'id' => 'tasa', 'readonly' => true]) !!}
@@ -63,7 +63,7 @@
 
                     <div class="form-group col-md-6">
 
-                        {!! Form::Label('amount_foreign_currency', "Monto en moneda extranjera:") !!}
+                        {!! Form::Label('monto', "Monto en moneda extranjera:") !!}
                         <div class="input-group-text">
                             <i class="fa-fw fas fa-coins mr-2"></i>
                         {!! Form::text('amount_foreign_currency',null, ['class' => 'form-control general', 'required' => true, 'id' => 'monto', 'min' => 0, 'readonly' => true]) !!}
@@ -76,14 +76,14 @@
 
                 <div class="form-row">
                   <div class="form-group col-md-6">
-                      {!! Form::Label('amount', "Monto en dolares:") !!}
+                      {!! Form::Label('monto_dolares', "Monto en dolares:") !!}
                       <div class="input-group-text">
                           <i class="fa-fw fas fas fa-funnel-dollar mr-2"></i>
                       {!! Form::text('amount', null, ['class' => 'form-control general', 'required' => true, 'id' => 'monto_dolares', 'readonly' => true]) !!}
                       </div>
                   </div>
                   <div class="form-group col-md-6">
-                      {!! Form::Label('transaction_date', "Fecha:") !!}
+                      {!! Form::Label('fecha', "Fecha:") !!}
                       <div class="input-group-text">
                           <i class="fa-fw fas fas fa-calendar-week mr-2"></i>
                       {!! Form::datetimeLocal('transaction_date', $fecha, ['class' => 'form-control', 'required' => true, 'id' => 'fecha']) !!}
@@ -301,8 +301,8 @@ $('.general').inputmask({
 			insertMode:true, });
 
 
-       $(".rateMask").attr("minlength","5");
-	   $(".rateMask").attr("maxlength","5");
+       $(".rateMask").attr("minlength","8");
+	   $(".rateMask").attr("maxlength","8");
 	   $(".rateMask").inputmask({
 			alias: 'decimal',
 			repeat: 4,
@@ -315,7 +315,7 @@ $('.general').inputmask({
 			undoOnEscape:true,
 			insertMode: false,
 			clearIncomplete:true,
-			digits: 2,
+			digits: 7,
 			insertMode:true,
 		});
 
@@ -402,6 +402,8 @@ $(document).ready(function() {
                 monto_total = (monto.value / tasa.value);
                 monto_dolares.value =  monto_total.toFixed(2);
                 montototal.value =  monto_total.toFixed(2);
+                monto_base.value = monto_total.toFixed(2);
+                monto_base_extranjera.value = monto_total.toFixed(2);
             }
             else{
                 monto_dolares.value = montototal.toFixed(2);
