@@ -87,10 +87,12 @@ class DashboardestExport implements FromArray,WithHeadings, ShouldAutoSize, With
 public function array(): array
 {
     $summary = $this->wallet_summary ?? [];
-    $group_summary = $this->wallet_groupsummary ?? [];
+    $group_summary = $this->wallet_groupsummary;
+
+
     $general = $this->transaction_summary ?? [];
     $general2 =  $this->transaction_group_summary ?? [];
-    //dd($group_summary);
+    //dd($summary);
     $rows = [];
 
 
@@ -122,26 +124,32 @@ public function array(): array
                 $rowData[1] = $summary[$i]->cant_transactions ?? '';
                 $rowData[2] = $summary[$i]->total_amount ?? '';
             }
-
             if(isset($group_summary[$i])) {
-                $rowData[5] = $group_summary[$i]->GroupName ?? $group_summary[$i]->WalletName . '/'. $group_summary[$i]->TypeTransaccionName;
-                $rowData[6] = $group_summary[$i]->cant_transactions ?? '';
-                $rowData[7] = $group_summary[$i]->total_amount ?? '';
 
-               /*  if($group_summary[$i]->TypeTransactionId == 1){
                     $rowData[5] = $group_summary[$i]->GroupName ?? $group_summary[$i]->WalletName . '/'. $group_summary[$i]->TypeTransaccionName;
                     $rowData[6] = $group_summary[$i]->cant_transactions ?? '';
                     $rowData[7] = $group_summary[$i]->total_amount ?? '';
-                } */
+
+                if($group_summary[$i]->TypeTransactionId == 1){
+
+                    $rowData[9] = $group_summary[$i]->GroupName ?? $group_summary[$i]->WalletName . '/'. $group_summary[$i]->TypeTransaccionName;
+                    $rowData[10] = $group_summary[$i]->cant_transactions ?? '';
+                    $rowData[11] = $group_summary[$i]->total_amount ?? '';
+
+                }
             }
 
-         }
+          }
 
-        $rows[] = $rowData;
-    }
+
+
+          $rows[] = $rowData;
+        }
     //dd($rows);
 
     return $rows;
+
+
 }
 
  public function styles(Worksheet $sheet)
