@@ -44,6 +44,14 @@
                 <div class="row">
                     <div class="col-12 col-md-12 col-lg-8 order-2 order-md-1">
                       <div class="row">
+                      <div class="col-12 col-sm-4">
+                          <div class="info-box bg-light">
+                            <div class="info-box-content">
+                              <span class="info-box-text text-center text-muted">Transacción <i class="fas fa-trademark"></i></span>
+                              <span class="info-box-number text-center text-muted mb-0 text-uppercase">{{ $transactions->type_transaction->name }}</span>
+                            </div>
+                          </div>
+                        </div>                        
                         <div class="col-12 col-sm-3">
                           <div class="info-box bg-light">
                             <div class="info-box-content">
@@ -68,14 +76,15 @@
                             </div>
                           </div>
                         </div>
-                        <div class="col-12 col-sm-4">
-                            <div class="info-box bg-light">
-                              <div class="info-box-content">
-                                <span class="info-box-text text-center text-muted">Transacción <i class="fas fa-trademark"></i></span>
-                                <span class="info-box-number text-center text-muted mb-0 text-uppercase">{{ $transactions->type_transaction->name }}</span>
-                              </div>
+                        <div class="col-12 col-sm-3">
+                          <div class="info-box bg-light">
+                            <div class="info-box-content">
+                              <span class="info-box-text text-center text-muted">wallet name <i class="fas fa-user"></i></span>
+                              <span class="info-box-number text-center text-muted mb-0 text-uppercase">{{ $transactions->wallet->name }}</span>
                             </div>
                           </div>
+                        </div>
+                        
                       {{--     <div class="col-12 col-sm-2">
                             <div class="info-box bg-light">
                               <div class="info-box-content">
@@ -262,20 +271,17 @@
 
                       <div class="row">
                         <div class="col-12">
-                        <hr>
-
-                        <div class="row">
-                            <div class="col-12">
-                              <div class="info-box bg-light">
-                                <div class="info-box-content">
-                                  <span class="info-box-text text-center text-muted">Descripción <i class="fas fa-text-width"></i></span>
-                                  <span class="info-box-number text-center text-muted mb-0 text-uppercase">{{ $transactions->description ?? 'SIN DESCRIPCIÓN' }}</span>
+                          <hr>
+                          <div class="row">
+                              <div class="col-12">
+                                <div class="info-box bg-light">
+                                  <div class="info-box-content">
+                                    <span class="info-box-text text-center text-muted">Descripción <i class="fas fa-text-width"></i></span>
+                                    <span class="info-box-number text-center text-muted mb-0 text-uppercase">{{ $transactions->description ?? 'SIN DESCRIPCIÓN' }}</span>
+                                  </div>
                                 </div>
                               </div>
                             </div>
-
-                          </div>
-
                         </div>
                       </div>
 

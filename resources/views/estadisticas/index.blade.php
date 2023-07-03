@@ -272,6 +272,85 @@ if (isset($balance->Total)){
                                     // 'Transactions.percentage_base           as PorcentajeComisionBase',
                                     // 'Transactions.amount_commission_base    as MontoComisionBase',
 
+                                    $indWallet = 0;
+                                    if ($myWallet != 0){
+                                        if ($myGroup == 0){
+                                            // $indWallet = 1;
+                                            // show();
+                                        }
+                                    }
+
+                                    if ($indWallet == 0){
+                                        //
+                                        // es grupo
+                                        //
+                                        switch  ($row->TransactionId){
+                                            //
+                                            // resta
+                                            //
+                                            case 1:
+                                            case 3:
+                                            case 5:
+                                            case 7:
+                                            case 9:
+                                            case 11:
+                                            case 12:                                                
+                                                // $myTotal = $myTotal + ($row->MontoTotal * -1);
+                                                $myTotal = $myTotal + ($myTotal2 * -1);                                                
+                                                break;
+
+                                            //
+                                            // suma
+                                            //
+                                            case 2:
+                                            case 4: // cobro en efectivo
+                                            case 6:                                                
+                                            case 8:
+                                            case 10:                                                                                   
+                                            case 13:                                                
+                                                // $myTotal = ($myTotal) + ($row->MontoTotal);
+                                                $myTotal = ($myTotal) + ($myTotal2);                                                
+                                                break;
+                                            default:
+                                                $myTotal = 0;
+                                                break;
+                                        }
+                                    }else{
+                                        //
+                                        // es caja
+                                        //
+                                        switch  ($row->TransactionId){
+                                            //
+                                            // resta
+                                            //
+                                            case 1:     // pago en transferencia
+                                            case 3:     // pago en efectivo
+                                            case 5:     // pago en mercancia
+                                            case 8:     // nota de debito
+                                            case 9:     // swift
+                                            case 11:    // pago usdt
+                                            case 12:    // nota debito caja de efectivo                                
+                                                // $myTotal = $myTotal + ($row->MontoTotal * -1);
+                                                $myTotal = $myTotal + ($myTotal2 * -1);                                                
+                                                break;
+
+                                            //
+                                            // suma
+                                            //
+                                            case 2:     // cobro en transferencia
+                                            case 4:     // cobro en efectivo
+                                            case 6:     // nota de credito a caja de efectivo                      
+                                            case 7:     // nota de credito
+                                            case 10:    // cobro mercancia                                                             
+                                            case 13:    // cobro usdt                          
+                                                // $myTotal = ($myTotal) + ($row->MontoTotal);
+                                                $myTotal = ($myTotal) + ($myTotal2);                                                
+                                                break;
+                                            default:
+                                                $myTotal = 0;
+                                                break;
+                                        }                                        
+                                    }
                                 @endphp
 
 
@@ -289,30 +368,7 @@ if (isset($balance->Total)){
                                     <td class="text-right"  >{!! number_format($myTotal2,2) !!}</td>
 
                                     @php
-                                        switch  ($row->TransactionId){
-                                            case 1:
-                                            case 3:
-                                            case 5:
-                                            case 7:
-                                            case 9:
-                                            case 11:
-                                            case 12:                                                
-                                                // $myTotal = $myTotal + ($row->MontoTotal * -1);
-                                                $myTotal = $myTotal + ($myTotal2 * -1);                                                
-                                                break;
-                                            case 2:
-                                            case 4:
-                                            case 6:                                                
-                                            case 8:
-                                            case 10:                                                                                                
-                                            case 13:                                                
-                                                // $myTotal = ($myTotal) + ($row->MontoTotal);
-                                                $myTotal = ($myTotal) + ($myTotal2);                                                
-                                                break;
-                                            default:
-                                                $myTotal = 0;
-                                                break;
-                                        }
+
                                     @endphp
                                     <td class="text-right">{!! number_format($myTotal,2) !!}</td>
 
@@ -848,3 +904,8 @@ if (isset($balance->Total)){
 
     </script>
 @endsection
+@php
+    function show(){
+        // dd('aqui');
+    }
+@endphp
