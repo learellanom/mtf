@@ -46,21 +46,38 @@ class DashboardestExport implements FromArray,WithHeadings, ShouldAutoSize, With
               $sw->WalletName
             ];
         }
-        //dd($sw);
+       if(empty($sw)){
         return[
-        [$sw ?? 'General'],
+             ['General'],
+            [
+                'Transacción',
+                'Cantidad de movimientos',
+                'Monto Transacción',
+                '',
+                '',
+                'Grupo',
+                'Cantidad de movimientos',
+                'Monto Transacción',
+            ],
+         ];
 
-        [
-            'Transacción',
-            'Cantidad de movimientos',
-            'Monto Transacción',
-            '',
-            '',
-            'Grupo',
-            'Cantidad de movimientos',
-            'Monto Transacción',
-        ],
-     ];
+       }
+       else{
+        return[
+            [$sw],
+           [
+               'Transacción',
+               'Cantidad de movimientos',
+               'Monto Transacción',
+               '',
+               '',
+               'Grupo',
+               'Cantidad de movimientos',
+               'Monto Transacción',
+           ],
+        ];
+       }
+
 
     }
 
@@ -81,7 +98,7 @@ public function array(): array
     for($i=0; $i<$maxRowCount; $i++) {
         $rowData = [
             '', '', '',
-            '', '',
+            '', '', '',
             '', '', '',
         ];
 
@@ -110,6 +127,12 @@ public function array(): array
                 $rowData[5] = $group_summary[$i]->GroupName ?? $group_summary[$i]->WalletName . '/'. $group_summary[$i]->TypeTransaccionName;
                 $rowData[6] = $group_summary[$i]->cant_transactions ?? '';
                 $rowData[7] = $group_summary[$i]->total_amount ?? '';
+
+               /*  if($group_summary[$i]->TypeTransactionId == 1){
+                    $rowData[5] = $group_summary[$i]->GroupName ?? $group_summary[$i]->WalletName . '/'. $group_summary[$i]->TypeTransaccionName;
+                    $rowData[6] = $group_summary[$i]->cant_transactions ?? '';
+                    $rowData[7] = $group_summary[$i]->total_amount ?? '';
+                } */
             }
 
          }
