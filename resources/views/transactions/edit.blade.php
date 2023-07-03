@@ -427,10 +427,11 @@ $('.general').inputmask({
 			insertMode:true, });
 
 
-       $(".rateMask").attr("minlength","5");
-	   $(".rateMask").attr("maxlength","5");
+       $(".rateMask").attr("minlength","8");
+	   $(".rateMask").attr("maxlength","8");
 	   $(".rateMask").inputmask({
 			alias: 'decimal',
+			repeat: 4,
 			allowMinus: false,
 			autoUnmask:true,
 			removeMaskOnSubmit:true,
@@ -438,9 +439,10 @@ $('.general').inputmask({
             autoClear: true,
 			groupSeparator:".",
 			undoOnEscape:true,
-			insertMode: true,
+			insertMode: false,
 			clearIncomplete:true,
-			digits: 3,
+			digits: 7,
+			insertMode:true,
 		});
 
 
