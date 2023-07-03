@@ -31,6 +31,8 @@ class statisticsController extends Controller
     private $myCredits   = "1,3,5,7,9,11,12";
     private $myDebits    = "2,4,6,8,10,13";
 
+    private $myDebitsWallet     = "1,3,5,8,9,11,12";
+    private $myCreditsWallet    = "2,4,6,7,10,13";
 
     public function getCredits(){
         return $this->myCredits;
@@ -2715,7 +2717,7 @@ class statisticsController extends Controller
             FROM $myTable
             left join  mtf.wallets on mtf.transactions.wallet_id  = mtf.wallets.id
             where
-                type_transaction_id in ($this->myDebits)
+                type_transaction_id in ($this->myDebitsWallet)
                 and
                 transaction_date    between '$myFechaDesde' and '$myFechaHasta'
                 and
@@ -2735,7 +2737,7 @@ class statisticsController extends Controller
             FROM $myTable
             left join  mtf.wallets on mtf.transactions.wallet_id  = mtf.wallets.id
             where
-                type_transaction_id in ($this->myCredits)
+                type_transaction_id in ($this->myCreditsWallet)
                 and
                 transaction_date between '$myFechaDesde' and '$myFechaHasta'
                 and

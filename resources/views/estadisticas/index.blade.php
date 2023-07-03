@@ -241,7 +241,9 @@ if (isset($balance->Total)){
 
                                 @php
                                     if ($myWallet != 0){
+                                  
                                         if ($myTypeTransactions == 0){
+                                            // dd($myWallet . ' - ' . $myTypeTransactions); 
                                             //       dd($myWallet);
                                             $myPorcentajeComision   = $row->PorcentajeComisionBase;
                                             $myMontoComision        = $row->MontoComisionBase;
@@ -273,12 +275,13 @@ if (isset($balance->Total)){
                                     // 'Transactions.amount_commission_base    as MontoComisionBase',
 
                                     $indWallet = 0;
-                                    if ($myWallet != 0){
-                                        if ($myGroup == 0){
-                                            // $indWallet = 1;
+                                    if ($myWallet != "0"){
+                                        if ($myGroup == "0"){
+                                              $indWallet = 1;
                                             // show();
                                         }
                                     }
+
 
                                     if ($indWallet == 0){
                                         //
@@ -357,7 +360,7 @@ if (isset($balance->Total)){
                                 <tr>
                                     <td>{!! $row->FechaTransaccion !!}</td>
                                     <td>{!! $row->TipoTransaccion !!}</td>
-                                    <td>{!! $row->Descripcion !!}</td>
+                                    <td>{!! $row->Descripcion !!} {{!! $indWallet !!}}  myWallet {{!! $myWallet !!}} myGroup {{!! $myGroup !!}} </td>
                                     <td>{!! $row->token !!}</td>
                                     <td>{!! $row->TipoMoneda !!}</td>
                                     <td class="text-right"  >{!! number_format($row->MontoMoneda,2) !!}</td>
