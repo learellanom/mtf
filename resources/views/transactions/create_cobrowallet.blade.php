@@ -96,6 +96,7 @@
                                     {!! Form::select('type_transaction_id', $type_transaction, null, ['class' => 'form-control transaccion', 'required' => true, 'id' => 'typetransaccion' ]) !!}
                                 </div>
                             </div>
+
                                 <div class="form-group col-md-6">
                                     {!! Form::Label('transaction_date', "Fecha:") !!}
                                     <div class="input-group-text">

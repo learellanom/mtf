@@ -511,7 +511,7 @@ class TransactionController extends Controller
         $transactions = new Transaction;
         $number = date('YmdHis'). rand(100,200). 'C-G';
 
-        $transactions->type_transaction_id      = $request->input('type_transaction_id');
+        $transactions->type_transaction_id      = $request->input('type_transaction2_id');
         $transactions->wallet_id                = $request->input('wallet_id');
         $transactions->amount                   = $request->input('amount');
         $transactions->amount_total             = $request->input('amount_total');
@@ -532,7 +532,7 @@ class TransactionController extends Controller
 
         $transactions2 = new Transaction;
 
-        $transactions2->type_transaction_id     = $request->input('type_transaction2_id');
+        $transactions2->type_transaction_id     = $request->input('type_transaction_id');
         $transactions2->wallet_id               = $request->input('wallet2_id');
         $transactions2->amount                  = $request->input('amount');
         $transactions2->amount_total            = $request->input('amount_total');

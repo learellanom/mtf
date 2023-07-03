@@ -40,6 +40,8 @@ class DashboardestExport implements FromArray,WithHeadings, ShouldAutoSize, With
     public function headings(): array
     {
         $summary = $this->wallet_summary;
+
+        //dd($summary);
         $sw = [];
         foreach($summary as $sw){
             $sw = [
@@ -78,7 +80,6 @@ class DashboardestExport implements FromArray,WithHeadings, ShouldAutoSize, With
         ];
        }
 
-
     }
 
 
@@ -88,69 +89,53 @@ class DashboardestExport implements FromArray,WithHeadings, ShouldAutoSize, With
 public function array(): array
 {
     $summary = $this->wallet_summary ?? [];
-    $group_summary = $this->wallet_groupsummary;
-
-
+    $group_summary = $this->wallet_groupsummary ?? [];
     $general = $this->transaction_summary ?? [];
-    $general2 =  $this->transaction_group_summary ?? [];
-    //dd($summary);
+    $general2 = $this->transaction_group_summary ?? [];
+
     $rows = [];
 
-
-    $maxRowCount = max(count($group_summary), count($summary), count($general), count($general2));
-    for($i=0; $i<$maxRowCount; $i++) {
-        $rowData = [
-            '', '', '',
-            '', '', '',
-            '', '', '',
-        ];
-
-
-        if(empty($summary) && empty($group_summary) && !empty($general) && !empty($general2)) {
-            //dd($general2);
-            if(isset($general[$i])) {
-                $rowData[0] = $general[$i]->TypeTransaccionName ?? '';
-                $rowData[1] = $general[$i]->cant_transactions ?? '';
-                $rowData[2] = $general[$i]->total_amount ?? '';
+    if (empty($summary) && empty($group_summary) && !empty($general) && !empty($general2)) {
+        foreach($general as $gn){
+            foreach($general2 as $gn2){
+                $rows[] = [
+                    $gn->TypeTransaccionName,
+                    $gn->cant_transactions,
+                    $gn->total_amount,
+                    '',
+                    '',
+                    $gn2->GroupName,
+                    $gn2->cant_transactions,
+                    $gn2->total_amount,
+                ];
             }
-            if(isset($general2[$i])) {
-                $rowData[5] = $general2[$i]->GroupName ?? $general2[$i]->WalletName . '/' . $general2[$i]->TypeTransaccionName;
-                $rowData[6] = $general2[$i]->cant_transactions ?? '';
-                $rowData[7] = $general2[$i]->total_amount ?? '';
+        }
+    } else {
+        foreach($summary as $sm){
+            foreach($group_summary as $gs){
+                $rows[] = [
+                    $sm->TypeTransaccionName,
+                    $sm->cant_transactions,
+                    $sm->total_amount,
+                    '',
+                    '',
+                    $gs->GroupName,
+                    $gs->cant_transactions,
+                    $gs->total_amount,
+                ];
             }
-         }else{
 
-            if(isset($summary[$i])) {
-                $rowData[0] = $summary[$i]->TypeTransaccionName ?? '';
-                $rowData[1] = $summary[$i]->cant_transactions ?? '';
-                $rowData[2] = $summary[$i]->total_amount ?? '';
-            }
-            if(isset($group_summary[$i])) {
-
-                    $rowData[5] = $group_summary[$i]->GroupName ?? $group_summary[$i]->WalletName . '/'. $group_summary[$i]->TypeTransaccionName;
-                    $rowData[6] = $group_summary[$i]->cant_transactions ?? '';
-                    $rowData[7] = $group_summary[$i]->total_amount ?? '';
-
-                if($group_summary[$i]->TypeTransactionId == 1){
-                    $rowData[] = $group_summary[$i]->GroupName ?? $group_summary[$i]->WalletName . '/'. $group_summary[$i]->TypeTransaccionName;
-                    $rowData[] = $group_summary[$i]->cant_transactions ?? '';
-                    $rowData[] = $group_summary[$i]->total_amount ?? '';
-
-                }
-            }
 
           }
-
-
-
-          $rows[] = $rowData;
         }
-    //dd($rows);
+          //dd($rows);
 
     return $rows;
 
-
 }
+
+
+
 
  public function styles(Worksheet $sheet)
  {
