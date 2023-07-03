@@ -360,7 +360,7 @@ if (isset($balance->Total)){
                                 <tr>
                                     <td>{!! $row->FechaTransaccion !!}</td>
                                     <td>{!! $row->TipoTransaccion !!}</td>
-                                    <td>{!! $row->Descripcion !!} {{!! $indWallet !!}}  myWallet {{!! $myWallet !!}} myGroup {{!! $myGroup !!}} </td>
+                                    <td>{!! $row->Descripcion !!}</td>
                                     <td>{!! $row->token !!}</td>
                                     <td>{!! $row->TipoMoneda !!}</td>
                                     <td class="text-right"  >{!! number_format($row->MontoMoneda,2) !!}</td>
