@@ -188,18 +188,18 @@ if (isset($balance->Total)){
                             <div class="col-md-4">
 
                                 @if($myTotal< 0)
-                                <h4 class='text-uppercase font-weight-bold'>{{__('Saldo A favor' )}}: {{ number_format(abs($myTotal),2,",",".") }} $</h4>
+                                    <h4 class='text-uppercase font-weight-bold'>{{__('Saldo A favor' )}}: {{ number_format(abs($myTotal),2,",",".") }} $</h4>
                                 @else
-                                <h4 class='text-uppercase font-weight-bold'>{{__('Saldo A favor' )}}: {{ number_format(0,2,",",".") }} $</h4>
+                                    <h4 class='text-uppercase font-weight-bold'>{{__('Saldo A favor' )}}: {{ number_format(0,2,",",".") }} $</h4>
                                 @endif
 
                             </div>
                             <div class="col-md-4">
 
                                 @if($myTotal< 0)
-                                <h4 class='text-uppercase font-weight-bold'>{{__('Saldo Pendiente' )}}: {{ number_format(0,2,",",".") }} $</h4>
+                                    <h4 class='text-uppercase font-weight-bold'>{{__('Saldo Pendiente' )}}: {{ number_format(0,2,",",".") }} $</h4>
                                 @else
-                                <h4 class='text-uppercase font-weight-bold'>{{__('Saldo Pendiente' )}}: {{ number_format($myTotal,2,",",".") }} $</h4>
+                                    <h4 class='text-uppercase font-weight-bold'>{{__('Saldo Pendiente' )}}: {{ number_format($myTotal,2,",",".") }} $</h4>
                                 @endif
                             </div>
                         </div>

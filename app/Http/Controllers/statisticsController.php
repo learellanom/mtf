@@ -125,6 +125,7 @@ class statisticsController extends Controller
 
         if ($myWallet > 0){
             $balance = $this->getBalanceWallet($myWallet);
+            // dd($balance);
         };
 
         $myUserDesde = 0;
@@ -1761,7 +1762,10 @@ class statisticsController extends Controller
             type_transactions.name      as TypeTransaccionName,    
             2                           as ItemGroup,                      
             group_id                    as GroupId,
-            groups.name                 as GroupName,
+            CASE
+                WHEN groups.name != ''  THEN mtf.transactions.description
+                ELSE groups.name
+            END as GroupName,
             count(*)                    as cant_transactions,
             sum(amount)                 as total_amount,
             sum(amount_base)            as total_amount_base,

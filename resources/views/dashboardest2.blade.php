@@ -31,7 +31,7 @@ $config4 = [
     <div class="card">
         <div class="card-header">
             <div class="row">
-                <div class="col col-md-4">
+                <div class="col col-md-3">
                     <x-adminlte-select2 id="wallet"
                     name="optionsWallets"
                     igroup-size="lg"
@@ -48,7 +48,7 @@ $config4 = [
                     <x-adminlte-options :options="$wallet" empty-option="Wallet.."/>
                     </x-adminlte-select2>
                 </div>
-                <div class="col col-md-4">
+                <div class="col col-md-3">
                     <x-adminlte-select2 id="typeTransactions"
                     name="optionstypeTransactions"
                     igroup-size="lg"
@@ -67,7 +67,7 @@ $config4 = [
                     </x-adminlte-select2>
                 </div>
 
-                <div class ="col-12 col-md-4">
+                <div class ="col-12 col-md-3">
                     <x-adminlte-date-range
                         name="drCustomRanges"
                         enable-default-ranges="Last 30 Days"
@@ -81,10 +81,13 @@ $config4 = [
                     </x-adminlte-date-range>
 
 
-                    <a class="btn btn-primary imprimir"><i class="fas fa-print"></i></a>
-                    <a class="btn btn-success" href={{route('dashboardest.excel', $myWallet)}}><i class="fas fa-file-excel"></i></a>
 
                 </div>
+                <div class ="col-12 col-md-3">
+
+                <a class="btn btn-primary imprimir"><i class="fas fa-print"></i></a>
+                    <a class="btn btn-success" href={{route('dashboardest.excel', $myWallet)}}><i class="fas fa-file-excel"></i></a>                    
+                </div>              
             </div>
         </div>
     </div>
