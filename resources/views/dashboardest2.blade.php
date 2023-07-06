@@ -182,7 +182,8 @@ $config4 = [
 
         if (!miWallet){
             // alert ('aqui');
-            calculoGeneral2();
+            calculoGeneral2();       
+            calculos();    
         }else{
             calculoGeneral();
             calculos2();
@@ -196,6 +197,191 @@ $config4 = [
     $( document ).ready(function() {
 
     });
+    //
+    // calculos - transaction sumarry general
+    //
+    function calculos (){
+
+        let ctx3, myId, myobj, myChart3, ctx4, myChart4;
+
+        @foreach($transaction_summary as $wallet)
+
+            myId                = "{{$wallet->TypeTransactionId }}";
+            myobj               = document.getElementById(myId);
+            theWallet           = {!! $myWallet !!};
+            theTypeTransaction  = {!! $myTypeTransaction !!};
+            myIndMuestra        = 1;
+
+            // alert('$wallet->TypeTransactionId' + "{{$wallet->TypeTransactionId }}" + " myId-> " + myId + " myobj-> " + myobj + " thewallet -> " + theWallet + " theTypeTransaction -> " + theTypeTransaction);
+
+            if (theTypeTransaction){
+                if (theTypeTransaction != 0){
+                    if (myId != theTypeTransaction){
+                            myIndMuestra = 0;
+                        }
+                }
+            }
+
+            if (myIndMuestra == 1){
+
+
+                let myElement;
+
+                myElement = `
+                    <div class="row ">
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h3 class="text-center text-uppercase font-weight-bold">{{ $wallet->TypeTransaccionName }}</h3>
+                                    <canvas id=M{{ $wallet->TypeTransactionId }}></canvas>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h3 class="text-center text-uppercase font-weight-bold">{{ $wallet->TypeTransaccionName }}</h3>
+                                    <canvas id=M{{ $wallet->TypeTransactionId. 'A' }}></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+
+                $("#myCanvas").append(myElement);
+
+
+
+
+                ctx3 = document.getElementById("M" + myId);
+
+                myChart3 = new Chart(ctx3, {
+                    type: 'doughnut',
+                    data : {
+                        labels: [
+                            "{{$wallet->TypeTransaccionName }}",
+                        ],
+                        datasets: [
+                            {
+                            label: 'Otras transacciónes',
+                            data: [
+                                @foreach($wallet_summary as $wallet2)
+                                    {{$wallet2->cant_transactions. ',' }}
+                                @endforeach],
+                            backgroundColor:[
+                                @foreach($wallet_summary as $wallet2)
+                                    @if($wallet2->TypeTransactionId == $wallet->TypeTransactionId)
+                                        'rgb(0, 173, 181)',
+                                    @else
+                                        'rgb(203, 203, 203)',
+                                    @endif
+                                @endforeach],
+                            hoverOffset: 6
+                        }]
+                    },
+
+                });
+
+
+                let myLabel             = [];
+                let myData              = [];
+                let myBackGroudColor    = [];
+                let myBorderColor       = [];
+
+
+                @foreach($wallet_groupsummary as $wallet2)
+
+                        @if($wallet2->TypeTransactionId == $wallet->TypeTransactionId )
+
+                            // alert('Aqui -> ' + "{{$wallet2->GroupName}}" + " total amount -> " + "{{$wallet2->total_amount}}");
+
+                            myLabel.push("{{$wallet2->GroupName ?? $wallet2->WalletName }}");
+                            myData.push({{$wallet2->total_amount . ',' }});
+                            myBackGroudColor.push('rgb(0, 173, 181)');
+                            myBorderColor.push('rgb(0, 173, 181)');
+
+                        @endif
+
+                @endforeach
+
+
+
+
+
+                ctx4 = document.getElementById(
+                    "M{{$wallet->TypeTransactionId. 'A' }}",
+                );
+
+                myChart4 = new Chart(ctx4, {
+                    type: 'bar',
+                    data: {
+                        labels: myLabel,
+                        datasets: [{
+                            label: '',
+                            data: myData,
+                            backgroundColor: myBackGroudColor,
+                            borderColor: myBorderColor,
+                            borderWidth: 6
+                        }]
+                    }
+
+                });
+
+                myElement = `
+                    <div class ="row mb-4" style="background-color: white;">
+                        <div class="col-12 col-md-6">
+                            <table class="table thead-light" style="background-color: white;">
+                                <thead class="thead-dark">
+                                    <tr>
+                                        <th style="width:1%;">Transacción</th>
+                                        <th style="width:1%;">Cant transacción</th>
+                                        <th style="width:1%;">Monto Transaccion</th>
+                                    </tr>
+                                </thead>
+                                @foreach($transaction_summary as $wallet2)
+                                    <tr>
+                                        @if($wallet2->TypeTransactionId == $wallet->TypeTransactionId)
+                                            <td class="font-weight-bold" style="color: green;">{{ $wallet2->TypeTransaccionName}}</td>
+                                            <td class="font-weight-bold" style="color: green;">{{ number_format($wallet2->cant_transactions) }}</td>
+                                            <td class="font-weight-bold" style="color: green;">{{ number_format($wallet2->total_amount,2)}}</td>
+                                        @else
+                                            <td >{{ $wallet2->TypeTransaccionName}}</td>
+                                            <td>{{ number_format($wallet2->cant_transactions) }}</td>
+                                            <td>{{ number_format($wallet2->total_amount,2)}}</td>
+                                        @endif
+                                    </tr>
+                                @endforeach
+                            </table>
+                        </div>
+
+                        <div class="col-12 col-md-6">
+                            <table class="table thead-light" style="background-color: white;">
+                                <thead class="thead-dark">
+                                    <tr>
+                                        <th style="width:1%;">Grupo</th>
+                                        <th style="width:1%;">Cant transacción</th>
+                                        <th style="width:1%;">Monto Transaccion</th>
+                                    </tr>
+                                </thead>
+                                @foreach($wallet_groupsummary as $wallet2)
+                                    @if($wallet2->TypeTransactionId == $wallet->TypeTransactionId)
+                                        <tr>
+                                            <td class="font-weight-bold" style="color: green;">{{ $wallet2->GroupName ?? "A cajas"}}</td>
+                                            <td class="font-weight-bold" style="color: green;">{{ number_format($wallet2->cant_transactions)}}</td>
+                                            <td class="font-weight-bold" style="color: green;">{{ number_format($wallet2->total_amount,2)}}</td>
+                                        </tr>
+                                    @endif
+                                @endforeach
+                            </table>
+                        </div>
+                    </div>
+                `
+                $("#myCanvas").append(myElement);
+
+            }
+        @endforeach
+    }
 
     function calculos2 (){
 
@@ -209,7 +395,7 @@ $config4 = [
             theTypeTransaction  = {!! $myTypeTransaction !!};
             myIndMuestra        = 1;
 
-            // alert('$wallet->TypeTransactionId' + "{{$wallet->TypeTransactionId }}" + " myId-> " + myId + " myobj-> " + myobj + " thewallet -> " + theWallet + " theTypeTransaction -> " + theTypeTransaction);
+             // alert('$wallet->TypeTransactionId' + "{{$wallet->TypeTransactionId }}" + " myId-> " + myId + " myobj-> " + myobj + " thewallet -> " + theWallet + " theTypeTransaction -> " + theTypeTransaction);
 
              if (theTypeTransaction){
                  if (theTypeTransaction != 0){
@@ -404,7 +590,19 @@ $config4 = [
                 </div>
             </div>
         `;
+         myElement = `
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <h3 class="text-center text-uppercase font-weight-bold">Transacciones por caja</h3>
+                            <canvas id="myChartDoughnut"></canvas>
+                        </div>
+                    </div>
+                </div>
 
+            </div>
+        `;
         $("#myCanvas").append(myElement);
 
         const COLORS = [
@@ -448,20 +646,20 @@ $config4 = [
         });
 
 
-        const myChart = new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: [@foreach($wallet_groupsummary as $wallet)  "{{$wallet->GroupName }}", @endforeach],
-                datasets: [{
-                    label: 'Monto total de las transacciones',
-                    data: [@foreach($wallet_groupsummary as $wallet) {{$wallet->total_amount. ',' }} @endforeach],
-                    backgroundColor:COLORS.slice(0, DATA_COUNT2),
-                    borderColor:COLORS.slice(0, DATA_COUNT2),
-                    borderWidth: 4
+        // const myChart = new Chart(ctx, {
+        //     type: 'bar',
+        //     data: {
+        //         labels: [@foreach($wallet_groupsummary as $wallet)  "{{$wallet->GroupName }}", @endforeach],
+        //         datasets: [{
+        //             label: 'Monto total de las transacciones',
+        //             data: [@foreach($wallet_groupsummary as $wallet) {{$wallet->total_amount. ',' }} @endforeach],
+        //             backgroundColor:COLORS.slice(0, DATA_COUNT2),
+        //             borderColor:COLORS.slice(0, DATA_COUNT2),
+        //             borderWidth: 4
 
-                }]
-            }
-        });
+        //         }]
+        //     }
+        // });
 
         myElement =
         `
@@ -508,6 +706,31 @@ $config4 = [
             </div>
         `;
 
+        myElement =
+        `
+            <div class ="row mb-4" style="background-color: white;">
+                <div class="col-12 col-md-12">
+                    <table class="table thead-light" style="background-color: white;">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th style="width:1%;">Transacción</th>
+                                <th style="width:1%;">Cant transacción</th>
+                                <th style="width:1%;">Monto Transaccion</th>
+                            </tr>
+                        </thead>
+                        @foreach($wallet_summary as $wallet2)
+                            <tr>
+                                    <td>{{ $wallet2->TypeTransaccionName}}</td>
+                                    <td>{{ number_format($wallet2->cant_transactions) }}</td>
+                                    <td>{{ number_format($wallet2->total_amount,2)}}</td>
+                            </tr>
+                        @endforeach
+                    </table>
+                </div>
+
+            </div>
+        `;
+        
         $("#myCanvas").append(myElement);
 
     }
@@ -515,8 +738,8 @@ $config4 = [
 
 
     function calculoGeneral2(){
-
-        let myElement = `
+        let myElement;
+        myElement = `
             <div class="row">
                 <div class="col-md-6">
                     <div class="card">
@@ -536,7 +759,18 @@ $config4 = [
                 </div>
             </div>
         `;
-
+        myElement = `
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <h3 class="text-center text-uppercase font-weight-bold">Transacciones por caja</h3>
+                            <canvas id="myChartDoughnut"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
         $("#myCanvas").append(myElement);
 
         const COLORS = [
@@ -580,20 +814,20 @@ $config4 = [
         });
 
 
-        const myChart = new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: [@foreach($transaction_group_summary as $wallet)  "{{$wallet->GroupName }}", @endforeach],
-                datasets: [{
-                    label: 'Monto total de las transacciones',
-                    data: [@foreach($transaction_group_summary as $wallet) {{$wallet->total_amount. ',' }} @endforeach],
-                    backgroundColor:COLORS.slice(0, DATA_COUNT2),
-                    borderColor:COLORS.slice(0, DATA_COUNT2),
-                    borderWidth: 4
+        // const myChart = new Chart(ctx, {
+        //     type: 'bar',
+        //     data: {
+        //         labels: [@foreach($transaction_group_summary as $wallet)  "{{$wallet->GroupName }}", @endforeach],
+        //         datasets: [{
+        //             label: 'Monto total de las transacciones',
+        //             data: [@foreach($transaction_group_summary as $wallet) {{$wallet->total_amount. ',' }} @endforeach],
+        //             backgroundColor:COLORS.slice(0, DATA_COUNT2),
+        //             borderColor:COLORS.slice(0, DATA_COUNT2),
+        //             borderWidth: 4
 
-                }]
-            }
-        });
+        //         }]
+        //     }
+        // });
 
         myElement =
         `
@@ -656,7 +890,39 @@ $config4 = [
             </div>
         `;
 
+        myElement =
+        `
+            <div class ="row mb-4" style="background-color: white;">
+                <div class="col-12 col-md-12">
+                    <table class="table thead-light" style="background-color: white;">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th style="width:1%;">Transacción</th>
+                                <th style="width:1%;">Cant transacción</th>
+                                <th style="width:1%;">Monto Transaccion</th>
+                            </tr>
+                        </thead>
+                        @foreach($transaction_summary as $wallet2)
+                            <tr>
+                                    @if($wallet2->TypeTransactionId == $myTypeTransaction )
+                                        <td class="font-weight-bold" style="color: green;">{{ $wallet2->TypeTransaccionName}}</td>
+                                        <td class="font-weight-bold" style="color: green;">{{ number_format($wallet2->cant_transactions) }}</td>
+                                        <td class="font-weight-bold" style="color: green;">{{ number_format($wallet2->total_amount,2)}}</td>
+                                    @else
+                                        <td >{{ $wallet2->TypeTransaccionName}}</td>
+                                        <td>{{ number_format($wallet2->cant_transactions) }}</td>
+                                        <td>{{ number_format($wallet2->total_amount,2)}}</td>
+                                    @endif
 
+
+                            </tr>
+                        @endforeach
+                    </table>
+                </div>
+
+    
+            </div>
+        `;
         $("#myCanvas").append(myElement);
 
     }
