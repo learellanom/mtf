@@ -268,11 +268,11 @@ $config4 = [
                             {
                             label: 'Otras transacciónes',
                             data: [
-                                @foreach($wallet_summary as $wallet2)
+                                @foreach($transaction_summary as $wallet2)
                                     {{$wallet2->cant_transactions. ',' }}
                                 @endforeach],
                             backgroundColor:[
-                                @foreach($wallet_summary as $wallet2)
+                                @foreach($transaction_summary as $wallet2)
                                     @if($wallet2->TypeTransactionId == $wallet->TypeTransactionId)
                                         'rgb(0, 173, 181)',
                                     @else
@@ -1015,12 +1015,24 @@ $config4 = [
     }
 
     document.querySelectorAll('.imprimir').forEach(function(element) {
-    element.addEventListener('click', function() {
-        print();
+        element.addEventListener('click', function() {
+            print();
+        });
     });
-});
 
 
+    function generarNuevoColor(){
+        var simbolos, color;
+        simbolos = "0123456789ABCDEF";
+        color = "#";
+
+        for(var i = 0; i < 6; i++){
+            color = color + simbolos[Math.floor(Math.random() * 16)];
+        }
+
+        document.body.style.background = color;
+l
+    }
 
 </script>
 
