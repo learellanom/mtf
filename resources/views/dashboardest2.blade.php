@@ -266,11 +266,11 @@ $config4 = [
                             {
                             label: 'Otras transacciónes',
                             data: [
-                                @foreach($wallet_summary as $wallet2)
+                                @foreach($transaction_summary as $wallet2)
                                     {{$wallet2->cant_transactions. ',' }}
                                 @endforeach],
                             backgroundColor:[
-                                @foreach($wallet_summary as $wallet2)
+                                @foreach($transaction_summary as $wallet2)
                                     @if($wallet2->TypeTransactionId == $wallet->TypeTransactionId)
                                         'rgb(0, 173, 181)',
                                     @else
@@ -774,19 +774,19 @@ $config4 = [
         $("#myCanvas").append(myElement);
 
         const COLORS = [
-                    'rgb(0, 173, 181)',
-                    'rgb(58, 16, 120)',
-                    'rgb(255, 184, 76)',
-                    'rgb(49, 225, 247)',
-                    'rgb(8, 2, 2)',
-                    'rgb(0, 129, 180)',
-                    'rgb(7, 10, 82)',
-                    'rgb(213, 206, 163)',
-                    'rgb(60, 42, 33)',
-                    'rgb(2, 89, 85)',
-                    'rgb(255, 132, 0)',
-                    'rgb(184, 98, 27)',
-                    'rgb(114, 0, 27)',
+            'rgb(0, 173, 181)',
+            'rgb(58, 16, 120)',
+            'rgb(255, 184, 76)',
+            'rgb(49, 225, 247)',
+            'rgb(8, 2, 2)',
+            'rgb(0, 129, 180)',
+            'rgb(7, 10, 82)',
+            'rgb(213, 206, 163)',
+            'rgb(60, 42, 33)',
+            'rgb(2, 89, 85)',
+            'rgb(255, 132, 0)',
+            'rgb(184, 98, 27)',
+            'rgb(114, 0, 27)',
         ];
 
         const ctx = document.getElementById('myChart');
@@ -1013,12 +1013,24 @@ $config4 = [
     }
 
     document.querySelectorAll('.imprimir').forEach(function(element) {
-    element.addEventListener('click', function() {
-        print();
+        element.addEventListener('click', function() {
+            print();
+        });
     });
-});
 
 
+    function generarNuevoColor(){
+        var simbolos, color;
+        simbolos = "0123456789ABCDEF";
+        color = "#";
+
+        for(var i = 0; i < 6; i++){
+            color = color + simbolos[Math.floor(Math.random() * 16)];
+        }
+
+        document.body.style.background = color;
+l
+    }
 
 </script>
 
