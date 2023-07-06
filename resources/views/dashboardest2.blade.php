@@ -722,9 +722,9 @@ $config4 = [
                         </thead>
                         @foreach($wallet_summary as $wallet2)
                             <tr>
-                                    <td>{{ $wallet2->TypeTransaccionName}}</td>
-                                    <td>{{ number_format($wallet2->cant_transactions) }}</td>
-                                    <td>{{ number_format($wallet2->total_amount,2)}}</td>
+                                <td>{{ $wallet2->TypeTransaccionName}}</td>
+                                <td>{{ number_format($wallet2->cant_transactions) }}</td>
+                                <td>{{ number_format($wallet2->total_amount,2)}}</td>
                             </tr>
                         @endforeach
                     </table>
