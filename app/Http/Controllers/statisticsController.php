@@ -1635,8 +1635,8 @@ class statisticsController extends Controller
                 type_transaction_id         as TypeTransactionId,
                 type_transactions.name      as TypeTransaccionName,
                 1                           as ItemGroup,                      
-                ''                    as GroupId,
-                ''                 as GroupName,                
+                ''                          as GroupId,
+                ''                          as GroupName,                
                 count(*)                    as cant_transactions,
                 sum(amount)                 as total_amount,                
                 sum(amount_commission_base) as total_amount_commission_base,
@@ -1762,10 +1762,7 @@ class statisticsController extends Controller
             type_transactions.name      as TypeTransaccionName,    
             2                           as ItemGroup,                      
             group_id                    as GroupId,
-            CASE
-                WHEN groups.name != ''  THEN mtf.transactions.description
-                ELSE groups.name
-            END as GroupName,
+            groups.name                 as GroupName,
             count(*)                    as cant_transactions,
             sum(amount)                 as total_amount,
             sum(amount_base)            as total_amount_base,
@@ -1791,6 +1788,11 @@ class statisticsController extends Controller
             TypeTransaccionName,
             GroupId,
             GroupName
+        order by
+            TypeTransactionId,
+            TypeTransaccionName,
+            GroupId,
+            GroupName            
         ";
 
        /*
@@ -1801,7 +1803,7 @@ class statisticsController extends Controller
         // dd($myQuery);
 
         $Transacciones = DB::select($myQuery);
-        // dd($Transacciones);
+       // dd($Transacciones);
        //  \Log::info('leam *** $myQUery -> ' . $myQuery);       
        //  \Log::info('leam *** $Transacciones3 -> ' . print_r($Transacciones3,true));
        
@@ -1953,10 +1955,10 @@ class statisticsController extends Controller
         and     mtf.Transactions.type_transaction_id   between  $myTypeTransactionDesde     and     $myTypeTransactionHasta      
         and     mtf.Transactions.transaction_date      between  '$myFechaDesde2 00:00:00'   and     '$myFechaHasta2 23:59:00'         
         group by
-            GroupId,
-            GroupName,
             TypeTransactionId,
-            TypeTransaccionName
+            TypeTransaccionName,
+            GroupId,
+            GroupName
         ";
 
        /*
