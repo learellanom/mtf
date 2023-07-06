@@ -188,18 +188,18 @@ if (isset($balance->Total)){
                             <div class="col-md-4">
 
                                 @if($myTotal< 0)
-                                <h4 class='text-uppercase font-weight-bold'>{{__('Saldo A favor' )}}: {{ number_format(abs($myTotal),2,",",".") }} $</h4>
+                                    <h4 class='text-uppercase font-weight-bold'>{{__('Saldo A favor' )}}: {{ number_format(abs($myTotal),2,",",".") }} $</h4>
                                 @else
-                                <h4 class='text-uppercase font-weight-bold'>{{__('Saldo A favor' )}}: {{ number_format(0,2,",",".") }} $</h4>
+                                    <h4 class='text-uppercase font-weight-bold'>{{__('Saldo A favor' )}}: {{ number_format(0,2,",",".") }} $</h4>
                                 @endif
 
                             </div>
                             <div class="col-md-4">
 
                                 @if($myTotal< 0)
-                                <h4 class='text-uppercase font-weight-bold'>{{__('Saldo Pendiente' )}}: {{ number_format(0,2,",",".") }} $</h4>
+                                    <h4 class='text-uppercase font-weight-bold'>{{__('Saldo Pendiente' )}}: {{ number_format(0,2,",",".") }} $</h4>
                                 @else
-                                <h4 class='text-uppercase font-weight-bold'>{{__('Saldo Pendiente' )}}: {{ number_format($myTotal,2,",",".") }} $</h4>
+                                    <h4 class='text-uppercase font-weight-bold'>{{__('Saldo Pendiente' )}}: {{ number_format($myTotal,2,",",".") }} $</h4>
                                 @endif
                             </div>
                         </div>
@@ -360,7 +360,7 @@ if (isset($balance->Total)){
                                 <tr>
                                     <td>{!! $row->FechaTransaccion !!}</td>
                                     <td>{!! $row->TipoTransaccion !!}</td>
-                                    <td>{!! $row->Descripcion !!} {{!! $indWallet !!}}  myWallet {{!! $myWallet !!}} myGroup {{!! $myGroup !!}} </td>
+                                    <td>{!! $row->Descripcion !!}</td>
                                     <td>{!! $row->token !!}</td>
                                     <td>{!! $row->TipoMoneda !!}</td>
                                     <td class="text-right"  >{!! number_format($row->MontoMoneda,2) !!}</td>
