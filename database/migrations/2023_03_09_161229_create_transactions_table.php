@@ -34,11 +34,12 @@ return new class extends Migration
             $table->longText('description'); //DESCRIPCION DE LA TRANSFERENCIA
             $table->datetime('transaction_date'); //FECHA DE LA TRANSACCIÓN
             $table->enum('exonerate_base', [1, 2, 3])->nullable()->default(2); //DESCUENTO, EXONERADO E INCLUIR COMISÓN BASE
-            $table->double('percentage_base')->nullable(); //PORCENTAJE DE LA GANANCIA
-            $table->double('amount_commission_base')->nullable(); //GANANCIA DE LA COMOSION
-            $table->double('amount_base')->nullable(); //MONTO BASE PARA CALCULAR COMISION POR TASA
-            $table->double('amount_total_base')->nullable(); //GANANCIA DE LA COMOSION
-            $table->timestamps(); //CREACION Y MODIFICACION POR DEFECTO (TOMADO POR EL SERVIDOR)
+            $table->double('percentage_base')->nullable();          //PORCENTAJE DE LA GANANCIA
+            $table->double('amount_commission_base')->nullable();   //GANANCIA DE LA COMOSION
+            $table->double('amount_base')->nullable();              //MONTO BASE PARA CALCULAR COMISION POR TASA
+            $table->double('amount_total_base')->nullable();        //GANANCIA DE LA COMOSION
+            $table->bigInteger('walletb_id')->nullable();               //CLIENTE DE LA TRANSFERENCIA
+            $table->timestamps();                                   //CREACION Y MODIFICACION POR DEFECTO (TOMADO POR EL SERVIDOR)
         });
     }
 
