@@ -84,10 +84,10 @@ $config4 = [
 
                 </div>
                 <div class ="col-12 col-md-3">
+                    <a class="btn btn-primary imprimir"><i class="fas fa-print"></i></a>
+                    <a class="btn btn-success" href={{route('exports.excel', $myWallet)}}><i class="fas fa-file-excel"></i></a>
+                </div>
 
-                <a class="btn btn-primary imprimir"><i class="fas fa-print"></i></a>
-                    <a class="btn btn-success" href={{route('dashboardest.excel', $myWallet)}}><i class="fas fa-file-excel"></i></a>                    
-                </div>              
             </div>
         </div>
     </div>
@@ -184,8 +184,8 @@ $config4 = [
 
         if (!miWallet){
             // alert ('aqui');
-            calculoGeneral2();       
-            calculos();    
+            calculoGeneral2();
+            calculos();
         }else{
             calculoGeneral();
             calculos2();
@@ -698,7 +698,7 @@ $config4 = [
                         @foreach($wallet_groupsummary as $wallet2)
                             <tr>
                                     <td>{{ $wallet2->GroupName ?? $wallet2->TypeTransaccionName . ' ' . $wallet2->WalletName}}</td>
-                                    <td>{{ $wallet2->TypeTransaccionName}}</td> 
+                                    <td>{{ $wallet2->TypeTransaccionName}}</td>
                                     <td>{{ number_format($wallet2->cant_transactions)}}</td>
                                     <td>{{ number_format($wallet2->total_amount,2)}}</td>
                             </tr>
@@ -732,7 +732,7 @@ $config4 = [
 
             </div>
         `;
-        
+
         $("#myCanvas").append(myElement);
 
     }
@@ -922,7 +922,7 @@ $config4 = [
                     </table>
                 </div>
 
-    
+
             </div>
         `;
         $("#myCanvas").append(myElement);
