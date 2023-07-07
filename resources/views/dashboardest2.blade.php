@@ -307,10 +307,6 @@ $config4 = [
 
                 @endforeach
 
-
-
-
-
                 ctx4 = document.getElementById(
                     "M{{$wallet->TypeTransactionId. 'A' }}",
                 );
@@ -331,6 +327,14 @@ $config4 = [
                 });
 
                 myElement = `
+                    <style>
+                        .tr {
+                            cursor: pointer;
+                        }
+                        .myTr:hover{
+                            background-color: #D7DBDD  !important;
+                        }
+                    </style>                
                     <div class ="row mb-4" style="background-color: white;">
                         <div class="col-12 col-md-6">
                             <table class="table thead-light" style="background-color: white;">
@@ -342,7 +346,7 @@ $config4 = [
                                     </tr>
                                 </thead>
                                 @foreach($transaction_summary as $wallet2)
-                                    <tr>
+                                    <tr class="myTr" onClick="theRoute2({{0}}, {{0}}, {{0}}, {{$wallet2->TypeTransactionId}})">
                                         @if($wallet2->TypeTransactionId == $wallet->TypeTransactionId)
                                             <td class="font-weight-bold" style="color: green;">{{ $wallet2->TypeTransaccionName}}</td>
                                             <td class="font-weight-bold" style="color: green;">{{ number_format($wallet2->cant_transactions) }}</td>
@@ -365,10 +369,11 @@ $config4 = [
                                         <th style="width:1%;">Cant transacción</th>
                                         <th style="width:1%;">Monto Transaccion</th>
                                     </tr>
-                                </thead>
+                                </thead> 
+                                // function theRoute2(usuario = 0, grupo = 0, wallet = 0, typeTransactions = 0, fechaDesde = 0, fechaHasta = 0){
                                 @foreach($wallet_groupsummary as $wallet2)
                                     @if($wallet2->TypeTransactionId == $wallet->TypeTransactionId)
-                                        <tr>
+                                        <tr class="myTr" onClick="theRoute2({{0}}, {{$wallet2->GroupId}}, {{0}}, {{$wallet2->TypeTransactionId}})">
                                             <td class="font-weight-bold" style="color: green;">{{ $wallet2->GroupName ?? "A cajas"}}</td>
                                             <td class="font-weight-bold" style="color: green;">{{ number_format($wallet2->cant_transactions)}}</td>
                                             <td class="font-weight-bold" style="color: green;">{{ number_format($wallet2->total_amount,2)}}</td>
@@ -891,9 +896,17 @@ $config4 = [
                 </div>
             </div>
         `;
-
+        // function theRoute2(usuario = 0, grupo = 0, wallet = 0, typeTransactions = 0, fechaDesde = 0, fechaHasta = 0){
         myElement =
         `
+            <style>
+                .tr {
+                    cursor: pointer;
+                }
+                .myTr:hover{
+                    background-color: #D7DBDD  !important;
+                }
+            </style>
             <div class ="row mb-4" style="background-color: white;">
                 <div class="col-12 col-md-12">
                     <table class="table thead-light" style="background-color: white;">
@@ -905,7 +918,7 @@ $config4 = [
                             </tr>
                         </thead>
                         @foreach($transaction_summary as $wallet2)
-                            <tr>
+                            <tr class="myTr" onClick="theRoute2({{0}}, {{0}}, {{0}}, {{$wallet2->TypeTransactionId}})">
                                     @if($wallet2->TypeTransactionId == $myTypeTransaction )
                                         <td class="font-weight-bold" style="color: green;">{{ $wallet2->TypeTransaccionName}}</td>
                                         <td class="font-weight-bold" style="color: green;">{{ number_format($wallet2->cant_transactions) }}</td>
@@ -951,6 +964,31 @@ $config4 = [
     }
 
 
+    function theRoute2(usuario = 0, grupo = 0, wallet = 0, typeTransactions = 0, fechaDesde = 0, fechaHasta = 0){
+
+        if (usuario  === "") usuario  = 0;
+        if (grupo  === "") grupo  = 0;
+        if (wallet  === "") wallet  = 0;
+        if (typeTransactions  === "") typeTransactions  = 0;
+
+        fechaDesde = $('#drCustomRanges').data('daterangepicker').startDate.format('YYYY-MM-DD')
+        fechaHasta = $('#drCustomRanges').data('daterangepicker').endDate.format('YYYY-MM-DD')
+
+        //                      'estadisticasDetalle/{usuario}/{grupo?}/{wallet?}/{typeTransactions?}/{fechaDesde?}/{fechaHasta?}'
+        //     http://localhost:8080/estadisticasDetalle/0/0/8/11/2023-05-02/2023-05-31
+        let myRoute = "";
+            myRoute = "{{ route('estadisticasDetalle', ['usuario' => 'usuario2', 'grupo' => 'grupo2', 'wallet' => 'wallet2', 'typeTransactions' => 'typeTransactions2','fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2']) }}";
+            myRoute = myRoute.replace('grupo2',grupo);
+            myRoute = myRoute.replace('usuario2',usuario);
+            myRoute = myRoute.replace('wallet2',wallet);
+            myRoute = myRoute.replace('typeTransactions2',typeTransactions);
+            myRoute = myRoute.replace('fechaDesde2',fechaDesde);
+            myRoute = myRoute.replace('fechaHasta2',fechaHasta);
+        // console.log(myRoute);
+        // alert(myRoute);
+        location.href = myRoute;
+
+    }
 
     function BuscaWallet(miWallet){
             if (miWallet===0){

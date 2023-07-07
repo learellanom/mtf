@@ -185,23 +185,50 @@ if (isset($balance->Total)){
                             <div class="col-md-4">
                                 <h4 class="text-uppercase font-weight-bold">{{ __('Detalles|Movimientos') }} <i class="fas fa-info-circle"></i></h4>
                             </div>
-                            <div class="col-md-4">
+                            @php
+                                $indWallet = 0;
+                                if ($myWallet != 0){
+                                    if ($myGroup == 0){
+                                        $indWallet = 1;
+                                    }
+                                }
+                            @endphp
 
-                                @if($myTotal< 0)
-                                    <h4 class='text-uppercase font-weight-bold'>{{__('Saldo A favor' )}}: {{ number_format(abs($myTotal),2,",",".") }} $</h4>
-                                @else
-                                    <h4 class='text-uppercase font-weight-bold'>{{__('Saldo A favor' )}}: {{ number_format(0,2,",",".") }} $</h4>
-                                @endif
+                            @if($indWallet == 1)
+                                <div class="col-md-4">
+                                    @if($myTotal< 0)
+                                        <h4 class='text-uppercase font-weight-bold'>{{__('Saldo a Favor' )}}: {{ number_format(0,2,",",".") }} $</h4>
+                                    @else
+                                        <h4 class='text-uppercase font-weight-bold'>{{__('Saldo a Favor' )}}: {{ number_format(abs($myTotal),2,",",".") }} $</h4>
+                                    @endif
+                                </div>
+                                <div class="col-md-4">
+                                    @if($myTotal< 0)
+                                        <h4 class='text-uppercase font-weight-bold'>{{__('Saldo Pendiente' )}}: {{ number_format(abs($myTotal),2,",",".") }} $</h4>                                        
+                                    @else
+                                        <h4 class='text-uppercase font-weight-bold'>{{__('Saldo Pendiente' )}}: {{ number_format(0,2,",",".") }} $</h4>                                        
+                                    @endif
+                                </div>
+                            @else
+                                <div class="col-md-4">
 
-                            </div>
-                            <div class="col-md-4">
+                                    @if($myTotal< 0)
+                                        <h4 class='text-uppercase font-weight-bold'>{{__('Saldo A favor' )}}: {{ number_format(abs($myTotal),2,",",".") }} $</h4>
+                                    @else
+                                        <h4 class='text-uppercase font-weight-bold'>{{__('Saldo A favor' )}}: {{ number_format(0,2,",",".") }} $</h4>
+                                    @endif
 
-                                @if($myTotal< 0)
-                                    <h4 class='text-uppercase font-weight-bold'>{{__('Saldo Pendiente' )}}: {{ number_format(0,2,",",".") }} $</h4>
-                                @else
-                                    <h4 class='text-uppercase font-weight-bold'>{{__('Saldo Pendiente' )}}: {{ number_format($myTotal,2,",",".") }} $</h4>
-                                @endif
-                            </div>
+                                </div>
+                                <div class="col-md-4">
+
+                                    @if($myTotal< 0)
+                                        <h4 class='text-uppercase font-weight-bold'>{{__('Saldo Pendiente' )}}: {{ number_format(0,2,",",".") }} $</h4>
+                                    @else
+                                        <h4 class='text-uppercase font-weight-bold'>{{__('Saldo Pendiente' )}}: {{ number_format($myTotal,2,",",".") }} $</h4>
+                                    @endif
+                                </div>
+                            @endif
+
                         </div>
                     </div>
                 </div>
