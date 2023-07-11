@@ -159,6 +159,10 @@ class statisticsController extends Controller
         \Log::info('leam transaction  Hasta  *** -> ' . $myTypeTransactionsHasta);              
         \Log::info('leam typeTransactions    *** -> ' . $request->typeTransactions);             
         \Log::info('leam token               ***   -> ' . $request->token);
+        \Log::info('leam fecha desde         ***   -> ' . $myFechaDesde);
+        \Log::info('leam fecha hasta         ***   -> ' . $myFechaHasta);
+        \Log::info('leam fecha desde request ***   -> ' . $request->fechaDesde);
+        \Log::info('leam fecha hasta request ***   -> ' . $request->fechaHasta);
 
 
         //  print_r($myGroup);
@@ -279,7 +283,7 @@ class statisticsController extends Controller
         }
 
         //  dd($Transacciones);
-        \Log::info('index transacciones -> ' . print_r($Transacciones,true));
+        // \Log::info('index transacciones -> ' . print_r($Transacciones,true));
         // die();
 
         $userole            = $this->getUser();
@@ -1737,7 +1741,7 @@ class statisticsController extends Controller
            $condicionGroup = " and     Transactions.group_id               $myGroupDesde           and     $myGroupHasta";
        }
 
-     
+        /*
 
         $Transacciones = DB::table('transactions')
         ->select(DB::raw('
@@ -1771,7 +1775,7 @@ class statisticsController extends Controller
         ->orderBy('GroupId','ASC')
         ->get();
 
-       
+        */
 
         $myQuery =
         "
@@ -1797,8 +1801,8 @@ class statisticsController extends Controller
             left join  mtf.type_transactions    on type_transaction_id      = mtf.type_transactions.id     
         where        
                 mtf.Transactions.status <> 'Anulado'
-        and     mtf.Transactions.wallet_id             between  $myWalletDesde          and     $myWalletHasta
-        and     mtf.Transactions.type_transaction_id   between  $myTypeTransactionDesde and     $myTypeTransactionHasta      
+        and     mtf.Transactions.wallet_id             between  $myWalletDesde              and     $myWalletHasta
+        and     mtf.Transactions.type_transaction_id   between  $myTypeTransactionDesde     and     $myTypeTransactionHasta      
         and     mtf.Transactions.transaction_date      between  '$myFechaDesde2 00:00:00'   and     '$myFechaHasta2 23:59:00'
         $condicionGroup                  
         group by

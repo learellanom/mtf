@@ -109,7 +109,6 @@ $config4 = [
 
     BuscaTransaccion(miTypeTransaction);
 
-    // alert('miTypeTransaction -> ' + miTypeTransaction);
 
 
 
@@ -136,8 +135,11 @@ $config4 = [
         }
 
 
-        const myFechaDesde = {!! $myFechaDesde !!};
+        let  myFechaDesde = {!! $myFechaDesde !!};
+        console.log({!! $myFechaDesde !!});
         const myFechaHasta = {!! $myFechaHasta !!};
+        
+        // alert('Fechas -> desde -> ' + myFechaDesde);
 
         BuscaFechas(myFechaDesde, myFechaHasta);
 
@@ -185,7 +187,7 @@ $config4 = [
         if (!miWallet){
             // alert ('aqui');
             calculoGeneral2();
-            calculos();
+            calculos3();
         }else{
             calculoGeneral();
             calculos2();
@@ -202,7 +204,7 @@ $config4 = [
     //
     // calculos - transaction sumarry general
     //
-    function calculos (){
+    function calculos3(){
 
         let ctx3, myId, myobj, myChart3, ctx4, myChart4;
 
@@ -369,11 +371,12 @@ $config4 = [
                                         <th style="width:1%;">Cant transacción</th>
                                         <th style="width:1%;">Monto Transaccion</th>
                                     </tr>
+
                                 </thead> 
-                                // function theRoute2(usuario = 0, grupo = 0, wallet = 0, typeTransactions = 0, fechaDesde = 0, fechaHasta = 0){
+                                
                                 @foreach($wallet_groupsummary as $wallet2)
                                     @if($wallet2->TypeTransactionId == $wallet->TypeTransactionId)
-                                        <tr class="myTr" onClick="theRoute2({{0}}, {{$wallet2->GroupId}}, {{0}}, {{$wallet2->TypeTransactionId}})">
+                                        <tr class="myTr" onClick="theRoute2({{0}}, {{$wallet2->GroupId ?? 0 }}, {{0}}, {{$wallet2->TypeTransactionId}})">
                                             <td class="font-weight-bold" style="color: green;">{{ $wallet2->GroupName ?? "A cajas"}}</td>
                                             <td class="font-weight-bold" style="color: green;">{{ number_format($wallet2->cant_transactions)}}</td>
                                             <td class="font-weight-bold" style="color: green;">{{ number_format($wallet2->total_amount,2)}}</td>
@@ -900,7 +903,7 @@ $config4 = [
         myElement =
         `
             <style>
-                .tr {
+                .myTr {
                     cursor: pointer;
                 }
                 .myTr:hover{
@@ -1069,7 +1072,6 @@ $config4 = [
         }
 
         document.body.style.background = color;
-l
     }
 
 </script>

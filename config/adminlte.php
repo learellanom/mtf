@@ -869,8 +869,6 @@ return [
                 ],
             ],
         ],
-
-
         'Sweetalert2' => [
             'active' => true,
             'files' => [

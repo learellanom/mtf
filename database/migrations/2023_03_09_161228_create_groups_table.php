@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('phone');
             $table->string('description');
-            //$table->foreignId('client_id')->references('id')->on('clients')->onDelete('cascade')->onUpdate('cascade'); //USUARIO RELACIONADO CON EL CLIENTE
+            $table->enum('type', [1, 2])->nullable()->default(1); // 1 : grupo , 2 : wallet
             $table->timestamps();
         });
     }
