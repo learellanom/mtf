@@ -51,7 +51,7 @@
                               <span class="info-box-number text-center text-muted mb-0 text-uppercase">{{ $transactions->type_transaction->name }}</span>
                             </div>
                           </div>
-                        </div>                        
+                        </div>
                         <div class="col-12 col-sm-3">
                           <div class="info-box bg-light">
                             <div class="info-box-content">
@@ -151,7 +151,27 @@
                                 </div>
                               </div>
                             </div>
-                            <div class="col-12 col-sm-2">
+                              <div class="col-12 col-sm-3">
+                                <div class="info-box bg-light">
+                                  <div class="info-box-content">
+                                    <span class="info-box-text text-center text-muted">Caja utilizada <i class="fas fa-box"></i></span>
+                                    <span class="info-box-number text-center text-muted mb-0 text-uppercase">{{ $transactions->wallet->name }}</span>
+                                  </div>
+                                </div>
+                              </div>
+                              @if(!empty($transactions->walletb_id))
+                              <div class="col-12 col-sm-3">
+                                <div class="info-box bg-light">
+                                  <div class="info-box-content">
+                                    <span class="info-box-text text-center text-muted">Caja Destino <i class="fas fa-hand-holding-usd"></i></span>
+                                        @foreach ($origen as $caja_origen)
+                                         <span class="info-box-number text-center text-muted mb-0 text-uppercase">{{ $caja_origen->nombre }}</span>
+                                         @endforeach
+                                  </div>
+                                </div>
+                              </div>
+                              @endif
+                              <div class="col-12 col-sm-2">
                                 <div class="info-box bg-light">
                                   <div class="info-box-content">
                                     <span class="info-box-text text-center text-muted">Token <i class="fas fa-mask"></i></span>
@@ -159,14 +179,7 @@
                                   </div>
                                 </div>
                               </div>
-                              <div class="col-12 col-sm-2">
-                                <div class="info-box bg-light">
-                                  <div class="info-box-content">
-                                    <span class="info-box-text text-center text-muted">Caja utilizada <i class="fas fa-box-open"></i></span>
-                                    <span class="info-box-number text-center text-muted mb-0 text-uppercase">{{ $transactions->wallet->name }}</span>
-                                  </div>
-                                </div>
-                              </div>
+
                           </div>
                         </div>
                       </div>
