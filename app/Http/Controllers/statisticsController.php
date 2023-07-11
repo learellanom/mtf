@@ -1466,8 +1466,8 @@ class statisticsController extends Controller
 
         $balance = 0;
         if ($myWallet > 0){
-                $balance2 = $this->getBalanceWallet($myWallet);
-                $balance  = $balance2->Total;
+            $balance2 = $this->getBalanceWallet($myWallet);
+            $balance  = $balance2->Total;
             // $balance = $this->getBalancemyWallet($myWallet, $myFechaDesde, $myFechaHasta);
         };
         // dd($balance);
@@ -2477,8 +2477,10 @@ class statisticsController extends Controller
 
     */
     function getGroups(){
+
         $group = Group::select('groups.id', 'groups.name')
-        ->get();
+                ->where('type','=','1')
+                ->get();
 
         $group2 = array();
         foreach($group as $gr){

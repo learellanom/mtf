@@ -12,6 +12,6 @@ class GroupSeeder extends Seeder
      */
     public function run(): void
     {
-        Group::create(['name'=>'Master Grupo', 'phone'=>'+1 555-555 222', 'description'=>'Grupo para transferencias']);
+        Group::create(['name'=>'Master Grupo', 'phone'=>'+1 555-555 222', 'description'=>'Grupo para transferencias','type'=>'1']);
     }
 }
