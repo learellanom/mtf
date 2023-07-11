@@ -251,6 +251,7 @@ class TransactionController extends Controller
 
         $transaction->type_transaction_id   = $request->input('type_transaction_id');
         $transaction->wallet_id             = $request->input('wallet_id');
+        $transaction->walletb_id            = $request->input('wallet2_id');
         $transaction->amount                = $request->input('amount');
         $transaction->amount_total          = $request->input('amount_total');
         $transaction->amount_total_base     = $request->input('amount_total_base');
@@ -268,6 +269,7 @@ class TransactionController extends Controller
 
         $transaction2->type_transaction_id   = $request->input('type_transaction2_id');
         $transaction2->wallet_id             = $request->input('wallet2_id');
+        $transaction2->walletb_id            = $request->input('wallet_id');
         $transaction2->amount                = $request->input('amount');
         $transaction2->amount_total          = $request->input('amount_total');
         $transaction2->amount_total_base     = $request->input('amount_total_base');
@@ -310,6 +312,7 @@ class TransactionController extends Controller
 
         $transactions->type_transaction_id      = $request->input('type_transaction_id');
         $transactions->wallet_id                = $request->input('wallet_id');
+        $transactions->walletb_id               = $request->input('wallet2_id');
         $transactions->amount                   = $request->input('amount');
         $transactions->amount_total             = $request->input('amount_total');
         $transactions->transaction_date         = $request->input('transaction_date');
@@ -331,6 +334,7 @@ class TransactionController extends Controller
 
         $transactions2->type_transaction_id     = $request->input('type_transaction2_id');
         $transactions2->wallet_id               = $request->input('wallet2_id');
+        $transactions2->walletb_id               = $request->input('wallet_id');
         $transactions2->amount                  = $request->input('amount');
         $transactions2->amount_total            = $request->input('amount_total');
         $transactions2->transaction_date        = $request->input('transaction_date');
@@ -513,6 +517,7 @@ class TransactionController extends Controller
 
         $transactions->type_transaction_id      = $request->input('type_transaction2_id');
         $transactions->wallet_id                = $request->input('wallet_id');
+        $transactions->walletb_id               = $request->input('wallet2_id');
         $transactions->amount                   = $request->input('amount');
         $transactions->amount_total             = $request->input('amount_total');
         $transactions->transaction_date         = $request->input('transaction_date');
@@ -534,6 +539,7 @@ class TransactionController extends Controller
 
         $transactions2->type_transaction_id     = $request->input('type_transaction_id');
         $transactions2->wallet_id               = $request->input('wallet2_id');
+        $transactions2->walletb_id              = $request->input('wallet_id');
         $transactions2->amount                  = $request->input('amount');
         $transactions2->amount_total            = $request->input('amount_total');
         $transactions2->transaction_date        = $request->input('transaction_date');
@@ -646,8 +652,13 @@ class TransactionController extends Controller
     public function show($transaction)
     {
             $transactions = Transaction::find($transaction);
-            // dd($transactions);
-            return view('transactions.show', compact('transactions'));
+
+            $origen = Transaction::select('wallets.name as nombre')
+            ->leftJoin('wallets', 'transactions.walletb_id', '=', 'wallets.id')
+            ->where('transactions.id', $transaction)
+            ->get();
+
+            return view('transactions.show', compact('transactions', 'origen'));
     }
 
 

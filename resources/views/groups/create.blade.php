@@ -66,6 +66,15 @@
             @enderror
         </div>
 
+        <label class="form-check-label mx-auto" for="radio1">
+            {!! Form::radio('type','1', null, ['id' => 'radio1', 'class' => 'form-radio', 'required' => true]) !!}
+             Tipo cliente
+        </label>
+        <label class="form-check-label mx-auto" for="radio2">
+            {!! Form::radio('type','2', null, ['id' => 'radio2', 'class' => 'form-radio', 'required' => true]) !!}
+            Tipo Caja
+        </label>
+
         <div class="form-group">
             {!! Form::Label('description', "Observación:") !!}
         {!! Form::textarea('description', null, ['class' => 'form-control', 'required' => true]) !!}
