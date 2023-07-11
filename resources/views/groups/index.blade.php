@@ -37,6 +37,7 @@
                         <th>Nombre</th>
                         <th>Telefono</th>
                         <th>Descripción</th>
+                        <th>Tipo</th>
                         <th class="text-center">Ver/Editar</th>
                         <th>Eliminar</th>
                     </tr>
@@ -50,7 +51,17 @@
                         <td>{!! $group->name !!}</td>
                         <td>{!! $group->phone !!}</td>
                         <td>{!! $group->description !!}</td>
-
+                        @switch($group->type)
+                            @case('1')
+                                <td>Grupo</td>
+                                @break
+                            @case('2')
+                                <td>Wallet</td>
+                                @break
+                            @default
+                                <td>Grupo</td>
+                                @break
+                        @endswitch
                         <td class="pagination">
                         <button class="btn btn-xl text-teal mx-auto shadow" title="Detalles">
                                 <i class="fa fa-lg fa-fw fa-eye"></i>
