@@ -24,22 +24,18 @@ class Transaction extends Model implements Auditable
     public function type_transaction(){
         return $this->belongsTo(Type_transaction::class);
     }
-       //Relación uno a muchos
-    public function wallet(){
-        return $this->belongsTo(wallet::class);
-    }
         //Relación uno a muchos
     public function user(){
         return $this->belongsTo(user::class);
     }
-        //Relación uno a muchos
-    public function client(){
-        return $this->belongsTo(client::class);
-    }
 
          //Relación uno a muchos
     public function group(){
-        return $this->belongsTo(group::class);
+        return $this->belongsTo(group::class, 'group_id');
+    }
+
+    public function wallet() {
+        return $this->belongsTo(group::class, 'wallet_id');
     }
 
     //Relación uno a muchos Polimorfica

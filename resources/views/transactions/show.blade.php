@@ -155,7 +155,7 @@
                                 <div class="info-box bg-light">
                                   <div class="info-box-content">
                                     <span class="info-box-text text-center text-muted">Caja utilizada <i class="fas fa-box"></i></span>
-                                    <span class="info-box-number text-center text-muted mb-0 text-uppercase">{{ $transactions->wallet->name }}</span>
+                                    <span class="info-box-number text-center text-muted mb-0 text-uppercase">{{ $transactions->group->name }}</span>
                                   </div>
                                 </div>
                               </div>
@@ -165,7 +165,7 @@
                                   <div class="info-box-content">
                                     <span class="info-box-text text-center text-muted">Caja Destino <i class="fas fa-hand-holding-usd"></i></span>
 
-                                         <span class="info-box-number text-center text-muted mb-0 text-uppercase">{{ $transactions->wallet->id }}</span>
+                                         <span class="info-box-number text-center text-muted mb-0 text-uppercase">{{ $transactions->wallet->name }}</span>
 
                                   </div>
                                 </div>

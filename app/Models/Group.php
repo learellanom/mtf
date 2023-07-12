@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 use OwenIt\Auditing\Contracts\Auditable;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Notifications\Notifiable;
-use App\Models\Client;
 
 class Group extends Model  implements Auditable
 {
@@ -16,10 +15,6 @@ class Group extends Model  implements Auditable
 
     protected $guarded = ['id', 'created_at', 'updated_at'];
 
-   /*    //Relación uno a muchos
-    public function client(){
-        return $this->belongsTo(client::class);
-    } */
 
     //Relación muchos a muchos
     public function user(){
