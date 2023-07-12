@@ -49,11 +49,11 @@ class TransactionController extends Controller
         $type_transaction   = Type_transaction::whereIn('type_transaction', ['Credito'])->pluck('name', 'id');
         $type_transaction   = Type_transaction::whereIn('id', ['6','7','8','12'])->pluck('name', 'id');
 
-        $wallet             = Wallet::pluck('name', 'id');
-        $group              = Group::pluck('name', 'id');
+        $wallet             = Group::where('type','=','2')->pluck('name', 'id');
+        $group              = Group::where('type','=','1')->pluck('name', 'id');
         $user               = User::pluck('name', 'id');
         $fecha              = Carbon::now();
-
+        
         return view('transactions.credit', compact('type_coin', 'type_transaction', 'wallet', 'group', 'fecha', 'user', 'transaction'));
 
     }
@@ -67,8 +67,8 @@ class TransactionController extends Controller
 
         $type_coin          = Type_coin::pluck('name', 'id');
         $type_transaction   = Type_transaction::whereIn('type_transaction', ['Credito'])->pluck('name', 'id');
-        $wallet             = Wallet::whereIn('type_wallet', ['efectivo'])->pluck('name', 'id');
-        $group              = Group::pluck('name', 'id');
+        $wallet             = Group::where('type','=','2')->whereIn('type_wallet', ['efectivo'])->pluck('name', 'id');
+        $group              = Group::where('type','=','1')->pluck('name', 'id');
         $user               = User::pluck('name', 'id');
 
         return view('transactions.credit_edit', compact('transactions', 'imagen', 'type_coin', 'type_transaction', 'wallet', 'group', 'user'));
@@ -83,8 +83,8 @@ class TransactionController extends Controller
 
         $type_coin          = Type_coin::pluck('name', 'id');
         $type_transaction   = Type_transaction::whereIn('type_transaction', ['Transacciones'])->pluck('name', 'id');
-        $wallet             = Wallet::whereIn('type_wallet', ['transacciones'])->whereNotIn('id', [3])->pluck('name', 'id');
-        $group              = Group::pluck('name', 'id');
+        $wallet             = Group::where('type','=','2')->whereIn('type_wallet', ['transacciones'])->whereNotIn('id', [3])->pluck('name', 'id');
+        $group              = Group::where('type','=','1')->pluck('name', 'id');
         $user               = User::pluck('name', 'id');
         $fecha              = Carbon::now();
 
@@ -94,13 +94,13 @@ class TransactionController extends Controller
     public function create_efectivo(transaction $transaction)
     {
 
-        $type_coin = Type_coin::pluck('name', 'id');
-        $type_transaction = Type_transaction::whereIn('type_transaction', ['Efectivo'])->pluck('name', 'id');
-        $wallet = Wallet::whereIn('type_wallet', ['efectivo'])->pluck('name', 'id');
-        $group = Group::pluck('name', 'id');
+        $type_coin          = Type_coin::pluck('name', 'id');
+        $type_transaction   = Type_transaction::whereIn('type_transaction', ['Efectivo'])->pluck('name', 'id');
+        $wallet             = Group::where('type','=','2')->whereIn('type_wallet', ['efectivo'])->pluck('name', 'id');
+        $group              = Group::where('type','=','1')->pluck('name', 'id');
         //$client = Client::pluck('name', 'id');
-        $user = User::pluck('name', 'id');
-        $fecha = Carbon::now();
+        $user               = User::pluck('name', 'id');
+        $fecha              = Carbon::now();
 
         return view('transactions.create_efectivo', compact('type_coin', 'type_transaction', 'wallet', 'group', 'user','fecha','transaction'));
     }
@@ -113,11 +113,11 @@ class TransactionController extends Controller
         $imagen = Transaction::findOrFail($transaction)->image;
 
 
-        $type_coin = Type_coin::pluck('name', 'id');
-        $type_transaction = Type_transaction::whereIn('type_transaction', ['Efectivo'])->pluck('name', 'id');
-        $wallet = Wallet::pluck('name', 'id');
-        $group = Group::pluck('name', 'id');
-        $user = User::pluck('name', 'id');
+        $type_coin          = Type_coin::pluck('name', 'id');
+        $type_transaction   = Type_transaction::whereIn('type_transaction', ['Efectivo'])->pluck('name', 'id');
+        $wallet             = Wallet::pluck('name', 'id');
+        $group              = Group::pluck('name', 'id');
+        $user               = User::pluck('name', 'id');
 
 
 
