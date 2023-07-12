@@ -81,9 +81,9 @@
                                     <td class="font-weight-bold">{!! number_format(abs($transferencias->amount_total),2,",",".") !!} <i class="fas fa-dollar-sign"></i></td>
 
 
-                                    <td class="font-weight-bold">{!! $transferencias->user->name !!}</td>
+                                    <td class="font-weight-bold">{!! $transferencias->user->name ?? '' !!}</td>
                                     <td>{!! $transferencias->type_transaction->name !!}</td>
-                                    <td style="display: none;">{!! $transferencias->wallet->name !!}</td>
+                                    <td style="display: none;">{!! $transferencias->wallet->name ?? '' !!}</td>
                                     @can('transactions.update_status')
                                         <td class="text-center">
                                             {!! Form::model($transferencias->id, ['route' => ['transactions.update_status', $transferencias->id],'method' => 'put']) !!}

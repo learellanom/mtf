@@ -46,15 +46,6 @@
         </div>
         </div>
 
-     {{--    <div class="form-group">
-
-            {!! Form::Label('client_id', "Cliente:") !!}
-            {!! Form::select('client_id', $clients, null, ['class' => 'form-control client']) !!}
-
-            @error('client_id')
-            <small class="text-danger">{{$message}}</small>
-            @enderror
-        </div> --}}
 
         <div class="form-group">
 
@@ -66,24 +57,28 @@
             @enderror
         </div>
 
-        <label class="form-check-label mx-auto" for="radio1">
-            {!! Form::radio('type','1', null, ['id' => 'radio1', 'class' => 'form-radio cliente', 'required' => true]) !!}
-             Tipo cliente
-        </label>
+        <hr>
 
-        <label class="form-check-label mx-auto" for="radio2">
-            {!! Form::radio('type','2', null, ['id' => 'radio2', 'class' => 'form-radio caja', 'required' => true]) !!}
-            Tipo Caja
-        </label>
+          <div class="custom-control custom-radio custom-control-inline">
+            {!! Form::radio('type','1', null, ['id' => 'radio1', 'class' => 'custom-control-input cliente', 'required' => true]) !!}
+            <label class="custom-control-label" for="radio1">Tipo cliente</label>
+          </div>
+          <div class="custom-control custom-radio custom-control-inline">
+            {!! Form::radio('type','2', null, ['id' => 'radio2', 'class' => 'custom-control-input caja', 'required' => true]) !!}
+            <label class="custom-control-label" for="radio2">Tipo Caja</label>
+          </div>
 
-        <label class="form-check-label mx-auto" for="radio3" style = 'display:none;' id="radio3">
-            {!! Form::radio('type_wallet','Efectivo', null, ['id' => 'radio3', 'class' => 'form-radio', 'required' => true,]) !!}
-             Efectivo
-        </label>
-        <label class="form-check-label mx-auto" for="radio4" style = 'display:none;' id="radio4">
-            {!! Form::radio('type_wallet','Transferencias', null, ['id' => 'radio4', 'class' => 'form-radio', 'required' => true]) !!}
-            Transferencias
-        </label>
+
+          <div class="custom-control custom-radio custom-control-inline" id="radio3" style="display:none;">
+            {!! Form::radio('type_wallet','Efectivo', null, ['id' => 'radio5', 'class' => 'custom-control-input', 'required' => true,]) !!}
+            <label class="custom-control-label" for="radio5">Efectivo</label>
+          </div>
+          <div class="custom-control custom-radio custom-control-inline" id="radio4" style="display:none;">
+            {!! Form::radio('type_wallet','Transacciones', null, ['id' => 'radio6', 'class' => 'custom-control-input', 'required' => true]) !!}
+            <label class="custom-control-label" for="radio6">Transferencias</label>
+          </div>
+
+        <hr>
 
         <div class="form-group">
             {!! Form::Label('description', "Observación:") !!}
@@ -95,9 +90,9 @@
         </div>
 
 
-        {!! Form::Submit('GUARDAR', ['class' => 'btn btn-primary btn-block font-weight-bold']) !!}
+                {!! Form::Submit('GUARDAR', ['class' => 'btn btn-primary btn-block font-weight-bold']) !!}
 
-        {!! Form::close() !!}
+                {!! Form::close() !!}
             </div>
         </div>
     </div>
@@ -110,19 +105,11 @@
         allowClear: true,
         placeholder: "Seleccionar Agentes",
         theme: 'bootstrap4',
-        maximumSelectionLength: 5
+        maximumSelectionLength: 5,
+        width: '100%',
 
       });
 
-      $(".client").select2({
-        allowClear: true,
-        placeholder: "Seleccionar Cliente",
-        theme: 'bootstrap4'
-        //maximumSelectionLength: 5
-
-      });
-      $(".client").val("")
-      $(".client").trigger("change");
 
 const cliente = document.getElementById('radio1');
 const caja = document.getElementById('radio2');
@@ -130,13 +117,21 @@ const caja = document.getElementById('radio2');
 const efectivo = document.getElementById('radio3');
 const transferencias = document.getElementById('radio4');
 
+const efectivo_radio = document.getElementById('radio5');
+const transferencias_radio = document.getElementById('radio6');
+
 caja.addEventListener('change', () => {
+  if (caja.checked) {
+    efectivo.style.display = 'block';
+    transferencias.style.display = 'block';
+  }
+});
+cliente.addEventListener('change', () => {
   if (cliente.checked) {
     efectivo.style.display = 'none';
     transferencias.style.display = 'none';
-  } else {
-    efectivo.style.display = 'block';
-    transferencias.style.display = 'block';
+    efectivo_radio.checked = false;
+    transferencias_radio.checked = false;
   }
 });
 

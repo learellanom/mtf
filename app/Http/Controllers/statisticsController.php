@@ -2741,13 +2741,13 @@ class statisticsController extends Controller
         from(
             SELECT
                 wallet_id                   as IdWallet,
-                mtf.wallets.name            as NombreWallet,
+                mtf.groups.name             as NombreWallet,
                 0 				            as MontoCreditos,
                 sum(amount_total_base)      as MontoDebitos,
                 sum(amount_commission)      as MontoComision,
                 sum(amount_commission_base) as MontoComisionBase
             FROM $myTable
-            left join  mtf.wallets on mtf.transactions.wallet_id  = mtf.wallets.id
+            left join  mtf.groups on mtf.transactions.wallet_id  = mtf.groups.id
             where
                 type_transaction_id in ($this->myDebitsWallet)
                 and
@@ -2761,13 +2761,13 @@ class statisticsController extends Controller
         union
             SELECT
                 wallet_id                   as IdWallet,
-                mtf.wallets.name            as NombreWallet,
+                mtf.groups.name             as NombreWallet,
                 sum(amount_total_base)      as MontoCreditos,
                 0                           as MontoDebitos,
                 sum(amount_commission)      as MontoComision,
                 sum(amount_commission_base) as MontoComisionBase                
             FROM $myTable
-            left join  mtf.wallets on mtf.transactions.wallet_id  = mtf.wallets.id
+            left join  mtf.groups on mtf.transactions.wallet_id  = mtf.groups.id
             where
                 type_transaction_id in ($this->myCreditsWallet)
                 and
