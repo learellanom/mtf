@@ -99,7 +99,7 @@
                      <div class="form-group col-md-6">
                         {!! Form::Label('token', "Token:") !!}
                         <div class="input-group-text">
-                            <i class="fa-fw fas fa-money-check-alt mr-2"></i>
+                            <i class="fa-fw fas fa-lock mr-2"></i>
                         {!! Form::text('token',null, ['class' => 'form-control', 'placeholder' => 'Numero del Token']) !!}
                         </div>
                         <small class="form-text text-muted mr-4 text-right">Token no es obligatorio.</small>
@@ -531,7 +531,17 @@ $(document).ready(function() {
       "Abonado",
       "recibido para",
       "USDT",
-      "Token"
+      "Token",
+      "Nomina",
+      "Pago nomina",
+      "Cobro en USDT",
+      "Nomina a",
+      "Bono",
+      "Pago a ",
+      "Cobro a ",
+      "Credito a ",
+      "Pago por suift",
+      "Transferencias bancaria",
     ];
     $("#description").autocomplete({
       source: availableTags
