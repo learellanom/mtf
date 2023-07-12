@@ -450,7 +450,17 @@
             "Abonado",
             "recibido para",
             "USDT",
-            "Token"
+            "Token",
+            "Nomina",
+            "Pago nomina",
+            "Cobro en USDT",
+            "Nomina a",
+            "Bono",
+            "Pago a ",
+            "Cobro a ",
+            "Credito a ",
+            "Pago por suift",
+            "Transferencias bancaria",
             ];
 
         $("#description").autocomplete({

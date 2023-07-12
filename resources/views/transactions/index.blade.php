@@ -35,7 +35,7 @@
                             <thead>
                                 <tr>
                                     <th style="width:1%;">Nro transacción</th>
-                                    <th style="width:1%;">Cliente</th>
+                                    <th style="width:1%;">Cliente|Caja</th>
                                     <th style="display:none;">Token</th>
                                     <th>Fecha</th>
                                     <th>Descripción</th>
@@ -62,7 +62,7 @@
                                 <tr>
                                     <td class="font-weight-bold">{{ $transferencias->id }}</td>
                                     <td class="font-weight-bold">
-                                            {{ $transferencias->group->name ?? ''}}
+                                            {{ $transferencias->group->name ?? $transferencias->wallet->name}}
                                     </td>
 
                                     <td class="font-weight-bold" style="display:none;">{!! $transferencias->token !!}</td>

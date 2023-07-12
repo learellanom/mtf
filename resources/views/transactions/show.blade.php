@@ -71,7 +71,7 @@
                         <div class="col-12 col-sm-2">
                           <div class="info-box bg-light">
                             <div class="info-box-content">
-                              <span class="info-box-text text-center text-muted">Monto total <i class="fas fa-funnel-dollar"></i></span>
+                              <span class="info-box-text text-center text-muted">Monto total <i class="fas fa-money-check-alt"></i></span>
                               <span class="info-box-number text-center text-muted mb-0">{{ number_format(abs($transactions->amount_total),2,",",".") }}$</span>
                             </div>
                           </div>
@@ -101,7 +101,7 @@
                           <div class="col-3 col-sm-2">
                               <div class="info-box bg-light">
                                 <div class="info-box-content">
-                                  <span class="info-box-text text-center text-muted">Tasa de cambio<i class="fas fa-sync"></i></span>
+                                  <span class="info-box-text text-center text-muted">Tasa de cambio <i class="fas fa-sync"></i></span>
                                   <span class="info-box-number text-center text-muted mb-0 text-uppercase">
                                     {{ number_format($transactions->exchange_rate,2,",",".") }}
                                   </span>
@@ -113,11 +113,20 @@
                             <div class="info-box bg-light">
                               <div class="info-box-content">
                                 <span class="info-box-text text-center text-muted">
-                                    Monto en Moneda Extranjera<i class="fas fa-exclamation-triangle"></i>
+                                    Moneda Extranjera <i class="fas fa-hryvnia"></i>
                                 </span>
                                 <span class="info-box-number text-center text-muted mb-0 text-uppercase">
                                   {{ number_format($transactions->amount_foreign_currency,2,",",".") ?? '0.00' }}
                                 </span>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div class="col-12 col-sm-2">
+                            <div class="info-box bg-light">
+                              <div class="info-box-content">
+                                <span class="info-box-text text-center text-muted">Token <i class="fas fa-lock"></i></span>
+                                <span class="info-box-number text-center text-muted mb-0 text-uppercase">{{ $transactions->token ?? 'SIN TOKEN' }}</span>
                               </div>
                             </div>
                           </div>
@@ -151,31 +160,32 @@
                                 </div>
                               </div>
                             </div>
+
+                            @if($transactions->group_id == null)
+
+                            @else
                               <div class="col-12 col-sm-3">
                                 <div class="info-box bg-light">
                                   <div class="info-box-content">
-                                    <span class="info-box-text text-center text-muted">Caja utilizada <i class="fas fa-box"></i></span>
+                                    <span class="info-box-text text-center text-muted">@if($transactions->group->type == 1) Grupo @else Caja Origen @endif  <i class="fas fa-hand-holding-usd"></i></span>
                                     <span class="info-box-number text-center text-muted mb-0 text-uppercase">{{ $transactions->group->name }}</span>
                                   </div>
                                 </div>
                               </div>
+                              @endif
 
                               <div class="col-12 col-sm-3">
                                 <div class="info-box bg-light">
                                   <div class="info-box-content">
-                                    <span class="info-box-text text-center text-muted">Caja Destino <i class="fas fa-hand-holding-usd"></i></span>
+                                    @if($transactions->group_id == null)
+                                    <span class="info-box-text text-center text-muted">Caja <i class="fas fa-box"></i></span>
+
+                                    <span class="info-box-number text-center text-muted mb-0 text-uppercase">{{ $transactions->wallet->name }}</span>
+                                    @else
+                                    <span class="info-box-text text-center text-muted">@if($transactions->group->type == 1) Caja @else Caja Destino @endif <i class="fas fa-box"></i></span>
 
                                          <span class="info-box-number text-center text-muted mb-0 text-uppercase">{{ $transactions->wallet->name }}</span>
-
-                                  </div>
-                                </div>
-                              </div>
-
-                              <div class="col-12 col-sm-2">
-                                <div class="info-box bg-light">
-                                  <div class="info-box-content">
-                                    <span class="info-box-text text-center text-muted">Token <i class="fas fa-mask"></i></span>
-                                    <span class="info-box-number text-center text-muted mb-0 text-uppercase">{{ $transactions->token ?? 'SIN TOKEN' }}</span>
+                                    @endif
                                   </div>
                                 </div>
                               </div>
@@ -246,7 +256,7 @@
 
                       <div class="row">
 
-                          <div class="col-3 col-sm-2">
+                          <div class="col-3 col-sm-3">
                               <div class="info-box bg-light">
                                 <div class="info-box-content">
                                   <span class="info-box-text text-center text-muted">Tasa de cambio base <i class="fas fa-sync"></i></span>
@@ -257,7 +267,7 @@
                               </div>
                             </div>
 
-                          <div class="col-3 col-sm-2">
+                          <div class="col-3 col-sm-3">
                             <div class="info-box bg-light">
                               <div class="info-box-content">
                                 <span class="info-box-text text-center text-muted">
