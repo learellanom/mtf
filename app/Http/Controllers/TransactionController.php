@@ -83,8 +83,8 @@ class TransactionController extends Controller
 
         $type_coin          = Type_coin::pluck('name', 'id');
         $type_transaction   = Type_transaction::whereIn('type_transaction', ['Transacciones'])->pluck('name', 'id');
-        $wallet             = Group::where('type','=','2')->whereIn('type_wallet', ['transacciones'])->whereNotIn('id', [3])->pluck('name', 'id');
-        $group              = Group::where('type','=','1')->pluck('name', 'id');
+        $wallet             = Group::whereIn('type_wallet', ['transacciones', 'efectivo'])->pluck('name', 'id');
+        $group              = Group::whereIn('type', [1])->pluck('name', 'id');
         $user               = User::pluck('name', 'id');
         $fecha              = Carbon::now();
 
