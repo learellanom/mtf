@@ -210,7 +210,7 @@ class TransactionController extends Controller
                     transactions.exonerate_base as ExonerateBase,
                     transactions.amount_total_base as TotalBase
                     from mtf.transactions
-                    left join  mtf.wallets on mtf.transactions.wallet_id = wallets.id
+                    left join  mtf.groups on mtf.transactions.wallet_id = groups.id
                     left join  mtf.type_transactions on mtf.transactions.type_transaction_id  = mtf.type_transactions.id
                     left join  mtf.users on mtf.transactions.user_id  = mtf.users.id
                     where pay_number LIKE "%P-G" != "" order by pay_number desc');
@@ -291,8 +291,8 @@ class TransactionController extends Controller
         $type_coin          = Type_coin::pluck('name', 'id');
         $type_transaction   = Type_transaction::whereIn('name', ['Pago Efectivo', 'Pago en Transferencia', 'Pago Mercancia','Pago USDT','Swift'])->pluck('name','id');
         $type_transaction2  = Type_transaction::whereIn('name', ['Nota de Credito a Caja de efectivo', 'Nota de credito'])->pluck('name','id');
-        $wallet             = Group::pluck('name', 'id');
-        $wallet2            = Group::pluck('name', 'id');
+        $wallet             = Group::whereIn('type_wallet', ['transacciones', 'efectivo'])->pluck('name', 'id');
+        $wallet2            = Group::whereIn('type_wallet', ['transacciones', 'efectivo'])->pluck('name', 'id');
         $user               = User::pluck('name', 'id');
         $fecha              = Carbon::now();
 
@@ -360,7 +360,7 @@ class TransactionController extends Controller
                     pay_number as TransferNumber,
                 IF(type_transactions.name = "Pago Efectivo", "Destino", "Origen") as TransferType,
                     wallet_id as WalletIdOrigen,
-                    wallets.name as WalletNameOrigen,
+                    groups.name as WalletNameOrigen,
                     group_id  as GroupIdOrigen,
                     groups.name as GroupNameOrigen,
                     amount_total as Amount,
@@ -375,7 +375,7 @@ class TransactionController extends Controller
                     transactions.exonerate as ExonerateBase,
                     transactions.amount_total as TotalBase
                     from mtf.transactions
-                    left join  mtf.wallets on mtf.transactions.wallet_id = wallets.id
+                    left join  mtf.groups on mtf.transactions.wallet_id = groups.id
                     left join  mtf.groups on mtf.transactions.group_id = groups.id
                     left join  mtf.type_transactions on mtf.transactions.type_transaction_id  = mtf.type_transactions.id
                     left join  mtf.users on mtf.transactions.user_id  = mtf.users.id
