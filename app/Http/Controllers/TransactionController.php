@@ -357,29 +357,29 @@ class TransactionController extends Controller
          foreach(auth()->user()->roles as $roles)
          {
                 $transactiones = DB::select('select
-                mtf.transactions.id as TransactionId,
-                    pay_number as TransferNumber,
-                IF(type_transactions.name = "Pago Efectivo", "Destino", "Origen") as TransferType,
-                    wallet_id as WalletIdOrigen,
-                    wallets.name as WalletNameOrigen,
-                    group_id  as GroupIdOrigen,
-                    groups.name as GroupNameOrigen,
-                    amount_total as Amount,
-                    transaction_date as TransactionDate,
-                    users.name as Agente,
-                    status as estatus,
-                    type_transaction_id as TypeTransactionId,
-                    transactions.description as Description,
-                    type_transactions.name as TypeTransactionName,
-                    transactions.amount_commission as ComisionBase,
-                    transactions.percentage as PorcentageBase,
-                    transactions.exonerate as ExonerateBase,
-                    transactions.amount_total as TotalBase
+                    mtf.transactions.id             as TransactionId,
+                    pay_number                      as TransferNumber,
+                    IF(type_transactions.name = "Pago Efectivo", "Destino", "Origen") as TransferType,
+                    wallet_id                       as WalletIdOrigen,
+                    groups2.name                    as WalletNameOrigen,
+                    group_id                        as GroupIdOrigen,
+                    groups.name                     as GroupNameOrigen,
+                    amount_total                    as Amount,
+                    transaction_date                as TransactionDate,
+                    users.name                      as Agente,
+                    status                          as estatus,
+                    type_transaction_id             as TypeTransactionId,
+                    transactions.description        as Description,
+                    type_transactions.name          as TypeTransactionName,
+                    transactions.amount_commission  as ComisionBase,
+                    transactions.percentage         as PorcentageBase,
+                    transactions.exonerate          as ExonerateBase,
+                    transactions.amount_total       as TotalBase
                     from mtf.transactions
-                    left join  mtf.wallets on mtf.transactions.wallet_id = wallets.id
-                    left join  mtf.groups on mtf.transactions.group_id = groups.id
-                    left join  mtf.type_transactions on mtf.transactions.type_transaction_id  = mtf.type_transactions.id
-                    left join  mtf.users on mtf.transactions.user_id  = mtf.users.id
+                    left join  mtf.groups  as groups2   on mtf.transactions.wallet_id = groups2.id
+                    left join  mtf.groups               on mtf.transactions.group_id  = groups.id
+                    left join  mtf.type_transactions    on mtf.transactions.type_transaction_id  = mtf.type_transactions.id
+                    left join  mtf.users                on mtf.transactions.user_id  = mtf.users.id
                     where pay_number LIKE "%T-C" != "" order by pay_number desc');
 
          }
@@ -395,14 +395,14 @@ class TransactionController extends Controller
         $type_coin          = Type_coin::pluck('name', 'id');
         $type_transaction   = Type_transaction::whereIn('name', ['Cobro en efectivo'])->pluck('id');
         $type_transaction2  = Type_transaction::whereIn('name', ['Pago Efectivo'])->pluck('id');
-        $wallet             = Wallet::whereIn('name', ['Caja Puente'])->pluck('id');
-        $group              = Group::pluck('name', 'id');
-        $group2             = Group::pluck('name', 'id');
+        $wallet             = Group::where('type','=','2')->whereIn('name', ['Caja Puente'])->pluck('id');
+        $group              = Group::where('type','=','1')->pluck('name', 'id');
+        $group2             = Group::where('type','=','1')->pluck('name', 'id');
         $user               = User::pluck('name', 'id');
         $fecha              = Carbon::now();
 
         //$number = date('YmdHis').'T-C';
-
+        // dd($wallet);
 
         return view('transactions.create_pagocliente', compact('type_coin', 'type_transaction', 'wallet', 'type_transaction2', 'group', 'group2', 'user', 'transaction', 'fecha'));
     }
