@@ -60,16 +60,6 @@ class User extends Authenticatable implements Auditable
     }
 
     //Relación uno a muchos
-    public function transaction_master(){
-        return $this->hasMany(Transaction_master::class);
-    }
-
-     //Relación uno a muchos
-     public function wallet(){
-        return $this->belongsToMany(Wallet::class);
-    }
-
-    //Relación uno a muchos
     public function group(){
         return $this->belongsToMany(Group::class);
     }

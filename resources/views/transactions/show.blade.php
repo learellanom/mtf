@@ -159,18 +159,18 @@
                                   </div>
                                 </div>
                               </div>
-                              @if(!empty($transactions->walletb_id))
+
                               <div class="col-12 col-sm-3">
                                 <div class="info-box bg-light">
                                   <div class="info-box-content">
                                     <span class="info-box-text text-center text-muted">Caja Destino <i class="fas fa-hand-holding-usd"></i></span>
-                                        @foreach ($origen as $caja_origen)
-                                         <span class="info-box-number text-center text-muted mb-0 text-uppercase">{{ $caja_origen->nombre }}</span>
-                                         @endforeach
+
+                                         <span class="info-box-number text-center text-muted mb-0 text-uppercase">{{ $transactions->wallet->id }}</span>
+
                                   </div>
                                 </div>
                               </div>
-                              @endif
+
                               <div class="col-12 col-sm-2">
                                 <div class="info-box bg-light">
                                   <div class="info-box-content">

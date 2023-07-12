@@ -67,12 +67,22 @@
         </div>
 
         <label class="form-check-label mx-auto" for="radio1">
-            {!! Form::radio('type','1', null, ['id' => 'radio1', 'class' => 'form-radio', 'required' => true]) !!}
+            {!! Form::radio('type','1', null, ['id' => 'radio1', 'class' => 'form-radio cliente', 'required' => true]) !!}
              Tipo cliente
         </label>
+
         <label class="form-check-label mx-auto" for="radio2">
-            {!! Form::radio('type','2', null, ['id' => 'radio2', 'class' => 'form-radio', 'required' => true]) !!}
+            {!! Form::radio('type','2', null, ['id' => 'radio2', 'class' => 'form-radio caja', 'required' => true]) !!}
             Tipo Caja
+        </label>
+
+        <label class="form-check-label mx-auto" for="radio3" style = 'display:none;' id="radio3">
+            {!! Form::radio('type_wallet','Efectivo', null, ['id' => 'radio3', 'class' => 'form-radio', 'required' => true,]) !!}
+             Efectivo
+        </label>
+        <label class="form-check-label mx-auto" for="radio4" style = 'display:none;' id="radio4">
+            {!! Form::radio('type_wallet','Transferencias', null, ['id' => 'radio4', 'class' => 'form-radio', 'required' => true]) !!}
+            Transferencias
         </label>
 
         <div class="form-group">
@@ -113,5 +123,23 @@
       });
       $(".client").val("")
       $(".client").trigger("change");
+
+const cliente = document.getElementById('radio1');
+const caja = document.getElementById('radio2');
+
+const efectivo = document.getElementById('radio3');
+const transferencias = document.getElementById('radio4');
+
+caja.addEventListener('change', () => {
+  if (cliente.checked) {
+    efectivo.style.display = 'none';
+    transferencias.style.display = 'none';
+  } else {
+    efectivo.style.display = 'block';
+    transferencias.style.display = 'block';
+  }
+});
+
+
 </script>
 @endsection
