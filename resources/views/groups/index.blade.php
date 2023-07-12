@@ -39,7 +39,7 @@
                         <th>Descripción</th>
                         <th>Tipo</th>
                         <th class="text-center">Ver/Editar</th>
-                        <th>Eliminar</th>
+                        <th class="text-center">Eliminar</th>
                     </tr>
 
 
@@ -62,22 +62,19 @@
                                 <td>Grupo</td>
                                 @break
                         @endswitch
-                        <td class="pagination">
-                        <button class="btn btn-xl text-teal mx-auto shadow" title="Detalles">
-                                <i class="fa fa-lg fa-fw fa-eye"></i>
-                        </button>
-                        <a class="btn btn-xl text-primary mx-1 shadow" href="{{ route('groups.edit', $group) }}" title="Editar">
-                            <i class="fa fa-lg fa-fw fa-pen"></i>
-                        </a>
-
+                        <td class="text-center">
+                            <a class="btn btn-xl text-primary mx-1 shadow" href="{{ route('groups.edit', $group) }}" title="Editar">
+                                <i class="fa fa-lg fa-fw fa-pen"></i>
+                            </a>
                         </td>
+
                         <td class="text-center">
                             <form method="post" action="{{ route('groups.destroy', $group->id) }}">
                                 @csrf
                                 @method('delete')
-                            <button class="btn btn-xl text-danger mx-1 shadow" type="submit" title="Borrar">
-                                <i class="fa fa-lg fa-fw fa-trash"></i>
-                            </button>
+                                <button class="btn btn-xl text-danger mx-1 shadow" type="submit" title="Borrar">
+                                    <i class="fa fa-lg fa-fw fa-trash"></i>
+                                </button>
                             </form>
                         </td>
 

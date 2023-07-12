@@ -27,9 +27,8 @@ class GroupController extends Controller
     public function create()
     {
         $users = User::all()->pluck('name', 'id');
-        $clients = Client::all()->pluck('name', 'id');
 
-        return view('groups.create', compact('users', 'clients'));
+        return view('groups.create', compact('users'));
     }
 
     /**
@@ -66,11 +65,8 @@ class GroupController extends Controller
     {
        $group = Group::find($groups);
        $users = User::all()->pluck('name', 'id');
-       $clients = Client::all()->pluck('name', 'id');
 
-
-
-        return view('groups.edit', compact('group', 'clients', 'users'));
+        return view('groups.edit', compact('group', 'users'));
 
     }
 

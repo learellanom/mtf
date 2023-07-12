@@ -53,7 +53,7 @@ class TransactionController extends Controller
         $group              = Group::where('type','=','1')->pluck('name', 'id');
         $user               = User::pluck('name', 'id');
         $fecha              = Carbon::now();
-        
+
         return view('transactions.credit', compact('type_coin', 'type_transaction', 'wallet', 'group', 'fecha', 'user', 'transaction'));
 
     }
@@ -83,8 +83,8 @@ class TransactionController extends Controller
 
         $type_coin          = Type_coin::pluck('name', 'id');
         $type_transaction   = Type_transaction::whereIn('type_transaction', ['Transacciones'])->pluck('name', 'id');
-        $wallet             = Group::where('type','=','2')->whereIn('type_wallet', ['transacciones'])->whereNotIn('id', [3])->pluck('name', 'id');
-        $group              = Group::where('type','=','1')->pluck('name', 'id');
+        $wallet             = Group::whereIn('type_wallet', ['transacciones', 'efectivo'])->pluck('name', 'id');
+        $group              = Group::whereIn('type', [1])->pluck('name', 'id');
         $user               = User::pluck('name', 'id');
         $fecha              = Carbon::now();
 
@@ -115,7 +115,7 @@ class TransactionController extends Controller
 
         $type_coin          = Type_coin::pluck('name', 'id');
         $type_transaction   = Type_transaction::whereIn('type_transaction', ['Efectivo'])->pluck('name', 'id');
-        $wallet             = Wallet::pluck('name', 'id');
+        $wallet             = Group::pluck('name', 'id');
         $group              = Group::pluck('name', 'id');
         $user               = User::pluck('name', 'id');
 
@@ -167,7 +167,7 @@ class TransactionController extends Controller
                     transfer_number as TransferNumber,
                 IF(type_transactions.name = "Nota de Credito a Caja de efectivo", "Destino", "Origen") as TransferType,
                     wallet_id as WalletIdOrigen,
-                    wallets.name as WalletNameOrigen,
+                    groups.name as WalletNameOrigen,
                     amount_total as Amount,
                     transaction_date as TransactionDate,
                     users.name as Agente,
@@ -176,7 +176,7 @@ class TransactionController extends Controller
                     transactions.description as Description,
                     type_transactions.name as TypeTransactionName
                     from mtf.transactions
-                    left join  mtf.wallets on mtf.transactions.wallet_id = wallets.id
+                    left join  mtf.groups on mtf.transactions.wallet_id = groups.id
                     left join  mtf.type_transactions on mtf.transactions.type_transaction_id  = mtf.type_transactions.id
                     left join  mtf.users on mtf.transactions.user_id  = mtf.users.id
                     where transfer_number != "" order by transfer_number, TransferType desc');
@@ -197,7 +197,7 @@ class TransactionController extends Controller
                     pay_number as TransferNumber,
                 IF(type_transactions.name = "Nota de Credito a Caja de efectivo" or type_transactions.name = "Nota de credito", "Destino", "Origen") as TransferType,
                     wallet_id as WalletIdOrigen,
-                    wallets.name as WalletNameOrigen,
+                    groups.name as WalletNameOrigen,
                     amount_total as Amount,
                     transaction_date as TransactionDate,
                     users.name as Agente,
@@ -210,7 +210,7 @@ class TransactionController extends Controller
                     transactions.exonerate_base as ExonerateBase,
                     transactions.amount_total_base as TotalBase
                     from mtf.transactions
-                    left join  mtf.wallets on mtf.transactions.wallet_id = wallets.id
+                    left join  mtf.groups on mtf.transactions.wallet_id = groups.id
                     left join  mtf.type_transactions on mtf.transactions.type_transaction_id  = mtf.type_transactions.id
                     left join  mtf.users on mtf.transactions.user_id  = mtf.users.id
                     where pay_number LIKE "%P-G" != "" order by pay_number desc');
@@ -232,13 +232,12 @@ class TransactionController extends Controller
         $type_coin          = Type_coin::pluck('name', 'id');
         $type_transaction   = Type_transaction::whereIn('name', ['Nota de Debito a Caja de Efectivo'])->pluck('id');
         $type_transaction2  = Type_transaction::whereIn('name', ['Nota de Credito a Caja de efectivo'])->pluck('id');
-        $wallet             = Wallet::whereIn('type_wallet', ['Efectivo'])->pluck('name', 'id');
-        $group              = Group::pluck('name', 'id');
+        $wallet             = Group::whereIn('type_wallet', ['Efectivo'])->pluck('name', 'id');
         $user               = User::pluck('name', 'id');
         $fecha              = Carbon::now();
 
 
-        return view('transactions.create_transferwallet', compact('type_coin', 'type_transaction', 'type_transaction2', 'wallet', 'group', 'user', 'transaction', 'fecha'));
+        return view('transactions.create_transferwallet', compact('type_coin', 'type_transaction', 'type_transaction2', 'wallet', 'user', 'transaction', 'fecha'));
     }
 
 
@@ -251,7 +250,7 @@ class TransactionController extends Controller
 
         $transaction->type_transaction_id   = $request->input('type_transaction_id');
         $transaction->wallet_id             = $request->input('wallet_id');
-        $transaction->walletb_id            = $request->input('wallet2_id');
+        $transaction->group_id              = $request->input('wallet2_id');
         $transaction->amount                = $request->input('amount');
         $transaction->amount_total          = $request->input('amount_total');
         $transaction->amount_total_base     = $request->input('amount_total_base');
@@ -269,7 +268,7 @@ class TransactionController extends Controller
 
         $transaction2->type_transaction_id   = $request->input('type_transaction2_id');
         $transaction2->wallet_id             = $request->input('wallet2_id');
-        $transaction2->walletb_id            = $request->input('wallet_id');
+        $transaction2->group_id              = $request->input('wallet_id');
         $transaction2->amount                = $request->input('amount');
         $transaction2->amount_total          = $request->input('amount_total');
         $transaction2->amount_total_base     = $request->input('amount_total_base');
@@ -292,8 +291,8 @@ class TransactionController extends Controller
         $type_coin          = Type_coin::pluck('name', 'id');
         $type_transaction   = Type_transaction::whereIn('name', ['Pago Efectivo', 'Pago en Transferencia', 'Pago Mercancia','Pago USDT','Swift'])->pluck('name','id');
         $type_transaction2  = Type_transaction::whereIn('name', ['Nota de Credito a Caja de efectivo', 'Nota de credito'])->pluck('name','id');
-        $wallet             = Wallet::pluck('name', 'id');
-        $wallet2            = Wallet::pluck('name', 'id');
+        $wallet             = Group::whereIn('type_wallet', ['transacciones', 'efectivo'])->pluck('name', 'id');
+        $wallet2            = Group::whereIn('type_wallet', ['transacciones', 'efectivo'])->pluck('name', 'id');
         $user               = User::pluck('name', 'id');
         $fecha              = Carbon::now();
 
@@ -312,7 +311,7 @@ class TransactionController extends Controller
 
         $transactions->type_transaction_id      = $request->input('type_transaction_id');
         $transactions->wallet_id                = $request->input('wallet_id');
-        $transactions->walletb_id               = $request->input('wallet2_id');
+        $transactions->group_id                 = $request->input('wallet2_id');
         $transactions->amount                   = $request->input('amount');
         $transactions->amount_total             = $request->input('amount_total');
         $transactions->transaction_date         = $request->input('transaction_date');
@@ -334,7 +333,7 @@ class TransactionController extends Controller
 
         $transactions2->type_transaction_id     = $request->input('type_transaction2_id');
         $transactions2->wallet_id               = $request->input('wallet2_id');
-        $transactions2->walletb_id               = $request->input('wallet_id');
+        $transactions2->group_id                = $request->input('wallet_id');
         $transactions2->amount                  = $request->input('amount');
         $transactions2->amount_total            = $request->input('amount_total');
         $transactions2->transaction_date        = $request->input('transaction_date');
@@ -498,8 +497,8 @@ class TransactionController extends Controller
         $type_coin          = Type_coin::pluck('name', 'id');
         $type_transaction   = Type_transaction::whereIn('name', ['Cobro en efectivo', 'Cobro en Transferencia', 'Cobro Mercancia'])->pluck('name','id');
         $type_transaction2  = Type_transaction::whereIn('name', ['Nota de Debito a Caja de Efectivo', 'Nota de debito'])->pluck('name','id');
-        $wallet             = Wallet::pluck('name', 'id');
-        $wallet2            = Wallet::pluck('name', 'id');
+        $wallet             = Group::pluck('name', 'id');
+        $wallet2            = Group::pluck('name', 'id');
         $user               = User::pluck('name', 'id');
         $fecha              = Carbon::now();
 
@@ -653,12 +652,7 @@ class TransactionController extends Controller
     {
             $transactions = Transaction::find($transaction);
 
-            $origen = Transaction::select('wallets.name as nombre')
-            ->leftJoin('wallets', 'transactions.walletb_id', '=', 'wallets.id')
-            ->where('transactions.id', $transaction)
-            ->get();
-
-            return view('transactions.show', compact('transactions', 'origen'));
+            return view('transactions.show', compact('transactions'));
     }
 
 
@@ -676,7 +670,7 @@ class TransactionController extends Controller
 
         $type_coin = Type_coin::pluck('name', 'id');
         $type_transaction = Type_transaction::whereIn('type_transaction', ['Transacciones'])->pluck('name', 'id');
-        $wallet =  Wallet::whereIn('type_wallet', ['transacciones'])->pluck('name', 'id');
+        $wallet =  Group::whereIn('type_wallet', ['transacciones'])->pluck('name', 'id');
         $group = Group::pluck('name', 'id');
 
 
