@@ -36,8 +36,7 @@ class TransactionController extends Controller
             }
 
          }
-
-
+         // dd($transferencia);
          return view('transactions.index', compact('transferencia'));
 
     }

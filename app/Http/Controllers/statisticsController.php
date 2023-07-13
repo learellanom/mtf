@@ -198,7 +198,7 @@ class statisticsController extends Controller
             )->leftJoin(
                 'type_transactions', 'type_transactions.id', '=', 'transactions.type_transaction_id'
             )->leftJoin(
-                'wallets', 'wallets.id', '=', 'transactions.wallet_id'
+                'groups as wallets', 'wallets.id', '=', 'transactions.wallet_id'
             )->leftJoin(
                 'groups', 'groups.id', '=', 'transactions.group_id'
             )->leftJoin(
@@ -249,8 +249,6 @@ class statisticsController extends Controller
                     Transactions.client_id                 as ClienteId,
                     transactions.wallet_id                 as WalletId,
                     wallets.name                           as WalletName,
-                    transactions.walletb_id                as WalletbId,
-                    wallets2.name                          as WalletbName,
                     transactions.description               as Descripcion,
                     transactions.transaction_date          as FechaTransaccion,
                     mtf.groups.name                        as ClientName,
@@ -258,8 +256,7 @@ class statisticsController extends Controller
                 from
                     mtf.transactions
                 left join mtf.type_transactions   on mtf.transactions.type_transaction_id = mtf.type_transactions.id
-                left join mtf.wallets             on mtf.transactions.wallet_id           = mtf.wallets.id
-                left join mtf.wallets as wallets2 on mtf.transactions.walletb_id          = mtf.wallets2.id                
+                left join mtf.groups as wallets   on mtf.transactions.wallet_id           = wallets.id
                 left join mtf.users               on mtf.transactions.user_id             = mtf.users.id
                 left join mtf.type_coins          on mtf.transactions.type_coin_id        = mtf.type_coins.id
                 left join mtf.groups              on mtf.Transactions.group_id            = mtf.groups.id
@@ -293,7 +290,7 @@ class statisticsController extends Controller
         $group              = $this->getGroups();
 
         $typeTransactions   = $this->getTypeTransactions();
-
+        
         return view('estadisticas.index', compact('myUser','userole','Transacciones','group','wallet','myGroup','myUser','myWallet','balance','typeTransactions','myTypeTransactions','myFechaDesde','myFechaHasta'));
 
     }
@@ -1370,7 +1367,10 @@ class statisticsController extends Controller
         $balance = 0;
         if ($myWallet > 0){
                 $balance2 = $this->getBalanceWallet($myWallet);
-                $balance  = $balance2->Total;
+                
+                if(isset($balance2->Total)){
+                    $balance  = $balance2->Total;
+                }
             // $balance = $this->getBalancemyWallet($myWallet, $myFechaDesde, $myFechaHasta);
         };
         // dd($balance);
@@ -1670,7 +1670,7 @@ class statisticsController extends Controller
                 (sum(amount_commission)-sum(amount_commission_base)) as total_commission_profit,
                 sum(amount_total)           as total"))
             ->leftJoin('type_transactions', 'type_transactions.id', '=', 'transactions.type_transaction_id')
-            ->leftJoin('wallets',           'wallets.id', '=', 'transactions.wallet_id')
+            ->leftJoin('groups as wallets',           'wallets.id', '=', 'transactions.wallet_id')
             ->where('status','<>','Anulado')
             ->whereBetween('Transactions.wallet_id',            [$myWalletDesde, $myWalletHasta])
             ->whereBetween('Transactions.type_transaction_id',  [$myTypeTransactionDesde, $myTypeTransactionHasta])
@@ -1796,7 +1796,7 @@ class statisticsController extends Controller
             sum(amount_total_base)      as total_Base,
             (sum(amount_commission)-sum(amount_commission_base)) as total_commission_profit
         from mtf.transactions
-            left join  mtf.wallets              on wallet_id                = mtf.wallets.id
+            left join  mtf.groups as wallets    on wallet_id                = mtf.wallets.id
             left join  mtf.groups               on group_id                 = mtf.groups.id
             left join  mtf.type_transactions    on type_transaction_id      = mtf.type_transactions.id     
         where        
@@ -2067,7 +2067,7 @@ class statisticsController extends Controller
             '
             ))
         ->leftJoin('type_transactions', 'type_transactions.id', '=', 'transactions.type_transaction_id')
-        ->leftJoin('wallets',           'wallets.id', '=', 'transactions.wallet_id')
+        ->leftJoin('groups as wallets', 'wallets.id', '=', 'transactions.wallet_id')
         ->leftJoin('groups',            'groups.id', '=', 'transactions.group_id')            
         ->where('status','<>','Anulado')
         ->whereBetween('Transactions.wallet_id',            [$myWalletDesde, $myWalletHasta])
@@ -2207,35 +2207,6 @@ class statisticsController extends Controller
         $groups             = $this->getGroups();
 
         return view('estadisticas.statisticsResumenGrupo', compact('myGroup','groups','Type_transactions','Transacciones'));
-
-    }
-    /*
-    *
-    *
-    *       supplierSummary
-    *
-    *
-    */
-    public function supplierSummary(Request $request)
-    {
-
-        $mySupplier = 0;
-        if ($request->proveedor) {
-            $mySupplier = $request->proveedor;
-        }
-        $Transacciones      = $this->getBalanceSupplier($mySupplier);
-
-        //
-        // si es un solo grupo devuelve un objeto y debe convertirse a array de 1
-        //
-        if (gettype($Transacciones) == "object"){
-            $Transacciones = [$Transacciones];
-        }
-
-        $Type_transactions  = $this->getTypeTransactions();
-        $suppliers             = $this->getSuppliers();
-
-        return view('estadisticas.statisticsResumenSupplier', compact('mySupplier','suppliers','Type_transactions','Transacciones'));
 
     }
     /*
@@ -2527,11 +2498,11 @@ class statisticsController extends Controller
     *
     */
     function getWallet(){
-        $wallet = Wallet::select('wallets.id', 'wallets.name')
+        $wallet = Group::select('groups.id', 'groups.name')->where('type','=','2')
         ->get();
-
+        // dd($wallet);
         foreach($wallet as $wallet){
-            $wallet2 [$wallet->id] =  $wallet->name;
+           $wallet2 [$wallet->id] =  $wallet->name;
         }
         return $wallet2;
 

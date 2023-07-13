@@ -252,11 +252,6 @@ Route::get('estadisticasFechaTokens/{fechaDesde?}/{fechaHasta?}',[App\Http\Contr
 //
 //
 //
-Route::get('estadisticasResumenProveedor',[App\Http\Controllers\statisticsController::class, 'supplierSummary'])->name('estadisticasResumenProveedor');
-Route::get('estadisticasResumenProveedor/{proveedor}/{fechaDesde?}/{fechaHasta?}',[App\Http\Controllers\statisticsController::class, 'supplierSummary'])->name('estadisticasResumenProveedor');
-//
-//
-//
 Route::get('estadisticasResumenProveedorTransaccion',
             [App\Http\Controllers\statisticsController::class, 'transactionSummarySupplier'])
             ->name('estadisticasResumenProveedorTransaccion');
