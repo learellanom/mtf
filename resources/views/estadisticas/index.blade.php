@@ -383,7 +383,7 @@ if (isset($balance->Total)){
                                     }
                                 @endphp
 
-
+                                    {{-- dd($row)--}}
                                 <tr>
                                     <td>{!! $row->FechaTransaccion !!}</td>
                                     <td>{!! $row->TipoTransaccion !!}</td>

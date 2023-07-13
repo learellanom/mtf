@@ -164,62 +164,6 @@ Route::get('estadisticasDetalle/{usuario}/{grupo?}/{wallet?}/{typeTransactions?}
             ->name('estadisticasDetalle');
 //
 //
-// Estadisticas Master
-//
-//
-Route::get('estadisticasDetalleMaster',[App\Http\Controllers\statisticsController::class, 'masterDetail'])
-    ->middleware('can:estadisticasDetalle.estadisticasDetalleMaster')
-    ->name('estadisticasDetalleMaster');
-
-Route::get('estadisticasDetalleMaster/{usuario}/{grupo?}/{wallet?}/{fechaDesde?}/{fechaHasta?}',
-            [App\Http\Controllers\statisticsController::class, 'masterDetail'])
-    ->middleware('can:estadisticasDetalle.estadisticasDetalleMaster')
-    ->name('estadisticasDetalleMaster');
-//
-//
-// Estadisticas Proveedor
-//
-//
-Route::get('estadisticasDetalleProveedor',[App\Http\Controllers\statisticsController::class, 'supplierDetail'])
-    ->middleware('can:estadisticasDetalle.index')
-    ->name('estadisticasDetalleProveedor');
-
-Route::get('estadisticasDetalleProveedor/{supplier?}/{wallet?}/{typeTransactions?}/{fechaDesde?}/{fechaHasta?}',
-            [App\Http\Controllers\statisticsController::class, 'supplierDetail'])
-    ->middleware('can:estadisticasDetalle.index')
-    ->name('estadisticasDetalleProveedor');
-//
-//
-//
-//
-// Estadisticas Proveedor conciliacion
-//
-//
-Route::get('estadisticasDetalleProveedorCon',[App\Http\Controllers\statisticsController::class, 'supplierDetailConciliation'])
-    ->middleware('can:estadisticasDetalle.index')
-    ->name('estadisticasDetalleProveedorCon');
-
-Route::get('estadisticasDetalleProveedorCon/{supplier?}/{wallet?}/{typeTransactions?}/{fechaDesde?}/{fechaHasta?}',
-            [App\Http\Controllers\statisticsController::class, 'supplierDetailConciliation'])
-    ->middleware('can:estadisticasDetalle.index')
-    ->name('estadisticasDetalleProveedorCon');
-//
-//
-//
-//
-// Estadisticas Proveedor conciliacion tran
-//
-//
-Route::get('estadisticasDetalleProveedorTran',[App\Http\Controllers\statisticsController::class, 'supplierDetailConciliationTran'])
-    ->middleware('can:estadisticasDetalle.index')
-    ->name('estadisticasDetalleProveedorTran');
-
-Route::get('estadisticasDetalleProveedorTran/{supplier?}/{wallet?}/{typeTransactions?}/{fechaDesde?}/{fechaHasta?}',
-            [App\Http\Controllers\statisticsController::class, 'supplierDetailConciliationTran'])
-    ->middleware('can:estadisticasDetalle.index')
-    ->name('estadisticasDetalleProveedorTran');
-//
-//
 //
 // Route::get('estadisticasDetalleUsuario',[App\Http\Controllers\statisticsController::class, 'userDetail'])->name('estadisticasDetalleUsuario');
 // Route::get('estadisticasDetalleUsuario/{usuario}/{fechaDesde?}/{fechaHasta?}',[App\Http\Controllers\statisticsController::class, 'userDetail'])->name('estadisticasDetalleUsuario');
@@ -249,35 +193,6 @@ Route::get('estadisticasResumenWalletTranGroup/{wallet?}/{transaction?}/{fechaDe
 //
 Route::get('estadisticasFechaTokens',[App\Http\Controllers\statisticsController::class, 'fechaTokensSummary'])->name('estadisticasFechaTokens');
 Route::get('estadisticasFechaTokens/{fechaDesde?}/{fechaHasta?}',[App\Http\Controllers\statisticsController::class, 'fechaTokensSummary'])->name('estadisticasFechaTokens');
-//
-//
-//
-Route::get('estadisticasResumenProveedor',[App\Http\Controllers\statisticsController::class, 'supplierSummary'])->name('estadisticasResumenProveedor');
-Route::get('estadisticasResumenProveedor/{proveedor}/{fechaDesde?}/{fechaHasta?}',[App\Http\Controllers\statisticsController::class, 'supplierSummary'])->name('estadisticasResumenProveedor');
-//
-//
-//
-Route::get('estadisticasResumenProveedorTransaccion',
-            [App\Http\Controllers\statisticsController::class, 'transactionSummarySupplier'])
-            ->name('estadisticasResumenProveedorTransaccion');
-
-Route::get('estadisticasResumenProveedorTransaccion/{proveedor}/{fechaDesde?}/{fechaHasta?}',
-            [App\Http\Controllers\statisticsController::class, 'transactionSummarySupplier'])
-            ->name('estadisticasResumenProveedorTransaccion');
-
-
-//
-//
-//
-
-
-Route::get('estadisticasResumenConciliacionProveedor',
-            [App\Http\Controllers\statisticsController::class, 'conciliationSummarySupplier'])
-            ->name('estadisticasResumenConciliacionProveedor');
-
-Route::get('estadisticasResumenConciliacionProveedor/{proveedor}/{fechaDesde?}/{fechaHasta?}',
-            [App\Http\Controllers\statisticsController::class, 'conciliationSummarySupplier'])
-            ->name('estadisticasResumenConciliacionProveedor');
 
 //
 //
@@ -294,22 +209,16 @@ Route::get('estadisticasResumenWalletMaster/{wallet}/{fechaDesde?}/{fechaHasta?}
     [App\Http\Controllers\statisticsController::class, 'walletSummary'])
     ->name('estadisticasResumenWalletMaster');
 //
-//
-//
-//
-//
+
 Route::get('estadisticasResumenTransaccion',[App\Http\Controllers\statisticsController::class, 'transactionSummary'])->name('estadisticasResumenTransaccion');
 Route::get('estadisticasResumenTransaccion/{type_transaction?}/{fechaDesde?}/{fechaHasta?}',[App\Http\Controllers\statisticsController::class, 'transactionSummary'])->name('estadisticasResumenTransaccion');
 
 Route::get('estadisticasResumenGrupo',[App\Http\Controllers\statisticsController::class, 'groupSummary'])->name('estadisticasResumenGrupo');
 Route::get('estadisticasResumenGrupo/{grupo}/{fechaDesde?}/{fechaHasta?}',[App\Http\Controllers\statisticsController::class, 'groupSummary'])->name('estadisticasResumenGrupo');
-
 Route::get('estadisticasConciliacionGrupo',[App\Http\Controllers\statisticsController::class, 'conciliationSummaryDateGroup'])->name('estadisticasConciliacionGrupo');
 Route::get('estadisticasConciliacionGrupo/{grupo}/{fechaDesde?}/{fechaHasta?}',[App\Http\Controllers\statisticsController::class, 'conciliationSummaryDateGroup'])->name('estadisticasConciliacionGrupo');
 
 Route::get('estadisticasConciliacionFecha',[App\Http\Controllers\statisticsController::class, 'conciliationSummaryDate'])->name('estadisticasConciliacionFecha');
 Route::get('estadisticasConciliacionFecha/{fechaDesde?}/{fechaHasta?}',[App\Http\Controllers\statisticsController::class, 'conciliationSummaryDate'])->name('estadisticasConciliacionFecha');
-
-
 
 ?>
