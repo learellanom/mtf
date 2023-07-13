@@ -39,7 +39,7 @@
                         <div class="form-group col-md-4">
                             {!! Form::Label('typetrasnferencia', "Tipo de Movimiento:") !!}
                             <div class="input-group-text col-md-12">
-                                <i class="fa-fw fas fa-random"></i>
+                                <i class="fa-fw fas fa-random mr-2"></i>
                             {!! Form::select('type_transaction_id',$type_transaction, null, ['class' => 'form-control typetrasnferencia', 'required' => true, 'id'=>'typetrasnferencia', 'readonly' => false]) !!}
                             </div>
                         </div>
@@ -47,7 +47,7 @@
                         <div class="form-group col-md-4 esconder">
                             {!! Form::Label('wallet', "Tipo de caja:") !!}
                             <div class="input-group-text col-md-12">
-                                <i class="fa-fw fas fa-random"></i>
+                                <i class="fa-fw fas fa-box-open mr-2"></i>
                             {!! Form::select('wallet_id', $wallet, null, ['class' => 'form-control wallet', 'required' => true, 'id'=>'wallet', 'readonly' => false]) !!}
                             </div>
                         </div>
