@@ -477,7 +477,7 @@ $(".clientes").select2({
   clearing: true,
   width: '100%'
 });
-$("#clientes").val("")
+$("#clientes").val(null)
 $("#clientes").trigger("change");
 
 $(".typecoin").select2({
@@ -503,7 +503,7 @@ $(".wallet").select2({
   allowClear: true,
   width: '100%'
 });
-$("#wallet").val("")
+$("#wallet").val(null)
 $("#wallet").trigger("change");
 
 $(".typetrasnferencia").select2({

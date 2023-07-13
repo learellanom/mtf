@@ -58,7 +58,6 @@
                                 </tr>
                             </thead>
                             @foreach($transferencia as $transferencias)
-
                                 <tr>
                                     <td class="font-weight-bold">{{ $transferencias->id }}</td>
                                     <td class="font-weight-bold">

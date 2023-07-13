@@ -132,6 +132,7 @@ class TransactionController extends Controller
     {
 
         $transaction = Transaction::create($request->all());
+
         $files = [];
        if($request->hasFile('file')){
         foreach($request->file('file') as $file)
@@ -151,6 +152,7 @@ class TransactionController extends Controller
         }
 
         flash()->addSuccess('Movimiento guardado', 'Transacción', ['timeOut' => 3000]);
+
 
         return Redirect::route('transactions.index');
 
@@ -638,10 +640,10 @@ class TransactionController extends Controller
           }
         }
 
-        flash()->addSuccess('Movimiento guardado', 'Transacción', ['timeOut' => 3000]);
+        //flash()->addSuccess('Movimiento guardado', 'Transacción', ['timeOut' => 3000]);
 
-        return Redirect::route('transactions.create_efectivo');
-
+        //return Redirect::route('transactions.create_efectivo');
+        return Redirect::back()->withInput()->with('success', 'Transferencia en efectivo guardada.  <strong>#'. $transaction->id .'</strong>');
 
     }
 
