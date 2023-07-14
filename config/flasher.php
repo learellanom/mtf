@@ -51,7 +51,7 @@ return array(
     | field of this option.
     */
     'root_script' => array(
-        //'cdn' => 'https://cdn.jsdelivr.net/npm/@flasher/flasher@1.2.4/dist/flasher.js',
+        'cdn' => 'https://cdn.jsdelivr.net/npm/@flasher/flasher@1.2.4/dist/flasher.js',
         'local' => '/vendor/flasher/flasher.min.js',
     ),
 
@@ -70,7 +70,7 @@ return array(
     |
     | This will copy the necessary assets to your application's public folder.
     */
-    'use_cdn' => true,
+    'use_cdn' => false,
 
     /*
     |---------------------------------------------------------------------------
