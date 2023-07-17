@@ -563,15 +563,15 @@ return [
             'icon' => 'fas fa-fw fa-users',
             'can'         => 'groups.index'
         ],
-        [
-            'text'        => 'Cajas',
-            'url'         => 'cajas',
-            'active'      => ['cajas*'],
-            'icon'        => 'fas fa-wallet',
-            'label'       => 2,
-            'label_color' => 'success',
-            'can'         => 'wallets.index',
-        ],
+        // [
+        //     'text'        => 'Cajas',
+        //     'url'         => 'cajas',
+        //     'active'      => ['cajas*'],
+        //     'icon'        => 'fas fa-wallet',
+        //     'label'       => 2,
+        //     'label_color' => 'success',
+        //     'can'         => 'wallets.index',
+        // ],
         [
             'text' => 'Tipo de movimiento',
             'url'  => 'tipo_transaccion',
