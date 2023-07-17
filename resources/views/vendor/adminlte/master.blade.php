@@ -24,14 +24,17 @@
 
     {{-- Base Stylesheets --}}
     @if(!config('adminlte.enabled_laravel_mix'))
+  
         <link rel="stylesheet" href="{{ asset('vendor/fontawesome-free/css/all.min.css') }}">
         <link rel="stylesheet" href="{{ asset('vendor/overlayScrollbars/css/OverlayScrollbars.min.css') }}">
-        <link rel="stylesheet" href="{{ asset('vendor/adminlte/dist/css/adminlte.min.css') }}">
-
+        <link rel="stylesheet" href="{{ asset('vendor/adminlte/dist/css/adminlte.css') }}">
         @if(config('adminlte.google_fonts.allowed', true))
             {{-- <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic"> --}}
-            <link rel="stylesheet" href="{{ asset('vendor/fonts/source-sans-3-v9-latin/sourcesans.css') }}">            
-        @endif
+            {{-- <link rel="stylesheet" href="{{ asset('vendor/fonts/source-sans-3-v9-latin/sourcesans.css') }}"> --}}
+            {{-- <link rel="stylesheet" href="{{ asset('vendor/fonts/bad-script-v16-latin/bad-script-v16-latin.css') }}"> --}}
+            <link rel="stylesheet" href="{{ asset('vendor/fonts/space-grotesk-v15-latin/space-grotesk-v15-latin-regular.css') }}">
+        @endif  
+
     @else
         <link rel="stylesheet" href="{{ mix(config('adminlte.laravel_mix_css_path', 'css/app.css')) }}">
     @endif
