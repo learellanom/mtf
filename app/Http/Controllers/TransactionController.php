@@ -231,8 +231,13 @@ class TransactionController extends Controller
     {
 
         $type_coin          = Type_coin::pluck('name', 'id');
-        $type_transaction   = Type_transaction::whereIn('name', ['Nota de Debito a Caja de Efectivo'])->pluck('id');
-        $type_transaction2  = Type_transaction::whereIn('name', ['Nota de Credito a Caja de efectivo'])->pluck('id');
+        
+        // $type_transaction   = Type_transaction::whereIn('name', ['Nota de Debito a Caja de Efectivo'])->pluck('id');  // 12
+        // $type_transaction2  = Type_transaction::whereIn('name', ['Nota de Credito a Caja de efectivo'])->pluck('id'); // 6
+
+        $type_transaction   = Type_transaction::whereIn('id', [12])->pluck('id');  // 12
+        $type_transaction2  = Type_transaction::whereIn('id', [6])->pluck('id'); // 6
+
         $wallet             = Group::whereIn('type_wallet', ['Efectivo'])->pluck('name', 'id');
         $user               = User::pluck('name', 'id');
         $fecha              = Carbon::now();
