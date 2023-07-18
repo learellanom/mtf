@@ -41,10 +41,6 @@
                 <th class="text-center">Eliminar</th>
             --}}
         </tr>
-
-
-
-
     </thead>
     @foreach($transactions as $transaction)
         <tr>
