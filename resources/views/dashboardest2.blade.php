@@ -665,7 +665,13 @@ $config4 = [
     }
 
 
-
+    /*
+    *
+    *
+    *   calculogeneral3
+    *   sin wallet
+    * 
+    */
     function calculoGeneral3(){
 
         let myElement;
@@ -738,24 +744,75 @@ $config4 = [
                             <tr>
                                 <th style="width:1%;">Transacción</th>
                                 <th style="width:1%;">Cant transacción</th>
-                                <th style="width:1%;">Monto Transaccion</th>
+                                <th style="width:1%;">Monto Creditos</th>
+                                <th style="width:1%;">Monto Debitos</th>                                
                             </tr>
                         </thead>
+                        @php
+                            $cantCreditos  = 0;
+                            $cantDebitos   = 0;
+
+                            $totalCreditos  = 0;
+                            $totalDebitos   = 0;
+                        @endphp
                         @foreach($transaction_summary as $wallet2)
                             <tr class="myTr" onClick="theRoute2({{0}}, {{0}}, {{0}}, {{$wallet2->TypeTransactionId}})">
-                                    @if($wallet2->TypeTransactionId == $myTypeTransaction )
-                                        <td class="font-weight-bold" style="color: green;">{{ $wallet2->TypeTransaccionName}}</td>
-                                        <td class="font-weight-bold" style="color: green;">{{ number_format($wallet2->cant_transactions) }}</td>
-                                        <td class="font-weight-bold" style="color: green;">{{ number_format($wallet2->total_amount,2)}}</td>
-                                    @else
-                                        <td >{{ $wallet2->TypeTransaccionName}}</td>
-                                        <td>{{ number_format($wallet2->cant_transactions) }}</td>
-                                        <td>{{ number_format($wallet2->total_amount,2)}}</td>
-                                    @endif
-
+                                @switch($wallet2->TypeTransactionId )
+                                    @case(2)
+                                    @case(4)
+                                    @case(6)
+                                    @case(7)
+                                    @case(10)
+                                    @case(13)
+                                        @if($wallet2->TypeTransactionId == $myTypeTransaction )
+                                            <td class="font-weight-bold" style="color: green;">{{ $wallet2->TypeTransaccionName}}</td>
+                                            <td class="font-weight-bold" style="color: green;">{{ number_format($wallet2->cant_transactions) }}</td>
+                                            <td class="font-weight-bold" style="color: green;">{{ number_format($wallet2->total_amount,2)}}</td>
+                                            <td class="font-weight-bold" style="color: green;">{{ ' ' }}</td>                                        
+                                        @else
+                                            <td                                                 >{{ $wallet2->TypeTransaccionName}}</td>
+                                            <td                                                 >{{ number_format($wallet2->cant_transactions) }}</td>
+                                            <td                                                 >{{ number_format($wallet2->total_amount,2)}}</td>
+                                            <td class="font-weight-bold" style="color: green;"  >{{ ' ' }}</td>                                        
+                                        @endif
+                                        @php
+                                            $cantCreditos ++;
+                                            $totalCreditos += $wallet2->total_amount;
+                                        @endphp
+                                        @break
+                                    @case(1)
+                                    @case(3)
+                                    @case(5)
+                                    @case(8)
+                                    @case(9)
+                                    @case(11)
+                                    @case(12)
+                                        @if($wallet2->TypeTransactionId == $myTypeTransaction )
+                                            <td class="font-weight-bold" style="color: green;">{{ $wallet2->TypeTransaccionName}}</td>
+                                            <td class="font-weight-bold" style="color: green;">{{ number_format($wallet2->cant_transactions) }}</td>
+                                            <td class="font-weight-bold" style="color: green;">{{  ' ' }}</td>
+                                            <td class="font-weight-bold" style="color: green;">{{ number_format($wallet2->total_amount,2)}}</td>                                        
+                                        @else
+                                            <td                                                 >{{ $wallet2->TypeTransaccionName}}</td>
+                                            <td                                                 >{{ number_format($wallet2->cant_transactions) }}</td>
+                                            <td                                                 >{{  ' ' }}</td>
+                                            <td class="font-weight-bold" style="color: green;"  >{{ number_format($wallet2->total_amount,2)}}</td>                                        
+                                        @endif
+                                        @php
+                                            $cantDebitos ++;
+                                            $totalDebitos += $wallet2->total_amount;
+                                        @endphp
+                                        @break
+                                @endswitch
 
                             </tr>
                         @endforeach
+                        <tr style="background-color: black; color:white;">
+                            <td >{{ ' ' }}</td>
+                            <td >{{ ' ' }}</td>
+                            <td >{{ number_format($totalCreditos,2) }}</td>
+                            <td >{{ number_format($totalDebitos,2)}}</td>                              
+                        </tr>
                     </table>
                 </div>
 

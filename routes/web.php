@@ -187,7 +187,7 @@ Route::get('estadisticasResumenWalletTran/{wallet?}/{transaction?}/{fechaDesde?}
 // Resumen Wallet Transaccion grupo
 //
 Route::get('estadisticasResumenWalletTranGroup',[App\Http\Controllers\statisticsController::class, 'walletTransactionGroupSummary'])->name('estadisticasResumenWalletTranGroup');
-Route::get('estadisticasResumenWalletTranGroup/{wallet?}/{transaction?}/{fechaDesde?}/{fechaHasta?}',[App\Http\Controllers\statisticsController::class, 'walletTransactionGroupSummary'])->name('estadisticasResumenWalletTranGroup');
+Route::get('estadisticasResumenWalletTranGroup/{wallet?}/{transaction?}/{group?}/{fechaDesde?}/{fechaHasta?}',[App\Http\Controllers\statisticsController::class, 'walletTransactionGroupSummary'])->name('estadisticasResumenWalletTranGroup');
 //
 // Resumen Fecha Tokens
 //
