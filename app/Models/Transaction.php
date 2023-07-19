@@ -28,8 +28,7 @@ class Transaction extends Model implements Auditable
     public function user(){
         return $this->belongsTo(user::class);
     }
-
-         //Relación uno a muchos
+    //Relación uno a muchos
     public function group(){
         return $this->belongsTo(group::class, 'group_id');
     }
