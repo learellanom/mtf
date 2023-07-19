@@ -154,7 +154,7 @@ $(document).ready(function () {
     'buttons':[
         {
             extend:  'excelHtml5',
-            exportOptions: { columns: [ 1, 2, 3,4,5,6,7,8,9,10,11,12 ] },
+            exportOptions: { columns: [ 1, 2, 3,4,5,6,7,8,9,11,12 ] },
             text:    '<i class="fas fa-file-excel"></i>',
             titleAttr: 'Exportar Excel',
             className: 'btn btn-success',
@@ -195,37 +195,46 @@ $(document).ready(function () {
                     }
                 }
             },
-            {
-            "cells": "sF",
-            "condition": {
-                "type": "dataBar",
-                "dataBar": {
-                    "color": [
-                        "0081B4"
-                    ]
-                }
-              }
-            },
-             {
-                "cells": "sE",
-            "condition": {
-                "type": "dataBar",
-                "dataBar": {
-                    "color": [
-                        "0081B4"
-                    ]
-                  }
-                 }
-              },
+
                 {
                     'cells': "sB",
                     'template': "date_long",
                 },
                 {
                     "cells": "F",
+                    "width": "40",
                     "style": {
-                        "numFmt": "#,##0;(#,##0)"
-                    }
+                        "numFmt": "#,##0;(#,##0)",
+                     },
+
+                },
+                {
+                    "cells": "D",
+                    "width": "17.5",
+                },
+                {
+                    "cells": "I",
+                    "width": "19.15",
+                },
+                {
+                    "cells": "J",
+                    "width": "35",
+                },
+                {
+                    "cells": "H",
+                    "width": "19.15",
+                },
+                {
+                    "cells": "G",
+                    "width": "15",
+                },
+                {
+                    "cells": "K",
+                    "width": "32",
+                },
+                {
+                    "cells": "B",
+                    "width": "11",
                 }
            ]
 
@@ -287,28 +296,7 @@ $(document).ready(function () {
                   },
 
         },
-        {
-            extend:  'print',
-            text:    '<i class="fas fa-print"></i>',
-            titleAttr: 'Capture de pantalla',
-            className: 'btn btn-info',
-            customize: function ( win ) {
-                    $(win.document.body)
-                        .css( 'font-size', '10pt' )
-                        .prepend(
-                            '<img src="{{ asset("images/icons/icon-512x512.png") }}" style="position:absolute; top:0; left:0; opacity: .1;" />'
-                        );
 
-                    $(win.document.body).find( 'table' )
-                        .addClass( 'compact' )
-                        .css( 'font-size', 'inherit' );
-                },
-                 exportOptions: {
-                 orientation: 'landscape',
-                 columns: ":not(.no-exportar)" //exportar toda columna que no tenga la clase no-exportar
-                },
-
-        },
     ]
 
 
