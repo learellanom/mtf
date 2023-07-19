@@ -791,11 +791,12 @@ class statisticsController extends Controller
     *
     *
     *       walletTransactionGroupSummary
-    *       ajua
+    *       ajuax
     *
     */
     public function walletTransactionGroupSummary(Request $request)
     {
+        $indRecibeFecha = 0;
         // dd($request->transaction);
         //
         $myTypeTransaction      = 0;
@@ -809,14 +810,15 @@ class statisticsController extends Controller
         }
 
         //
-
+        
         $myFechaDesde = "2001-01-01";
         $myFechaHasta = "9999-12-31";
 
         $myFechaDesde2 = "2001-01-01";
         $myFechaHasta2 = "9999-12-31";
-
+        
         if ($request->fechaDesde){
+            $indRecibeFecha = 1;
             $myFechaDesde = $request->fechaDesde;
             $myFechaHasta = $request->fechaHasta;
 
@@ -829,7 +831,7 @@ class statisticsController extends Controller
             $myFechaHasta2 = $myFechaHasta . " 23:59:00";            
         }
         // var_dump($myFechaDesde);
-        // dd('Fecha desde -> ' . $myFechaDesde . ' Fecha Hasta -> ' . $myFechaHasta);
+        // dd('Fecha desde -> ' . $myFechaDesde . ' Fecha Hasta -> ' . $myFechaHasta . ' indRecibeFecha -> ' . $indRecibeFecha);
 
        //
         $myWallet        = 0;
@@ -852,27 +854,11 @@ class statisticsController extends Controller
             $myGroup        = $request->group;
         }
 
-        // ajua
-        $Transacciones1         = $this->getwalletTransactionSummary($request);
+        // $Transacciones1         = $this->getwalletTransactionSummary($request);
         $Transacciones2         = $this->getWalletTransactionGroupSummary($request);
         $groups                 = $this->getGroups();
 
         // $this->getWalletTransactionGroupTotal($Transacciones1, $Transacciones2);
-
-        $Transacciones3 = [];
-        foreach($Transacciones1 as $Tran){
-            $Transacciones3[] = $Tran;
-        }
-        foreach($Transacciones2 as $Tran){
-            $Transacciones3[] = $Tran;
-        }
-        //  $Transacciones3         = array_merge($Transacciones1, $Transacciones2);
-        // dd($Transacciones1);
-        // dd($Transacciones2);
-        
-        // echo gettype($Transacciones3);
-        // die();
-        // dd($Transacciones3);
 
         $Transacciones       = $Transacciones2;
 
@@ -887,7 +873,18 @@ class statisticsController extends Controller
             // $balance = $this->getBalancemyWallet($myWallet, $myFechaDesde, $myFechaHasta);
         };
         // dd($balance);
-    
+        // ajuax
+        if ($indRecibeFecha == 1){
+            $balanceDetail = 0;
+            if ($myWallet > 0){
+                $balance3 = $this->getBalanceWallet($myWallet, $myFechaDesde, $myFechaHasta);
+                if(isset($balance3->Total)){
+                    $balanceDetail  = $balance3->Total;
+                }
+                // $balance = $this->getBalancemyWallet($myWallet, $myFechaDesde, $myFechaHasta);
+                dd('Fecha desde -> ' . $myFechaDesde . ' Fecha Hasta -> ' . $myFechaHasta . ' indRecibeFecha -> ' . $indRecibeFecha . ' balnce detail -> ' . $balanceDetail);
+            };
+        }
         $Type_transactions  = $this->getTypeTransactions();
         $wallet             = $this->getWallet();
 
