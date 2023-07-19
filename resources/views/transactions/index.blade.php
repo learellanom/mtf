@@ -72,12 +72,12 @@
 
                                     <td class="font-weight-bold">{!! $transferencias->percentage ?? ''!!} </td>
 
-                                    <td>{!! number_format(abs($transferencias->amount_foreign_currency),2,",",".") ?? '' !!}</td>
+                                    <td>{!! number_format(abs($transferencias->amount_foreign_currency),2,".") ?? '' !!}</td>
 
-                                    <td>{!! number_format(abs($transferencias->amount_commission),2,",",".") ?? '' !!} </td>
+                                    <td>{!! number_format(abs($transferencias->amount_commission),2,".") ?? '' !!} </td>
 
-                                    <td class="font-weight-bold">{!!  number_format(abs($transferencias->amount),2,",",".") !!} <i class="fas fa-dollar-sign"></i></td>
-                                    <td class="font-weight-bold">{!! number_format(abs($transferencias->amount_total),2,",",".") !!} <i class="fas fa-dollar-sign"></i></td>
+                                    <td class="font-weight-bold">{!!  number_format(abs($transferencias->amount),2,".") !!} <i class="fas fa-dollar-sign"></i></td>
+                                    <td class="font-weight-bold">{!! number_format(abs($transferencias->amount_total),2,".") !!} <i class="fas fa-dollar-sign"></i></td>
 
 
                                     <td class="font-weight-bold">{!! $transferencias->user->name ?? '' !!}</td>
@@ -160,7 +160,7 @@ $(document).ready(function () {
             className: 'btn btn-success',
             "excelStyles": [
             {
-                "template": ["title_medium", "gold_medium"]
+                "template": ["title_medium", 'blue_gray_medium']
             },
 
             {
@@ -197,16 +197,17 @@ $(document).ready(function () {
             },
 
                 {
-                    'cells': "sB",
+                    'cells': "sC",
                     'template': "date_long",
                 },
+
                 {
                     "cells": "F",
                     "width": "40",
-                    "style": {
-                        "numFmt": "#,##0;(#,##0)",
-                     },
-
+                },
+                {
+                    "cells": "B",
+                    "width": "12",
                 },
                 {
                     "cells": "D",
@@ -223,6 +224,7 @@ $(document).ready(function () {
                 {
                     "cells": "H",
                     "width": "19.15",
+
                 },
                 {
                     "cells": "G",
