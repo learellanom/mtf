@@ -417,8 +417,28 @@ if (isset($balance->Total)){
                                     </td>
                                 </tr>
                             @endforeach
-
+                            {{--
+                            <tfoot style="background-color: black; color: white;">
+                                    <td>Total</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td>test</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td>test</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>                                    
+                            </tfoot>
+                            --}}
                         </table>
+
                     </div>
                 </div>
             </div>

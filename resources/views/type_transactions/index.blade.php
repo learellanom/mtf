@@ -37,15 +37,10 @@
             <th>Nombre</th>
             <th>Descripción</th>
             <th class="text-center">Editar</th>
-            <th class="text-center">Eliminar</th>
-
-
-
+            {{--
+                <th class="text-center">Eliminar</th>
+            --}}
         </tr>
-
-
-
-
     </thead>
     @foreach($transactions as $transaction)
         <tr>
@@ -54,22 +49,21 @@
             <td>{!! $transaction->description !!}</td>
 
             <td class="text-center">
-
-            <a class="btn btn-xl text-primary mx-1 shadow" href="{{ route('type_transactions.edit', $transaction) }}" title="Editar">
-                <i class="fa fa-lg fa-fw fa-pen"></i>
-            </a>
-
+                <a class="btn btn-xl text-primary mx-1 shadow" href="{{ route('type_transactions.edit', $transaction) }}" title="Editar">
+                    <i class="fa fa-lg fa-fw fa-pen"></i>
+                </a>
             </td>
+            {{--
             <td class="text-center">
                 <form method="post" action="{{ route('type_transactions.destroy', $transaction->id) }}">
                     @csrf
                     @method('delete')
-                <button class="btn btn-xl text-danger mx-1 shadow" type="submit" title="Borrar">
-                    <i class="fa fa-lg fa-fw fa-trash"></i>
-                </button>
+                    <button class="btn btn-xl text-danger mx-1 shadow" type="submit" title="Borrar">
+                        <i class="fa fa-lg fa-fw fa-trash"></i>
+                    </button>
                 </form>
             </td>
-
+            --}}
         </tr>
     @endforeach
 </table>

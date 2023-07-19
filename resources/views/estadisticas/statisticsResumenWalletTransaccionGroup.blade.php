@@ -89,8 +89,8 @@ $config4 = [
             </x-adminlte-select2>
         </div>
 
-        <!-- Transaction -->
 
+        <!-- Transaction -->
         <div class ="col-12 col-sm-2">
             <x-adminlte-select2 id="transaccion"
                                 name="optionsTransaccion"
@@ -108,6 +108,28 @@ $config4 = [
                 <x-adminlte-options :options="$Type_transactions" empty-option="Selecciona una Transaccion .."/>
             </x-adminlte-select2>
         </div>
+
+
+        <!-- Grupo -->
+        <div class ="col-12 col-sm-2">
+            <x-adminlte-select2 id="grupo"
+                                name="optionsGroup"
+                                igroup-size="sm"
+                                label-class="text-lightblue"
+                                data-placeholder="Grupo ..."
+                                :config="$config1"
+                                >
+                <x-slot name="prependSlot">
+                    <div class="input-group-text bg-gradient-dark">
+                        <!-- <i class="fas fa-car-side"></i> -->
+                        <i class="fas fa-user-tie"></i>
+                    </div>
+                </x-slot>
+
+                <x-adminlte-options :options="$groups" empty-option="Selecciona un Grupo.."/>
+            </x-adminlte-select2>
+        </div>
+
 
         <div class ="col-12 col-sm-2">
             <x-adminlte-date-range 
@@ -435,7 +457,9 @@ $config4 = [
 
     BuscaTransaccion(miTypeTransaction);
 
+    const miGrupo = {!! $myGroup !!};
 
+    BuscaGrupo(miGrupo);
 
     $(() => {
 
@@ -448,7 +472,8 @@ $config4 = [
 
             const wallet        = $('#wallet').val();
             const transaccion   = $('#transaccion').val();
-            theRoute(wallet, transaccion);
+            const grupo         = $('#grupo').val();
+            theRoute(wallet, transaccion,grupo);
 
         });
 
@@ -486,21 +511,35 @@ $config4 = [
                             ;
 
             const wallet        = $('#wallet').val();
-            const transaccion   = $('#transaccion').val();            
-            theRoute(wallet, transaccion, myFechaDesde,myFechaHasta);
+            const transaccion   = $('#transaccion').val();          
+            const grupo = $('#grupo').val();  
+            theRoute(wallet, transaccion, grupo,myFechaDesde,myFechaHasta);
+        });
+
+        
+        $('#grupo').on('change', function (){
+
+
+            const wallet = $('#wallet').val();
+            const grupo = $('#grupo').val();
+            const transaccion   = $('#transaccion').val();              
+            theRoute(wallet,transaccion ,grupo);
+
         });
 
     })
 
-    function theRoute(wallet = 0, transaction = 0, fechaDesde = 0, fechaHasta = 0){
+    function theRoute(wallet = 0,  transaction = 0, group = 0, fechaDesde = 0, fechaHasta = 0){
 
-        if (wallet   === "") wallet  = 0;
-        if (transaction   === "") transaction  = 0;
+        if (wallet   === "")        wallet  = 0;
+        if (transaction   === "")   transaction  = 0;
+        if (group   === "")         group  = 0;
 
         let myRoute = "";
 
-            myRoute = "{{ route('estadisticasResumenWalletTranGroup', ['wallet' => 'wallet2', 'transaction' => 'transaction2', 'fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2']) }}";
+            myRoute = "{{ route('estadisticasResumenWalletTranGroup', ['wallet' => 'wallet2', 'transaction' => 'transaction2', 'group' => 'group2', 'fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2']) }}";
             myRoute = myRoute.replace('wallet2',wallet);
+            myRoute = myRoute.replace('group2',group);            
             myRoute = myRoute.replace('transaction2',transaction);            
             myRoute = myRoute.replace('fechaDesde2',fechaDesde);
             myRoute = myRoute.replace('fechaHasta2',fechaHasta);
@@ -572,6 +611,20 @@ $config4 = [
         });
     }
    
+    function BuscaGrupo(miGrupo){
+        //alert("BuscaGrupo - miGrupo -> " + miGrupo);
+        $('#grupo').each( function(index, element){
+            //alert ("Buscagrupo -> " + $(this).val() + " text -> " + $(this).text()+ " y con index -> " + $(this).prop('selectedIndex'));
+            $(this).children("option").each(function(){
+                if ($(this).val() === miGrupo.toString()){
+                    //alert('Buscagrupo - encontro');
+                    $("#grupo option[value="+ miGrupo +"]").attr("selected",true);
+                }
+                //alert("BuscaGrupoaqui ->  the val " + $(this).val() + " text -> " + $(this).text());
+            });
+        });
+        //
+    }
 
     function BuscaFechas(FechaDesde = 0,FechaHasta = 0){
 
@@ -583,8 +636,8 @@ $config4 = [
 
         myArray     = myLocation.split("/");
         if (myArray.length > 4){
-            FechaDesde = myArray[6];
-            FechaHasta = myArray[7];
+            FechaDesde = myArray[7];
+            FechaHasta = myArray[8];
         }else{
             FechaDesde = 0;
             FechaHasta = 0;       
