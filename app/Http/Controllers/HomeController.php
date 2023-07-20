@@ -46,17 +46,17 @@ class HomeController extends Controller
     public function graphics(request $request)
     {
 
-        $wallet_summary = app(statisticsController::class)->getwalletTransactionSummary($request);
+        $wallet_summary             = app(statisticsController::class)->getwalletTransactionSummary($request);
 
-        $request2 = clone $request;
-        $request2->transaction = 0;
-        $wallet_summary = app(statisticsController::class)->getwalletTransactionSummary($request2);
+        $request2                   = clone $request;
+        $request2->transaction      = 0;
+        $wallet_summary             = app(statisticsController::class)->getwalletTransactionSummary($request2);
 
-        $wallet_groupsummary = app(statisticsController::class)->getWalletTransactionGroupSummary($request);
+        $wallet_groupsummary        = app(statisticsController::class)->getWalletTransactionGroupSummary($request);
         // dd($wallet_groupsummary);
-        $wallet                 = app(statisticsController::class)->getWallet();
+        $wallet                     = app(statisticsController::class)->getWallet();
         // dd($wallet);
-        $typeTransactions       = app(statisticsController::class)->getTypeTransactions();
+        $typeTransactions           = app(statisticsController::class)->getTypeTransactions();
 
 
         $request3                   = clone $request;
@@ -67,6 +67,7 @@ class HomeController extends Controller
         $transaction_group_summary  = app(statisticsController::class)->getTransactionGroupSummary($request4);
 
         // dd($transaction_summary);
+
 
         /* MANTENER VALOR BUSCADO EN EL URL */
         $myWalletDesde   = 0;
@@ -107,14 +108,62 @@ class HomeController extends Controller
             /* MANTENER VALOR BUSCADO EN EL URL */
         }
 
+
+
+        $balance = 0;
+        if ($myWallet > 0){
+            $balance2 = app(statisticsController::class)->getBalanceWallet($myWallet);
+            if(isset($balance2->Total)){
+                $balance  = $balance2->Total;
+            }
+            // $balance = $this->getBalancemyWallet($myWallet, $myFechaDesde, $myFechaHasta);
+        };
+
+
+       // dd($myFechaDesde);
+        $balanceDetail      = 0;
+        $myFechaDesdeBefore = "2001-01-01";
+        $myFechaHastaBefore = "9999-12-31";
+        $balance3 = 0;
+
+        $balanceDetail = 0;
+        if ($myWallet > 0){
+            // dd($indRecibeFecha);                
+            if ($myFechaDesde != "2001-01-01"){
+
+                $myFechaHastaBefore = app(statisticsController::class)->getDayBefore($myFechaDesde);
+
+            }
+            
+            $balance3           = app(statisticsController::class)->getBalanceWallet($myWallet, $myFechaDesde, $myFechaHasta);
+            if(isset($balance3->Total)){
+                $balanceDetail  = $balance3->Total;
+            }
+            
+
+            // $balance = $this->getBalancemyWallet($myWallet, $myFechaDesde, $myFechaHasta);
+            // dd('Fecha desde -> ' . $myFechaDesde . ' Fecha Hasta -> ' . $myFechaHasta .  ' balance detail -> ' . $balanceDetail . ' ' . $myFechaDesdeBefore . ' ' . $myFechaHastaBefore);
+
+            \Log::info("leam -> myFechaDesde  -> $myFechaDesde");
+            \Log::info("leam -> myFechaHasta  -> $myFechaHasta");
+            \Log::info("leam -> balanceDetail -> $balanceDetail");
+            \Log::info("leam -> myFechaDesdeBefore -> $myFechaDesdeBefore");
+            \Log::info("leam -> myFechaHastaBefore -> $myFechaHastaBefore");                
+            \Log::info("leam -> balance3 -> " . print_r($balance3,true));
+            \Log::info("leam -> ");
+            \Log::info("leam -> ");
+
+
+        };
+
         //dd($wallet_summary);
 
 
         // if ($myWallet ==0){
-        //     $wallet_summary = $transaction_summary;
+        //     $wallet_summary = $transact  ion_summary;
         // }
         // return view('dashboardest', compact('wallet_summary', 'wallet_groupsummary', 'wallet', 'typeTransactions', 'myWallet', 'myTypeTransaction', 'myFechaDesde', 'myFechaHasta'));\
-        return view('dashboardest2', compact('transaction_group_summary','transaction_summary','wallet_summary', 'wallet_groupsummary', 'wallet', 'typeTransactions', 'myWallet', 'myTypeTransaction', 'myFechaDesde', 'myFechaHasta'));
+        return view('dashboardest2', compact('transaction_group_summary','transaction_summary','wallet_summary', 'wallet_groupsummary', 'wallet', 'typeTransactions', 'myWallet', 'myTypeTransaction', 'myFechaDesde', 'myFechaHasta','balanceDetail','myFechaDesdeBefore','myFechaHastaBefore','balance'));
 
     }
 
