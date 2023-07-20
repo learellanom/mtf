@@ -75,21 +75,21 @@ class statisticsController extends Controller
         $myHoraDesde = "00:00:00";
         $myHoraHasta = "23:59:00";
 
-        $myFechaDesde = "2001-01-01 00:00:00";
-        $myFechaHasta = "9999-12-31 23:59:00";
+        $myFechaDesde = "2001-01-01";
+        $myFechaHasta = "9999-12-31";
         if ($request->fechaDesde){
             $myFechaDesde = $request->fechaDesde;
             $myFechaHasta = $request->fechaHasta;
 
-            $myFechaDesde = $myFechaDesde . " 00:00:00";
-            $myFechaHasta = $myFechaHasta . " 23:59:00";
+            $myFechaDesde = $myFechaDesde;
+            $myFechaHasta = $myFechaHasta;
 
 
         }
 
         if ($request->fechaHasta){
             $myFechaHasta = $request->fechaHasta;
-            $myFechaHasta = $myFechaHasta . " 23:59:00";           
+            $myFechaHasta = $myFechaHasta;           
         }
 
         $myTypeTransactions         = 0;
@@ -127,6 +127,7 @@ class statisticsController extends Controller
         if ($myWallet > 0){
             $balance = $this->getBalanceWallet($myWallet);
             // dd($balance);
+            $balanceBefore = $this->getBalanceWalletBefore($myWallet,$myFechaDesde, $myFechaHasta);
         };
 
         $myUserDesde = 0;
@@ -208,7 +209,7 @@ class statisticsController extends Controller
             )->whereBetween('Transactions.user_id',             [$myUserDesde, $myUserHasta]
             )->whereBetween('Transactions.group_id',            [$myGroupDesde, $myGroupHasta]
             )->whereBetween('Transactions.type_transaction_id', [$myTypeTransactionsDesde, $myTypeTransactionsHasta]
-            )->whereBetween('Transactions.transaction_date',    [$myFechaDesde, $myFechaHasta]
+            )->whereBetween('Transactions.transaction_date',    [$myFechaDesde . " 00:00:00", $myFechaHasta . " 23:59:00"]
             )->where('Transactions.status', '=', 'Activo'
             )->orderBy('Transactions.transaction_date','ASC'
             )->get();
@@ -263,7 +264,7 @@ class statisticsController extends Controller
                     and user_id             between $myUserDesde                and $myUserHasta                        
                     and wallet_id           between $myWalletDesde              and $myWalletHasta
                     and type_transaction_id between $myTypeTransactionsDesde    and $myTypeTransactionsHasta
-                    and transaction_date    between '$myFechaDesde'             and '$myFechaHasta'
+                    and transaction_date    between '$myFechaDesde  00:00:00'             and '$myFechaHasta 23:59:00' 
                     $myTokenCondition
                 order by
                     Transactions.transaction_date ASC
@@ -1902,6 +1903,37 @@ class statisticsController extends Controller
             return $Transacciones;
         }
     }
+        /*
+    *
+    *
+    *       getBalanceWalletBefore
+    *
+    *
+    */
+    function getBalanceWalletBefore($myWallet = 0, $myFechaDesde = "2001-01-01", $myFechaHasta = "9999-12-31"){
+
+        $myFechaDesdeBefore = "2001-01-01";
+        $myFechaHastaBefore = "9999-12-31";
+        $balance3 = 0;
+
+        $balanceDetail = 0;
+        if ($myWallet > 0){
+            // dd($indRecibeFecha);                
+            if ($myFechaDesde != "2001-01-01"){
+
+                $myFechaHastaBefore = $this->getDayBefore($myFechaDesde);
+
+            }
+            $balance3           = $this->getBalanceWallet($myWallet, $myFechaDesdeBefore, $myFechaHastaBefore);
+            if(isset($balance3->Total)){
+                $balanceDetail  = $balance3->Total;
+            }else{
+                $balanceDetail = 0;
+            }
+            return $balanceDetail;
+
+        }        
+    }
     /*
     *
     *
@@ -2009,8 +2041,8 @@ class statisticsController extends Controller
         // dd($myQuery);
         $Transacciones = DB::select($myQuery);
 
-         \Log::info('leam grupo query           *** -> ' . print_r($myQuery,true));
-         \Log::info('leam grupo transacciones   *** -> ' . print_r($Transacciones,true));
+         \Log::info('leam grupo query          getBalanceWallet *** -> ' . print_r($myQuery,true));
+         \Log::info('leam grupo transacciones  getBalanceWallet *** -> ' . print_r($Transacciones,true));
 
         if (empty($Transacciones)) {
             // \Log::info('leam vacio *** -> ' . print_r($Transacciones,true));

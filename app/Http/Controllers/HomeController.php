@@ -109,8 +109,9 @@ class HomeController extends Controller
         }
 
 
-
+        
         $balance = 0;
+        
         if ($myWallet > 0){
             $balance2 = app(statisticsController::class)->getBalanceWallet($myWallet);
             if(isset($balance2->Total)){
@@ -118,7 +119,7 @@ class HomeController extends Controller
             }
             // $balance = $this->getBalancemyWallet($myWallet, $myFechaDesde, $myFechaHasta);
         };
-
+        
 
        // dd($myFechaDesde);
         $balanceDetail      = 0;
@@ -134,25 +135,29 @@ class HomeController extends Controller
                 $myFechaHastaBefore = app(statisticsController::class)->getDayBefore($myFechaDesde);
 
             }
-            
-            $balance3           = app(statisticsController::class)->getBalanceWallet($myWallet, $myFechaDesde, $myFechaHasta);
+
+            \Log::info("leam 1-> myFechaDesde  -> $myFechaDesde");
+            \Log::info("leam 1-> myFechaHasta  -> $myFechaHasta");
+            \Log::info("leam 1-> balanceDetail -> $balanceDetail");
+            \Log::info("leam 1-> myFechaDesdeBefore -> $myFechaDesdeBefore");
+            \Log::info("leam 1-> myFechaHastaBefore -> $myFechaHastaBefore");   
+
+            /*
+            $balance3           = app(statisticsController::class)->getBalanceWallet($myWallet, $myFechaDesdeBefore, $myFechaHastaBefore);
             if(isset($balance3->Total)){
                 $balanceDetail  = $balance3->Total;
             }
-            
+            */
+            $balanceDetail           = app(statisticsController::class)->getBalanceWalletBefore($myWallet, $myFechaDesde, $myFechaHasta);            
 
             // $balance = $this->getBalancemyWallet($myWallet, $myFechaDesde, $myFechaHasta);
             // dd('Fecha desde -> ' . $myFechaDesde . ' Fecha Hasta -> ' . $myFechaHasta .  ' balance detail -> ' . $balanceDetail . ' ' . $myFechaDesdeBefore . ' ' . $myFechaHastaBefore);
 
-            \Log::info("leam -> myFechaDesde  -> $myFechaDesde");
-            \Log::info("leam -> myFechaHasta  -> $myFechaHasta");
-            \Log::info("leam -> balanceDetail -> $balanceDetail");
-            \Log::info("leam -> myFechaDesdeBefore -> $myFechaDesdeBefore");
-            \Log::info("leam -> myFechaHastaBefore -> $myFechaHastaBefore");                
-            \Log::info("leam -> balance3 -> " . print_r($balance3,true));
-            \Log::info("leam -> ");
-            \Log::info("leam -> ");
-
+             
+            \Log::info("leam 2-> balance3 -> " . print_r($balance3,true));
+            \Log::info("leam 2-> balanceDetail -> " . print_r($balanceDetail,true));         
+            \Log::info("leam 2-> ");
+            \Log::info("leam 2-> ");
 
         };
 
