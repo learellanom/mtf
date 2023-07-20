@@ -118,11 +118,22 @@
         if (caja.checked) {
             efectivo.style.display = 'block';
             transferencias.style.display = 'block';
+            $('#radio1').prop('required', false);
+
+            $('#radio2').prop('required', true);
+            $('#radio5').prop('required', true);
+            $('#radio6').prop('required', true);
         }
         });
         if (caja.checked) {
             efectivo.style.display = 'block';
             transferencias.style.display = 'block';
+
+            $('#radio1').prop('required', false);
+
+            $('#radio2').prop('required', true);
+            $('#radio5').prop('required', true);
+            $('#radio6').prop('required', true);
         }
         cliente.addEventListener('change', () => {
         if (cliente.checked) {
@@ -130,6 +141,11 @@
             transferencias.style.display = 'none';
             efectivo_radio.checked = false;
             transferencias_radio.checked = false;
+
+            $('#radio2').prop('required', false);
+            $('#radio5').prop('required', false);
+            $('#radio6').prop('required', false);
+
          }
         });
         if (cliente.checked) {
@@ -137,6 +153,9 @@
             transferencias.style.display = 'none';
             efectivo_radio.checked = false;
             transferencias_radio.checked = false;
+            $('#radio2').prop('required', false);
+            $('#radio5').prop('required', false);
+            $('#radio6').prop('required', false);
          }
     </script>
     @endsection

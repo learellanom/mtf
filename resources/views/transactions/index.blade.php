@@ -288,8 +288,8 @@ $(document).ready(function () {
                             'max-width': '100px'
                         }
                         doc.styles.tableHeader = {
-                        fillColor:'#0B2447',
-                        color:'white'
+                            fillColor:'#0B2447',
+                            color:'white'
                         }
 
 
