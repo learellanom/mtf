@@ -193,13 +193,20 @@ $config4 = [
                                     <th style="width:10%;">Transaccion</th>
                                     <th style="width:10%;">Grupo</th>
                                     <th style="width:10%;">Cant</th>
+<<<<<<< HEAD
                                     <th style="width:10%;">Monto</th>
                                     <th style="width:10%;">Mto comision base</th>
+=======
+                                    <th style="width:10%;">Monto Credito</th>
+                                    <th style="width:10%;">Monto Debito</th>                                    
+                                    <th style="width:10%;">Mto comision base</th>   
+>>>>>>> 28b944effede6b915c25423807d46a4e77ec6ec0
                                     <th style="width:10%;">Mto comision</th>
                                     <th style="width:10%;">Mto Ganancia comision</th>
                                     <th style="width:1%;" class="no-exportar">Ver <i class="fas fa-search"></i></th>
                                 </tr>
                             </thead>
+                            {{--  dd($Transacciones) --}}
                             @foreach($Transacciones as $row)
 
                                 @php
@@ -215,7 +222,60 @@ $config4 = [
                                     <td>{!! $row->TypeTransaccionName !!}</td>
                                     <td>{!! $row->GroupName !!}</td>
                                     <td class="text-right">{!! number_format($row->cant_transactions,0) !!}</td>
-                                    <td class="text-right">{!! number_format($row->total_amount,2) !!}</td>
+
+                                    {{-- por caja o general --}}
+                                    @if($myGroup  == 0)
+                                        @switch($row->TypeTransactionId)
+                                            {{-- creditos --}}
+                                            @case (2)
+                                            @case (4)
+                                            @case (6)
+                                            @case (7)
+                                            @case (10)
+                                            @case (13)                                        
+                                                <td class="text-right">{!! number_format($row->total_amount,2) !!}</td>
+                                                <td class="text-right">{!! ' ' !!}</td>                                    
+                                                @break
+                                            // <!-- debitos -->
+                                            @case (1)
+                                            @case (3)
+                                            @case (5)
+                                            @case (8)
+                                            @case (9)
+                                            @case (11)                                        
+                                            @case (12)                                        
+                                                <td class="text-right">{!! ' ' !!}</td>
+                                                <td class="text-right">{!! number_format($row->total_amount,2) !!}</td>                                    
+                                                @break
+                                        @endswitch
+                                    @endif
+
+                                    @if($myGroup  != 0)     
+                                        @switch($row->TypeTransactionId)
+                                            // <!-- creditos -->
+                                            @case (1)
+                                            @case (3)
+                                            @case (5)
+                                            @case (6)
+                                            @case (7)
+                                            @case (9)
+                                            @case (11)                                            
+                                                <td class="text-right">{!! number_format($row->total_amount,2) !!}</td>
+                                                <td class="text-right">{!! ' ' !!}</td>                                    
+                                                @break
+                                            // <!-- debitos -->
+                                            @case (2)
+                                            @case (4)
+                                            @case (8)
+                                            @case (10)
+                                            @case (12)
+                                            @case (13)
+                                                <td class="text-right">{!! ' ' !!}</td>
+                                                <td class="text-right">{!! number_format($row->total_amount,2) !!}</td>                                    
+                                                @break
+                                        @endswitch                                                                   
+                                    @endif
+
                                     <td class="text-right">{!! number_format($row->total_amount_commission_base,2) !!}</td>
                                     <td class="text-right">{!! number_format($row->total_commission,2) !!}</td>
                                     <!-- <td class="text-right">{!! number_format($row->total_commission_profit,2) !!}</td>                                    -->

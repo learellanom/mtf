@@ -33,7 +33,7 @@
              <link rel="stylesheet" href="{{ asset('vendor/fonts/source-sans-3-v9-latin/sourcesans.css') }}"> 
             {{-- <link rel="stylesheet" href="{{ asset('vendor/fonts/bad-script-v16-latin/bad-script-v16-latin.css') }}"> --}}
             {{-- <link rel="stylesheet" href="{{ asset('vendor/fonts/space-grotesk-v15-latin/space-grotesk-v15-latin-regular.css') }}"> --}}
-            <link rel="stylesheet" href="{{ asset('vendor/fonts/monserrat/montserrat.css') }}">         
+            <link rel="stylesheet" href="{{ asset('vendor/fonts/montserrat/montserrat.css') }}">         
         @endif  
 
     @else

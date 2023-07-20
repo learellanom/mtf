@@ -572,7 +572,13 @@ $config4 = [
         @endforeach
     }
 
-
+    /*
+    *
+    *
+    *  calculoGeneral2
+    *   con wallet
+    * 
+    */ 
     function calculoGeneral2(){
 
          myElement = `
@@ -636,24 +642,92 @@ $config4 = [
                 .myTr:hover{
                     background-color: #D7DBDD  !important;
                 }
-            </style>           
+            </style>
+            
+            {{-- dd($balanceDetail . ' ' . $myFechaDesdeBefore . ' ' . $myFechaHastaBefore) --}}
+
             <div class ="row mb-4" style="background-color: white;">
                 <div class="col-12 col-md-12">
                     <table class="table thead-light" style="background-color: white;">
                         <thead class="thead-dark">
                             <tr>
+                                <th style="width:1%;">Saldo Total</th>
+                                <th style="width:1%;">{{ number_format($balance,2) }}</th>
+                                <th style="width:1%;"></th>
+                                <th style="width:1%;">Saldo al corte</th>                                
+                                <th style="width:1%;">{{ number_format($balanceDetail,2) }}</th>                                    
+                            </tr>                        
+                            <tr>
                                 <th style="width:1%;">Transacción</th>
                                 <th style="width:1%;">Cant transacción</th>
-                                <th style="width:1%;">Monto Transaccion</th>
+                                <th style="width:1%;">Entradas</th>
+                                <th style="width:1%;">Salidas</th>     
+                                <th style="width:1%;">Saldo</th>
                             </tr>
                         </thead>
+                        @php
+                            $cantCreditos  = 0;
+                            $cantDebitos   = 0;
+
+                            $totalCreditos  = 0;
+                            $totalDebitos   = 0;
+
+                            $saldo = 0;
+                        @endphp                        
+                        {{-- dd($wallet_summary) --}}
                         @foreach($wallet_summary as $wallet2)
-                            <tr class="myTr" onClick="theRoute2({{0}}, {{0}}, {{0}}, {{$wallet2->TypeTransactionId}})">
-                                <td>{{ $wallet2->TypeTransaccionName}}</td>
-                                <td>{{ number_format($wallet2->cant_transactions) }}</td>
-                                <td>{{ number_format($wallet2->total_amount,2)}}</td>
+                        
+                            <tr class="myTr" onClick="theRoute2({{0}}, {{0}}, {{$wallet2->WalletId}}, {{$wallet2->TypeTransactionId}})">
+                                @switch($wallet2->TypeTransactionId )
+                                    //
+                                    // creditos
+                                    //
+                                    @case(2)
+                                    @case(4)
+                                    @case(6)
+                                    @case(7)
+                                    @case(10)
+                                    @case(13)                                    
+                                        <td>{{ $wallet2->TypeTransaccionName}}</td>
+                                        <td>{{ number_format($wallet2->cant_transactions) }}</td>
+                                        <td>{{ number_format($wallet2->total_amount,2)}}</td>
+                                        <td>{{ ' ' }}</td>                                        
+                                        <td>{{ ' ' }}</td>    
+                                        @php
+                                            $cantCreditos ++;
+                                            $totalCreditos += $wallet2->total_amount;
+                                        @endphp
+                                        @break
+                                    //
+                                    // debitos
+                                    //
+                                    @case(1)
+                                    @case(3)
+                                    @case(5)
+                                    @case(8)
+                                    @case(9)
+                                    @case(11)     
+                                    @case(12)                                         
+                                        <td>{{ $wallet2->TypeTransaccionName}}</td>
+                                        <td>{{ number_format($wallet2->cant_transactions) }}</td>
+                                        <td>{{ ' ' }}</td>     
+                                        <td>{{ number_format($wallet2->total_amount,2)}}</td>    
+                                        <td>{{ ' ' }}</td>                                           
+                                        @php
+                                            $cantDebitos ++;
+                                            $totalDebitos += $wallet2->total_amount;
+                                        @endphp                                        
+                                        @break                               
+                                @endswitch                                                           
                             </tr>
                         @endforeach
+                        <tr style="background-color: black; color:white;">
+                            <td >{{ ' ' }}</td>
+                            <td >{{ ' ' }}</td>
+                            <td >{{ number_format($totalCreditos,2) }}</td>
+                            <td >{{ number_format($totalDebitos,2)}}</td>    
+                            <td>{{  number_format($balance,2) }}</td>                              
+                        </tr>                     
                     </table>
                 </div>
 
@@ -744,8 +818,8 @@ $config4 = [
                             <tr>
                                 <th style="width:1%;">Transacción</th>
                                 <th style="width:1%;">Cant transacción</th>
-                                <th style="width:1%;">Monto Creditos</th>
-                                <th style="width:1%;">Monto Debitos</th>                                
+                                <th style="width:1%;">Entradas</th>
+                                <th style="width:1%;">Salidas</th>        
                             </tr>
                         </thead>
                         @php
@@ -758,6 +832,9 @@ $config4 = [
                         @foreach($transaction_summary as $wallet2)
                             <tr class="myTr" onClick="theRoute2({{0}}, {{0}}, {{0}}, {{$wallet2->TypeTransactionId}})">
                                 @switch($wallet2->TypeTransactionId )
+                                    //
+                                    // creditos
+                                    //
                                     @case(2)
                                     @case(4)
                                     @case(6)
@@ -780,6 +857,9 @@ $config4 = [
                                             $totalCreditos += $wallet2->total_amount;
                                         @endphp
                                         @break
+                                    //
+                                    // debitos
+                                    //
                                     @case(1)
                                     @case(3)
                                     @case(5)
