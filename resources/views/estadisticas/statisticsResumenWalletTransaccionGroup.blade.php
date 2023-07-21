@@ -193,14 +193,8 @@ $config4 = [
                                     <th style="width:10%;">Transaccion</th>
                                     <th style="width:10%;">Grupo</th>
                                     <th style="width:10%;">Cant</th>
-<<<<<<< HEAD
                                     <th style="width:10%;">Monto</th>
                                     <th style="width:10%;">Mto comision base</th>
-=======
-                                    <th style="width:10%;">Monto Credito</th>
-                                    <th style="width:10%;">Monto Debito</th>                                    
-                                    <th style="width:10%;">Mto comision base</th>   
->>>>>>> 28b944effede6b915c25423807d46a4e77ec6ec0
                                     <th style="width:10%;">Mto comision</th>
                                     <th style="width:10%;">Mto Ganancia comision</th>
                                     <th style="width:1%;" class="no-exportar">Ver <i class="fas fa-search"></i></th>

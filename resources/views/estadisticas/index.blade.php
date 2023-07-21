@@ -308,10 +308,13 @@ if (isset($balance->Total)){
                                             // show();
                                         }
                                     }
-
-                                    $myType = app(statisticsController::class)->getBalanceWallet($myWallet);
-
+                                    
+                                    
+                                    // echo "myTransaction : " . $myTransaction;
+                                    // $balance2 = app(statisticsController::class)->getBalanceWallet($myWallet);
+                                    
                                     if ($indWallet == 0){
+                                        /*
                                         //
                                         // es grupo
                                         //
@@ -346,12 +349,35 @@ if (isset($balance->Total)){
                                                 $myTotal = 0;
                                                 break;
                                         }
+                                        */
+                                        $myTransaction  = $myClass->getCreditDebitGroup($row->TransactionId);
+                                        switch  ($myTransaction){
+                                            //
+                                            // resta
+                                            //
+                                            case "Debito":                                             
+                                                // $myTotal = $myTotal + ($row->MontoTotal * -1);
+                                                $myTotal = $myTotal + ($myTotal2 * -1);                                                
+                                                break;
+                                            //
+                                            // suma
+                                            //
+                                            case "Credito":                                            
+                                                // $myTotal = ($myTotal) + ($row->MontoTotal);
+                                                $myTotal = ($myTotal) + ($myTotal2);                                                
+                                                break;
+                                            default:
+                                                $myTotal = 0;
+                                                break;
+                                        }
                                     }else{
+                                        /*
                                         //
                                         // es caja
                                         //
                                         switch  ($row->TransactionId){
                                             //
+                                            // debito
                                             // resta
                                             //
                                             case 1:     // pago en transferencia
@@ -360,12 +386,17 @@ if (isset($balance->Total)){
                                             case 8:     // nota de debito
                                             case 9:     // swift
                                             case 11:    // pago usdt
-                                            case 12:    // nota debito caja de efectivo                                
+                                            case 12:    // nota debito caja de efectivo         
+                                            case 14:
+                                            case 15:
+                                            case 16:
+                                            case 17:    
                                                 // $myTotal = $myTotal + ($row->MontoTotal * -1);
                                                 $myTotal = $myTotal + ($myTotal2 * -1);                                                
                                                 break;
 
                                             //
+                                            // credito
                                             // suma
                                             //
                                             case 2:     // cobro en transferencia
@@ -380,7 +411,34 @@ if (isset($balance->Total)){
                                             default:
                                                 $myTotal = 0;
                                                 break;
-                                        }                                        
+                                        } 
+                                        */
+                                        
+                                        $myTransaction  = $myClass->getCreditDebitWallet($row->TransactionId);
+                                        // echo "myTransaction  $row->TransactionId -- $myTransaction";
+                                        switch  ($myTransaction){
+                                            //
+                                            // debito
+                                            // resta
+                                            //
+                                            case "Debito":
+                                                // $myTotal = $myTotal + ($row->MontoTotal * -1);
+                                                $myTotal = $myTotal + ($myTotal2 * -1);                                                
+                                                break;
+
+                                            //
+                                            // credito
+                                            // suma
+                                            //
+                                            case "Credito":
+                                                // $myTotal = ($myTotal) + ($row->MontoTotal);
+                                                $myTotal = ($myTotal) + ($myTotal2);                                                
+                                                break;
+                                            default:
+                                                $myTotal = 0;
+                                                break;
+                                        }
+                                        
                                     }
                                 @endphp
 

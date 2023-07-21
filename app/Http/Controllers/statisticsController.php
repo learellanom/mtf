@@ -43,20 +43,38 @@ class statisticsController extends Controller
     private $myDebits           = "2,4,8,10,12,13";
     public function getCreditDebitGroup($myType){
 
+        $myTypeCredit[] = 1;
+        $myTypeCredit[] = 3;
+        $myTypeCredit[] = 5;
+        $myTypeCredit[] = 6;
+        $myTypeCredit[] = 7;
+        $myTypeCredit[] = 9;
+        $myTypeCredit[] = 11;
+        $myTypeCredit[] = 14;
+        $myTypeCredit[] = 15;
+        $myTypeCredit[] = 16;
+        $myTypeCredit[] = 17;
 
-        $myTypeCredit   = explode($this->myCredits);
-        $myTypeDebit    = explode($this->myDebits);
+        $myTypeDebit[]  = 2;
+        $myTypeDebit[]  = 4;
+        $myTypeDebit[]  = 8;
+        $myTypeDebit[]  = 10;
+        $myTypeDebit[]  = 12;
+        $myTypeDebit[]  = 13;
+
+        //$myTypeCredit   = explode($this->myCredits);
+        //$myTypeDebit    = explode($this->myDebits);
 
 
         foreach($myTypeCredit as $value){
             if ($value == $myType){
-                return "Credit";
+                return "Credito";
             }
         }
 
         foreach($myTypeDebit as $value){
             if ($value == $myType){
-                return "Debit";
+                return "Debito";
             }
         }
 
@@ -73,20 +91,38 @@ class statisticsController extends Controller
     private $myCreditsWallet    = "2,4,6,7,10,13";
     private $myDebitsWallet     = "1,3,5,8,9,11,12,14,15,16,17";
     public function getCreditDebitWallet($myType){
-
-        $myTypeCredit   = explode($this->myCreditsWallet);
-        $myTypeDebit    = explode($this->myDebitsWallet);
+        $myTypeCredit[] = 2;
+        $myTypeCredit[] = 4;
+        $myTypeCredit[] = 6;
+        $myTypeCredit[] = 7;
+        $myTypeCredit[] = 10;
+        $myTypeCredit[] = 13;
+        
+        $myTypeDebit[]  = 1;
+        $myTypeDebit[]  = 3;
+        $myTypeDebit[]  = 5;
+        $myTypeDebit[]  = 8;
+        $myTypeDebit[]  = 9;
+        $myTypeDebit[]  = 11;
+        $myTypeDebit[]  = 12;
+        $myTypeDebit[]  = 14;
+        $myTypeDebit[]  = 15;
+        $myTypeDebit[]  = 16;
+        $myTypeDebit[]  = 17;
+  
+        // $myTypeCredit   = explode(",",$this->myCreditsWallet);
+        // $myTypeDebit    = explode(",",$this->myDebitsWallet);
 
 
         foreach($myTypeCredit as $value){
             if ($value == $myType){
-                return "Credit";
+                return "Credito";
             }
         }
 
         foreach($myTypeDebit as $value){
             if ($value == $myType){
-                return "Debit";
+                return "Debito";
             }
         }
 
