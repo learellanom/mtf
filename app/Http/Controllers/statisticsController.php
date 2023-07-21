@@ -28,11 +28,8 @@ use Illuminate\Support\Facades\DB;
 class statisticsController extends Controller
 {
 
-    private $myCredits   = "1,3,5,7,9,11,12";
-    private $myDebits    = "2,4,6,8,10,13";
 
-    private $myDebitsWallet     = "1,3,5,8,9,11,12";
-    private $myCreditsWallet    = "2,4,6,7,10,13";
+
 
     public function getCredits(){
         return $this->myCredits;
@@ -41,6 +38,61 @@ class statisticsController extends Controller
     public function getDebits(){
         return $this->myDebits;
     }
+
+    private $myCredits          = "1,3,5,6,7,9,11,14,15,16,17";
+    private $myDebits           = "2,4,8,10,12,13";
+    public function getCreditDebitGroup($myType){
+
+
+        $myTypeCredit   = explode($this->myCredits);
+        $myTypeDebit    = explode($this->myDebits);
+
+
+        foreach($myTypeCredit as $value){
+            if ($value == $myType){
+                return "Credit";
+            }
+        }
+
+        foreach($myTypeDebit as $value){
+            if ($value == $myType){
+                return "Debit";
+            }
+        }
+
+        return "";
+
+    }
+    /*
+    *
+    *
+    *   getCreditDebitWallet
+    *
+    *
+    */
+    private $myCreditsWallet    = "2,4,6,7,10,13";
+    private $myDebitsWallet     = "1,3,5,8,9,11,12,14,15,16,17";
+    public function getCreditDebitWallet($myType){
+
+        $myTypeCredit   = explode($this->myCreditsWallet);
+        $myTypeDebit    = explode($this->myDebitsWallet);
+
+
+        foreach($myTypeCredit as $value){
+            if ($value == $myType){
+                return "Credit";
+            }
+        }
+
+        foreach($myTypeDebit as $value){
+            if ($value == $myType){
+                return "Debit";
+            }
+        }
+
+        return "";
+
+    }    
     /*
     *
     *
@@ -119,6 +171,7 @@ class statisticsController extends Controller
         }
 
         $balance = "";
+        $balanceBefore = 0;
         if ($myGroup > 0){
             $balance = $this->getBalance($myGroup);
             // $balance = $this->getBalance($myGroup, $myFechaDesde, $myFechaHasta);
@@ -290,7 +343,22 @@ class statisticsController extends Controller
 
         $typeTransactions   = $this->getTypeTransactions();
         
-        return view('estadisticas.index', compact('myUser','userole','Transacciones','group','wallet','myGroup','myUser','myWallet','balance','typeTransactions','myTypeTransactions','myFechaDesde','myFechaHasta'));
+        $parametros['userole']              = $userole;
+        $parametros['wallet']               = $wallet;
+        $parametros['group']                = $group;
+        $parametros['typeTransactions']     = $typeTransactions;
+        $parametros['Transacciones']        = $Transacciones;
+        $parametros['myUser']               = $myUser;
+        $parametros['myGroup']              = $myGroup;
+        $parametros['myWallet']             = $myWallet;
+        $parametros['balance']              = $balance;
+        $parametros['myTypeTransactions']   = $myTypeTransactions;
+        $parametros['myFechaDesde']         = $myFechaDesde;
+        $parametros['myFechaHasta']         = $myFechaHasta;
+        $parametros['balanceBefore']        = $balanceBefore;
+
+        return view('estadisticas.index', $parametros);
+
 
     }
     /*
@@ -1504,7 +1572,6 @@ class statisticsController extends Controller
     
         }
     }
-
     /*
     *
     *
@@ -1814,25 +1881,6 @@ class statisticsController extends Controller
         //\Log::info('leam getBalance myFechaDesde *** -> ' . $myFechaDesde);
         //\Log::info('leam getBalance myFechaHasta *** -> ' . $myFechaHasta);
 
-        // $myFechaDesde = "2001-01-01";
-        // $myFechaHasta = "9999-12-31";
-        //
-        // 04-05-2023
-        //
-        // Debitos
-        //  4 cobro en efectivo
-        //  8 Nota de debito
-        //  2 cobro transferencia
-        //  10  cobro en mercancia
-        //
-        // Creditos
-        //  1 transferencia
-        //  3 pago en efectivo
-        //  5 mercancia
-        //  7 notas de credito
-        //  9 switft
-        //  11 pago usdt
-        //
         $myQuery =
         "
         select
@@ -1903,7 +1951,43 @@ class statisticsController extends Controller
             return $Transacciones;
         }
     }
-        /*
+    /*
+    *
+    *
+    *       getBalanceWalletBefore
+    *
+    *
+    */
+    function getBalanceBefore($myGroup = 0, $myFechaDesde = "2001-01-01", $myFechaHasta = "9999-12-31"){
+
+        $myFechaDesdeBefore = "2001-01-01";
+        $myFechaHastaBefore = "9999-12-31";
+        $balance3           = 0;
+        $balanceDetail      = 0;
+
+        if ($myFechaDesde === "2001-01-01"){
+            
+            return $balanceDetail;  
+        }
+
+        if ($myGroup > 0){
+            // dd($indRecibeFecha);      
+            if ($myFechaDesde != "2001-01-01"){
+
+                $myFechaHastaBefore = $this->getDayBefore($myFechaDesde);
+
+            }
+            $balance3           = $this->getBalance($myGroup, $myFechaDesdeBefore, $myFechaHastaBefore);
+            if(isset($balance3->Total)){
+                $balanceDetail  = $balance3->Total;
+            }else{
+                $balanceDetail = 0;
+            }
+        }
+
+        return $balanceDetail;   
+    }    
+    /*
     *
     *
     *       getBalanceWalletBefore
@@ -1917,6 +2001,11 @@ class statisticsController extends Controller
         $balance3 = 0;
 
         $balanceDetail = 0;
+
+        if ($myFechaDesde === "2001-01-01"){
+            return $balanceDetail;
+        }
+
         if ($myWallet > 0){
             // dd($indRecibeFecha);                
             if ($myFechaDesde != "2001-01-01"){

@@ -140,6 +140,8 @@ $config4 = [
         const myFechaHasta = {!! $myFechaHasta !!};
         
         // alert('Fechas -> desde -> ' + myFechaDesde);
+        
+        InicializaFechas();
 
         BuscaFechas(myFechaDesde, myFechaHasta);
 
@@ -721,13 +723,23 @@ $config4 = [
                                 @endswitch                                                           
                             </tr>
                         @endforeach
+                        @php
+                            $myBalance = $balanceDetail + ($totalCreditos - $totalDebitos);
+                        @endphp
                         <tr style="background-color: black; color:white;">
                             <td >{{ ' ' }}</td>
                             <td >{{ ' ' }}</td>
                             <td >{{ number_format($totalCreditos,2) }}</td>
                             <td >{{ number_format($totalDebitos,2)}}</td>    
-                            <td>{{  number_format($balance,2) }}</td>                              
-                        </tr>                     
+                            <td>{{  number_format($totalCreditos - $totalDebitos,2) }}</td>                              
+                        </tr>       
+                        <tr style="background-color: black; color:white;">
+                            <td >{{ ' ' }}</td>
+                            <td >{{ ' ' }}</td>
+                            <td >{{ ' ' }}</td>
+                            <td >{{ 'Saldo al dia '}}</td>    
+                            <td>{{  number_format($myBalance,2) }}</td>                              
+                        </tr>                                          
                     </table>
                 </div>
 
@@ -744,7 +756,7 @@ $config4 = [
     *
     *   calculogeneral3
     *   sin wallet
-    * 
+    *   
     */
     function calculoGeneral3(){
 
@@ -982,7 +994,10 @@ $config4 = [
             });
         });
     }
-
+    function InicializaFechas(){
+        $('#drCustomRanges').data('daterangepicker').setStartDate('01-01-2001');
+        
+    }
     function BuscaFechas(FechaDesde = 0,FechaHasta = 0){
 
             myLocation  = window.location.toString();
