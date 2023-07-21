@@ -109,9 +109,9 @@ class HomeController extends Controller
         }
 
 
-        
+
         $balance = 0;
-        
+
         if ($myWallet > 0){
             $balance2 = app(statisticsController::class)->getBalanceWallet($myWallet);
             if(isset($balance2->Total)){
@@ -119,7 +119,7 @@ class HomeController extends Controller
             }
             // $balance = $this->getBalancemyWallet($myWallet, $myFechaDesde, $myFechaHasta);
         };
-        
+
 
        // dd($myFechaDesde);
         $balanceDetail      = 0;
@@ -129,25 +129,23 @@ class HomeController extends Controller
 
         $balanceDetail = 0;
         if ($myWallet > 0){
-            // dd($indRecibeFecha);                
+            // dd($indRecibeFecha);
             if ($myFechaDesde != "2001-01-01"){
-
                 $myFechaHastaBefore = app(statisticsController::class)->getDayBefore($myFechaDesde);
-
             }
 
             // \Log::info("leam 1-> myFechaDesde  -> $myFechaDesde");
             // \Log::info("leam 1-> myFechaHasta  -> $myFechaHasta");
             // \Log::info("leam 1-> balanceDetail -> $balanceDetail");
             // \Log::info("leam 1-> myFechaDesdeBefore -> $myFechaDesdeBefore");
-            // \Log::info("leam 1-> myFechaHastaBefore -> $myFechaHastaBefore");   
+            // \Log::info("leam 1-> myFechaHastaBefore -> $myFechaHastaBefore");
 
-            $balanceDetail           = app(statisticsController::class)->getBalanceWalletBefore($myWallet, $myFechaDesde, $myFechaHasta);            
+            $balanceDetail           = app(statisticsController::class)->getBalanceWalletBefore($myWallet, $myFechaDesde, $myFechaHasta);
 
-            
-             
+
+
             // \Log::info("leam 2-> balance3 -> " . print_r($balance3,true));
-            // \Log::info("leam 2-> balanceDetail -> " . print_r($balanceDetail,true));         
+            // \Log::info("leam 2-> balanceDetail -> " . print_r($balanceDetail,true));
             // \Log::info("leam 2-> ");
             // \Log::info("leam 2-> ");
 
@@ -158,7 +156,7 @@ class HomeController extends Controller
     }
 
 
-    public function export(request $request, $wallet)
+    public function export(request $request, $wallet, $fechaDesde, $fechaHasta)
     {
         $wallet_summary = app(statisticsController::class)->getwalletTransactionSummary($request);
 
@@ -176,6 +174,24 @@ class HomeController extends Controller
         $request4                   = clone $request;
         $transaction_group_summary  = app(statisticsController::class)->getTransactionGroupSummary($request4);
 
+        //$request5               = clone $request;
+        $balance = 0;
+
+        if ($wallet > 0){
+            $balance2 = app(statisticsController::class)->getBalanceWallet($wallet);
+
+            if(isset($balance2->Total)){
+                $balance  = $balance2->Total;
+                //dd($balance);
+
+            }
+            // $balance = $this->getBalancemyWallet($myWallet, $myFechaDesde, $myFechaHasta);
+        };
+
+        $myFechaDesde = "2001-01-01";
+        $myFechaHasta = "9999-12-31";
+
+
 
 
         if($wallet == 0) {
@@ -187,10 +203,11 @@ class HomeController extends Controller
             $transaction_group_summary = [];
         }
 
+        $balanceDetail = app(statisticsController::class)->getBalanceWalletBefore($wallet, $fechaDesde, $fechaHasta);
 
 
-        //dd($wallet_summary);
-        return Excel::download(new DashboardestExport($wallet_summary, $wallet_groupsummary, $transaction_summary, $transaction_group_summary), 'estadisticas.xlsx');
+        //dd($balanceDetail);
+        return Excel::download(new DashboardestExport($wallet_summary, $wallet_groupsummary, $transaction_summary, $transaction_group_summary, $balance, $balanceDetail), 'estadisticas.xlsx');
     }
 
 

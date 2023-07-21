@@ -24,19 +24,23 @@ use Maatwebsite\Excel\Facades\Excel;
 use Maatwebsite\Excel\Concerns\FromView;
 use Illuminate\Contracts\View\View;
 
+
 class DashboardestExport implements FromView
 {
     use Exportable;
 
-    private $wallet_summary, $wallet_groupsummary, $transaction_summary, $transaction_group_summary;
+    private $wallet_summary, $wallet_groupsummary, $transaction_summary, $transaction_group_summary, $balance, $balanceDetail;
 
-    public function __construct($wallet_summary, $wallet_groupsummary,$transaction_summary,$transaction_group_summary)
+    public function __construct($wallet_summary, $wallet_groupsummary,$transaction_summary,$transaction_group_summary, $balance, $balanceDetail)
     {
         $this->wallet_summary = $wallet_summary;
         $this->wallet_groupsummary = $wallet_groupsummary;
 
         $this->transaction_group_summary = $transaction_group_summary;
         $this->transaction_summary = $transaction_summary;
+
+        $this->balance = $balance;
+        $this->balanceDetail = $balanceDetail;
     }
 
     public function view(): View
@@ -45,7 +49,9 @@ class DashboardestExport implements FromView
             'general' => $this->transaction_group_summary,
             'general2'=> $this->transaction_summary,
             'summary' =>  $this->wallet_summary,
-            'groupsummary' =>   $this->wallet_groupsummary
+            'groupsummary' =>   $this->wallet_groupsummary,
+            'balance' =>   $this->balance,
+            'balanceDetail' => $this->balanceDetail
         ]);
     }
 

@@ -66,7 +66,8 @@ Route::get('dashboardest/{wallet}/{transaction?}/{fechaDesde?}/{fechaHasta?}', [
 
 Route::get('dashboard_est/export/', [App\Http\Controllers\HomeController::class, 'export'])->name('exports.excel'); //EXPORTACIÓN DE EXCEL
 Route::get('dashboard_est/export/{wallet}', [App\Http\Controllers\HomeController::class, 'export'])->name('exports.excel'); //EXPORTACIÓN DE EXCEL
-
+Route::get('dashboard_est/export/{wallet}/{transaction?}/', [App\Http\Controllers\HomeController::class, 'export'])->name('exports.excel'); //EXPORTACIÓN DE EXCEL
+Route::get('dashboard_est/export/{wallet}/{fechaDesde?}/{fechaHasta?}', [App\Http\Controllers\HomeController::class, 'export'])->name('exports.excel'); //EXPORTACIÓN DE EXCEL
 
 /* TRANSACCIONES A CLIENTES */
 Route::group(['middleware' => 'auth'], function () {

@@ -81,11 +81,10 @@ $config4 = [
                     </x-adminlte-date-range>
 
 
-
                 </div>
                 <div class ="col-12 col-md-3">
                     <a class="btn btn-primary imprimir"><i class="fas fa-print"></i></a>
-                    <a class="btn btn-success" href={{route('exports.excel', $myWallet)}}><i class="fas fa-file-excel"></i></a>
+                    <a class="btn btn-success" href={{route('exports.excel', [$myWallet, $myFechaDesde, $myFechaHasta])}}><i class="fas fa-file-excel"></i></a>
                 </div>
 
             </div>
@@ -138,9 +137,9 @@ $config4 = [
         let  myFechaDesde = {!! $myFechaDesde !!};
         // console.log({!! $myFechaDesde !!});
         const myFechaHasta = {!! $myFechaHasta !!};
-        
+
         // alert('Fechas -> desde -> ' + myFechaDesde);
-        
+
         InicializaFechas();
 
         BuscaFechas(myFechaDesde, myFechaHasta);
@@ -334,7 +333,7 @@ $config4 = [
                         .myTr:hover{
                             background-color: #D7DBDD  !important;
                         }
-                    </style>                
+                    </style>
                     <div class ="row mb-4" style="background-color: white;">
                         <div class="col-12 col-md-6">
                             <table class="table thead-light" style="background-color: white;">
@@ -370,8 +369,8 @@ $config4 = [
                                         <th style="width:1%;">Monto Transaccion</th>
                                     </tr>
 
-                                </thead> 
-                                
+                                </thead>
+
                                 @foreach($wallet_groupsummary as $wallet2)
                                     @if($wallet2->TypeTransactionId == $wallet->TypeTransactionId)
                                         <tr class="myTr" onClick="theRoute2({{0}}, {{$wallet2->GroupId ?? 0 }}, {{0}}, {{$wallet2->TypeTransactionId}})">
@@ -510,7 +509,7 @@ $config4 = [
                     }
 
                 });
-                
+
                 myElement = `
                     <style>
                         .myTr {
@@ -519,7 +518,7 @@ $config4 = [
                         .myTr:hover{
                             background-color: #D7DBDD  !important;
                         }
-                    </style>                    
+                    </style>
                     <div class ="row mb-4" style="background-color: white;">
                         <div class="col-12 col-md-6">
                             <table class="table thead-light" style="background-color: white;">
@@ -579,8 +578,8 @@ $config4 = [
     *
     *  calculoGeneral2
     *   con wallet
-    * 
-    */ 
+    *
+    */
     function calculoGeneral2(){
 
          myElement = `
@@ -645,7 +644,7 @@ $config4 = [
                     background-color: #D7DBDD  !important;
                 }
             </style>
-            
+
             {{-- dd($balanceDetail . ' ' . $myFechaDesdeBefore . ' ' . $myFechaHastaBefore) --}}
 
             <div class ="row mb-4" style="background-color: white;">
@@ -656,14 +655,14 @@ $config4 = [
                                 <th style="width:1%;">Saldo Total</th>
                                 <th style="width:1%;">{{ number_format($balance,2) }}</th>
                                 <th style="width:1%;"></th>
-                                <th style="width:1%;">Saldo al corte</th>                                
-                                <th style="width:1%;">{{ number_format($balanceDetail,2) }}</th>                                    
-                            </tr>                        
+                                <th style="width:1%;">Saldo al corte</th>
+                                <th style="width:1%;">{{ number_format($balanceDetail,2) }}</th>
+                            </tr>
                             <tr>
                                 <th style="width:1%;">Transacción</th>
                                 <th style="width:1%;">Cant transacción</th>
                                 <th style="width:1%;">Entradas</th>
-                                <th style="width:1%;">Salidas</th>     
+                                <th style="width:1%;">Salidas</th>
                                 <th style="width:1%;">Saldo</th>
                             </tr>
                         </thead>
@@ -675,10 +674,10 @@ $config4 = [
                             $totalDebitos   = 0;
 
                             $saldo = 0;
-                        @endphp                        
+                        @endphp
                         {{-- dd($wallet_summary) --}}
                         @foreach($wallet_summary as $wallet2)
-                        
+
                             <tr class="myTr" onClick="theRoute2({{0}}, {{0}}, {{$wallet2->WalletId}}, {{$wallet2->TypeTransactionId}})">
                                 @switch($wallet2->TypeTransactionId )
                                     //
@@ -689,12 +688,12 @@ $config4 = [
                                     @case(6)
                                     @case(7)
                                     @case(10)
-                                    @case(13)                                    
+                                    @case(13)
                                         <td>{{ $wallet2->TypeTransaccionName}}</td>
                                         <td>{{ number_format($wallet2->cant_transactions) }}</td>
                                         <td>{{ number_format($wallet2->total_amount,2)}}</td>
-                                        <td>{{ ' ' }}</td>                                        
-                                        <td>{{ ' ' }}</td>    
+                                        <td>{{ ' ' }}</td>
+                                        <td>{{ ' ' }}</td>
                                         @php
                                             $cantCreditos ++;
                                             $totalCreditos += $wallet2->total_amount;
@@ -708,19 +707,19 @@ $config4 = [
                                     @case(5)
                                     @case(8)
                                     @case(9)
-                                    @case(11)     
-                                    @case(12)                                         
+                                    @case(11)
+                                    @case(12)
                                         <td>{{ $wallet2->TypeTransaccionName}}</td>
                                         <td>{{ number_format($wallet2->cant_transactions) }}</td>
-                                        <td>{{ ' ' }}</td>     
-                                        <td>{{ number_format($wallet2->total_amount,2)}}</td>    
-                                        <td>{{ ' ' }}</td>                                           
+                                        <td>{{ ' ' }}</td>
+                                        <td>{{ number_format($wallet2->total_amount,2)}}</td>
+                                        <td>{{ ' ' }}</td>
                                         @php
                                             $cantDebitos ++;
                                             $totalDebitos += $wallet2->total_amount;
-                                        @endphp                                        
-                                        @break                               
-                                @endswitch                                                           
+                                        @endphp
+                                        @break
+                                @endswitch
                             </tr>
                         @endforeach
                         @php
@@ -730,16 +729,16 @@ $config4 = [
                             <td >{{ ' ' }}</td>
                             <td >{{ ' ' }}</td>
                             <td >{{ number_format($totalCreditos,2) }}</td>
-                            <td >{{ number_format($totalDebitos,2)}}</td>    
-                            <td>{{  number_format($totalCreditos - $totalDebitos,2) }}</td>                              
-                        </tr>       
+                            <td >{{ number_format($totalDebitos,2)}}</td>
+                            <td>{{  number_format($totalCreditos - $totalDebitos,2) }}</td>
+                        </tr>
                         <tr style="background-color: black; color:white;">
                             <td >{{ ' ' }}</td>
                             <td >{{ ' ' }}</td>
                             <td >{{ ' ' }}</td>
-                            <td >{{ 'Saldo al dia '}}</td>    
-                            <td>{{  number_format($myBalance,2) }}</td>                              
-                        </tr>                                          
+                            <td >{{ 'Saldo al dia '}}</td>
+                            <td>{{  number_format($myBalance,2) }}</td>
+                        </tr>
                     </table>
                 </div>
 
@@ -756,12 +755,12 @@ $config4 = [
     *
     *   calculogeneral3
     *   sin wallet
-    *   
+    *
     */
     function calculoGeneral3(){
 
         let myElement;
- 
+
         myElement = `
             <div class="row">
                 <div class="col-md-12">
@@ -831,7 +830,7 @@ $config4 = [
                                 <th style="width:1%;">Transacción</th>
                                 <th style="width:1%;">Cant transacción</th>
                                 <th style="width:1%;">Entradas</th>
-                                <th style="width:1%;">Salidas</th>        
+                                <th style="width:1%;">Salidas</th>
                             </tr>
                         </thead>
                         @php
@@ -857,12 +856,12 @@ $config4 = [
                                             <td class="font-weight-bold" style="color: green;">{{ $wallet2->TypeTransaccionName}}</td>
                                             <td class="font-weight-bold" style="color: green;">{{ number_format($wallet2->cant_transactions) }}</td>
                                             <td class="font-weight-bold" style="color: green;">{{ number_format($wallet2->total_amount,2)}}</td>
-                                            <td class="font-weight-bold" style="color: green;">{{ ' ' }}</td>                                        
+                                            <td class="font-weight-bold" style="color: green;">{{ ' ' }}</td>
                                         @else
                                             <td                                                 >{{ $wallet2->TypeTransaccionName}}</td>
                                             <td                                                 >{{ number_format($wallet2->cant_transactions) }}</td>
                                             <td                                                 >{{ number_format($wallet2->total_amount,2)}}</td>
-                                            <td class="font-weight-bold" style="color: green;"  >{{ ' ' }}</td>                                        
+                                            <td class="font-weight-bold" style="color: green;"  >{{ ' ' }}</td>
                                         @endif
                                         @php
                                             $cantCreditos ++;
@@ -883,12 +882,12 @@ $config4 = [
                                             <td class="font-weight-bold" style="color: green;">{{ $wallet2->TypeTransaccionName}}</td>
                                             <td class="font-weight-bold" style="color: green;">{{ number_format($wallet2->cant_transactions) }}</td>
                                             <td class="font-weight-bold" style="color: green;">{{  ' ' }}</td>
-                                            <td class="font-weight-bold" style="color: green;">{{ number_format($wallet2->total_amount,2)}}</td>                                        
+                                            <td class="font-weight-bold" style="color: green;">{{ number_format($wallet2->total_amount,2)}}</td>
                                         @else
                                             <td                                                 >{{ $wallet2->TypeTransaccionName}}</td>
                                             <td                                                 >{{ number_format($wallet2->cant_transactions) }}</td>
                                             <td                                                 >{{  ' ' }}</td>
-                                            <td class="font-weight-bold" style="color: green;"  >{{ number_format($wallet2->total_amount,2)}}</td>                                        
+                                            <td class="font-weight-bold" style="color: green;"  >{{ number_format($wallet2->total_amount,2)}}</td>
                                         @endif
                                         @php
                                             $cantDebitos ++;
@@ -903,7 +902,7 @@ $config4 = [
                             <td >{{ ' ' }}</td>
                             <td >{{ ' ' }}</td>
                             <td >{{ number_format($totalCreditos,2) }}</td>
-                            <td >{{ number_format($totalDebitos,2)}}</td>                              
+                            <td >{{ number_format($totalDebitos,2)}}</td>
                         </tr>
                     </table>
                 </div>
@@ -996,7 +995,7 @@ $config4 = [
     }
     function InicializaFechas(){
         $('#drCustomRanges').data('daterangepicker').setStartDate('01-01-2001');
-        
+
     }
     function BuscaFechas(FechaDesde = 0,FechaHasta = 0){
 

@@ -193,7 +193,8 @@ $config4 = [
                                     <th style="width:10%;">Transaccion</th>
                                     <th style="width:10%;">Grupo</th>
                                     <th style="width:10%;">Cant</th>
-                                    <th style="width:10%;">Monto</th>
+                                    <th style="width:10%;">Monto Credito</th>
+                                    <th style="width:10%;">Monto Debito</th>
                                     <th style="width:10%;">Mto comision base</th>
                                     <th style="width:10%;">Mto comision</th>
                                     <th style="width:10%;">Mto Ganancia comision</th>
@@ -226,9 +227,9 @@ $config4 = [
                                             @case (6)
                                             @case (7)
                                             @case (10)
-                                            @case (13)                                        
+                                            @case (13)
                                                 <td class="text-right">{!! number_format($row->total_amount,2) !!}</td>
-                                                <td class="text-right">{!! ' ' !!}</td>                                    
+                                                <td class="text-right">{!! ' ' !!}</td>
                                                 @break
                                             // <!-- debitos -->
                                             @case (1)
@@ -236,15 +237,15 @@ $config4 = [
                                             @case (5)
                                             @case (8)
                                             @case (9)
-                                            @case (11)                                        
-                                            @case (12)                                        
+                                            @case (11)
+                                            @case (12)
                                                 <td class="text-right">{!! ' ' !!}</td>
-                                                <td class="text-right">{!! number_format($row->total_amount,2) !!}</td>                                    
+                                                <td class="text-right">{!! number_format($row->total_amount,2) !!}</td>
                                                 @break
                                         @endswitch
                                     @endif
 
-                                    @if($myGroup  != 0)     
+                                    @if($myGroup  != 0)
                                         @switch($row->TypeTransactionId)
                                             // <!-- creditos -->
                                             @case (1)
@@ -253,9 +254,9 @@ $config4 = [
                                             @case (6)
                                             @case (7)
                                             @case (9)
-                                            @case (11)                                            
+                                            @case (11)
                                                 <td class="text-right">{!! number_format($row->total_amount,2) !!}</td>
-                                                <td class="text-right">{!! ' ' !!}</td>                                    
+                                                <td class="text-right">{!! ' ' !!}</td>
                                                 @break
                                             // <!-- debitos -->
                                             @case (2)
@@ -265,9 +266,9 @@ $config4 = [
                                             @case (12)
                                             @case (13)
                                                 <td class="text-right">{!! ' ' !!}</td>
-                                                <td class="text-right">{!! number_format($row->total_amount,2) !!}</td>                                    
+                                                <td class="text-right">{!! number_format($row->total_amount,2) !!}</td>
                                                 @break
-                                        @endswitch                                                                   
+                                        @endswitch
                                     @endif
 
                                     <td class="text-right">{!! number_format($row->total_amount_commission_base,2) !!}</td>
