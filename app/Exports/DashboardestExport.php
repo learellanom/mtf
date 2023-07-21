@@ -29,9 +29,9 @@ class DashboardestExport implements FromView
 {
     use Exportable;
 
-    private $wallet_summary, $wallet_groupsummary, $transaction_summary, $transaction_group_summary, $balance;
+    private $wallet_summary, $wallet_groupsummary, $transaction_summary, $transaction_group_summary, $balance, $balanceDetail;
 
-    public function __construct($wallet_summary, $wallet_groupsummary,$transaction_summary,$transaction_group_summary, $balance)
+    public function __construct($wallet_summary, $wallet_groupsummary,$transaction_summary,$transaction_group_summary, $balance, $balanceDetail)
     {
         $this->wallet_summary = $wallet_summary;
         $this->wallet_groupsummary = $wallet_groupsummary;
@@ -40,6 +40,7 @@ class DashboardestExport implements FromView
         $this->transaction_summary = $transaction_summary;
 
         $this->balance = $balance;
+        $this->balanceDetail = $balanceDetail;
     }
 
     public function view(): View
@@ -49,7 +50,8 @@ class DashboardestExport implements FromView
             'general2'=> $this->transaction_summary,
             'summary' =>  $this->wallet_summary,
             'groupsummary' =>   $this->wallet_groupsummary,
-            'balance' =>   $this->balance
+            'balance' =>   $this->balance,
+            'balanceDetail' => $this->balanceDetail
         ]);
     }
 

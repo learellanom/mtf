@@ -309,6 +309,7 @@ if (isset($balance->Total)){
                                         }
                                     }
 
+                                    $myType = app(statisticsController::class)->getBalanceWallet($myWallet);
 
                                     if ($indWallet == 0){
                                         //

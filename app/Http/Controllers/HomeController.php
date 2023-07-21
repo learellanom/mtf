@@ -13,8 +13,8 @@ use Maatwebsite\Excel\Facades\Excel;
 class HomeController extends Controller
 {
 
-    private $myCredits   = "1,3,5,7,9,11,12";
-    private $myDebits    = "2,4,6,8,10";
+
+
     /**
      * Create a new controller instance.
      *
@@ -134,61 +134,45 @@ class HomeController extends Controller
                 $myFechaHastaBefore = app(statisticsController::class)->getDayBefore($myFechaDesde);
             }
 
-            \Log::info("leam 1-> myFechaDesde  -> $myFechaDesde");
-            \Log::info("leam 1-> myFechaHasta  -> $myFechaHasta");
-            \Log::info("leam 1-> balanceDetail -> $balanceDetail");
-            \Log::info("leam 1-> myFechaDesdeBefore -> $myFechaDesdeBefore");
-            \Log::info("leam 1-> myFechaHastaBefore -> $myFechaHastaBefore");
+            // \Log::info("leam 1-> myFechaDesde  -> $myFechaDesde");
+            // \Log::info("leam 1-> myFechaHasta  -> $myFechaHasta");
+            // \Log::info("leam 1-> balanceDetail -> $balanceDetail");
+            // \Log::info("leam 1-> myFechaDesdeBefore -> $myFechaDesdeBefore");
+            // \Log::info("leam 1-> myFechaHastaBefore -> $myFechaHastaBefore");
 
-            /*
-            $balance3           = app(statisticsController::class)->getBalanceWallet($myWallet, $myFechaDesdeBefore, $myFechaHastaBefore);
-            if(isset($balance3->Total)){
-                $balanceDetail  = $balance3->Total;
-            }
-            */
             $balanceDetail           = app(statisticsController::class)->getBalanceWalletBefore($myWallet, $myFechaDesde, $myFechaHasta);
 
-            // $balance = $this->getBalancemyWallet($myWallet, $myFechaDesde, $myFechaHasta);
-            // dd('Fecha desde -> ' . $myFechaDesde . ' Fecha Hasta -> ' . $myFechaHasta .  ' balance detail -> ' . $balanceDetail . ' ' . $myFechaDesdeBefore . ' ' . $myFechaHastaBefore);
 
 
-            \Log::info("leam 2-> balance3 -> " . print_r($balance3,true));
-            \Log::info("leam 2-> balanceDetail -> " . print_r($balanceDetail,true));
-            \Log::info("leam 2-> ");
-            \Log::info("leam 2-> ");
+            // \Log::info("leam 2-> balance3 -> " . print_r($balance3,true));
+            // \Log::info("leam 2-> balanceDetail -> " . print_r($balanceDetail,true));
+            // \Log::info("leam 2-> ");
+            // \Log::info("leam 2-> ");
 
         };
 
-        //dd($wallet_summary);
-
-
-        // if ($myWallet ==0){
-        //     $wallet_summary = $transact  ion_summary;
-        // }
-        // return view('dashboardest', compact('wallet_summary', 'wallet_groupsummary', 'wallet', 'typeTransactions', 'myWallet', 'myTypeTransaction', 'myFechaDesde', 'myFechaHasta'));\
         return view('dashboardest2', compact('transaction_group_summary','transaction_summary','wallet_summary', 'wallet_groupsummary', 'wallet', 'typeTransactions', 'myWallet', 'myTypeTransaction', 'myFechaDesde', 'myFechaHasta','balanceDetail','myFechaDesdeBefore','myFechaHastaBefore','balance'));
 
     }
 
 
-    public function export(request $request, $wallet)
+    public function export(request $request, $wallet, $fechaDesde, $fechaHasta)
     {
         $wallet_summary = app(statisticsController::class)->getwalletTransactionSummary($request);
 
         $request2 = clone $request;
         $request2->transaction = 0;
 
-        $myWallet = 0;
-        $wallet_summary = app(statisticsController::class)->getwalletTransactionSummary($request2);
+        $wallet_summary             = app(statisticsController::class)->getwalletTransactionSummary($request2);
 
-        $wallet_groupsummary = app(statisticsController::class)->getWalletTransactionGroupSummary($request);
+        $wallet_groupsummary        = app(statisticsController::class)->getWalletTransactionGroupSummary($request);
 
-        $request3               = clone $request;
-        $request3->transaction = 0;
-        $transaction_summary     = app(statisticsController::class)->getTransactionSummary($request3);
+        $request3                   = clone $request;
+        $request3->transaction      = 0;
+        $transaction_summary        = app(statisticsController::class)->getTransactionSummary($request3);
 
-        $request4               = clone $request;
-        $transaction_group_summary     = app(statisticsController::class)->getTransactionGroupSummary($request4);
+        $request4                   = clone $request;
+        $transaction_group_summary  = app(statisticsController::class)->getTransactionGroupSummary($request4);
 
         //$request5               = clone $request;
         $balance = 0;
@@ -219,10 +203,10 @@ class HomeController extends Controller
             $transaction_group_summary = [];
         }
 
-        $balanceDetail = app(statisticsController::class)->getBalanceWalletBefore($myWallet, $myFechaDesde, $myFechaHasta);
+        $balanceDetail = app(statisticsController::class)->getBalanceWalletBefore($wallet, $fechaDesde, $fechaHasta);
 
 
-        //dd($wallet_summary);
+        //dd($balanceDetail);
         return Excel::download(new DashboardestExport($wallet_summary, $wallet_groupsummary, $transaction_summary, $transaction_group_summary, $balance, $balanceDetail), 'estadisticas.xlsx');
     }
 

@@ -906,8 +906,8 @@
         @else
         <thead>
             <tr>
-                <th colspan="3">Saldo total:</th>
-                <th colspan="5" style="text-align:center; background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 15px; text-transform: uppercase; width:300px;">Saldo total:</th>
+                <th colspan="3"></th>
+                <th colspan="5" style="text-align:center; background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 15px; text-transform: uppercase; width:300px;">Saldo total: {{ number_format($balance,2)}}   |      Saldo al corte:  {{ number_format($balanceDetail,2) }}</th>
                 <th colspan="2"></th>
             </tr>
             <tr>
@@ -986,10 +986,21 @@
                 <td >{{ ' ' }}</td>
                 <td >{{ ' ' }}</td>
                 <td >{{ ' ' }}</td>
-                <td >{{ ' ' }}</td>
-                <td >{{ ' ' }}</td>
+                <td style="background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:200px;">{{ ' ' }}</td>
+                <td style="background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:200px;">{{ ' ' }}</td>
                 <td style="background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:200px;">{{ number_format($totalCreditos,2) }}</td>
                 <td style="background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:200px;">{{ number_format($totalDebitos,2)}}</td>
+                <td style="background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:200px;">{{ number_format($balance,2)}}</td>
+            </tr>
+
+            <tr style="background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:200px;">
+                <td >{{ ' ' }}</td>
+                <td >{{ ' ' }}</td>
+                <td >{{ ' ' }}</td>
+                <td style="background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:200px;">{{ ' ' }}</td>
+                <td style="background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:200px;">{{ ' ' }}</td>
+                <td style="background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:200px;"></td>
+                <td style="background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:200px;">Saldo al dia:</td>
                 <td style="background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:200px;">{{ number_format($balance,2)}}</td>
             </tr>
 
