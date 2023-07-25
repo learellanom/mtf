@@ -5,6 +5,11 @@
 
 @php
 
+$myClass = new app\Http\Controllers\statisticsController;
+// $myCredits = $myClass->getCredits();
+// $myDebits  = $myClass->getDebits();
+
+
 $heads = [
     ['label' => 'Grupo',        'no-export' => true, 'width' => 15],
     ['label' => 'Monto total',  'no-export' => true, 'width' => 15],
@@ -26,11 +31,7 @@ $btnDetails = '<button class="btn btn-xs btn-default text-teal mx-1 shadow" titl
                </button>';
 
 $config = [
-    'data' => [
-        [22, '07-03-2023', 'John Bender',    '4,00', '500.00', '501.00', '2%', '503.00', '504.00', '', '', '505.00', '<nobr>'.$btnEdit.$btnDelete.$btnDetails.'</nobr>'],
-        [19, '07-03-2023', 'Sophia Clemens', '4.00', '500.00', '501.00', '2%', '503.00', '504.00', '', '', '505.00', '<nobr>'.$btnEdit.$btnDelete.$btnDetails.'</nobr>'],
-        [3,  '07-03-2023', 'Peter Sousa',    '4.00', '500.00', '501.00', '2%', '503.00', '504.00', '', '', '505.00', '<nobr>'.$btnEdit.$btnDelete.$btnDetails.'</nobr>'],
-    ],
+    'data' => ['1','2','3'],
     'order' => [[1, 'asc']],
     'columns' => [null, null,  ['orderable' => false]]
 ];
@@ -220,55 +221,40 @@ $config4 = [
 
                                     {{-- por caja o general --}}
                                     @if($myGroup  == 0)
-                                        @switch($row->TypeTransactionId)
-                                            {{-- creditos --}}
-                                            @case (2)
-                                            @case (4)
-                                            @case (6)
-                                            @case (7)
-                                            @case (10)
-                                            @case (13)
+
+                                        @php
+                                            $myTransaction  = $myClass->getCreditDebitWallet($row->TypeTransactionId);
+                                        @endphp
+                                        @switch($myTransaction)
+                                            @case("Credito")
                                                 <td class="text-right">{!! number_format($row->total_amount,2) !!}</td>
-                                                <td class="text-right">{!! ' ' !!}</td>
+                                                <td class="text-right">{!! ' ' !!}</td>                                            
                                                 @break
-                                            // <!-- debitos -->
-                                            @case (1)
-                                            @case (3)
-                                            @case (5)
-                                            @case (8)
-                                            @case (9)
-                                            @case (11)
-                                            @case (12)
+                                            @case("Debito")
                                                 <td class="text-right">{!! ' ' !!}</td>
-                                                <td class="text-right">{!! number_format($row->total_amount,2) !!}</td>
-                                                @break
+                                                <td class="text-right">{!! number_format($row->total_amount,2) !!}</td>                                            
+                                                @break                                                
                                         @endswitch
+
+
                                     @endif
 
                                     @if($myGroup  != 0)
-                                        @switch($row->TypeTransactionId)
-                                            // <!-- creditos -->
-                                            @case (1)
-                                            @case (3)
-                                            @case (5)
-                                            @case (6)
-                                            @case (7)
-                                            @case (9)
-                                            @case (11)
+
+                                        @php
+                                            $myTransaction  = $myClass->getCreditDebitGroup($row->TypeTransactionId);
+                                        @endphp
+                                        @switch($myTransaction)
+                                            @case("Credito")
                                                 <td class="text-right">{!! number_format($row->total_amount,2) !!}</td>
                                                 <td class="text-right">{!! ' ' !!}</td>
-                                                @break
-                                            // <!-- debitos -->
-                                            @case (2)
-                                            @case (4)
-                                            @case (8)
-                                            @case (10)
-                                            @case (12)
-                                            @case (13)
+                                                @break                                            
+                                            @case("Debito")
                                                 <td class="text-right">{!! ' ' !!}</td>
                                                 <td class="text-right">{!! number_format($row->total_amount,2) !!}</td>
-                                                @break
+                                                @break                                            
                                         @endswitch
+
                                     @endif
 
                                     <td class="text-right">{!! number_format($row->total_amount_commission_base,2) !!}</td>
@@ -462,40 +448,6 @@ $config4 = [
                 },
             ]
         });
-
-        // $('#table th').each(function(index, element) {
-        //     // Get the column index
-        //     var colIndex = $(element).index();
-        //     // alert('columna es ' + colIndex);
-        //     // Loop through each DataTable row
-        //     if (colIndex >= 7){
-        //         $('#table tr').each(function(rowIndex, rowElement) {
-        //             if (rowIndex >= 0){
-
-
-        //                 // Hide the corresponding td element if the column is empty
-        //                 var tdElement = $(rowElement).find('td').eq(colIndex);
-
-        //                 // alert('esta es la columna : ' + colIndex + ' este es el rowIndex ' + rowIndex + ' element es : ' + tdElement.html());
-
-        //                 // if (!tdElement.html().trim()) {
-        //                 if ($.trim(tdElement.html()) == "") {
-        //                 // tdElement.hide();
-        //                 // alert('este el el coindex' + tdElement);
-        //                 }
-        //             }
-        //         });
-        //     }
-
-            // Hide the corresponding th element if the column is empty
-
-        //     if ($('#table tr td:nth-child(' + (colIndex + 1) + '):not(:hidden)').length === 0) {
-        //         // $(element).hide();
-        //     }
-
-        // });
-
-
 
     });
 

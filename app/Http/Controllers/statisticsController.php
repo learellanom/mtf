@@ -210,7 +210,8 @@ class statisticsController extends Controller
         $balanceBefore = 0;
         if ($myGroup > 0){
             $balance = $this->getBalance($myGroup);
-            // $balance = $this->getBalance($myGroup, $myFechaDesde, $myFechaHasta);
+            $balanceBefore = $this->getBalanceBefore($myGroup,$myFechaDesde, $myFechaHasta);
+           // $balance = $this->getBalanceGroup($myGroup, $myFechaDesde, $myFechaHasta);
         };
 
         if ($myWallet > 0){
@@ -392,7 +393,6 @@ class statisticsController extends Controller
         $parametros['myFechaDesde']         = $myFechaDesde;
         $parametros['myFechaHasta']         = $myFechaHasta;
         $parametros['balanceBefore']        = $balanceBefore;
-
         return view('estadisticas.index', $parametros);
 
 

@@ -8,8 +8,8 @@
 @php
 
 $myClass = new app\Http\Controllers\statisticsController;
-$myCredits = $myClass->getCredits();
-$myDebits  = $myClass->getDebits();
+// $myCredits = $myClass->getCredits();
+// $myDebits  = $myClass->getDebits();
 
 // dd($myCredits . ' - ' . $myDebits);
 
@@ -70,25 +70,27 @@ if (isset($balance->Total)){
 
 <div class="container-left">
     <div class="row col-12">
+
         <div class ="col-12 col-sm-2">
-            <x-adminlte-select2 id="userole"
-                                class="mySelect"
-                                name="optionsUsers"
+            <x-adminlte-select2 id="wallet"
+                                name="optionsWallets"
                                 igroup-size="sm"
                                 label-class="text-lightblue"
-                                data-placeholder="Agente..."
-                                :config="$config1"
+                                data-placeholder="Wallet..."
+                                :config="$config4"
                                 >
                 <x-slot name="prependSlot">
                     <div class="input-group-text bg-gradient-dark">
                         <!-- <i class="fas fa-car-side"></i> -->
-                        <i class="fas fa-user-tie"></i>
+                        <i class="fas fa-box"></i>
                     </div>
                 </x-slot>
                 <!-- <x-adminlte-options :options="['Car', 'Truck', 'Motorcycle']" empty-option/> -->
-                <x-adminlte-options :options="$userole" empty-option="Selecciona un Agente.."/>
+                <x-adminlte-options :options="$wallet" empty-option="Wallet.."/>
             </x-adminlte-select2>
         </div>
+
+
 
         <div class ="col-12 col-sm-2">
             <x-adminlte-select2 id="group"
@@ -129,7 +131,26 @@ if (isset($balance->Total)){
         </div>
 
         <div class ="col-12 col-sm-2">
+            <x-adminlte-select2 id="userole"
+                                class="mySelect"
+                                name="optionsUsers"
+                                igroup-size="sm"
+                                label-class="text-lightblue"
+                                data-placeholder="Agente..."
+                                :config="$config1"
+                                >
+                <x-slot name="prependSlot">
+                    <div class="input-group-text bg-gradient-dark">
+                        <!-- <i class="fas fa-car-side"></i> -->
+                        <i class="fas fa-user-tie"></i>
+                    </div>
+                </x-slot>
+                <!-- <x-adminlte-options :options="['Car', 'Truck', 'Motorcycle']" empty-option/> -->
+                <x-adminlte-options :options="$userole" empty-option="Selecciona un Agente.."/>
+            </x-adminlte-select2>
         </div>
+
+
 
         <div class ="col-12 col-sm-2">
             <x-adminlte-date-range
@@ -147,22 +168,6 @@ if (isset($balance->Total)){
         </div>
 
         <div class ="col-12 col-sm-2">
-            <x-adminlte-select2 id="wallet"
-                                name="optionsWallets"
-                                igroup-size="sm"
-                                label-class="text-lightblue"
-                                data-placeholder="Wallet..."
-                                :config="$config4"
-                                >
-                <x-slot name="prependSlot">
-                    <div class="input-group-text bg-gradient-dark">
-                        <!-- <i class="fas fa-car-side"></i> -->
-                        <i class="fas fa-box"></i>
-                    </div>
-                </x-slot>
-                <!-- <x-adminlte-options :options="['Car', 'Truck', 'Motorcycle']" empty-option/> -->
-                <x-adminlte-options :options="$wallet" empty-option="Wallet.."/>
-            </x-adminlte-select2>
         </div>
 
         <div class ="col-12 col-sm-2">
@@ -172,18 +177,16 @@ if (isset($balance->Total)){
 </div>
 
 
-<br>
-<br>
 
 <div class="row">
     <div class="col-md-12">
         <div class="card mb-4">
             <div class="card-header">
-                <div class="card-title col-md-12">
+                <div class="card-title col-md-12" style="height: 2rem;">
                     <div class="card-body">
                         <div class= "row">
-                            <div class="col-md-4">
-                                <h4 class="text-uppercase font-weight-bold">{{ __('Detalles|Movimientos') }} <i class="fas fa-info-circle"></i></h4>
+                            <div class="col-md-3">
+                                <p class="text-uppercase font-weight-bold">{{ __('Detalles|Movimientos') }}</p>
                             </div>
                             @php
                                 $indWallet = 0;
@@ -195,38 +198,44 @@ if (isset($balance->Total)){
                             @endphp
 
                             @if($indWallet == 1)
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     @if($myTotal< 0)
-                                        <h4 class='text-uppercase font-weight-bold'>{{__('Saldo a Favor' )}}: {{ number_format(0,2,",",".") }} $</h4>
+                                        <p class='text-uppercase font-weight-bold'>{{__('Saldo a Favor' )}}: {{ number_format(0,2,",",".") }} $</p>
                                     @else
-                                        <h4 class='text-uppercase font-weight-bold'>{{__('Saldo a Favor' )}}: {{ number_format(abs($myTotal),2,",",".") }} $</h4>
+                                        <p class='text-uppercase font-weight-bold'>{{__('Saldo a Favor' )}}: {{ number_format(abs($myTotal),2,",",".") }} $</p>
                                     @endif
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     @if($myTotal< 0)
-                                        <h4 class='text-uppercase font-weight-bold'>{{__('Saldo Pendiente' )}}: {{ number_format(abs($myTotal),2,",",".") }} $</h4>                                        
+                                        <p class='text-uppercase font-weight-bold'>{{__('Saldo Pendiente' )}}: {{ number_format(abs($myTotal),2,",",".") }} $</p>                                    
                                     @else
-                                        <h4 class='text-uppercase font-weight-bold'>{{__('Saldo Pendiente' )}}: {{ number_format(0,2,",",".") }} $</h4>                                        
+                                        <p class='text-uppercase font-weight-bold'>{{__('Saldo Pendiente' )}}: {{ number_format(0,2,",",".") }} $</p>
                                     @endif
                                 </div>
+                                <div class="col-3">
+                                <p class="text-uppercase font-weight-bold">{{__('Saldo Al Corte' )}}: {{ number_format($balanceBefore,2,",",".") }} </p>
+                            </div>
                             @else
-                                <div class="col-md-4">
+                                <div class="col-md-3">
 
                                     @if($myTotal< 0)
-                                        <h4 class='text-uppercase font-weight-bold'>{{__('Saldo A favor' )}}: {{ number_format(abs($myTotal),2,",",".") }} $</h4>
+                                        <p class='text-uppercase font-weight-bold'>{{__('Saldo A favor' )}}: {{ number_format(abs($myTotal),2,",",".") }} $</p>
                                     @else
-                                        <h4 class='text-uppercase font-weight-bold'>{{__('Saldo A favor' )}}: {{ number_format(0,2,",",".") }} $</h4>
+                                        <p class='text-uppercase font-weight-bold'>{{__('Saldo A favor' )}}: {{ number_format(0,2,",",".") }} $</p>
                                     @endif
 
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-3">
 
                                     @if($myTotal< 0)
-                                        <h4 class='text-uppercase font-weight-bold'>{{__('Saldo Pendiente' )}}: {{ number_format(0,2,",",".") }} $</h4>
+                                        <p class='text-uppercase font-weight-bold'>{{__('Saldo Pendiente' )}}: {{ number_format(0,2,",",".") }} $</p>
                                     @else
-                                        <h4 class='text-uppercase font-weight-bold'>{{__('Saldo Pendiente' )}}: {{ number_format($myTotal,2,",",".") }} $</h4>
+                                        <p class='text-uppercase font-weight-bold'>{{__('Saldo Pendiente' )}}: {{ number_format($myTotal,2,",",".") }} $</p>
                                     @endif
                                 </div>
+                                <div class="col-3">
+                                <p class="text-uppercase font-weight-bold">{{__('Saldo Al Corte' )}}: {{ number_format($balanceBefore,2,",",".") }} </p>
+                            </div>
                             @endif
 
                         </div>
@@ -308,10 +317,6 @@ if (isset($balance->Total)){
                                             // show();
                                         }
                                     }
-                                    
-                                    
-                                    // echo "myTransaction : " . $myTransaction;
-                                    // $balance2 = app(statisticsController::class)->getBalanceWallet($myWallet);
                                     
                                     if ($indWallet == 0){
                                         /*
@@ -442,7 +447,7 @@ if (isset($balance->Total)){
                                     }
                                 @endphp
 
-                                    {{-- dd($row)--}}
+                                {{-- dd($row)--}}
                                 <tr>
                                     <td>{!! $row->FechaTransaccion !!}</td>
                                     <td>{!! $row->TipoTransaccion !!}</td>
@@ -600,13 +605,29 @@ if (isset($balance->Total)){
                             "fill": {
                                 "pattern": {
                                     "type": "solid",
-                                    "color": "002B5B"
+                                    "color": "000000"
                                 }
                             },
 
                         }
                     },
+                    {
+                        "cells": "3",
+                        "content": "eee",
+                        "style": {
+                            "font": {
+                                "size": "18",
+                                "color": "FFFFFF"
+                            },
+                            "fill": {
+                                "pattern": {
+                                    "type": "solid",
+                                    "color": "000000"
+                                }
+                            },
 
+                        }
+                    },
                     // {
                     //     "cells": "3",
                     //     "style": {
@@ -729,13 +750,18 @@ if (isset($balance->Total)){
                         }
                     }           
                 ],
-                // insertCells: [                  // Add an insertCells config option 
-                //     {
-                //         cells: 's5:6',              // Target data row 5 and 6
-                //         content: '',                // Add empty content
-                //         pushRow: true               // push the rows down to insert the content
-                //     },
-                //     ],                                                                                                               
+                insertCells: [                  // Add an insertCells config option 
+                    // {
+                    //     cells: '1:1',              // Target data row 5 and 6
+                    //     content: 'sssss',                // Add empty content
+                    //     pushRow: true               // push the rows down to insert the content
+                    // },
+                    {
+                        cells: 'sh',                // Target data row 5 and 6
+                        content: '',           // Add empty content
+                        pushRow: true               // push the rows down to insert the content
+                    },                    
+                ],                                                                                                               
             },
             {
                 extend:  'pdfHtml5',
@@ -755,13 +781,7 @@ if (isset($balance->Total)){
         ]
     });
 
-
-
     $(() => {
-
-
-        
-
 
         const myFechaDesde = {!! isset($myFechaDesde) ?? 0 !!};
         const myFechaHasta = {!! isset($myFechaHasta) ?? 0 !!};
@@ -860,19 +880,6 @@ if (isset($balance->Total)){
             if (grupo   === "") grupo = 0;
             if (wallet  === "") wallet  = 0;
             if (typeTransactions  === "") typeTransactions  = 0;
-            
-            /*
-            alert(
-                `
-                Usuario - > ${usuario} 
-                grupo   -> ${grupo} 
-                wallet  -> ${wallet} 
-                typeTransactions -> ${typeTransactions} 
-                fechaDesde -> ${fechaDesde} 
-                fechaHasta -> ${fechaHasta} 
-                `
-            );
-            */
 
             let myRoute = "";
                 myRoute = "{{ route('estadisticasDetalle', ['usuario' => 'usuario2', 'grupo' => 'grupo2', 'wallet' => 'wallet2' , 'typeTransactions' => 'typeTransactions2', 'fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2']) }}";
@@ -889,68 +896,51 @@ if (isset($balance->Total)){
         }
 
         function BuscaGrupo(miGrupo){
-            //alert("Busca grupo - miGrupo -> " + miGrupo);
             $('#group').each( function(index, element){
-                //alert ("Busca Grupo -> " + $(this).val() + " text -> " + $(this).text()+ " y con index -> " + $(this).prop('selectedIndex'));
                 $(this).children("option").each(function(){
                     if ($(this).val() === miGrupo.toString()){
-                        //alert('Busca Grupo - encontro');
                         $("#group option[value="+ miGrupo +"]").attr("selected",true);
                         
                     }
-
                 });
             });
             return  $("#group option:selected").text().trim();
-            //
         }
 
         function BuscaCliente(miCliente){
-            //alert("BuscaCliente - miCliente -> " + miCliente);
             $('#cliente').each( function(index, element){
-                //alert ("Buscacliente -> " + $(this).val() + " text -> " + $(this).text()+ " y con index -> " + $(this).prop('selectedIndex'));
                 $(this).children("option").each(function(){
                     if ($(this).val() === miCliente.toString()){
-                        //alert('BUscaCliente - encontro');
                         $("#cliente option[value="+ miCliente +"]").attr("selected",true);
                     }
 
                 });
             });
-            //
         }
 
         function BuscaUsuario(miUsuario){
             if (miUsuario===0){
                 return;
             }
-            // alert("BuscaUsuario - miUsuario -> " + miUsuario);
             $('#userole').each( function(index, element){
-                // alert ("BuscaUsuario -> " + $(this).val() + " text -> " + $(this).text()+ " y con index -> " + $(this).prop('selectedIndex'));
                 $(this).children("option").each(function(){
                     if ($(this).val() === miUsuario.toString()){
-                        // alert('BuscaUsuario - encontro');
                         $("#userole option[value="+ miUsuario +"]").attr("selected",true);
                     }
-                    // alert("BuscaUsuario aqui ->  the val " + $(this).val() + " text -> " + $(this).text());
                 });
             });
-            //
         }
 
         function BuscaWallet(miWallet){
             if (miWallet===0){
                 return;
             }
-            // alert("BuscaWallet - miWallet -> " + miWallet);
+
             $('#wallet').each( function(index, element){
-                // alert ("BuscaWallet -> " + $(this).val() + " text -> " + $(this).text()+ " y con index -> " + $(this).prop('selectedIndex'));
                 $(this).children("option").each(function(){
                     if ($(this).val() === miWallet.toString()){
-                        // alert('BuscaWallet - encontro');
                         $("#wallet option[value="+ miWallet +"]").attr("selected",true);
                     }
-                    // alert("BuscaWallet aqui ->  the val " + $(this).val() + " text -> " + $(this).text());
                 });
             });
             //
@@ -961,15 +951,12 @@ if (isset($balance->Total)){
             if (miTypeTransactions===0){
                 return;
             }
-            // alert("BuscaTypeTransactions - miSupplier -> " + miTypeTransactions);
+
             $('#typeTransactions').each( function(index, element){
-                // alert ("BuscaTypeTransactions -> " + $(this).val() + " text -> " + $(this).text()+ " y con index -> " + $(this).prop('selectedIndex'));
                 $(this).children("option").each(function(){
                     if ($(this).val() === miTypeTransactions.toString()){
-                        // alert('BuscaTypeTransactions - encontro');
                         $("#typeTransactions option[value="+ miTypeTransactions +"]").attr("selected",true);
                     }
-                    // alert("BuscaTypeTransactions aqui ->  the val " + $(this).val() + " text -> " + $(this).text());
                 });
             });
             //
@@ -978,10 +965,6 @@ if (isset($balance->Total)){
         function BuscaFechas(FechaDesde = 0,FechaHasta = 0){
 
             myLocation  = window.location.toString();
-
-            // alert('myLocation -> ' + myLocation);
-            // obtener fecha inicio
-            // alert('ggggg ' + $('#drCustomRanges').data('daterangepicker').startDate.format('YYYY-MM-DD'));
 
             myArray     = myLocation.split("/");
             if (myArray.length > 4){
@@ -1001,10 +984,6 @@ if (isset($balance->Total)){
             myFechaHasta = FechaHasta.toString().substr(8,2)  + '-' + FechaHasta.toString().substr(5,2) + '-' + FechaHasta.toString().substr(0,4);
 
             myFecha = myFechaDesde.toString()  + ' - ' + myFechaHasta.toString();
-
-            // $('#drCustomRanges').val(myFecha);
-            // alert(' Mi Fecha desde -> ' + myFechaDesde);
-            // alert('gggggsssss ' + $('#drCustomRanges').data('daterangepicker').startDate.format('YYYY-MM-DD'));
 
             $('#drCustomRanges').data('daterangepicker').setStartDate(myFechaDesde);
             $('#drCustomRanges').data('daterangepicker').setEndDate(myFechaHasta);
