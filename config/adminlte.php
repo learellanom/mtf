@@ -914,6 +914,36 @@ return [
                 ],
             ],
         ],
+        'lou-multi-select' => [
+            'active' => true,
+            'files' => [
+                [
+                    'type' => 'js',
+                    'asset' => true,
+                    'location' => 'vendor/lou-multi-select/js/jquery.multi-select.js',
+                ],
+                [
+                    'type' => 'css',
+                    'asset' => true,
+                    'location' => 'vendor/lou-multi-select/css/multi-select.css',
+                ],
+            ],
+        ],    
+        'alertifyjs' => [
+            'active' => true,
+            'files' => [
+                [
+                    'type' => 'js',
+                    'asset' => true,
+                    'location' => 'vendor/alertifyjs/js/alertify.js',
+                ],
+                [
+                    'type' => 'css',
+                    'asset' => true,
+                    'location' => 'vendor/alertifyjs/css/alertify.css',
+                ],
+            ],
+        ],            
     ],
 
     /*

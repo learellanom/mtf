@@ -149,9 +149,9 @@ class statisticsController extends Controller
             $myGroup = $request->grupo;
         }
 
-        $myWallet = 0;
-        $myWalletDesde = 0;
-        $myWalletHasta = 9999;        
+        $myWallet       = 0;
+        $myWalletDesde  = 0;
+        $myWalletHasta  = 9999;
         if ($request->wallet) {
             $myWallet = $request->wallet;
         }
@@ -188,10 +188,9 @@ class statisticsController extends Controller
             $myTypeTransactionsDesde    = $request->typeTransactions;
             $myTypeTransactionsHasta    = $request->typeTransactions;
         }else{
-            $myTypeTransactionsDesde = 0;
-            $myTypeTransactionsHasta = 9999;
+            $myTypeTransactionsDesde    = 0;
+            $myTypeTransactionsHasta    = 9999;
         }
-
 
         // token
 
@@ -206,20 +205,26 @@ class statisticsController extends Controller
             }
         }
 
-        $balance = "";
-        $balanceBefore = 0;
+        $balance        = "";
+        $balanceBefore  = 0;
+
         if ($myGroup > 0){
-            $balance = $this->getBalance($myGroup);
-            $balanceBefore = $this->getBalanceBefore($myGroup,$myFechaDesde, $myFechaHasta);
+            // dd('mygroup -> ' . $myGroup);
+
+            $balance            = $this->getBalance($myGroup);
+            $balanceBefore      = $this->getBalanceBefore($myGroup,$myFechaDesde, $myFechaHasta);
            // $balance = $this->getBalanceGroup($myGroup, $myFechaDesde, $myFechaHasta);
-        };
-
-        if ($myWallet > 0){
-            $balance = $this->getBalanceWallet($myWallet);
-            // dd($balance);
-            $balanceBefore = $this->getBalanceWalletBefore($myWallet,$myFechaDesde, $myFechaHasta);
-        };
-
+           
+        }
+        else
+        {
+            if ($myWallet > 0){
+                $balance        = $this->getBalanceWallet($myWallet);
+                $balanceBefore  = $this->getBalanceWalletBefore($myWallet,$myFechaDesde, $myFechaHasta);
+            }
+        }
+        ;
+        // dd($balance);
         $myUserDesde = 0;
         $myUserHasta = 9999;
 
@@ -354,7 +359,7 @@ class statisticsController extends Controller
                     and user_id             between $myUserDesde                and $myUserHasta                        
                     and wallet_id           between $myWalletDesde              and $myWalletHasta
                     and type_transaction_id between $myTypeTransactionsDesde    and $myTypeTransactionsHasta
-                    and transaction_date    between '$myFechaDesde  00:00:00'             and '$myFechaHasta 23:59:00' 
+                    and transaction_date    between '$myFechaDesde  00:00:00'   and '$myFechaHasta 23:59:00' 
                     $myTokenCondition
                 order by
                     Transactions.transaction_date ASC
@@ -379,22 +384,33 @@ class statisticsController extends Controller
         $group              = $this->getGroups();
 
         $typeTransactions   = $this->getTypeTransactions();
-        
-        $parametros['userole']              = $userole;
-        $parametros['wallet']               = $wallet;
-        $parametros['group']                = $group;
-        $parametros['typeTransactions']     = $typeTransactions;
-        $parametros['Transacciones']        = $Transacciones;
-        $parametros['myUser']               = $myUser;
-        $parametros['myGroup']              = $myGroup;
-        $parametros['myWallet']             = $myWallet;
-        $parametros['balance']              = $balance;
-        $parametros['myTypeTransactions']   = $myTypeTransactions;
-        $parametros['myFechaDesde']         = $myFechaDesde;
-        $parametros['myFechaHasta']         = $myFechaHasta;
-        $parametros['balanceBefore']        = $balanceBefore;
-        return view('estadisticas.index', $parametros);
 
+
+
+        if ($myFechaDesde === "2001-01-01"){
+            $myFechadesdeInvertida = "";
+        }else{
+            $myFechaDesdeBefore     = $this->getDayBefore($myFechaDesde);
+            $myFechadesdeInvertida  = substr($myFechaDesdeBefore,8,2) . "-" . substr($myFechaDesdeBefore,5,2) . "-" . substr($myFechaDesdeBefore,0,4);
+        }
+
+        $parametros['userole']                  = $userole;
+        $parametros['wallet']                   = $wallet;
+        $parametros['group']                    = $group;
+        $parametros['typeTransactions']         = $typeTransactions;
+        $parametros['Transacciones']            = $Transacciones;
+        $parametros['myUser']                   = $myUser;
+        $parametros['myGroup']                  = $myGroup;
+        $parametros['myWallet']                 = $myWallet;
+        $parametros['balance']                  = $balance;
+        $parametros['myTypeTransactions']       = $myTypeTransactions;
+        $parametros['myFechaDesde']             = $myFechaDesde;
+        $parametros['myFechaHasta']             = $myFechaHasta;
+        $parametros['balanceBefore']            = $balanceBefore;
+        $parametros['myFechadesdeInvertida']    = $myFechadesdeInvertida;
+
+        // dd($myFechadesdeInvertida);
+        return view('estadisticas.index', $parametros);
 
     }
     /*
@@ -1612,7 +1628,7 @@ class statisticsController extends Controller
     *
     *
     *       groupSummary
-    *
+    *       resumen por grupo
     *
     */
     public function groupSummary(Request $request)
@@ -1621,7 +1637,31 @@ class statisticsController extends Controller
         if ($request->grupo) {
             $myGroup = $request->grupo;
         }
-        $Transacciones      = $this->getBalance($myGroup);
+
+
+
+        $myHoraDesde = "00:00:00";
+        $myHoraHasta = "23:59:00";
+
+        $myFechaDesde = "2001-01-01";
+        $myFechaHasta = "9999-12-31";
+        if ($request->fechaDesde){
+            $myFechaDesde = $request->fechaDesde;
+            $myFechaHasta = $request->fechaHasta;
+
+            $myFechaDesde = $myFechaDesde;
+            $myFechaHasta = $myFechaHasta;
+
+
+        }
+
+        if ($request->fechaHasta){
+            $myFechaHasta = $request->fechaHasta;
+            $myFechaHasta = $myFechaHasta;           
+        }
+        
+        
+        $Transacciones      = $this->getBalance($myGroup, $myFechaDesde, $myFechaHasta);
 
         //
         // si es un solo grupo devuelve un objeto y debe convertirse a array de 1
@@ -1633,8 +1673,16 @@ class statisticsController extends Controller
         $Type_transactions  = $this->getTypeTransactions();
         $groups             = $this->getGroups();
 
-        return view('estadisticas.statisticsResumenGrupo', compact('myGroup','groups','Type_transactions','Transacciones'));
 
+        $parametros['myGroup']                  = $myGroup;
+        $parametros['groups']                   = $groups;
+        $parametros['Type_transactions']        = $Type_transactions;
+        $parametros['Transacciones']            = $Transacciones;
+        $parametros['myFechaDesde']             = $myFechaDesde;
+        $parametros['myFechaHasta']             = $myFechaHasta;
+        // return view('estadisticas.statisticsResumenGrupo', compact('myGroup','groups','Type_transactions','Transacciones'));
+
+        return view('estadisticas.statisticsResumenGrupo', $parametros);
     }
     /*
     *
@@ -1936,7 +1984,7 @@ class statisticsController extends Controller
         where
             type_transaction_id in ($this->myDebits)
             and
-            transaction_date between '$myFechaDesde' and '$myFechaHasta'
+            transaction_date between '$myFechaDesde 00:00:00' and '$myFechaHasta 23:59:00'
             and
             group_id between $grupoDesde and $grupoHasta
             and status <> 'Anulado'
@@ -1945,16 +1993,16 @@ class statisticsController extends Controller
             NombreGrupo
         union
         SELECT
-            group_id         as IdGrupo,
-            mtf.groups.name  as NombreGrupo,
-            sum(amount_total)  as MontoCreditos,
-            0 as MontoDebitos
+            group_id            as IdGrupo,
+            mtf.groups.name     as NombreGrupo,
+            sum(amount_total)   as MontoCreditos,
+            0                   as MontoDebitos
         FROM mtf.transactions
         left join  mtf.groups on mtf.transactions.group_id  = mtf.groups.id
         where
             type_transaction_id in($this->myCredits)
             and
-            transaction_date between '$myFechaDesde' and '$myFechaHasta'
+            transaction_date between '$myFechaDesde 00:00:00' and '$myFechaHasta 23:59:00'
             and
             group_id between $grupoDesde and $grupoHasta
             and status <> 'Anulado'
@@ -1996,6 +2044,8 @@ class statisticsController extends Controller
     */
     function getBalanceBefore($myGroup = 0, $myFechaDesde = "2001-01-01", $myFechaHasta = "9999-12-31"){
 
+
+
         $myFechaDesdeBefore = "2001-01-01";
         $myFechaHastaBefore = "9999-12-31";
         $balance3           = 0;
@@ -2003,8 +2053,10 @@ class statisticsController extends Controller
 
         if ($myFechaDesde === "2001-01-01"){
             
-            return $balanceDetail;  
+            return $balanceDetail;
         }
+
+
 
         if ($myGroup > 0){
             // dd($indRecibeFecha);      
@@ -2013,7 +2065,11 @@ class statisticsController extends Controller
                 $myFechaHastaBefore = $this->getDayBefore($myFechaDesde);
 
             }
+            
+        
+
             $balance3           = $this->getBalance($myGroup, $myFechaDesdeBefore, $myFechaHastaBefore);
+            // dd('las fechas - ' . $balance3->Total . ' grupo ' . $myGroup . 'fecha desde -> ' . $myFechaDesdeBefore . ' fecha hasta -> ' . $myFechaHastaBefore);
             if(isset($balance3->Total)){
                 $balanceDetail  = $balance3->Total;
             }else{

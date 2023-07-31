@@ -60,10 +60,10 @@ $config4 = [
 <br>
 {{-- Disabled --}}
 
-<div class="container">
-    <div class="row col-12">
+<div class="container-left">
+    <div class="row">
         <!-- Grupo -->
-        <div class ="col-12 col-sm-4">
+        <div class ="col-sm-3">
             <x-adminlte-select2 id="grupo"
                                 name="optionsGroup"
                                 igroup-size="sm"
@@ -82,15 +82,24 @@ $config4 = [
             </x-adminlte-select2>
         </div>
 
-        <div class ="col-12 col-sm-2">
-        </div>
-
-
-
-        <div class ="col-12 col-sm-2">
+        <div class ="col-sm-3">
+            <x-adminlte-date-range
+                id="drCustomRanges"
+                name="drCustomRanges"
+                enable-default-ranges="Last 30 Days"
+                style="height: 30px;"
+                :config="$config3">
+                <x-slot name="prependSlot">
+                    <div class="input-group-text bg-gradient-dark">
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                </x-slot>
+            </x-adminlte-date-range>
         </div>
 
     </div>
+
+    
 
 </div>
 
@@ -98,145 +107,214 @@ $config4 = [
 <br>
 <br>
 
-<div class="row">
-    <div class="col-md-12">
-        <div class="card mb-4">
-            <div class="card-header">
-                <h3 class="card-title text-uppercase font-weight-bold">{{ __('Estadisticas| Resumen por Grupo') }}</h3>
-            </div>
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-md-12">
-                        <table class="table table-bordered table-responsive-lg" id="table" style="width:100%;">
-                            <thead>
-                                <tr>
-                                    <th style="width:10%;">Cliente</th>
-                                    <th style="width:10%;">Monto total</th>
-                                    <th style="width:1%;" class="no-exportar">Ver <i class="fas fa-search"></i></th>
+<nav>
+  <div class="nav nav-tabs" id="nav-tab" role="tablist">
+    <button class="nav-link active" id="nav-home-tab" data-toggle="tab" data-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">Estadistica</button>
+    <button class="nav-link" id="nav-profile-tab" data-toggle="tab" data-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Filtro</button>
 
-                                </tr>
-                            </thead>
+  </div>
+</nav>
+<div class="tab-content" id="nav-tabContent">
+    <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h3 class="card-title text-uppercase font-weight-bold">{{ __('Estadisticas| Resumen por Grupo') }}</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <table class="table table-bordered table-responsive-lg" id="table" style="width:100%;">
+                                    <thead>
 
-                                @foreach($Transacciones as $row)
+                                    <tr>
+                                            <th style="width:1%;">Id</th>
+                                            <th style="width:10%;">Cliente</th>
+                                            <th style="width:10%;">Monto total</th>
+                                            <th style="width:1%;" class="no-exportar">Ver <i class="fas fa-search"></i></th>
 
-                                <tr>
-                                    <td>{!! $row->NombreGrupo !!}</td>
-                                    <td>{!! number_format($row->Total,2,".") !!}</td>
-                                    <td class="text-center" class="no-exportar">
-                                        <a href="#"
-                                            title="Detalles"
-                                            class="btn btn-xl text-primary mx-1 shadow text-center"
-                                            onClick="theRoute2({{0}},{{$row->IdGrupo}})">
-                                            <i class="fa fa-lg fa-fw fa-eye"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </table>
+                                        </tr>
+                                    </thead>
+                                    @foreach($Transacciones as $row)
+                                        <tr>
+                                            <td>{!! $row->IdGrupo !!}</td>                                        
+                                            <td>{!! $row->NombreGrupo !!}</td>
+                                            <td>{!! number_format($row->Total,2,".") !!}</td>
+                                            <td class="text-center" class="no-exportar">
+                                                <a href="#"
+                                                    title="Detalles"
+                                                    class="btn btn-xl text-primary mx-1 shadow text-center"
+                                                    onClick="theRoute2({{0}},{{$row->IdGrupo}})">
+                                                    <i class="fa fa-lg fa-fw fa-eye"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </table>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+        <div class="card mb-4">
+            <div class="card-header">
+                <h3 class="card-title text-uppercase font-weight-bold">Filtros</h3>
+            </div>
+            <div class="card-body">    
+                <div class="row justify-content-center text-center align-items-center">
+                    <div class="col-12 col-md-2">
+                    </div>
+                    <div class="col-12 col-md-3">
+                        <select multiple="multiple" id="my-select" name="my-select[]">
+                            <option value='elem_1'>elem 1</option>
+                            <option value='elem_2'>elem 2</option>
+                            <option value='elem_3'>elem 3</option>
+                            <option value='elem_4'>elem 4</option>
+                            <option value='elem_100'>elem 100</option>
+                        </select>   
+                    </div>
+
+                    <div class="col-12 col-md-3">
+                        <button id="myButtonAplicar" type="button" class="btn btn-outline-primary btn-sm ">Aplicar</button>
+                        <br>
+                        <br>
+                        <button id="myButtonLimpiar" type="button" class="btn btn-outline-primary btn-sm ">Limpiar</button>
+                    </div>
+                    <div class="col-12 col-md-2">
+                    </div>
+ 
+                </div>     
+
+            </div>
+        </div>
+    </div>
+
 </div>
+
 
 @endsection
 
 @section('js')
 
 <script>
+
 $(document).ready(function () {
+
+
+    // multiseleccion
+
+    $('#my-select').multiSelect({
+        selectableHeader: "<div class='custom-header' style='background-color: black; color:white'>Visibles</div>",
+        selectionHeader:  "<div class='custom-header' style='background-color: black; color:white'>No VIsibles</div>"
+    });
+    /*
+    $('.ms-container').css("width","67rem");
+
+    $('.ms-container .ms-selectable .ms-list').css("height","20rem");
+    $('.ms-container .ms-selectable .ms-list').css("width","30rem");
+
+    $('.ms-container .ms-selection .ms-list').css("height","20rem");
+    $('.ms-container .ms-selection .ms-list').css("width","30rem");
+    */
+    @foreach($groups as $key => $group)
+        console.log('el grupo con key {!! $key !!} es {!! $group !!}');
+        $('#my-select').multiSelect('addOption', { value: '{!! $key !!}', text: '{!! $group !!}' });        
+    @endforeach
+
     $('#table').DataTable( {
-
         language: {
-        "decimal": "",
-        "emptyTable": "No hay transacciones.",
-        "info": "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
-        "infoEmpty": "Mostrando 0 to 0 de 0 Entradas",
-        "infoFiltered": "(Filtrado de _MAX_ total entradas)",
-        "infoPostFix": "",
-        "thousands": ",",
-        "lengthMenu": "Mostrar _MENU_ Entradas",
-        "loadingRecords": "Cargando...",
-        "processing": "Procesando...",
-        "search": "Buscar:",
-        "zeroRecords": "Sin resultados encontrados",
-        "paginate": {
-            "first": "Primero",
-            "last": "Ultimo",
-            "next": "Siguiente",
-            "previous": "Anterior"
-        }
-    },
-    "order": [[ 2, 'desc' ]],
-    'dom' : 'Bfrtilp',
-    'buttons':[
-        {
-            extend:  'excelHtml5',
-            exportOptions: { columns: [ 0, 1 ] },
-            text:    '<i class="fas fa-file-excel"></i>',
-            titleAttr: 'Exportar Excel',
-            className: 'btn btn-success',
-            "excelStyles": [
+            "decimal": "",
+            "emptyTable": "No hay transacciones.",
+            "info": "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
+            "infoEmpty": "Mostrando 0 to 0 de 0 Entradas",
+            "infoFiltered": "(Filtrado de _MAX_ total entradas)",
+            "infoPostFix": "",
+            "thousands": ",",
+            "lengthMenu": "Mostrar _MENU_ Entradas",
+            "loadingRecords": "Cargando...",
+            "processing": "Procesando...",
+            "search": "Buscar:",
+            "zeroRecords": "Sin resultados encontrados",
+            "paginate": {
+                "first": "Primero",
+                "last": "Ultimo",
+                "next": "Siguiente",
+                "previous": "Anterior"
+            }
+        },
+        "order": [[ 2, 'desc' ]],
+        'dom' : 'Bfrtilp',
+        'buttons':[
             {
-                "template": ["title_medium", "gold_medium"]
-            },
+                extend:  'excelHtml5',
+                exportOptions: { columns: [ 0, 1 ] },
+                text:    '<i class="fas fa-file-excel"></i>',
+                titleAttr: 'Exportar Excel',
+                className: 'btn btn-success',
+                "excelStyles": [
+                {
+                    "template": ["title_medium", "gold_medium"]
+                },
 
-            {
-                "cells": "2",
-                "style": {
-                    "font": {
-                        "size": "18",
-                        "color": "FFFFFF"
-                    },
-                    "fill": {
-                        "pattern": {
-                            "type": "solid",
-                            "color": "002B5B"
-                        }
-                    },
+                {
+                    "cells": "2",
+                    "style": {
+                        "font": {
+                            "size": "18",
+                            "color": "FFFFFF"
+                        },
+                        "fill": {
+                            "pattern": {
+                                "type": "solid",
+                                "color": "002B5B"
+                            }
+                        },
 
-                }
-            },
-            {
-                "cells": "1",
-                "style": {
-                    "font": {
-                        "size": "20",
-                        "color": "FFFFFF"
-                    },
-                    "fill": {
-                        "pattern": {
-                            "size": "25",
-                            "type": "solid",
-                            "color": "0B2447",
-                        }
                     }
-                }
-            },
-            {
-                    "cells": "A",
-                    "width": "35",
                 },
                 {
-                    "cells": "B",
-                    "width": "32",
+                    "cells": "1",
+                    "style": {
+                        "font": {
+                            "size": "20",
+                            "color": "FFFFFF"
+                        },
+                        "fill": {
+                            "pattern": {
+                                "size": "25",
+                                "type": "solid",
+                                "color": "0B2447",
+                            }
+                        }
+                    }
                 },
+                {
+                        "cells": "A",
+                        "width": "35",
+                    },
+                    {
+                        "cells": "B",
+                        "width": "32",
+                    },
 
-           ]
+            ]
 
-        },
-        {
-            extend:  'pdfHtml5',
-            text:    '<i class="fas fa-file-pdf"></i>',
-            orientation: 'landscape',
-            title: 'MTF | Resumen por grupo',
-            titleAttr: 'Exportar PDF',
-            className: 'btn btn-danger',
-            exportOptions: {
-              columns: ":not(.no-exportar)" //exportar toda columna que no tenga la clase no-exportar
             },
-             customize: function ( doc ) {
+            {
+                extend:  'pdfHtml5',
+                text:    '<i class="fas fa-file-pdf"></i>',
+                orientation: 'landscape',
+                title: 'MTF | Resumen por grupo',
+                titleAttr: 'Exportar PDF',
+                className: 'btn btn-danger',
+                exportOptions: {
+                columns: ":not(.no-exportar)" //exportar toda columna que no tenga la clase no-exportar
+                },
+                customize: function ( doc ) {
                  doc.styles.tableHeader = {
                         fillColor:'#525659',
                         color:'#FFF',
@@ -280,15 +358,31 @@ $(document).ready(function () {
                         doc.styles.tableBodyOdd.alignment = 'center';
                         doc.styles.tableBodyEven.alignment = 'center';
 
-                    },
-
                 },
 
-    ]
+            },
 
-
-
+        ]
     });
+
+    // funcion para permitir el filtrado
+
+    $.fn.dataTable.ext.search.push(
+        function (settings, data, dataIndex) {
+            //do stuff
+            let userTypeColumnData = data[0] || 0;
+            let muestra = true;
+            $("#my-select option:selected").each(function(){
+                if (userTypeColumnData==($(this).attr('value'))) {
+                    // alert('opcion '+$(this).text()+' valor '+ $(this).attr('value') + ' lo que ve ' + userTypeColumnData);
+                    muestra = false;
+                }
+            }); 
+            // lert('sigue -> ' + userTypeColumnData + ' lo muestra -> ' + muestra);
+            return muestra;
+        }
+    );
+
 });
 
 
@@ -297,6 +391,14 @@ $(document).ready(function () {
     BuscaGrupo(miGrupo);
 
     $(() => {
+
+        const myFechaDesde = {!! isset($myFechaDesde) ?? 0 !!};
+        const myFechaHasta = {!! isset($myFechaHasta) ?? 0 !!};
+        
+        BuscaFechas(myFechaDesde, myFechaHasta);
+
+        
+
 
 
         $('#grupo').on('change', function (){
@@ -328,15 +430,31 @@ $(document).ready(function () {
                             ;
 
             //alert('Fecha Desde ' + myFechaDesde + 'Fecha Hasta ' + myFechaHasta);
-            const usuario = $('#userole').val();
-            const cliente = $('#cliente').val();
-            const wallet = $('#wallet').val();
-            theRoute(usuario,cliente,wallet,myFechaDesde,myFechaHasta);
+            const usuario   = $('#userole').val();
+            const cliente   = $('#cliente').val();
+            const wallet    = $('#wallet').val();
+            const grupo     = $('#grupo').val();
+            theRoute(grupo,myFechaDesde,myFechaHasta);
         });
 
-    })
+        $('#myButtonLimpiar').on('click', function (){
+            $('#my-select').multiSelect('deselect_all');
+            $('#table').DataTable().draw();
+            
+        });
 
-    function theRoute(grupo = 0, cliente = 0, wallet = 0, fechaDesde = 0, fechaHasta = 0){
+        $('#myButtonAplicar').on('click', function (){
+            
+            $('#table').DataTable().draw();
+        
+            
+        });
+        
+    });
+
+    function theRoute(grupo = 0, fechaDesde = 0, fechaHasta = 0){
+
+        // alert('Grupo -> ' + grupo + ' Fecha desde -> ' + fechaDesde + ' Fecha Hasta -> ' + fechaHasta);
 
         if (grupo   === "") grupo  = 0;
 
@@ -421,122 +539,39 @@ $(document).ready(function () {
         //
     }
 
-    $('#table3').DataTable({
-        language: {
-            "decimal": "",
-            "emptyTable": "No hay transacciones.",
-            "info": "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
-            "infoEmpty": "Mostrando 0 to 0 de 0 Entradas",
-            "infoFiltered": "(Filtrado de _MAX_ total entradas)",
-            "infoPostFix": "",
-            "thousands": ",",
-            "lengthMenu": "Mostrar _MENU_ Entradas",
-            "loadingRecords": "Cargando...",
-            "processing": "Procesando...",
-            "search": "Buscar:",
-            "zeroRecords": "Sin resultados encontrados",
-            "paginate": {
-                "first": "Primero",
-                "last": "Ultimo",
-                "next": "Siguiente",
-                "previous": "Anterior"
-            }
-        },
-        "order": [[ 2, 'desc' ]],
-        'dom' : 'Bfrtilp',
-        'buttons':[
-            {
-                extend:  'excelHtml5',
-                exportOptions: { columns: [ 0, 1] },
-                text:    '<i class="fas fa-file-excel"></i>',
-                titleAttr: 'Exportar Excel',
-                className: 'btn btn-success',
-                "excelStyles": [
-                    {
-                        "template": ["title_medium", "gold_medium"]
-                    },
-                    {
-                        "cells": "2",
-                        "style": {
-                            "font": {
-                                "size": "18",
-                                "color": "FFFFFF"
-                            },
-                            "fill": {
-                                "pattern": {
-                                    "type": "solid",
-                                    "color": "002B5B"
-                                }
-                            },
-                        }
-                    },
-                    {
-                        "cells": "1",
-                        "style": {
-                            "font": {
-                                "size": "20",
-                                "color": "FFFFFF"
-                            },
-                            "fill": {
-                                "pattern": {
-                                    "size": "25",
-                                    "type": "solid",
-                                    "color": "0B2447",
-                                }
-                            }
-                        }
-                    },
-                    {
-                        "cells": "sF",
-                        "condition": {
-                            "type": "dataBar",
-                            "dataBar": {
-                                "color": [
-                                    "0081B4"
-                                ]
-                            }
-                        }
-                    },
-                    {
-                        "cells": "sE",
-                        "condition": {
-                        "type": "dataBar",
-                        "dataBar": {
-                            "color": [
-                                "0081B4"
-                            ]
-                        }
-                        }
-                    },
-                    {
-                        'cells': "sB",
-                        'template': "date_long",
-                    },
-                    {
-                        "cells": "F",
-                        "style": {
-                            "numFmt": "#,##0;(#,##0)"
-                        }
-                    }
-                ]
-            },
-            {
-                extend:  'pdfHtml5',
-                text:    '<i class="fas fa-file-pdf"></i>',
-                orientation: 'landscape',
-                title: 'MTF | LISTA DE TRANSACIÓNES',
-                titleAttr: 'Exportar PDF',
-                className: 'btn btn-danger',
+    function BuscaFechas(FechaDesde = 0, FechaHasta = 0){
 
-            },
-            {
-                extend:  'print',
-                text:    '<i class="fas fa-print"></i>',
-                titleAttr: 'Capture de pantalla',
-                className: 'btn btn-info'
-            },
-        ]
-    });
+        myLocation  = window.location.toString();
+
+        myArray     = myLocation.split("/");
+    
+        if (myArray.length > 4){
+            FechaDesde = myArray[5];
+            FechaHasta = myArray[6];
+        }else{
+            FechaDesde = 0;
+            FechaHasta = 0;       
+        }
+
+        // alert("fecha desde -> " + FechaDesde + " Fecha hasta -> " + FechaHasta);
+
+        if (FechaDesde == 0) return;
+
+
+        let myFechaDesde, myFechaHasta, myFecha;
+
+        myFechaDesde = FechaDesde.toString().substr(8,2)  + '-' + FechaDesde.toString().substr(5,2) + '-' + FechaDesde.toString().substr(0,4);
+        myFechaHasta = FechaHasta.toString().substr(8,2)  + '-' + FechaHasta.toString().substr(5,2) + '-' + FechaHasta.toString().substr(0,4);
+
+        myFecha = myFechaDesde.toString()  + ' - ' + myFechaHasta.toString();
+
+        $('#drCustomRanges').data('daterangepicker').setStartDate(myFechaDesde);
+        $('#drCustomRanges').data('daterangepicker').setEndDate(myFechaHasta);
+
+    }
+
+
+
 
 </script>
 

@@ -25,8 +25,6 @@ $config['dom'] = '<"row" <"col-sm-7" B> <"col-sm-5 d-flex justify-content-end" i
                   <"row" <"col-12" tr> >
                   <"row" <"col-sm-12 d-flex justify-content-start" f> >';
 
-
-
 $config1 =
 [
     "allowClear" => true,
@@ -200,43 +198,49 @@ if (isset($balance->Total)){
                             @if($indWallet == 1)
                                 <div class="col-md-3">
                                     @if($myTotal< 0)
-                                        <p class='text-uppercase font-weight-bold'>{{__('Saldo a Favor' )}}: {{ number_format(0,2,",",".") }} $</p>
+                                        <p class='font-weight-bold'>{{__('Saldo a Favor' )}}: {{ number_format(0,2,",",".") }} $</p>
                                     @else
-                                        <p class='text-uppercase font-weight-bold'>{{__('Saldo a Favor' )}}: {{ number_format(abs($myTotal),2,",",".") }} $</p>
+                                        <p class='font-weight-bold'>{{__('Saldo a Favor' )}}: {{ number_format(abs($myTotal),2,",",".") }} $</p>
                                     @endif
                                 </div>
                                 <div class="col-md-3">
                                     @if($myTotal< 0)
-                                        <p class='text-uppercase font-weight-bold'>{{__('Saldo Pendiente' )}}: {{ number_format(abs($myTotal),2,",",".") }} $</p>                                    
+                                        <p class='font-weight-bold'>{{__('Saldo Pendiente' )}}: {{ number_format(abs($myTotal),2,",",".") }} $</p>                                    
                                     @else
-                                        <p class='text-uppercase font-weight-bold'>{{__('Saldo Pendiente' )}}: {{ number_format(0,2,",",".") }} $</p>
+                                        <p class='font-weight-bold'>{{__('Saldo Pendiente' )}}: {{ number_format(0,2,",",".") }} $</p>
                                     @endif
                                 </div>
                                 <div class="col-3">
-                                <p class="text-uppercase font-weight-bold">{{__('Saldo Al Corte' )}}: {{ number_format($balanceBefore,2,",",".") }} </p>
+
+                                <p class="font-weight-bold">Saldo al Corte <span id="myFecha"> {{$myFechadesdeInvertida}} </span> : {{ number_format($balanceBefore,2,",",".") }} $</p>
+
                             </div>
                             @else
                                 <div class="col-md-3">
 
                                     @if($myTotal< 0)
-                                        <p class='text-uppercase font-weight-bold'>{{__('Saldo A favor' )}}: {{ number_format(abs($myTotal),2,",",".") }} $</p>
+                                        <p class='font-weight-bold'>{{__('Saldo A favor' )}}: {{ number_format(abs($myTotal),2,",",".") }} $</p>
                                     @else
-                                        <p class='text-uppercase font-weight-bold'>{{__('Saldo A favor' )}}: {{ number_format(0,2,",",".") }} $</p>
+                                        <p class='font-weight-bold'>{{__('Saldo A favor' )}}: {{ number_format(0,2,",",".") }} $</p>
                                     @endif
 
                                 </div>
                                 <div class="col-md-3">
 
                                     @if($myTotal< 0)
-                                        <p class='text-uppercase font-weight-bold'>{{__('Saldo Pendiente' )}}: {{ number_format(0,2,",",".") }} $</p>
+                                        <p class='font-weight-bold'>{{__('Saldo Pendiente' )}}: {{ number_format(0,2,",",".") }} $</p>
                                     @else
-                                        <p class='text-uppercase font-weight-bold'>{{__('Saldo Pendiente' )}}: {{ number_format($myTotal,2,",",".") }} $</p>
+                                        <p class='font-weight-bold'>{{__('Saldo Pendiente' )}}: {{ number_format($myTotal,2,",",".") }} $</p>
                                     @endif
                                 </div>
                                 <div class="col-3">
-                                <p class="text-uppercase font-weight-bold">{{__('Saldo Al Corte' )}}: {{ number_format($balanceBefore,2,",",".") }} </p>
+
+                                <p class="font-weight-bold">Saldo al Corte <span id="myFecha"> {{ $myFechadesdeInvertida }}</span> : {{ number_format($balanceBefore,2,",",".") }} $</p>
+
                             </div>
                             @endif
+                            
+                            
 
                         </div>
                     </div>
@@ -518,6 +522,7 @@ if (isset($balance->Total)){
     @routes
     <script>
     
+
     const miGrupo               = {!! $myGroup !!};
     const miUsuario             = {!! $myUser !!};
     const miWallet              = {!! $myWallet !!};
@@ -788,6 +793,7 @@ if (isset($balance->Total)){
         
         BuscaFechas(myFechaDesde, myFechaHasta);
 
+        
 
         $('#userole').on('change', function (){
 
@@ -987,6 +993,23 @@ if (isset($balance->Total)){
 
             $('#drCustomRanges').data('daterangepicker').setStartDate(myFechaDesde);
             $('#drCustomRanges').data('daterangepicker').setEndDate(myFechaHasta);
+
+        }
+
+        function invierteFecha(myFecha = "2001-01-01"){
+            myDay   = myFecha.substr(8,2);
+            myMonth = myFecha.substr(5,2);
+            myYear  = myFecha.substr(0,4);
+
+            if (myFecha == 0){
+                myFecha = "2001-01-01";
+            }
+
+            if (myFecha == "2001-01-01"){
+                $("#myFecha").html('');
+            }else{
+                $("#myFecha").html(`${myDay}-${myMonth}-${myYear}`);
+            }
 
         }
 
