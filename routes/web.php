@@ -216,6 +216,11 @@ Route::get('estadisticasResumenTransaccion/{type_transaction?}/{fechaDesde?}/{fe
 
 Route::get('estadisticasResumenGrupo',[App\Http\Controllers\statisticsController::class, 'groupSummary'])->name('estadisticasResumenGrupo');
 Route::get('estadisticasResumenGrupo/{grupo}/{fechaDesde?}/{fechaHasta?}',[App\Http\Controllers\statisticsController::class, 'groupSummary'])->name('estadisticasResumenGrupo');
+
+Route::get('estadisticasResumenGrupoWallet',[App\Http\Controllers\statisticsController::class, 'groupSummaryWallet'])->name('estadisticasResumenGrupoWallet');
+Route::get('estadisticasResumenGrupoWallet/{grupo}/{fechaDesde?}/{fechaHasta?}',[App\Http\Controllers\statisticsController::class, 'groupSummaryWallet'])->name('estadisticasResumenGrupoWallet');
+
+
 Route::get('estadisticasConciliacionGrupo',[App\Http\Controllers\statisticsController::class, 'conciliationSummaryDateGroup'])->name('estadisticasConciliacionGrupo');
 Route::get('estadisticasConciliacionGrupo/{grupo}/{fechaDesde?}/{fechaHasta?}',[App\Http\Controllers\statisticsController::class, 'conciliationSummaryDateGroup'])->name('estadisticasConciliacionGrupo');
 

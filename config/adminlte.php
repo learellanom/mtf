@@ -346,7 +346,13 @@ return [
             'icon' => 'fas fa-fw fas fa-chart-bar',
             'can'  => 'estadisticasDetalle.index',
         ],
-
+        [
+            'text' => 'Resumen por Grupo Wallet',
+            'url'  => 'estadisticasResumenGrupoWallet',
+            'active' => ['estadisticasResumenGrupoWallet*'],
+            'icon' => 'fas fa-fw fas fa-chart-bar',
+            'can'  => 'estadisticasDetalle.statisticsResumenWallet',
+        ],
         [
             'text' => 'Resumen por Grupo',
             'url'  => 'estadisticasResumenGrupo',
@@ -870,7 +876,7 @@ return [
             ],
         ],
         'Sweetalert2' => [
-            'active' => false,
+            'active' => true,
             'files' => [
                 [
                     'type' => 'js',

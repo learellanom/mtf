@@ -1687,6 +1687,66 @@ class statisticsController extends Controller
     /*
     *
     *
+    *       groupSummaryWallet
+    *       resumen por grupo wallet
+    *
+    */
+    public function groupSummaryWallet(Request $request)
+    {
+        $myGroup = 0;
+        if ($request->grupo) {
+            $myGroup = $request->grupo;
+        }
+
+
+
+        $myHoraDesde = "00:00:00";
+        $myHoraHasta = "23:59:00";
+
+        $myFechaDesde = "2001-01-01";
+        $myFechaHasta = "9999-12-31";
+        if ($request->fechaDesde){
+            $myFechaDesde = $request->fechaDesde;
+            $myFechaHasta = $request->fechaHasta;
+
+            $myFechaDesde = $myFechaDesde;
+            $myFechaHasta = $myFechaHasta;
+
+
+        }
+
+        if ($request->fechaHasta){
+            $myFechaHasta = $request->fechaHasta;
+            $myFechaHasta = $myFechaHasta;           
+        }
+        
+        
+        $Transacciones      = $this->getBalance($myGroup, $myFechaDesde, $myFechaHasta);
+
+        //
+        // si es un solo grupo devuelve un objeto y debe convertirse a array de 1
+        //
+        if (gettype($Transacciones) == "object"){
+            $Transacciones = [$Transacciones];
+        }
+
+        $Type_transactions  = $this->getTypeTransactions();
+        $groups             = $this->getGroups();
+
+
+        $parametros['myGroup']                  = $myGroup;
+        $parametros['groups']                   = $groups;
+        $parametros['Type_transactions']        = $Type_transactions;
+        $parametros['Transacciones']            = $Transacciones;
+        $parametros['myFechaDesde']             = $myFechaDesde;
+        $parametros['myFechaHasta']             = $myFechaHasta;
+        // return view('estadisticas.statisticsResumenGrupo', compact('myGroup','groups','Type_transactions','Transacciones'));
+
+        return view('estadisticas.statisticsResumenGrupoWallet', $parametros);
+    }    
+    /*
+    *
+    *
     *       conciliationSummaryDateGroup
     *
     *
@@ -1988,6 +2048,7 @@ class statisticsController extends Controller
             and
             group_id between $grupoDesde and $grupoHasta
             and status <> 'Anulado'
+            and mtf.groups.type = 1
         group by
             IdGrupo,
             NombreGrupo
@@ -2006,6 +2067,7 @@ class statisticsController extends Controller
             and
             group_id between $grupoDesde and $grupoHasta
             and status <> 'Anulado'
+            and mtf.groups.type = 1            
         group by
             IdGrupo,
             NombreGrupo
