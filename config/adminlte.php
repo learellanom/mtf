@@ -339,6 +339,15 @@ return [
             'icon' => 'fas fa-fw fas fa-chart-line',
             'can'  => 'dashboardtest',
         ],
+
+        [
+            'text' => 'Consolidado de Saldos',
+            'url'  => 'dashboardSaldos',
+            'active' => ['dashboardSaldos*'],
+            'icon' => 'fas fa-fw fas fa-chart-line',
+            'can'  => 'dashboardSaldos',
+        ],
+
         [
             'text' => 'Detalles de movimiento',
             'url'  => 'estadisticasDetalle',
@@ -351,7 +360,7 @@ return [
             'url'  => 'estadisticasResumenGrupoWallet',
             'active' => ['estadisticasResumenGrupoWallet*'],
             'icon' => 'fas fa-fw fas fa-chart-bar',
-            'can'  => 'estadisticasDetalle.statisticsResumenWallet',
+            'can'  => 'estadisticasDetalle.estadisticasResumenGrupoWallet',
         ],
         [
             'text' => 'Resumen por Grupo',

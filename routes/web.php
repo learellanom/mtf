@@ -64,6 +64,12 @@ Route::get('dashboardest/{wallet}', [App\Http\Controllers\HomeController::class,
 Route::get('dashboardest/{wallet}/{transaction?}/', [App\Http\Controllers\HomeController::class, 'graphics'])->name('dashboardest');
 Route::get('dashboardest/{wallet}/{transaction?}/{fechaDesde?}/{fechaHasta?}', [App\Http\Controllers\HomeController::class, 'graphics'])->name('dashboardest');
 
+Route::get('dashboardSaldos', [App\Http\Controllers\HomeController::class, 'saldos'])->name('dashboardSaldos');
+Route::get('dashboardSaldos/{wallet}', [App\Http\Controllers\HomeController::class, 'saldos'])->name('dashboardSaldos');
+Route::get('dashboardSaldos/{wallet}/{transaction?}/', [App\Http\Controllers\HomeController::class, 'saldos'])->name('dashboardSaldos');
+Route::get('dashboardSaldos/{wallet}/{transaction?}/{fechaDesde?}/{fechaHasta?}', [App\Http\Controllers\HomeController::class, 'saldos'])->name('dashboardSaldos');
+
+
 Route::get('dashboard_est/export/', [App\Http\Controllers\HomeController::class, 'export'])->name('exports.excel'); //EXPORTACIÓN DE EXCEL
 Route::get('dashboard_est/export/{wallet}', [App\Http\Controllers\HomeController::class, 'export'])->name('exports.excel'); //EXPORTACIÓN DE EXCEL
 Route::get('dashboard_est/export/{wallet}/{transaction?}/', [App\Http\Controllers\HomeController::class, 'export'])->name('exports.excel'); //EXPORTACIÓN DE EXCEL
@@ -216,7 +222,7 @@ Route::get('estadisticasResumenTransaccion/{type_transaction?}/{fechaDesde?}/{fe
 
 Route::get('estadisticasResumenGrupo',[App\Http\Controllers\statisticsController::class, 'groupSummary'])->name('estadisticasResumenGrupo');
 Route::get('estadisticasResumenGrupo/{grupo}/{fechaDesde?}/{fechaHasta?}',[App\Http\Controllers\statisticsController::class, 'groupSummary'])->name('estadisticasResumenGrupo');
-
+//
 Route::get('estadisticasResumenGrupoWallet',[App\Http\Controllers\statisticsController::class, 'groupSummaryWallet'])->name('estadisticasResumenGrupoWallet');
 Route::get('estadisticasResumenGrupoWallet/{grupo}/{fechaDesde?}/{fechaHasta?}',[App\Http\Controllers\statisticsController::class, 'groupSummaryWallet'])->name('estadisticasResumenGrupoWallet');
 

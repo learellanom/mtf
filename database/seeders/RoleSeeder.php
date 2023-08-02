@@ -21,7 +21,7 @@ class RoleSeeder extends Seeder
 
         Permission::create(['name' => 'home','description' => 'Ver el inicio del sistema'])->syncRoles([$role1, $role2, $role3]);
         Permission::create(['name' => 'dashboardtest','description' => 'Ver graficos del sistema'])->syncRoles([$role1, $role2, $role3]);
-
+        Permission::create(['name' => 'dashboardSaldos','description' => 'Ver Saldos posicion consolidada'])->syncRoles([$role1, $role2, $role3]);
 
         Permission::create(['name' => 'roles.index','description' => 'Ver roles del sistema'])->assignRole($role1);
         Permission::create(['name' => 'roles.edit','description' => 'Editar roles del sistema'])->assignRole($role1);

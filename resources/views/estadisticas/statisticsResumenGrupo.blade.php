@@ -124,19 +124,6 @@ $config4 = [
 
     <button 
         class="nav-link" 
-        id="nav-wallet-tab" 
-        data-toggle="tab" 
-        data-target="#nav-wallet" 
-        type="button" 
-        role="tab" 
-        aria-controls="nav-wallet" 
-        aria-selected="true">
-        Wallet
-    </button>
-
-
-    <button 
-        class="nav-link" 
         id="nav-profile-tab" 
         data-toggle="tab" 
         data-target="#nav-profile" 
@@ -164,7 +151,7 @@ $config4 = [
                                     <thead>
 
                                     <tr>
-                                            <th style="width:1%;">Id</th>
+                                            <th style="width:1%; display: none;">Id</th>
                                             <th style="width:10%;">Cliente</th>
                                             <th style="width:10%;">Monto Creditos</th>
                                             <th style="width:10%;">Monto Debitos</th>                                            
@@ -175,7 +162,7 @@ $config4 = [
                                     </thead>
                                     @foreach($Transacciones as $row)
                                         <tr>
-                                            <td>{!! $row->IdGrupo !!}</td>                                        
+                                            <td style="display: none;">{!! $row->IdGrupo !!}</td>                                        
                                             <td>{!! $row->NombreGrupo !!}</td>
                                             <td>{!! number_format($row->Creditos,2,".") !!}</td>
                                             <td>{!! number_format($row->Debitos,2,".") !!}</td>                                       
@@ -198,9 +185,7 @@ $config4 = [
             </div>
         </div>
     </div>
-    <div class="tab-pane fade show active" id="nav-wallet" role="tabpanel" aria-labelledby="nav-wallet-tab">
-            my wallets
-    </div>
+
     <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
         <div class="card mb-4">
             <div class="card-header">
@@ -424,6 +409,29 @@ $(document).ready(function () {
             return muestra;
         }
     );
+
+
+    
+    $('#myButtonLimpiar').on('click', function (){
+        $('#my-select').multiSelect('deselect_all');
+        $('#table').DataTable().draw();
+        
+    });
+
+    $('#myButtonAplicar').on('click', function (){
+        
+        $('#table').DataTable().draw();
+
+        
+        Swal.fire({
+            position: 'top-end',
+            icon: 'success',
+            title: 'Filtro aplicado satisfactoriamente',
+            showConfirmButton: false,
+            timer: 1500
+            });             
+        
+    });
 
 });
 

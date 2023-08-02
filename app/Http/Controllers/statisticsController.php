@@ -787,9 +787,7 @@ class statisticsController extends Controller
         $fechaDesde     = ($request->fechaDesde)    ? $request->fechaDesde : '2001-01-01';  
         $fechaHasta     = ($request->fechaHasta)    ? $request->fechaHasta : '9999-12-31';
 
-        // dd($fechaDesde . " - " . $fechaHasta);
         $Transacciones  = $this->getBalanceWallet($myWallet, $fechaDesde, $fechaHasta);
-        // dd($Transacciones);
 
         //
         // si es un solo grupo devuelve un objeto y debe convertirse a array de 1
@@ -803,7 +801,32 @@ class statisticsController extends Controller
 
         return view('estadisticas.statisticsResumenWallet', compact('myWallet', 'wallets', 'Transacciones'));
     }
+   /*
+    *
+    *
+    *   getwalletSummary
+    *
+    *
+    */
+     function getWalletSummary(Request $request) {
 
+        $myWallet       = ($request->wallet)        ? $request->wallet : 0;
+        $fechaDesde     = ($request->fechaDesde)    ? $request->fechaDesde : '2001-01-01';  
+        $fechaHasta     = ($request->fechaHasta)    ? $request->fechaHasta : '9999-12-31';
+
+        // dd($fechaDesde . " - " . $fechaHasta);
+        $Transacciones  = $this->getBalanceWallet($myWallet, $fechaDesde, $fechaHasta);
+        // dd($Transacciones);
+
+        //
+        // si es un solo grupo devuelve un objeto y debe convertirse a array de 1
+        //
+        if (gettype($Transacciones) == "object"){
+            $Transacciones = [$Transacciones];
+        }
+
+        return $Transacciones;
+    }
 
     /*
     *
@@ -830,7 +853,7 @@ class statisticsController extends Controller
         $wallets            = $this->getWallet();
 
         return view('estadisticas.statisticsResumenWalletMaster', compact('myWallet', 'wallets', 'Transacciones','master'));
-    }
+    }    
     /*
     *
     *
