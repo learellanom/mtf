@@ -167,25 +167,20 @@ class HomeController extends Controller
         $wallet_summary             = app(statisticsController::class)->getWalletSummary($request);
         
         
-         dd($wallet_summary);
+         // dd($wallet_summary);
 
-        $request2                   = clone $request;
-        $request2->transaction      = 0;
-        $wallet_summary             = app(statisticsController::class)->getwalletTransactionSummary($request2);
+        //$request2                   = clone $request;
+        //$request2->transaction      = 0;
+        // $wallet_summary             = app(statisticsController::class)->getwalletTransactionSummary($request2);
 
-        $wallet_groupsummary        = app(statisticsController::class)->getWalletTransactionGroupSummary($request);
-        // dd($wallet_groupsummary);
+        $group_summary              = app(statisticsController::class)->getGroupSummary($request);
+
+        // dd($group_summary);
+        
         $wallet                     = app(statisticsController::class)->getWallet();
         // dd($wallet);
+        $group                      = app(statisticsController::class)->getGroups();
         $typeTransactions           = app(statisticsController::class)->getTypeTransactions();
-
-
-        $request3                   = clone $request;
-        $request3->transaction      = 0;
-        $transaction_summary        = app(statisticsController::class)->getTransactionSummary($request3);
-
-        $request4                   = clone $request;
-        $transaction_group_summary  = app(statisticsController::class)->getTransactionGroupSummary($request4);
 
         // dd($transaction_summary);
 
@@ -271,8 +266,22 @@ class HomeController extends Controller
             // \Log::info("leam 2-> ");
 
         };
-                     
-        return view('dashboardSaldos', compact('transaction_group_summary','transaction_summary','wallet_summary', 'wallet_groupsummary', 'wallet', 'typeTransactions', 'myWallet', 'myTypeTransaction', 'myFechaDesde', 'myFechaHasta','balanceDetail','myFechaDesdeBefore','myFechaHastaBefore','balance'));
+        
+        $myParameters['wallet_summary']     = $wallet_summary;
+        $myParameters['group_summary']      = $group_summary;
+        $myParameters['wallet']             = $wallet;
+        $myParameters['group']              = $group;
+        $myParameters['typeTransactions']   = $typeTransactions;
+        $myParameters['myWallet']           = $myWallet;
+        $myParameters['myTypeTransaction']  = $myTypeTransaction;
+        $myParameters['myFechaDesde']       = $myFechaDesde;
+        $myParameters['myFechaHasta']       = $myFechaHasta;
+        $myParameters['balanceDetail']      = $balanceDetail;
+        $myParameters['myFechaDesdeBefore'] = $myFechaDesdeBefore;
+        $myParameters['balance']            = $balance;
+
+
+        return view('dashboardSaldos', $myParameters);
 
     }
     public function export(request $request, $wallet, $fechaDesde, $fechaHasta)

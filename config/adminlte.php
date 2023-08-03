@@ -355,13 +355,13 @@ return [
             'icon' => 'fas fa-fw fas fa-chart-bar',
             'can'  => 'estadisticasDetalle.index',
         ],
-        [
-            'text' => 'Resumen por Grupo Wallet',
-            'url'  => 'estadisticasResumenGrupoWallet',
-            'active' => ['estadisticasResumenGrupoWallet*'],
-            'icon' => 'fas fa-fw fas fa-chart-bar',
-            'can'  => 'estadisticasDetalle.estadisticasResumenGrupoWallet',
-        ],
+        // [
+        //     'text' => 'Resumen por Grupo Wallet',
+        //     'url'  => 'estadisticasResumenGrupoWallet',
+        //     'active' => ['estadisticasResumenGrupoWallet*'],
+        //     'icon' => 'fas fa-fw fas fa-chart-bar',
+        //     'can'  => 'estadisticasDetalle.estadisticasResumenGrupoWallet',
+        // ],
         [
             'text' => 'Resumen por Grupo',
             'url'  => 'estadisticasResumenGrupo',

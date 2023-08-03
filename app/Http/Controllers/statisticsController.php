@@ -787,6 +787,7 @@ class statisticsController extends Controller
         $fechaDesde     = ($request->fechaDesde)    ? $request->fechaDesde : '2001-01-01';  
         $fechaHasta     = ($request->fechaHasta)    ? $request->fechaHasta : '9999-12-31';
 
+
         $Transacciones  = $this->getBalanceWallet($myWallet, $fechaDesde, $fechaHasta);
 
         //
@@ -1656,18 +1657,76 @@ class statisticsController extends Controller
     */
     public function groupSummary(Request $request)
     {
+        
+
         $myGroup = 0;
         if ($request->grupo) {
             $myGroup = $request->grupo;
         }
-
-
 
         $myHoraDesde = "00:00:00";
         $myHoraHasta = "23:59:00";
 
         $myFechaDesde = "2001-01-01";
         $myFechaHasta = "9999-12-31";
+        if ($request->fechaDesde){
+            $myFechaDesde = $request->fechaDesde;
+            $myFechaHasta = $request->fechaHasta;
+
+            $myFechaDesde = $myFechaDesde;
+            $myFechaHasta = $myFechaHasta;
+
+
+        }
+
+        if ($request->fechaHasta){
+            $myFechaHasta = $request->fechaHasta;
+            $myFechaHasta = $myFechaHasta;           
+        }
+        
+       /* 
+        $Transacciones      = $this->getBalance($myGroup, $myFechaDesde, $myFechaHasta);
+
+        //
+        // si es un solo grupo devuelve un objeto y debe convertirse a array de 1
+        //
+        if (gettype($Transacciones) == "object"){
+            $Transacciones = [$Transacciones];
+        }
+        */
+
+        $Transacciones = $this->getGroupSummary($request);
+
+
+        $Type_transactions  = $this->getTypeTransactions();
+        $groups             = $this->getGroups();
+
+
+        $parametros['myGroup']                  = $myGroup;
+        $parametros['groups']                   = $groups;
+        $parametros['Type_transactions']        = $Type_transactions;
+        $parametros['Transacciones']            = $Transacciones;
+        $parametros['myFechaDesde']             = $myFechaDesde;
+        $parametros['myFechaHasta']             = $myFechaHasta;
+        // return view('estadisticas.statisticsResumenGrupo', compact('myGroup','groups','Type_transactions','Transacciones'));
+
+        return view('estadisticas.statisticsResumenGrupo', $parametros);
+    }
+
+
+    function getGroupSummary(Request $request){
+
+        $myGroup = 0;
+        if ($request->grupo) {
+            $myGroup = $request->grupo;
+        }
+
+        $myHoraDesde = "00:00:00";
+        $myHoraHasta = "23:59:00";
+
+        $myFechaDesde = "2001-01-01";
+        $myFechaHasta = "9999-12-31";
+
         if ($request->fechaDesde){
             $myFechaDesde = $request->fechaDesde;
             $myFechaHasta = $request->fechaHasta;
@@ -1691,22 +1750,12 @@ class statisticsController extends Controller
         //
         if (gettype($Transacciones) == "object"){
             $Transacciones = [$Transacciones];
-        }
+        }       
+            
+        return $Transacciones;
 
-        $Type_transactions  = $this->getTypeTransactions();
-        $groups             = $this->getGroups();
-
-
-        $parametros['myGroup']                  = $myGroup;
-        $parametros['groups']                   = $groups;
-        $parametros['Type_transactions']        = $Type_transactions;
-        $parametros['Transacciones']            = $Transacciones;
-        $parametros['myFechaDesde']             = $myFechaDesde;
-        $parametros['myFechaHasta']             = $myFechaHasta;
-        // return view('estadisticas.statisticsResumenGrupo', compact('myGroup','groups','Type_transactions','Transacciones'));
-
-        return view('estadisticas.statisticsResumenGrupo', $parametros);
     }
+
     /*
     *
     *
