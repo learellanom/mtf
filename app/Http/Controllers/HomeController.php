@@ -159,15 +159,9 @@ class HomeController extends Controller
     public function saldos(request $request)
     {
         
-
-
-
-
-
         $wallet_summary             = app(statisticsController::class)->getWalletSummary($request);
         
-        
-         // dd($wallet_summary);
+
 
         //$request2                   = clone $request;
         //$request2->transaction      = 0;
@@ -223,8 +217,32 @@ class HomeController extends Controller
             $myFechaHasta2 = $myFechaHasta . " 12:59:00";
             /* MANTENER VALOR BUSCADO EN EL URL */
         }
+        //
+        // obtiene saldo anterior wallets
+        // 
+        $balanceDetail      = 0;
+        $myFechaDesdeBefore = "2001-01-01";
+        $myFechaHastaBefore = "9999-12-31";
+        if ($myFechaDesde != "2001-01-01"){
+            $myFechaHastaBefore = app(statisticsController::class)->getDayBefore($myFechaDesde);
+        }
+        foreach($wallet_summary as $wallet3){            
+            $balanceDetail           = app(statisticsController::class)->getBalanceWalletBefore($wallet3->IdWallet, $myFechaDesde, $myFechaHasta);
+            
+            $wallet3->BalanceAnterior = $balanceDetail;
+        }
 
+        // dd($wallet_summary);
+        //
+        // obtiene saldo anterior groups
+        //
+        foreach($group_summary as $group3){            
+            $balanceDetail           = app(statisticsController::class)->getBalanceBefore($group3->IdGrupo, $myFechaDesde, $myFechaHasta);
+            
+            $group3->BalanceAnterior = $balanceDetail;
+        }
 
+        // dd($group_summary);
 
         $balance = 0;
 
@@ -279,7 +297,6 @@ class HomeController extends Controller
         $myParameters['balanceDetail']      = $balanceDetail;
         $myParameters['myFechaDesdeBefore'] = $myFechaDesdeBefore;
         $myParameters['balance']            = $balance;
-
 
         return view('dashboardSaldos', $myParameters);
 

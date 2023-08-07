@@ -457,7 +457,28 @@ $(document).ready(function () {
             const cliente = $('#cliente').val();
             const wallet = $('#wallet').val();
             const grupo = $('#grupo').val();
-            theRoute(grupo,cliente,wallet);
+
+            let myFechaDesde, myFechaHasta;
+
+            myFechaDesde =  ($('#drCustomRanges').val()).substr(6,4) +
+                            '-' +
+                            ($('#drCustomRanges').val()).substr(3,2) +
+                            '-' +
+                            ($('#drCustomRanges').val()).substr(0,2)
+                            ;
+
+            myFechaHasta =  ($('#drCustomRanges').val()).substr(19,4) +
+                            '-' +
+                            ($('#drCustomRanges').val()).substr(16,2) +
+                            '-' +
+                            ($('#drCustomRanges').val()).substr(13,2)
+                            ;
+
+            theRoute(grupo,myFechaDesde,myFechaHasta);
+
+
+
+            // theRoute(grupo,cliente,wallet);
 
         });
 
@@ -535,14 +556,31 @@ $(document).ready(function () {
         if (grupo   === "") grupo = 0;
         if (wallet  === "") wallet  = 0;
         //                      'estadisticasDetalle/{usuario}/{grupo?}/{wallet?}/{typeTransactions?}/{fechaDesde?}/{fechaHasta?}'
+
+        let myFechaDesde, myFechaHasta;
+
+        myFechaDesde =  ($('#drCustomRanges').val()).substr(6,4) +
+                        '-' +
+                        ($('#drCustomRanges').val()).substr(3,2) +
+                        '-' +
+                        ($('#drCustomRanges').val()).substr(0,2)
+                        ;
+
+        myFechaHasta =  ($('#drCustomRanges').val()).substr(19,4) +
+                        '-' +
+                        ($('#drCustomRanges').val()).substr(16,2) +
+                        '-' +
+                        ($('#drCustomRanges').val()).substr(13,2)
+                        ;
+
         let myRoute = "";
             myRoute = "{{ route('estadisticasDetalle', ['usuario' => 'usuario2', 'grupo' => 'grupo2', 'wallet' => 'wallet2', 'typeTransactions' => 'typeTransactions2','fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2']) }}";
             myRoute = myRoute.replace('grupo2',grupo);
             myRoute = myRoute.replace('usuario2',usuario);
             myRoute = myRoute.replace('wallet2',wallet);
             myRoute = myRoute.replace('typeTransactions2',typeTransactions);
-            myRoute = myRoute.replace('fechaDesde2',fechaDesde);
-            myRoute = myRoute.replace('fechaHasta2',fechaHasta);
+            myRoute = myRoute.replace('fechaDesde2',myFechaDesde);
+            myRoute = myRoute.replace('fechaHasta2',myFechaHasta);
         console.log(myRoute);
         // alert(myRoute);
         location.href = myRoute;

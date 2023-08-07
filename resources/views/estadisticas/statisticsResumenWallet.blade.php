@@ -70,7 +70,7 @@ $config4 = [
 {{-- Disabled --}}
 
 <div class="container-left">
-    <div class="row col-12 d-flex justify-content-center">
+    <div class="row col-12 d-flex">
 
         <div class ="col-12 col-sm-2">
             <x-adminlte-select2 id="wallet"
@@ -91,8 +91,6 @@ $config4 = [
             </x-adminlte-select2>
         </div>
 
-        <div class ="col-12 col-sm-2">
-        </div>
 
         <div class ="col-12 col-sm-2">
             <x-adminlte-date-range name="drCustomRanges" enable-default-ranges="Last 30 Days" style="height: 30px;" :config="$config3">
@@ -179,14 +177,31 @@ $config4 = [
 
     $(() => {
 
+        InicializaFechas();
+        BuscaFechas();
 
         $('#wallet').on('change', function (){
 
-            const usuario = $('#userole').val();
-            const cliente = $('#cliente').val();
             const wallet = $('#wallet').val();
 
-            theRoute(usuario,cliente,wallet);
+            let myFechaDesde, myFechaHasta;
+            
+            myFechaDesde =  ($('#drCustomRanges').val()).substr(6,4) +
+                            '-' +
+                            ($('#drCustomRanges').val()).substr(3,2) +
+                            '-' +
+                            ($('#drCustomRanges').val()).substr(0,2)
+                            ;
+
+            myFechaHasta =  ($('#drCustomRanges').val()).substr(19,4) +
+                            '-' +
+                            ($('#drCustomRanges').val()).substr(16,2) +
+                            '-' +
+                            ($('#drCustomRanges').val()).substr(13,2)
+                            ;
+
+            theRoute(wallet,myFechaDesde,myFechaHasta);
+
 
         });
 
@@ -209,18 +224,14 @@ $config4 = [
                             ;
 
             //alert('Fecha Desde ' + myFechaDesde + 'Fecha Hasta ' + myFechaHasta);
-            const usuario = $('#userole').val();
-            const cliente = $('#cliente').val();
             const wallet = $('#wallet').val();
-            theRoute(usuario,cliente,wallet,myFechaDesde,myFechaHasta);
+            theRoute(wallet,myFechaDesde,myFechaHasta);
         });
 
     })
 
-    function theRoute(usuario = 0, cliente = 0, wallet = 0, fechaDesde = 0, fechaHasta = 0){
+    function theRoute(wallet = 0, fechaDesde = 0, fechaHasta = 0){
 
-        if (usuario === "") usuario = 0;
-        if (cliente === "") cliente = 0;
         if (wallet  === "") wallet  = 0;
 
         let myRoute = "";
@@ -234,11 +245,27 @@ $config4 = [
 
     }
 
-    function theRoute2(usuario = 0, grupo = 0, wallet = 0, typeTransactions = 0, fechaDesde = 0, fechaHasta = 0){
+    function theRoute2(usuario = 0, grupo = 0, wallet = 0, typeTransactions = 0){
 
         if (usuario === "") usuario = 0;
         if (grupo   === "") grupo = 0;
         if (wallet  === "") wallet  = 0;
+
+        let myFechaDesde, myFechaHasta;
+
+        myFechaDesde =  ($('#drCustomRanges').val()).substr(6,4) +
+                        '-' +
+                        ($('#drCustomRanges').val()).substr(3,2) +
+                        '-' +
+                        ($('#drCustomRanges').val()).substr(0,2)
+                        ;
+
+        myFechaHasta =  ($('#drCustomRanges').val()).substr(19,4) +
+                        '-' +
+                        ($('#drCustomRanges').val()).substr(16,2) +
+                        '-' +
+                        ($('#drCustomRanges').val()).substr(13,2)
+                        ;
 
         let myRoute = "";
             myRoute = "{{ route('estadisticasDetalle', ['usuario' => 'usuario2', 'grupo' => 'grupo2', 'wallet' => 'wallet2', 'typeTransactions' => 'typeTransactions2','fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2']) }}";
@@ -246,46 +273,14 @@ $config4 = [
             myRoute = myRoute.replace('usuario2',usuario);
             myRoute = myRoute.replace('wallet2',wallet);
             myRoute = myRoute.replace('typeTransactions2',typeTransactions);            
-            myRoute = myRoute.replace('fechaDesde2',fechaDesde);
-            myRoute = myRoute.replace('fechaHasta2',fechaHasta);
-        console.log(myRoute);
+            myRoute = myRoute.replace('fechaDesde2',myFechaDesde);
+            myRoute = myRoute.replace('fechaHasta2',myFechaHasta);
+        // console.log(myRoute);
         // alert(myRoute);
         location.href = myRoute;
 
     }
 
-    function BuscaUsuario(miUsuario){
-        if (miUsuario===0){
-            return;
-        }
-        // alert("BuscaUsuario - miUsuario -> " + miUsuario);
-        $('#userole').each( function(index, element){
-            // alert ("BuscaUsuario -> " + $(this).val() + " text -> " + $(this).text()+ " y con index -> " + $(this).prop('selectedIndex'));
-            $(this).children("option").each(function(){
-                if ($(this).val() === miUsuario.toString()){
-                    // alert('BuscaUsuario - encontro');
-                    $("#userole option[value="+ miUsuario +"]").attr("selected",true);
-                }
-                // alert("BuscaUsuario aqui ->  the val " + $(this).val() + " text -> " + $(this).text());
-            });
-        });
-        //
-    }
-
-    function BuscaCliente(miCliente){
-        //alert("BuscaCliente - miCliente -> " + miCliente);
-        $('#cliente').each( function(index, element){
-            //alert ("Buscacliente -> " + $(this).val() + " text -> " + $(this).text()+ " y con index -> " + $(this).prop('selectedIndex'));
-            $(this).children("option").each(function(){
-                if ($(this).val() === miCliente.toString()){
-                    //alert('BUscaCliente - encontro');
-                    $("#cliente option[value="+ miCliente +"]").attr("selected",true);
-                }
-                //alert("BuscaClienteaqui ->  the val " + $(this).val() + " text -> " + $(this).text());
-            });
-        });
-        //
-    }
 
 
     function BuscaWallet(miWallet){
@@ -303,6 +298,43 @@ $config4 = [
                 // alert("BuscaWallet aqui ->  the val " + $(this).val() + " text -> " + $(this).text());
             });
         });
+    }
+
+
+    function BuscaFechas(FechaDesde = 0, FechaHasta = 0){
+
+        myLocation  = window.location.toString();
+
+        myArray     = myLocation.split("/");
+
+        if (myArray.length > 4){
+            FechaDesde = myArray[5];
+            FechaHasta = myArray[6];
+        }else{
+            FechaDesde = 0;
+            FechaHasta = 0;       
+        }
+
+        // alert("fecha desde -> " + FechaDesde + " Fecha hasta -> " + FechaHasta);
+
+        if (FechaDesde == 0) return;
+
+
+        let myFechaDesde, myFechaHasta, myFecha;
+
+        myFechaDesde = FechaDesde.toString().substr(8,2)  + '-' + FechaDesde.toString().substr(5,2) + '-' + FechaDesde.toString().substr(0,4);
+        myFechaHasta = FechaHasta.toString().substr(8,2)  + '-' + FechaHasta.toString().substr(5,2) + '-' + FechaHasta.toString().substr(0,4);
+
+        myFecha = myFechaDesde.toString()  + ' - ' + myFechaHasta.toString();
+
+        $('#drCustomRanges').data('daterangepicker').setStartDate(myFechaDesde);
+        $('#drCustomRanges').data('daterangepicker').setEndDate(myFechaHasta);
+
+    }
+
+    function InicializaFechas(){
+       // $('#drCustomRanges').data('daterangepicker').setStartDate('01-01-2001');
+
     }
 
 </script>

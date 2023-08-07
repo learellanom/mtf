@@ -39,10 +39,10 @@ class statisticsController extends Controller
         return $this->myDebits;
     }
 
-    private $myCredits          = "1,3,5,6,7,9,11,14,15,16,17";
-    private $myDebits           = "2,4,8,10,12,13";
+    private $myCredits          = "1,3,5,6,7,9,11,14,15,16,17,18";
+    private $myDebits           = "2,4,8,10,12,13,19,20,21,22,23";
     public function getCreditDebitGroup($myType){
-
+        /*
         $myTypeCredit[] = 1;
         $myTypeCredit[] = 3;
         $myTypeCredit[] = 5;
@@ -54,6 +54,7 @@ class statisticsController extends Controller
         $myTypeCredit[] = 15;
         $myTypeCredit[] = 16;
         $myTypeCredit[] = 17;
+        $myTypeCredit[] = 18;
 
         $myTypeDebit[]  = 2;
         $myTypeDebit[]  = 4;
@@ -61,9 +62,14 @@ class statisticsController extends Controller
         $myTypeDebit[]  = 10;
         $myTypeDebit[]  = 12;
         $myTypeDebit[]  = 13;
-
-        //$myTypeCredit   = explode($this->myCredits);
-        //$myTypeDebit    = explode($this->myDebits);
+        $myTypeDebit[]  = 19;
+        $myTypeDebit[]  = 20;
+        $myTypeDebit[]  = 21;
+        $myTypeDebit[]  = 22;
+        $myTypeDebit[]  = 23;
+        */
+        $myTypeCredit   = explode(",",$this->myCredits);
+        $myTypeDebit    = explode(",",$this->myDebits);
 
 
         foreach($myTypeCredit as $value){
@@ -88,16 +94,22 @@ class statisticsController extends Controller
     *
     *
     */
-    private $myCreditsWallet    = "2,4,6,7,10,13";
-    private $myDebitsWallet     = "1,3,5,8,9,11,12,14,15,16,17";
+    private $myCreditsWallet    = "2,4,6,7,10,13,19,20,21,22,23";
+    private $myDebitsWallet     = "1,3,5,8,9,11,12,14,15,16,17,18";
     public function getCreditDebitWallet($myType){
+        /*
         $myTypeCredit[] = 2;
         $myTypeCredit[] = 4;
         $myTypeCredit[] = 6;
         $myTypeCredit[] = 7;
         $myTypeCredit[] = 10;
         $myTypeCredit[] = 13;
-        
+        $myTypeCredit[] = 19;
+        $myTypeCredit[] = 20;
+        $myTypeCredit[] = 21;
+        $myTypeCredit[] = 22;
+        $myTypeCredit[] = 23;
+
         $myTypeDebit[]  = 1;
         $myTypeDebit[]  = 3;
         $myTypeDebit[]  = 5;
@@ -109,9 +121,11 @@ class statisticsController extends Controller
         $myTypeDebit[]  = 15;
         $myTypeDebit[]  = 16;
         $myTypeDebit[]  = 17;
-  
-        // $myTypeCredit   = explode(",",$this->myCreditsWallet);
-        // $myTypeDebit    = explode(",",$this->myDebitsWallet);
+        $myTypeDebit[]  = 18;
+        */
+        
+         $myTypeCredit   = explode(",",$this->myCreditsWallet);
+         $myTypeDebit    = explode(",",$this->myDebitsWallet);
 
 
         foreach($myTypeCredit as $value){
@@ -2266,9 +2280,9 @@ class statisticsController extends Controller
             $walletDesde = $wallet;
             $walletHasta = $wallet;
         }
-        \Log::info('leam wallet      getBalanceWallet *** -> ' . $wallet);        
-        \Log::info('leam fecha Desde getBalanceWallet *** -> ' . $fechaDesde); 
-        \Log::info('leam fecha Hasta getBalanceWallet *** -> ' . $fechaHasta); 
+        // \Log::info('leam wallet      getBalanceWallet *** -> ' . $wallet);        
+        // \Log::info('leam fecha Desde getBalanceWallet *** -> ' . $fechaDesde); 
+        // \Log::info('leam fecha Hasta getBalanceWallet *** -> ' . $fechaHasta); 
         
         $horaDesde = " 00:00:00";
         $horaHasta = " 23:59:00";
@@ -2356,8 +2370,8 @@ class statisticsController extends Controller
         // dd($myQuery);
         $Transacciones = DB::select($myQuery);
 
-         \Log::info('leam grupo query          getBalanceWallet *** -> ' . print_r($myQuery,true));
-         \Log::info('leam grupo transacciones  getBalanceWallet *** -> ' . print_r($Transacciones,true));
+         // \Log::info('leam grupo query          getBalanceWallet *** -> ' . print_r($myQuery,true));
+         // \Log::info('leam grupo transacciones  getBalanceWallet *** -> ' . print_r($Transacciones,true));
 
         if (empty($Transacciones)) {
             // \Log::info('leam vacio *** -> ' . print_r($Transacciones,true));

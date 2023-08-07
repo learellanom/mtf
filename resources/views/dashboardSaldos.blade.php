@@ -354,7 +354,18 @@ $config4 = [
 
         $('#myButtonAplicar').on('click', function (){
             
+            $("#my-select option:selected").each(function(){
+                
+                // alert('opcion '+$(this).text()+' valor '+ $(this).attr('value'));
+                @foreach($wallet_summary as $wallet5)
+                    if({{$wallet5->IdWallet}} == $(this).attr('value')){
+                       // alert("Encontro");
+                    }
+                @endforeach
+                // $("#myCanvas").empty();
+            });
             
+
             Swal.fire({
                 position: 'top-end',
                 icon: 'success',
@@ -423,17 +434,22 @@ $config4 = [
                         <thead class="thead-dark">
                             <tr>
                                 <th style="width:1%;">Grupo</th>
+                                <th style="width:1%;">Saldo Anterior</th>                                
                                 <th style="width:1%;">Creditos</th>
                                 <th style="width:1%;">Debitos</th>
                                 <th style="width:1%;">Total</th>                                        
                             </tr>
                         </thead>
                         @foreach($group_summary as $group2)
+                            @php
+                                $myTotal = ($group2->BalanceAnterior + $group2->Creditos ) - $group2->Debitos; 
+                            @endphp
                             <tr class="myTr" onClick="theRoute2({{0}}, {{ $group2->IdGrupo }}, {{0}}, {{0}})">
                                 <td >{{ $group2->NombreGrupo}}</td>
-                                <td >{{ number_format($group2->Creditos) }}</td>
+                                <td >{{ number_format($group2->BalanceAnterior,2) }}</td>                                
+                                <td >{{ number_format($group2->Creditos,2) }}</td>
                                 <td >{{ number_format($group2->Debitos,2)}}</td>
-                                <td >{{ number_format($group2->Total,2)}}</td>
+                                <td >{{ number_format($myTotal ,2)}}</td>
                             </tr>
                         @endforeach
                     </table>
@@ -478,10 +494,11 @@ $config4 = [
                 </div>
 
                 <div class="col-12 col-md-12">
-                    <table class="table thead-light" style="background-color: white;">
+                    <table id="myTableWallet" class="table thead-light" style="background-color: white;">
                         <thead class="thead-dark">
                             <tr>
                                 <th style="width:1%;">Wallet</th>
+                                <th style="width:1%;">Saldo Anterior</th>                                
                                 <th style="width:1%;">Entrada</th>
                                 <th style="width:1%;">Salidas</th>
                                 <th style="width:1%;">Saldo</th>
@@ -491,6 +508,7 @@ $config4 = [
                             $cantCreditos  = 0;
                             $cantDebitos   = 0;
 
+                            $totalSaldoAnterior  = 0;
                             $totalCreditos  = 0;
                             $totalDebitos   = 0;
 
@@ -500,25 +518,28 @@ $config4 = [
                         @foreach($wallet_summary as $wallet2)
 
                             <tr class="myTr" onClick="theRoute2({{0}}, {{0}}, {{$wallet2->IdWallet}}, {{0}})">
-
-                                <td >{{ $wallet2->NombreWallet}}</td>
-                                <td >{{ number_format($wallet2->Creditos)  }}</td>
-                                <td >{{ number_format($wallet2->Debitos,2) }}</td>
-                                <td >{{ number_format($wallet2->Total,2) }}</td>
-
+    
                                 @php
                                     $cantCreditos ++;
                                     $totalCreditos += $wallet2->Creditos;
                                     $totalDebitos  += $wallet2->Debitos;
-                                    $total  += $wallet2->Total;
+
+                                    $myTotal = ($wallet2->BalanceAnterior + $wallet2->Creditos ) - $wallet2->Debitos;
+                                    $total  += $myTotal;                                    
                                 @endphp
-                                
+
+                                <td >{{ $wallet2->NombreWallet}}</td>
+                                <td >{{ number_format($wallet2->BalanceAnterior,2)}}</td>                                
+                                <td >{{ number_format($wallet2->Creditos,2)  }}</td>
+                                <td >{{ number_format($wallet2->Debitos,2) }}</td>
+                                <!-- <td >{{ number_format($wallet2->Total,2) }}</td> -->
+                                <td >{{ number_format($myTotal,2) }}</td>                                
                             </tr>
 
                         @endforeach
                         <tr style="background-color: black; color:white;">
                             <td >{{ ' ' }}</td>
-
+                            <td >{{ number_format($totalSaldoAnterior,2) }}</td>
                             <td >{{ number_format($totalCreditos,2) }}</td>
                             <td >{{ number_format($totalDebitos,2) }}</td>
                             <td >{{ number_format($total,2) }}</td>
@@ -616,7 +637,7 @@ $config4 = [
         });
     }
     function InicializaFechas(){
-        $('#drCustomRanges').data('daterangepicker').setStartDate('01-01-2001');
+        // $('#drCustomRanges').data('daterangepicker').setStartDate('01-01-2001');
 
     }
     function BuscaFechas(FechaDesde = 0,FechaHasta = 0){

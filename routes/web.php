@@ -98,12 +98,13 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('movimientos/indice_pagoclientes', [TransactionController::class, 'index_pagoclientes'])->middleware('can:transactions.index_pagoclientes')->name('transactions.index_pagoclientes');
     Route::get('movimientos/pago_clientes', [TransactionController::class, 'create_pagoclientes'])->middleware('can:transactions.create_pagoclientes')->name('transactions.create_pagoclientes');
     Route::post('movimientos/pgo', [TransactionController::class, 'store_pagocliente'])->name('transactions.store_pagocliente');
-
+  
     Route::match(['put', 'patch'], 'movimientos/{movimiento}/estatus_pagos_cajas', [TransactionController::class, 'updatestatus_pago'])->name('transactions.updatestatus_pago');
     Route::match(['put', 'patch'], 'movimientos/{movimiento}/estatus_cajas', [TransactionController::class, 'updatestatus_transfer'])->name('transactions.updatestatus_transfer');
 
 
     Route::resource('movimientos', TransactionController::class)->middleware('auth')->names('transactions');
+
     Route::match(['put', 'patch'], 'movimientos/{movimiento}/estatus', [TransactionController::class, 'update_status'])->name('transactions.update_status');
     Route::delete('movimientos/eliminar/{movimiento}', [TransactionController::class, 'destroyImg'])->name('transactions.destroyimg');
 
