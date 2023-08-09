@@ -8,6 +8,7 @@ use App\Http\Controllers\statisticsController;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Pagination\Paginator;
 use App\Exports\DashboardestExport;
+use App\Exports\DashboardSaldosExport;
 use Maatwebsite\Excel\Facades\Excel;
 
 class HomeController extends Controller
@@ -301,6 +302,7 @@ class HomeController extends Controller
         return view('dashboardSaldos', $myParameters);
 
     }
+
     public function export(request $request, $wallet, $fechaDesde, $fechaHasta)
     {
         $wallet_summary = app(statisticsController::class)->getwalletTransactionSummary($request);
@@ -352,9 +354,58 @@ class HomeController extends Controller
 
 
         //dd($balanceDetail);
-        return Excel::download(new DashboardestExport($wallet_summary, $wallet_groupsummary, $transaction_summary, $transaction_group_summary, $balance, $balanceDetail), 'estadisticas.xlsx');
+        return Excel::download(new DashboardestExport($wallet_summary, $wallet_groupsummary, $transaction_summary, $transaction_group_summary, $balance, $balanceDetail, $fechaDesde, $fechaHasta), 'Estadisticas por Caja.xlsx');
     }
 
+    public function exportSaldos(request $request, $fechaDesde, $fechaHasta)
+    {
+        
+        $wallet_summary             = app(statisticsController::class)->getWalletSummary($request);
 
+        $group_summary              = app(statisticsController::class)->getGroupSummary($request);
+
+        $myFechaDesde = "2001-01-01";
+        $myFechaHasta = "9999-12-31";
+
+        $myFechaDesde2 = "2001-01-01";
+        $myFechaHasta2 = "9999-12-31";
+
+        if ($request->fechaDesde){
+            $myFechaDesde = $request->fechaDesde;
+            $myFechaHasta = $request->fechaHasta;
+
+            $myFechaDesde2 = $myFechaDesde . " 00:00:00";
+            $myFechaHasta2 = $myFechaHasta . " 12:59:00";
+        }
+
+        if ($request->fechaHasta){
+            $myFechaHasta = $request->fechaHasta;
+            $myFechaHasta2 = $myFechaHasta . " 12:59:00";
+            /* MANTENER VALOR BUSCADO EN EL URL */
+        }
+        //
+        // obtiene saldo anterior wallets
+        // 
+        $balanceDetail      = 0;
+        $myFechaDesdeBefore = "2001-01-01";
+        $myFechaHastaBefore = "9999-12-31";
+        if ($myFechaDesde != "2001-01-01"){
+            $myFechaHastaBefore = app(statisticsController::class)->getDayBefore($myFechaDesde);
+        }
+        foreach($wallet_summary as $wallet3){            
+            $balanceDetail           = app(statisticsController::class)->getBalanceWalletBefore($wallet3->IdWallet, $myFechaDesde, $myFechaHasta);
+            
+            $wallet3->BalanceAnterior = $balanceDetail;
+        }
+
+        foreach($group_summary as $group3){            
+            $balanceDetail           = app(statisticsController::class)->getBalanceBefore($group3->IdGrupo, $myFechaDesde, $myFechaHasta);
+            
+            $group3->BalanceAnterior = $balanceDetail;
+        }
+
+        //dd($balanceDetail);
+        return Excel::download(new DashboardSaldosExport($wallet_summary, $wallet_groupsummary, $myFechaDesde, $myFechaHasta), 'Saldos al corte.xlsx');
+    }
 
 }

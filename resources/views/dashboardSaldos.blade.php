@@ -133,7 +133,9 @@ $config4 = [
                         </div>
                         <div class ="col-12 col-md-3">
                             <a class="btn btn-primary imprimir"><i class="fas fa-print"></i></a>
-                            {{-- <a class="btn btn-success" href={{route('exports.excel', [$myWallet, $myFechaDesde, $myFechaHasta])}}><i class="fas fa-file-excel"></i></a> --}}
+                            {{--
+                            <a class="btn btn-success" href={{route('exports.saldos', [$wallet_summary,$group_summary, $myFechaDesde, $myFechaHasta])}}><i class="fas fa-file-excel"></i></a>
+                            --}}
                         </div>
 
                     </div>
@@ -226,8 +228,24 @@ $config4 = [
 
     BuscaTransaccion(miTypeTransaction);
 
+    @php
+        // dd( config('filtros.consolidado.wallets.0') );
+        // dd( config('filtros.consolidado.wallets') );
+        // dd( config('filtros') );
+         
+        $myArray = config('filtros.consolidado.wallets');
+      
+    @endphp
 
+    let myArray = [];
+    @foreach($myArray as $myValue)
+     myArray.push({{$myValue}});
+    @endforeach
+    // alert(myArray);
 
+    // myArray[0] = 99;
+
+    
 
     $(() => {
 
@@ -353,16 +371,25 @@ $config4 = [
         });
 
         $('#myButtonAplicar').on('click', function (){
-            
+            $("#myTableWallet tr").each(function(){
+                $(this).removeAttr("hidden");
+            });
+
             $("#my-select option:selected").each(function(){
                 
-                // alert('opcion '+$(this).text()+' valor '+ $(this).attr('value'));
-                @foreach($wallet_summary as $wallet5)
-                    if({{$wallet5->IdWallet}} == $(this).attr('value')){
-                       // alert("Encontro");
+                seleccionado = $(this).attr('value');
+
+                $("#myTableWallet tr").each(function(){
+                    if($(this).data("id")){
+                                                
+                        if ($(this).data("id") == seleccionado){
+                            
+                            $(this).attr("hidden",true);
+                        }
                     }
-                @endforeach
-                // $("#myCanvas").empty();
+                });
+
+
             });
             
 
@@ -384,8 +411,27 @@ $config4 = [
         });
 
         $('#myButtonAplicar2').on('click', function (){
-            
-            
+            $("#myTableGroup tr").each(function(){
+                $(this).removeAttr("hidden");
+            });     
+
+            $("#my-select2 option:selected").each(function(){
+                
+                seleccionado = $(this).attr('value');
+                // alert(" seleccionado : " + seleccionado);
+                $("#myTableGroup tr").each(function(){
+                    if($(this).data("id")){
+                                                
+                        if ($(this).data("id") == seleccionado){
+                            
+                            $(this).attr("hidden",true);
+                        }
+                    }
+                });
+
+
+            });  
+
             Swal.fire({
                 position: 'top-end',
                 icon: 'success',
@@ -430,7 +476,7 @@ $config4 = [
 
 
                 <div class="col-12 col-md-12">
-                    <table class="table thead-light" style="background-color: white;">
+                    <table class="table thead-light" style="background-color: white;" id="myTableGroup">
                         <thead class="thead-dark">
                             <tr>
                                 <th style="width:1%;">Grupo</th>
@@ -444,7 +490,7 @@ $config4 = [
                             @php
                                 $myTotal = ($group2->BalanceAnterior + $group2->Creditos ) - $group2->Debitos; 
                             @endphp
-                            <tr class="myTr" onClick="theRoute2({{0}}, {{ $group2->IdGrupo }}, {{0}}, {{0}})">
+                            <tr class="myTr" onClick="theRoute2({{0}}, {{ $group2->IdGrupo }}, {{0}}, {{0}})" data-id="{{$group2->IdGrupo}}">
                                 <td >{{ $group2->NombreGrupo}}</td>
                                 <td >{{ number_format($group2->BalanceAnterior,2) }}</td>                                
                                 <td >{{ number_format($group2->Creditos,2) }}</td>
@@ -497,11 +543,12 @@ $config4 = [
                     <table id="myTableWallet" class="table thead-light" style="background-color: white;">
                         <thead class="thead-dark">
                             <tr>
-                                <th style="width:1%;">Wallet</th>
-                                <th style="width:1%;">Saldo Anterior</th>                                
-                                <th style="width:1%;">Entrada</th>
-                                <th style="width:1%;">Salidas</th>
-                                <th style="width:1%;">Saldo</th>
+                                <th style="width:1%; display: none;">Id</th>                            
+                                <th style="width:1%;"               >Wallet</th>
+                                <th style="width:1%;"               >Saldo Anterior</th>                                
+                                <th style="width:1%;"               >Entrada</th>
+                                <th style="width:1%;"               >Salidas</th>
+                                <th style="width:1%;"               >Saldo</th>
                             </tr>
                         </thead>
                         @php
@@ -517,7 +564,7 @@ $config4 = [
                         
                         @foreach($wallet_summary as $wallet2)
 
-                            <tr class="myTr" onClick="theRoute2({{0}}, {{0}}, {{$wallet2->IdWallet}}, {{0}})">
+                            <tr class="myTr" onClick="theRoute2({{0}}, {{0}}, {{$wallet2->IdWallet}}, {{0}})" data-id="{{$wallet2->IdWallet}}">
     
                                 @php
                                     $cantCreditos ++;

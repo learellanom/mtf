@@ -29,19 +29,13 @@ class DashboardestExport implements FromView
 {
     use Exportable;
 
-    private $wallet_summary, $wallet_groupsummary, $transaction_summary, $transaction_group_summary, $balance, $balanceDetail;
+    private $wallet_summary, $group_summary;
     private $fechaDesde, $fechasHasta;
 
-    public function __construct($wallet_summary, $wallet_groupsummary,$transaction_summary,$transaction_group_summary, $balance, $balanceDetail, $fechaDesde, $fechaHasta)
+    public function __construct($wallet_summary, $group_summary, $fechaDesde, $fechaHasta)
     {
-        $this->wallet_summary = $wallet_summary;
-        $this->wallet_groupsummary = $wallet_groupsummary;
-
-        $this->transaction_group_summary = $transaction_group_summary;
-        $this->transaction_summary = $transaction_summary;
-
-        $this->balance = $balance;
-        $this->balanceDetail = $balanceDetail;
+        $this->wallet_summary   = $wallet_summary;
+        $this->group_summary    = $group_summary;
 
         $this->fechaDesde = $fechaDesde;
         $this->fechaHasta = $fechaHasta;        
@@ -60,8 +54,5 @@ class DashboardestExport implements FromView
             'fechaHasta'    => $this->fechaHasta,                        
         ]);
     }
-
-
-
 
 }

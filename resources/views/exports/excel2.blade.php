@@ -13,6 +13,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 </head>
 <body>
+    <hr>
 
     <table>
         @if(!empty($general) && !empty($general2))
@@ -875,12 +876,34 @@
         
         <thead>
             <tr>
-                <th colspan="3"></th>
-                <th colspan="5" style="text-align:center; background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 15px; text-transform: uppercase; width:300px;">
-                    Saldo total: {{ number_format($balance,2)}}   |      Saldo al corte:  {{ number_format($balanceDetail,2) }}
+                <th ></th>
+                <th ></th>
+                <th ></th>
+                <th colspan="2" style="text-align:center; background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 15px; text-transform: uppercase; width:300px;">
+                    Saldo total: {{ number_format($balance,2)}}
                 </th>
+                <th style="text-align:center; background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 15px; text-transform: uppercase; width:300px;"></th>
+                <th colspan="2" style="text-align:center; background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 15px; text-transform: uppercase; width:300px;">
+                    Saldo al corte:  {{ number_format($balanceDetail,2) }}
+                </th>
+
                 <th colspan="2"></th>
             </tr>
+            <tr>
+                @if($fechaDesde != "2001-01-01")
+                    <th colspan="3"></th>
+                    <th colspan="5" style="text-align:center; background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 15px; text-transform: uppercase; width:300px;">
+                        Fecha desde: {{ $fechaDesde }}   |      Fecha Hasta:  {{ $fechaHasta }}
+                    </th>
+                    <th colspan="2"></th>
+                @else
+                    <th colspan="3"></th>
+                    <th colspan="5" style="text-align:center; background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 15px; text-transform: uppercase; width:300px;">
+                        a la Fecha:  {{ date('d-m-Y') }}
+                    </th>
+                    <th colspan="2"></th>              
+                @endif
+            </tr>            
             <tr>
                 <th colspan="3"></th>
                 <th colspan="5" style="text-align:center; background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 15px; text-transform: uppercase; width:300px;">TRANSACCIÓNES POR CAJA</th>
@@ -906,55 +929,38 @@
             $saldo = 0;
         @endphp
         <tbody>
-            @for($i = 0; $i < $total_count2; $i++)
-
+            @foreach($summary as $summary_row)
                 <tr>
-                    @if($i < $summary_count)
-                        @php
-                            $summary_row = $summary[$i];
-                        @endphp
-
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td>{{ $summary_row->TypeTransaccionName }}</td>
-                        <td>{{ $summary_row->cant_transactions }}</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>{{ $summary_row->TypeTransaccionName }}</td>
+                    <td>{{ $summary_row->cant_transactions }}</td>
 
 
-                        @if(in_array($summary_row->TypeTransactionId, [1, 3, 5, 8, 11, 12, 14, 15, 16, 17]))
-                            <td>{{ 0.00 }}</td>
-                        @else
-                            {{-- <td>{{ number_format($summary_row->total_amount, 2) ?? '0.00' }}</td> --}}
-                            <td>{{ number_format($summary_row->total_amount, 2)}}</td>                            
-                            @php
-                                $cantCreditos ++;
-                                $totalCreditos += $summary_row->total_amount;
-                            @endphp
-                        @endif
-
-                        @if(in_array($summary_row->TypeTransactionId, [2, 4, 6, 7, 9, 10, 13]))
-                            <td>{{ 0.00 }}</td>
-                        @else
-                            {{-- <td>{{ number_format($summary_row->total_amount, 2) ?? '0.00' }}</td> --}}
-                            <td>{{ number_format($summary_row->total_amount, 2) }}</td>                            
-                            @php
-                                $cantDebitos ++;
-                                $totalDebitos += $summary_row->total_amount;
-                            @endphp
-                        @endif
-
+                    @if(in_array($summary_row->TypeTransactionId, [1, 3, 5, 8, 11, 12, 14, 15, 16, 17]))
+                        <td>{{ 0.00 }}</td>
                     @else
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                        
+                        <td>{{ $summary_row->total_amount}}</td>
+                        @php
+                            $cantCreditos ++;
+                            $totalCreditos += $summary_row->total_amount;
+                        @endphp
                     @endif
 
-                    <td></td>
-                    <td></td>
-
+                    @if(in_array($summary_row->TypeTransactionId, [2, 4, 6, 7, 9, 10, 13]))
+                        <td>{{ 0.00 }}</td>
+                    @else
+                        
+                        <td>{{ $summary_row->total_amount }}</td>                            
+                        @php
+                            $cantDebitos ++;
+                            $totalDebitos += $summary_row->total_amount;
+                        @endphp
+                    @endif
                 </tr>
-
-            @endfor
+            @endforeach
 
             <tr style="background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:200px;">
                 <td >{{ ' ' }}</td>
@@ -962,9 +968,9 @@
                 <td >{{ ' ' }}</td>
                 <td style="background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:200px;">{{ ' ' }}</td>
                 <td style="background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:200px;">{{ ' ' }}</td>
-                <td style="background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:200px;">{{ number_format($totalCreditos,2) }}</td>
-                <td style="background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:200px;">{{ number_format($totalDebitos,2)}}</td>
-                <td style="background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:200px;">{{ number_format($balance,2)}}</td>
+                <td style="background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:200px;">{{ $totalCreditos }}</td>
+                <td style="background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:200px;">{{ $totalDebitos }}</td>
+                <td style="background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:200px;">{{ $balance }}</td>
             </tr>
 
             <tr style="background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:200px;">
@@ -975,792 +981,107 @@
                 <td style="background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:200px;">{{ ' ' }}</td>
                 <td style="background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:200px;"></td>
                 <td style="background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:200px;">Saldo al dia:</td>
-                <td style="background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:200px;">{{ number_format($balance,2)}}</td>
-            </tr>
+                <td style="background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:200px;">{{ $balance}}</td>
+            <hr>
             <hr>
 
-            <thead>
-                <tr>
-                    <th colspan="3" style="text-align:center; background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 15px; text-transform: uppercase; width:300px;">PAGO EN TRANSFERENCIA</th>
-                    <th colspan="2"></th>
-                    <th colspan="4" style="text-align:center; background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 15px; text-transform: uppercase; width:300px;">PAGO EN TRANSFERENCIA</th>
-                </tr>
-                <tr>
-                    <th style="background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:200px;">Transacción</th>
-                    <th style="background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:150px;">Cant transacción</th>
-                    <th style="background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:200px;">Monto Transacción</th>
-                    <th></th>
-                    <th></th>
-                    <th style="background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:200px;">Grupo</th>
-                    <th style="background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:200px;">Transacción</th>
-                    <th style="background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:150px;">Cant transacción</th>
-                    <th style="background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:200px;">Monto transacción</th>
-                </tr>
-            </thead>
-            @for($i = 0; $i < $total_count2; $i++)
+            <!-- transaccion por grupos -->
+            {{-- dd($summary) --}}
+            {{-- dd($groupsummary) --}}
+            <style>
+                .myStyleHeader {
+                    text-align:center; 
+                    background-color: #001C30; 
+                    color: #ffffff; 
+                    font-weight: bolder; 
+                    font-size: 15px; 
+                    text-transform: uppercase; 
+                    width:300px;                
+                }
 
-                <tr>
-                    @if($i < $summary_count)
-                        @php
-                            $summary_row = $summary[$i];
-                        @endphp
-                        <td>{{ $summary_row->TypeTransaccionName }}</td>
-                        <td>{{ $summary_row->cant_transactions }}</td>
-                        <td>{{ $summary_row->total_amount }}</td>
-                    @else
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                .myStyleRow {
+                    background-color: #001C30; 
+                    color: #ffffff; 
+                    font-weight: bolder; 
+                    font-size: 13px; 
+                    text-transform: uppercase; 
+                    width:200px;
+                }
+            </style>
+            @foreach($summary as $summary_row)
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th colspan="4" style="text-align:center; background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 15px; text-transform: uppercase; width:300px;">{{ $summary_row->WalletName}}</th>
+                    </tr>   
+                    <tr>
+                        @if($fechaDesde != "2001-01-01")
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th colspan="4" style="text-align:center; background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 15px; text-transform: uppercase; width:300px;">
+                                Fecha desde: {{ $fechaDesde }}   |      Fecha Hasta:  {{ $fechaHasta }}
+                            </th>
+
+                        @else
+                            <th></th>
+                            <th></th>
+                            <th></th>                                                
+                            <th colspan="4" style="text-align:center; background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 15px; text-transform: uppercase; width:300px;">
+                                a la Fecha:  {{ date('d-m-Y') }}
+                            </th>
+
+                        @endif    
+                    </tr>                                 
+                    <tr>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th colspan="4" style="text-align:center; background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 15px; text-transform: uppercase; width:300px;">{{ $summary_row->TypeTransaccionName}}</th>
+                    </tr>
+                    <tr>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th style="background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:200px;">Grupo</th>
+                        <th style="background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:200px;">Transacción</th>
+                        <th style="background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:150px;">Cant transacción</th>
+                        <th style="background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:200px;">Monto transacción</th>
+                    </tr>
+                </thead>
+
+                @foreach($groupsummary as $groupsummary_row)
+
+                    @if($groupsummary_row->TypeTransactionId == $summary_row->TypeTransactionId)
+
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td>{{ $groupsummary_row->GroupName }}</td>
+                            <td>{{ $groupsummary_row->TypeTransaccionName }}</td>
+                            <td>{{ $groupsummary_row->cant_transactions }}</td>
+                            <td>{{ $groupsummary_row->total_amount }}</td>
+                        </tr>
+
                     @endif
 
-                    <td></td>
-                    <td></td>
-
-                    @if($i < $groupsummary_count)
-                        @php
-                            $groupsummary_row = $groupsummary[$i];
-                        @endphp
-
-                        @if($groupsummary_row->TypeTransactionId == 1)
-                        <td>{{ $groupsummary_row->GroupName ?? $groupsummary_row->TypeTransaccionName. '|' . $groupsummary_row->WalletName }}</td>
-                        <td>{{ $groupsummary_row->TypeTransaccionName }}</td>
-                        <td>{{ $groupsummary_row->cant_transactions }}</td>
-                        <td>{{ $groupsummary_row->total_amount }}</td>
-                        @endif
-
-
-                    @else
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    @endif
-                </tr>
-            @endfor
-
-
-            <thead>
+                @endforeach
                 <tr>
-                    <th colspan="3" style="text-align:center; background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 15px; text-transform: uppercase; width:300px;">COBRO EN TRANSFERENCIA</th>
-                    <th colspan="2"></th>
-                    <th colspan="4" style="text-align:center; background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 15px; text-transform: uppercase; width:300px;">COBRO EN TRANSFERENCIA</th>
-                </tr>
-                <tr>
-                    <th style="background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:200px;">Transacción</th>
-                    <th style="background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:150px;">Cant transacción</th>
-                    <th style="background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:200px;">Monto Transacción</th>
-                    <th></th>
-                    <th></th>
-                    <th style="background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:200px;">Grupo</th>
-                    <th style="background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:200px;">Transacción</th>
-                    <th style="background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:150px;">Cant transacción</th>
-                    <th style="background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:200px;">Monto transacción</th>
-                </tr>
-            </thead>
-
-            @for($i = 0; $i < $total_count2; $i++)
-
-                <tr>
-                    @if($i < $summary_count)
-                        @php
-                            $summary_row = $summary[$i];
-                        @endphp
-                        <td>{{ $summary_row->TypeTransaccionName }}</td>
-                        <td>{{ $summary_row->cant_transactions }}</td>
-                        <td>{{ $summary_row->total_amount }}</td>
-                    @else
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    @endif
-
-                    <td></td>
-                    <td></td>
-
-                    @if($i < $groupsummary_count)
-                        @php
-                            $groupsummary_row = $groupsummary[$i];
-                        @endphp
-
-                        @if($groupsummary_row->TypeTransactionId == 2)
-                        <td>{{ $groupsummary_row->GroupName ?? $groupsummary_row->TypeTransaccionName. '|' . $groupsummary_row->WalletName }}</td>
-                        <td>{{ $groupsummary_row->TypeTransaccionName }}</td>
-                        <td>{{ $groupsummary_row->cant_transactions }}</td>
-                        <td>{{ $groupsummary_row->total_amount }}</td>
-                        @endif
-
-
-                    @else
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    @endif
-                </tr>
-            @endfor
-
-            <thead>
-                <tr>
-                    <th colspan="3" style="text-align:center; background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 15px; text-transform: uppercase; width:300px;">PAGO EFECTIVO</th>
-                    <th colspan="2"></th>
-                    <th colspan="4" style="text-align:center; background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 15px; text-transform: uppercase; width:300px;">PAGO EFECTIVO</th>
-                </tr>
-                <tr>
-                    <th style="background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:200px;">Transacción</th>
-                    <th style="background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:150px;">Cant transacción</th>
-                    <th style="background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:200px;">Monto Transacción</th>
-                    <th></th>
-                    <th></th>
-                    <th style="background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:200px;">Grupo</th>
-                    <th style="background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:200px;">Transacción</th>
-                    <th style="background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:150px;">Cant transacción</th>
-                    <th style="background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:200px;">Monto transacción</th>
-                </tr>
-            </thead>
-
-            @for($i = 0; $i < $total_count2; $i++)
-
-                <tr>
-                    @if($i < $summary_count)
-                        @php
-                            $summary_row = $summary[$i];
-                        @endphp
-                        <td>{{ $summary_row->TypeTransaccionName }}</td>
-                        <td>{{ $summary_row->cant_transactions }}</td>
-                        <td>{{ $summary_row->total_amount }}</td>
-                    @else
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    @endif
-
-                    <td></td>
-                    <td></td>
-
-                    @if($i < $groupsummary_count)
-                        @php
-                            $groupsummary_row = $groupsummary[$i];
-                        @endphp
-
-                        @if($groupsummary_row->TypeTransactionId == 3)
-                        <td>{{ $groupsummary_row->GroupName ?? $groupsummary_row->TypeTransaccionName. '|' . $groupsummary_row->WalletName }}</td>
-                        <td>{{ $groupsummary_row->TypeTransaccionName }}</td>
-                        <td>{{ $groupsummary_row->cant_transactions }}</td>
-                        <td>{{ $groupsummary_row->total_amount }}</td>
-                        @endif
-
-
-                    @else
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    @endif
-                </tr>
-            @endfor
-
-
-            <thead>
-                <tr>
-                    <th colspan="3" style="text-align:center; background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 15px; text-transform: uppercase; width:300px;">COBRO EN EFECTIVO</th>
-                    <th colspan="2"></th>
-                    <th colspan="4" style="text-align:center; background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 15px; text-transform: uppercase; width:300px;">COBRO EN EFECTIVO</th>
-                </tr>
-                <tr>
-                    <th style="background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:200px;">Transacción</th>
-                    <th style="background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:150px;">Cant transacción</th>
-                    <th style="background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:200px;">Monto Transacción</th>
-                    <th></th>
-                    <th></th>
-                    <th style="background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:200px;">Grupo</th>
-                    <th style="background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:200px;">Transacción</th>
-                    <th style="background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:150px;">Cant transacción</th>
-                    <th style="background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:200px;">Monto transacción</th>
-                </tr>
-            </thead>
-
-            @for($i = 0; $i < $total_count2; $i++)
-
-                <tr>
-                    @if($i < $summary_count)
-                        @php
-                            $summary_row = $summary[$i];
-                        @endphp
-                        <td>{{ $summary_row->TypeTransaccionName }}</td>
-                        <td>{{ $summary_row->cant_transactions }}</td>
-                        <td>{{ $summary_row->total_amount }}</td>
-                    @else
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    @endif
-
-                    <td></td>
-                    <td></td>
-
-                    @if($i < $groupsummary_count)
-                        @php
-                            $groupsummary_row = $groupsummary[$i];
-                        @endphp
-
-                        @if($groupsummary_row->TypeTransactionId == 4)
-                        <td>{{ $groupsummary_row->GroupName ?? $groupsummary_row->TypeTransaccionName. '|' . $groupsummary_row->WalletName }}</td>
-                        <td>{{ $groupsummary_row->TypeTransaccionName }}</td>
-                        <td>{{ $groupsummary_row->cant_transactions }}</td>
-                        <td>{{ $groupsummary_row->total_amount }}</td>
-                        @endif
-
-
-                    @else
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    @endif
-                </tr>
-
-
-            @endfor
-
-            <thead>
-                <tr>
-                    <th colspan="3" style="text-align:center; background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 15px; text-transform: uppercase; width:300px;">PAGO MERCANCIA</th>
-                    <th colspan="2"></th>
-                    <th colspan="4" style="text-align:center; background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 15px; text-transform: uppercase; width:300px;">PAGO MERCANCIA</th>
-                </tr>
-                <tr>
-                    <th style="background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:200px;">Transacción</th>
-                    <th style="background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:150px;">Cant transacción</th>
-                    <th style="background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:200px;">Monto Transacción</th>
-                    <th></th>
-                    <th></th>
-                    <th style="background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:200px;">Grupo</th>
-                    <th style="background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:200px;">Transacción</th>
-                    <th style="background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:150px;">Cant transacción</th>
-                    <th style="background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:200px;">Monto transacción</th>
-                </tr>
-            </thead>
-            @for($i = 0; $i < $total_count2; $i++)
-                <tr>
-                    @if($i < $summary_count)
-                        @php
-                            $summary_row = $summary[$i];
-                        @endphp
-                        <td>{{ $summary_row->TypeTransaccionName }}</td>
-                        <td>{{ $summary_row->cant_transactions }}</td>
-                        <td>{{ $summary_row->total_amount }}</td>
-                    @else
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    @endif
-
-                    <td></td>
-                    <td></td>
-
-                    @if($i < $groupsummary_count)
-                        @php
-                            $groupsummary_row = $groupsummary[$i];
-                        @endphp
-
-                        @if($groupsummary_row->TypeTransactionId == 5)
-                        <td>{{ $groupsummary_row->GroupName ?? $groupsummary_row->TypeTransaccionName. '|' . $groupsummary_row->WalletName }}</td>
-                        <td>{{ $groupsummary_row->TypeTransaccionName }}</td>
-                        <td>{{ $groupsummary_row->cant_transactions }}</td>
-                        <td>{{ $groupsummary_row->total_amount }}</td>
-                        @endif
-
-
-                    @else
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    @endif
-                </tr>
-            @endfor
-
-            <thead>
-                <tr>
-                    <th colspan="3" style="text-align:center; background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 15px; text-transform: uppercase; width:300px;">NOTA DE CREDITO A CAJA DE EFECTIVO
-                    </th>
-                    <th colspan="2"></th>
-                    <th colspan="4" style="text-align:center; background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 15px; text-transform: uppercase; width:300px;">NOTA DE CREDITO A CAJA DE EFECTIVO
-                    </th>
-                </tr>
-                <tr>
-                    <th style="background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:200px;">Transacción</th>
-                    <th style="background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:150px;">Cant transacción</th>
-                    <th style="background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:200px;">Monto Transacción</th>
-                    <th></th>
-                    <th></th>
-                    <th style="background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:200px;">Grupo</th>
-                    <th style="background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:200px;">Transacción</th>
-                    <th style="background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:150px;">Cant transacción</th>
-                    <th style="background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:200px;">Monto transacción</th>
-                </tr>
-            </thead>
-
-            @for($i = 0; $i < $total_count2; $i++)
-                <tr>
-                    @if($i < $summary_count)
-                        @php
-                            $summary_row = $summary[$i];
-                        @endphp
-                        <td>{{ $summary_row->TypeTransaccionName }}</td>
-                        <td>{{ $summary_row->cant_transactions }}</td>
-                        <td>{{ $summary_row->total_amount }}</td>
-                    @else
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    @endif
-
-                    <td></td>
-                    <td></td>
-
-                    @if($i < $groupsummary_count)
-                        @php
-                            $groupsummary_row = $groupsummary[$i];
-                        @endphp
-
-                        @if($groupsummary_row->TypeTransactionId == 6)
-                        <td>{{ $groupsummary_row->GroupName ?? $groupsummary_row->TypeTransaccionName. '|' . $groupsummary_row->WalletName }}</td>
-                        <td>{{ $groupsummary_row->TypeTransaccionName }}</td>
-                        <td>{{ $groupsummary_row->cant_transactions }}</td>
-                        <td>{{ $groupsummary_row->total_amount }}</td>
-                        @endif
-
-
-                    @else
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    @endif
-                </tr>
-            @endfor
-
-            <thead>
-                <tr>
-                    <th colspan="3" style="text-align:center; background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 15px; text-transform: uppercase; width:300px;">NOTA CREDITO</th>
-                    <th colspan="2"></th>
-                    <th colspan="4" style="text-align:center; background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 15px; text-transform: uppercase; width:300px;">NOTA CREDITO</th>
-                </tr>
-                <tr>
-                    <th style="background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:200px;">Transacción</th>
-                    <th style="background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:150px;">Cant transacción</th>
-                    <th style="background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:200px;">Monto Transacción</th>
-                    <th></th>
-                    <th></th>
-                    <th style="background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:200px;">Grupo</th>
-                    <th style="background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:200px;">Transacción</th>
-                    <th style="background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:150px;">Cant transacción</th>
-                    <th style="background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:200px;">Monto transacción</th>
-                </tr>
-            </thead>
-            @for($i = 0; $i < $total_count2; $i++)
-
-                <tr>
-                    @if($i < $summary_count)
-                        @php
-                            $summary_row = $summary[$i];
-                        @endphp
-                        <td>{{ $summary_row->TypeTransaccionName }}</td>
-                        <td>{{ $summary_row->cant_transactions }}</td>
-                        <td>{{ $summary_row->total_amount }}</td>
-                    @else
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    @endif
-
-                    <td></td>
-                    <td></td>
-
-                    @if($i < $groupsummary_count)
-                        @php
-                            $groupsummary_row = $groupsummary[$i];
-                        @endphp
-
-                        @if($groupsummary_row->TypeTransactionId == 7)
-                        <td>{{ $groupsummary_row->GroupName ?? $groupsummary_row->TypeTransaccionName. '|' . $groupsummary_row->WalletName }}</td>
-                        <td>{{ $groupsummary_row->TypeTransaccionName }}</td>
-                        <td>{{ $groupsummary_row->cant_transactions }}</td>
-                        <td>{{ $groupsummary_row->total_amount }}</td>
-                        @endif
-
-
-                    @else
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    @endif
-                </tr>
-            @endfor
-
-            <thead>
-                <tr>
-                    <th colspan="3" style="text-align:center; background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 15px; text-transform: uppercase; width:300px;">NOTA DEBITO</th>
-                    <th colspan="2"></th>
-                    <th colspan="4" style="text-align:center; background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 15px; text-transform: uppercase; width:300px;">NOTA DEBITO</th>
-                </tr>
-                <tr>
-                    <th style="background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:200px;">Transacción</th>
-                    <th style="background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:150px;">Cant transacción</th>
-                    <th style="background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:200px;">Monto Transacción</th>
-                    <th></th>
-                    <th></th>
-                    <th style="background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:200px;">Grupo</th>
-                    <th style="background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:200px;">Transacción</th>
-                    <th style="background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:150px;">Cant transacción</th>
-                    <th style="background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:200px;">Monto transacción</th>
-                </tr>
-            </thead>
-            @for($i = 0; $i < $total_count2; $i++)
-
-                <tr>
-                    @if($i < $summary_count)
-                        @php
-                            $summary_row = $summary[$i];
-                        @endphp
-                        <td>{{ $summary_row->TypeTransaccionName }}</td>
-                        <td>{{ $summary_row->cant_transactions }}</td>
-                        <td>{{ $summary_row->total_amount }}</td>
-                    @else
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    @endif
-
-                    <td></td>
-                    <td></td>
-
-                    @if($i < $groupsummary_count)
-                        @php
-                            $groupsummary_row = $groupsummary[$i];
-                        @endphp
-
-                        @if($groupsummary_row->TypeTransactionId == 8)
-                        <td>{{ $groupsummary_row->GroupName ?? $groupsummary_row->TypeTransaccionName. '|' . $groupsummary_row->WalletName }}</td>
-                        <td>{{ $groupsummary_row->TypeTransaccionName }}</td>
-                        <td>{{ $groupsummary_row->cant_transactions }}</td>
-                        <td>{{ $groupsummary_row->total_amount }}</td>
-                        @endif
-
-
-                    @else
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    @endif
-                </tr>
-            @endfor
-
-            <thead>
-                <tr>
-                    <th colspan="3" style="text-align:center; background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 15px; text-transform: uppercase; width:300px;">SWIFT</th>
-                    <th colspan="2"></th>
-                    <th colspan="4" style="text-align:center; background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 15px; text-transform: uppercase; width:300px;">SWIFT</th>
-                </tr>
-                <tr>
-                    <th style="background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:200px;">Transacción</th>
-                    <th style="background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:150px;">Cant transacción</th>
-                    <th style="background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:200px;">Monto Transacción</th>
-                    <th></th>
-                    <th></th>
-                    <th style="background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:200px;">Grupo</th>
-                    <th style="background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:200px;">Transacción</th>
-                    <th style="background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:150px;">Cant transacción</th>
-                    <th style="background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:200px;">Monto transacción</th>
-                </tr>
-            </thead>
-            @for($i = 0; $i < $total_count2; $i++)
-
-                <tr>
-                    @if($i < $summary_count)
-                        @php
-                            $summary_row = $summary[$i];
-                        @endphp
-                        <td>{{ $summary_row->TypeTransaccionName }}</td>
-                        <td>{{ $summary_row->cant_transactions }}</td>
-                        <td>{{ $summary_row->total_amount }}</td>
-                    @else
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    @endif
-
-                    <td></td>
-                    <td></td>
-
-                    @if($i < $groupsummary_count)
-                        @php
-                            $groupsummary_row = $groupsummary[$i];
-                        @endphp
-
-                        @if($groupsummary_row->TypeTransactionId == 9)
-                        <td>{{ $groupsummary_row->GroupName ?? $groupsummary_row->TypeTransaccionName. '|' . $groupsummary_row->WalletName }}</td>
-                        <td>{{ $groupsummary_row->TypeTransaccionName }}</td>
-                        <td>{{ $groupsummary_row->cant_transactions }}</td>
-                        <td>{{ $groupsummary_row->total_amount }}</td>
-                        @endif
-
-
-                    @else
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    @endif
-                </tr>
-
-
-            @endfor
-
-            <thead>
-                <tr>
-                    <th colspan="3" style="text-align:center; background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 15px; text-transform: uppercase; width:300px;">COBRO MERCANCIA</th>
-                    <th colspan="2"></th>
-                    <th colspan="4" style="text-align:center; background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 15px; text-transform: uppercase; width:300px;">COBRO MERCANCIA</th>
-                </tr>
-                <tr>
-                    <th style="background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:200px;">Transacción</th>
-                    <th style="background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:150px;">Cant transacción</th>
-                    <th style="background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:200px;">Monto Transacción</th>
-                    <th></th>
-                    <th></th>
-                    <th style="background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:200px;">Grupo</th>
-                    <th style="background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:200px;">Transacción</th>
-                    <th style="background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:150px;">Cant transacción</th>
-                    <th style="background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:200px;">Monto transacción</th>
-                </tr>
-            </thead>
-            @for($i = 0; $i < $total_count2; $i++)
-
-            <tr>
-                @if($i < $summary_count)
-                    @php
-                        $summary_row = $summary[$i];
-                    @endphp
-                    <td>{{ $summary_row->TypeTransaccionName }}</td>
-                    <td>{{ $summary_row->cant_transactions }}</td>
-                    <td>{{ $summary_row->total_amount }}</td>
-                @else
                     <td></td>
                     <td></td>
                     <td></td>
-                @endif
+                    <td style="background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:200px;"></td>
+                    <td style="background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:200px;"></td>
+                    <td style="background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:200px;">{{ $summary_row->cant_transactions }}</td>
+                    <td style="background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:200px;">{{ $summary_row->total_amount }}</td>
+                </tr>              
+                <hr>
 
-                <td></td>
-                <td></td>
+            @endforeach
 
-                @if($i < $groupsummary_count)
-                    @php
-                        $groupsummary_row = $groupsummary[$i];
-                    @endphp
-
-                    @if($groupsummary_row->TypeTransactionId == 10)
-                    <td>{{ $groupsummary_row->GroupName ?? $groupsummary_row->TypeTransaccionName. '|' . $groupsummary_row->WalletName }}</td>
-                    <td>{{ $groupsummary_row->TypeTransaccionName }}</td>
-                    <td>{{ $groupsummary_row->cant_transactions }}</td>
-                    <td>{{ $groupsummary_row->total_amount }}</td>
-                    @endif
-
-
-                @else
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                @endif
-            </tr>
-
-
-            @endfor
-
-            <thead>
-                <tr>
-                    <th colspan="3" style="text-align:center; background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 15px; text-transform: uppercase; width:300px;">PAGO USDT</th>
-                    <th colspan="2"></th>
-                    <th colspan="4" style="text-align:center; background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 15px; text-transform: uppercase; width:300px;">PAGO USDT</th>
-                </tr>
-                <tr>
-                    <th style="background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:200px;">Transacción</th>
-                    <th style="background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:150px;">Cant transacción</th>
-                    <th style="background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:200px;">Monto Transacción</th>
-                    <th></th>
-                    <th></th>
-                    <th style="background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:200px;">Grupo</th>
-                    <th style="background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:200px;">Transacción</th>
-                    <th style="background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:150px;">Cant transacción</th>
-                    <th style="background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:200px;">Monto transacción</th>
-                </tr>
-            </thead>
-            @for($i = 0; $i < $total_count2; $i++)
-
-            <tr>
-                @if($i < $summary_count)
-                    @php
-                        $summary_row = $summary[$i];
-                    @endphp
-                    <td>{{ $summary_row->TypeTransaccionName }}</td>
-                    <td>{{ $summary_row->cant_transactions }}</td>
-                    <td>{{ $summary_row->total_amount }}</td>
-                @else
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                @endif
-
-                <td></td>
-                <td></td>
-
-                @if($i < $groupsummary_count)
-                    @php
-                        $groupsummary_row = $groupsummary[$i];
-                    @endphp
-
-                    @if($groupsummary_row->TypeTransactionId == 11)
-                    <td>{{ $groupsummary_row->GroupName ?? $groupsummary_row->TypeTransaccionName. '|' . $groupsummary_row->WalletName }}</td>
-                    <td>{{ $groupsummary_row->TypeTransaccionName }}</td>
-                    <td>{{ $groupsummary_row->cant_transactions }}</td>
-                    <td>{{ $groupsummary_row->total_amount }}</td>
-                    @endif
-
-
-                @else
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                @endif
-            </tr>
-
-
-            @endfor
-
-            <thead>
-                <tr>
-                    <th colspan="3" style="text-align:center; background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 15px; text-transform: uppercase; width:300px;">NOTA DE DEBITO A CAJA DE EFECTIVO</th>
-                    <th colspan="2"></th>
-                    <th colspan="4" style="text-align:center; background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 15px; text-transform: uppercase; width:300px;">NOTA DE DEBITO A CAJA DE EFECTIVO</th>
-                </tr>
-                <tr>
-                    <th style="background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:200px;">Transacción</th>
-                    <th style="background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:150px;">Cant transacción</th>
-                    <th style="background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:200px;">Monto Transacción</th>
-                    <th></th>
-                    <th></th>
-                    <th style="background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:200px;">Grupo</th>
-                    <th style="background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:200px;">Transacción</th>
-                    <th style="background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:150px;">Cant transacción</th>
-                    <th style="background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:200px;">Monto transacción</th>
-                </tr>
-            </thead>
-            @for($i = 0; $i < $total_count2; $i++)
-
-            <tr>
-                @if($i < $summary_count)
-                    @php
-                        $summary_row = $summary[$i];
-                    @endphp
-                    <td>{{ $summary_row->TypeTransaccionName }}</td>
-                    <td>{{ $summary_row->cant_transactions }}</td>
-                    <td>{{ $summary_row->total_amount }}</td>
-                @else
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                @endif
-
-                <td></td>
-                <td></td>
-
-                @if($i < $groupsummary_count)
-                    @php
-                        $groupsummary_row = $groupsummary[$i];
-                    @endphp
-
-                    @if($groupsummary_row->TypeTransactionId == 12)
-                    <td>{{ $groupsummary_row->GroupName ?? $groupsummary_row->TypeTransaccionName. '|' . $groupsummary_row->WalletName }}</td>
-                    <td>{{ $groupsummary_row->TypeTransaccionName }}</td>
-                    <td>{{ $groupsummary_row->cant_transactions }}</td>
-                    <td>{{ $groupsummary_row->total_amount }}</td>
-                    @endif
-
-
-                @else
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                @endif
-            </tr>
-
-
-            @endfor
-
-
-            <thead>
-                <tr>
-                    <th colspan="3" style="text-align:center; background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 15px; text-transform: uppercase; width:300px;">COBRO USDT</th>
-                    <th colspan="2"></th>
-                    <th colspan="4" style="text-align:center; background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 15px; text-transform: uppercase; width:300px;">COBRO USDT</th>
-                </tr>
-                <tr>
-                    <th style="background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:200px;">Transacción</th>
-                    <th style="background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:150px;">Cant transacción</th>
-                    <th style="background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:200px;">Monto Transacción</th>
-                    <th></th>
-                    <th></th>
-                    <th style="background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:200px;">Grupo</th>
-                    <th style="background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:200px;">Transacción</th>
-                    <th style="background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:150px;">Cant transacción</th>
-                    <th style="background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:200px;">Monto transacción</th>
-                </tr>
-            </thead>
-            @for($i = 0; $i < $total_count2; $i++)
-                <tr>
-                    @if($i < $summary_count)
-                        @php
-                            $summary_row = $summary[$i];
-                        @endphp
-                        <td>{{ $summary_row->TypeTransaccionName }}</td>
-                        <td>{{ $summary_row->cant_transactions }}</td>
-                        <td>{{ $summary_row->total_amount }}</td>
-                    @else
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    @endif
-
-                    <td></td>
-                    <td></td>
-
-                    @if($i < $groupsummary_count)
-                        @php
-                            $groupsummary_row = $groupsummary[$i];
-                        @endphp
-
-                        @if($groupsummary_row->TypeTransactionId == 13)
-                        <td>{{ $groupsummary_row->GroupName ?? $groupsummary_row->TypeTransaccionName. '|' . $groupsummary_row->WalletName }}</td>
-                        <td>{{ $groupsummary_row->TypeTransaccionName }}</td>
-                        <td>{{ $groupsummary_row->cant_transactions }}</td>
-                        <td>{{ $groupsummary_row->total_amount }}</td>
-                        @endif
-
-
-                    @else
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    @endif
-                </tr>
-            @endfor
         </tbody>
 
         @endif
