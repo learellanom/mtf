@@ -3,10 +3,7 @@
 namespace App\Exports;
 
 use App\Http\Controllers\HomeController;
-use Maatwebsite\Excel\Concerns\FromCollection;
-use Maatwebsite\Excel\Concerns\FromArray;
 use App\Http\Controllers\statisticsController;
-use Maatwebsite\Excel\Concerns\WithMapping;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Concerns\Exportable;
@@ -15,44 +12,63 @@ use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\populateRows;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithStyles;
-use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
+use Maatwebsite\Excel\Concerns\WithColumnFormatting;
+use Maatwebsite\Excel\Concerns\FromView;
+use Maatwebsite\Excel\Concerns\FromCollection;
+use Maatwebsite\Excel\Concerns\FromArray;
+use Maatwebsite\Excel\Concerns\WithMapping;
+use Maatwebsite\Excel\Facades\Excel;
 use Maatwebsite\Excel\Sheet;
 use PhpOffice\PhpSpreadsheet\Style\Fill;
 use PhpOffice\PhpSpreadsheet\Style\Border;
 use PhpOffice\PhpSpreadsheet\Style\Alignment;
-use Maatwebsite\Excel\Facades\Excel;
-use Maatwebsite\Excel\Concerns\FromView;
+use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
+use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 use Illuminate\Contracts\View\View;
 
 
-class DashboardestExport implements FromView
+class DashboardSaldosExport implements FromView, WithColumnFormatting
 {
     use Exportable;
 
     private $wallet_summary, $group_summary;
     private $fechaDesde, $fechasHasta;
+    private $filtroWallet, $filtroGroup;
 
-    public function __construct($wallet_summary, $group_summary, $fechaDesde, $fechaHasta)
+    public function __construct($wallet_summary, $group_summary, $fechaDesde, $fechaHasta, $myFiltroWallet, $myFiltroGroup)
     {
         $this->wallet_summary   = $wallet_summary;
         $this->group_summary    = $group_summary;
 
+
         $this->fechaDesde = $fechaDesde;
         $this->fechaHasta = $fechaHasta;        
+
+        $this->filtroWallet = $myFiltroWallet;
+        $this->filtroGroup = $myFiltroGroup;        
+
     }
 
     public function view(): View
     {
-        return view('exports.excel2', [
-            'general'       => $this->transaction_group_summary,
-            'general2'      => $this->transaction_summary,
-            'summary'       => $this->wallet_summary,
-            'groupsummary'  => $this->wallet_groupsummary,
-            'balance'       => $this->balance,
-            'balanceDetail' => $this->balanceDetail,
-            'fechaDesde'    => $this->fechaDesde,
-            'fechaHasta'    => $this->fechaHasta,                        
+        return view('exports.excelSaldos', [
+            'wallet_summary'    => $this->wallet_summary,
+            'group_summary'     => $this->group_summary,
+            'fechaDesde'        => $this->fechaDesde,
+            'fechaHasta'        => $this->fechaHasta,
+            'filtroWallet'      => $this->filtroWallet,
+            'filtroGroup'       => $this->filtroGroup,
         ]);
+    }
+
+    public function columnFormats(): array
+    {
+        return [
+            'E' => NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1,
+            'F' => NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1,
+            'G' => NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1,
+            'H' => NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1,
+        ];
     }
 
 }

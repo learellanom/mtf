@@ -1999,6 +1999,7 @@ class statisticsController extends Controller
 
         $group = Group::select('groups.id', 'groups.name')
                 ->where('type','=','1')
+                ->orderBy('groups.name')
                 ->get();
 
         $group2 = array();
@@ -2046,7 +2047,7 @@ class statisticsController extends Controller
     *
     */
     function getWallet(){
-        $wallet = Group::select('groups.id', 'groups.name')->where('type','=','2')
+        $wallet = Group::select('groups.id', 'groups.name')->where('type','=','2')->orderBy('groups.name')
         ->get();
         // dd($wallet);
         foreach($wallet as $wallet){
@@ -2162,6 +2163,8 @@ class statisticsController extends Controller
         as t
         group by
             IdGrupo,
+            NombreGrupo
+        order by 
             NombreGrupo
         ";
 
@@ -2364,6 +2367,8 @@ class statisticsController extends Controller
         as t
         group by
             IdWallet,
+            NombreWallet
+        order by 
             NombreWallet
         ";
 

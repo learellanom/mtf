@@ -133,8 +133,9 @@ $config4 = [
                         </div>
                         <div class ="col-12 col-md-3">
                             <a class="btn btn-primary imprimir"><i class="fas fa-print"></i></a>
+                            <a class="btn btn-success"  onclick="exportaSaldos();"><i class="fas fa-file-excel"></i></a>
                             {{--
-                            <a class="btn btn-success" href={{route('exports.saldos', [$wallet_summary,$group_summary, $myFechaDesde, $myFechaHasta])}}><i class="fas fa-file-excel"></i></a>
+                            <a class="btn btn-success" href={{route('exports.saldos', [$myFechaDesde, $myFechaHasta])}}><i class="fas fa-file-excel"></i></a>
                             --}}
                         </div>
 
@@ -457,7 +458,7 @@ $config4 = [
     function calculos3(){
 
         let myElement;
-
+        {{-- dd($group_summary) --}}
 
         myElement = `
             <style>
@@ -520,7 +521,8 @@ $config4 = [
 
         let myElement;
 
-        {{-- dd($wallet_summary) --}}
+         {{-- dd($wallet_summary) --}}
+
         theWallet = 89;
         myElement =
         `
@@ -747,6 +749,50 @@ $config4 = [
             console.log('el grupo con key {!! $key !!} es {!! $wallet2 !!}');
             $('#my-select').multiSelect('addOption', { value: '{!! $key !!}', text: '{!! $wallet2 !!}' });
         @endforeach
+    }
+
+    function exportaSaldos(){
+        let myFiltroWallet  = buscaFiltrosWallet();
+        let myFiltroGroup   = buscaFiltrosGroup();
+
+        let myRoute = "";
+        let fechaDesde = "{{$myFechaDesde}}";
+        let fechaHasta = "{{$myFechaHasta}}";
+
+        myRoute = "{{route('exports.saldos', ['fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2', 'filtroWallet' => 'filtroWallet2', 'filtroGroup' => 'filtroGroup2'])}}"
+
+        myRoute = myRoute.replace('fechaDesde2',    fechaDesde);
+        myRoute = myRoute.replace('fechaHasta2',    fechaHasta);
+        myRoute = myRoute.replace('filtroWallet2',  myFiltroWallet);
+        myRoute = myRoute.replace('filtroGroup2',   myFiltroGroup);
+
+        // alert(' myRoute ->' + myRoute);
+
+        location.href = myRoute;
+    }
+
+    function buscaFiltrosWallet(){
+        let filtrosSeleccionado = [];
+        filtrosSeleccionado.push(0);
+        $("#my-select option:selected").each(function(){
+                
+                filtrosSeleccionado.push($(this).attr('value'));
+
+            });  
+        // alert ("filtros de wallet ->" + filtrosSeleccionado.toString());
+        return filtrosSeleccionado;
+    }
+
+    function buscaFiltrosGroup(){
+        let filtrosSeleccionado = [];
+        filtrosSeleccionado.push(0);
+        $("#my-select2 option:selected").each(function(){
+                
+                filtrosSeleccionado.push($(this).attr('value'));
+
+            });  
+        // alert ("filtros de grupos ->" + filtrosSeleccionado.toString());
+        return  filtrosSeleccionado;
     }
 
 </script>

@@ -357,7 +357,7 @@ class HomeController extends Controller
         return Excel::download(new DashboardestExport($wallet_summary, $wallet_groupsummary, $transaction_summary, $transaction_group_summary, $balance, $balanceDetail, $fechaDesde, $fechaHasta), 'Estadisticas por Caja.xlsx');
     }
 
-    public function exportSaldos(request $request, $fechaDesde, $fechaHasta)
+    public function exportSaldos(request $request)
     {
         
         $wallet_summary             = app(statisticsController::class)->getWalletSummary($request);
@@ -367,22 +367,25 @@ class HomeController extends Controller
         $myFechaDesde = "2001-01-01";
         $myFechaHasta = "9999-12-31";
 
-        $myFechaDesde2 = "2001-01-01";
-        $myFechaHasta2 = "9999-12-31";
-
         if ($request->fechaDesde){
             $myFechaDesde = $request->fechaDesde;
             $myFechaHasta = $request->fechaHasta;
 
-            $myFechaDesde2 = $myFechaDesde . " 00:00:00";
-            $myFechaHasta2 = $myFechaHasta . " 12:59:00";
         }
 
         if ($request->fechaHasta){
             $myFechaHasta = $request->fechaHasta;
-            $myFechaHasta2 = $myFechaHasta . " 12:59:00";
-            /* MANTENER VALOR BUSCADO EN EL URL */
         }
+
+        $myFiltroWallet     = "";
+        $myFiltroGroup      = "";
+        if ($request->filtroWallet) {
+            $myFiltroWallet = $request->filtroWallet;
+
+        }
+        if ($request->filtroGroup) {
+            $myFiltroGroup  = $request->filtroGroup;
+        }        
         //
         // obtiene saldo anterior wallets
         // 
@@ -404,8 +407,11 @@ class HomeController extends Controller
             $group3->BalanceAnterior = $balanceDetail;
         }
 
+
+
         //dd($balanceDetail);
-        return Excel::download(new DashboardSaldosExport($wallet_summary, $wallet_groupsummary, $myFechaDesde, $myFechaHasta), 'Saldos al corte.xlsx');
+        return Excel::download(new DashboardSaldosExport($wallet_summary, $group_summary, $myFechaDesde, $myFechaHasta, $myFiltroWallet, $myFiltroGroup), 'Saldos al corte.xlsx');
+                                   
     }
 
 }

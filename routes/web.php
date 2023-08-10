@@ -74,8 +74,8 @@ Route::get('dashboard_est/export/{wallet}/{transaction?}/', [App\Http\Controller
 Route::get('dashboard_est/export/{wallet}/{fechaDesde?}/{fechaHasta?}', [App\Http\Controllers\HomeController::class, 'export'])->name('exports.excel'); //EXPORTACIÓN DE EXCEL
 
 
-Route::get('dashboard_saldos/export/', [App\Http\Controllers\HomeController::class, 'export'])->name('exports.saldos'); //EXPORTACIÓN DE EXCEL
-Route::get('dashboard_saldos/export/{fechaDesde?}/{fechaHasta?}', [App\Http\Controllers\HomeController::class, 'export'])->name('exports.saldos'); //EXPORTACIÓN DE EXCEL
+Route::get('dashboard_saldos/export/', [App\Http\Controllers\HomeController::class, 'exportSaldos'])->name('exports.saldos'); //EXPORTACIÓN DE EXCEL
+Route::get('dashboard_saldos/export/{fechaDesde?}/{fechaHasta?}/{filtroWallet?}/{filtroGroup?}', [App\Http\Controllers\HomeController::class, 'exportSaldos'])->name('exports.saldos'); //EXPORTACIÓN DE EXCEL
 
 
 
