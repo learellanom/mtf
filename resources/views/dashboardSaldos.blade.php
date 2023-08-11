@@ -234,13 +234,15 @@ $config4 = [
         // dd( config('filtros.consolidado.wallets') );
         // dd( config('filtros') );
          
-        $myArray = config('filtros.consolidado.wallets');
-      
+        $myArrayWallets = config('filtros.consolidado.wallets');
+        $myArrayGroups  = config('filtros.consolidado.groups');
+        // dd($myArray);
+        // dd($myArrayGroups);
     @endphp
 
     let myArray = [];
-    @foreach($myArray as $myValue)
-     myArray.push({{$myValue}});
+    @foreach($myArrayWallets as $myValue)
+        myArray.push({{$myValue}});
     @endforeach
     // alert(myArray);
 
@@ -323,8 +325,8 @@ $config4 = [
 
         //if (!miWallet){
             
-            calculoGeneral3();  
-            calculos3();
+        calculoGeneral3();  
+        calculos3();
 
 
 
@@ -393,7 +395,8 @@ $config4 = [
 
             });
             
-
+            grabaFiltros();
+            
             Swal.fire({
                 position: 'top-end',
                 icon: 'success',
@@ -448,7 +451,7 @@ $config4 = [
     });
 
     $( document ).ready(function() {
-
+        leeFiltros();
     });
     /*
     *
@@ -489,8 +492,18 @@ $config4 = [
                         </thead>
                         @foreach($group_summary as $group2)
                             @php
+                                $indMuestra = 1;
+                                foreach($myArrayGroups as $value){
+                                    if ($value == $group2->IdGrupo){
+                                        $indMuestra = 0;
+                                    }
+                                }
+
                                 $myTotal = ($group2->BalanceAnterior + $group2->Creditos ) - $group2->Debitos; 
                             @endphp
+                            @if($indMuestra == 0)
+                                @continue
+                            @endif
                             <tr class="myTr" onClick="theRoute2({{0}}, {{ $group2->IdGrupo }}, {{0}}, {{0}})" data-id="{{$group2->IdGrupo}}">
                                 <td >{{ $group2->NombreGrupo}}</td>
                                 <td >{{ number_format($group2->BalanceAnterior,2) }}</td>                                
@@ -569,6 +582,14 @@ $config4 = [
                             <tr class="myTr" onClick="theRoute2({{0}}, {{0}}, {{$wallet2->IdWallet}}, {{0}})" data-id="{{$wallet2->IdWallet}}">
     
                                 @php
+
+                                    $indMuestra = 1;
+                                    foreach($myArrayWallets as $value){
+                                        if ($value == $wallet2->IdWallet){
+                                            $indMuestra = 0;
+                                        }
+                                    }
+
                                     $cantCreditos ++;
                                     $totalCreditos += $wallet2->Creditos;
                                     $totalDebitos  += $wallet2->Debitos;
@@ -576,6 +597,9 @@ $config4 = [
                                     $myTotal = ($wallet2->BalanceAnterior + $wallet2->Creditos ) - $wallet2->Debitos;
                                     $total  += $myTotal;                                    
                                 @endphp
+                                @if($indMuestra == 0)
+                                    @continue
+                                @endif
 
                                 <td >{{ $wallet2->NombreWallet}}</td>
                                 <td >{{ number_format($wallet2->BalanceAnterior,2)}}</td>                                
@@ -793,6 +817,135 @@ $config4 = [
             });  
         // alert ("filtros de grupos ->" + filtrosSeleccionado.toString());
         return  filtrosSeleccionado;
+    }
+
+    
+    function leeFiltros(){
+        
+
+        $.ajax(
+            {
+                url: "{{route('filtrosLeeWallet')}}",
+                async: false,
+            }
+        ).done (function(myData) {
+            // alert('myData ' + JSON.stringify(myData) )
+            
+            myData2 = myData.data;
+            // alert("el tipo de data " + typeof JSON.stringify(myData2) + ' y la data  ' + myData2);
+
+
+        });
+
+        myData2.map( function (valor) {
+            // alert ('mi valor es ' + valor);
+            $("#my-select option").each(function(){
+                 if (valor == $(this).attr('value')){
+                    $('#my-select').multiSelect('select', valor.toString());
+                     // alert(JSON.stringify($(this).text()));
+                 }
+            });
+
+        });      
+        
+        
+        // grupos
+        
+
+        $.ajax(
+            {
+                url: "{{route('filtrosLeeGroup')}}",
+                async: false,
+            }
+        ).done (function(myData) {
+            // alert('myData group ' + JSON.stringify(myData) )
+            myData2 = JSON.stringify(myData.data);
+            myData2 = myData.data;
+            // alert("el tipo de data group " + typeof JSON.stringify(myData2) + ' y la data  ' + myData2);
+
+
+        });
+
+        myData2.map( function (valor) {
+            // alert ('mi valor es group ' + valor);
+            $("#my-select2 option").each(function(){
+                 if (valor == $(this).attr('value')){
+                    $('#my-select2').multiSelect('select', valor.toString());
+                     // alert(JSON.stringify($(this).text()));
+                 }
+            });
+
+        });            
+
+    }
+
+    function grabaFiltros(){
+
+
+        let myDataWallet    = buscaFiltrosWallet();
+        let myDataGroup     = buscaFiltrosGroup();
+        // alert (myDataWallet + ' y el typeof es ' + Array.isArray(myDataWallet));        
+        // alert (myDataGroup);
+        
+
+        $.ajax(
+            {
+                headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+                method: "POST",
+                url: "{{route('filtrosGrabaWallet')}}",
+                async: false,
+                data: { myDataWallet: "1,2,3" },
+            }
+        ).done (function(myData) {
+            // alert('myData ' + JSON.stringify(myData) )
+            
+           //  myData2 = myData.data;
+            // alert("el tipo de data " + typeof JSON.stringify(myData2) + ' y la data  ' + myData2);
+            alert('vino');
+
+        });
+        return;
+        
+        myData2.map( function (valor) {
+            // alert ('mi valor es ' + valor);
+            $("#my-select option").each(function(){
+                 if (valor == $(this).attr('value')){
+                    $('#my-select').multiSelect('select', valor.toString());
+                     // alert(JSON.stringify($(this).text()));
+                 }
+            });
+
+        });      
+        
+        
+        // grupos
+        
+
+        $.ajax(
+            {
+                url: "{{route('filtrosGrabaGroup')}}",
+                async: false,
+            }
+        ).done (function(myData) {
+            // alert('myData group ' + JSON.stringify(myData) )
+            myData2 = JSON.stringify(myData.data);
+            myData2 = myData.data;
+            // alert("el tipo de data group " + typeof JSON.stringify(myData2) + ' y la data  ' + myData2);
+
+
+        });
+
+        myData2.map( function (valor) {
+            // alert ('mi valor es group ' + valor);
+            $("#my-select2 option").each(function(){
+                 if (valor == $(this).attr('value')){
+                    $('#my-select2').multiSelect('select', valor.toString());
+                     // alert(JSON.stringify($(this).text()));
+                 }
+            });
+
+        });            
+
     }
 
 </script>

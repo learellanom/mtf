@@ -2610,6 +2610,64 @@ class statisticsController extends Controller
         return $myFecha2;
     }
 
+    public function filtrosGuarda($filtroWallet,$filtroGroup){
+        $myResponse = 
+        [
+            'success' => true,
+            'data' => '1,2,3',
+            'message' => 'mi mensaje de guardar'
+        ];
+        return response()->json($myResponse);
+    }
+
+    public function filtrosLeeWallet(){
+
+        $myData = config('filtros.consolidado.wallets');
+
+        $myResponse = 
+        [
+            'success' => true,
+            'data' => $myData,
+            'message' => 'mi mensaje de leer'
+        ];
+
+        return response()->json($myResponse);
+    }
+    public function filtrosLeeGroup(){
+
+        $myData = config('filtros.consolidado.groups');
+
+        $myResponse = 
+        [
+            'success' => true,
+            'data' => $myData,
+            'message' => 'mi mensaje de leer'
+        ];
+
+        return response()->json($myResponse);
+    }
+
+    public function filtrosGrabaWallet(Request $request){
+
+        dd($$request);
+
+        $filtroWallet = "";
+        if ($request->filtroWallet){
+
+        }
+
+        $myData = config('filtros.consolidado.wallets',$filtroWallet);
+
+        $myResponse = 
+        [
+            'success' => true,
+            'data' => '',
+            'message' => 'mi mensaje de leer'
+        ];
+
+        return response()->json($myResponse);
+    }
+
 }
 
 ?>
