@@ -4,6 +4,11 @@
 @section('content')
 
 @php
+
+
+use App\Http\Controllers\statisticsController;
+
+
 $config1 =
 [
     "allowClear" => true,
@@ -233,11 +238,12 @@ $config4 = [
         // dd( config('filtros.consolidado.wallets.0') );
         // dd( config('filtros.consolidado.wallets') );
         // dd( config('filtros') );
-         
-        $myArrayWallets = config('filtros.consolidado.wallets');
-        $myArrayGroups  = config('filtros.consolidado.groups');
+        $myArrayWallets = app(statisticsController::class)->filtrosLeeWallet2();
+
+        $myArrayGroups  = app(statisticsController::class)->filtrosLeeGroup2();
         // dd($myArray);
-        // dd($myArrayGroups);
+        //  dd($myArrayWallets);
+        // dd($myArrayGroups);         
     @endphp
 
     let myArray = [];
@@ -436,6 +442,8 @@ $config4 = [
 
             });  
 
+            grabaFiltros();
+            
             Swal.fire({
                 position: 'top-end',
                 icon: 'success',
@@ -885,6 +893,7 @@ $config4 = [
         let myDataWallet    = buscaFiltrosWallet();
         let myDataGroup     = buscaFiltrosGroup();
         // alert (myDataWallet + ' y el typeof es ' + Array.isArray(myDataWallet));        
+        // alert (myDataGroup + ' y el typeof es ' + Array.isArray(myDataGroup));            
         // alert (myDataGroup);
         
 
@@ -894,57 +903,21 @@ $config4 = [
                 method: "POST",
                 url: "{{route('filtrosGrabaWallet')}}",
                 async: false,
-                data: { myDataWallet: "1,2,3" },
+                data: { 
+                    myDataWallet: myDataWallet,
+                    myDataGroup: myDataGroup,                    
+                 },
             }
         ).done (function(myData) {
             // alert('myData ' + JSON.stringify(myData) )
             
            //  myData2 = myData.data;
             // alert("el tipo de data " + typeof JSON.stringify(myData2) + ' y la data  ' + myData2);
-            alert('vino');
+           // alert('vino');
 
         });
         return;
-        
-        myData2.map( function (valor) {
-            // alert ('mi valor es ' + valor);
-            $("#my-select option").each(function(){
-                 if (valor == $(this).attr('value')){
-                    $('#my-select').multiSelect('select', valor.toString());
-                     // alert(JSON.stringify($(this).text()));
-                 }
-            });
-
-        });      
-        
-        
-        // grupos
-        
-
-        $.ajax(
-            {
-                url: "{{route('filtrosGrabaGroup')}}",
-                async: false,
-            }
-        ).done (function(myData) {
-            // alert('myData group ' + JSON.stringify(myData) )
-            myData2 = JSON.stringify(myData.data);
-            myData2 = myData.data;
-            // alert("el tipo de data group " + typeof JSON.stringify(myData2) + ' y la data  ' + myData2);
-
-
-        });
-
-        myData2.map( function (valor) {
-            // alert ('mi valor es group ' + valor);
-            $("#my-select2 option").each(function(){
-                 if (valor == $(this).attr('value')){
-                    $('#my-select2').multiSelect('select', valor.toString());
-                     // alert(JSON.stringify($(this).text()));
-                 }
-            });
-
-        });            
+                
 
     }
 

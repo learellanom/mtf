@@ -25,6 +25,8 @@ use Pest\Support\Str;
 
 use Illuminate\Support\Facades\DB;
 
+use Illuminate\Support\Facades\Config;
+
 class statisticsController extends Controller
 {
 
@@ -2622,12 +2624,30 @@ class statisticsController extends Controller
 
     public function filtrosLeeWallet(){
 
-        $myData = config('filtros.consolidado.wallets');
+        $myfile = fopen("myFiltros", "r") or die("Unable to open file!");
+
+        
+        $myWallets = fgets($myfile);
+        
+        $myGroups  = fgets($myfile);
+
+
+
+        fclose($myfile);        
+
+        $myWallets = json_decode($myWallets,true);
+        // $myGroups = json_decode($myGroups);
+
+        \Log::info('lee myWallets         -> ' . print_r($myWallets,true));
+
+        \Log::info('lee myWallets value -> ' . implode(",",$myWallets['wallets']));
+
+        
 
         $myResponse = 
         [
             'success' => true,
-            'data' => $myData,
+            'data' => $myWallets['wallets'],
             'message' => 'mi mensaje de leer'
         ];
 
@@ -2635,12 +2655,23 @@ class statisticsController extends Controller
     }
     public function filtrosLeeGroup(){
 
-        $myData = config('filtros.consolidado.groups');
+        $myfile = fopen("myFiltros", "r") or die("Unable to open file!");
+
+        
+        $myWallets = fgets($myfile);
+        
+        $myGroups  = fgets($myfile);
+
+
+
+        fclose($myfile);        
+
+        $myGroups = json_decode($myGroups,true);
 
         $myResponse = 
         [
             'success' => true,
-            'data' => $myData,
+            'data' => $myGroups['groups'],
             'message' => 'mi mensaje de leer'
         ];
 
@@ -2649,23 +2680,78 @@ class statisticsController extends Controller
 
     public function filtrosGrabaWallet(Request $request){
 
-        dd($$request);
+        $myfile = fopen("myFiltros", "w") or die("Unable to open file!");
 
-        $filtroWallet = "";
-        if ($request->filtroWallet){
+        $myLine = '{"wallets" : [' . implode(",",$request->myDataWallet) . "]}" . PHP_EOL;
+        fwrite($myfile, $myLine);
 
-        }
+        $myLine = '{"groups" : [' .implode(",",$request->myDataGroup) . "]}" . PHP_EOL;
+        fwrite($myfile, $myLine);
 
-        $myData = config('filtros.consolidado.wallets',$filtroWallet);
+        fclose($myfile);   
+
+
+
+        // dd($request);
+         \Log::info(' llega por filtro wallet ->' . print_r($request->myDataWallet,true));
+         \Log::info(' llega por filtro group  ->' . print_r($request->myDataGroup,true));
 
         $myResponse = 
         [
             'success' => true,
             'data' => '',
-            'message' => 'mi mensaje de leer'
+            'message' => 'filtros guardados exitosamente'
         ];
 
         return response()->json($myResponse);
+    }
+
+
+
+    function filtrosLeeWallet2(){
+
+        $myfile = fopen("myFiltros", "r") or die("Unable to open file!");
+
+        
+        $myWallets = fgets($myfile);
+        
+        $myGroups  = fgets($myfile);
+
+
+
+        fclose($myfile);        
+
+         $myWallets = json_decode($myWallets,true);
+        // $myGroups = json_decode($myGroups);
+
+        \Log::info('lee myWallets -> ' . print_r($myWallets,true));
+        \Log::info('lee myGroups  -> ' . print_r($myGroups,true));
+
+        return $myWallets['wallets'];
+
+    }
+
+    function filtrosLeeGroup2(){
+
+        $myfile = fopen("myFiltros", "r") or die("Unable to open file!");
+
+        
+        $myWallets = fgets($myfile);
+        
+        $myGroups  = fgets($myfile);
+
+
+
+        fclose($myfile);        
+
+        // $myWallets = json_decode($myWallets,true);
+         $myGroups = json_decode($myGroups,true);
+
+        \Log::info('lee myWallets -> ' . print_r($myWallets,true));
+        \Log::info('lee myGroups  -> ' . print_r($myGroups,true));
+
+        return $myGroups['groups'];
+
     }
 
 }
