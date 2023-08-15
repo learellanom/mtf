@@ -5,30 +5,28 @@
 
 @php
 
+    use App\Http\Controllers\statisticsController;
 
-use App\Http\Controllers\statisticsController;
-
-
-$config1 =
-[
-    "allowClear" => true,
-];
+    $config1 =
+    [
+        "allowClear" => true,
+    ];
 
 
-$config2 =
-[
-    "allowClear" => true,
-];
+    $config2 =
+    [
+        "allowClear" => true,
+    ];
 
-$config3 = [
-    "locale" => ["format" => "DD-MM-YYYY"],
-    "allowClear" => true,
-];
+    $config3 = [
+        "locale" => ["format" => "DD-MM-YYYY"],
+        "allowClear" => true,
+    ];
 
-$config4 = [
-    "placeHolder" => "selecciona...",
-    "allowClear" => true,
-];
+    $config4 = [
+        "placeHolder" => "selecciona...",
+        "allowClear" => true,
+    ];
 @endphp
 
 
@@ -36,6 +34,24 @@ $config4 = [
 <div class="container">
     <div class="row col-12 col-md-12 justify-content-center text-center align-items-center" style="min-height: 5rem !important">
         <h4>Consolidado de Saldos</h4>
+    </div>
+    <div class="row">
+
+        <div class ="col-12 col-md-3">
+                            <x-adminlte-date-range
+                                name="drCustomRanges"
+                                enable-default-ranges="Last 30 Days"
+                                :config="$config3">
+                                <x-slot name="prependSlot">
+                                    <div class="input-group-text bg-gradient-light">
+                                        <i class="fas fa-calendar-alt"></i>
+                                    </div>
+                                </x-slot>
+                            </x-adminlte-date-range>
+
+
+                        </div>
+
     </div>
 
     <nav>
@@ -51,6 +67,18 @@ $config4 = [
                 aria-controls="nav-home" 
                 aria-selected="true">
                 Estadistica
+            </button>
+
+            <button 
+                class="nav-link" 
+                id="nav-resumen-tab" 
+                data-toggle="tab" 
+                data-target="#nav-resumen" 
+                type="button" 
+                role="tab" 
+                aria-controls="nav-resumen" 
+                aria-selected="true">
+                Consolidado en Resumen
             </button>
 
             <button 
@@ -79,8 +107,15 @@ $config4 = [
             <div class="card">
                 <div class="card-header">
                     <div class="row">
-                        {{--
+                        <div class ="col-12 col-md-3">
+                            <a class="btn btn-primary imprimir"><i class="fas fa-print"></i></a>
+                            <a class="btn btn-success"  onclick="exportaSaldos();"><i class="fas fa-file-excel"></i></a>
+                            {{--
+                            <a class="btn btn-success" href={{route('exports.saldos', [$myFechaDesde, $myFechaHasta])}}><i class="fas fa-file-excel"></i></a>
+                            --}}
+                        </div>
 
+                        {{--
                         <!-- Seelect de Caja -->
                         
                         <div class="col col-md-3">
@@ -121,99 +156,142 @@ $config4 = [
                             <x-adminlte-options :options="$typeTransactions" empty-option="Selecciona Transaccion.."/>
                             </x-adminlte-select2>
                         </div>
-                        --}}
-                        <div class ="col-12 col-md-3">
-                            <x-adminlte-date-range
-                                name="drCustomRanges"
-                                enable-default-ranges="Last 30 Days"
-                                :config="$config3">
-                                <x-slot name="prependSlot">
-                                    <div class="input-group-text bg-gradient-light">
-                                        <i class="fas fa-calendar-alt"></i>
-                                    </div>
-                                </x-slot>
-                            </x-adminlte-date-range>
-
-
-                        </div>
-                        <div class ="col-12 col-md-3">
-                            <a class="btn btn-primary imprimir"><i class="fas fa-print"></i></a>
-                            <a class="btn btn-success"  onclick="exportaSaldos();"><i class="fas fa-file-excel"></i></a>
-                            {{--
-                            <a class="btn btn-success" href={{route('exports.saldos', [$myFechaDesde, $myFechaHasta])}}><i class="fas fa-file-excel"></i></a>
-                            --}}
-                        </div>
+                        --}}   
 
                     </div>
                 </div>
             </div>
-            
+    
             <div id="myCanvas"></div>
+        </div>
+
+        <div class="tab-pane fade show " id="nav-resumen" role="tabpanel" aria-labelledby="nav-resumen-tab">
+
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="row">
+                        
+                        <div class ="col-12 col-md-3">
+                            <a class="btn btn-primary imprimir"><i class="fas fa-print"></i></a>
+                            {{--
+                            <a class="btn btn-success"  onclick="exportaSaldos();"><i class="fas fa-file-excel"></i></a>
+                            --}}
+                            {{--
+                            <a class="btn btn-success" href={{route('exports.saldos', [$myFechaDesde, $myFechaHasta])}}><i class="fas fa-file-excel"></i></a>
+                            --}}
+                        </div>
+                        {{--
+                        <!-- Seelect de Caja -->
+                        
+                        <div class="col col-md-3">
+                            <x-adminlte-select2 id="wallet"
+                            name="optionsWallets"
+                            igroup-size="lg"
+                            label-class="text-lightblue"
+                            data-placeholder="Seleccione una caja"
+
+                            :config="$config4"
+                            >
+                            <x-slot name="prependSlot">
+                                <div class="input-group-text bg-gradient-light">
+                                    <i class="fas fa-box"></i>
+                                </div>
+                            </x-slot>
+                            <x-adminlte-options :options="$wallet" empty-option="Wallet.."/>
+                            </x-adminlte-select2>
+                        </div>
+
+                        <!-- select de grupo -->
+
+                        <div class="col col-md-3">
+                            <x-adminlte-select2 id="typeTransactions"
+                            name="optionstypeTransactions"
+                            igroup-size="lg"
+                            label-class="text-lightblue"
+                            data-placeholder="Tipo de transacción"
+
+                            :config="$config2"
+                            >
+                            <x-slot name="prependSlot">
+                            <div class="input-group-text bg-gradient-light">
+                            <i class="fas fa-exchange-alt"></i>
+                            </div>
+                            </x-slot>
+
+                            <x-adminlte-options :options="$typeTransactions" empty-option="Selecciona Transaccion.."/>
+                            </x-adminlte-select2>
+                        </div>
+             
+                        --}}
+
+                    </div>
+                </div>
+            </div>
+
+            <div id="myCanvas2"></div>
         </div>
 
         <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">Filtros
 
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h3 class="card-title text-uppercase font-weight-bold">Filtros Wallet</h3>
+                </div>
+                <div class="card-body">    
+                    <div class="row justify-content-center text-center align-items-center">
 
+                        <div class="col-12 col-md-6 col-lg-6 col-xl-4 justify-content-center text-center align-items-center">
+                            <select multiple="multiple" id="my-select" name="my-select[]">
+                            </select>   
+                        </div>
 
-        <div class="card mb-4">
-            <div class="card-header">
-                <h3 class="card-title text-uppercase font-weight-bold">Filtros Wallet</h3>
+                    </div>     
+                    <br>
+                    <br>
+                    <div class="row justify-content-center text-center align-items-center">
+                        <div class="col-12 col-sm-2 mt-2">
+                            <button id="myButtonAplicar" type="button" class="btn btn-outline-primary btn-sm ">Aplicar</button>
+
+                        </div>
+
+                        <div class="col-12 col-sm-2 mt-2">
+                            <button id="myButtonLimpiar" type="button" class="btn btn-outline-primary btn-sm ">Limpiar</button>
+                        </div>                    
+                    </div>
+                </div>
             </div>
-            <div class="card-body">    
-                <div class="row justify-content-center text-center align-items-center">
-                    <div class="col-12 col-md-2">
-                    </div>
-                    <div class="col-12 col-md-3">
-                        <select multiple="multiple" id="my-select" name="my-select[]">
 
-                        </select>   
+    
+
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h3 class="card-title text-uppercase font-weight-bold">Filtros Grupos</h3>
+                </div>
+                <div class="card-body">    
+
+
+
+                    <div class="row justify-content-center text-center align-items-center">
+
+                        <div class="col-12 col-md-6 col-lg-6 col-xl-4 justify-content-center text-center align-items-center>
+                            <select multiple="multiple" id="my-select2" name="my-select2[]">
+                            </select>   
+                        </div>
+
+                    </div>     
+
+                    <div class="row justify-content-center text-center align-items-center">
+                        <div class="col-12 col-sm-2 mt-2">
+                            <button id="myButtonAplicar2" type="button" class="btn btn-outline-primary btn-sm ">Aplicar</button>
+                        </div>
+                        <div class="col-12 col-sm-2 mt-2">
+                            <button id="myButtonLimpiar2" type="button" class="btn btn-outline-primary btn-sm ">Limpiar</button>                        
+                        </div>                
                     </div>
 
-                    <div class="col-12 col-md-3">
-                        <button id="myButtonAplicar" type="button" class="btn btn-outline-primary btn-sm ">Aplicar</button>
-                        <br>
-                        <br>
-                        <button id="myButtonLimpiar" type="button" class="btn btn-outline-primary btn-sm ">Limpiar</button>
-                    </div>
-                    <div class="col-12 col-md-2">
-                    </div>
- 
-                </div>     
-
+                </div>
             </div>
-        </div>
-
-  
-
-        <div class="card mb-4">
-            <div class="card-header">
-                <h3 class="card-title text-uppercase font-weight-bold">Filtros Grupos</h3>
-            </div>
-            <div class="card-body">    
-                <div class="row justify-content-center text-center align-items-center">
-                    <div class="col-12 col-md-2">
-                    </div>
-                    <div class="col-12 col-md-3">
-                        <select multiple="multiple" id="my-select2" name="my-select2[]">
-
-                        </select>   
-                    </div>
-
-                    <div class="col-12 col-md-3">
-                        <button id="myButtonAplicar2" type="button" class="btn btn-outline-primary btn-sm ">Aplicar</button>
-                        <br>
-                        <br>
-                        <button id="myButtonLimpiar2" type="button" class="btn btn-outline-primary btn-sm ">Limpiar</button>
-                    </div>
-                    <div class="col-12 col-md-2">
-                    </div>
- 
-                </div>     
-
-            </div>
-        </div>
-        
-        
 
         </div>
 
@@ -235,59 +313,73 @@ $config4 = [
     BuscaTransaccion(miTypeTransaction);
 
     @php
-        // dd( config('filtros.consolidado.wallets.0') );
-        // dd( config('filtros.consolidado.wallets') );
-        // dd( config('filtros') );
+
         $myArrayWallets = app(statisticsController::class)->filtrosLeeWallet2();
 
         $myArrayGroups  = app(statisticsController::class)->filtrosLeeGroup2();
-        // dd($myArray);
-        //  dd($myArrayWallets);
-        // dd($myArrayGroups);         
+
     @endphp
 
-    let myArray = [];
-    @foreach($myArrayWallets as $myValue)
-        myArray.push({{$myValue}});
-    @endforeach
-    // alert(myArray);
-
-    // myArray[0] = 99;
-
-    
-
+    $( document ).ready(function() {
+        
+    });
     $(() => {
 
-            // Valida y esconde
+        // Valida y esconde
 
-        let text        = window.location.href;
-        const myArray   = text.split("/");
-        const myLength  = myArray.length;
+        let myFechaDesde = {!! $myFechaDesde !!};
+        let myFechaHasta = {!! $myFechaHasta !!};
 
-        if (window.location.href.indexOf("?") === -1) {
-            $('.esconder').show();
-        } else {
-            $('.esconder').hide();
-        }
+        // 
 
-        if (myLength == 4 || myLength == 8 && myArray[4] === '0') {
-            // $('#typeTransactions, #drCustomRanges').prop('disabled', true);
-            //$('#typeTransactions').prop('disabled', true);
-        } else {
-            // $('#typeTransactions, #drCustomRanges').prop('disabled', false);
-           // $('#typeTransactions').prop('disabled', false);
-        }
+        $('#my-select').multiSelect({
+            selectableHeader: `<div class='custom-header' style='background-color: black; color:white'>
+                                    Visibles    
+                                    <br><br> 
+                                    <div>
+                                        <i class='fas fa-circle' style='color: green;'></i>
+                                    </div>
+                                </div>`,
+            selectionHeader:  `<div class='custom-header' style='background-color: black; color:white'>
+                                    No Visibles 
+                                    <br>
+                                    <br> 
+                                    <div>
+                                        <i class='fas fa-circle' style='color: red;'>  </i>
+                                    </div>
+                                </div>`
+        });
 
-
-        let  myFechaDesde = {!! $myFechaDesde !!};
-        // console.log({!! $myFechaDesde !!});
-        const myFechaHasta = {!! $myFechaHasta !!};
-
-        // alert('Fechas -> desde -> ' + myFechaDesde);
+        $('#my-select2').multiSelect({
+            selectableHeader:  `<div class='custom-header' style='background-color: black; color:white'>
+                                    No Visibles
+                                    <br>
+                                    <br> 
+                                    <div>
+                                        <i class='fas fa-circle' style='color: red;'>  </i>
+                                    </div>                                    
+                                </div>`,
+            selectionHeader:   `<div class='custom-header' style='background-color: black; color:white'>
+                                    Visibles
+                                    <br><br> 
+                                    <div>
+                                        <i class='fas fa-circle' style='color: green;'></i>
+                                    </div>                                    
+                                </div>`
+        });
 
         InicializaFechas();
-
         BuscaFechas(myFechaDesde, myFechaHasta);
+        calculoGeneral3();  
+        calculos3();
+
+        calculoGeneral4();  
+        calculos4();
+
+
+        cargaGrupos();
+        cargaWallets();
+        leeFiltros();
 
         $('#wallet').on('change', function (){
 
@@ -329,51 +421,8 @@ $config4 = [
 
         });
 
-        //if (!miWallet){
-            
-        calculoGeneral3();  
-        calculos3();
 
 
-
-        //}else{
-        //   calculoGeneral2();
-        //    calculos2();
-        //}
-
-            // funcion para permitir el filtrado
-
-        $.fn.dataTable.ext.search.push(
-            function (settings, data, dataIndex) {
-                //do stuff
-                let userTypeColumnData = data[0] || 0;
-                let muestra = true;
-                $("#my-select option:selected").each(function(){
-                    if (userTypeColumnData==($(this).attr('value'))) {
-                        // alert('opcion '+$(this).text()+' valor '+ $(this).attr('value') + ' lo que ve ' + userTypeColumnData);
-                        muestra = false;
-                    }
-                }); 
-                // alert('sigue -> ' + userTypeColumnData + ' lo muestra -> ' + muestra);
-                return muestra;
-            }
-        );
-
-        $('#my-select2').multiSelect({
-            selectableHeader: "<div class='custom-header' style='background-color: black; color:white'>Visibles</div>",
-            selectionHeader:  "<div class='custom-header' style='background-color: black; color:white'>No VIsibles</div>"
-        });
-
-        $('#my-select').multiSelect({
-            selectableHeader: "<div class='custom-header' style='background-color: black; color:white'>Visibles</div>",
-            selectionHeader:  "<div class='custom-header' style='background-color: black; color:white'>No VIsibles</div>"
-        });
-
-        cargaGrupos();
-        cargaWallets();
-
-
-            
         $('#myButtonLimpiar').on('click', function (){
             $('#my-select').multiSelect('deselect_all');
             
@@ -421,20 +470,22 @@ $config4 = [
         });
 
         $('#myButtonAplicar2').on('click', function (){
+
             $("#myTableGroup tr").each(function(){
-                $(this).removeAttr("hidden");
+                // $(this).removeAttr("hidden");
+                $(this).attr("hidden",true);
             });     
 
             $("#my-select2 option:selected").each(function(){
                 
                 seleccionado = $(this).attr('value');
-                // alert(" seleccionado : " + seleccionado);
+                // alert(" seleccionado : " + seleccionado); 
                 $("#myTableGroup tr").each(function(){
                     if($(this).data("id")){
                                                 
                         if ($(this).data("id") == seleccionado){
                             
-                            $(this).attr("hidden",true);
+                            $(this).attr("hidden",false);
                         }
                     }
                 });
@@ -443,7 +494,7 @@ $config4 = [
             });  
 
             grabaFiltros();
-            
+
             Swal.fire({
                 position: 'top-end',
                 icon: 'success',
@@ -454,12 +505,6 @@ $config4 = [
             
         });
 
-
-
-    });
-
-    $( document ).ready(function() {
-        leeFiltros();
     });
     /*
     *
@@ -500,10 +545,10 @@ $config4 = [
                         </thead>
                         @foreach($group_summary as $group2)
                             @php
-                                $indMuestra = 1;
+                                $indMuestra = 0;
                                 foreach($myArrayGroups as $value){
                                     if ($value == $group2->IdGrupo){
-                                        $indMuestra = 0;
+                                        $indMuestra = 1;
                                     }
                                 }
 
@@ -525,14 +570,70 @@ $config4 = [
             </div>
         `
         $("#myCanvas").append(myElement);
-
-            
-     
+        
     }
-
-
-    /*
+        /*
     *
+    * calculos3 - group summary
+    * 
+    */
+    function calculos4(){
+
+        let myElement;
+        {{-- dd($group_summary) --}}
+
+        myElement = `
+            <style>
+                .myTr {
+                    cursor: pointer;
+                }
+                .myTr:hover{
+                    background-color: #D7DBDD  !important;
+                }
+            </style>
+            <div class ="row mb-4" style="background-color: white;">
+
+                <div class="col-12 col-md-12 justify-content-center text-center align-items-center mb-4 mt-4">
+                    <h4>Resumen por Grupo</h4>
+                </div>
+
+
+                <div class="col-12 col-md-12">
+                    <table class="table thead-light" style="background-color: white;" id="myTableGroup">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th style="width:1%;">Grupo</th>
+                         
+                                <th style="width:1%;">Total</th>                                        
+                            </tr>
+                        </thead>
+                        @foreach($group_summary as $group2)
+                            @php
+                                $indMuestra = 0;
+                                foreach($myArrayGroups as $value){
+                                    if ($value == $group2->IdGrupo){
+                                        $indMuestra = 1;
+                                    }
+                                }
+
+                                $myTotal = ($group2->BalanceAnterior + $group2->Creditos ) - $group2->Debitos; 
+                            @endphp
+                            @if($indMuestra == 0)
+                                @continue
+                            @endif
+                            <tr class="myTr" onClick="theRoute2({{0}}, {{ $group2->IdGrupo }}, {{0}}, {{0}})" data-id="{{$group2->IdGrupo}}">
+                                <td >{{ $group2->NombreGrupo}}</td>
+                           
+                                <td >{{ number_format($myTotal ,2)}}</td>
+                            </tr>
+                        @endforeach
+                    </table>
+                </div>
+            </div>
+        `
+        $("#myCanvas2").append(myElement);
+    }
+    /*
     *
     *   calculogeneral3
     *   sin wallet
@@ -544,7 +645,6 @@ $config4 = [
 
          {{-- dd($wallet_summary) --}}
 
-        theWallet = 89;
         myElement =
         `
             <style>
@@ -635,15 +735,113 @@ $config4 = [
 
         // alert(myElement);
         
-        console.log(myElement);
+        // console.log(myElement);
 
         $("#myCanvas").append(myElement);
 
     }
+    /*
+    *
+    *   calculogeneral3
+    *   sin wallet
+    *
+    */
+    function calculoGeneral4(){
+
+        let myElement;
+
+        {{-- dd($wallet_summary) --}}
+
+        myElement =
+        `
+            <style>
+                .myTr {
+                    cursor: pointer;
+                }
+                .myTr:hover{
+                    background-color: #D7DBDD  !important;
+                }
+            </style>
+            <div class ="row mb-4" style="background-color: white;">
 
 
+                <div class="col-12 col-md-12 justify-content-center text-center align-items-center mb-4 mt-4">
+                    <h4>Resumen por Wallet</h4>
+                </div>
+
+                <div class="col-12 col-md-12">
+                    <table id="myTableWallet" class="table thead-light" style="background-color: white;">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th style="width:1%; display: none;">Id</th>                            
+                                <th style="width:1%;"               >Wallet</th>
+                          
+                                <th style="width:1%;"               >Saldo</th>
+                            </tr>
+                        </thead>
+                        @php
+                            $cantCreditos  = 0;
+                            $cantDebitos   = 0;
+
+                            $totalSaldoAnterior  = 0;
+                            $totalCreditos  = 0;
+                            $totalDebitos   = 0;
+
+                            $total = 0;
+                        @endphp
+                        
+                        @foreach($wallet_summary as $wallet2)
+
+                            <tr class="myTr" onClick="theRoute2({{0}}, {{0}}, {{$wallet2->IdWallet}}, {{0}})" data-id="{{$wallet2->IdWallet}}">
+
+                                @php
+
+                                    $indMuestra = 1;
+                                    foreach($myArrayWallets as $value){
+                                        if ($value == $wallet2->IdWallet){
+                                            $indMuestra = 0;
+                                        }
+                                    }
+
+                                    $cantCreditos ++;
+                                    $totalCreditos += $wallet2->Creditos;
+                                    $totalDebitos  += $wallet2->Debitos;
+
+                                    $myTotal = ($wallet2->BalanceAnterior + $wallet2->Creditos ) - $wallet2->Debitos;
+                                    $total  += $myTotal;                                    
+                                @endphp
+                                @if($indMuestra == 0)
+                                    @continue
+                                @endif
+
+                                <td >{{ $wallet2->NombreWallet}}</td>
+                             
+                                <!-- <td >{{ number_format($wallet2->Total,2) }}</td> -->
+                                <td >{{ number_format($myTotal,2) }}</td>                                
+                            </tr>
+
+                        @endforeach
+                        <tr style="background-color: black; color:white;">
+                            <td >{{ ' ' }}</td>
+
+                            <td >{{ number_format($total,2) }}</td>
+
+                        </tr>
+                    </table>
+                </div>
 
 
+            </div>
+        `;
+
+        // alert(myElement);
+
+        // console.log(myElement);
+
+        $("#myCanvas2").append(myElement);
+
+
+    }
     function theRoute(wallet = 0, transaction = 0, fechaDesde = 0, fechaHasta = 0){
 
 
@@ -685,20 +883,20 @@ $config4 = [
     }
 
     function BuscaWallet(miWallet){
-            if (miWallet===0){
-                return;
-            }
+        if (miWallet===0){
+            return;
+        }
 
-            $('#wallet').each( function(index, element){
+        $('#wallet').each( function(index, element){
 
-                $(this).children("option").each(function(){
-                    if ($(this).val() === miWallet.toString()){
+            $(this).children("option").each(function(){
+                if ($(this).val() === miWallet.toString()){
 
-                        $("#wallet option[value="+ miWallet +"]").attr("selected",true);
-                    }
+                    $("#wallet option[value="+ miWallet +"]").attr("selected",true);
+                }
 
-                });
             });
+        });
     }
 
     function BuscaTransaccion(miTypeTransaction){
@@ -717,10 +915,11 @@ $config4 = [
             });
         });
     }
+
     function InicializaFechas(){
         // $('#drCustomRanges').data('daterangepicker').setStartDate('01-01-2001');
-
     }
+
     function BuscaFechas(FechaDesde = 0,FechaHasta = 0){
 
             myLocation  = window.location.toString();
@@ -771,14 +970,14 @@ $config4 = [
 
     function cargaGrupos(){
         @foreach($group as $key => $group2)
-            console.log('el grupo con key {!! $key !!} es {!! $group2 !!}');
+            // console.log('el grupo con key {!! $key !!} es {!! $group2 !!}');
             $('#my-select2').multiSelect('addOption', { value: '{!! $key !!}', text: '{!! $group2 !!}' });
         @endforeach
     }
 
     function cargaWallets(){
         @foreach($wallet as $key => $wallet2)
-            console.log('el grupo con key {!! $key !!} es {!! $wallet2 !!}');
+            // console.log('el grupo con key {!! $key !!} es {!! $wallet2 !!}');
             $('#my-select').multiSelect('addOption', { value: '{!! $key !!}', text: '{!! $wallet2 !!}' });
         @endforeach
     }
@@ -830,56 +1029,48 @@ $config4 = [
     
     function leeFiltros(){
         
-
         $.ajax(
             {
                 url: "{{route('filtrosLeeWallet')}}",
                 async: false,
             }
         ).done (function(myData) {
-            // alert('myData ' + JSON.stringify(myData) )
             
             myData2 = myData.data;
-            // alert("el tipo de data " + typeof JSON.stringify(myData2) + ' y la data  ' + myData2);
-
 
         });
 
         myData2.map( function (valor) {
-            // alert ('mi valor es ' + valor);
+
             $("#my-select option").each(function(){
                  if (valor == $(this).attr('value')){
                     $('#my-select').multiSelect('select', valor.toString());
-                     // alert(JSON.stringify($(this).text()));
+
                  }
             });
 
         });      
         
-        
         // grupos
         
-
         $.ajax(
             {
                 url: "{{route('filtrosLeeGroup')}}",
                 async: false,
             }
         ).done (function(myData) {
-            // alert('myData group ' + JSON.stringify(myData) )
+
             myData2 = JSON.stringify(myData.data);
             myData2 = myData.data;
-            // alert("el tipo de data group " + typeof JSON.stringify(myData2) + ' y la data  ' + myData2);
-
 
         });
 
         myData2.map( function (valor) {
-            // alert ('mi valor es group ' + valor);
+            
             $("#my-select2 option").each(function(){
                  if (valor == $(this).attr('value')){
                     $('#my-select2').multiSelect('select', valor.toString());
-                     // alert(JSON.stringify($(this).text()));
+                     
                  }
             });
 
@@ -889,13 +1080,8 @@ $config4 = [
 
     function grabaFiltros(){
 
-
         let myDataWallet    = buscaFiltrosWallet();
         let myDataGroup     = buscaFiltrosGroup();
-        // alert (myDataWallet + ' y el typeof es ' + Array.isArray(myDataWallet));        
-        // alert (myDataGroup + ' y el typeof es ' + Array.isArray(myDataGroup));            
-        // alert (myDataGroup);
-        
 
         $.ajax(
             {
@@ -909,16 +1095,11 @@ $config4 = [
                  },
             }
         ).done (function(myData) {
-            // alert('myData ' + JSON.stringify(myData) )
-            
-           //  myData2 = myData.data;
-            // alert("el tipo de data " + typeof JSON.stringify(myData2) + ' y la data  ' + myData2);
+
            // alert('vino');
 
         });
         return;
-                
-
     }
 
 </script>

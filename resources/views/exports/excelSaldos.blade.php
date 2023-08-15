@@ -3,6 +3,13 @@
     $myFiltroGroupB  = explode(",",$filtroGroup);
 
     // dd($myFiltroWalletB);
+    $myStyle = "background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:200px;";
+
+    $myStyle2 = "text-align:center; background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 15px; text-transform: uppercase; width:300px;";
+
+    $myStyle = "background-color: #5DADE2; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:200px;";
+    $myStyle2 = "text-align:center; background-color: #5DADE2; color: #ffffff; font-weight: bolder; font-size: 15px; text-transform: uppercase; width:300px;";
+
 
 @endphp
 <!doctype html>
@@ -20,20 +27,20 @@
                 <th ></th>
                 <th ></th>
                 <th ></th>
-                <th colspan="5" style="text-align:center; background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 15px; text-transform: uppercase; width:300px;">
+                <th colspan="5" style="{{ $myStyle2 }}">
                     Resumen por Wallet
                 </th>
             </tr>
             <tr>
                 @if($fechaDesde != "2001-01-01")
                     <th colspan="3"></th>
-                    <th colspan="5" style="text-align:center; background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 15px; text-transform: uppercase; width:300px;">
+                    <th colspan="5" style="{{ $myStyle2 }}">
                         Fecha desde: {{ $fechaDesde }}   |      Fecha Hasta:  {{ $fechaHasta }}
                     </th>
 
                 @else
                     <th colspan="3"></th>
-                    <th colspan="5" style="text-align:center; background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 15px; text-transform: uppercase; width:300px;">
+                    <th colspan="5" style="{{ $myStyle2 }}">
                         a la Fecha:  {{ date('d-m-Y') }}
                     </th>
                 @endif
@@ -42,11 +49,11 @@
                 <th></th>
                 <th></th>
                 <th></th>
-                <th style="background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:200px;">Wallet</th>
-                <th style="background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:150px;">Saldo Anterior</th>
-                <th style="background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:200px;">Entradas</th>
-                <th style="background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:200px;">Salidas</th>
-                <th style="background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:200px;">Saldo</th>
+                <th style="{{ $myStyle }}">Wallet</th>
+                <th style="{{ $myStyle }}">Saldo Anterior</th>
+                <th style="{{ $myStyle }}">Entradas</th>
+                <th style="{{ $myStyle }}">Salidas</th>
+                <th style="{{ $myStyle }}">Saldo</th>
             </tr>
         </thead>
         @php
@@ -85,15 +92,15 @@
                 @endphp
             @endforeach
 
-            <tr style="background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:200px;">
+            <tr style="{{ $myStyle }}">
                 <td >{{ ' ' }}</td>
                 <td >{{ ' ' }}</td>
                 <td >{{ ' ' }}</td>
-                <td style="background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:200px;">{{ ' ' }}</td>
-                <td style="background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:200px;">{{ ' ' }}</td>
-                <td style="background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:200px;">{{ $totalCreditos }}</td>
-                <td style="background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:200px;">{{ $totalDebitos }}</td>
-                <td style="background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:200px;">{{ $saldo }}</td>
+                <td style="{{ $myStyle }}">{{ ' ' }}</td>
+                <td style="{{ $myStyle }}">{{ ' ' }}</td>
+                <td style="{{ $myStyle }}">{{ $totalCreditos }}</td>
+                <td style="{{ $myStyle }}">{{ $totalDebitos }}</td>
+                <td style="{{ $myStyle }}">{{ $saldo }}</td>
             </tr>
 
             <hr>
@@ -128,7 +135,7 @@
                     <th></th>
                     <th></th>
                     <th></th>
-                    <th colspan="5" style="text-align:center; background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 15px; text-transform: uppercase; width:300px;">
+                    <th colspan="5" style="{{ $myStyle2 }}">
                         Resumen por Grupo
                     </th>
                 </tr>   
@@ -137,7 +144,7 @@
                         <th></th>
                         <th></th>
                         <th></th>
-                        <th colspan="5" style="text-align:center; background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 15px; text-transform: uppercase; width:300px;">
+                        <th colspan="5" style="{{ $myStyle2 }}">
                             Fecha desde: {{ $fechaDesde }}   |      Fecha Hasta:  {{ $fechaHasta }}
                         </th>
 
@@ -145,7 +152,7 @@
                         <th></th>
                         <th></th>
                         <th></th>                                                
-                        <th colspan="5" style="text-align:center; background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 15px; text-transform: uppercase; width:300px;">
+                        <th colspan="5" style="{{ $myStyle2 }}">
                             a la Fecha:  {{ date('d-m-Y') }}
                         </th>
 
@@ -155,20 +162,20 @@
                     <th></th>
                     <th></th>
                     <th></th>
-                    <th style="background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:200px;">Grupo</th>
-                    <th style="background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:200px;">Saldo Anterior</th>
-                    <th style="background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:150px;">Creditos</th>
-                    <th style="background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:200px;">Debitos</th>
-                    <th style="background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:200px;">Total</th>
+                    <th style="{{ $myStyle }}">Grupo</th>
+                    <th style="{{ $myStyle }}">Saldo Anterior</th>
+                    <th style="{{ $myStyle }}">Creditos</th>
+                    <th style="{{ $myStyle }}">Debitos</th>
+                    <th style="{{ $myStyle }}">Total</th>
                 </tr>
             </thead>
 
             @foreach($group_summary as $groupsummary_row)
                     @php
-                        $indFiltro = 0;
+                        $indFiltro = 1;
                         foreach($myFiltroGroupB as $value){
                             if ($value == $groupsummary_row->IdGrupo){
-                                $indFiltro = 1;
+                                $indFiltro = 0;
                             }
                         }
                     @endphp
@@ -192,11 +199,11 @@
                 <td></td>
                 <td></td>
                 <td></td>
-                <td style="background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:200px;"></td>
-                <td style="background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:200px;"></td>
-                <td style="background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:200px;"></td>
-                <td style="background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:200px;"></td>
-                <td style="background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:200px;"></td>                    
+                <td style="{{ $myStyle }}"></td>
+                <td style="{{ $myStyle }}"></td>
+                <td style="{{ $myStyle }}"></td>
+                <td style="{{ $myStyle }}"></td>
+                <td style="{{ $myStyle }}"></td>                    
             </tr>              
             <hr>
 
