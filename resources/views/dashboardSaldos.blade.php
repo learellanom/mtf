@@ -38,19 +38,17 @@
     <div class="row">
 
         <div class ="col-12 col-md-3">
-                            <x-adminlte-date-range
-                                name="drCustomRanges"
-                                enable-default-ranges="Last 30 Days"
-                                :config="$config3">
-                                <x-slot name="prependSlot">
-                                    <div class="input-group-text bg-gradient-light">
-                                        <i class="fas fa-calendar-alt"></i>
-                                    </div>
-                                </x-slot>
-                            </x-adminlte-date-range>
-
-
-                        </div>
+            <x-adminlte-date-range
+                name="drCustomRanges"
+                enable-default-ranges="Last 30 Days"
+                :config="$config3">
+                <x-slot name="prependSlot">
+                    <div class="input-group-text bg-gradient-light">
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                </x-slot>
+            </x-adminlte-date-range>
+        </div>
 
     </div>
 
@@ -174,9 +172,9 @@
                         
                         <div class ="col-12 col-md-3">
                             <a class="btn btn-primary imprimir"><i class="fas fa-print"></i></a>
-                            {{--
-                            <a class="btn btn-success"  onclick="exportaSaldos();"><i class="fas fa-file-excel"></i></a>
-                            --}}
+                            
+                            <a class="btn btn-success"  onclick="exportaSaldos(1);"><i class="fas fa-file-excel"></i></a>
+                            
                             {{--
                             <a class="btn btn-success" href={{route('exports.saldos', [$myFechaDesde, $myFechaHasta])}}><i class="fas fa-file-excel"></i></a>
                             --}}
@@ -982,7 +980,7 @@
         @endforeach
     }
 
-    function exportaSaldos(){
+    function exportaSaldos(myResumen = 0){
         let myFiltroWallet  = buscaFiltrosWallet();
         let myFiltroGroup   = buscaFiltrosGroup();
 
@@ -990,12 +988,15 @@
         let fechaDesde = "{{$myFechaDesde}}";
         let fechaHasta = "{{$myFechaHasta}}";
 
-        myRoute = "{{route('exports.saldos', ['fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2', 'filtroWallet' => 'filtroWallet2', 'filtroGroup' => 'filtroGroup2'])}}"
+        let resumen = myResumen;
+
+        myRoute = "{{route('exports.saldos', ['fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2', 'filtroWallet' => 'filtroWallet2', 'filtroGroup' => 'filtroGroup2', 'resumen' => 'resumen2'])}}"
 
         myRoute = myRoute.replace('fechaDesde2',    fechaDesde);
         myRoute = myRoute.replace('fechaHasta2',    fechaHasta);
         myRoute = myRoute.replace('filtroWallet2',  myFiltroWallet);
         myRoute = myRoute.replace('filtroGroup2',   myFiltroGroup);
+        myRoute = myRoute.replace('resumen2',       resumen);
 
         // alert(' myRoute ->' + myRoute);
 

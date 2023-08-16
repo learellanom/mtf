@@ -407,10 +407,12 @@ class HomeController extends Controller
             $group3->BalanceAnterior = $balanceDetail;
         }
 
-
-
+        $myResumen = 0;
+        if ($request->resumen){
+            $myResumen = $request->resumen;
+        }
         //dd($balanceDetail);
-        return Excel::download(new DashboardSaldosExport($wallet_summary, $group_summary, $myFechaDesde, $myFechaHasta, $myFiltroWallet, $myFiltroGroup), 'Saldos al corte.xlsx');
+        return Excel::download(new DashboardSaldosExport($wallet_summary, $group_summary, $myFechaDesde, $myFechaHasta, $myFiltroWallet, $myFiltroGroup, $myResumen), 'Saldos al corte.xlsx');
                                    
     }
 

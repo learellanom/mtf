@@ -33,19 +33,20 @@ class DashboardSaldosExport implements FromView, WithColumnFormatting
 
     private $wallet_summary, $group_summary;
     private $fechaDesde, $fechasHasta;
-    private $filtroWallet, $filtroGroup;
+    private $filtroWallet, $filtroGroup, $resumen;
 
-    public function __construct($wallet_summary, $group_summary, $fechaDesde, $fechaHasta, $myFiltroWallet, $myFiltroGroup)
+    public function __construct($wallet_summary, $group_summary, $fechaDesde, $fechaHasta, $myFiltroWallet, $myFiltroGroup, $myResumen)
     {
         $this->wallet_summary   = $wallet_summary;
         $this->group_summary    = $group_summary;
 
 
-        $this->fechaDesde = $fechaDesde;
-        $this->fechaHasta = $fechaHasta;        
+        $this->fechaDesde       = $fechaDesde;
+        $this->fechaHasta       = $fechaHasta;        
 
-        $this->filtroWallet = $myFiltroWallet;
-        $this->filtroGroup = $myFiltroGroup;        
+        $this->filtroWallet     = $myFiltroWallet;
+        $this->filtroGroup      = $myFiltroGroup;        
+        $this->resumen          = $myResumen;
 
     }
 
@@ -58,6 +59,7 @@ class DashboardSaldosExport implements FromView, WithColumnFormatting
             'fechaHasta'        => $this->fechaHasta,
             'filtroWallet'      => $this->filtroWallet,
             'filtroGroup'       => $this->filtroGroup,
+            'resumen'           => $this->resumen,
         ]);
     }
 

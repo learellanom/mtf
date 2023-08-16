@@ -38,7 +38,7 @@ $config4 = [
                 <div class="col col-md-3">
                     <x-adminlte-select2 id="wallet"
                     name="optionsWallets"
-                    igroup-size="lg"
+                    
                     label-class="text-lightblue"
                     data-placeholder="Seleccione una caja"
 
@@ -55,7 +55,7 @@ $config4 = [
                 <div class="col col-md-3">
                     <x-adminlte-select2 id="typeTransactions"
                     name="optionstypeTransactions"
-                    igroup-size="lg"
+                    
                     label-class="text-lightblue"
                     data-placeholder="Tipo de transacción"
 
@@ -75,7 +75,7 @@ $config4 = [
                     <x-adminlte-date-range
                         name="drCustomRanges"
                         enable-default-ranges="Last 30 Days"
-                        igroup-size="lg"
+                        
                         :config="$config3">
                         <x-slot name="prependSlot">
                             <div class="input-group-text bg-gradient-light">
@@ -94,8 +94,128 @@ $config4 = [
             </div>
         </div>
     </div>
-    <div id="myCanvas"></div>
 
+    <nav>
+        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+
+            <button 
+                class="nav-link active" 
+                id="nav-home-tab" 
+                data-toggle="tab" 
+                data-target="#nav-home" 
+                type="button" 
+                role="tab" 
+                aria-controls="nav-home" 
+                aria-selected="true">
+                Estadistica
+            </button>
+
+            <button 
+                class="nav-link" 
+                id="nav-profile-tab" 
+                data-toggle="tab" 
+                data-target="#nav-profile" 
+                type="button" 
+                role="tab" 
+                aria-controls="nav-profile"             
+                aria-selected="false">
+                Filtros
+            </button>
+
+        </div>
+    </nav>
+
+    <br>
+    <br>
+
+
+    <div class="tab-content" id="nav-tabContent">
+
+        <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+
+            <div id="myCanvas"></div>
+        </div>
+
+        <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">Filtros
+
+            <div class="card mb-4">
+                    <div class="card-header">
+                        <h3 class="card-title text-uppercase font-weight-bold">Filtros  Generales</h3>
+                    </div>
+                    <div class="card-body">    
+                        <div class="row justify-content-center text-center align-items-center">
+
+                            <div class="col-12 col-md-6 col-lg-6 col-xl-4 justify-content-center text-center align-items-center">
+                                <label for="lname">Resumen General:</label>
+                                <input type="checkbox" id="lname" name="lname"><br><br>
+                            </div>  
+
+
+                        </div>     
+
+
+                        <div class="row justify-content-center text-center align-items-center">
+
+
+                            <div class="col-12 col-md-6 col-lg-6 col-xl-4 justify-content-center text-center align-items-center">
+                                <label for="lname2">Resumen Transaccion:</label>
+                                <input type="checkbox" id="lname2" name="lname2"><br><br>
+                            </div>  
+
+                        </div>   
+
+
+                        <br>
+                        <br>
+                        <div class="row justify-content-center text-center align-items-center">
+                            <div class="col-12 col-sm-2 mt-2">
+                                <button id="myButtonAplicar" type="button" class="btn btn-outline-primary btn-sm ">Aplicar</button>
+
+                            </div>
+
+                            <div class="col-12 col-sm-2 mt-2">
+                                <button id="myButtonLimpiar" type="button" class="btn btn-outline-primary btn-sm ">Limpiar</button>
+                            </div>                    
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="card mb-4">
+                    <div class="card-header">
+                        <h3 class="card-title text-uppercase font-weight-bold">Filtros Transacciones</h3>
+                    </div>
+                    <div class="card-body">    
+                        <div class="row justify-content-center text-center align-items-center">
+
+                            <div class="col-12 col-md-6 col-lg-6 col-xl-4 justify-content-center text-center align-items-center">
+                                <select multiple="multiple" id="my-select" name="my-select[]">
+                                    <option value="volvo">Volvo</option>
+                                    <option value="saab">Saab</option>
+                                    <option value="mercedes">Mercedes</option>
+                                    <option value="audi">Audi</option>
+                                </select>   
+                            </div>  
+
+                        </div>     
+                        <br>
+                        <br>
+                        <div class="row justify-content-center text-center align-items-center">
+                            <div class="col-12 col-sm-2 mt-2">
+                                <button id="myButtonAplicar" type="button" class="btn btn-outline-primary btn-sm ">Aplicar</button>
+
+                            </div>
+
+                            <div class="col-12 col-sm-2 mt-2">
+                                <button id="myButtonLimpiar" type="button" class="btn btn-outline-primary btn-sm ">Limpiar</button>
+                            </div>                    
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+    </div>
 </div>
 
 @endsection
@@ -186,6 +306,24 @@ $config4 = [
                 const transaccion   = $('#typeTransactions').val();
                 theRoute(wallet, transaccion, myFechaDesde,myFechaHasta);
 
+        });
+
+        $('#my-select').multiSelect({
+            selectableHeader: `<div class='custom-header' style='background-color: black; color:white'>
+                                    Visibles    
+                                    <br><br> 
+                                    <div>
+                                        <i class='fas fa-circle' style='color: green;'></i>
+                                    </div>
+                                </div>`,
+            selectionHeader:  `<div class='custom-header' style='background-color: black; color:white'>
+                                    No Visibles 
+                                    <br>
+                                    <br> 
+                                    <div>
+                                        <i class='fas fa-circle' style='color: red;'>  </i>
+                                    </div>
+                                </div>`
         });
 
         if (!miWallet){
