@@ -191,10 +191,6 @@ $config4 = [
 
                             <div class="col-12 col-md-6 col-lg-6 col-xl-4 justify-content-center text-center align-items-center">
                                 <select multiple="multiple" id="my-select" name="my-select[]">
-                                    <option value="volvo">Volvo</option>
-                                    <option value="saab">Saab</option>
-                                    <option value="mercedes">Mercedes</option>
-                                    <option value="audi">Audi</option>
                                 </select>   
                             </div>  
 
@@ -326,6 +322,8 @@ $config4 = [
                                 </div>`
         });
 
+        cargaTransacciones();
+
         if (!miWallet){
             // alert ('aqui');
             calculoGeneral3();
@@ -334,6 +332,45 @@ $config4 = [
             calculoGeneral2();
             calculos2();
         }
+
+        $('#myButtonLimpiar').on('click', function (){
+            $('#my-select').multiSelect('deselect_all');
+            
+        });
+
+        $('#myButtonAplicar').on('click', function (){
+            $("#myTableWallet tr").each(function(){
+                $(this).removeAttr("hidden");
+            });
+
+            $("#my-select option:selected").each(function(){
+                
+                seleccionado = $(this).attr('value');
+
+                $("#myTableWallet tr").each(function(){
+                    if($(this).data("id")){
+                                                
+                        if ($(this).data("id") == seleccionado){
+                            
+                            $(this).attr("hidden",true);
+                        }
+                    }
+                });
+
+
+            });
+            
+            // grabaFiltros();
+            
+            Swal.fire({
+                position: 'top-end',
+                icon: 'success',
+                title: 'Filtro aplicado satisfactoriamente',
+                showConfirmButton: false,
+                timer: 1500
+                });             
+            
+        });
 
     });
 
@@ -894,181 +931,6 @@ $config4 = [
     }
 
     
-    /*
-    *
-    *
-    *  calculoGeneral2
-    *   con wallet
-    *
-    */
-    function calculoGeneral2x(){
-
-        myElement = `
-        <div class="row">
-            <div class="col-md-12">
-                <div class="card">
-                    <div class="card-body">
-                        <h3 class="text-center text-uppercase font-weight-bold">Transacciones por caja</h3>
-                        <canvas id="myChartDoughnut"></canvas>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-        `;
-        $("#myCanvas").append(myElement);
-
-        const COLORS = [
-                'rgb(0, 173, 181)',
-                'rgb(58, 16, 120)',
-                'rgb(255, 184, 76)',
-                'rgb(49, 225, 247)',
-                'rgb(8, 2, 2)',
-                'rgb(0, 129, 180)',
-                'rgb(7, 10, 82)',
-                'rgb(213, 206, 163)',
-                'rgb(60, 42, 33)',
-                'rgb(2, 89, 85)',
-                'rgb(255, 132, 0)',
-                'rgb(184, 98, 27)',
-                'rgb(114, 0, 27)',
-        ];
-
-        const ctx = document.getElementById('myChart');
-
-        const DATA_COUNT2 = 1600;
-        const NUMBER_CFG = {count: DATA_COUNT2, min: 0, max: 1500};
-        const ctx2 = document.getElementById('myChartDoughnut');
-        const myChart2 = new Chart(ctx2, {
-        type: 'doughnut',
-        data : {
-            labels: [@foreach($wallet_summary->take(13) as $wallet) "{{$wallet->TypeTransaccionName }}", @endforeach ],
-            datasets: [
-                {
-                label: 'Dataset 1',
-                data: [@foreach($wallet_summary->take(13) as $wallet) {{$wallet->cant_transactions. ',' }} @endforeach],
-                backgroundColor:COLORS.slice(0, DATA_COUNT2),
-
-                hoverOffset: 4
-            }]
-        },
-
-        });
-
-        myElement =
-        `
-        <style>
-            .myTr {
-                cursor: pointer;
-            }
-            .myTr:hover{
-                background-color: #D7DBDD  !important;
-            }
-        </style>
-
-        {{-- dd($balanceDetail . ' ' . $myFechaDesdeBefore . ' ' . $myFechaHastaBefore) --}}
-
-        <div class ="row mb-4" style="background-color: white;">
-            <div class="col-12 col-md-12">
-                <table class="table thead-light" style="background-color: white;">
-                    <thead class="thead-dark">
-                        <tr>
-                            <th style="width:1%;">Saldo Total</th>
-                            <th style="width:1%;">{{ number_format($balance,2) }}</th>
-                            <th style="width:1%;"></th>
-                            <th style="width:1%;">Saldo al corte</th>
-                            <th style="width:1%;">{{ number_format($balanceDetail,2) }}</th>
-                        </tr>
-                        <tr>
-                            <th style="width:1%;">Transacción</th>
-                            <th style="width:1%;">Cant transacción</th>
-                            <th style="width:1%;">Entradas</th>
-                            <th style="width:1%;">Salidas</th>
-                            <th style="width:1%;">Saldo</th>
-                        </tr>
-                    </thead>
-                    @php
-                        $cantCreditos  = 0;
-                        $cantDebitos   = 0;
-
-                        $totalCreditos  = 0;
-                        $totalDebitos   = 0;
-
-                        $saldo = 0;
-                    @endphp
-                    {{-- dd($wallet_summary) --}}
-                    @foreach($wallet_summary as $wallet2)
-
-                        <tr class="myTr" onClick="theRoute2({{0}}, {{0}}, {{$wallet2->WalletId}}, {{$wallet2->TypeTransactionId}})">
-                            @switch($wallet2->TypeTransactionId )
-                                //
-                                // creditos
-                                //
-                                @case(2)
-                                @case(4)
-                                @case(6)
-                                @case(7)
-                                @case(10)
-                                @case(13)
-                                    <td>{{ $wallet2->TypeTransaccionName}}</td>
-                                    <td>{{ number_format($wallet2->cant_transactions) }}</td>
-                                    <td>{{ number_format($wallet2->total_amount,2)}}</td>
-                                    <td>{{ ' ' }}</td>
-                                    <td>{{ ' ' }}</td>
-                                    @php
-                                        $cantCreditos ++;
-                                        $totalCreditos += $wallet2->total_amount;
-                                    @endphp
-                                    @break
-                                //
-                                // debitos
-                                //
-                                @case(1)
-                                @case(3)
-                                @case(5)
-                                @case(8)
-                                @case(9)
-                                @case(11)
-                                @case(12)
-                                    <td>{{ $wallet2->TypeTransaccionName}}</td>
-                                    <td>{{ number_format($wallet2->cant_transactions) }}</td>
-                                    <td>{{ ' ' }}</td>
-                                    <td>{{ number_format($wallet2->total_amount,2)}}</td>
-                                    <td>{{ ' ' }}</td>
-                                    @php
-                                        $cantDebitos ++;
-                                        $totalDebitos += $wallet2->total_amount;
-                                    @endphp
-                                    @break
-                            @endswitch
-                        </tr>
-                    @endforeach
-                    @php
-                        $myBalance = $balanceDetail + ($totalCreditos - $totalDebitos);
-                    @endphp
-                    <tr style="background-color: black; color:white;">
-                        <td >{{ ' ' }}</td>
-                        <td >{{ ' ' }}</td>
-                        <td >{{ number_format($totalCreditos,2) }}</td>
-                        <td >{{ number_format($totalDebitos,2)}}</td>
-                        <td>{{  number_format($totalCreditos - $totalDebitos,2) }}</td>
-                    </tr>
-                    <tr style="background-color: black; color:white;">
-                        <td >{{ ' ' }}</td>
-                        <td >{{ ' ' }}</td>
-                        <td >{{ ' ' }}</td>
-                        <td >{{ 'Saldo al dia '}}</td>
-                        <td>{{  number_format($myBalance,2) }}</td>
-                    </tr>
-                </table>
-            </div>
-
-        </div>
-        `;
-
-        $("#myCanvas").append(myElement);
-
-    }
 
 
     /*
@@ -1525,6 +1387,13 @@ $config4 = [
         }
 
         document.body.style.background = color;
+    }
+
+    function cargaTransacciones(){
+        @foreach($typeTransactions as $key => $value)
+            // console.log('el grupo con key {!! $key !!} es {!! $value !!}');
+            $('#my-select').multiSelect('addOption', { value: '{!! $key !!}', text: '{!! $value !!}' });
+        @endforeach
     }
 
 </script>
