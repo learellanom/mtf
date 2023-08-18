@@ -34,7 +34,9 @@ class DashboardestExport implements FromView, WithColumnFormatting
     private $wallet_summary, $wallet_groupsummary, $transaction_summary, $transaction_group_summary, $balance, $balanceDetail;
     private $fechaDesde, $fechasHasta;
 
-    public function __construct($wallet_summary, $wallet_groupsummary,$transaction_summary,$transaction_group_summary, $balance, $balanceDetail, $fechaDesde, $fechaHasta)
+    private $ocultarresumengeneral, $ocultarresumentransaccion, $transactions;
+
+    public function __construct($wallet_summary, $wallet_groupsummary,$transaction_summary,$transaction_group_summary, $balance, $balanceDetail, $fechaDesde, $fechaHasta, $ocultarresumengeneral, $ocultarresumentransaccion, $transactions)
     {
         $this->wallet_summary = $wallet_summary;
         $this->wallet_groupsummary = $wallet_groupsummary;
@@ -46,20 +48,28 @@ class DashboardestExport implements FromView, WithColumnFormatting
         $this->balanceDetail = $balanceDetail;
 
         $this->fechaDesde = $fechaDesde;
-        $this->fechaHasta = $fechaHasta;        
+        $this->fechaHasta = $fechaHasta;     
+        
+        $this->ocultarresumengeneral        = $ocultarresumengeneral;
+        $this->ocultarresumentransaccion    = $ocultarresumentransaccion;
+        $this->transactions                 = $transactions;
     }
 
     public function view(): View
     {
+        
         return view('exports.excel2', [
-            'general'       => $this->transaction_group_summary,
-            'general2'      => $this->transaction_summary,
-            'summary'       => $this->wallet_summary,
-            'groupsummary'  => $this->wallet_groupsummary,
-            'balance'       => $this->balance,
-            'balanceDetail' => $this->balanceDetail,
-            'fechaDesde'    => $this->fechaDesde,
-            'fechaHasta'    => $this->fechaHasta,                        
+            'general'                   => $this->transaction_group_summary,
+            'general2'                  => $this->transaction_summary,
+            'summary'                   => $this->wallet_summary,
+            'groupsummary'              => $this->wallet_groupsummary,
+            'balance'                   => $this->balance,
+            'balanceDetail'             => $this->balanceDetail,
+            'fechaDesde'                => $this->fechaDesde,
+            'fechaHasta'                => $this->fechaHasta,
+            'ocultarresumengeneral'     => $this->ocultarresumengeneral,
+            'ocultarresumentransaccion' => $this->ocultarresumentransaccion,
+            'transactions'              => $this->transactions,
         ]);
     }
 

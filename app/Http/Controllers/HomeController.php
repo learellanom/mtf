@@ -303,7 +303,7 @@ class HomeController extends Controller
 
     }
 
-    public function export(request $request, $wallet, $fechaDesde, $fechaHasta)
+    public function export(request $request)
     {
         $wallet_summary = app(statisticsController::class)->getwalletTransactionSummary($request);
 
@@ -324,6 +324,11 @@ class HomeController extends Controller
         //$request5               = clone $request;
         $balance = 0;
 
+        $wallet = 0;
+        if ($request->wallet){
+            $wallet = $request->wallet;
+        }
+
         if ($wallet > 0){
             $balance2 = app(statisticsController::class)->getBalanceWallet($wallet);
 
@@ -335,10 +340,14 @@ class HomeController extends Controller
             // $balance = $this->getBalancemyWallet($myWallet, $myFechaDesde, $myFechaHasta);
         };
 
-        $myFechaDesde = "2001-01-01";
-        $myFechaHasta = "9999-12-31";
-
-
+        $fechaDesde     = "2001-01-01";
+        $fechaHasta     = "9999-12-31";
+        if ($request->fechaDesde){
+            $fechaDesde = $request->fechaDesde;
+        }
+        if ($request->fechaHasta){
+            $fechaHasta = $request->fechaHasta;
+        }
 
 
         if($wallet == 0) {
@@ -353,8 +362,15 @@ class HomeController extends Controller
         $balanceDetail = app(statisticsController::class)->getBalanceWalletBefore($wallet, $fechaDesde, $fechaHasta);
 
 
+        // dd($request->ocultarresumengeneral . ' ' . $request->ocultarresumentransaccion . ' ' . $request->transactions . ' wallet ' . $request->wallet);
+
+        $ocultarresumengeneral          = $request->ocultarresumengeneral;
+        $ocultarresumentransaccion      = $request->ocultarresumentransaccion;
+        $transactions                   = $request->transactions;
+
         //dd($balanceDetail);
-        return Excel::download(new DashboardestExport($wallet_summary, $wallet_groupsummary, $transaction_summary, $transaction_group_summary, $balance, $balanceDetail, $fechaDesde, $fechaHasta), 'Estadisticas por Caja.xlsx');
+        return Excel::download(new DashboardestExport($wallet_summary, $wallet_groupsummary, $transaction_summary, $transaction_group_summary, $balance, $balanceDetail, $fechaDesde, $fechaHasta, $ocultarresumengeneral, $ocultarresumentransaccion, $transactions), 'Estadisticas por Caja.xlsx');
+
     }
 
     public function exportSaldos(request $request)

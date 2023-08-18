@@ -2703,7 +2703,72 @@ class statisticsController extends Controller
         return $myGroups['groups'];
 
     }
+    
 
+    function filtrosLeeEstadisticas(){
+
+        $myfile = fopen("./filtros/myStatistics", "r") or die("Unable to open file!");
+
+        
+        $myOcultarresumengeneral        = fgets($myfile);
+        $myOcultarresumentransaccion    = fgets($myfile);
+        $mytransactions                 = fgets($myfile);
+
+        fclose($myfile);  
+
+        $myOcultarresumengeneral = json_decode($myOcultarresumengeneral);
+        $myOcultarresumentransaccion = json_decode($myOcultarresumentransaccion);
+        $mytransactions = json_decode($mytransactions);
+        
+
+        \Log::info('lee myOcultarresumengeneral -> ' . print_r($myOcultarresumengeneral,true));
+        \Log::info('lee myOcultarresumentransaccion  -> ' . print_r($myOcultarresumentransaccion,true));
+        \Log::info('lee mytransactions  -> ' . print_r($mytransactions,true));
+
+        $myData['ocultarresumengeneral']        = $myOcultarresumengeneral->ocultarresumengeneral;
+        $myData['ocultarresumentransaccion']    = $myOcultarresumentransaccion->ocultarresumentransaccion;
+        $myData['transactions']                 = $mytransactions->transactions;
+
+        // dd($myData);
+
+        return $myData;
+
+    }
+
+    public function filtrosGrabaEstadisticas(Request $request){
+
+        // dd($request);
+
+        \Log::info(' llega por filtro ocultarresumengeneral        ->' . print_r($request->ocultarresumengeneral,true));
+        \Log::info(' llega por filtro ocultarresumentransaccion    ->' . print_r($request->ocultarresumentransaccion,true));
+        \Log::info(' llega por filtro transactions                 ->' . print_r($request->transactions,true));
+
+        $myfile = fopen("./filtros/myStatistics", "w") or die("Unable to open file!");
+
+        $myLine = '{"ocultarresumengeneral" : ' . $request->ocultarresumengeneral . "}" . PHP_EOL;
+        fwrite($myfile, $myLine);
+
+        $myLine = '{"ocultarresumentransaccion" : ' . $request->ocultarresumentransaccion . "}" . PHP_EOL;
+        fwrite($myfile, $myLine);
+
+        $myLine = '{"transactions" : [' .implode(",",$request->transactions) . "]}" . PHP_EOL;
+        fwrite($myfile, $myLine);
+
+        fclose($myfile);   
+
+
+
+        // dd($request);
+
+        $myResponse = 
+        [
+            'success' => true,
+            'data' => '',
+            'message' => 'filtros guardados exitosamente'
+        ];
+
+        return response()->json($myResponse);
+    }    
 }
 
 ?>

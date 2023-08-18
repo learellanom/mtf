@@ -71,7 +71,7 @@ Route::get('dashboardSaldos/{fechaDesde?}/{fechaHasta?}', [App\Http\Controllers\
 Route::get('dashboard_est/export/', [App\Http\Controllers\HomeController::class, 'export'])->name('exports.excel'); //EXPORTACIÓN DE EXCEL
 Route::get('dashboard_est/export/{wallet}', [App\Http\Controllers\HomeController::class, 'export'])->name('exports.excel'); //EXPORTACIÓN DE EXCEL
 Route::get('dashboard_est/export/{wallet}/{transaction?}/', [App\Http\Controllers\HomeController::class, 'export'])->name('exports.excel'); //EXPORTACIÓN DE EXCEL
-Route::get('dashboard_est/export/{wallet}/{fechaDesde?}/{fechaHasta?}', [App\Http\Controllers\HomeController::class, 'export'])->name('exports.excel'); //EXPORTACIÓN DE EXCEL
+Route::get('dashboard_est/export/{wallet?}/{fechaDesde?}/{fechaHasta?}/{ocultarresumengeneral?}/{ocultarresumentransaccion?}/{transactions?}', [App\Http\Controllers\HomeController::class, 'export'])->name('exports.excel'); //EXPORTACIÓN DE EXCEL
 
 
 Route::get('dashboard_saldos/export/', [App\Http\Controllers\HomeController::class, 'exportSaldos'])->name('exports.saldos'); //EXPORTACIÓN DE EXCEL
@@ -82,6 +82,13 @@ Route::get('filtrosLeeGroup', [App\Http\Controllers\statisticsController::class,
 
 Route::post('filtrosGrabaWallet', [App\Http\Controllers\statisticsController::class, 'filtrosGrabaWallet'])->name('filtrosGrabaWallet'); // Lee filtros
 Route::post('filtrosGrabaGroup', [App\Http\Controllers\statisticsController::class, 'filtrosGrabaGroup'])->name('filtrosGrabaGroup'); // Lee filtros
+
+
+
+Route::post('filtrosGrabaEstadisticas', [App\Http\Controllers\statisticsController::class, 'filtrosGrabaEstadisticas'])->name('filtrosGrabaEstadisticas'); // Lee filtros
+
+
+
 
 
 /* TRANSACCIONES A CLIENTES */

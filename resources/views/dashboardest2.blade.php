@@ -88,7 +88,8 @@ $config4 = [
                 </div>
                 <div class ="col-12 col-md-3">
                     <a class="btn btn-primary imprimir"><i class="fas fa-print"></i></a>
-                    <a class="btn btn-success" href={{route('exports.excel', [$myWallet, $myFechaDesde, $myFechaHasta])}}><i class="fas fa-file-excel"></i></a>
+                    <a class="btn btn-success"  onclick="exportaEstadisticas();"><i class="fas fa-file-excel"></i></a>
+                    {{-- <a class="btn btn-success" href={{route('exports.excel', [$myWallet, $myFechaDesde, $myFechaHasta])}}><i class="fas fa-file-excel"></i></a> --}}
                 </div>
 
             </div>
@@ -133,84 +134,81 @@ $config4 = [
 
         <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
 
+            <div id="myCanvasGeneral"></div>
             <div id="myCanvas"></div>
+
         </div>
 
         <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">Filtros
 
             <div class="card mb-4">
-                    <div class="card-header">
-                        <h3 class="card-title text-uppercase font-weight-bold">Filtros  Generales</h3>
-                    </div>
-                    <div class="card-body">    
-                        <div class="row justify-content-center text-center align-items-center">
+                <div class="card-header">
+                    <h3 class="card-title text-uppercase font-weight-bold">Filtros  Generales</h3>
+                </div>
+                <div class="card-body">    
+                    <div class="row justify-content-center text-center align-items-center">
 
-                            <div class="col-12 col-md-6 col-lg-6 col-xl-4 justify-content-center text-center align-items-center">
-                                <label for="lname">Resumen General:</label>
-                                <input type="checkbox" id="lname" name="lname"><br><br>
-                            </div>  
+                        <div class="col-12 col-md-6 col-lg-6 col-xl-4 justify-content-center text-center align-items-center">
+                            <label for="ResumenGeneral">Ocultar Resumen General:</label>
+                            <input type="checkbox" id="ResumenGeneral" name="ResumenGeneral"><br><br>
+                        </div>  
 
-
-                        </div>     
-
-
-                        <div class="row justify-content-center text-center align-items-center">
+                    </div>     
 
 
-                            <div class="col-12 col-md-6 col-lg-6 col-xl-4 justify-content-center text-center align-items-center">
-                                <label for="lname2">Resumen Transaccion:</label>
-                                <input type="checkbox" id="lname2" name="lname2"><br><br>
-                            </div>  
+                    <div class="row justify-content-center text-center align-items-center">
 
-                        </div>   
+                        <div class="col-12 col-md-6 col-lg-6 col-xl-4 justify-content-center text-center align-items-center">
+                            <label for="ResumenTransaccion">Ocultar Resumen Transaccion:</label>
+                            <input type="checkbox" id="ResumenTransaccion" name="ResumenTransaccion"><br><br>
+                        </div>  
+
+                    </div>   
 
 
-                        <br>
-                        <br>
-                        <div class="row justify-content-center text-center align-items-center">
-                            <div class="col-12 col-sm-2 mt-2">
-                                <button id="myButtonAplicar" type="button" class="btn btn-outline-primary btn-sm ">Aplicar</button>
+                    <br>
+                    <br>
+                    <div class="row justify-content-center text-center align-items-center">
+                        <div class="col-12 col-sm-2 mt-2">
+                            <button id="myButtonAplicar2" type="button" class="btn btn-outline-primary btn-sm ">Aplicar</button>
 
-                            </div>
-
-                            <div class="col-12 col-sm-2 mt-2">
-                                <button id="myButtonLimpiar" type="button" class="btn btn-outline-primary btn-sm ">Limpiar</button>
-                            </div>                    
                         </div>
+
+                        <div class="col-12 col-sm-2 mt-2">
+                            <button id="myButtonLimpiar2" type="button" class="btn btn-outline-primary btn-sm ">Limpiar</button>
+                        </div>                    
                     </div>
                 </div>
-
             </div>
 
             <div class="card mb-4">
-                    <div class="card-header">
-                        <h3 class="card-title text-uppercase font-weight-bold">Filtros Transacciones</h3>
-                    </div>
-                    <div class="card-body">    
-                        <div class="row justify-content-center text-center align-items-center">
+                <div class="card-header">
+                    <h3 class="card-title text-uppercase font-weight-bold">Filtros Transacciones</h3>
+                </div>
+                <div class="card-body">    
+                    <div class="row justify-content-center text-center align-items-center">
 
-                            <div class="col-12 col-md-6 col-lg-6 col-xl-4 justify-content-center text-center align-items-center">
-                                <select multiple="multiple" id="my-select" name="my-select[]">
-                                </select>   
-                            </div>  
+                        <div class="col-12 col-md-6 col-lg-6 col-xl-4 justify-content-center text-center align-items-center">
+                            <select multiple="multiple" id="my-select" name="my-select[]">
+                            </select>   
+                        </div>  
 
-                        </div>     
-                        <br>
-                        <br>
-                        <div class="row justify-content-center text-center align-items-center">
-                            <div class="col-12 col-sm-2 mt-2">
-                                <button id="myButtonAplicar" type="button" class="btn btn-outline-primary btn-sm ">Aplicar</button>
+                    </div>     
+                    <br>
+                    <br>
+                    <div class="row justify-content-center text-center align-items-center">
+                        <div class="col-12 col-sm-2 mt-2">
+                            <button id="myButtonAplicar" type="button" class="btn btn-outline-primary btn-sm ">Aplicar</button>
 
-                            </div>
-
-                            <div class="col-12 col-sm-2 mt-2">
-                                <button id="myButtonLimpiar" type="button" class="btn btn-outline-primary btn-sm ">Limpiar</button>
-                            </div>                    
                         </div>
+
+                        <div class="col-12 col-sm-2 mt-2">
+                            <button id="myButtonLimpiar" type="button" class="btn btn-outline-primary btn-sm ">Limpiar</button>
+                        </div>                    
                     </div>
                 </div>
-
             </div>
+        </div>
     </div>
 </div>
 
@@ -228,7 +226,27 @@ $config4 = [
 
     BuscaTransaccion(miTypeTransaction);
 
+    @php
 
+        
+        $myData = $myClass->filtrosLeeEstadisticas();
+
+       
+
+        $myocultarresumengeneral        = $myData['ocultarresumengeneral'];
+        $myocultarresumentransaccion    = $myData['ocultarresumentransaccion'];
+        $mytransactions                 = $myData['transactions'];
+        // dd($myData);
+        
+        $myocultarresumengeneral        = (!$myocultarresumengeneral) ? 0 : $myocultarresumengeneral;
+        $myocultarresumentransaccion    = (!$myocultarresumentransaccion) ? 0 : $myocultarresumentransaccion;
+
+        // dd(' myocultarresumengeneral -> ' . $myocultarresumengeneral . ' myocultarresumentransaccion -> ' . $myocultarresumentransaccion . ' mytransactions -> ' . print_r($mytransactions,true) );
+        // dd(json_encode($myocultarresumentransaccion));
+        //dd(json_encode($myocultarresumengeneral));
+        //dd(json_encode($mytransactions));
+
+    @endphp
 
 
     $(() => {
@@ -324,6 +342,7 @@ $config4 = [
 
         cargaTransacciones();
 
+
         if (!miWallet){
             // alert ('aqui');
             calculoGeneral3();
@@ -332,14 +351,59 @@ $config4 = [
             calculoGeneral2();
             calculos2();
         }
+        
+        leeFiltros();  
+        aplicaFiltros();      
+
+        $('#myButtonLimpiar2').on('click', function (){
+
+            // alert('El canvas general ->' + $('#ResumenGeneral').prop('checked'));
+            // alert('El canvas general ->' + $('#ResumenGeneral').attr('checked'));
+            // alert('El canvas general ->' + $('#ResumenGeneral').is(':checked'));
+
+            $('#ResumenGeneral').prop("checked",false);
+            $('#ResumenTransaccion').prop("checked",false);
+
+        });
+
+        $('#myButtonAplicar2').on('click', function (){
+            
+            $('#myCanvasGeneral').attr("hidden",false);
+            $('#myCanvas').attr("hidden",false);
+
+            if( $('#ResumenGeneral').is(':checked') ) {
+                $('#myCanvasGeneral').attr("hidden",true);
+                
+            }
+
+            if( $('#ResumenTransaccion').is(':checked') ) {
+                $('#myCanvas').attr("hidden",true);
+            }
+
+            grabaFiltros();
+
+            Swal.fire({
+                position: 'top-end',
+                icon: 'success',
+                title: 'Filtro aplicado satisfactoriamente',
+                showConfirmButton: false,
+                timer: 1500
+                });             
+
+        });
+
+
 
         $('#myButtonLimpiar').on('click', function (){
+
             $('#my-select').multiSelect('deselect_all');
-            
+
+
         });
 
         $('#myButtonAplicar').on('click', function (){
-            $("#myTableWallet tr").each(function(){
+            // alert('aqui');
+            $("#myCanvas div").each(function(){
                 $(this).removeAttr("hidden");
             });
 
@@ -347,7 +411,7 @@ $config4 = [
                 
                 seleccionado = $(this).attr('value');
 
-                $("#myTableWallet tr").each(function(){
+                $("#myCanvas div").each(function(){
                     if($(this).data("id")){
                                                 
                         if ($(this).data("id") == seleccionado){
@@ -360,7 +424,7 @@ $config4 = [
 
             });
             
-            // grabaFiltros();
+             grabaFiltros();
             
             Swal.fire({
                 position: 'top-end',
@@ -408,7 +472,7 @@ $config4 = [
                 let myElement;
 
                 myElement = `
-                    <div class="row ">
+                    <div class="row " data-id="{{$wallet->TypeTransactionId}}">
                         <div class="col-md-6">
                             <div class="card">
                                 <div class="card-body">
@@ -513,7 +577,7 @@ $config4 = [
                             background-color: #D7DBDD  !important;
                         }
                     </style>
-                    <div class ="row mb-4" style="background-color: white;">
+                    <div class ="row mb-4" style="background-color: white;" data-id="{{$wallet->TypeTransactionId}}">
                         <div class="col-12 col-md-6">
                             <table class="table thead-light" style="background-color: white;">
                                 <thead class="thead-dark">
@@ -597,7 +661,7 @@ $config4 = [
                 let myElement;
 
                 myElement = `
-                    <div class="row ">
+                    <div class="row " data-id="{{$wallet->TypeTransactionId}}" >
                         <div class="col-md-6">
                             <div class="card">
                                 <div class="card-body">
@@ -698,7 +762,7 @@ $config4 = [
                             background-color: #D7DBDD  !important;
                         }
                     </style>
-                    <div class ="row mb-4" style="background-color: white;">
+                    <div class ="row mb-4" style="background-color: white;" data-id="{{$wallet->TypeTransactionId}}">
                         <div class="col-12 col-md-6">
                             <table class="table thead-light" style="background-color: white;">
                                 <thead class="thead-dark">
@@ -756,13 +820,13 @@ $config4 = [
     *
     *
     *  calculoGeneral2
-    *   con wallet
+    *  resumen general por wallet
     *
     */
     function calculoGeneral2(){
 
          myElement = `
-            <div class="row">
+            <div class="row" data-wallet="{{$wallet2->WalletId}}">
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-body">
@@ -774,7 +838,7 @@ $config4 = [
 
             </div>
         `;
-        $("#myCanvas").append(myElement);
+        $("#myCanvasGeneral").append(myElement);
 
         const COLORS = [
                     'rgb(0, 173, 181)',
@@ -826,7 +890,7 @@ $config4 = [
 
             {{-- dd($balanceDetail . ' ' . $myFechaDesdeBefore . ' ' . $myFechaHastaBefore) --}}
 
-            <div class ="row mb-4" style="background-color: white;">
+            <div class ="row mb-4" style="background-color: white;" data-wallet="{{$wallet2->WalletId}}">
                 <div class="col-12 col-md-12">
                     <table class="table thead-light" style="background-color: white;">
                         <thead class="thead-dark">
@@ -926,7 +990,7 @@ $config4 = [
             </div>
         `;
 
-        $("#myCanvas").append(myElement);
+        $("#myCanvasGeneral").append(myElement);
 
     }
 
@@ -956,7 +1020,7 @@ $config4 = [
                 </div>
             </div>
         `;
-        $("#myCanvas").append(myElement);
+        $("#myCanvasGeneral").append(myElement);
 
         const COLORS = [
             'rgb(0, 173, 181)',
@@ -1091,175 +1155,9 @@ $config4 = [
 
             </div>
         `;
-        $("#myCanvas").append(myElement);
+        $("#myCanvasGeneral").append(myElement);
 
     }
-
-
-    /*
-    *
-    *
-    *   calculogeneral3
-    *   sin wallet
-    *
-    */
-    function calculoGeneral3x(){
-
-        let myElement;
-
-        myElement = `
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="card">
-                        <div class="card-body">
-                            <h3 class="text-center text-uppercase font-weight-bold">Transacciones por caja</h3>
-                            <canvas id="myChartDoughnut"></canvas>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        `;
-        $("#myCanvas").append(myElement);
-
-        const COLORS = [
-            'rgb(0, 173, 181)',
-            'rgb(58, 16, 120)',
-            'rgb(255, 184, 76)',
-            'rgb(49, 225, 247)',
-            'rgb(8, 2, 2)',
-            'rgb(0, 129, 180)',
-            'rgb(7, 10, 82)',
-            'rgb(213, 206, 163)',
-            'rgb(60, 42, 33)',
-            'rgb(2, 89, 85)',
-            'rgb(255, 132, 0)',
-            'rgb(184, 98, 27)',
-            'rgb(114, 0, 27)',
-        ];
-
-        const ctx = document.getElementById('myChart');
-
-        const DATA_COUNT2 = 1600;
-        const NUMBER_CFG = {count: DATA_COUNT2, min: 0, max: 1500};
-        const ctx2 = document.getElementById('myChartDoughnut');
-        const myChart2 = new Chart(ctx2, {
-            type: 'doughnut',
-            data : {
-                labels: [@foreach($transaction_summary as $wallet) "{{$wallet->TypeTransaccionName }}", @endforeach ],
-                datasets: [
-                    {
-                    label: 'Dataset 1',
-                    data: [@foreach($wallet_summary as $wallet) {{$wallet->cant_transactions. ',' }} @endforeach],
-                    backgroundColor:COLORS.slice(0, DATA_COUNT2),
-
-                    hoverOffset: 4
-                }]
-            },
-
-        });
-
-        myElement =
-        `
-            <style>
-                .myTr {
-                    cursor: pointer;
-                }
-                .myTr:hover{
-                    background-color: #D7DBDD  !important;
-                }
-            </style>
-            <div class ="row mb-4" style="background-color: white;">
-                <div class="col-12 col-md-12">
-                    <table class="table thead-light" style="background-color: white;">
-                        <thead class="thead-dark">
-                            <tr>
-                                <th style="width:1%;">Transacción</th>
-                                <th style="width:1%;">Cant transacción</th>
-                                <th style="width:1%;">Entradas</th>
-                                <th style="width:1%;">Salidas</th>
-                            </tr>
-                        </thead>
-                        @php
-                            $cantCreditos  = 0;
-                            $cantDebitos   = 0;
-
-                            $totalCreditos  = 0;
-                            $totalDebitos   = 0;
-                        @endphp
-                        @foreach($transaction_summary as $wallet2)
-                            <tr class="myTr" onClick="theRoute2({{0}}, {{0}}, {{0}}, {{$wallet2->TypeTransactionId}})">
-                                @switch($wallet2->TypeTransactionId )
-                                    //
-                                    // creditos
-                                    //
-                                    @case(2)
-                                    @case(4)
-                                    @case(6)
-                                    @case(7)
-                                    @case(10)
-                                    @case(13)
-                                        @if($wallet2->TypeTransactionId == $myTypeTransaction )
-                                            <td class="font-weight-bold" style="color: green;">{{ $wallet2->TypeTransaccionName}}</td>
-                                            <td class="font-weight-bold" style="color: green;">{{ number_format($wallet2->cant_transactions) }}</td>
-                                            <td class="font-weight-bold" style="color: green;">{{ number_format($wallet2->total_amount,2)}}</td>
-                                            <td class="font-weight-bold" style="color: green;">{{ ' ' }}</td>
-                                        @else
-                                            <td                                                 >{{ $wallet2->TypeTransaccionName}}</td>
-                                            <td                                                 >{{ number_format($wallet2->cant_transactions) }}</td>
-                                            <td                                                 >{{ number_format($wallet2->total_amount,2)}}</td>
-                                            <td class="font-weight-bold" style="color: green;"  >{{ ' ' }}</td>
-                                        @endif
-                                        @php
-                                            $cantCreditos ++;
-                                            $totalCreditos += $wallet2->total_amount;
-                                        @endphp
-                                        @break
-                                    //
-                                    // debitos
-                                    //
-                                    @case(1)
-                                    @case(3)
-                                    @case(5)
-                                    @case(8)
-                                    @case(9)
-                                    @case(11)
-                                    @case(12)
-                                        @if($wallet2->TypeTransactionId == $myTypeTransaction )
-                                            <td class="font-weight-bold" style="color: green;">{{ $wallet2->TypeTransaccionName}}</td>
-                                            <td class="font-weight-bold" style="color: green;">{{ number_format($wallet2->cant_transactions) }}</td>
-                                            <td class="font-weight-bold" style="color: green;">{{  ' ' }}</td>
-                                            <td class="font-weight-bold" style="color: green;">{{ number_format($wallet2->total_amount,2)}}</td>
-                                        @else
-                                            <td                                                 >{{ $wallet2->TypeTransaccionName}}</td>
-                                            <td                                                 >{{ number_format($wallet2->cant_transactions) }}</td>
-                                            <td                                                 >{{  ' ' }}</td>
-                                            <td class="font-weight-bold" style="color: green;"  >{{ number_format($wallet2->total_amount,2)}}</td>
-                                        @endif
-                                        @php
-                                            $cantDebitos ++;
-                                            $totalDebitos += $wallet2->total_amount;
-                                        @endphp
-                                        @break
-                                @endswitch
-
-                            </tr>
-                        @endforeach
-                        <tr style="background-color: black; color:white;">
-                            <td >{{ ' ' }}</td>
-                            <td >{{ ' ' }}</td>
-                            <td >{{ number_format($totalCreditos,2) }}</td>
-                            <td >{{ number_format($totalDebitos,2)}}</td>
-                        </tr>
-                    </table>
-                </div>
-
-
-            </div>
-        `;
-        $("#myCanvas").append(myElement);
-
-    }
-
 
 
     function theRoute(wallet = 0, transaction = 0, fechaDesde = 0, fechaHasta = 0){
@@ -1344,30 +1242,30 @@ $config4 = [
     }
     function BuscaFechas(FechaDesde = 0,FechaHasta = 0){
 
-            myLocation  = window.location.toString();
+        myLocation  = window.location.toString();
 
-            myArray     = myLocation.split("/");
-            if (myArray.length > 4){
-                FechaDesde = myArray[6];
-                FechaHasta = myArray[7];
-            }else{
-                FechaDesde = 0;
-                FechaHasta = 0;
-            }
+        myArray     = myLocation.split("/");
+        if (myArray.length > 4){
+            FechaDesde = myArray[6];
+            FechaHasta = myArray[7];
+        }else{
+            FechaDesde = 0;
+            FechaHasta = 0;
+        }
 
-            if (FechaDesde == 0) return;
-
-
-            let myFechaDesde, myFechaHasta, myFecha;
-
-            myFechaDesde = FechaDesde.toString().substr(8,2)  + '-' + FechaDesde.toString().substr(5,2) + '-' + FechaDesde.toString().substr(0,4);
-            myFechaHasta = FechaHasta.toString().substr(8,2)  + '-' + FechaHasta.toString().substr(5,2) + '-' + FechaHasta.toString().substr(0,4);
-
-            myFecha = myFechaDesde.toString()  + ' - ' + myFechaHasta.toString();
+        if (FechaDesde == 0) return;
 
 
-            $('#drCustomRanges').data('daterangepicker').setStartDate(myFechaDesde);
-            $('#drCustomRanges').data('daterangepicker').setEndDate(myFechaHasta);
+        let myFechaDesde, myFechaHasta, myFecha;
+
+        myFechaDesde = FechaDesde.toString().substr(8,2)  + '-' + FechaDesde.toString().substr(5,2) + '-' + FechaDesde.toString().substr(0,4);
+        myFechaHasta = FechaHasta.toString().substr(8,2)  + '-' + FechaHasta.toString().substr(5,2) + '-' + FechaHasta.toString().substr(0,4);
+
+        myFecha = myFechaDesde.toString()  + ' - ' + myFechaHasta.toString();
+
+
+        $('#drCustomRanges').data('daterangepicker').setStartDate(myFechaDesde);
+        $('#drCustomRanges').data('daterangepicker').setEndDate(myFechaHasta);
     }
 
     document.querySelectorAll('.imprimir').forEach(function(element) {
@@ -1394,6 +1292,162 @@ $config4 = [
             // console.log('el grupo con key {!! $key !!} es {!! $value !!}');
             $('#my-select').multiSelect('addOption', { value: '{!! $key !!}', text: '{!! $value !!}' });
         @endforeach
+    }
+    /*
+    *
+    *
+    * grabaFiltros
+    * graba los filtros generales
+    * 
+    * 
+    */
+    function grabaFiltros(){
+
+        let myDataTransactions          = buscaFiltros("my-select");
+        let ocultarresumengeneral       = $('#ResumenGeneral').prop("checked");
+        let ocultarresumentransaccion   = $('#ResumenTransaccion').prop("checked");
+        
+        // alert('grabaFiltros : ocultarresumengeneral -> ' + ocultarresumengeneral + '  ocultarresumentransaccion -> ' + ocultarresumentransaccion + ' myDataTransactions -> ' + myDataTransactions);
+
+        $.ajax(
+            {
+                headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+                method: "POST",
+                url: "{{route('filtrosGrabaEstadisticas')}}",
+                async: false,
+                data: { 
+                    ocultarresumengeneral: ocultarresumengeneral,
+                    ocultarresumentransaccion: ocultarresumentransaccion,
+                    transactions: myDataTransactions,      
+                },
+            }
+        ).done (function(myData) {
+
+         // alert('vino');
+
+        });
+
+        return;
+    }
+    
+
+
+    function buscaFiltros(myFilter = ""){
+        
+        if (myFilter=="") return "";
+
+        let filtrosSeleccionado = [];
+        filtrosSeleccionado.push(0);
+        $("#" + myFilter + " option:selected").each(function(){
+            filtrosSeleccionado.push($(this).attr('value'));
+        });  
+        // alert ("filtros de grupos ->" + filtrosSeleccionado.toString());
+        return  filtrosSeleccionado;
+    }
+
+
+    function leeFiltros(){
+
+        let myocultarresumengeneral = "{{ ($myocultarresumengeneral) ? true : false  }}" ? true : false;
+        let myocultarresumentransaccion = "{{ ($myocultarresumentransaccion) ? true : false  }}" ? true : false;
+
+        if (myocultarresumengeneral){
+            $('#ResumenGeneral').prop("checked",true);
+        }else{
+            $('#ResumenGeneral').prop("checked",false);
+        }
+
+        if (myocultarresumentransaccion){
+            $('#ResumenTransaccion').prop("checked",true);
+        }else{
+            $('#ResumenTransaccion').prop("checked",false);
+        }
+
+        let myData2 = [];
+
+        @foreach($mytransactions as $value)
+            myData2.push({{$value}});
+        @endforeach
+
+        // alert(myData2);
+
+        myData2.map( function (valor) {
+
+            $("#my-select option").each(function(){
+                if (valor == $(this).attr('value')){
+                    $('#my-select').multiSelect('select', valor.toString());
+
+                }
+            });
+
+        });          
+    }
+
+
+    function aplicaFiltros(){
+
+        $('#myCanvasGeneral').attr("hidden",false);
+        $('#myCanvas').attr("hidden",false);
+
+        if( $('#ResumenGeneral').is(':checked') ) {
+            $('#myCanvasGeneral').attr("hidden",true);
+            
+        }
+
+        if( $('#ResumenTransaccion').is(':checked') ) {
+            $('#myCanvas').attr("hidden",true);
+        }
+
+            
+        // alert('aqui');
+        $("#myCanvas div").each(function(){
+            $(this).removeAttr("hidden");
+        });
+
+        $("#my-select option:selected").each(function(){
+            
+            seleccionado = $(this).attr('value');
+
+            $("#myCanvas div").each(function(){
+                if($(this).data("id")){
+                                            
+                    if ($(this).data("id") == seleccionado){
+                        
+                        $(this).attr("hidden",true);
+                    }
+                }
+            });
+
+
+        });
+
+
+    }
+
+
+    function exportaEstadisticas(myResumen = 0){
+        
+        let transactions                = buscaFiltros("my-select");
+        let ocultarresumengeneral       = $('#ResumenGeneral').prop("checked");
+        let ocultarresumentransaccion   = $('#ResumenTransaccion').prop("checked");
+
+        let fechaDesde = "{{$myFechaDesde}}";
+        let fechaHasta = "{{$myFechaHasta}}";
+        let wallet = "{{$myWallet}}";
+        // href={{route('exports.excel', [$myWallet, $myFechaDesde, $myFechaHasta])}}
+
+        myRoute = "{{route('exports.excel', ['wallet' => 'wallet2','fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2', 'ocultarresumengeneral' => 'ocultarresumengeneral2', 'ocultarresumentransaccion' => 'ocultarresumentransaccion2', 'transactions' => 'transactions2'])}}"
+
+        myRoute = myRoute.replace('wallet2',                        wallet);
+        myRoute = myRoute.replace('fechaDesde2',                    fechaDesde);
+        myRoute = myRoute.replace('fechaHasta2',                    fechaHasta);
+        myRoute = myRoute.replace('ocultarresumengeneral2',         ocultarresumengeneral);
+        myRoute = myRoute.replace('ocultarresumentransaccion2',     ocultarresumentransaccion);
+        myRoute = myRoute.replace('transactions2',                  transactions);
+
+         alert(' myRoute ->' + myRoute);
+
+        location.href = myRoute;
     }
 
 </script>

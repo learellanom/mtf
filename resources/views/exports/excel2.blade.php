@@ -6,6 +6,8 @@
     $summary_count      = count($summary);
     $groupsummary_count = count($groupsummary);
     $total_count2       = max($summary_count, $groupsummary_count);
+    
+
 @endphp
 <!doctype html>
 <html>
@@ -29,7 +31,7 @@
                 <th></th>
                 <th></th>
                 <th></th>
-                <th style="background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:200px;">Transacción</th>
+                <th style="background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:200px;">Transacciónccc</th>
                 <th style="background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:150px;">Cant transacción</th>
                 <th style="background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:200px;">Entradas</th>
                 <th style="background-color: #001C30; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:200px;">Salidas</th>
