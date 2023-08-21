@@ -958,7 +958,27 @@ return [
                     'location' => 'vendor/alertifyjs/css/alertify.css',
                 ],
             ],
-        ],            
+        ],    
+        'jsPDF' => [
+            'active' => true,
+            'files' => [
+                [
+                    'type' => 'js',
+                    'asset' => true,
+                    'location' => 'vendor/jsPDF/dist/jspdf.umd.min.js',
+                ],
+            ],
+        ],     
+        'html2canvas' => [
+            'active' => true,
+            'files' => [
+                [
+                    'type' => 'js',
+                    'asset' => true,
+                    'location' => 'vendor/html2canvas/html2canvas.min.js',
+                ],
+            ],
+        ],                       
     ],
 
     /*
