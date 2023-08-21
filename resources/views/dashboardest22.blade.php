@@ -1,234 +1,32 @@
-@extends('adminlte::page')
-@section('title', 'Estadisticas')
-<!-- @section('plugins.chartJs', true) -->
-@section('content')
 
 @php
 
 
 $myClass = new app\Http\Controllers\statisticsController;
 
-$config1 =
-[
-    "allowClear" => true,
-];
-
-
-$config2 =
-[
-    "allowClear" => true,
-];
-
-$config3 = [
-    "locale" => ["format" => "DD-MM-YYYY"],
-    "allowClear" => true,
-];
-
-$config4 = [
-    "placeHolder" => "selecciona...",
-    "allowClear" => true,
-];
-
 // dd($wallet);
 
 @endphp
 
 <div class="container">
+    <div id="myCanvasGeneral"></div>
+    <div id="myCanvas"></div>
 
-    <div class="card">
-        <div class="card-header">
-            <div class="row">
-                <div class="col col-md-3">
-                    <x-adminlte-select2 id="wallet"
-                    name="optionsWallets"
-                    
-                    label-class="text-lightblue"
-                    data-placeholder="Seleccione una caja"
-
-                    :config="$config4"
-                    >
-                    <x-slot name="prependSlot">
-                        <div class="input-group-text bg-gradient-light">
-                            <i class="fas fa-box"></i>
-                        </div>
-                    </x-slot>
-                    <x-adminlte-options :options="$wallet" empty-option="Wallet.."/>
-                    </x-adminlte-select2>
-                </div>
-                <div class="col col-md-3">
-                    <x-adminlte-select2 id="typeTransactions"
-                    name="optionstypeTransactions"
-                    
-                    label-class="text-lightblue"
-                    data-placeholder="Tipo de transacción"
-
-                    :config="$config2"
-                    >
-                    <x-slot name="prependSlot">
-                    <div class="input-group-text bg-gradient-light">
-                    <i class="fas fa-exchange-alt"></i>
-                    </div>
-                    </x-slot>
-
-                    <x-adminlte-options :options="$typeTransactions" empty-option="Selecciona Transaccion.."/>
-                    </x-adminlte-select2>
-                </div>
-
-                <div class ="col-12 col-md-3">
-                    <x-adminlte-date-range
-                        name="drCustomRanges"
-                        enable-default-ranges="Last 30 Days"
-                        
-                        :config="$config3">
-                        <x-slot name="prependSlot">
-                            <div class="input-group-text bg-gradient-light">
-                                <i class="fas fa-calendar-alt"></i>
-                            </div>
-                        </x-slot>
-                    </x-adminlte-date-range>
-
-
-                </div>
-                <div class ="col-12 col-md-3">
-                    <a class="btn btn-primary imprimir"><i class="fas fa-print"></i></a>
-                    <a class="btn btn-success"  onclick="exportaEstadisticas();"><i class="fas fa-file-excel"></i></a>
-                    <a class="btn btn-danger"   onclick="exportaEstadisticasPDF();"><i class="fas fa-file-pdf"></i></a>
-                    {{-- <a class="btn btn-success" href={{route('exports.excel', [$myWallet, $myFechaDesde, $myFechaHasta])}}><i class="fas fa-file-excel"></i></a> --}}
-                </div>
-
-            </div>
-        </div>
-    </div>
-
-    <nav>
-        <div class="nav nav-tabs" id="nav-tab" role="tablist">
-
-            <button 
-                class="nav-link active" 
-                id="nav-home-tab" 
-                data-toggle="tab" 
-                data-target="#nav-home" 
-                type="button" 
-                role="tab" 
-                aria-controls="nav-home" 
-                aria-selected="true">
-                Estadistica
-            </button>
-
-            <button 
-                class="nav-link" 
-                id="nav-profile-tab" 
-                data-toggle="tab" 
-                data-target="#nav-profile" 
-                type="button" 
-                role="tab" 
-                aria-controls="nav-profile"             
-                aria-selected="false">
-                Filtros
-            </button>
-
-        </div>
-    </nav>
-
-    <br>
-    <br>
-
-
-    <div class="tab-content" id="nav-tabContent">
-
-        <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
-
-            <div id="myCanvasGeneral"></div>
-            <div id="myCanvas"></div>
-
-        </div>
-
-        <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">Filtros
-
-            <div class="card mb-4">
-                <div class="card-header">
-                    <h3 class="card-title text-uppercase font-weight-bold">Filtros  Generales</h3>
-                </div>
-                <div class="card-body">    
-                    <div class="row justify-content-center text-center align-items-center">
-
-                        <div class="col-12 col-md-6 col-lg-6 col-xl-4 justify-content-center text-center align-items-center">
-                            <label for="ResumenGeneral">Ocultar Resumen General:</label>
-                            <input type="checkbox" id="ResumenGeneral" name="ResumenGeneral"><br><br>
-                        </div>  
-
-                    </div>     
-
-
-                    <div class="row justify-content-center text-center align-items-center">
-
-                        <div class="col-12 col-md-6 col-lg-6 col-xl-4 justify-content-center text-center align-items-center">
-                            <label for="ResumenTransaccion">Ocultar Resumen Transaccion:</label>
-                            <input type="checkbox" id="ResumenTransaccion" name="ResumenTransaccion"><br><br>
-                        </div>  
-
-                    </div>   
-
-
-                    <br>
-                    <br>
-                    <div class="row justify-content-center text-center align-items-center">
-                        <div class="col-12 col-sm-2 mt-2">
-                            <button id="myButtonAplicar2" type="button" class="btn btn-outline-primary btn-sm ">Aplicar</button>
-
-                        </div>
-
-                        <div class="col-12 col-sm-2 mt-2">
-                            <button id="myButtonLimpiar2" type="button" class="btn btn-outline-primary btn-sm ">Limpiar</button>
-                        </div>                    
-                    </div>
-                </div>
-            </div>
-
-            <div class="card mb-4">
-                <div class="card-header">
-                    <h3 class="card-title text-uppercase font-weight-bold">Filtros Transacciones</h3>
-                </div>
-                <div class="card-body">    
-                    <div class="row justify-content-center text-center align-items-center">
-
-                        <div class="col-12 col-md-6 col-lg-6 col-xl-4 justify-content-center text-center align-items-center">
-                            <select multiple="multiple" id="my-select" name="my-select[]">
-                            </select>   
-                        </div>  
-
-                    </div>     
-                    <br>
-                    <br>
-                    <div class="row justify-content-center text-center align-items-center">
-                        <div class="col-12 col-sm-2 mt-2">
-                            <button id="myButtonAplicar" type="button" class="btn btn-outline-primary btn-sm ">Aplicar</button>
-
-                        </div>
-
-                        <div class="col-12 col-sm-2 mt-2">
-                            <button id="myButtonLimpiar" type="button" class="btn btn-outline-primary btn-sm ">Limpiar</button>
-                        </div>                    
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 </div>
 
-@endsection
+
 @section('js')
 
 
 <script>
 
-    const miWallet = {!! $myWallet !!};
+    const miWallet = {{ $myWallet }};
 
-    BuscaWallet(miWallet);
+    // BuscaWallet(miWallet);
 
     const miTypeTransaction= {!! $myTypeTransaction !!};
 
-    BuscaTransaccion(miTypeTransaction);
+    // BuscaTransaccion(miTypeTransaction);
 
     @php
 
@@ -255,98 +53,11 @@ $config4 = [
 
     $(() => {
 
-            // Valida y esconde
+        let  myFechaDesde   = {!! $myFechaDesde !!};
+        
+        const myFechaHasta  = {!! $myFechaHasta !!};
 
-        let text        = window.location.href;
-        const myArray   = text.split("/");
-        const myLength  = myArray.length;
-
-        if (window.location.href.indexOf("?") === -1) {
-            $('.esconder').show();
-        } else {
-            $('.esconder').hide();
-        }
-
-        if (myLength == 4 || myLength == 8 && myArray[4] === '0') {
-            // $('#typeTransactions, #drCustomRanges').prop('disabled', true);
-            //$('#typeTransactions').prop('disabled', true);
-        } else {
-            // $('#typeTransactions, #drCustomRanges').prop('disabled', false);
-           // $('#typeTransactions').prop('disabled', false);
-        }
-
-
-        let  myFechaDesde = {!! $myFechaDesde !!};
-        // console.log({!! $myFechaDesde !!});
-        const myFechaHasta = {!! $myFechaHasta !!};
-
-        // alert('Fechas -> desde -> ' + myFechaDesde);
-
-        InicializaFechas();
-
-        BuscaFechas(myFechaDesde, myFechaHasta);
-
-        $('#wallet').on('change', function (){
-
-            const wallet        = $('#wallet').val();
-            const transaccion   = $('#typeTransactions').val();
-            theRoute(wallet, transaccion);
-
-        });
-
-        $('#typeTransactions').on('change', function (){
-
-            const wallet        = $('#wallet').val();
-            const transaccion   = $('#typeTransactions').val();
-
-            theRoute(wallet, transaccion);
-
-        });
-
-        $('#drCustomRanges').on('change', function () {
-
-            let myFechaDesde, myFechaHasta;
-            myFechaDesde =  ($('#drCustomRanges').val()).substr(6,4) +
-                            '-' +
-                            ($('#drCustomRanges').val()).substr(3,2) +
-                            '-' +
-                            ($('#drCustomRanges').val()).substr(0,2)
-                            ;
-
-            myFechaHasta =  ($('#drCustomRanges').val()).substr(19,4) +
-                            '-' +
-                            ($('#drCustomRanges').val()).substr(16,2) +
-                            '-' +
-                            ($('#drCustomRanges').val()).substr(13,2)
-                            ;
-
-                const wallet        = $('#wallet').val();
-                const transaccion   = $('#typeTransactions').val();
-                theRoute(wallet, transaccion, myFechaDesde,myFechaHasta);
-
-        });
-
-        $('#my-select').multiSelect({
-            selectableHeader: `<div class='custom-header' style='background-color: black; color:white'>
-                                    Visibles    
-                                    <br><br> 
-                                    <div>
-                                        <i class='fas fa-circle' style='color: green;'></i>
-                                    </div>
-                                </div>`,
-            selectionHeader:  `<div class='custom-header' style='background-color: black; color:white'>
-                                    No Visibles 
-                                    <br>
-                                    <br> 
-                                    <div>
-                                        <i class='fas fa-circle' style='color: red;'>  </i>
-                                    </div>
-                                </div>`
-        });
-
-        cargaTransacciones();
-
-
+        dd('aqui');
         if (!miWallet){
             // alert ('aqui');
             calculoGeneral3();
@@ -356,89 +67,7 @@ $config4 = [
             calculos2();
         }
         
-        leeFiltros();  
-        aplicaFiltros();      
-
-        $('#myButtonLimpiar2').on('click', function (){
-
-            // alert('El canvas general ->' + $('#ResumenGeneral').prop('checked'));
-            // alert('El canvas general ->' + $('#ResumenGeneral').attr('checked'));
-            // alert('El canvas general ->' + $('#ResumenGeneral').is(':checked'));
-
-            $('#ResumenGeneral').prop("checked",false);
-            $('#ResumenTransaccion').prop("checked",false);
-
-        });
-
-        $('#myButtonAplicar2').on('click', function (){
-            
-            $('#myCanvasGeneral').attr("hidden",false);
-            $('#myCanvas').attr("hidden",false);
-
-            if( $('#ResumenGeneral').is(':checked') ) {
-                $('#myCanvasGeneral').attr("hidden",true);
-                
-            }
-
-            if( $('#ResumenTransaccion').is(':checked') ) {
-                $('#myCanvas').attr("hidden",true);
-            }
-
-            grabaFiltros();
-
-            Swal.fire({
-                position: 'top-end',
-                icon: 'success',
-                title: 'Filtro aplicado satisfactoriamente',
-                showConfirmButton: false,
-                timer: 1500
-                });             
-
-        });
-
-
-
-        $('#myButtonLimpiar').on('click', function (){
-
-            $('#my-select').multiSelect('deselect_all');
-
-
-        });
-
-        $('#myButtonAplicar').on('click', function (){
-            // alert('aqui');
-            $("#myCanvas div").each(function(){
-                $(this).removeAttr("hidden");
-            });
-
-            $("#my-select option:selected").each(function(){
-                
-                seleccionado = $(this).attr('value');
-
-                $("#myCanvas div").each(function(){
-                    if($(this).data("id")){
-                                                
-                        if ($(this).data("id") == seleccionado){
-                            
-                            $(this).attr("hidden",true);
-                        }
-                    }
-                });
-
-
-            });
-            
-             grabaFiltros();
-            
-            Swal.fire({
-                position: 'top-end',
-                icon: 'success',
-                title: 'Filtro aplicado satisfactoriamente',
-                showConfirmButton: false,
-                timer: 1500
-                });             
-            
-        });
+        aplicaFiltros();
 
     });
 
@@ -819,7 +448,6 @@ $config4 = [
             }
         @endforeach
     }
-
     /*
     *
     *
@@ -997,7 +625,6 @@ $config4 = [
         $("#myCanvasGeneral").append(myElement);
 
     }
-
     /*
     *
     *
@@ -1161,243 +788,30 @@ $config4 = [
     }
 
 
-    function theRoute(wallet = 0, transaction = 0, fechaDesde = 0, fechaHasta = 0){
-
-
-        if (wallet   === "") wallet  = 0;
-        if (transaction   === "") transaction  = 0;
-
-        let myRoute = "";
-
-        myRoute = "{{ route('dashboardest', ['wallet' => 'wallet2' , 'transaction' => 'transaction2', 'fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2']) }}";
-        myRoute = myRoute.replace('wallet2',wallet);
-        myRoute = myRoute.replace('transaction2',transaction);
-        myRoute = myRoute.replace('fechaDesde2',fechaDesde);
-        myRoute = myRoute.replace('fechaHasta2',fechaHasta);
-
-        location.href = myRoute;
-
-    }
-
-
-    function theRoute2(usuario = 0, grupo = 0, wallet = 0, typeTransactions = 0, fechaDesde = 0, fechaHasta = 0){
-
-        if (usuario  === "") usuario  = 0;
-        if (grupo  === "") grupo  = 0;
-        if (wallet  === "") wallet  = 0;
-        if (typeTransactions  === "") typeTransactions  = 0;
-
-        fechaDesde = $('#drCustomRanges').data('daterangepicker').startDate.format('YYYY-MM-DD')
-        fechaHasta = $('#drCustomRanges').data('daterangepicker').endDate.format('YYYY-MM-DD')
-
-        let myRoute = "";
-            myRoute = "{{ route('estadisticasDetalle', ['usuario' => 'usuario2', 'grupo' => 'grupo2', 'wallet' => 'wallet2', 'typeTransactions' => 'typeTransactions2','fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2']) }}";
-            myRoute = myRoute.replace('grupo2',grupo);
-            myRoute = myRoute.replace('usuario2',usuario);
-            myRoute = myRoute.replace('wallet2',wallet);
-            myRoute = myRoute.replace('typeTransactions2',typeTransactions);
-            myRoute = myRoute.replace('fechaDesde2',fechaDesde);
-            myRoute = myRoute.replace('fechaHasta2',fechaHasta);
-        // console.log(myRoute);
-        // alert(myRoute);
-        location.href = myRoute;
-
-    }
-
-    function BuscaWallet(miWallet){
-            if (miWallet===0){
-                return;
-            }
-
-            $('#wallet').each( function(index, element){
-
-                $(this).children("option").each(function(){
-                    if ($(this).val() === miWallet.toString()){
-
-                        $("#wallet option[value="+ miWallet +"]").attr("selected",true);
-                    }
-
-                });
-            });
-    }
-
-    function BuscaTransaccion(miTypeTransaction){
-        if (miTypeTransaction===0){
-            return;
-        }
-
-        $('#typeTransactions').each( function(index, element){
-
-            $(this).children("option").each(function(){
-                if ($(this).val() === miTypeTransaction.toString()){
-
-                    $("#typeTransactions option[value="+ miTypeTransaction +"]").attr("selected",true);
-                }
-
-            });
-        });
-    }
-    function InicializaFechas(){
-        // $('#drCustomRanges').data('daterangepicker').setStartDate('01-01-2001');
-
-    }
-    function BuscaFechas(FechaDesde = 0,FechaHasta = 0){
-
-        myLocation  = window.location.toString();
-
-        myArray     = myLocation.split("/");
-        if (myArray.length > 4){
-            FechaDesde = myArray[6];
-            FechaHasta = myArray[7];
-        }else{
-            FechaDesde = 0;
-            FechaHasta = 0;
-        }
-
-        if (FechaDesde == 0) return;
-
-
-        let myFechaDesde, myFechaHasta, myFecha;
-
-        myFechaDesde = FechaDesde.toString().substr(8,2)  + '-' + FechaDesde.toString().substr(5,2) + '-' + FechaDesde.toString().substr(0,4);
-        myFechaHasta = FechaHasta.toString().substr(8,2)  + '-' + FechaHasta.toString().substr(5,2) + '-' + FechaHasta.toString().substr(0,4);
-
-        myFecha = myFechaDesde.toString()  + ' - ' + myFechaHasta.toString();
-
-
-        $('#drCustomRanges').data('daterangepicker').setStartDate(myFechaDesde);
-        $('#drCustomRanges').data('daterangepicker').setEndDate(myFechaHasta);
-    }
-
-    document.querySelectorAll('.imprimir').forEach(function(element) {
-        element.addEventListener('click', function() {
-            print();
-        });
-    });
-
-
-    function generarNuevoColor(){
-        var simbolos, color;
-        simbolos = "0123456789ABCDEF";
-        color = "#";
-
-        for(var i = 0; i < 6; i++){
-            color = color + simbolos[Math.floor(Math.random() * 16)];
-        }
-
-        document.body.style.background = color;
-    }
-
-    function cargaTransacciones(){
-        @foreach($typeTransactions as $key => $value)
-            // console.log('el grupo con key {!! $key !!} es {!! $value !!}');
-            $('#my-select').multiSelect('addOption', { value: '{!! $key !!}', text: '{!! $value !!}' });
-        @endforeach
-    }
-    /*
-    *
-    *
-    * grabaFiltros
-    * graba los filtros generales
-    * 
-    * 
-    */
-    function grabaFiltros(){
-
-        let myDataTransactions          = buscaFiltros("my-select");
-        let ocultarresumengeneral       = $('#ResumenGeneral').prop("checked");
-        let ocultarresumentransaccion   = $('#ResumenTransaccion').prop("checked");
-        
-        // alert('grabaFiltros : ocultarresumengeneral -> ' + ocultarresumengeneral + '  ocultarresumentransaccion -> ' + ocultarresumentransaccion + ' myDataTransactions -> ' + myDataTransactions);
-
-        $.ajax(
-            {
-                headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
-                method: "POST",
-                url: "{{route('filtrosGrabaEstadisticas')}}",
-                async: false,
-                data: { 
-                    ocultarresumengeneral: ocultarresumengeneral,
-                    ocultarresumentransaccion: ocultarresumentransaccion,
-                    transactions: myDataTransactions,      
-                },
-            }
-        ).done (function(myData) {
-
-         // alert('vino');
-
-        });
-
-        return;
-    }
-    
-
-
-    function buscaFiltros(myFilter = ""){
-        
-        if (myFilter=="") return "";
-
-        let filtrosSeleccionado = [];
-        filtrosSeleccionado.push(0);
-        $("#" + myFilter + " option:selected").each(function(){
-            filtrosSeleccionado.push($(this).attr('value'));
-        });  
-        // alert ("filtros de grupos ->" + filtrosSeleccionado.toString());
-        return  filtrosSeleccionado;
-    }
-
-
-    function leeFiltros(){
-
-        let myocultarresumengeneral = "{{ ($myocultarresumengeneral) ? true : false  }}" ? true : false;
-        let myocultarresumentransaccion = "{{ ($myocultarresumentransaccion) ? true : false  }}" ? true : false;
-
-        if (myocultarresumengeneral){
-            $('#ResumenGeneral').prop("checked",true);
-        }else{
-            $('#ResumenGeneral').prop("checked",false);
-        }
-
-        if (myocultarresumentransaccion){
-            $('#ResumenTransaccion').prop("checked",true);
-        }else{
-            $('#ResumenTransaccion').prop("checked",false);
-        }
-
-        let myData2 = [];
-
-        @foreach($mytransactions as $value)
-            myData2.push({{$value}});
-        @endforeach
-
-        // alert(myData2);
-
-        myData2.map( function (valor) {
-
-            $("#my-select option").each(function(){
-                if (valor == $(this).attr('value')){
-                    $('#my-select').multiSelect('select', valor.toString());
-
-                }
-            });
-
-        });          
-    }
-
 
     function aplicaFiltros(){
+
+
+        $myocultarresumengeneral        = $myData['ocultarresumengeneral'];
+        $myocultarresumentransaccion    = $myData['ocultarresumentransaccion'];
+        $mytransactions                 = $myData['transactions'];
+
+
 
         $('#myCanvasGeneral').attr("hidden",false);
         $('#myCanvas').attr("hidden",false);
 
-        if( $('#ResumenGeneral').is(':checked') ) {
+
+
+        @if($myocultarresumengeneral)
+            
             $('#myCanvasGeneral').attr("hidden",true);
             
-        }
+        @endif
 
-        if( $('#ResumenTransaccion').is(':checked') ) {
+        @if($myocultarresumentransaccion)
             $('#myCanvas').attr("hidden",true);
-        }
+        @endif
 
             
         // alert('aqui');
@@ -1405,9 +819,9 @@ $config4 = [
             $(this).removeAttr("hidden");
         });
 
-        $("#my-select option:selected").each(function(){
-            
-            seleccionado = $(this).attr('value');
+        @foreach($mytransactions as $value)
+                
+            seleccionado = "{{$value}}";
 
             $("#myCanvas div").each(function(){
                 if($(this).data("id")){
@@ -1419,63 +833,10 @@ $config4 = [
                 }
             });
 
-
-        });
-
+        @endforeach
 
     }
 
-
-    function exportaEstadisticas(myResumen = 0){
-        
-        let transactions                = buscaFiltros("my-select");
-        let ocultarresumengeneral       = $('#ResumenGeneral').prop("checked");
-        let ocultarresumentransaccion   = $('#ResumenTransaccion').prop("checked");
-
-        let fechaDesde = "{{$myFechaDesde}}";
-        let fechaHasta = "{{$myFechaHasta}}";
-        let wallet = "{{$myWallet}}";
-        // href={{route('exports.excel', [$myWallet, $myFechaDesde, $myFechaHasta])}}
-
-        myRoute = "{{route('exports.excel', ['wallet' => 'wallet2','fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2', 'ocultarresumengeneral' => 'ocultarresumengeneral2', 'ocultarresumentransaccion' => 'ocultarresumentransaccion2', 'transactions' => 'transactions2'])}}"
-
-        myRoute = myRoute.replace('wallet2',                        wallet);
-        myRoute = myRoute.replace('fechaDesde2',                    fechaDesde);
-        myRoute = myRoute.replace('fechaHasta2',                    fechaHasta);
-        myRoute = myRoute.replace('ocultarresumengeneral2',         ocultarresumengeneral);
-        myRoute = myRoute.replace('ocultarresumentransaccion2',     ocultarresumentransaccion);
-        myRoute = myRoute.replace('transactions2',                  transactions);
-
-         alert(' myRoute ->' + myRoute);
-
-        location.href = myRoute;
-    }
-
-    function exportaEstadisticasPDF(myResumen = 0){
-        
-        let transactions                = buscaFiltros("my-select");
-        let ocultarresumengeneral       = $('#ResumenGeneral').prop("checked");
-        let ocultarresumentransaccion   = $('#ResumenTransaccion').prop("checked");
-
-        let fechaDesde  = "{{$myFechaDesde}}";
-        let fechaHasta  = "{{$myFechaHasta}}";
-        let wallet      = "{{$myWallet}}";
-
-        // href={{route('exports.excel', [$myWallet, $myFechaDesde, $myFechaHasta])}}
-
-        myRoute = "{{route('exports.EstadisticaPDF', ['wallet' => 'wallet2','fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2', 'ocultarresumengeneral' => 'ocultarresumengeneral2', 'ocultarresumentransaccion' => 'ocultarresumentransaccion2', 'transactions' => 'transactions2'])}}"
-                            
-        myRoute = myRoute.replace('wallet2',                        wallet);
-        myRoute = myRoute.replace('fechaDesde2',                    fechaDesde);
-        myRoute = myRoute.replace('fechaHasta2',                    fechaHasta);
-        myRoute = myRoute.replace('ocultarresumengeneral2',         ocultarresumengeneral);
-        myRoute = myRoute.replace('ocultarresumentransaccion2',     ocultarresumentransaccion);
-        myRoute = myRoute.replace('transactions2',                  transactions);
-
-         alert(' myRoute ->' + myRoute);
-
-        location.href = myRoute;
-    }
 
 </script>
 

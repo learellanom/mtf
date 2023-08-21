@@ -200,9 +200,7 @@ return [
         App\Providers\RouteServiceProvider::class,
         Ladumor\LaravelPwa\PWAServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
-
-
-
+        Barryvdh\DomPDF\ServiceProvider::class,
     ],
 
     'Flasher' => Flasher\Laravel\Facade\Flasher::class,
@@ -222,6 +220,7 @@ return [
     'aliases' => Facade::defaultAliases()->merge([
     'LaravelPwa' => \Ladumor\LaravelPwa\LaravelPwa::class,
     'Excel' =>Maatwebsite\Excel\Facades\Excel::class,
+    'PDF' => Barryvdh\DomPDF\Facade::class,    
     ])->toArray(),
 
 
