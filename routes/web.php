@@ -71,7 +71,7 @@ Route::get('dashboardSaldos/{fechaDesde?}/{fechaHasta?}', [App\Http\Controllers\
 Route::get('dashboard_est/export/', [App\Http\Controllers\HomeController::class, 'export'])->name('exports.excel'); //EXPORTACIÓN DE EXCEL
 Route::get('dashboard_est/export/{wallet}', [App\Http\Controllers\HomeController::class, 'export'])->name('exports.excel'); //EXPORTACIÓN DE EXCEL
 Route::get('dashboard_est/export/{wallet}/{transaction?}/', [App\Http\Controllers\HomeController::class, 'export'])->name('exports.excel'); //EXPORTACIÓN DE EXCEL
-Route::get('dashboard_est/export/{wallet?}/{fechaDesde?}/{fechaHasta?}/{ocultarresumengeneral?}/{ocultarresumentransaccion?}/{transactions?}', [App\Http\Controllers\HomeController::class, 'export'])->name('exports.excel'); //EXPORTACIÓN DE EXCEL
+Route::get('dashboard_est/export/{wallet?}/{transaction?}/{fechaDesde?}/{fechaHasta?}/{ocultarresumengeneral?}/{ocultarresumentransaccion?}/{transactions?}', [App\Http\Controllers\HomeController::class, 'export'])->name('exports.excel'); //EXPORTACIÓN DE EXCEL
 
 
 Route::get('dashboardest/exportpdf/',                           
@@ -80,13 +80,17 @@ Route::get('dashboardest/exportpdf/{wallet}',
             [App\Http\Controllers\HomeController::class, 'exportPDF'])->name('exports.EstadisticaPDF'); //EXPORTACIÓN DE PDF
 Route::get('dashboardest/exportpdf/{wallet}/{transaction?}/',   
             [App\Http\Controllers\HomeController::class, 'exportPDF'])->name('exports.EstadisticaPDF'); //EXPORTACIÓN DE PDF
-Route::get('dashboardest/exportpdf/{wallet?}/{fechaDesde?}/{fechaHasta?}/{ocultarresumengeneral?}/{ocultarresumentransaccion?}/{transactions?}', 
+Route::get('dashboardest/exportpdf/{wallet?}/{transaction?}/{fechaDesde?}/{fechaHasta?}/{ocultarresumengeneral?}/{ocultarresumentransaccion?}/{transactions?}', 
             [App\Http\Controllers\HomeController::class, 'exportPDF'])->name('exports.EstadisticaPDF'); //EXPORTACIÓN DE PDF
 
 
 
 Route::get('dashboard_saldos/export/', [App\Http\Controllers\HomeController::class, 'exportSaldos'])->name('exports.saldos'); //EXPORTACIÓN DE EXCEL
 Route::get('dashboard_saldos/export/{fechaDesde?}/{fechaHasta?}/{filtroWallet?}/{filtroGroup?}/{resumen?}', [App\Http\Controllers\HomeController::class, 'exportSaldos'])->name('exports.saldos'); //EXPORTACIÓN DE EXCEL
+
+Route::get('dashboard_saldos/exportSaldosPDF/', [App\Http\Controllers\HomeController::class, 'exportSaldosPDF'])->name('exports.SaldosPDF'); //EXPORTACIÓN DE EXCEL
+Route::get('dashboard_saldos/exportSaldosPDF/{fechaDesde?}/{fechaHasta?}/{filtroWallet?}/{filtroGroup?}/{resumen?}', [App\Http\Controllers\HomeController::class, 'exportSaldosPDF'])->name('exports.SaldosPDF'); //EXPORTACIÓN DE EXCEL
+
 
 Route::get('filtrosLeeWallet', [App\Http\Controllers\statisticsController::class, 'filtrosLeeWallet'])->name('filtrosLeeWallet'); // Lee filtros
 Route::get('filtrosLeeGroup', [App\Http\Controllers\statisticsController::class, 'filtrosLeeGroup'])->name('filtrosLeeGroup'); // Lee filtros

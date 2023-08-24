@@ -36,6 +36,8 @@ class DashboardestExport implements FromView, WithColumnFormatting
 
     private $ocultarresumengeneral, $ocultarresumentransaccion, $transactions;
 
+    private $myWallet, $myTypeTransaction;
+    
     public function __construct($wallet_summary, $wallet_groupsummary,$transaction_summary,$transaction_group_summary, $balance, $balanceDetail, $fechaDesde, $fechaHasta, $ocultarresumengeneral, $ocultarresumentransaccion, $transactions)
     {
         $this->wallet_summary = $wallet_summary;

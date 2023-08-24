@@ -3,14 +3,18 @@
 @php
 
 
+
 $myClass = new app\Http\Controllers\statisticsController;
 
-// dd($wallet);
+ // dd('myTypeTransaction -> ' . $myTypeTransaction);
 
 
 $myData = $myClass->filtrosLeeEstadisticas();
 
-    
+$myWalletDes = $myClass->getWalletDetail($myWallet);
+
+
+// dd($myWalletDes->name);
 
 $myocultarresumengeneral        = $myData['ocultarresumengeneral'];
 $myocultarresumentransaccion    = $myData['ocultarresumentransaccion'];
@@ -21,6 +25,7 @@ $myocultarresumengeneral        = (!$myocultarresumengeneral) ? 0 : $myocultarre
 $myocultarresumentransaccion    = (!$myocultarresumentransaccion) ? 0 : $myocultarresumentransaccion;
 
 
+  // dd(' fecha desde -> ' . $myFechaDesde . ' fecha hasta -> ' . $myFechaHasta);
 
 @endphp
 
@@ -34,9 +39,12 @@ $myocultarresumentransaccion    = (!$myocultarresumentransaccion) ? 0 : $myocult
         text-align: center;
         text-transform: uppercase;
     }
+    /*
     html{
         font-size: 12px;
+        margin: 50pt 50pt 50pt 50pt;
     }
+    */
     body {
         margin-top: 2.5cm;
         margin-left: 0cm;
@@ -103,6 +111,16 @@ $myocultarresumentransaccion    = (!$myocultarresumentransaccion) ? 0 : $myocult
                     <div class="card">
                         <div class="card-body">
                             <h3 class="text-center text-uppercase font-weight-bold">Transacciones por caja</h3>
+                                <p class="text-center text-uppercase font-weight-bold">
+                                    {{$myWalletDes->name}}
+                                    <br>
+                                    @if($myFechaDesde == "2001-01-01")
+                                        al {{date("d-m-Y")}}
+                                    @else
+                                    del {{ date('d-m-Y',strtotime($myFechaDesde))}}
+                                    al  {{ date('d-m-Y',strtotime($myFechaHasta))}}
+                                    @endif
+                                </p>
                             <canvas id="myChartDoughnut"></canvas>
                         </div>
                     </div>
@@ -119,7 +137,7 @@ $myocultarresumentransaccion    = (!$myocultarresumentransaccion) ? 0 : $myocult
                 }
             </style>
 
-            {{-- dd($balanceDetail . ' ' . $myFechaDesdeBefore . ' ' . $myFechaHastaBefore) --}}
+            {{-- dd('balance-> ' . $balance . ' --- ' . $balanceDetail . ' ' . $myFechaDesdeBefore . ' ' . $myFechaHastaBefore) --}}
 
             <div class ="row mb-4" style="background-color: white; font-size:10px;" data-wallet="{{$myWallet}}">
                 <div class="col-12 col-md-12">
@@ -201,6 +219,7 @@ $myocultarresumentransaccion    = (!$myocultarresumentransaccion) ? 0 : $myocult
                         @php
                             $myBalance = $balanceDetail + ($totalCreditos - $totalDebitos);
                         @endphp
+
                         <tr style="background-color: black; color:white;">
                             <td >{{ ' ' }}</td>
                             <td >{{ ' ' }}</td>
@@ -233,94 +252,89 @@ $myocultarresumentransaccion    = (!$myocultarresumentransaccion) ? 0 : $myocult
                 </div>
             </div>    
             <div class ="row mb-4" style="background-color: white;">
-                    <div class="col-12 col-md-12">
-                        <table class="table thead-light" style="background-color: white;">
-                            <thead style="background-color: black; color:white;">
-                                <tr>
-                                    <th style="width:160px;">Transacciónnnnn</th>
-                                    <th style="width:160px;">Cant transacción</th>
-                                    <th style="width:160px;">Entradas</th>
-                                    <th style="width:160px;">Salidas</th>
-                                </tr>
-                            </thead>
-                            @php
-                                $cantCreditos  = 0;
-                                $cantDebitos   = 0;
-
-                                $totalCreditos  = 0;
-                                $totalDebitos   = 0;
-                            @endphp
-                            @foreach($transaction_summary as $wallet2)
-                                <tr class="myTr" onClick="theRoute2({{0}}, {{0}}, {{0}}, {{$wallet2->TypeTransactionId}})">
-
-
-
-
-                                    @php
-                                        $myTransaction  = $myClass->getCreditDebitWallet($wallet2->TypeTransactionId);
-                                    @endphp
-
-                                    @switch($myTransaction)
-                                        //
-                                        // debito
-                                        // resta
-                                        //
-                                        @case("Debito")
-                                            
-                                            @if($wallet2->TypeTransactionId == $myTypeTransaction )
-                                                <td class="font-weight-bold" style="color: green;">{{ $wallet2->TypeTransaccionName}}</td>
-                                                <td class="font-weight-bold" style="color: green;">{{ number_format($wallet2->cant_transactions) }}</td>
-                                                <td class="font-weight-bold" style="color: green;">{{  ' ' }}</td>
-                                                <td class="font-weight-bold" style="color: green;">{{ number_format($wallet2->total_amount,2)}}</td>
-                                            @else
-                                                <td                                                 >{{ $wallet2->TypeTransaccionName}}</td>
-                                                <td                                                 >{{ number_format($wallet2->cant_transactions) }}</td>
-                                                <td                                                 >{{  ' ' }}</td>
-                                                <td class="font-weight-bold" style="color: green;"  >{{ number_format($wallet2->total_amount,2)}}</td>
-                                            @endif
-                                            @php
-                                                $cantDebitos ++;
-                                                $totalDebitos += $wallet2->total_amount;
-                                            @endphp
-                                            @break
-                                        
-                                        @case("Credito")
-                                            @if($wallet2->TypeTransactionId == $myTypeTransaction )
-                                                <td class="font-weight-bold" style="color: green;">{{ $wallet2->TypeTransaccionName}}</td>
-                                                <td class="font-weight-bold" style="color: green;">{{ number_format($wallet2->cant_transactions) }}</td>
-                                                <td class="font-weight-bold" style="color: green;">{{ number_format($wallet2->total_amount,2)}}</td>
-                                                <td class="font-weight-bold" style="color: green;">{{ ' ' }}</td>
-                                            @else
-                                                <td                                                 >{{ $wallet2->TypeTransaccionName}}</td>
-                                                <td                                                 >{{ number_format($wallet2->cant_transactions) }}</td>
-                                                <td                                                 >{{ number_format($wallet2->total_amount,2)}}</td>
-                                                <td class="font-weight-bold" style="color: green;"  >{{ ' ' }}</td>
-                                            @endif
-                                            @php
-                                                $cantCreditos ++;
-                                                $totalCreditos += $wallet2->total_amount;
-                                            @endphp
-                                            @break
-                                    @endswitch
-
-
-                                </tr>
-                            @endforeach
-                            <tr style="background-color: black; color:white;">
-                                <td >{{ ' ' }}</td>
-                                <td >{{ ' ' }}</td>
-                                <td >{{ number_format($totalCreditos,2) }}</td>
-                                <td >{{ number_format($totalDebitos,2)}}</td>
+                <div class="col-12 col-md-12">
+                    <table class="table thead-light" style="background-color: white;">
+                        <thead style="background-color: black; color:white;">
+                            <tr>
+                                <th style="width:160px;">Transacciónnnnn</th>
+                                <th style="width:160px;">Cant transacción</th>
+                                <th style="width:160px;">Entradas</th>
+                                <th style="width:160px;">Salidas</th>
                             </tr>
-                        </table>
-                    </div>
-                </div>  
+                        </thead>
+                        @php
+                            $cantCreditos  = 0;
+                            $cantDebitos   = 0;
+
+                            $totalCreditos  = 0;
+                            $totalDebitos   = 0;
+                        @endphp
+                        @foreach($transaction_summary as $wallet2)
+                            <tr class="myTr" onClick="theRoute2({{0}}, {{0}}, {{0}}, {{$wallet2->TypeTransactionId}})">
+                                @php
+                                    $myTransaction  = $myClass->getCreditDebitWallet($wallet2->TypeTransactionId);
+                                @endphp
+
+                                @switch($myTransaction)
+                                    //
+                                    // debito
+                                    // resta
+                                    //
+                                    @case("Debito")
+                                        
+                                        @if($wallet2->TypeTransactionId == $myTypeTransaction )
+                                            <td class="font-weight-bold" style="color: green;">{{ $wallet2->TypeTransaccionName}}</td>
+                                            <td class="font-weight-bold" style="color: green;">{{ number_format($wallet2->cant_transactions) }}</td>
+                                            <td class="font-weight-bold" style="color: green;">{{  ' ' }}</td>
+                                            <td class="font-weight-bold" style="color: green;">{{ number_format($wallet2->total_amount,2)}}</td>
+                                        @else
+                                            <td                                                 >{{ $wallet2->TypeTransaccionName}}</td>
+                                            <td                                                 >{{ number_format($wallet2->cant_transactions) }}</td>
+                                            <td                                                 >{{  ' ' }}</td>
+                                            <td class="font-weight-bold" style="color: green;"  >{{ number_format($wallet2->total_amount,2)}}</td>
+                                        @endif
+                                        @php
+                                            $cantDebitos ++;
+                                            $totalDebitos += $wallet2->total_amount;
+                                        @endphp
+                                        @break
+                                    
+                                    @case("Credito")
+                                        @if($wallet2->TypeTransactionId == $myTypeTransaction )
+                                            <td class="font-weight-bold" style="color: green;">{{ $wallet2->TypeTransaccionName}}</td>
+                                            <td class="font-weight-bold" style="color: green;">{{ number_format($wallet2->cant_transactions) }}</td>
+                                            <td class="font-weight-bold" style="color: green;">{{ number_format($wallet2->total_amount,2)}}</td>
+                                            <td class="font-weight-bold" style="color: green;">{{ ' ' }}</td>
+                                        @else
+                                            <td                                                 >{{ $wallet2->TypeTransaccionName}}</td>
+                                            <td                                                 >{{ number_format($wallet2->cant_transactions) }}</td>
+                                            <td                                                 >{{ number_format($wallet2->total_amount,2)}}</td>
+                                            <td class="font-weight-bold" style="color: green;"  >{{ ' ' }}</td>
+                                        @endif
+                                        @php
+                                            $cantCreditos ++;
+                                            $totalCreditos += $wallet2->total_amount;
+                                        @endphp
+                                        @break
+                                @endswitch
+                            </tr>
+                        @endforeach
+                        <tr style="background-color: black; color:white;">
+                            <td >{{ ' ' }}</td>
+                            <td >{{ ' ' }}</td>
+                            <td >{{ number_format($totalCreditos,2) }}</td>
+                            <td >{{ number_format($totalDebitos,2)}}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>  
         </div>
     @endif
     <br>
     <br>
     <br>
 
+    {{-- por transaccion --}}
 
     @php
         $myStyle = "";
@@ -330,29 +344,58 @@ $myocultarresumentransaccion    = (!$myocultarresumentransaccion) ? 0 : $myocult
     @endphp
     @if($myWallet != 0)
         <div id="myCanvas" style="font-size: 10px; margin-left: 10px; {{$myStyle}}">
-
+            
             @foreach($wallet_summary as $wallet)
                 <!-- mytransactions -->
                 @php
                     $indMuestra = 1;
-                    foreach($mytransactions as $value){
-                        if($value == $wallet->TypeTransactionId){
+
+                    if ($myTypeTransaction !=0){
+                        if($myTypeTransaction != $wallet->TypeTransactionId){
                             $indMuestra = 0;
                         }
+                    }else{
+                        foreach($mytransactions as $value){
+                            if($value == $wallet->TypeTransactionId){
+                                $indMuestra = 0;
+                            }
+                        }
                     }
+
                 @endphp
                 @if($indMuestra==0) 
                     @continue
                 @endif
-                @if($myWallet == 0)
+                
                     <div class="page-break">
                     </div>
-                @endif
-                <div class ="row mb-4" style="background-color: white; " data-id="">
+                
+                <div class ="" style="background-color: white;" data-id="">
                     <h3>{{ $wallet->TypeTransaccionName}}</h3>            
-                    <div style="with:100px; float:left;">
+                    <div style="float:left;">
                         <table class="table thead-light" style="background-color: white;">
                             <thead class="thead-dark" style="background-color: black; color: white;">
+                                <tr>
+                                    <td colspan="3">
+                                        <h3>
+                                            {{$myWalletDes->name}}
+                                            <br>
+                                            @if($myFechaDesde == "2001-01-01")
+                                                al {{date("d-m-Y")}}
+                                            @else
+                                                del {{ date('d-m-Y',strtotime($myFechaDesde))}}
+                                                al  {{ date('d-m-Y',strtotime($myFechaHasta))}}
+                                            @endif
+                                        </h3>
+                                    </td>
+                                </tr>  
+                                {{--
+                                <tr>
+                                    <td colspan="3">
+                                    <h3>{{ $wallet->TypeTransaccionName}}</h3>  
+                                    </td>
+                                </tr>    
+                                --}}                        
                                 <tr>
                                     <th style="width:100px;">Transacción</th>
                                     <th style="width:100px;">Cant transacción</th>
@@ -375,11 +418,34 @@ $myocultarresumentransaccion    = (!$myocultarresumentransaccion) ? 0 : $myocult
                         </table>
                     </div>
 
-                    <div class="col-12 col-md-6" style="width: 100px; float:left; margin-left: 30px; width: 100px;">
+                    <div class="" style="float: right;"> 
                         <table class="table thead-light" style="background-color: white;">
                             <thead class="thead-dark" style="background-color: black; color: white;">
                                 <tr>
-                                    <th style="width:100px;">Grupox</th>
+                                    <td colspan="3">
+
+                                    <h3>
+                                            {{$myWalletDes->name}}
+                                            <br>
+                                            @if($myFechaDesde == "2001-01-01")
+                                                al {{date("d-m-Y")}}
+                                            @else
+                                                del {{ date('d-m-Y',strtotime($myFechaDesde))}}
+                                                al  {{ date('d-m-Y',strtotime($myFechaHasta))}}
+                                            @endif
+                                        </h3>                                     
+                                    </td>
+                                </tr>          
+                                {{--                   
+                                <tr>
+                                    <td colspan="3">
+                                    <h3>{{ $wallet->TypeTransaccionName}}</h3>  
+                                   
+                                    </td>
+                                </tr>
+                                --}}
+                                <tr>
+                                    <th style="width:100px;">Grupo</th>
                                     <th style="width:100px;">Cant transacción</th>
                                     <th style="width:100px;">Monto Transaccion</th>
                                 </tr>
@@ -412,11 +478,15 @@ $myocultarresumentransaccion    = (!$myocultarresumentransaccion) ? 0 : $myocult
                     
                     $indMuestra = 1;
                     foreach($mytransactions as $value){
- 
-                        if($value == $wallet->TypeTransactionId){
-                            $indMuestra = 0;
+                        if ($myTypeTransaction !=0){
+                            if($myTypeTransaction != $wallet->TypeTransactionId){
+                                $indMuestra = 0;
+                            }
+                        }else{
+                            if($value == $wallet->TypeTransactionId){
+                                $indMuestra = 0;
+                            }
                         }
-
                         // echo 'aqui2->' . $wallet->TypeTransactionId . ' ' . $wallet->TypeTransaccionName . ' value->' . $value;
                         // echo '<br>';
                     }
@@ -436,7 +506,7 @@ $myocultarresumentransaccion    = (!$myocultarresumentransaccion) ? 0 : $myocult
                         <table class="table thead-light" style="background-color: white;">
                             <thead class="thead-dark">
                                 <tr>
-                                    <th style="width:1%;">Transacción2</th>
+                                    <th style="width:1%;">Transacción</th>
                                     <th style="width:1%;">Cant transacción</th>
                                     <th style="width:1%;">Monto Transaccion</th>
                                 </tr>
@@ -457,11 +527,17 @@ $myocultarresumentransaccion    = (!$myocultarresumentransaccion) ? 0 : $myocult
                         </table>
                     </div>
 
-                    <div class="col-12 col-md-6" style="position: fixed; left: 350px; max-height: 100px; height: 100px">
+                    <!-- <div class="col-12 col-md-6" style="position: fixed; left: 350px; max-height: 100px; height: 100px"> -->
+                    <div class="" style="float: right;">                    
                         <table class="table thead-light">
                             <thead class="thead-dark">
                                 <tr>
-                                    <th style="width:1%;">Grupo2</th>
+                                    <th colspan="3">
+                                        {{ $wallet->TypeTransaccionName}}
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <th style="width:1%;">Grupo</th>
                                     <th style="width:1%;">Cant transacción</th>
                                     <th style="width:1%;">Monto Transaccion</th>
                                 </tr>

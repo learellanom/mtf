@@ -93,7 +93,6 @@ $config4 = [
                     <a class="btn btn-primary imprimir"><i class="fas fa-print"></i></a>
                     <a class="btn btn-success"  onclick="exportaEstadisticas();"><i class="fas fa-file-excel"></i></a>
                     <a class="btn btn-danger"   onclick="exportaEstadisticasPDF();"><i class="fas fa-file-pdf"></i></a>
-                    {{-- <a class="btn btn-danger"   onclick="exportaEstadisticasPDF2();"><i class="fas fa-file-pdf"></i></a> --}}
                     {{-- <a class="btn btn-success" href={{route('exports.excel', [$myWallet, $myFechaDesde, $myFechaHasta])}}><i class="fas fa-file-excel"></i></a> --}}
                 </div>
 
@@ -1433,14 +1432,16 @@ $config4 = [
         let ocultarresumengeneral       = $('#ResumenGeneral').prop("checked");
         let ocultarresumentransaccion   = $('#ResumenTransaccion').prop("checked");
 
-        let fechaDesde = "{{$myFechaDesde}}";
-        let fechaHasta = "{{$myFechaHasta}}";
-        let wallet = "{{$myWallet}}";
-        // href={{route('exports.excel', [$myWallet, $myFechaDesde, $myFechaHasta])}}
+        let fechaDesde                  = "{{$myFechaDesde}}";
+        let fechaHasta                  = "{{$myFechaHasta}}";
+        let wallet                      = "{{$myWallet}}";
+        
+        let transaction                 = "{{$myTypeTransaction ?? 0}}"; 
 
-        myRoute = "{{route('exports.excel', ['wallet' => 'wallet2','fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2', 'ocultarresumengeneral' => 'ocultarresumengeneral2', 'ocultarresumentransaccion' => 'ocultarresumentransaccion2', 'transactions' => 'transactions2'])}}"
+        myRoute = "{{route('exports.excel', ['wallet' => 'wallet2', 'transaction' => 'transaction2', 'fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2', 'ocultarresumengeneral' => 'ocultarresumengeneral2', 'ocultarresumentransaccion' => 'ocultarresumentransaccion2', 'transactions' => 'transactions2'])}}"
 
         myRoute = myRoute.replace('wallet2',                        wallet);
+        myRoute = myRoute.replace('transaction2',                   transaction);        
         myRoute = myRoute.replace('fechaDesde2',                    fechaDesde);
         myRoute = myRoute.replace('fechaHasta2',                    fechaHasta);
         myRoute = myRoute.replace('ocultarresumengeneral2',         ocultarresumengeneral);
@@ -1458,67 +1459,29 @@ $config4 = [
         let ocultarresumengeneral       = $('#ResumenGeneral').prop("checked");
         let ocultarresumentransaccion   = $('#ResumenTransaccion').prop("checked");
 
-        let fechaDesde  = "{{$myFechaDesde}}";
-        let fechaHasta  = "{{$myFechaHasta}}";
-        let wallet      = "{{$myWallet}}";
+        let fechaDesde                  = "{{$myFechaDesde}}";
+        let fechaHasta                  = "{{$myFechaHasta}}";
+        let wallet                      = "{{$myWallet}}";
+
+        let transaction                 = "{{$myTypeTransaction}}"; 
 
         // href={{route('exports.excel', [$myWallet, $myFechaDesde, $myFechaHasta])}}
 
-        myRoute = "{{route('exports.EstadisticaPDF', ['wallet' => 'wallet2','fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2', 'ocultarresumengeneral' => 'ocultarresumengeneral2', 'ocultarresumentransaccion' => 'ocultarresumentransaccion2', 'transactions' => 'transactions2'])}}"
+        myRoute = "{{route('exports.EstadisticaPDF', ['wallet' => 'wallet2', 'transaction' => 'transaction2', 'fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2', 'ocultarresumengeneral' => 'ocultarresumengeneral2', 'ocultarresumentransaccion' => 'ocultarresumentransaccion2', 'transactions' => 'transactions2'])}}"
                             
         myRoute = myRoute.replace('wallet2',                        wallet);
+        myRoute = myRoute.replace('transaction2',                   transaction);
         myRoute = myRoute.replace('fechaDesde2',                    fechaDesde);
         myRoute = myRoute.replace('fechaHasta2',                    fechaHasta);
         myRoute = myRoute.replace('ocultarresumengeneral2',         ocultarresumengeneral);
         myRoute = myRoute.replace('ocultarresumentransaccion2',     ocultarresumentransaccion);
         myRoute = myRoute.replace('transactions2',                  transactions);
 
-         alert(' myRoute ->' + myRoute);
+        // alert(' myRoute vvv->' + myRoute);
 
         location.href = myRoute;
     }
-    function exportaEstadisticasPDF2(){
-        window.jsPDF = window.jspdf.jsPDF
-        window.html2canvas = html2canvas;
-        
-        /*
-        const doc = new jsPDF({
-            orientation: "landscape",
-            unit: "in",
-            format: [4, 2]
-            });
 
-        doc.text("MTF test!", 1, 1);
-        doc.save("two-by-four.pdf");
-        */
-        
-        /*
-        var doc = new jsPDF();
-        var elementHTML = $('#nav-home').html();
-        alert(elementHTML);
-        doc.html(elementHTML);
-        doc.save("fromhtml.pdf");
-        */
-
-        // var doc = new jsPDF('l', 'pt', 'a4');
-        var doc = new jsPDF({
-            orientation: 'l', 
-            unit: 'pt', 
-            format: 'a4',
-            presicion: 16,
-        });        
-        doc.html($('#myCanvasGeneral').html(), {
-            callback: function (doc) {
-                doc.save();
-            },
-            x: 10,
-            y: 10,
-            width: 800,
-            margin: [60,60,60,60]
-        });
-
-
-    }
             
 </script>
 

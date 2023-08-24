@@ -27,6 +27,7 @@
         "placeHolder" => "selecciona...",
         "allowClear" => true,
     ];
+
 @endphp
 
 
@@ -101,20 +102,20 @@
 
         <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
 
-            
             <div class="card">
                 <div class="card-header">
                     <div class="row">
                         <div class ="col-12 col-md-3">
                             <a class="btn btn-primary imprimir"><i class="fas fa-print"></i></a>
                             <a class="btn btn-success"  onclick="exportaSaldos();"><i class="fas fa-file-excel"></i></a>
+                            <a class="btn btn-danger"   onclick="exportaSaldosPDF();"><i class="fas fa-file-pdf"></i></a>
                             {{--
                             <a class="btn btn-success" href={{route('exports.saldos', [$myFechaDesde, $myFechaHasta])}}><i class="fas fa-file-excel"></i></a>
                             --}}
                         </div>
 
                         {{--
-                        <!-- Seelect de Caja -->
+                        <!-- Select de Caja -->
                         
                         <div class="col col-md-3">
                             <x-adminlte-select2 id="wallet"
@@ -161,6 +162,7 @@
             </div>
     
             <div id="myCanvas"></div>
+
         </div>
 
         <div class="tab-pane fade show " id="nav-resumen" role="tabpanel" aria-labelledby="nav-resumen-tab">
@@ -228,6 +230,7 @@
             </div>
 
             <div id="myCanvas2"></div>
+
         </div>
 
         <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">Filtros
@@ -368,12 +371,12 @@
 
         InicializaFechas();
         BuscaFechas(myFechaDesde, myFechaHasta);
+
         calculoGeneral3();  
         calculos3();
 
         calculoGeneral4();  
         calculos4();
-
 
         cargaGrupos();
         cargaWallets();
@@ -427,8 +430,11 @@
         });
 
         $('#myButtonAplicar').on('click', function (){
+
             $("#myTableWallet tr").each(function(){
-                $(this).removeAttr("hidden");
+                if($(this).data("id")){
+                    $(this).removeAttr("hidden");
+                }
             });
 
             $("#my-select option:selected").each(function(){
@@ -455,9 +461,9 @@
                 icon: 'success',
                 title: 'Filtro aplicado satisfactoriamente',
                 showConfirmButton: false,
-                timer: 1500
+                timer: 2500
                 });             
-            
+            // window.location.reload();
         });
 
 
@@ -471,7 +477,9 @@
 
             $("#myTableGroup tr").each(function(){
                 // $(this).removeAttr("hidden");
-                $(this).attr("hidden",true);
+                if($(this).data("id")){
+                    $(this).attr("hidden",true);
+                }
             });     
 
             $("#my-select2 option:selected").each(function(){
@@ -498,9 +506,9 @@
                 icon: 'success',
                 title: 'Filtro aplicado satisfactoriamente',
                 showConfirmButton: false,
-                timer: 1500
-                });             
-            
+                timer: 2500
+            }); 
+            // window.location.reload();
         });
 
     });
@@ -528,8 +536,13 @@
                 <div class="col-12 col-md-12 justify-content-center text-center align-items-center mb-4 mt-4">
                     <h4>Resumen por Grupo</h4>
                 </div>
-
-
+                @php
+                    $totalBalanceAnterior   = 0;
+                    $totalCreditos          = 0;
+                    $totalDebitos           = 0;
+                    $totalTotal             = 0 ;       
+                    $myTotal = 0;         
+                @endphp
                 <div class="col-12 col-md-12">
                     <table class="table thead-light" style="background-color: white;" id="myTableGroup">
                         <thead class="thead-dark">
@@ -549,12 +562,28 @@
                                         $indMuestra = 1;
                                     }
                                 }
-
-                                $myTotal = ($group2->BalanceAnterior + $group2->Creditos ) - $group2->Debitos; 
                             @endphp
                             @if($indMuestra == 0)
                                 @continue
                             @endif
+
+                            @php
+                                switch($group2->IdGrupo){
+                                    case 43:
+                                    case 44:
+                                        $myTotal = ($group2->BalanceAnterior + $group2->Creditos ) - $group2->Debitos;                                                                     
+                                        break;
+                                    default:
+                                        $myTotal = ($group2->BalanceAnterior + $group2->Creditos ) - $group2->Debitos;                             
+                                        $totalBalanceAnterior   += $group2->BalanceAnterior;
+                                        $totalCreditos          += $group2->Creditos;
+                                        $totalDebitos           += $group2->Debitos;
+                                        $totalTotal             += $myTotal ;     
+                                        break;                                      
+                                }
+
+                            @endphp
+
                             <tr class="myTr" onClick="theRoute2({{0}}, {{ $group2->IdGrupo }}, {{0}}, {{0}})" data-id="{{$group2->IdGrupo}}">
                                 <td >{{ $group2->NombreGrupo}}</td>
                                 <td >{{ number_format($group2->BalanceAnterior,2) }}</td>                                
@@ -563,6 +592,15 @@
                                 <td >{{ number_format($myTotal ,2)}}</td>
                             </tr>
                         @endforeach
+                        <tfoot>
+                            <tr style="background-color: black; color:white;">
+                                <td >{{ ' ' }}</td>
+                                <td >{{ number_format($totalBalanceAnterior,2) }}</td>
+                                <td >{{ number_format($totalCreditos,2) }}</td>
+                                <td >{{ number_format($totalDebitos,2) }}</td>
+                                <td >{{ number_format($totalTotal,2) }}</td>
+                            </tr>
+                        </tfoot>
                     </table>
                 </div>
             </div>
@@ -605,6 +643,10 @@
                                 <th style="width:1%;">Total</th>                                        
                             </tr>
                         </thead>
+                        @php
+                            $myTotal = 0;
+                            $myTotalTotal = 0;                            
+                        @endphp                        
                         @foreach($group_summary as $group2)
                             @php
                                 $indMuestra = 0;
@@ -613,18 +655,33 @@
                                         $indMuestra = 1;
                                     }
                                 }
-
-                                $myTotal = ($group2->BalanceAnterior + $group2->Creditos ) - $group2->Debitos; 
                             @endphp
                             @if($indMuestra == 0)
                                 @continue
                             @endif
+                            @php
+                                switch($group2->IdGrupo){
+                                    case 43: // abu joder
+                                    case 44: // Revilla
+                                        $myTotal = ($group2->BalanceAnterior + $group2->Creditos ) - $group2->Debitos;                                         
+                                        break;
+                                    default:
+                                        $myTotal = ($group2->BalanceAnterior + $group2->Creditos ) - $group2->Debitos; 
+                                        $myTotalTotal += $myTotal;
+                                        break;
+                                }
+                            @endphp
                             <tr class="myTr" onClick="theRoute2({{0}}, {{ $group2->IdGrupo }}, {{0}}, {{0}})" data-id="{{$group2->IdGrupo}}">
                                 <td >{{ $group2->NombreGrupo}}</td>
-                           
                                 <td >{{ number_format($myTotal ,2)}}</td>
                             </tr>
                         @endforeach
+                        <tfoot>
+                            <tr style="background-color: black; color: white;">
+                                <td > </td>
+                                <td >{{ number_format($myTotalTotal ,2)}}</td>
+                            </tr>  
+                        </tfoot>                      
                     </table>
                 </div>
             </div>
@@ -696,17 +753,19 @@
                                         }
                                     }
 
+                                  
+                                @endphp
+                                @if($indMuestra == 0)
+                                    @continue
+                                @endif
+                                @php
                                     $cantCreditos ++;
                                     $totalCreditos += $wallet2->Creditos;
                                     $totalDebitos  += $wallet2->Debitos;
 
                                     $myTotal = ($wallet2->BalanceAnterior + $wallet2->Creditos ) - $wallet2->Debitos;
-                                    $total  += $myTotal;                                    
+                                    $total  += $myTotal;  
                                 @endphp
-                                @if($indMuestra == 0)
-                                    @continue
-                                @endif
-
                                 <td >{{ $wallet2->NombreWallet}}</td>
                                 <td >{{ number_format($wallet2->BalanceAnterior,2)}}</td>                                
                                 <td >{{ number_format($wallet2->Creditos,2)  }}</td>
@@ -716,14 +775,15 @@
                             </tr>
 
                         @endforeach
-                        <tr style="background-color: black; color:white;">
-                            <td >{{ ' ' }}</td>
-                            <td >{{ number_format($totalSaldoAnterior,2) }}</td>
-                            <td >{{ number_format($totalCreditos,2) }}</td>
-                            <td >{{ number_format($totalDebitos,2) }}</td>
-                            <td >{{ number_format($total,2) }}</td>
-
-                        </tr>
+                        <tfoot>
+                            <tr style="background-color: black; color:white;">
+                                <td >{{ ' ' }}</td>
+                                <td >{{ number_format($totalSaldoAnterior,2) }}</td>
+                                <td >{{ number_format($totalCreditos,2) }}</td>
+                                <td >{{ number_format($totalDebitos,2) }}</td>
+                                <td >{{ number_format($total,2) }}</td>
+                            </tr>
+                        </tfoot>
                     </table>
                 </div>
 
@@ -793,25 +853,27 @@
                             <tr class="myTr" onClick="theRoute2({{0}}, {{0}}, {{$wallet2->IdWallet}}, {{0}})" data-id="{{$wallet2->IdWallet}}">
 
                                 @php
-
                                     $indMuestra = 1;
                                     foreach($myArrayWallets as $value){
                                         if ($value == $wallet2->IdWallet){
                                             $indMuestra = 0;
                                         }
                                     }
+                                @endphp
 
+                                @if($indMuestra == 0)
+                                    @continue
+                                @endif
+
+                                @php
                                     $cantCreditos ++;
                                     $totalCreditos += $wallet2->Creditos;
                                     $totalDebitos  += $wallet2->Debitos;
 
                                     $myTotal = ($wallet2->BalanceAnterior + $wallet2->Creditos ) - $wallet2->Debitos;
-                                    $total  += $myTotal;                                    
+                                    $total  += $myTotal; 
                                 @endphp
-                                @if($indMuestra == 0)
-                                    @continue
-                                @endif
-
+                                
                                 <td >{{ $wallet2->NombreWallet}}</td>
                              
                                 <!-- <td >{{ number_format($wallet2->Total,2) }}</td> -->
@@ -819,12 +881,12 @@
                             </tr>
 
                         @endforeach
-                        <tr style="background-color: black; color:white;">
-                            <td >{{ ' ' }}</td>
-
-                            <td >{{ number_format($total,2) }}</td>
-
-                        </tr>
+                        <tfoot>
+                            <tr style="background-color: black; color:white;">
+                                <td >{{ ' ' }}</td>
+                                <td >{{ number_format($total,2) }}</td>
+                            </tr>
+                        </tfoot>
                     </table>
                 </div>
 
@@ -1102,7 +1164,28 @@
         });
         return;
     }
+    function exportaSaldosPDF(myResumen = 0){
+        
+        let myFiltroWallet  = buscaFiltrosWallet();
+        let myFiltroGroup   = buscaFiltrosGroup();
 
+        let myRoute = "";
+        let fechaDesde = "{{$myFechaDesde}}";
+        let fechaHasta = "{{$myFechaHasta}}";
+
+        let resumen = myResumen;
+        // Route::get('dashboard_saldos/export/{fechaDesde?}/{fechaHasta?}/{filtroWallet?}/{filtroGroup?}/{resumen?}
+        myRoute = "{{route('exports.SaldosPDF', ['fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2', 'filtroWallet' => 'filtroWallet2', 'filtroGroup' => 'filtroGroup2', 'resumen' => 'resumen2'])}}"
+                  
+        myRoute = myRoute.replace('fechaDesde2',    fechaDesde);
+        myRoute = myRoute.replace('fechaHasta2',    fechaHasta);
+        myRoute = myRoute.replace('filtroWallet2',  myFiltroWallet);
+        myRoute = myRoute.replace('filtroGroup2',   myFiltroGroup);
+        myRoute = myRoute.replace('resumen2',       resumen);
+        // alert(' myRoute vvv->' + myRoute);
+
+        location.href = myRoute;
+    }
 </script>
 
 @endsection

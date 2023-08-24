@@ -305,12 +305,12 @@ class HomeController extends Controller
 
     public function export(request $request)
     {
-        $wallet_summary = app(statisticsController::class)->getwalletTransactionSummary($request);
+        $wallet_summary             = app(statisticsController::class)->getWalletTransactionSummary($request);
 
-        $request2 = clone $request;
-        $request2->transaction = 0;
+        $request2                   = clone $request;
+        $request2->transaction      = 0;
 
-        $wallet_summary             = app(statisticsController::class)->getwalletTransactionSummary($request2);
+        $wallet_summary             = app(statisticsController::class)->getWalletTransactionSummary($request2);
 
         $wallet_groupsummary        = app(statisticsController::class)->getWalletTransactionGroupSummary($request);
 
@@ -322,7 +322,7 @@ class HomeController extends Controller
         $transaction_group_summary  = app(statisticsController::class)->getTransactionGroupSummary($request4);
 
         //$request5               = clone $request;
-        $balance = 0;
+        $balance                    = 0;
 
         $wallet = 0;
         if ($request->wallet){
@@ -432,6 +432,76 @@ class HomeController extends Controller
         //dd($balanceDetail);
         return Excel::download(new DashboardSaldosExport($wallet_summary, $group_summary, $myFechaDesde, $myFechaHasta, $myFiltroWallet, $myFiltroGroup, $myResumen), 'Saldos al corte.xlsx');
                                    
+    }
+
+    public function exportSaldosPDF(request $request){
+        
+        $wallet_summary             = app(statisticsController::class)->getWalletSummary($request);
+
+        $group_summary              = app(statisticsController::class)->getGroupSummary($request);
+
+        $myFechaDesde = "2001-01-01";
+        $myFechaHasta = "9999-12-31";
+
+        if ($request->fechaDesde){
+            $myFechaDesde = $request->fechaDesde;
+            $myFechaHasta = $request->fechaHasta;
+
+        }
+
+        if ($request->fechaHasta){
+            $myFechaHasta = $request->fechaHasta;
+        }
+
+        $myFiltroWallet     = "";
+        $myFiltroGroup      = "";
+        if ($request->filtroWallet) {
+            $myFiltroWallet = $request->filtroWallet;
+
+        }
+        if ($request->filtroGroup) {
+            $myFiltroGroup  = $request->filtroGroup;
+        }        
+        //
+        // obtiene saldo anterior wallets
+        // 
+        $balanceDetail      = 0;
+        $myFechaDesdeBefore = "2001-01-01";
+        $myFechaHastaBefore = "9999-12-31";
+        if ($myFechaDesde != "2001-01-01"){
+            $myFechaHastaBefore = app(statisticsController::class)->getDayBefore($myFechaDesde);
+        }
+        foreach($wallet_summary as $wallet3){            
+            $balanceDetail           = app(statisticsController::class)->getBalanceWalletBefore($wallet3->IdWallet, $myFechaDesde, $myFechaHasta);
+            
+            $wallet3->BalanceAnterior = $balanceDetail;
+        }
+
+        foreach($group_summary as $group3){            
+            $balanceDetail           = app(statisticsController::class)->getBalanceBefore($group3->IdGrupo, $myFechaDesde, $myFechaHasta);
+            
+            $group3->BalanceAnterior = $balanceDetail;
+        }
+
+        $myResumen = 0;
+        if ($request->resumen){
+            $myResumen = $request->resumen;
+        }
+
+        
+        //dd($balanceDetail);
+
+        $parametros['wallet_summary']   = $wallet_summary;        
+        $parametros['group_summary']    = $group_summary;      
+        $parametros['fechaDesde']     = $myFechaDesde;
+        $parametros['fechaHasta']     = $myFechaHasta;
+        $parametros['filtroWallet']     = $myFiltroWallet;
+        $parametros['filtroGroup']      = $myFiltroGroup;
+        $parametros['resumen']          = $myResumen;
+        
+        $pdf = \PDF::loadView('dashboardSaldosPDF', $parametros);
+        return $pdf->download('Consolidado de Saldos.pdf');
+        
     }
 
     public function exportPDF(request $request){

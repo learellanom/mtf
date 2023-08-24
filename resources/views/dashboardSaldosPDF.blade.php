@@ -6,8 +6,8 @@
 
     $myBackGroundColor = "#5DADE2";
     
-    $myStyle = "background-color: $myBackGroundColor; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:200px;";    
-    $myStyle2 = "text-align:center; background-color: $myBackGroundColor; color: #ffffff; font-weight: bolder; font-size: 15px; text-transform: uppercase; width:300px;";
+    $myStyle    = "background-color: $myBackGroundColor; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; ";    
+    $myStyle2   = "text-align:center; background-color: $myBackGroundColor; color: #ffffff; font-weight: bolder; font-size: 08px; text-transform: uppercase;";
 
     if ($resumen == 1){
         $myDisplay = "display: none;";
@@ -21,16 +21,78 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 </head>
+<style>
+    @page {
+        margin-left: 1.5cm;
+        margin-right: 1.5cm;
+        margin-bottom: 1.5cm;
+    }
+    h3{
+        text-align: center;
+        text-transform: uppercase;
+    }
+    /*
+    html{
+        font-size: 12px;
+        margin: 50pt 50pt 50pt 50pt;
+    }
+    */
+    body {
+        margin-top: 2.5cm;
+        margin-left: 0cm;
+        margin-right: 0cm;
+        margin-bottom: 2cm;
+    }            
+    header {
+        position: fixed;
+        top: 0cm;
+        left: 0cm;
+        right: 0cm;
+        height: 1.5cm;
+
+        text-align: center;
+        line-height: 1cm;
+    }
+    footer {
+        position: fixed;
+        bottom: 0cm;
+        left: 0cm;
+        right: 0cm;
+        height: 0.5cm;
+
+        text-align: center;
+        line-height: 0.5cm;
+    }
+    .page-break {
+        page-break-after: always;
+    }       
+    .pagenum:before {
+        content: counter(page);
+    }   
+   
+</style>
 <body>
+    <header style="font-size: 9px;">
+        <img src="{{asset('./img/AdminLTELogo.png')}}" width="50" height="50" style="float: left;">
+        MTF
+        <span style="float: right;">{{date("d-m-Y H:i:s")}}</span>
+        <hr>
+    </header>
+    <footer>
+        <hr>            
+        <span class="pagenum"></span>
+    </footer>
+
+    <main>
+
     <hr>
 
-
-    <table>
-        <thead>
+    <table  >
+        <thead >
             <tr>
-                <th ></th>
-                <th ></th>
-                <th ></th>
+                <th></th>
+                <th></th>
+                <th></th>
                 <th colspan="5" style="{{ $myStyle2 }}">
                     Resumen por Wallet
                 </th>
@@ -49,24 +111,24 @@
                     </th>
                 @endif
             </tr>
-            @if($resumen ==0)
+            @if($resumen == 0)
                 <tr>
                     <th></th>
                     <th></th>
                     <th></th>
-                    <th style="{{ $myStyle }}">Wallet</th>
-                    <th style="{{ $myStyle }}">Saldo Anterior</th>
-                    <th style="{{ $myStyle }}{{$myDisplay}}">Entradas</th>
-                    <th style="{{ $myStyle }}{{$myDisplay}}">Salidas</th>
-                    <th style="{{ $myStyle }}">Saldo</th>
+                    <th style="{{ $myStyle2 }}">Wallet</th>
+                    <th style="{{ $myStyle2 }}">Saldo Anterior</th>
+                    <th style="{{ $myStyle2 }}{{$myDisplay}}">Entradas</th>
+                    <th style="{{ $myStyle2 }}{{$myDisplay}}">Salidas</th>
+                    <th style="{{ $myStyle2 }}">Saldo</th>
                 </tr>
             @else
                 <tr>
                     <th></th>
                     <th></th>
                     <th></th>
-                    <th colspan="2"  style="{{ $myStyle }}">Wallet</th>
-                    <th colspan="3" style="{{ $myStyle }}">Saldo</th>
+                    <th colspan="2"  style="{{ $myStyle2 }}">Wallet</th>
+                    <th colspan="3" style="{{ $myStyle2 }}">Saldo</th>
                 </tr>
             @endif
         </thead>
@@ -139,7 +201,7 @@
 
         </tbody>
     </table>
-
+    
     <hr>
     <hr>
 
@@ -287,5 +349,7 @@
             <hr>
         </tbody>
     </table>
-
+    </main>
+</body>
 </html>
+

@@ -825,7 +825,7 @@ class statisticsController extends Controller
     *
     *
     *       walletTransactionSummary
-    *       ajua
+    *       
     *
     */
     public function walletTransactionSummary(Request $request)
@@ -875,7 +875,7 @@ class statisticsController extends Controller
            $myWallet        = $request->wallet;
        }
 
-        $Transacciones          = $this->getwalletTransactionSummary($request);
+        $Transacciones          = $this->getWalletTransactionSummary($request);
 
         $balance = 0;
         if ($myWallet > 0){
@@ -1169,18 +1169,18 @@ class statisticsController extends Controller
             $myFechaHasta = $request->fechaHasta;
             $myFechaHasta2 = $myFechaHasta . " 23:59:00";            
         }
-        // var_dump($myFechaDesde);
-        // dd('Fecha desde -> ' . $myFechaDesde . ' Fecha Hasta -> ' . $myFechaHasta);
+            // var_dump($myFechaDesde);
+            // dd('Fecha desde -> ' . $myFechaDesde . ' Fecha Hasta -> ' . $myFechaHasta);
 
-       //
-       $myWalletDesde   = 0;
-       $myWalletHasta   = 9999;
-       $myWallet        = 0;
-       if ($request->wallet){
-           $myWalletDesde   = $request->wallet;
-           $myWalletHasta   = $request->wallet;
-           $myWallet        = $request->wallet;
-       }
+        //
+        $myWalletDesde   = 0;
+        $myWalletHasta   = 9999;
+        $myWallet        = 0;
+        if ($request->wallet){
+            $myWalletDesde   = $request->wallet;
+            $myWalletHasta   = $request->wallet;
+            $myWallet        = $request->wallet;
+        }
 
         $Transacciones = DB::table('transactions')
             ->select(DB::raw("
@@ -1210,7 +1210,7 @@ class statisticsController extends Controller
             ->orderBy('TypeTransactionId','ASC')
             ->get();
         // dd($Transacciones);
-            return $Transacciones;
+        return $Transacciones;
     }
     /*
     *
@@ -1990,6 +1990,19 @@ class statisticsController extends Controller
             $Type_transactions2 [$Type_transactions->id] =  $Type_transactions->name;
         }
         return $Type_transactions2;
+    }
+        /*
+    *
+    *
+    *   getWalletDetail
+    *
+    *
+    */
+    function getWalletDetail($myWallet = 0){
+        $wallet = Group::select('groups.id', 'groups.name')
+        ->find($myWallet);
+        return $wallet;
+
     }
     /*
     *
