@@ -144,11 +144,11 @@ $myocultarresumentransaccion    = (!$myocultarresumentransaccion) ? 0 : $myocult
                     <table class="table thead-light" style="background-color: white;">
                         <thead class="thead-dark" style="background-color: black; color:white;">
                             <tr>
-                                <th style="width:200px;">Saldo Total</th>
-                                <th style="width:120px;">{{ number_format($balance,2) }}</th>
-                                <th style="width:120px;"></th>
-                                <th style="width:120px;">Saldo al corte</th>
+                                <th style="width:200px;">Saldo al Corte</th>
                                 <th style="width:120px;">{{ number_format($balanceDetail,2) }}</th>
+                                <th style="width:120px;"></th>
+                                <th style="width:120px;">Saldo Total</th>
+                                <th style="width:120px;">{{ number_format($balance,2) }}</th>                                
                             </tr>
                             <tr>
                                 <th style="width:200px;">Transacción</th>
@@ -464,6 +464,7 @@ $myocultarresumentransaccion    = (!$myocultarresumentransaccion) ? 0 : $myocult
                 </div>
                 
                 <div style="clear: both"></div>
+                
                 <br>
                 <br>
                 <br>

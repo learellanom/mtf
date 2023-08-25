@@ -176,7 +176,7 @@
                             <a class="btn btn-primary imprimir"><i class="fas fa-print"></i></a>
                             
                             <a class="btn btn-success"  onclick="exportaSaldos(1);"><i class="fas fa-file-excel"></i></a>
-                            
+                            <a class="btn btn-danger"   onclick="exportaSaldosPDF(1);"><i class="fas fa-file-pdf"></i></a>
                             {{--
                             <a class="btn btn-success" href={{route('exports.saldos', [$myFechaDesde, $myFechaHasta])}}><i class="fas fa-file-excel"></i></a>
                             --}}

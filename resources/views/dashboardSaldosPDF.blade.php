@@ -4,15 +4,13 @@
 
     // dd($myFiltroWalletB);
 
-    $myBackGroundColor = "#5DADE2";
-    
-    $myStyle    = "background-color: $myBackGroundColor; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; ";    
-    $myStyle2   = "text-align:center; background-color: $myBackGroundColor; color: #ffffff; font-weight: bolder; font-size: 08px; text-transform: uppercase;";
 
     if ($resumen == 1){
-        $myDisplay = "display: none;";
+        $myFont     = "font-size: 10px;";
+        $myWidth    = "width: 330px;";
     }else{
-        $myDisplay = "display: block;";
+        $myFont     = "font-size: 8px;";
+        $myWidth    = "";
     }
 
 @endphp
@@ -69,7 +67,12 @@
     .pagenum:before {
         content: counter(page);
     }   
-   
+   .myFontSize {
+        font-size: 8px;
+   }
+   .myBackGround {
+        background-color: #5DADE2; color: white;
+   }
 </style>
 <body>
     <header style="font-size: 9px;">
@@ -85,50 +88,39 @@
 
     <main>
 
-    <hr>
+    {{-- Resumen por Wallet --}}
 
-    <table  >
-        <thead >
-            <tr>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th colspan="5" style="{{ $myStyle2 }}">
+    <table style="float: left; {{$myFont}} {{$myWidth}}">
+        <thead>
+            <tr class="myBackGround">
+                <th colspan="5">
                     Resumen por Wallet
                 </th>
             </tr>
-            <tr>
+            <tr class="myBackGround">
                 @if($fechaDesde != "2001-01-01")
-                    <th colspan="3"></th>
-                    <th colspan="5" style="{{ $myStyle2 }}">
+                    <th colspan="5">
                         Fecha desde: {{ $fechaDesde }}   |      Fecha Hasta:  {{ $fechaHasta }}
                     </th>
-
                 @else
-                    <th colspan="3"></th>
-                    <th colspan="5" style="{{ $myStyle2 }}">
+                    <th colspan="5">
                         a la Fecha:  {{ date('d-m-Y') }}
                     </th>
                 @endif
             </tr>
             @if($resumen == 0)
-                <tr>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th style="{{ $myStyle2 }}">Wallet</th>
-                    <th style="{{ $myStyle2 }}">Saldo Anterior</th>
-                    <th style="{{ $myStyle2 }}{{$myDisplay}}">Entradas</th>
-                    <th style="{{ $myStyle2 }}{{$myDisplay}}">Salidas</th>
-                    <th style="{{ $myStyle2 }}">Saldo</th>
+                <tr class="myBackGround">
+                    <th>Wallet</th>
+                    <th>Saldo Anterior</th>
+                    <th>Entradas</th>
+                    <th>Salidas</th>
+                    <th>Saldo</th>
                 </tr>
             @else
                 <tr>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th colspan="2"  style="{{ $myStyle2 }}">Wallet</th>
-                    <th colspan="3" style="{{ $myStyle2 }}">Saldo</th>
+
+                    <th colspan="2">Wallet</th>
+                    <th colspan="3">Saldo</th>
                 </tr>
             @endif
         </thead>
@@ -154,106 +146,72 @@
 
                 @if($resumen ==0)
                     <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+
                         <td>{{ $summary_row->NombreWallet }}</td>
-                        <td style="{{$myDisplay}}">{{ $summary_row->BalanceAnterior }}</td>
-                        <td style="{{$myDisplay}}">{{ $summary_row->Creditos }}</td>
-                        <td style="{{$myDisplay}}">{{ $summary_row->Debitos }}</td>
-                        <td>{{ $summary_row->Total }}</td>
+                        <td style="text-align: right;">{{ $summary_row->BalanceAnterior }}</td>
+                        <td style="text-align: right;">{{ $summary_row->Creditos }}</td>
+                        <td style="text-align: right;">{{ $summary_row->Debitos }}</td>
+                        <td style="text-align: right;">{{ $summary_row->Total }}</td>
                     </tr>
                 @else
                     <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
                         <td colspan="2" >{{ $summary_row->NombreWallet }}</td>
-                        <td colspan="3" >{{ $summary_row->Total }}</td>
+                        <td colspan="3" style="text-align: right;">{{ number_format($summary_row->Total,2) }}</td>
                     </tr>                
                 @endif
                 @php
                     $totalCreditos  += $summary_row->Creditos;
                     $totalDebitos   += $summary_row->Debitos;
-                    $saldo          += $summary_row->Total;                    
+                    $saldo          += $summary_row->Total;
                 @endphp
             @endforeach
-            @if($resumen ==0)
-            <tr style="{{ $myStyle }}">
-                <td >{{ ' ' }}</td>
-                <td >{{ ' ' }}</td>
-                <td >{{ ' ' }}</td>
-                <td style="{{ $myStyle }}">{{ ' ' }}</td>
-                <td style="{{ $myStyle }}">{{ ' ' }}</td>
-                <td style="{{ $myStyle }}">{{ $totalCreditos }}</td>
-                <td style="{{ $myStyle }}">{{ $totalDebitos }}</td>
-                <td style="{{ $myStyle }}">{{ $saldo }}</td>
-            </tr>
-            @else
-            <tr style="{{ $myStyle }}">
-                <td >{{ ' ' }}</td>
-                <td >{{ ' ' }}</td>
-                <td >{{ ' ' }}</td>
-                <td colspan="2"  style="{{ $myStyle }}">{{ ' ' }}</td>
-                <td colspan="3" style="{{ $myStyle }}">{{ $saldo }}</td>
-            </tr>
-            @endif
-
         </tbody>
+        <tfoot class="myBackGround">
+            @if($resumen ==0)
+                <tr>
+                    <td>Total</td>
+                    <td>{{ ' ' }}</td>
+                    <td>{{ number_format($totalCreditos,2) }}</td>
+                    <td>{{ number_format($totalDebitos,2) }}</td>
+                    <td style="text-align: right;">{{ number_format($saldo,2) }}</td>
+                </tr>
+            @else
+                <tr>
+                    <td colspan="2">Total</td>
+                    <td colspan="3" style="text-align: right;">{{ number_format($saldo,2) }}</td>
+                </tr>
+            @endif
+        </tfoot>
     </table>
-    
-    <hr>
-    <hr>
 
-    <table style="float: left;">
+    {{-- 
+        
+
+            Resumen por grupo 
+        
+
+    --}}
+
+    <table style="float: right;  {{$myFont}} {{$myWidth}}">
 
         <!-- transaccion por grupos -->
         {{-- dd($summary) --}}
         {{-- dd($groupsummary) --}}
-        <style>
-            .myStyleHeader {
-                text-align:center; 
-                background-color: #001C30; 
-                color: #ffffff; 
-                font-weight: bolder; 
-                font-size: 15px; 
-                text-transform: uppercase; 
-                width:300px;                
-            }
-
-            .myStyleRow {
-                background-color: #001C30; 
-                color: #ffffff; 
-                font-weight: bolder; 
-                font-size: 13px; 
-                text-transform: uppercase; 
-                width:200px;
-            }
-        </style>
             
-        <thead>
+        <thead class="myBackGround">
             <tr>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th colspan="5" style="{{ $myStyle2 }}">
+                <th colspan="5">
                     Resumen por Grupo
                 </th>
             </tr>   
             <tr>
                 @if($fechaDesde != "2001-01-01")
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th colspan="5" style="{{ $myStyle2 }}">
+                    <th colspan="5">
                         Fecha desde: {{ $fechaDesde }}   |      Fecha Hasta:  {{ $fechaHasta }}
                     </th>
 
-                @else
-                    <th></th>
-                    <th></th>
-                    <th></th>                                                
-                    <th colspan="5" style="{{ $myStyle2 }}">
+                @else                                              
+                    <th colspan="5">
                         a la Fecha:  {{ date('d-m-Y') }}
                     </th>
 
@@ -261,22 +219,16 @@
             </tr>   
             @if($resumen == 0)                              
                 <tr>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th style="{{ $myStyle }}">Grupo</th>
-                    <th style="{{ $myStyle }}{{$myDisplay}}">Saldo Anterior</th>
-                    <th style="{{ $myStyle }}{{$myDisplay}}">Creditos</th>
-                    <th style="{{ $myStyle }}{{$myDisplay}}">Debitos</th>
-                    <th style="{{ $myStyle }}">Total</th>
+                    <th>Grupo</th>
+                    <th>Saldo Anterior</th>
+                    <th>Creditos</th>
+                    <th>Debitos</th>
+                    <th>Total</th>
                 </tr>
             @else
                 <tr>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th colspan="2" style="{{ $myStyle }}">Grupo</th>
-                    <th colspan="3" style="{{ $myStyle }}">Total</th>
+                    <th colspan="2">Grupo</th>
+                    <th colspan="3">Total</th>
                 </tr>
             @endif
         </thead>
@@ -307,47 +259,37 @@
                 @endphp
                 @if($resumen ==0)
                     <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
                         <td>{{ $groupsummary_row->NombreGrupo }}</td>
-                        <td style="{{$myDisplay}}">{{ $groupsummary_row->BalanceAnterior }}</td>
-                        <td style="{{$myDisplay}}">{{ $groupsummary_row->Creditos }}</td>
-                        <td style="{{$myDisplay}}">{{ $groupsummary_row->Debitos }}</td>
-                        <td>{{ $groupsummary_row->Total }}</td>
+                        <td style="text-align: right;">{{ $groupsummary_row->BalanceAnterior }}</td>
+                        <td style="text-align: right;">{{ $groupsummary_row->Creditos }}</td>
+                        <td style="text-align: right;">{{ $groupsummary_row->Debitos }}</td>
+                        <td style="text-align: right;">{{ $groupsummary_row->Total }}</td>
                     </tr>
                 @else
                     <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
                         <td colspan="2" >{{ $groupsummary_row->NombreGrupo }}</td>
-                        <td colspan="3" >{{ $groupsummary_row->Total }}</td>
+                        
+                        <td colspan="3" style="text-align: right;">{{ number_format($groupsummary_row->Total,2) }}</td>
                     </tr>
                 @endif
             @endforeach
+        </tbody>
+        <tfoot class="myBackGround">
             @if($resumen == 0)
                 <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td style="{{ $myStyle }}"></td>
-                    <td style="{{ $myStyle }}">{{ $totalBalanceAnterior }}</td>
-                    <td style="{{ $myStyle }}">{{ $totalCreditos }}</td>
-                    <td style="{{ $myStyle }}">{{ $totalDebitos }}</td>
-                    <td style="{{ $myStyle }}">{{ $totalTotal }}</td>                    
+                    <td>Total</td>
+                    <td style="text-align: right;">{{ number_format($totalBalanceAnterior,2) }}</td>
+                    <td style="text-align: right;">{{ number_format($totalCreditos,2) }}</td>
+                    <td style="text-align: right;">{{ number_format($totalDebitos,2) }}</td>
+                    <td style="text-align: right;">{{ number_format($totalTotal,2) }}</td>                    
                 </tr>            
             @else
                 <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td colspan="2" style="{{ $myStyle }}"></td>
-                    <td colspan="3" style="{{ $myStyle }}">{{ $totalTotal }}</td>
+                    <td colspan="2">Total</td>
+                    <td colspan="3" style="text-align: right;">{{ number_format($totalTotal,2) }}</td>
                 </tr>                
-            @endif  
-            <hr>
-        </tbody>
+            @endif    
+        </tfoot>      
     </table>
     </main>
 </body>
