@@ -402,6 +402,24 @@ class HomeController extends Controller
         if ($request->filtroGroup) {
             $myFiltroGroup  = $request->filtroGroup;
         }        
+
+
+
+
+        $myFiltroWalletB     = "";
+        $myFiltroGroupB      = "";
+        if ($request->filtroWalletB) {
+            $myFiltroWalletB = $request->filtroWalletB;
+
+        }
+        if ($request->filtroGroupB) {
+            $myFiltroGroupB  = $request->filtroGroupB;
+        } 
+
+
+
+
+
         //
         // obtiene saldo anterior wallets
         // 
@@ -430,7 +448,7 @@ class HomeController extends Controller
 
         
         //dd($balanceDetail);
-        return Excel::download(new DashboardSaldosExport($wallet_summary, $group_summary, $myFechaDesde, $myFechaHasta, $myFiltroWallet, $myFiltroGroup, $myResumen), 'Saldos al corte.xlsx');
+        return Excel::download(new DashboardSaldosExport($wallet_summary, $group_summary, $myFechaDesde, $myFechaHasta, $myFiltroWallet, $myFiltroGroup, $myFiltroWalletB, $myFiltroGroupB, $myResumen), 'Saldos al corte.xlsx');
                                    
     }
 
@@ -462,6 +480,19 @@ class HomeController extends Controller
         if ($request->filtroGroup) {
             $myFiltroGroup  = $request->filtroGroup;
         }        
+
+        $myFiltroWalletB     = "";
+        $myFiltroGroupB      = "";
+        if ($request->filtroWalletB) {
+            $myFiltroWalletB = $request->filtroWalletB;
+
+        }
+        if ($request->filtroGroupB) {
+            $myFiltroGroupB  = $request->filtroGroupB;
+        }   
+
+        // dd('aqui en homrecontrolelr myFiltroGrupoB ->' . $myFiltroGroupB);
+
         //
         // obtiene saldo anterior wallets
         // 
@@ -497,6 +528,8 @@ class HomeController extends Controller
         $parametros['fechaHasta']     = $myFechaHasta;
         $parametros['filtroWallet']     = $myFiltroWallet;
         $parametros['filtroGroup']      = $myFiltroGroup;
+        $parametros['filtroWalletB']     = $myFiltroWalletB;
+        $parametros['filtroGroupB']      = $myFiltroGroupB;        
         $parametros['resumen']          = $myResumen;
         
         $pdf = \PDF::loadView('dashboardSaldosPDF', $parametros);

@@ -41,8 +41,8 @@ class statisticsController extends Controller
         return $this->myDebits;
     }
 
-    private $myCredits          = "1,3,5,6,7,9,11,14,15,16,17,18";
-    private $myDebits           = "2,4,8,10,12,13,19,20,21,22,23,24";
+    private $myCredits          = "1,3,5,6,7,9,11,14,15,16,17,18,25";
+    private $myDebits           = "2,4,8,10,12,13,19,20,21,22,23,24,26";
     public function getCreditDebitGroup($myType){
  
         $myTypeCredit   = explode(",",$this->myCredits);
@@ -71,8 +71,8 @@ class statisticsController extends Controller
     *
     *
     */
-    private $myCreditsWallet    = "2,4,6,7,10,13,19,20,21,22,23,24";
-    private $myDebitsWallet     = "1,3,5,8,9,11,12,14,15,16,17,18";
+    private $myCreditsWallet    = "2,4,6,7,10,13,19,20,21,22,23,24,26";
+    private $myDebitsWallet     = "1,3,5,8,9,11,12,14,15,16,17,18,25";
     public function getCreditDebitWallet($myType){
 
         
@@ -2616,6 +2616,42 @@ class statisticsController extends Controller
 
         return response()->json($myResponse);
     }
+
+
+    public function filtrosLeeWalletB(){
+
+        $myfile = fopen("myFiltros", "r") or die("Unable to open file!");
+
+        
+        $myWallets = fgets($myfile);
+        
+        $myGroups  = fgets($myfile);
+
+        $myWalletsB = fgets($myfile);
+        
+        $myGroupsB  = fgets($myfile);
+
+        fclose($myfile);        
+
+        $myWalletsB = json_decode($myWalletsB,true);
+        // $myGroups = json_decode($myGroups);
+
+        \Log::info('lee myWallets         -> ' . print_r($myWalletsB,true));
+
+        \Log::info('lee myWallets value -> ' . implode(",",$myWalletsB['walletsB']));
+
+        
+
+        $myResponse = 
+        [
+            'success' => true,
+            'data' => $myWalletsB['walletsB'],
+            'message' => 'mi mensaje de leer'
+        ];
+
+        return response()->json($myResponse);
+    }
+
     public function filtrosLeeGroup(){
 
         $myfile = fopen("myFiltros", "r") or die("Unable to open file!");
@@ -2641,6 +2677,39 @@ class statisticsController extends Controller
         return response()->json($myResponse);
     }
 
+
+
+
+
+    public function filtrosLeeGroupB(){
+
+        $myfile = fopen("myFiltros", "r") or die("Unable to open file!");
+
+        
+        $myWallets = fgets($myfile);
+        
+        $myGroups  = fgets($myfile);
+
+        $myWalletsB = fgets($myfile);
+        
+        $myGroupsB  = fgets($myfile);
+
+
+        fclose($myfile);        
+
+        $myGroupsB = json_decode($myGroupsB,true);
+
+        $myResponse = 
+        [
+            'success' => true,
+            'data' => $myGroupsB['groupsB'],
+            'message' => 'mi mensaje de leer'
+        ];
+
+        return response()->json($myResponse);
+    }
+
+
     public function filtrosGrabaWallet(Request $request){
 
         $myfile = fopen("myFiltros", "w") or die("Unable to open file!");
@@ -2649,6 +2718,12 @@ class statisticsController extends Controller
         fwrite($myfile, $myLine);
 
         $myLine = '{"groups" : [' .implode(",",$request->myDataGroup) . "]}" . PHP_EOL;
+        fwrite($myfile, $myLine);
+
+        $myLine = '{"walletsB" : [' . implode(",",$request->myDataWalletB) . "]}" . PHP_EOL;
+        fwrite($myfile, $myLine);
+
+        $myLine = '{"groupsB" : [' .implode(",",$request->myDataGroupB) . "]}" . PHP_EOL;
         fwrite($myfile, $myLine);
 
         fclose($myfile);   
@@ -2693,6 +2768,30 @@ class statisticsController extends Controller
         return $myWallets['wallets'];
 
     }
+    function filtrosLeeWallet2B(){
+
+        $myfile = fopen("myFiltros", "r") or die("Unable to open file!");
+
+        
+        $myWallets = fgets($myfile);
+        
+        $myGroups  = fgets($myfile);
+
+        $myWalletsB = fgets($myfile);
+        
+        $myGroupsB  = fgets($myfile);
+
+        fclose($myfile);        
+
+         $myWalletsB = json_decode($myWalletsB,true);
+        // $myGroups = json_decode($myGroups);
+
+        \Log::info('lee myWallets -> ' . print_r($myWalletsB,true));
+        \Log::info('lee myGroups  -> ' . print_r($myGroupsB,true));
+
+        return $myWalletsB['walletsB'];
+
+    }
 
     function filtrosLeeGroup2(){
 
@@ -2717,6 +2816,32 @@ class statisticsController extends Controller
 
     }
     
+
+    function filtrosLeeGroup2B(){
+
+        $myfile = fopen("myFiltros", "r") or die("Unable to open file!");
+
+        
+        $myWallets = fgets($myfile);
+        
+        $myGroups  = fgets($myfile);
+
+        $myWalletsB = fgets($myfile);
+        
+        $myGroupsB  = fgets($myfile);
+
+
+        fclose($myfile);        
+
+        // $myWallets = json_decode($myWallets,true);
+         $myGroupsB = json_decode($myGroupsB,true);
+
+        \Log::info('lee myWallets -> ' . print_r($myWalletsB,true));
+        \Log::info('lee myGroups  -> ' . print_r($myGroupsB,true));
+
+        return $myGroupsB['groupsB'];
+
+    }
 
     function filtrosLeeEstadisticas(){
 

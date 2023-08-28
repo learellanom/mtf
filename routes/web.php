@@ -86,14 +86,18 @@ Route::get('dashboardest/exportpdf/{wallet?}/{transaction?}/{fechaDesde?}/{fecha
 
 
 Route::get('dashboard_saldos/export/', [App\Http\Controllers\HomeController::class, 'exportSaldos'])->name('exports.saldos'); //EXPORTACIÓN DE EXCEL
-Route::get('dashboard_saldos/export/{fechaDesde?}/{fechaHasta?}/{filtroWallet?}/{filtroGroup?}/{resumen?}', [App\Http\Controllers\HomeController::class, 'exportSaldos'])->name('exports.saldos'); //EXPORTACIÓN DE EXCEL
+Route::get('dashboard_saldos/export/{fechaDesde?}/{fechaHasta?}/{filtroWallet?}/{filtroGroup?}/{filtroWalletB?}/{filtroGroupB?}/{resumen?}', [App\Http\Controllers\HomeController::class, 'exportSaldos'])->name('exports.saldos'); //EXPORTACIÓN DE EXCEL
 
 Route::get('dashboard_saldos/exportSaldosPDF/', [App\Http\Controllers\HomeController::class, 'exportSaldosPDF'])->name('exports.SaldosPDF'); //EXPORTACIÓN DE EXCEL
-Route::get('dashboard_saldos/exportSaldosPDF/{fechaDesde?}/{fechaHasta?}/{filtroWallet?}/{filtroGroup?}/{resumen?}', [App\Http\Controllers\HomeController::class, 'exportSaldosPDF'])->name('exports.SaldosPDF'); //EXPORTACIÓN DE EXCEL
+Route::get('dashboard_saldos/exportSaldosPDF/{fechaDesde?}/{fechaHasta?}/{filtroWallet?}/{filtroGroup?}/{filtroWalletB?}/{filtroGroupB?}/{resumen?}', [App\Http\Controllers\HomeController::class, 'exportSaldosPDF'])->name('exports.SaldosPDF'); //EXPORTACIÓN DE EXCEL
 
 
 Route::get('filtrosLeeWallet', [App\Http\Controllers\statisticsController::class, 'filtrosLeeWallet'])->name('filtrosLeeWallet'); // Lee filtros
 Route::get('filtrosLeeGroup', [App\Http\Controllers\statisticsController::class, 'filtrosLeeGroup'])->name('filtrosLeeGroup'); // Lee filtros
+
+
+Route::get('filtrosLeeWalletB', [App\Http\Controllers\statisticsController::class, 'filtrosLeeWalletB'])->name('filtrosLeeWalletB'); // Lee filtros
+Route::get('filtrosLeeGroupB', [App\Http\Controllers\statisticsController::class, 'filtrosLeeGroupB'])->name('filtrosLeeGroupB'); // Lee filtros
 
 Route::post('filtrosGrabaWallet', [App\Http\Controllers\statisticsController::class, 'filtrosGrabaWallet'])->name('filtrosGrabaWallet'); // Lee filtros
 Route::post('filtrosGrabaGroup', [App\Http\Controllers\statisticsController::class, 'filtrosGrabaGroup'])->name('filtrosGrabaGroup'); // Lee filtros

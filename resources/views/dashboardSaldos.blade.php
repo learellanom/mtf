@@ -235,64 +235,110 @@
 
         <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">Filtros
 
-            <div class="card mb-4">
-                <div class="card-header">
-                    <h3 class="card-title text-uppercase font-weight-bold">Filtros Wallet</h3>
-                </div>
-                <div class="card-body">    
-                    <div class="row justify-content-center text-center align-items-center">
-
-                        <div class="col-12 col-md-6 col-lg-6 col-xl-4 justify-content-center text-center align-items-center">
+            <div class="row card-deck">
+                <div class="card mb-4 col-12 col-sm-6">
+                    <div class="card-header">
+                        <h3 class="card-title text-uppercase font-weight-bold">Filtros Wallet</h3>
+                    </div>
+                    <div class="card-body">    
+                        <div class="row justify-content-center text-center align-items-center">
                             <select multiple="multiple" id="my-select" name="my-select[]">
-                            </select>   
+                            </select>
+                        </div>     
+                        <br>
+                        <br>
+                        <div class="row justify-content-center text-center align-items-center">
+                            <div class="col-12 col-sm-3 mt-2">
+                                <button id="myButtonAplicar" type="button" class="btn btn-outline-primary btn-sm ">Aplicar</button>
+
+                            </div>
+
+                            <div class="col-12 col-sm-3 mt-2">
+                                <button id="myButtonLimpiar" type="button" class="btn btn-outline-primary btn-sm ">Limpiar</button>
+                            </div>                    
                         </div>
-
-                    </div>     
-                    <br>
-                    <br>
-                    <div class="row justify-content-center text-center align-items-center">
-                        <div class="col-12 col-sm-2 mt-2">
-                            <button id="myButtonAplicar" type="button" class="btn btn-outline-primary btn-sm ">Aplicar</button>
-
-                        </div>
-
-                        <div class="col-12 col-sm-2 mt-2">
-                            <button id="myButtonLimpiar" type="button" class="btn btn-outline-primary btn-sm ">Limpiar</button>
-                        </div>                    
                     </div>
                 </div>
-            </div>
 
-    
-
-            <div class="card mb-4">
-                <div class="card-header">
-                    <h3 class="card-title text-uppercase font-weight-bold">Filtros Grupos</h3>
-                </div>
-                <div class="card-body">    
-
-
-
-                    <div class="row justify-content-center text-center align-items-center">
-
-                        <div class="col-12 col-md-6 col-lg-6 col-xl-4 justify-content-center text-center align-items-center>
+                <div class="card mb-4 col-12 col-sm-6 lm-2">
+                    <div class="card-header">
+                        <h3 class="card-title text-uppercase font-weight-bold">Filtros Grupos</h3>
+                    </div>
+                    <div class="card-body">    
+                        <div class="row justify-content-center text-center align-items-center">
                             <select multiple="multiple" id="my-select2" name="my-select2[]">
                             </select>   
+                        </div>     
+                        <br>
+                        <br>
+                        <div class="row justify-content-center text-center align-items-center">
+                            <div class="col-12 col-sm-3 mt-2">
+                                <button id="myButtonAplicar2" type="button" class="btn btn-outline-primary btn-sm ">Aplicar</button>
+                            </div>
+                            <div class="col-12 col-sm-3 mt-2">
+                                <button id="myButtonLimpiar2" type="button" class="btn btn-outline-primary btn-sm ">Limpiar</button>                        
+                            </div>                
                         </div>
 
-                    </div>     
-
-                    <div class="row justify-content-center text-center align-items-center">
-                        <div class="col-12 col-sm-2 mt-2">
-                            <button id="myButtonAplicar2" type="button" class="btn btn-outline-primary btn-sm ">Aplicar</button>
-                        </div>
-                        <div class="col-12 col-sm-2 mt-2">
-                            <button id="myButtonLimpiar2" type="button" class="btn btn-outline-primary btn-sm ">Limpiar</button>                        
-                        </div>                
                     </div>
-
                 </div>
             </div>
+
+            <div class="row justify-content-center text-center align-items-center">
+                <h4>Filtros Seccion B</h4>
+            </div>
+
+            <div class="row card-deck">
+                <div class="card mb-4 col-12 col-sm-6">
+                    <div class="card-header">
+                        <h3 class="card-title text-uppercase font-weight-bold">Filtros Wallet</h3>
+                    </div>
+                    <div class="card-body">    
+                        <div class="row justify-content-center text-center align-items-center">
+                            <select multiple="multiple" id="my-select3" name="my-select3[]">
+                            </select>
+                        </div>     
+                        <br>
+                        <br>
+                        <div class="row justify-content-center text-center align-items-center">
+                            <div class="col-12 col-sm-3 mt-2">
+                                <button id="myButtonAplicar3" type="button" class="btn btn-outline-primary btn-sm ">Aplicar</button>
+
+                            </div>
+
+                            <div class="col-12 col-sm-3 mt-2">
+                                <button id="myButtonLimpiar3" type="button" class="btn btn-outline-primary btn-sm ">Limpiar</button>
+                            </div>                    
+                        </div>
+                    </div>
+                </div>
+
+        
+
+                <div class="card mb-4 col-12 col-sm-6 lm-2">
+                    <div class="card-header">
+                        <h3 class="card-title text-uppercase font-weight-bold">Filtros Grupos</h3>
+                    </div>
+                    <div class="card-body">    
+                        <div class="row justify-content-center text-center align-items-center">
+                            <select multiple="multiple" id="my-select4" name="my-select4[]">
+                            </select>   
+                        </div>     
+                        <br>
+                        <br>
+                        <div class="row justify-content-center text-center align-items-center">
+                            <div class="col-12 col-sm-3 mt-2">
+                                <button id="myButtonAplicar4" type="button" class="btn btn-outline-primary btn-sm ">Aplicar</button>
+                            </div>
+                            <div class="col-12 col-sm-3 mt-2">
+                                <button id="myButtonLimpiar4" type="button" class="btn btn-outline-primary btn-sm ">Limpiar</button>                        
+                            </div>                
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
 
         </div>
 
@@ -315,9 +361,13 @@
 
     @php
 
-        $myArrayWallets = app(statisticsController::class)->filtrosLeeWallet2();
+        $myArrayWallets     = app(statisticsController::class)->filtrosLeeWallet2();
 
-        $myArrayGroups  = app(statisticsController::class)->filtrosLeeGroup2();
+        $myArrayGroups      = app(statisticsController::class)->filtrosLeeGroup2();
+
+        $myArrayWalletsB    = app(statisticsController::class)->filtrosLeeWallet2B();
+
+        $myArrayGroupsB     = app(statisticsController::class)->filtrosLeeGroup2B();
 
     @endphp
 
@@ -332,52 +382,20 @@
         let myFechaHasta = {!! $myFechaHasta !!};
 
         // 
-
-        $('#my-select').multiSelect({
-            selectableHeader: `<div class='custom-header' style='background-color: black; color:white'>
-                                    Visibles    
-                                    <br><br> 
-                                    <div>
-                                        <i class='fas fa-circle' style='color: green;'></i>
-                                    </div>
-                                </div>`,
-            selectionHeader:  `<div class='custom-header' style='background-color: black; color:white'>
-                                    No Visibles 
-                                    <br>
-                                    <br> 
-                                    <div>
-                                        <i class='fas fa-circle' style='color: red;'>  </i>
-                                    </div>
-                                </div>`
-        });
-
-        $('#my-select2').multiSelect({
-            selectableHeader:  `<div class='custom-header' style='background-color: black; color:white'>
-                                    No Visibles
-                                    <br>
-                                    <br> 
-                                    <div>
-                                        <i class='fas fa-circle' style='color: red;'>  </i>
-                                    </div>                                    
-                                </div>`,
-            selectionHeader:   `<div class='custom-header' style='background-color: black; color:white'>
-                                    Visibles
-                                    <br><br> 
-                                    <div>
-                                        <i class='fas fa-circle' style='color: green;'></i>
-                                    </div>                                    
-                                </div>`
-        });
+        InicializaMultiselects();
 
         InicializaFechas();
         BuscaFechas(myFechaDesde, myFechaHasta);
 
-        calculoGeneral3();  
+        calculoGeneral3();
         calculos3();
 
-        calculoGeneral4();  
+        calculoGeneral4();
         calculos4();
 
+        calculoGeneralWallets1B();
+        calculoGrupos1B();
+        
         cargaGrupos();
         cargaWallets();
         leeFiltros();
@@ -432,7 +450,7 @@
         $('#myButtonAplicar').on('click', function (){
 
             $("#myTableWallet tr").each(function(){
-                if($(this).data("id")){
+                if($(this).data("id")){ 
                     $(this).removeAttr("hidden");
                 }
             });
@@ -469,14 +487,11 @@
 
         $('#myButtonLimpiar2').on('click', function (){
             $('#my-select2').multiSelect('deselect_all');
-            
-            
         });
 
         $('#myButtonAplicar2').on('click', function (){
 
             $("#myTableGroup tr").each(function(){
-                // $(this).removeAttr("hidden");
                 if($(this).data("id")){
                     $(this).attr("hidden",true);
                 }
@@ -511,7 +526,175 @@
             // window.location.reload();
         });
 
+
+
+        $('#myButtonLimpiar3').on('click', function (){
+            $('#my-select3').multiSelect('deselect_all');
+            
+        });
+
+        $('#myButtonAplicar3').on('click', function (){
+
+            $("#myTableWalletB tr").each(function(){
+                if($(this).data("id")){
+                    $(this).removeAttr("hidden");
+                }
+            });
+
+            $("#my-select3 option:selected").each(function(){
+                
+                seleccionado = $(this).attr('value');
+
+                $("#myTableWalletB tr").each(function(){
+                    if($(this).data("id")){
+                                                
+                        if ($(this).data("id") == seleccionado){
+                            
+                            $(this).attr("hidden",true);
+                        }
+                    }
+                });
+
+
+            });
+            
+            grabaFiltros();
+            
+            Swal.fire({
+                position: 'top-end',
+                icon: 'success',
+                title: 'Filtro aplicado satisfactoriamente',
+                showConfirmButton: false,
+                timer: 2500
+                });             
+            // window.location.reload();
+        });
+
+
+        
+
+        $('#myButtonLimpiar4').on('click', function (){
+            $('#my-select4').multiSelect('deselect_all');
+            
+            
+        });
+
+        $('#myButtonAplicar4').on('click', function (){
+
+            $("#myTableGroupB tr").each(function(){
+                // $(this).removeAttr("hidden");
+                if($(this).data("id")){
+                    $(this).attr("hidden",true);
+                }
+            });     
+
+            $("#my-select4 option:selected").each(function(){
+                
+                seleccionado = $(this).attr('value');
+                // alert(" seleccionado : " + seleccionado); 
+                $("#myTableGroupB tr").each(function(){
+                    if($(this).data("id")){
+                                                
+                        if ($(this).data("id") == seleccionado){
+                            
+                            $(this).attr("hidden",false);
+                        }
+                    }
+                });
+
+
+            });  
+
+            grabaFiltros();
+
+            Swal.fire({
+                position: 'top-end',
+                icon: 'success',
+                title: 'Filtro aplicado satisfactoriamente',
+                showConfirmButton: false,
+                timer: 2500
+            }); 
+            // window.location.reload();
+        });
+        
+        
+        
     });
+
+    function InicializaMultiselects(){
+        $('#my-select').multiSelect({
+            selectableHeader: `<div class='custom-header' style='background-color: black; color:white'>
+                                    Visibles    
+                                    <br><br> 
+                                    <div>
+                                        <i class='fas fa-circle' style='color: green;'></i>
+                                    </div>
+                                </div>`,
+            selectionHeader:  `<div class='custom-header' style='background-color: black; color:white'>
+                                    No Visibles 
+                                    <br>
+                                    <br> 
+                                    <div>
+                                        <i class='fas fa-circle' style='color: red;'>  </i>
+                                    </div>
+                                </div>`
+        });
+
+        $('#my-select2').multiSelect({
+            selectableHeader:  `<div class='custom-header' style='background-color: black; color:white'>
+                                    No Visibles
+                                    <br>
+                                    <br> 
+                                    <div>
+                                        <i class='fas fa-circle' style='color: red;'>  </i>
+                                    </div>                                    
+                                </div>`,
+            selectionHeader:   `<div class='custom-header' style='background-color: black; color:white'>
+                                    Visibles
+                                    <br><br> 
+                                    <div>
+                                        <i class='fas fa-circle' style='color: green;'></i>
+                                    </div>                                    
+                                </div>`
+        });
+        $('#my-select3').multiSelect({
+            selectableHeader: `<div class='custom-header' style="background-color: #5DADE2 !important; color:white">
+                                    Visibles    
+                                    <br><br> 
+                                    <div>
+                                        <i class='fas fa-circle' style='color: green;'></i>
+                                    </div>
+                                </div>`,
+            selectionHeader:  `<div class='custom-header' style="background-color: #5DADE2 !important; color:white">
+                                    No Visibles 
+                                    <br>
+                                    <br> 
+                                    <div>
+                                        <i class='fas fa-circle' style='color: red;'>  </i>
+                                    </div>
+                                </div>`
+        });
+
+        $('#my-select4').multiSelect({
+            selectableHeader:  `<div class='custom-header' style="background-color: #5DADE2 !important; color:white">
+                                    No Visibles
+                                    <br>
+                                    <br> 
+                                    <div>
+                                        <i class='fas fa-circle' style='color: red;'>  </i>
+                                    </div>                                    
+                                </div>`,
+            selectionHeader:   `<div class='custom-header' style="background-color: #5DADE2 !important; color:white">
+                                    Visibles
+                                    <br><br> 
+                                    <div>
+                                        <i class='fas fa-circle' style='color: green;'></i>
+                                    </div>                                    
+                                </div>`
+        });        
+    }
+
+
     /*
     *
     * calculos3 - group summary
@@ -608,7 +791,7 @@
         $("#myCanvas").append(myElement);
         
     }
-        /*
+    /*
     *
     * calculos3 - group summary
     * 
@@ -688,6 +871,191 @@
         `
         $("#myCanvas2").append(myElement);
     }
+
+
+    /*
+    *
+    * calculos3 - group summary
+    * 
+    */
+    function calculoGrupos1B(){
+
+
+        
+        let myElement;
+        {{-- dd($group_summary) --}}
+
+        myElement = `
+            <style>
+                .myTr {
+                    cursor: pointer;
+                }
+                .myTr:hover{
+                    background-color: #D7DBDD  !important;
+                }
+            </style>
+            <div class ="row mb-4" style="background-color: white;">
+
+                <div class="col-12 col-md-12 justify-content-center text-center align-items-center mb-4 mt-4">
+                    <h4>Resumen por Grupo</h4>
+                </div>
+                @php
+                    $totalBalanceAnterior   = 0;
+                    $totalCreditos          = 0;
+                    $totalDebitos           = 0;
+                    $totalTotal             = 0 ;       
+                    $myTotal = 0;         
+                @endphp
+                <div class="col-12 col-md-12">
+                    <table class="table thead-light" style="background-color: white;" id="myTableGroupB">
+                        <thead class="" style="background-color: #5DADE2 !important; color:white">
+                            <tr>
+                                <th style="width:1%;">Grupo</th>
+                                <th style="width:1%;">Saldo Anterior</th>                                
+                                <th style="width:1%;">Creditos</th>
+                                <th style="width:1%;">Debitos</th>
+                                <th style="width:1%;">Total</th>                                        
+                            </tr>
+                        </thead>
+                        @foreach($group_summary as $group2)
+                            @php
+                                $indMuestra = 0;
+                                foreach($myArrayGroupsB as $value){
+                                    if ($value == $group2->IdGrupo){
+                                        $indMuestra = 1;
+                                    }
+                                }
+                            @endphp
+                            @if($indMuestra == 0)
+                                @continue
+                            @endif
+
+                            @php
+                                /*
+                                switch($group2->IdGrupo){
+                                    case 43:
+                                    case 44:
+                                        $myTotal = ($group2->BalanceAnterior + $group2->Creditos ) - $group2->Debitos;                                                                     
+                                        break;
+                                    default:
+                                        $myTotal = ($group2->BalanceAnterior + $group2->Creditos ) - $group2->Debitos;                             
+                                        $totalBalanceAnterior   += $group2->BalanceAnterior;
+                                        $totalCreditos          += $group2->Creditos;
+                                        $totalDebitos           += $group2->Debitos;
+                                        $totalTotal             += $myTotal ;     
+                                        break;                                      
+                                }
+                                */
+                                $myTotal = ($group2->BalanceAnterior + $group2->Creditos ) - $group2->Debitos;                             
+                                $totalBalanceAnterior   += $group2->BalanceAnterior;
+                                $totalCreditos          += $group2->Creditos;
+                                $totalDebitos           += $group2->Debitos;
+                                $totalTotal             += $myTotal ;     
+                            @endphp
+
+                            <tr class="myTr" onClick="theRoute2({{0}}, {{ $group2->IdGrupo }}, {{0}}, {{0}})" data-id="{{$group2->IdGrupo}}">
+                                <td >{{ $group2->NombreGrupo}}</td>
+                                <td >{{ number_format($group2->BalanceAnterior,2) }}</td>                                
+                                <td >{{ number_format($group2->Creditos,2) }}</td>
+                                <td >{{ number_format($group2->Debitos,2)}}</td>
+                                <td >{{ number_format($myTotal ,2)}}</td>
+                            </tr>
+                        @endforeach
+                        <tfoot>
+                            <tr style="background-color: #5DADE2 !important; color:white">
+                                <td >{{ ' ' }}</td>
+                                <td >{{ number_format($totalBalanceAnterior,2) }}</td>
+                                <td >{{ number_format($totalCreditos,2) }}</td>
+                                <td >{{ number_format($totalDebitos,2) }}</td>
+                                <td >{{ number_format($totalTotal,2) }}</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        `
+        $("#myCanvas").append(myElement);
+
+
+         myElement;
+        {{-- dd($group_summary) --}}
+
+        myElement = `
+            <style>
+                .myTr {
+                    cursor: pointer;
+                }
+                .myTr:hover{
+                    background-color: #D7DBDD  !important;
+                }
+            </style>
+            <div class ="row mb-4" style="background-color: white;">
+
+                <div class="col-12 col-md-12 justify-content-center text-center align-items-center mb-4 mt-4">
+                    <h4>Resumen por Grupo</h4>
+                </div>
+
+
+                <div class="col-12 col-md-12">
+                    <table class="table thead-light" style="background-color: white;" id="myTableGroupB">
+                        <thead class="" style="background-color: #5DADE2 !important; color:white">
+                            <tr>
+                                <th style="width:1%;">Grupo</th>
+                        
+                                <th style="width:1%;">Total</th>                                        
+                            </tr>
+                        </thead>
+                        @php
+                            $myTotal = 0;
+                            $myTotalTotal = 0;                            
+                        @endphp                        
+                        @foreach($group_summary as $group2)
+                            @php
+                                $indMuestra = 0;
+                                foreach($myArrayGroupsB as $value){
+                                    if ($value == $group2->IdGrupo){
+                                        $indMuestra = 1;
+                                    }
+                                }
+                            @endphp
+                            @if($indMuestra == 0)
+                                @continue
+                            @endif
+                            @php
+                                /*
+                                switch($group2->IdGrupo){
+                                    case 43: // abu joder
+                                    case 44: // Revilla
+                                        $myTotal = ($group2->BalanceAnterior + $group2->Creditos ) - $group2->Debitos;                                         
+                                        break;
+                                    default:
+                                        $myTotal = ($group2->BalanceAnterior + $group2->Creditos ) - $group2->Debitos; 
+                                        $myTotalTotal += $myTotal;
+                                        break;
+                                }
+                                */
+                                $myTotal = ($group2->BalanceAnterior + $group2->Creditos ) - $group2->Debitos; 
+                                        $myTotalTotal += $myTotal;                                
+                            @endphp
+                            <tr class="myTr" onClick="theRoute2({{0}}, {{ $group2->IdGrupo }}, {{0}}, {{0}})" data-id="{{$group2->IdGrupo}}">
+                                <td >{{ $group2->NombreGrupo}}</td>
+                                <td >{{ number_format($myTotal ,2)}}</td>
+                            </tr>
+                        @endforeach
+                        <tfoot>
+                            <tr style="background-color: #5DADE2 !important; color:white">
+                                <td > </td>
+                                <td >{{ number_format($myTotalTotal ,2)}}</td>
+                            </tr>  
+                        </tfoot>                      
+                    </table>
+                </div>
+            </div>
+        `
+        $("#myCanvas2").append(myElement);
+    }
+
+
     /*
     *
     *   calculogeneral3
@@ -800,6 +1168,214 @@
     }
     /*
     *
+    *   calculoGeneralWalletsB
+    *
+    */
+    function calculoGeneralWallets1B(){
+
+        let myElement;
+
+        {{-- dd($wallet_summary) --}}
+
+        myElement =
+        `
+            <h4>Resumen por Wallet B</h4>
+            <style>
+                .myTr {
+                    cursor: pointer;
+                }
+                .myTr:hover{
+                    background-color: #D7DBDD  !important;
+                }
+            </style>
+            <div class ="row mb-4" style="background-color: white;">
+
+
+                <div class="col-12 col-md-12 justify-content-center text-center align-items-center mb-4 mt-4">
+                    <h4>Resumen por Wallet</h4>
+                </div>
+
+                <div class="col-12 col-md-12">
+                    <table id="myTableWalletB" class="table " style="background-color: white;">
+                        <thead class="" style="background-color: #5DADE2 !important; color:white">
+                            <tr>
+                                <th style="width:1%; display: none;">Id</th>                            
+                                <th style="width:1%;"               >Wallet</th>
+                                <th style="width:1%;"               >Saldo Anterior</th>                                
+                                <th style="width:1%;"               >Entrada</th>
+                                <th style="width:1%;"               >Salidas</th>
+                                <th style="width:1%;"               >Saldo</th>
+                            </tr>
+                        </thead>
+                        @php
+                            $cantCreditos  = 0;
+                            $cantDebitos   = 0;
+
+                            $totalSaldoAnterior  = 0;
+                            $totalCreditos  = 0;
+                            $totalDebitos   = 0;
+
+                            $total = 0;
+                        @endphp
+                        
+                        @foreach($wallet_summary as $wallet2)
+
+                            <tr class="myTr" onClick="theRoute2({{0}}, {{0}}, {{$wallet2->IdWallet}}, {{0}})" data-id="{{$wallet2->IdWallet}}">
+
+                                @php
+
+                                    $indMuestra = 1;
+                                    foreach($myArrayWalletsB as $value){
+                                        if ($value == $wallet2->IdWallet){
+                                            $indMuestra = 0;
+                                        }
+                                    }
+
+                                
+                                @endphp
+                                @if($indMuestra == 0)
+                                    @continue
+                                @endif
+                                @php
+                                    $cantCreditos ++;
+                                    $totalCreditos += $wallet2->Creditos;
+                                    $totalDebitos  += $wallet2->Debitos;
+
+                                    $myTotal = ($wallet2->BalanceAnterior + $wallet2->Creditos ) - $wallet2->Debitos;
+                                    $total  += $myTotal;  
+                                @endphp
+                                <td >{{ $wallet2->NombreWallet}}</td>
+                                <td >{{ number_format($wallet2->BalanceAnterior,2)}}</td>                                
+                                <td >{{ number_format($wallet2->Creditos,2)  }}</td>
+                                <td >{{ number_format($wallet2->Debitos,2) }}</td>
+                                <!-- <td >{{ number_format($wallet2->Total,2) }}</td> -->
+                                <td >{{ number_format($myTotal,2) }}</td>                                
+                            </tr>
+
+                        @endforeach
+                        <tfoot>
+                            <tr style="background-color: #5DADE2 !important; color:white">
+                                <td >{{ ' ' }}</td>
+                                <td >{{ number_format($totalSaldoAnterior,2) }}</td>
+                                <td >{{ number_format($totalCreditos,2) }}</td>
+                                <td >{{ number_format($totalDebitos,2) }}</td>
+                                <td >{{ number_format($total,2) }}</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+
+
+            </div>
+        `;
+
+        // alert(myElement);
+
+        // console.log(myElement);
+
+        $("#myCanvas").append(myElement);
+
+
+
+
+         
+
+        {{-- dd($wallet_summary) --}}
+
+        myElement =
+        `
+            <style>
+                .myTr {
+                    cursor: pointer;
+                }
+                .myTr:hover{
+                    background-color: #D7DBDD  !important;
+                }
+            </style>
+            <h4>Resumen por Wallet B</h4>            
+            <div class ="row mb-4" style="background-color: white;">
+
+
+                <div class="col-12 col-md-12 justify-content-center text-center align-items-center mb-4 mt-4">
+                    <h4>Resumen por Wallet</h4>
+                </div>
+
+                <div class="col-12 col-md-12">
+                    <table id="myTableWallet" class="table thead-light" style="background-color: white;">
+                        <thead class="" style="background-color: #5DADE2 !important; color:white">
+                            <tr>
+                                <th style="width:1%; display: none;">Id</th>                            
+                                <th style="width:1%;"               >Wallet</th>
+                          
+                                <th style="width:1%;"               >Saldo</th>
+                            </tr>
+                        </thead>
+                        @php
+                            $cantCreditos  = 0;
+                            $cantDebitos   = 0;
+
+                            $totalSaldoAnterior  = 0;
+                            $totalCreditos  = 0;
+                            $totalDebitos   = 0;
+
+                            $total = 0;
+                        @endphp
+                        
+                        @foreach($wallet_summary as $wallet2)
+
+                            <tr class="myTr" onClick="theRoute2({{0}}, {{0}}, {{$wallet2->IdWallet}}, {{0}})" data-id="{{$wallet2->IdWallet}}">
+
+                                @php
+                                    $indMuestra = 1;
+                                    foreach($myArrayWalletsB as $value){
+                                        if ($value == $wallet2->IdWallet){
+                                            $indMuestra = 0;
+                                        }
+                                    }
+                                @endphp
+
+                                @if($indMuestra == 0)
+                                    @continue
+                                @endif
+
+                                @php
+                                    $cantCreditos ++;
+                                    $totalCreditos += $wallet2->Creditos;
+                                    $totalDebitos  += $wallet2->Debitos;
+
+                                    $myTotal = ($wallet2->BalanceAnterior + $wallet2->Creditos ) - $wallet2->Debitos;
+                                    $total  += $myTotal; 
+                                @endphp
+                                
+                                <td >{{ $wallet2->NombreWallet}}</td>
+                             
+                                <!-- <td >{{ number_format($wallet2->Total,2) }}</td> -->
+                                <td >{{ number_format($myTotal,2) }}</td>                                
+                            </tr>
+
+                        @endforeach
+                        <tfoot>
+                            <tr style="background-color: #5DADE2 !important; color:white">
+                                <td >{{ ' ' }}</td>
+                                <td >{{ number_format($total,2) }}</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+
+
+            </div>
+        `;
+
+        // alert(myElement);
+
+        // console.log(myElement);
+
+        $("#myCanvas2").append(myElement);
+
+    }    
+    /*
+    *
     *   calculogeneral3
     *   sin wallet
     *
@@ -902,9 +1478,11 @@
 
 
     }
+
+
+
+
     function theRoute(wallet = 0, transaction = 0, fechaDesde = 0, fechaHasta = 0){
-
-
 
         let myRoute = "";
 
@@ -1029,22 +1607,30 @@
     }
 
     function cargaGrupos(){
+
         @foreach($group as $key => $group2)
             // console.log('el grupo con key {!! $key !!} es {!! $group2 !!}');
             $('#my-select2').multiSelect('addOption', { value: '{!! $key !!}', text: '{!! $group2 !!}' });
+            $('#my-select4').multiSelect('addOption', { value: '{!! $key !!}', text: '{!! $group2 !!}' });
+
         @endforeach
+
+
     }
 
     function cargaWallets(){
         @foreach($wallet as $key => $wallet2)
             // console.log('el grupo con key {!! $key !!} es {!! $wallet2 !!}');
             $('#my-select').multiSelect('addOption', { value: '{!! $key !!}', text: '{!! $wallet2 !!}' });
+            $('#my-select3').multiSelect('addOption', { value: '{!! $key !!}', text: '{!! $wallet2 !!}' });            
         @endforeach
     }
 
     function exportaSaldos(myResumen = 0){
-        let myFiltroWallet  = buscaFiltrosWallet();
-        let myFiltroGroup   = buscaFiltrosGroup();
+        let myFiltroWallet      = buscaFiltrosWallet("my-select");
+        let myFiltroGroup       = buscaFiltrosGroup('my-select2');
+        let myFiltroWalletB     = buscaFiltrosWallet("my-select3");
+        let myFiltroGroupB      = buscaFiltrosGroup('my-select4');
 
         let myRoute = "";
         let fechaDesde = "{{$myFechaDesde}}";
@@ -1052,12 +1638,15 @@
 
         let resumen = myResumen;
 
-        myRoute = "{{route('exports.saldos', ['fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2', 'filtroWallet' => 'filtroWallet2', 'filtroGroup' => 'filtroGroup2', 'resumen' => 'resumen2'])}}"
+        myRoute = "{{route('exports.saldos', ['fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2', 'filtroWallet' => 'filtroWallet2', 'filtroGroup' => 'filtroGroup2', 'filtroWalletB' => 'filtroWallet2B', 'filtroGroupB' => 'filtroGroup2B', 'resumen' => 'resumen2'])}}"
 
-        myRoute = myRoute.replace('fechaDesde2',    fechaDesde);
-        myRoute = myRoute.replace('fechaHasta2',    fechaHasta);
-        myRoute = myRoute.replace('filtroWallet2',  myFiltroWallet);
-        myRoute = myRoute.replace('filtroGroup2',   myFiltroGroup);
+        myRoute = myRoute.replace('fechaDesde2',        fechaDesde);
+        myRoute = myRoute.replace('fechaHasta2',        fechaHasta);
+        myRoute = myRoute.replace('filtroWallet2',      myFiltroWallet);
+        myRoute = myRoute.replace('filtroGroup2',       myFiltroGroup);
+        myRoute = myRoute.replace('filtroWallet2B',     myFiltroWalletB);
+        myRoute = myRoute.replace('filtroGroup2B',      myFiltroGroupB);
+
         myRoute = myRoute.replace('resumen2',       resumen);
 
         // alert(' myRoute ->' + myRoute);
@@ -1065,26 +1654,27 @@
         location.href = myRoute;
     }
 
-    function buscaFiltrosWallet(){
+    function buscaFiltrosWallet(myMultiSelect = ""){
+
+        // alert("myMultiSelect ->" + myMultiSelect);
+
+        if (myMultiSelect == "") return;
+
         let filtrosSeleccionado = [];
         filtrosSeleccionado.push(0);
-        $("#my-select option:selected").each(function(){
-                
-                filtrosSeleccionado.push($(this).attr('value'));
-
-            });  
+        $("#" + myMultiSelect + " option:selected").each(function(){
+            filtrosSeleccionado.push($(this).attr('value'));
+        });
         // alert ("filtros de wallet ->" + filtrosSeleccionado.toString());
         return filtrosSeleccionado;
     }
 
-    function buscaFiltrosGroup(){
+    function buscaFiltrosGroup(myMultiSelect = ""){
         let filtrosSeleccionado = [];
         filtrosSeleccionado.push(0);
-        $("#my-select2 option:selected").each(function(){
-                
-                filtrosSeleccionado.push($(this).attr('value'));
-
-            });  
+        $("#" + myMultiSelect + " option:selected").each(function(){
+            filtrosSeleccionado.push($(this).attr('value'));
+        });  
         // alert ("filtros de grupos ->" + filtrosSeleccionado.toString());
         return  filtrosSeleccionado;
     }
@@ -1113,7 +1703,34 @@
             });
 
         });      
+
         
+        
+        $.ajax(
+            {
+                url: "{{route('filtrosLeeWalletB')}}",
+                async: false,
+            }
+        ).done (function(myData) {
+            
+            myData2 = myData.data;
+
+        });
+
+        myData2.map( function (valor) {
+
+            $("#my-select3 option").each(function(){
+                 if (valor == $(this).attr('value')){
+                    $('#my-select3').multiSelect('select', valor.toString());
+
+                 }
+            });
+
+        });      
+      
+
+
+
         // grupos
         
         $.ajax(
@@ -1139,22 +1756,54 @@
 
         });            
 
+
+
+        // gruposB
+        
+        $.ajax(
+            {
+                url: "{{route('filtrosLeeGroupB')}}",
+                async: false,
+            }
+        ).done (function(myData) {
+
+            myData2 = JSON.stringify(myData.data);
+            myData2 = myData.data;
+
+        });
+
+        myData2.map( function (valor) {
+            
+            $("#my-select4 option").each(function(){
+                 if (valor == $(this).attr('value')){
+                    $('#my-select4').multiSelect('select', valor.toString());
+                     
+                 }
+            });
+
+        });     
+
+
+
     }
 
     function grabaFiltros(){
 
-        let myDataWallet    = buscaFiltrosWallet();
-        let myDataGroup     = buscaFiltrosGroup();
-
+        let myDataWallet    = buscaFiltrosWallet('my-select');
+        let myDataGroup     = buscaFiltrosGroup('my-select2');
+        let myDataWalletB   = buscaFiltrosWallet('my-select3');
+        let myDataGroupB    = buscaFiltrosGroup('my-select4');
         $.ajax(
             {
                 headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
                 method: "POST",
                 url: "{{route('filtrosGrabaWallet')}}",
                 async: false,
-                data: { 
+                data: {
                     myDataWallet: myDataWallet,
-                    myDataGroup: myDataGroup,                    
+                    myDataGroup: myDataGroup,
+                    myDataWalletB: myDataWalletB,
+                    myDataGroupB: myDataGroupB,
                  },
             }
         ).done (function(myData) {
@@ -1166,8 +1815,10 @@
     }
     function exportaSaldosPDF(myResumen = 0){
         
-        let myFiltroWallet  = buscaFiltrosWallet();
-        let myFiltroGroup   = buscaFiltrosGroup();
+        let myFiltroWallet  = buscaFiltrosWallet('my-select');
+        let myFiltroGroup   = buscaFiltrosGroup('my-select2');
+        let myFiltroWalletB  = buscaFiltrosWallet('my-select3');
+        let myFiltroGroupB   = buscaFiltrosGroup('my-select4');
 
         let myRoute = "";
         let fechaDesde = "{{$myFechaDesde}}";
@@ -1175,12 +1826,15 @@
 
         let resumen = myResumen;
         // Route::get('dashboard_saldos/export/{fechaDesde?}/{fechaHasta?}/{filtroWallet?}/{filtroGroup?}/{resumen?}
-        myRoute = "{{route('exports.SaldosPDF', ['fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2', 'filtroWallet' => 'filtroWallet2', 'filtroGroup' => 'filtroGroup2', 'resumen' => 'resumen2'])}}"
+        myRoute = "{{route('exports.SaldosPDF', ['fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2', 'filtroWallet' => 'filtroWallet2', 'filtroGroup' => 'filtroGroup2', 'filtroWalletB' => 'filtroWallet2B', 'filtroGroupB' => 'filtroGroup2B', 'resumen' => 'resumen2'])}}"
                   
         myRoute = myRoute.replace('fechaDesde2',    fechaDesde);
         myRoute = myRoute.replace('fechaHasta2',    fechaHasta);
         myRoute = myRoute.replace('filtroWallet2',  myFiltroWallet);
         myRoute = myRoute.replace('filtroGroup2',   myFiltroGroup);
+        myRoute = myRoute.replace('filtroWallet2B',  myFiltroWalletB);
+        myRoute = myRoute.replace('filtroGroup2B',   myFiltroGroup);
+
         myRoute = myRoute.replace('resumen2',       resumen);
         // alert(' myRoute vvv->' + myRoute);
 
