@@ -6,8 +6,7 @@
 @php
 
 $myClass = new app\Http\Controllers\statisticsController;
-// $myCredits = $myClass->getCredits();
-// $myDebits  = $myClass->getDebits();
+
 
 
 $heads = [

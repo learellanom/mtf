@@ -29,25 +29,40 @@ use Illuminate\Support\Facades\Config;
 
 class statisticsController extends Controller
 {
-
-
-
-
     public function getCredits(){
-        return $this->myCredits;
+
+        /*
+        $myTemp = $this->loadGroupCredits();
+        $myTemp = implode(",",$myTemp);
+        return $myTemp;
+        */
+        $myTemp = $this->myCredits;
+        //dd($myTemp);
+
+        return $myTemp;
     }
 
     public function getDebits(){
-        return $this->myDebits;
-    }
 
+        /*
+        $myTemp = $this->loadGroupDebits();
+        $myTemp = implode(",",$myTemp);
+        return $myTemp;
+        */
+        $myTemp = $this->myDebits;
+        return $myTemp;
+    }
     private $myCredits          = "1,3,5,6,7,9,11,14,15,16,17,18,25";
     private $myDebits           = "2,4,8,10,12,13,19,20,21,22,23,24,26";
+
+    
     public function getCreditDebitGroup($myType){
  
-        $myTypeCredit   = explode(",",$this->myCredits);
-        $myTypeDebit    = explode(",",$this->myDebits);
+        //$myTypeCredit   = explode(",",$this->myCredits);
+        //$myTypeDebit    = explode(",",$this->myDebits);
 
+        $myTypeCredit   = $this->loadGroupCredits();
+        $myTypeDebit    = $this->loadGroupDebits();
 
         foreach($myTypeCredit as $value){
             if ($value == $myType){
@@ -76,9 +91,11 @@ class statisticsController extends Controller
     public function getCreditDebitWallet($myType){
 
         
-         $myTypeCredit   = explode(",",$this->myCreditsWallet);
-         $myTypeDebit    = explode(",",$this->myDebitsWallet);
+        // $myTypeCredit   = explode(",",$this->myCreditsWallet);
+        // $myTypeDebit    = explode(",",$this->myDebitsWallet);
 
+         $myTypeCredit   = $this->loadWalletCredits();
+         $myTypeDebit    = $this->loadWalletDebits();
 
         foreach($myTypeCredit as $value){
             if ($value == $myType){
@@ -95,6 +112,42 @@ class statisticsController extends Controller
         return "";
 
     }    
+
+
+    function loadWalletCredits(){
+        $Type_transactions = Type_transaction::select('type_transactions.id')
+        ->where('type_transaction_wallet','=','1')
+        ->pluck('id');
+        // \Log::info( 'leam *** statisticsController -> loadWalletCredits ->' . $Type_transactions);
+
+        return $Type_transactions;
+    }
+
+    function loadWalletDebits(){
+        $Type_transactions = Type_transaction::select('type_transactions.id')
+        ->where('type_transaction_wallet','=','2')
+        ->pluck('id');
+        // \Log::info( 'leam *** statisticsController -> loadWalletDebits ->' . $Type_transactions);
+
+        return $Type_transactions;
+    }
+    function loadGroupCredits(){
+        $Type_transactions = Type_transaction::select('type_transactions.id')
+        ->where('type_transaction_group','=','1')
+        ->pluck('id');
+        // \Log::info( 'leam *** statisticsController -> loadGroupCredits ->' . $Type_transactions);
+
+        return $Type_transactions;
+    }
+
+    function loadGroupDebits(){
+        $Type_transactions = Type_transaction::select('type_transactions.id')
+        ->where('type_transaction_group','=','2')
+        ->pluck('id');
+        // \Log::info( 'leam *** statisticsController -> loadGroupDebits ->' . $Type_transactions);
+
+        return $Type_transactions;
+    }
     /*
     *
     *
@@ -2077,6 +2130,10 @@ class statisticsController extends Controller
         //\Log::info('leam getBalance myFechaDesde *** -> ' . $myFechaDesde);
         //\Log::info('leam getBalance myFechaHasta *** -> ' . $myFechaHasta);
 
+
+        $myTempCredits  = $this->getCredits();
+        $myTempDebits   = $this->getDebits();
+
         $myQuery =
         "
         select
@@ -2094,7 +2151,7 @@ class statisticsController extends Controller
         FROM mtf.transactions
         left join  mtf.groups on mtf.transactions.group_id  = mtf.groups.id
         where
-            type_transaction_id in ($this->myDebits)
+            type_transaction_id in ($myTempDebits)
             and
             transaction_date between '$myFechaDesde 00:00:00' and '$myFechaHasta 23:59:00'
             and
@@ -2113,7 +2170,7 @@ class statisticsController extends Controller
         FROM mtf.transactions
         left join  mtf.groups on mtf.transactions.group_id  = mtf.groups.id
         where
-            type_transaction_id in($this->myCredits)
+            type_transaction_id in($myTempCredits)
             and
             transaction_date between '$myFechaDesde 00:00:00' and '$myFechaHasta 23:59:00'
             and

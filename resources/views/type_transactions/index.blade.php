@@ -22,7 +22,6 @@
 {{-- Compressed with style options / fill data using the plugin config --}}
 
 <div class="row">
-
     <div class="col-md-12">
         <div class="card mb-4">
             <div class="card-header">
@@ -31,45 +30,75 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-12">
-<table class="table table-bordered table-responsive-lg" id="tipo">
-    <thead>
-        <tr>
-            <th>Nombre</th>
-            <th>Descripción</th>
-            <th class="text-center">Editar</th>
-            {{--
-                <th class="text-center">Eliminar</th>
-            --}}
-        </tr>
-    </thead>
-    @foreach($transactions as $transaction)
-        <tr>
+                        <table class="table table-bordered table-responsive-lg" id="tipo">
+                            <thead>
+                                <tr>
+                                    <th>Nombre</th>
+                                    <th>Descripción</th>
+                                    <th>Tipo Transaccion</th>            
+                                    <th>Tipo Transaccion Wallets</th>            
+                                    <th>Tipo Transaccion Groups</th>            
+                                    <th class="text-center">Editar</th>
+                                    {{--
+                                        <th class="text-center">Eliminar</th>
+                                    --}}
+                                </tr>
+                            </thead>
+                            
+                            @foreach($transactions as $transaction)
+                                <tr>
 
-            <td>{!! $transaction->name !!}</td>
-            <td>{!! $transaction->description !!}</td>
+                                    <td>{!! $transaction->name !!}</td>
+                                    <td>{!! $transaction->description !!}</td>
+                                    <td>{!! $transaction->type_transaction !!}</td>
+                                    @switch($transaction->type_transaction_wallet)
+                                        @case(1)
+                                            <td>Credito</td>
+                                            @break
+                                        @case(2)
+                                            <td>Debito</td>                
+                                            @break
+                                        @default   
+                                            <td></td>
+                                    @endswitch
 
-            <td class="text-center">
-                <a class="btn btn-xl text-primary mx-1 shadow" href="{{ route('type_transactions.edit', $transaction) }}" title="Editar">
-                    <i class="fa fa-lg fa-fw fa-pen"></i>
-                </a>
-            </td>
-            {{--
-            <td class="text-center">
-                <form method="post" action="{{ route('type_transactions.destroy', $transaction->id) }}">
-                    @csrf
-                    @method('delete')
-                    <button class="btn btn-xl text-danger mx-1 shadow" type="submit" title="Borrar">
-                        <i class="fa fa-lg fa-fw fa-trash"></i>
-                    </button>
-                </form>
-            </td>
-            --}}
-        </tr>
-    @endforeach
-</table>
-   </div>
-  </div>
- </div>
+                                    @switch($transaction->type_transaction_group)
+                                        @case(1)
+                                            <td>Credito</td>
+                                            @break
+                                        @case(2)
+                                            <td>Debito</td>                
+                                            @break
+                                        @default   
+                                            <td></td>
+
+                                    @endswitch
+
+                                            
+                                    <td class="text-center">
+                                        <a class="btn btn-xl text-primary mx-1 shadow" href="{{ route('type_transactions.edit', $transaction) }}" title="Editar">
+                                            <i class="fa fa-lg fa-fw fa-pen"></i>
+                                        </a>
+                                    </td>
+                                    {{--
+                                    <td class="text-center">
+                                        <form method="post" action="{{ route('type_transactions.destroy', $transaction->id) }}">
+                                            @csrf
+                                            @method('delete')
+                                            <button class="btn btn-xl text-danger mx-1 shadow" type="submit" title="Borrar">
+                                                <i class="fa fa-lg fa-fw fa-trash"></i>
+                                            </button>
+                                        </form>
+                                    </td>
+                                    --}}
+                                </tr>
+                            @endforeach
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 @endsection
 @section('js')

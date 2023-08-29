@@ -8,12 +8,7 @@
 @php
 
 $myClass = new app\Http\Controllers\statisticsController;
-// $myCredits = $myClass->getCredits();
-// $myDebits  = $myClass->getDebits();
 
-// dd($myCredits . ' - ' . $myDebits);
-
-// $myCredits = app\Http\Controllers\statisticsController::getCredits();
 
 $config = [
     'data' => $Transacciones,
@@ -174,8 +169,6 @@ if (isset($balance->Total)){
     </div>
 </div>
 
-
-
 <div class="row">
     <div class="col-md-12">
         <div class="card mb-4">
@@ -323,42 +316,7 @@ if (isset($balance->Total)){
                                     }
                                     
                                     if ($indWallet == 0){
-                                        /*
-                                        //
-                                        // es grupo
-                                        //
-                                        switch  ($row->TransactionId){
-                                            //
-                                            // resta
-                                            //
-                                            case 1:
-                                            case 3:
-                                            case 5:
-                                            case 7:
-                                            case 9:
-                                            case 11:
-                                            case 12:                                                
-                                                // $myTotal = $myTotal + ($row->MontoTotal * -1);
-                                                $myTotal = $myTotal + ($myTotal2 * -1);                                                
-                                                break;
 
-                                            //
-                                            // suma
-                                            //
-                                            case 2:
-                                            case 4: // cobro en efectivo
-                                            case 6:                                                
-                                            case 8:
-                                            case 10:                                                                                   
-                                            case 13:                                                
-                                                // $myTotal = ($myTotal) + ($row->MontoTotal);
-                                                $myTotal = ($myTotal) + ($myTotal2);                                                
-                                                break;
-                                            default:
-                                                $myTotal = 0;
-                                                break;
-                                        }
-                                        */
                                         $myTransaction  = $myClass->getCreditDebitGroup($row->TransactionId);
                                         switch  ($myTransaction){
                                             //
@@ -380,49 +338,7 @@ if (isset($balance->Total)){
                                                 break;
                                         }
                                     }else{
-                                        /*
-                                        //
-                                        // es caja
-                                        //
-                                        switch  ($row->TransactionId){
-                                            //
-                                            // debito
-                                            // resta
-                                            //
-                                            case 1:     // pago en transferencia
-                                            case 3:     // pago en efectivo
-                                            case 5:     // pago en mercancia
-                                            case 8:     // nota de debito
-                                            case 9:     // swift
-                                            case 11:    // pago usdt
-                                            case 12:    // nota debito caja de efectivo         
-                                            case 14:
-                                            case 15:
-                                            case 16:
-                                            case 17:    
-                                                // $myTotal = $myTotal + ($row->MontoTotal * -1);
-                                                $myTotal = $myTotal + ($myTotal2 * -1);                                                
-                                                break;
 
-                                            //
-                                            // credito
-                                            // suma
-                                            //
-                                            case 2:     // cobro en transferencia
-                                            case 4:     // cobro en efectivo
-                                            case 6:     // nota de credito a caja de efectivo                      
-                                            case 7:     // nota de credito
-                                            case 10:    // cobro mercancia                                                             
-                                            case 13:    // cobro usdt                          
-                                                // $myTotal = ($myTotal) + ($row->MontoTotal);
-                                                $myTotal = ($myTotal) + ($myTotal2);                                                
-                                                break;
-                                            default:
-                                                $myTotal = 0;
-                                                break;
-                                        } 
-                                        */
-                                        
                                         $myTransaction  = $myClass->getCreditDebitWallet($row->TransactionId);
                                         // echo "myTransaction  $row->TransactionId -- $myTransaction";
                                         switch  ($myTransaction){
