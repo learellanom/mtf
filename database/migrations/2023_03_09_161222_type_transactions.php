@@ -16,6 +16,8 @@ return new class extends Migration
             $table->string('name');
             $table->enum('type_transaction', ['Efectivo', 'Transacciones', 'Credito'])->nullable()->default('Transacciones'); //TIPO DE TRANSACCIONES
             $table->string('description');
+            $table->enum('type_transaction_wallet', ['0', '1', '2'])->nullable()->default('0'); // tipo de transaction wallet 0 no asignado, 1: credito, 2: debito
+            $table->enum('type_transaction_group',  ['0', '1', '2'])->nullable()->default('0'); // tipo de transaction group 0 no asignado, 1: credito, 2: debito
             $table->timestamps();
         });
     }
