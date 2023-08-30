@@ -29,31 +29,62 @@ use Illuminate\Support\Facades\Config;
 
 class statisticsController extends Controller
 {
+
+    private $myCreditsWallet    = "2,4,6,7,10,13,19,20,21,22,23,24,26";
+    private $myDebitsWallet     = "1,3,5,8,9,11,12,14,15,16,17,18,25";
+
+    private $myCredits          = "1,3,5,6,7,9,11,14,15,16,17,18,25";
+    private $myDebits           = "2,4,8,10,12,13,19,20,21,22,23,24,26";
+
     public function getCredits(){
 
-        /*
+        // $myTemp = $this->myCredits;
+        // return $myTemp;
+
         $myTemp = $this->loadGroupCredits();
         $myTemp = implode(",",$myTemp);
+        // dd($myTemp);
         return $myTemp;
-        */
-        $myTemp = $this->myCredits;
-        //dd($myTemp);
-
-        return $myTemp;
+    
     }
 
     public function getDebits(){
 
-        /*
+        // $myTemp = $this->myDebits;
+        // return $myTemp;
+        
         $myTemp = $this->loadGroupDebits();
         $myTemp = implode(",",$myTemp);
-        return $myTemp;
-        */
-        $myTemp = $this->myDebits;
+        // dd($myTemp);
         return $myTemp;
     }
-    private $myCredits          = "1,3,5,6,7,9,11,14,15,16,17,18,25";
-    private $myDebits           = "2,4,8,10,12,13,19,20,21,22,23,24,26";
+
+    public function getWalletCredits(){
+
+        // $myTemp = $this->myCreditsWallet;
+        // // dd($myTemp);
+        // return $myTemp;
+
+        
+        $myTemp = $this->loadWalletCredits();
+        $myTemp = implode(",",$myTemp);
+        // dd($myTemp);
+        return $myTemp;
+    }
+
+    public function getWalletDebits(){
+
+        // $myTemp = $this->myDebitsWallet;
+        // // dd($myTemp);
+        // return $myTemp;
+
+        
+        $myTemp = $this->loadWalletDebits();
+        $myTemp = implode(",",$myTemp);
+        // dd($myTemp);
+        return $myTemp;
+    }
+
 
     
     public function getCreditDebitGroup($myType){
@@ -86,8 +117,7 @@ class statisticsController extends Controller
     *
     *
     */
-    private $myCreditsWallet    = "2,4,6,7,10,13,19,20,21,22,23,24,26";
-    private $myDebitsWallet     = "1,3,5,8,9,11,12,14,15,16,17,18,25";
+
     public function getCreditDebitWallet($myType){
 
         
@@ -118,26 +148,38 @@ class statisticsController extends Controller
         $Type_transactions = Type_transaction::select('type_transactions.id')
         ->where('type_transaction_wallet','=','1')
         ->pluck('id');
-        // \Log::info( 'leam *** statisticsController -> loadWalletCredits ->' . $Type_transactions);
+        $myArray = array();
+        foreach($Type_transactions as $value){
+            array_push($myArray,$value);
+        }
+        // \Log::info( 'leam *** statisticsController -> loadGroupCredits ->' . $Type_transactions);
 
-        return $Type_transactions;
+        return $myArray;
     }
 
     function loadWalletDebits(){
         $Type_transactions = Type_transaction::select('type_transactions.id')
         ->where('type_transaction_wallet','=','2')
         ->pluck('id');
-        // \Log::info( 'leam *** statisticsController -> loadWalletDebits ->' . $Type_transactions);
+        $myArray = array();
+        foreach($Type_transactions as $value){
+            array_push($myArray,$value);
+        }
+        // \Log::info( 'leam *** statisticsController -> loadGroupCredits ->' . $Type_transactions);
 
-        return $Type_transactions;
+        return $myArray;
     }
     function loadGroupCredits(){
         $Type_transactions = Type_transaction::select('type_transactions.id')
         ->where('type_transaction_group','=','1')
         ->pluck('id');
+        $myArray = array();
+        foreach($Type_transactions as $value){
+            array_push($myArray,$value);
+        }
         // \Log::info( 'leam *** statisticsController -> loadGroupCredits ->' . $Type_transactions);
 
-        return $Type_transactions;
+        return $myArray;
     }
 
     function loadGroupDebits(){
@@ -145,8 +187,11 @@ class statisticsController extends Controller
         ->where('type_transaction_group','=','2')
         ->pluck('id');
         // \Log::info( 'leam *** statisticsController -> loadGroupDebits ->' . $Type_transactions);
-
-        return $Type_transactions;
+        $myArray = array();        
+        foreach($Type_transactions as $value){
+            array_push($myArray,$value);
+        }
+        return $myArray;
     }
     /*
     *
@@ -2317,6 +2362,9 @@ class statisticsController extends Controller
 
         $myTable = "mtf.transactions";
 
+        $myTempCredits  = $this->getWalletCredits();
+        $myTempDebits   = $this->getWalletDebits();
+         // dd("wallet debits ->" . $myTempDebits . " wallet credits ->" . $myTempCredits ); // ajuax
         //
         // 26-04-2023
         //
@@ -2356,7 +2404,7 @@ class statisticsController extends Controller
             FROM $myTable
             left join  mtf.groups on mtf.transactions.wallet_id  = mtf.groups.id
             where
-                type_transaction_id in ($this->myDebitsWallet)
+                type_transaction_id in ($myTempDebits)
                 and
                 transaction_date    between '$myFechaDesde' and '$myFechaHasta'
                 and
@@ -2376,7 +2424,7 @@ class statisticsController extends Controller
             FROM $myTable
             left join  mtf.groups on mtf.transactions.wallet_id  = mtf.groups.id
             where
-                type_transaction_id in ($this->myCreditsWallet)
+                type_transaction_id in ($myTempCredits)
                 and
                 transaction_date between '$myFechaDesde' and '$myFechaHasta'
                 and

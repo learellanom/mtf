@@ -190,6 +190,7 @@
                             @endif
 
                     @endforeach
+
                     <tr>
                         <th></th>
                         <th></th>
@@ -314,7 +315,7 @@
                     <td style="background-color: {{$myBackGroundColor}}; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:200px;">{{ ' ' }}</td>
                     <td style="background-color: {{$myBackGroundColor}}; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:200px;">{{ $totalCreditos }}</td>
                     <td style="background-color: {{$myBackGroundColor}}; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:200px;">{{ $totalDebitos }}</td>
-                    <td style="background-color: {{$myBackGroundColor}}; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:200px;">{{ $balance }}</td>
+                    <td style="background-color: {{$myBackGroundColor}}; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:200px;">{{ ($totalCreditos - $totalDebitos) }}</td>
                 </tr>
 
                 <tr style="background-color: {{$myBackGroundColor}}; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:200px;">
