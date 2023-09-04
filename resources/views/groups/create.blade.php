@@ -66,12 +66,20 @@
 
             
             <hr>
+            {{--
+            *
+            *
+            * Proveedor
+            *
+            *
+            *
+            --}}
             <br>
             <div class="form-group col-12">
                 
 
                 <div class="custom-control custom-control-inline">
-                    {!! Form::checkbox('proveedor','1', false, ['id' => 'proveedor', 'class' => 'custom-control-input cliente', 'required' => true]) !!}
+                    {!! Form::checkbox('provider','1', false, ['id' => 'proveedor', 'class' => 'custom-control-input cliente', 'required' => false]) !!}
                     <label class="custom-control-label" for="proveedor">Proveedor</label>
                 </div>
             </div>
@@ -119,5 +127,38 @@
         width: '100%',
 
       });
+
+      $('#radio1').on('click', function (){
+
+          $("#proveedor").removeAttr("checked");
+          $("#proveedor").attr("disabled","true");
+          // $("#proveedor").attr("required",false);
+
+
+          $("#radio5").attr("disabled","true");
+          
+          $("#radio6").attr("disabled","true");
+
+          $('input[name=type_wallet]').prop('checked',false);
+
+          
+      });
+
+      $('#radio2').on('click', function (){
+
+          $('input[name=provider]').prop('checked',false); 
+          $("#proveedor").attr("disabled",false);
+          // $("#proveedor").attr("required",true);
+
+          $("#radio5").attr("disabled",false);
+          
+          $("#radio6").attr("disabled",false);
+          
+          $('input[name=type_wallet]').prop('checked',false); 
+
+          
+      });
+
+
 </script>
 @endsection
