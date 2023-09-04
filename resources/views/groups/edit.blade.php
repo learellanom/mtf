@@ -26,7 +26,8 @@
                 <span class="text-danger">{{$message}}</span>
 
                 @enderror
-
+            </div>
+            
 
             <div class="form-group">
                 {!! Form::Label('phone', "Telefono del administrador:") !!}
@@ -39,7 +40,7 @@
 
                 @enderror
             </div>
-            </div>
+
 
 
             <div class="form-group">
@@ -52,28 +53,46 @@
                 @enderror
             </div>
 
+            <br>
+            <div class="form-group col-12">
+                <h5>Tipo</h5>
+                <hr>
+                <div class="custom-control custom-radio custom-control-inline" id="radio1">
+                    {!! Form::radio('type','1', null, ['id' => 'radio1', 'class' => 'custom-control-input cliente', 'required' => true]) !!}
+                    <label class="custom-control-label" for="radio1">Grupo</label>
+                </div>
+                <div class="custom-control custom-radio custom-control-inline" id="radio2">
+                    {!! Form::radio('type','2', null, ['id' => 'radio2', 'class' => 'custom-control-input caja', 'required' => true]) !!}
+                    <label class="custom-control-label" for="radio2">Caja</label>
+                </div>
+                
+            </div>
+
             <hr>
+            <br>
+            <div class="form-group col-12">
+                
 
-            <div class="custom-control custom-radio custom-control-inline">
-              {!! Form::radio('type','1', null, ['id' => 'radio1', 'class' => 'custom-control-input cliente', 'required' => true]) !!}
-              <label class="custom-control-label" for="radio1">Tipo cliente</label>
+                <div class="custom-control custom-control-inline">
+                    {!! Form::checkbox('proveedor','1', false, ['id' => 'proveedor', 'class' => 'custom-control-input cliente', 'required' => true]) !!}
+                    <label class="custom-control-label" for="proveedor">Proveedor</label>
+                </div>
             </div>
-            <div class="custom-control custom-radio custom-control-inline">
-              {!! Form::radio('type','2', null, ['id' => 'radio2', 'class' => 'custom-control-input caja', 'required' => true]) !!}
-              <label class="custom-control-label" for="radio2">Tipo Caja</label>
-            </div>
+            <br>            
 
-
+            <h5>Uso de Caja</h5>
+            <br><br>
+            
             <div class="custom-control custom-radio custom-control-inline" id="radio3">
-              {!! Form::radio('type_wallet','Efectivo', null, ['id' => 'radio5', 'class' => 'custom-control-input', 'required' => true,]) !!}
-              <label class="custom-control-label" for="radio5">Efectivo</label>
+                {!! Form::radio('type_wallet','Efectivo', null, ['id' => 'radio5', 'class' => 'custom-control-input', 'required' => true,]) !!}
+                <label class="custom-control-label" for="radio5">Efectivo</label>
             </div>
             <div class="custom-control custom-radio custom-control-inline" id="radio4">
-              {!! Form::radio('type_wallet','Transacciones', null, ['id' => 'radio6', 'class' => 'custom-control-input', 'required' => true]) !!}
-              <label class="custom-control-label" for="radio6">Transferencias</label>
+                {!! Form::radio('type_wallet','Transacciones', null, ['id' => 'radio6', 'class' => 'custom-control-input', 'required' => true]) !!}
+                <label class="custom-control-label" for="radio6">Transferencias</label>
             </div>
-
-          <hr>
+            <br><br><br>
+          
 
             <div class="form-group">
                 {!! Form::Label('description', "Observación:") !!}
