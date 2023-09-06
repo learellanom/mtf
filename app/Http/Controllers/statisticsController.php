@@ -370,8 +370,9 @@ class statisticsController extends Controller
             )->whereBetween('Transactions.type_transaction_id', [$myTypeTransactionsDesde, $myTypeTransactionsHasta]
             )->whereBetween('Transactions.transaction_date',    [$myFechaDesde . " 00:00:00", $myFechaHasta . " 23:59:00"]
             )->where('Transactions.status', '=', 'Activo'
-            )->orderBy('Transactions.transaction_date','ASC'
-            )->get();
+            )->orderBy('Transactions.transaction_date','DESC'
+            )->limit(500)
+            ->get();
 
             $Transacciones2 = array();
             foreach($Transacciones as $tran){
@@ -426,7 +427,8 @@ class statisticsController extends Controller
                     and transaction_date    between '$myFechaDesde  00:00:00'   and '$myFechaHasta 23:59:00' 
                     $myTokenCondition
                 order by
-                    Transactions.transaction_date ASC
+                    Transactions.transaction_date DESC
+                limit 500
 
             ";
     
@@ -2671,7 +2673,7 @@ class statisticsController extends Controller
     *
     * getDayBefore
     * recibe fecha con formato yyyy-mm-dd
-    * devuelve dia anterior en formato string yyy-mm-dd
+    * devuelve dia anterior en formato string yyyy-mm-dd
     *
     */
     function getDayBefore($myDate){
@@ -3012,6 +3014,29 @@ class statisticsController extends Controller
 
         return response()->json($myResponse);
     }    
+
+
+    public function update_status(Request $request, $transaction)
+    {
+        $transactions = Transaction::find($transaction);
+
+        if($transactions->status == 'Activo'){
+        Transaction::findOrFail($transaction)->update([
+            'status' => 'Anulado',
+        ]);
+           return Redirect::route('transactions.index')->with('info', 'Transacción anulada  <strong># '. $transaction . '</strong>');
+        }
+        elseif($transactions->status == 'Anulado'){
+            Transaction::findOrFail($transaction)->update([
+                'status' => 'Activo',
+            ]);
+            return Redirect::route('transactions.index')->with('success', 'Transacción activada  <strong># '. $transaction . '</strong>');
+        }
+
+    }
+
+
+
 }
 
 ?>

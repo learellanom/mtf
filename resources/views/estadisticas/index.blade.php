@@ -249,6 +249,7 @@ if (isset($balance->Total)){
                             style="width:100%;">
                             <thead>
                                 <tr>
+                                    <th style="width:10%; display: none">Id</th>
                                     <th style="width:10%;">Fecha</th>
                                     <th style="width:1%;">Transacción</th>
                                     <th style="width:10%;">Descripción</th>
@@ -264,6 +265,7 @@ if (isset($balance->Total)){
                                     <th style="width:1%;">Cliente</th>
                                     <th style="width:1%;">Agente</th>
                                     <th style="width:1%;">Caja</th>
+                                    <th style="width:1%;">Anular/Activar <i class="fas fa-search"></i></th>
                                     <th style="width:1%;">Ver <i class="fas fa-search"></i></th>
                                 </tr>
                             </thead>
@@ -369,6 +371,7 @@ if (isset($balance->Total)){
 
                                 {{-- dd($row)--}}
                                 <tr>
+                                    <td style="display: none;">{!! $row->Id !!}</td>                                    
                                     <td>{!! $row->FechaTransaccion !!}</td>
                                     <td>{!! $row->TipoTransaccion !!}</td>
                                     <td>{!! $row->Descripcion !!}</td>
@@ -391,6 +394,7 @@ if (isset($balance->Total)){
                                     <td>{!! $row->AgenteName !!}</td>
                                     <td>{!! $row->WalletName !!}</td>
 
+
                                     <td class="text-center">
                                         <a
                                             href="{{ route('transactions.show', ['movimiento'=> $row->Id]) }}"
@@ -399,10 +403,23 @@ if (isset($balance->Total)){
                                             <i class="fa fa-lg fa-fw fa-eye"></i>
                                         </a>
                                     </td>
+
+                                    <td class="text-center">
+                                        <a
+                                            href="{{ route('transactions.show', ['movimiento'=> $row->Id]) }}"
+                                            title="Detalles"
+                                            class="btn btn-xl text-dark mx-1 shadow text-center">
+                                            <i class="fa fa-lg fa-fw fa-eye"></i>
+                                        </a>
+                                    </td>
+
+                                    {{-- aqui va anular/activar --}}
+                                    
                                 </tr>
                             @endforeach
                             {{--
                             <tfoot style="background-color: black; color: white;">
+                                    <td style="display: none;"></td>                            
                                     <td>Total</td>
                                     <td></td>
                                     <td></td>

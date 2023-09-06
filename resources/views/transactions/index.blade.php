@@ -8,15 +8,22 @@
 
 
 @stop
+@php
+$config3 = [
+    "locale" => ["format" => "DD-MM-YYYY"],
+    "allowClear" => true,
+];
+@endphp 
+
 
 @section('content')
 
 @can('transactions.create')
-<a class="btn btn-dark" title="Crear transaccion" href={{ route('transactions.create') }}>
-    <i class="fas fa-plus-circle"></i>
-    <span class="d-none d-lg-inline-block text-uppercase font-weight-bold">{{ __('Crear') }}</span>
-    <span class="d-none d-md-inline-block text-uppercase font-weight-bold">{{ __('Transacción') }}</span>
-</a>
+    <a class="btn btn-dark" title="Crear transaccion" href={{ route('transactions.create') }}>
+        <i class="fas fa-plus-circle"></i>
+        <span class="d-none d-lg-inline-block text-uppercase font-weight-bold">{{ __('Crear') }}</span>
+        <span class="d-none d-md-inline-block text-uppercase font-weight-bold">{{ __('Transacción') }}</span>
+    </a>
 @endcan
 
 <br><br>
@@ -26,9 +33,28 @@
     <div class="col-md-12">
         <div class="card mb-4">
             <div class="card-header">
-                <h3 class="card-title text-uppercase font-weight-bold">{{ __('Transacciones') }}</h3>
+                <div class="row">
+                <h3 class="card-title text-uppercase font-weight-bold col-12 col-sm-6">{{ __('Transacciones') }} del {{ $fechaDesde}} al {{ $fechaHasta}}</h3>
+
+                <div class ="col-12 col-sm-2 float-right" >
+                    <x-adminlte-date-range
+                        id="drCustomRanges"
+                        name="drCustomRanges"
+                        enable-default-ranges="Last 30 Days"
+                        style="height: 30px;"
+                        :config="$config3">
+                        <x-slot name="prependSlot">
+                            <div class="input-group-text bg-gradient-dark">
+                                <i class="fas fa-calendar-alt"></i>
+                            </div>
+                        </x-slot>
+                    </x-adminlte-date-range>
+                </div>
+                </div>
+
+
             </div>
-            <div class="card-body">
+            <d  iv class="card-body">
                 <div class="row">
                     <div class="col-md-12">
                         <table class="table table-bordered table-responsive-lg" id="table" style="width:100%;">
@@ -149,7 +175,7 @@ $(document).ready(function () {
             "previous": "Anterior"
         }
     },
-    "order": [[ 2, 'desc' ]],
+    "order": [[ 3, 'desc' ]],
     'dom' : 'Bfrtip',
     'buttons':[
         {
@@ -298,12 +324,50 @@ $(document).ready(function () {
                   },
 
         },
-
     ]
-
-
-
     });
 });
+    $(() => {
+    $('#drCustomRanges').on('change', function () {
+        // alert('Fechas rnagos -> ' + $('#drCustomRanges').val());
+        let myFechaDesde, myFechaHasta, id;
+
+        myFechaDesde =  ($('#drCustomRanges').val()).substr(6,4) +
+                        '-' +
+                        ($('#drCustomRanges').val()).substr(3,2) +
+                        '-' +
+                        ($('#drCustomRanges').val()).substr(0,2)
+                        ;
+
+        myFechaHasta =  ($('#drCustomRanges').val()).substr(19,4) +
+                        '-' +
+                        ($('#drCustomRanges').val()).substr(16,2) +
+                        '-' +
+                        ($('#drCustomRanges').val()).substr(13,2)
+                        ;
+
+        myFechaDesde = $('#drCustomRanges').data('daterangepicker').startDate.format('YYYY-MM-DD');
+        myFechaHasta = $('#drCustomRanges').data('daterangepicker').endDate.format('YYYY-MM-DD');
+
+
+         theRoute(myFechaDesde,myFechaHasta);
+
+    });
+    });
+    function theRoute(fechaDesde = 0, fechaHasta = 0){
+
+        let Route ="";
+
+        myRoute = "";
+        myRoute = "{{ route('transactions.index', ['fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2']) }}"; 
+        
+        myRoute = myRoute.replace('fechaDesde2',fechaDesde);
+        myRoute = myRoute.replace('fechaHasta2',fechaHasta);
+
+        // alert(myRoute);
+        location.href = myRoute;
+
+    }
+
 </script>
 @endsection

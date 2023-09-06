@@ -24,20 +24,59 @@ class TransactionController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(transaction $transaction)
+    public function index(Request $request, transaction $transaction)
     {
+
+
+        $myFechaHasta = date("Y-m-d");
+        $myFechaDesde = $this->get07DayBefore($myFechaHasta);
+        $myFechaDesde = $this->get03DayBefore($myFechaHasta);
+        $myFechaDesde = $this->get01DayBefore($myFechaHasta);
+        // dd(' fechaDesde ->' . $myFechaDesde . ' fechaHasta ->' . $myFechaHasta);
+        //
+        // trae transacciones del usuario
+        //
+        // $myFechaDesde = "2001-01-01";
+        // $myFechaHasta = "9999-12-31";
+
+         if($request->fechaDesde){
+            $myFechaDesde = $request->fechaDesde;
+         };
+         if($request->fechaHasta){
+            $myFechaHasta = $request->fechaHasta;
+         };       
+
          foreach(auth()->user()->roles as $roles)
          {
             if($roles->name == 'Administrador' || $roles->name == 'Supervisor'){
-                $transferencia = Transaction::whereNull(['transfer_number','pay_number'])->get();
+                
+
+                // $transferencia = Transaction::whereNull(['transfer_number','pay_number'])->get();
+                $transferencia = Transaction::whereNull(['transfer_number','pay_number'])
+                ->whereBetween('transaction_date',    [$myFechaDesde . " 00:00:00", $myFechaHasta . " 23:59:00"])
+                // ->limit(100)
+                ->orderBy('transaction_date','desc')
+                ->get();
             }
             else{
-                $transferencia = Transaction::whereNull(['transfer_number','pay_number'])->where('user_id', '=', auth()->id())->get();
+                
+                $transferencia = Transaction::whereNull(['transfer_number','pay_number'])->where('user_id', '=', auth()->id())
+                ->whereBetween('transaction_date',    [$myFechaDesde . " 00:00:00", $myFechaHasta . " 23:59:00"])
+                ->orderBy('transaction_date','desc')
+                ->get();
             }
 
          }
          // dd($transferencia);
-         return view('transactions.index', compact('transferencia'));
+
+        $myFechaDesde2 =  substr($myFechaDesde,8,2) . '-' . substr($myFechaDesde,5,2) . '-' . substr($myFechaDesde,0,4);
+        $myFechaHasta2 =  substr($myFechaHasta,8,2) . '-' . substr($myFechaHasta,5,2) . '-' . substr($myFechaHasta,0,4);
+
+        $parametros['fechaDesde']       = $myFechaDesde2;
+        $parametros['fechaHasta']       = $myFechaHasta2;
+        $parametros['transferencia']    = $transferencia;
+
+        return view('transactions.index', $parametros);
 
     }
 
@@ -787,6 +826,31 @@ class TransactionController extends Controller
         return true;
 
 
+    }
+
+
+        /*
+    *
+    *
+    * get30DayBefore
+    * recibe fecha con formato yyyy-mm-dd
+    * devuelve dia anterior en formato string yyyy-mm-dd
+    *
+    */
+    function get07DayBefore($myDate){
+        $myFecha1 = date($myDate);
+        $myFecha2 = date("Y-m-d", strtotime($myFecha1 . "-7 days"));
+        return $myFecha2;
+    }
+    function get03DayBefore($myDate){
+        $myFecha1 = date($myDate);
+        $myFecha2 = date("Y-m-d", strtotime($myFecha1 . "-3 days"));
+        return $myFecha2;
+    }
+    function get01DayBefore($myDate){
+        $myFecha1 = date($myDate);
+        $myFecha2 = date("Y-m-d", strtotime($myFecha1 . "-1 days"));
+        return $myFecha2;
     }
 
 }

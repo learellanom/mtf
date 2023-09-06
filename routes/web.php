@@ -139,7 +139,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::match(['put', 'patch'], 'movimientos/{movimiento}/estatus_pagos_cajas', [TransactionController::class, 'updatestatus_pago'])->name('transactions.updatestatus_pago');
     Route::match(['put', 'patch'], 'movimientos/{movimiento}/estatus_cajas', [TransactionController::class, 'updatestatus_transfer'])->name('transactions.updatestatus_transfer');
 
-
     Route::resource('movimientos', TransactionController::class)->middleware('auth')->names('transactions');
 
     Route::match(['put', 'patch'], 'movimientos/{movimiento}/estatus', [TransactionController::class, 'update_status'])->name('transactions.update_status');
