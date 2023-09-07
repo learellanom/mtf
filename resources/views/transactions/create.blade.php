@@ -29,6 +29,11 @@
             </ul>
 
             <div class="tab-content" id="pills-tabContent">
+                {{--
+
+                seccion A
+
+                --}}                
                 <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
                     {!! Form::hidden('user_id',auth()->id(), null, ['class' => 'form-control', 'required' => true]) !!}
 
@@ -107,7 +112,11 @@
                 <div class="paginate text-right">
                     {{-- <button onclick="location.reload()" class="btn btn-primary font-weight-bold"> REFRESCAR <i class="fas fa-sync-alt"></i></button> --}}
                 </div>
+                {{--
 
+                   ***** seccion botones comision *****
+
+                --}}
                 <div class="btn-group botones" data-toggle="buttons">
                     <label class="btn btn-primary" [ngClass]="{'active': s}">
                         <input type="radio" name="options" id="c_porcentaje" class="c_porcentaje" autocomplete="off" (click)="s=true; blah();" value="1" checked> COMISIÓN PORCENTAJE
@@ -117,10 +126,11 @@
                     </label>
                 </div>
 
-                    <br>
+                <br>
+                <hr class="bg-dark esconder" style="height:1px;">                
                 <h4 class="text-uppercase font-weight-bold text-center esconder comi">Comisiones  </h4>
 
-                <hr class="bg-dark esconder" style="height:1px;">
+
 
                 <div class="form-row esconder comi">
 
@@ -172,13 +182,18 @@
                 </div>
 
 
+
+                {{-- ***** comision Base ***** --}}
+
+
+
                 <hr class="bg-dark esconder" style="height:1px;">
 
 
                 <h4 class="text-uppercase font-weight-bold text-center esconder comisionbase">Comisión Base  </h4>
                 <h4 class="text-uppercase font-weight-bold text-center tasa_basee" style="display:none;">Tasa Base  </h4>
 
-                <hr class="bg-dark esconder" style="height:1px;">
+                {{-- <hr class="bg-dark esconder" style="height:1px;"> --}}
 
                 <div class="form-row esconder">
 
@@ -200,6 +215,12 @@
                     {!! Form::hidden('amount_base',null, ['class' => 'form-control general', 'min' => 0, 'readonly' => true, 'id' => 'monto_extranjera_base']) !!}
 
                 </div>
+
+
+
+                {{-- botones de exoneracion de comision Base --}}
+
+
 
                 <div class="form-group col-md-12 d-flex justify-content-center base">
 
@@ -246,6 +267,7 @@
                 <hr class="bg-dark esconder comi" style="height:1px;">
 
                 {!! Form::hidden('status', 'Activo', null, ['class' => 'form-control']) !!}
+                {!! Form::hidden('amount_commission_base',null, ['class' => 'form-control', 'id' => 'amount_commission_base']) !!}
 
                 <div class="form-group">
                     {!! Form::Label('description', "Descripción:") !!}
@@ -537,43 +559,44 @@
      });
 
     $(document).ready(function() {
-        //$('#monto_dolares').toFixed(2);
+        
+
+        // submit del form 
 
         $('#entre').on('submit', function() {
 
-            tasa = $('#c_tasa').is(':checked');
-            porcentage = $('#c_porcentaje').is(':checked');
-            exonerar = $('#radio1').is(':checked');
-            exonerar_base = $('#radio1_base').is(':checked');
-            transferencia = $("#typetrasnferencia option:selected").text();
+            tasa            = $('#c_tasa').is(':checked');
+            porcentage      = $('#c_porcentaje').is(':checked');
+            exonerar        = $('#radio1').is(':checked');
+            exonerar_base   = $('#radio1_base').is(':checked');
+            transferencia   = $("#typetrasnferencia option:selected").text();
 
 
             if (transferencia === 'Nota de debito' || transferencia === 'Nota de credito'){
-                        if ($('#percentage').val() <= 0) {
-
-                        return true;
-                        }
-            }else{
-                        if(porcentage && !exonerar){
-                            if ($('#percentage').val() <= 0) {
-                            Swal.fire('Porcentage, no puede ser cero o menor a cero. :(');
-                            return false;
-                        }
-                        }
-                        if(porcentage && !exonerar_base){
-                            if ($('#percentage_base').val() <= 0) {
-                            Swal.fire('Porcentage base, no puede ser cero o menor a cero. :(');
-                            return false;
-                        }
-                        }
-
-                        if(tasa){
-                        if ($('#tasa_base').val() <= 0) {
-                            Swal.fire('Tasa base, no puede ser cero o menor a cero. :(');
-                            return false;
-                        }
-                        }
+                if ($('#percentage').val() <= 0) {
+                    return true;
                 }
+            }else{
+                if(porcentage && !exonerar){
+                    if ($('#percentage').val() <= 0) {
+                        Swal.fire('Porcentage, no puede ser cero o menor a cero. :(');
+                        return false;
+                    }
+                }
+                if(porcentage && !exonerar_base){
+                    if ($('#percentage_base').val() <= 0) {
+                        Swal.fire('Porcentage base, no puede ser cero o menor a cero. :(');
+                        return false;
+                    }
+                }
+
+                if(tasa){
+                    if ($('#tasa_base').val() <= 0) {
+                        Swal.fire('Tasa base, no puede ser cero o menor a cero. :(');
+                        return false;
+                    }
+                }
+            }
         });
 
         $('#radio1').on('click', function() {
@@ -611,39 +634,42 @@
 
         $('.typecoin').on('change', function() {
 
-            $('#tasa').val(""); // LIMPIAR TASA DE CAMBIO
-            $('#monto').val(""); // LIMPIAR MONTO DE MONEDA EXTRANJERA
+            $('#tasa').val("");             // LIMPIAR TASA DE CAMBIO
+            $('#monto').val("");            // LIMPIAR MONTO DE MONEDA EXTRANJERA
 
-            $('#comision').val(""); // LIMPIAR COMISION
-            $('#percentage').val("");  // LIMPIAR PORCENTAJE
-            $('#monto_dolares').val(""); // LIMPIAR MONTO EN DOLARES
-            $('#montototal').val(""); //LIMPIAR MONTO TOTAL
-            $('#montototal_base').val(""); //LIMPIAR MONTO TOTAL BASE
+            $('#comision').val("");         // LIMPIAR COMISION
+            $('#percentage').val("");       // LIMPIAR PORCENTAJE
+            $('#monto_dolares').val("");    // LIMPIAR MONTO EN DOLARES
+            $('#montototal').val("");       // LIMPIAR MONTO TOTAL
+            $('#montototal_base').val("");  // LIMPIAR MONTO TOTAL BASE
 
 
             if ($(this).val() == 1) {
+
+                // cuando el tipo de  moneda es dorales
+
                 $('#tasa').attr("readonly", true);
                 $('#monto').attr("readonly", true);
                 $('#monto_dolares').attr("readonly", false);
 
 
-                tasa = document.getElementById("tasa");
-                monto = document.getElementById("monto");
-                monto_dolares = document.getElementById("monto_dolares");
+                tasa            = document.getElementById("tasa");
+                monto           = document.getElementById("monto");
+                monto_dolares   = document.getElementById("monto_dolares");
                 //const log = document.getElementById("montototal");
 
                 $('#monto_dolares, #percentage').on('input', function() {
                     if(tasa.value == null && monto.value == null){
-                        monto_total = monto_dolares;
-                        monto_dolares.value =  monto_total.toFixed(2);
+                        monto_total         = monto_dolares;
+                        monto_dolares.value = monto_total.toFixed(2);
                     }
-                    let comision = parseFloat($('#comision').val());
-                    let porcentage = parseFloat($('#percentage').val());
-                    let montoreal = parseFloat($('#montototal').val());
+                    let comision    = parseFloat($('#comision').val());
+                    let porcentage  = parseFloat($('#percentage').val());
+                    let montoreal   = parseFloat($('#montototal').val());
 
-                    let exonerar = $('#radio1').is(':checked');
-                    let descontar = $('#radio2').is(':checked');
-                    let incluir = $('#radio3').is(':checked');
+                    let exonerar    = $('#radio1').is(':checked');
+                    let descontar   = $('#radio2').is(':checked');
+                    let incluir     = $('#radio3').is(':checked');
 
                     updateMontoreal(exonerar, descontar, incluir, comision, porcentage, montoreal);
 
@@ -662,21 +688,25 @@
                         let monto_dolares = parseFloat($('#monto_dolares').val());
 
                         if(porcentage > 0){
-                        $('#comision').val((monto_dolares * (porcentage / 100)));
+                            $('#comision').val((monto_dolares * (porcentage / 100)));
                             comision = (monto_dolares * (porcentage / 100));
                             //alert(comision);
                         }
 
                         if(!exonerar) {
                             if(incluir) {
-                            montoreal = (monto_dolares + comision).toFixed(2);
-                            $('#montototal').val((monto_dolares + comision));
-                            //alert(montoreal);
+                                montoreal = (monto_dolares + comision).toFixed(2);
+                                $('#montototal').val((monto_dolares + comision));
+                                //alert(montoreal);
+                                $('#amount_commision_profit').val( parseFloat($('#comision').val()) - parseFloat($('#comision_base').val()));
 
                             } else if(descontar) {
-                            montoreal = (monto_dolares - comision).toFixed(2);
-                            $('#montototal').val((monto_dolares - comision));
+                                montoreal = (monto_dolares - comision).toFixed(2);
+                                $('#montototal').val((monto_dolares - comision));
+                                $('#amount_commision_profit').val('');
                             }
+                            
+
                         }
                         else {
                             //$('#percentage').prop('readonly', true);
@@ -685,6 +715,7 @@
                             $('#comision').val(0);
                             montoreal = monto_dolares.toFixed(2);
                             $('#montototal').val(monto_dolares);
+                            $('#amount_commision_profit').val('');
                         }
                     }
 
@@ -696,9 +727,9 @@
                         monto_dolares.value =  monto_total.toFixed(2);
                     }
 
-                    let comision_base = parseFloat($('#comision_base').val());
+                    let comision_base   = parseFloat($('#comision_base').val());
                     let porcentage_base = parseFloat($('#percentage_base').val());
-                    let montoreal_base = parseFloat($('#montototal_base').val());
+                    let montoreal_base  = parseFloat($('#montototal_base').val());
 
                     let exonerar_base = $('#radio1_base').is(':checked');
                         //alert(exonerar)
@@ -709,14 +740,14 @@
                     updateMontorealBase(exonerar_base, descontar_base, incluir_base, comision_base, porcentage_base, montoreal_base);
 
                     $('#radio1_base, #radio2_base, #radio3_base').on('click', function() {
-                        let comision_base = parseFloat($('#comision_base').val());
+                        let comision_base   = parseFloat($('#comision_base').val());
                         let porcentage_base = parseFloat($('#percentage_base').val());
-                        let montoreal_base = parseFloat($('#montototal_base').val());
+                        let montoreal_base  = parseFloat($('#montototal_base').val());
 
-                        let exonerar_base = $('#radio1_base').is(':checked');
-                        //alert(exonerar)
-                        let descontar_base = $('#radio2_base').is(':checked');
-                        let incluir_base = $('#radio3_base').is(':checked');
+                        let exonerar_base   = $('#radio1_base').is(':checked');
+                        
+                        let descontar_base  = $('#radio2_base').is(':checked');
+                        let incluir_base    = $('#radio3_base').is(':checked');
 
                         updateMontorealBase(exonerar_base, descontar_base, incluir_base, comision_base, porcentage_base, montoreal_base);
                     });
@@ -725,21 +756,25 @@
                         let monto_dolares = parseFloat($('#monto_dolares').val());
 
                         if(porcentage_base > 0){
-                        $('#comision_base').val((monto_dolares * (porcentage_base / 100)));
+                            $('#comision_base').val((monto_dolares * (porcentage_base / 100)));
                             comision_base = (monto_dolares * (porcentage_base / 100));
-                            //alert(comision);
+                            // alert($('#comision_base').val());
                         }
 
 
                         if(!exonerar_base) {
                             if(incluir_base) {
-                            montoreal_base = (monto_dolares + comision_base).toFixed(2);
-                            $('#montototal_base').val((monto_dolares + comision_base));
-                            //alert(montoreal);
+                                montoreal_base = (monto_dolares + comision_base).toFixed(2);
+                                $('#montototal_base').val((monto_dolares + comision_base));
+                                //alert(montoreal);
+                                $('#monto_extranjera_base').val(monto_dolares); 
+                                $('#amount_commision_profit').val( parseFloat($('#comision').val()) - parseFloat($('#comision_base').val()));
 
                             } else if(descontar_base) {
-                            montoreal_base = (monto_dolares - comision_base).toFixed(2);
-                            $('#montototal_base').val((monto_dolares - comision_base));
+                                montoreal_base = (monto_dolares - comision_base).toFixed(2);
+                                $('#montototal_base').val((monto_dolares - comision_base));
+                                $('#monto_extranjera_base').val(monto_dolares); 
+                                $('#amount_commision_profit').val( '');
                             }
                         }
                         else {
@@ -747,6 +782,8 @@
                             $('#comision_base').val('');
                             montoreal_base = monto_dolares.toFixed(2);
                             $('#montototal_base').val(monto_dolares);
+                            $('#monto_extranjera_base').val(monto_dolares);
+                            $('#amount_commision_profit').val('');
                         }
                     }
 
@@ -755,6 +792,8 @@
             }
             else if ($(this).val() == null)
             {
+                // cuando el tipode moneda es null
+
                 $('#tasa').attr("readonly", true);
                 $('#monto').attr("readonly", true);
                 $('#monto_dolares').prop('readonly', true);
@@ -764,15 +803,21 @@
                 $('#monto').val("");
                 $('#monto_dolares').val("");
 
+                $('#monto_extranjera_base').val("");
+
+                $('#amount_commision_profit').val(''); 
             }
             else {
+
+                // cuando el tipo de moneda es distinta de usd y null
+
                 $('#tasa').prop("readonly", false);
                 $('#monto').prop("readonly", false);
                 $('#monto_dolares').prop('readonly', true);
 
                 $('#tasa, #monto, #percentage').on('input', function() {
-                    let tasa = parseFloat($('#tasa').val());
-                    let monto = parseFloat($('#monto').val());
+                    let tasa    = parseFloat($('#tasa').val());
+                    let monto   = parseFloat($('#monto').val());
 
                     if(tasa > 0 && monto > 0) {
                         let monto_total = (monto / tasa).toFixed(2);
@@ -790,6 +835,9 @@
                     //alert(incluir)
 
                     updateMontoreal(exonerar, descontar, incluir, comision, porcentage, montoreal);
+
+                    
+
                 });
 
                 $('#radio1, #radio2, #radio3').on('click', function() {
@@ -808,7 +856,7 @@
                     let monto_dolares = parseFloat($('#monto_dolares').val());
 
                     if(porcentage > 0){
-                    $('#comision').val((monto_dolares * (porcentage / 100)));
+                        $('#comision').val((monto_dolares * (porcentage / 100)));
                         comision = (monto_dolares * (porcentage / 100));
                         //alert(comision);
                     }
@@ -816,13 +864,14 @@
 
                     if(!exonerar) {
                         if(incluir) {
-                        montoreal = (monto_dolares + comision).toFixed(2);
-                        $('#montototal').val((monto_dolares + comision));
-                        //alert(montoreal);
-
+                            montoreal = (monto_dolares + comision).toFixed(2);
+                            $('#montototal').val((monto_dolares + comision));
+                            //alert(montoreal);
+                            $('#amount_commision_profit').val( parseFloat($('#comision').val()) - parseFloat($('#comision_base').val()));
                         } else if(descontar) {
-                        montoreal = (monto_dolares - comision).toFixed(2);
-                        $('#montototal').val((monto_dolares - comision));
+                            montoreal = (monto_dolares - comision).toFixed(2);
+                            $('#montototal').val((monto_dolares - comision));
+                            $('#amount_commision_profit').val('');
                         }
                     }
                     else {
@@ -830,42 +879,45 @@
                         $('#comision').val('');
                         montoreal = monto_dolares.toFixed(2);
                         $('#montototal').val(monto_dolares);
+                        $('#amount_commision_profit').val('');
                     }
                 }
 
 
                 /* PORCENTAJE BASE */
                 $('#tasa, #monto, #percentage_base').on('input', function() {
-                    let tasa = parseFloat($('#tasa').val());
-                    let monto = parseFloat($('#monto').val());
+                    let tasa    = parseFloat($('#tasa').val());
+                    let monto   = parseFloat($('#monto').val());
 
                     if(tasa > 0 && monto > 0) {
                         let monto_total = (monto / tasa).toFixed(2);
                         $('#monto_dolares').val(monto_total);
                     }
 
-                    let comision_base = parseFloat($('#comision_base').val());
+                    let comision_base   = parseFloat($('#comision_base').val());
                     let porcentage_base = parseFloat($('#percentage_base').val());
-                    let montoreal_base = parseFloat($('#montototal_base').val());
+                    let montoreal_base  = parseFloat($('#montototal_base').val());
 
-                    let exonerar_base = $('#radio1_base').is(':checked');
+                    let exonerar_base   = $('#radio1_base').is(':checked');
                     //alert(exonerar)
-                    let descontar_base = $('#radio2_base').is(':checked');
-                    let incluir_base = $('#radio3_base').is(':checked');
+                    let descontar_base  = $('#radio2_base').is(':checked');
+                    let incluir_base    = $('#radio3_base').is(':checked');
                     //alert(incluir)
 
                     updateMontorealBase(exonerar_base, descontar_base, incluir_base, comision_base, porcentage_base, montoreal_base);
+
+                    
                 });
 
                 $('#radio1_base, #radio2_base, #radio3_base').on('click', function() {
-                    let comision_base = parseFloat($('#comision_base').val());
+                    let comision_base   = parseFloat($('#comision_base').val());
                     let porcentage_base = parseFloat($('#percentage_base').val());
-                    let montoreal_base = parseFloat($('#montototal_base').val());
+                    let montoreal_base  = parseFloat($('#montototal_base').val());
 
-                    let exonerar_base = $('#radio1_base').is(':checked');
+                    let exonerar_base   = $('#radio1_base').is(':checked');
                     //alert(exonerar)
-                    let descontar_base = $('#radio2_base').is(':checked');
-                    let incluir_base = $('#radio3_base').is(':checked');
+                    let descontar_base  = $('#radio2_base').is(':checked');
+                    let incluir_base    = $('#radio3_base').is(':checked');
 
                     updateMontorealBase(exonerar_base, descontar_base, incluir_base, comision_base, porcentage_base, montoreal_base);
                 });
@@ -874,7 +926,7 @@
                     let monto_dolares = parseFloat($('#monto_dolares').val());
 
                     if(porcentage_base > 0){
-                    $('#comision_base').val((monto_dolares * (porcentage_base / 100)));
+                        $('#comision_base').val((monto_dolares * (porcentage_base / 100)));
                         comision_base = (monto_dolares * (porcentage_base / 100));
                         //alert(comision);
                     }
@@ -882,13 +934,17 @@
 
                     if(!exonerar_base) {
                         if(incluir_base) {
-                        montoreal_base = (monto_dolares + comision_base).toFixed(2);
-                        $('#montototal_base').val((monto_dolares + comision_base));
-                        //alert(montoreal);
+                            montoreal_base = (monto_dolares + comision_base).toFixed(2);
+                            $('#montototal_base').val((monto_dolares + comision_base));
+                            //alert(montoreal);
+                            $('#monto_extranjera_base').val(monto_dolares); 
+                            $('#amount_commision_profit').val(parseFloat($('#comision').val()) - parseFloat($('#comision_base').val()));
 
                         } else if(descontar_base) {
-                        montoreal_base = (monto_dolares - comision_base).toFixed(2);
-                        $('#montototal_base').val((monto_dolares - comision_base));
+                            montoreal_base = (monto_dolares - comision_base).toFixed(2);
+                            $('#montototal_base').val((monto_dolares - comision_base));
+                            $('#monto_extranjera_base').val(monto_dolares); 
+                            $('#amount_commision_profit').val('');
                         }
                     }
                     else {
@@ -896,15 +952,17 @@
                         $('#comision_base').val('');
                         montoreal_base = monto_dolares.toFixed(2);
                         $('#montototal_base').val(monto_dolares);
+                        $('#monto_extranjera_base').val(monto_dolares); 
+                        $('#amount_commision_profit').val('');
                     }
                 }   
 
                 /* TASA BASE */
                 $('#tasa, #monto, #tasa_base').on('input', function() {
-                    let tasa = parseFloat($('#tasa').val());
-                    let tasa_base = parseFloat($('#tasa_base').val());
-                    let monto = parseFloat($('#monto').val());
-                    let monto_b = parseFloat($('#monto_extranjera_base').val());
+                    let tasa        = parseFloat($('#tasa').val());
+                    let tasa_base   = parseFloat($('#tasa_base').val());
+                    let monto       = parseFloat($('#monto').val());
+                    let monto_b     = parseFloat($('#monto_extranjera_base').val());
 
                     $('#montototal').val($('#monto_dolares').val());
 
@@ -915,30 +973,27 @@
                         $('#montototal_base').val(parseFloat($('#monto').val()) / parseFloat($('#tasa_base').val()));
                     }
 
-                    let comision_base = parseFloat($('#comision_base').val());
-                    let montoreal_base = parseFloat($('#montototal_base').val());
+                    let comision_base   = parseFloat($('#comision_base').val());
+                    let montoreal_base  = parseFloat($('#montototal_base').val());
 
 
                     updateTasaBase(comision_base, tasa_base, montoreal_base);
-                    });
+
+                    
+                });
 
 
-                    function updateTasaBase(comision_base, tasa_base, montoreal_base) {
+                function updateTasaBase(comision_base, tasa_base, montoreal_base) {
                     let monto_dolares = parseFloat($('#monto_dolares').val());
 
                     if(tasa_base > 0){
-                    $('#comision_base').val(parseFloat($('#monto_dolares').val()) - parseFloat($('#monto_extranjera_base').val()));
+                     //   $('#comision_base').val(parseFloat($('#monto_dolares').val()) - parseFloat($('#monto_extranjera_base').val()));
+                     // no debe grabar la comision en el campo
+
                     }
-
+                    // aqui graba la ganancia comision
+                    $('#amount_commision_profit').val(parseFloat($('#monto_dolares').val()) - parseFloat($('#monto_extranjera_base').val()));
                 }
-
-
-
-
-
-
-
-
 
             } //ELSE
 

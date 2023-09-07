@@ -345,9 +345,7 @@ class statisticsController extends Controller
                 'Transactions.type_transaction_id       as TransactionId',
                 'type_transactions.name                 as TipoTransaccion',
                 'transactions.wallet_id                 as WalletId',
-                'wallets.name                           as WalletName',
-                'transactions.walletb_id                as WalletbId',
-                'wallets2.name                          as WalletbName',                
+                'wallets.name                           as WalletName',              
                 'transactions.description               as Descripcion',
                 'transactions.transaction_date          as FechaTransaccion',
                 'Transactions.group_id                  as ClienteId',                
@@ -362,9 +360,7 @@ class statisticsController extends Controller
             )->leftJoin(
                 'groups', 'groups.id', '=', 'transactions.group_id'
             )->leftJoin(
-                'type_coins', 'type_coins.id', '=', 'transactions.type_coin_id'
-            )->leftJoin(
-                'wallets as wallets2', 'wallets2.id', '=', 'transactions.walletb_id'                    
+                'type_coins', 'type_coins.id', '=', 'transactions.type_coin_id'                  
             )->whereBetween('Transactions.user_id',             [$myUserDesde, $myUserHasta]
             )->whereBetween('Transactions.group_id',            [$myGroupDesde, $myGroupHasta]
             )->whereBetween('Transactions.type_transaction_id', [$myTypeTransactionsDesde, $myTypeTransactionsHasta]
