@@ -267,8 +267,8 @@
                 <hr class="bg-dark esconder comi" style="height:1px;">
 
                 {!! Form::hidden('status', 'Activo', null, ['class' => 'form-control']) !!}
-                {!! Form::hidden('amount_commission_base',null, ['class' => 'form-control', 'id' => 'amount_commission_base']) !!}
-
+                {!! Form::hidden('amount_commission_profit', null,  ['class' => 'form-control', 'id' => 'amount_commission_profit']) !!}
+                                  
                 <div class="form-group">
                     {!! Form::Label('description', "Descripción:") !!}
                     <div class="input-group-text">
@@ -560,7 +560,6 @@
 
     $(document).ready(function() {
         
-
         // submit del form 
 
         $('#entre').on('submit', function() {
@@ -698,12 +697,12 @@
                                 montoreal = (monto_dolares + comision).toFixed(2);
                                 $('#montototal').val((monto_dolares + comision));
                                 //alert(montoreal);
-                                $('#amount_commision_profit').val( parseFloat($('#comision').val()) - parseFloat($('#comision_base').val()));
+                                $('#amount_commission_profit').val( parseFloat($('#comision').val()) - parseFloat($('#comision_base').val()));
 
                             } else if(descontar) {
                                 montoreal = (monto_dolares - comision).toFixed(2);
                                 $('#montototal').val((monto_dolares - comision));
-                                $('#amount_commision_profit').val('');
+                                $('#amount_commission_profit').val('');
                             }
                             
 
@@ -715,7 +714,7 @@
                             $('#comision').val(0);
                             montoreal = monto_dolares.toFixed(2);
                             $('#montototal').val(monto_dolares);
-                            $('#amount_commision_profit').val('');
+                            $('#amount_commission_profit').val('');
                         }
                     }
 
@@ -768,13 +767,13 @@
                                 $('#montototal_base').val((monto_dolares + comision_base));
                                 //alert(montoreal);
                                 $('#monto_extranjera_base').val(monto_dolares); 
-                                $('#amount_commision_profit').val( parseFloat($('#comision').val()) - parseFloat($('#comision_base').val()));
+                                $('#amount_commission_profit').val( parseFloat($('#comision').val()) - parseFloat($('#comision_base').val()));
 
                             } else if(descontar_base) {
                                 montoreal_base = (monto_dolares - comision_base).toFixed(2);
                                 $('#montototal_base').val((monto_dolares - comision_base));
                                 $('#monto_extranjera_base').val(monto_dolares); 
-                                $('#amount_commision_profit').val( '');
+                                $('#amount_commission_profit').val( '');
                             }
                         }
                         else {
@@ -783,7 +782,7 @@
                             montoreal_base = monto_dolares.toFixed(2);
                             $('#montototal_base').val(monto_dolares);
                             $('#monto_extranjera_base').val(monto_dolares);
-                            $('#amount_commision_profit').val('');
+                            $('#amount_commission_profit').val('');
                         }
                     }
 
@@ -805,7 +804,7 @@
 
                 $('#monto_extranjera_base').val("");
 
-                $('#amount_commision_profit').val(''); 
+                $('#amount_commission_profit').val('');
             }
             else {
 
@@ -867,11 +866,11 @@
                             montoreal = (monto_dolares + comision).toFixed(2);
                             $('#montototal').val((monto_dolares + comision));
                             //alert(montoreal);
-                            $('#amount_commision_profit').val( parseFloat($('#comision').val()) - parseFloat($('#comision_base').val()));
+                            $('#amount_commission_profit').val( parseFloat($('#comision').val()) - parseFloat($('#comision_base').val()));
                         } else if(descontar) {
                             montoreal = (monto_dolares - comision).toFixed(2);
                             $('#montototal').val((monto_dolares - comision));
-                            $('#amount_commision_profit').val('');
+                            $('#amount_commission_profit').val('');
                         }
                     }
                     else {
@@ -879,7 +878,7 @@
                         $('#comision').val('');
                         montoreal = monto_dolares.toFixed(2);
                         $('#montototal').val(monto_dolares);
-                        $('#amount_commision_profit').val('');
+                        $('#amount_commission_profit').val('');
                     }
                 }
 
@@ -938,13 +937,13 @@
                             $('#montototal_base').val((monto_dolares + comision_base));
                             //alert(montoreal);
                             $('#monto_extranjera_base').val(monto_dolares); 
-                            $('#amount_commision_profit').val(parseFloat($('#comision').val()) - parseFloat($('#comision_base').val()));
+                            $('#amount_commission_profit').val(parseFloat($('#comision').val()) - parseFloat($('#comision_base').val()));
 
                         } else if(descontar_base) {
                             montoreal_base = (monto_dolares - comision_base).toFixed(2);
                             $('#montototal_base').val((monto_dolares - comision_base));
                             $('#monto_extranjera_base').val(monto_dolares); 
-                            $('#amount_commision_profit').val('');
+                            $('#amount_commission_profit').val('');
                         }
                     }
                     else {
@@ -953,7 +952,7 @@
                         montoreal_base = monto_dolares.toFixed(2);
                         $('#montototal_base').val(monto_dolares);
                         $('#monto_extranjera_base').val(monto_dolares); 
-                        $('#amount_commision_profit').val('');
+                        $('#amount_commission_profit').val('');
                     }
                 }   
 
@@ -992,7 +991,7 @@
 
                     }
                     // aqui graba la ganancia comision
-                    $('#amount_commision_profit').val(parseFloat($('#monto_dolares').val()) - parseFloat($('#monto_extranjera_base').val()));
+                    $('#amount_commission_profit').val(parseFloat($('#monto_dolares').val()) - parseFloat($('#monto_extranjera_base').val()));
                 }
 
             } //ELSE
