@@ -184,14 +184,14 @@
                     {!! Form::Label('description', "Descripción origen:") !!}
                         <div class="input-group-text">
                             <i class="fa-fw fas fa-text-width mr-2"></i>
-                        {!! Form::text('description','Entregado a caja', ['id' => 'descripcion', 'class' => 'form-control', 'readonly' => true, 'required' => true, 'value' => 'Recibido de cliente']) !!}
+                        {!! Form::text('description','Entregado a caja', ['id' => 'descripcion', 'class' => 'form-control', 'readonly' => false, 'required' => true, 'value' => 'Recibido de cliente']) !!}
                         </div>
                 </div>
                 <div class="form-group">
                     {!! Form::Label('description2', "Descripción destino:") !!}
                         <div class="input-group-text">
                             <i class="fa-fw fas fa-text-width mr-2"></i>
-                        {!! Form::text('description2','Recibido de la caja', ['id' => 'descripcion2', 'class' => 'form-control', 'readonly' => true, 'required' => true]) !!}
+                        {!! Form::text('description2','Recibido de la caja', ['id' => 'descripcion2', 'class' => 'form-control', 'readonly' => false, 'required' => true]) !!}
                         </div>
                 </div>
 

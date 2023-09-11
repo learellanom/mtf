@@ -231,7 +231,7 @@
                         <br>
 
                         {!! Form::hidden('status', null, ['class' => 'form-control', 'value' => 'Activo']) !!}
-                        {!! Form::hidden('amount_commission_profit', null,  ['class' => 'form-control', 'id' => 'amount_commission_profit']) !!}
+                        {{-- {!! Form::hidden('amount_commission_profit', null,  ['class' => 'form-control', 'id' => 'amount_commission_profit']) !!} --}}
 
 
                         {!! Form::Submit('GUARDAR', ['class' => 'btn btn-primary btn-block font-weight-bold', 'style' => "max-height: 300px;" , 'id' => 'publish']) !!}

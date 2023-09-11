@@ -702,7 +702,7 @@
                             } else if(descontar) {
                                 montoreal = (monto_dolares - comision).toFixed(2);
                                 $('#montototal').val((monto_dolares - comision));
-                                $('#amount_commission_profit').val('');
+                                $('#amount_commission_profit').val('0');
                             }
                             
 
@@ -714,7 +714,7 @@
                             $('#comision').val(0);
                             montoreal = monto_dolares.toFixed(2);
                             $('#montototal').val(monto_dolares);
-                            $('#amount_commission_profit').val('');
+                            $('#amount_commission_profit').val('0');
                         }
                     }
 
@@ -773,7 +773,7 @@
                                 montoreal_base = (monto_dolares - comision_base).toFixed(2);
                                 $('#montototal_base').val((monto_dolares - comision_base));
                                 $('#monto_extranjera_base').val(monto_dolares); 
-                                $('#amount_commission_profit').val( '');
+                                $('#amount_commission_profit').val( '0');
                             }
                         }
                         else {
@@ -782,7 +782,7 @@
                             montoreal_base = monto_dolares.toFixed(2);
                             $('#montototal_base').val(monto_dolares);
                             $('#monto_extranjera_base').val(monto_dolares);
-                            $('#amount_commission_profit').val('');
+                            $('#amount_commission_profit').val('0');
                         }
                     }
 
@@ -804,7 +804,7 @@
 
                 $('#monto_extranjera_base').val("");
 
-                $('#amount_commission_profit').val('');
+                $('#amount_commission_profit').val('0');
             }
             else {
 
@@ -870,7 +870,7 @@
                         } else if(descontar) {
                             montoreal = (monto_dolares - comision).toFixed(2);
                             $('#montototal').val((monto_dolares - comision));
-                            $('#amount_commission_profit').val('');
+                            $('#amount_commission_profit').val('0');
                         }
                     }
                     else {
@@ -878,7 +878,7 @@
                         $('#comision').val('');
                         montoreal = monto_dolares.toFixed(2);
                         $('#montototal').val(monto_dolares);
-                        $('#amount_commission_profit').val('');
+                        $('#amount_commission_profit').val('0');
                     }
                 }
 
@@ -943,7 +943,7 @@
                             montoreal_base = (monto_dolares - comision_base).toFixed(2);
                             $('#montototal_base').val((monto_dolares - comision_base));
                             $('#monto_extranjera_base').val(monto_dolares); 
-                            $('#amount_commission_profit').val('');
+                            $('#amount_commission_profit').val('0');
                         }
                     }
                     else {
@@ -952,7 +952,7 @@
                         montoreal_base = monto_dolares.toFixed(2);
                         $('#montototal_base').val(monto_dolares);
                         $('#monto_extranjera_base').val(monto_dolares); 
-                        $('#amount_commission_profit').val('');
+                        $('#amount_commission_profit').val('0');
                     }
                 }   
 

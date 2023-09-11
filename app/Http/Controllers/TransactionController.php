@@ -30,8 +30,8 @@ class TransactionController extends Controller
 
         $myFechaHasta = date("Y-m-d");
         $myFechaDesde = $this->get07DayBefore($myFechaHasta);
-        $myFechaDesde = $this->get03DayBefore($myFechaHasta);
-        $myFechaDesde = $this->get01DayBefore($myFechaHasta);
+        //$myFechaDesde = $this->get03DayBefore($myFechaHasta);
+        //$myFechaDesde = $this->get01DayBefore($myFechaHasta);
         // dd(' fechaDesde ->' . $myFechaDesde . ' fechaHasta ->' . $myFechaHasta);
         //
         // trae transacciones del usuario
@@ -168,7 +168,7 @@ class TransactionController extends Controller
 
     public function store(Request $request)
     {
-       // dd($request->all());
+        // dd($request->all());
 
         $transaction = Transaction::create($request->all());
 
@@ -278,7 +278,7 @@ class TransactionController extends Controller
         $type_transaction   = Type_transaction::whereIn('id', [12])->pluck('id');  // 12
         $type_transaction2  = Type_transaction::whereIn('id', [6])->pluck('id'); // 6
 
-        $wallet             = Group::whereIn('type_wallet', ['Efectivo'])->pluck('name', 'id');
+        $wallet             = Group::whereIn('type_wallet', ['Efectivo'])->where('type','=','2')->pluck('name', 'id');
         $user               = User::pluck('name', 'id');
         $fecha              = Carbon::now();
 
@@ -337,8 +337,8 @@ class TransactionController extends Controller
         $type_coin          = Type_coin::pluck('name', 'id');
         $type_transaction   = Type_transaction::whereIn('name', ['Pago Efectivo', 'Pago en Transferencia', 'Pago Mercancia','Pago USDT','Swift'])->pluck('name','id');
         $type_transaction2  = Type_transaction::whereIn('name', ['Nota de Credito a Caja de efectivo', 'Nota de credito'])->pluck('name','id');
-        $wallet             = Group::whereIn('type_wallet', ['transacciones', 'efectivo'])->pluck('name', 'id');
-        $wallet2            = Group::whereIn('type_wallet', ['transacciones', 'efectivo'])->pluck('name', 'id');
+        $wallet             = Group::whereIn('type_wallet', ['transacciones', 'efectivo'])->where('type','=','2')->pluck('name', 'id');
+        $wallet2            = Group::whereIn('type_wallet', ['transacciones', 'efectivo'])->where('type','=','2')->pluck('name', 'id');
         $user               = User::pluck('name', 'id');
         $fecha              = Carbon::now();
 
@@ -543,8 +543,8 @@ class TransactionController extends Controller
         $type_coin          = Type_coin::pluck('name', 'id');
         $type_transaction   = Type_transaction::whereIn('name', ['Cobro en efectivo', 'Cobro en Transferencia', 'Cobro Mercancia'])->pluck('name','id');
         $type_transaction2  = Type_transaction::whereIn('name', ['Nota de Debito a Caja de Efectivo', 'Nota de debito'])->pluck('name','id');
-        $wallet             = Group::whereIn('type_wallet', ['transacciones', 'efectivo'])->pluck('name', 'id');
-        $wallet2            = Group::whereIn('type_wallet', ['transacciones', 'efectivo'])->pluck('name', 'id');
+        $wallet             = Group::whereIn('type_wallet', ['transacciones', 'efectivo'])->where('type','=','2')->pluck('name', 'id');
+        $wallet2            = Group::whereIn('type_wallet', ['transacciones', 'efectivo'])->where('type','=','2')->pluck('name', 'id');
         $user               = User::pluck('name', 'id');
         $fecha              = Carbon::now();
 
@@ -709,22 +709,67 @@ class TransactionController extends Controller
     public function edit($transaction)
     {
 
-        $transactions = Transaction::find($transaction);
+        $transactions       = Transaction::find($transaction);
 
-        $imagen = Transaction::findOrFail($transaction)->image;
-
-
-        $type_coin = Type_coin::pluck('name', 'id');
-        $type_transaction = Type_transaction::whereIn('type_transaction', ['Transacciones'])->pluck('name', 'id');
-        $wallet =  Group::whereIn('type_wallet', ['transacciones'])->pluck('name', 'id');
-        $group = Group::pluck('name', 'id');
+        $imagen             = Transaction::findOrFail($transaction)->image;
 
 
+        $type_coin          = Type_coin::pluck('name', 'id');
+        $type_transaction   = Type_transaction::pluck('name', 'id');
+        $wallet             = Group::where('type','=','2')->pluck('name', 'id');
+        $group              = Group::where('type','=','1')->pluck('name', 'id');
+        $user               = User::pluck('name', 'id');
 
-        $user = User::pluck('name', 'id');
+        $myName = "";
+        foreach($type_transaction as $key => $value){
+            if ($transactions->type_transaction_id == $key){
+                $myName = $value;
+                break;
+            }
+        }
+        $transactions->type_transaction_name = $myName;
 
+        $myName = "";
+        foreach($type_coin as $key => $value){
+            if ($transactions->type_coin_id == $key){
+                $myName = $value;
+                break;
+            }
+        }
+        $transactions->type_coin_name = $myName;
 
+        $myName = "";
+        foreach($wallet as $key => $value){
+            if ($transactions->wallet_id == $key){
+                $myName = $value;
+                break;
+            }
+        }
+        $transactions->wallet_name = $myName;
 
+        $myName = "";
+        foreach($group as $key => $value){
+            if ($transactions->group_id == $key){
+                $myName = $value;
+                break;
+            }
+        }
+        $transactions->group_name = $myName;
+
+        $myName = "";
+        foreach($user as $key => $value){
+            if ($transactions->user_id == $key){
+                $myName = $value;
+                break;
+            }
+        }
+        $transactions->group_name = $myName;
+
+        // $myPos              = array_search($transactions->type_transction_id,$type_transaction);
+        // $myName             = $type_transactions($myPos);
+        // dd($transactions);
+        // dd(var_dump($type_transaction));
+        // dd('type transaction ->' . $transactions->type_transaction_id . 'myName ->' . $myName);
         return view('transactions.edit', compact('transactions', 'imagen', 'type_coin', 'type_transaction', 'wallet', 'group', 'user'));
     }
 
@@ -733,6 +778,12 @@ class TransactionController extends Controller
      */
     public function update(Request $request, $transaction)
     {
+
+        
+        $request->amount_comission_profit = 0;
+
+        // dd($request->all());
+
         Transaction::find($transaction)->update($request->all());
         $movimientos = Transaction::findOrFail($transaction);
         $file = [];
