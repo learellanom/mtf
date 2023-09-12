@@ -141,6 +141,8 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::resource('movimientos', TransactionController::class)->middleware('auth')->names('transactions');
 
+    Route::get('movimientos2/{movimiento}', [TransactionController::class,'edit2'])->middleware('auth')->name('transactions.edit2');
+
     Route::match(['put', 'patch'], 'movimientos/{movimiento}/estatus', [TransactionController::class, 'update_status'])->name('transactions.update_status');
     Route::delete('movimientos/eliminar/{movimiento}', [TransactionController::class, 'destroyImg'])->name('transactions.destroyimg');
 

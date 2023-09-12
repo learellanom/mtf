@@ -773,6 +773,76 @@ class TransactionController extends Controller
         return view('transactions.edit', compact('transactions', 'imagen', 'type_coin', 'type_transaction', 'wallet', 'group', 'user'));
     }
 
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit2($transactionid)
+    {
+        
+        $transactions       = Transaction::find($transactionid);
+        
+        $imagen             = Transaction::findOrFail($transactionid)->image;
+
+        
+        $type_coin          = Type_coin::pluck('name', 'id');
+        $type_transaction   = Type_transaction::pluck('name', 'id');
+        $wallet             = Group::where('type','=','2')->pluck('name', 'id');
+        $group              = Group::where('type','=','1')->pluck('name', 'id');
+        $user               = User::pluck('name', 'id');
+        
+        $myName = "";
+        foreach($type_transaction as $key => $value){
+            if ($transactions->type_transaction_id == $key){
+                $myName = $value;
+                break;
+            }
+        }
+        $transactions->type_transaction_name = $myName;
+
+        $myName = "";
+        foreach($type_coin as $key => $value){
+            if ($transactions->type_coin_id == $key){
+                $myName = $value;
+                break;
+            }
+        }
+        $transactions->type_coin_name = $myName;
+
+        $myName = "";
+        foreach($wallet as $key => $value){
+            if ($transactions->wallet_id == $key){
+                $myName = $value;
+                break;
+            }
+        }
+        $transactions->wallet_name = $myName;
+
+        $myName = "";
+        foreach($group as $key => $value){
+            if ($transactions->group_id == $key){
+                $myName = $value;
+                break;
+            }
+        }
+        $transactions->group_name = $myName;
+
+        $myName = "";
+        foreach($user as $key => $value){
+            if ($transactions->user_id == $key){
+                $myName = $value;
+                break;
+            }
+        }
+        $transactions->group_name = $myName;
+
+        // $myPos              = array_search($transactions->type_transction_id,$type_transaction);
+        // $myName             = $type_transactions($myPos);
+        // dd($transactions);
+        // dd(var_dump($type_transaction));
+        // dd('type transaction ->' . $transactions->type_transaction_id . 'myName ->' . $myName);
+        return view('transactions.edit2', compact('transactions', 'imagen', 'type_coin', 'type_transaction', 'wallet', 'group', 'user'));
+    }
     /**
      * Update the specified resource in storage.
      */
