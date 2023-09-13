@@ -849,9 +849,6 @@ class TransactionController extends Controller
     public function update(Request $request, $transaction)
     {
 
-        
-        $request->amount_comission_profit = 0;
-
         // dd($request->all());
 
         Transaction::find($transaction)->update($request->all());

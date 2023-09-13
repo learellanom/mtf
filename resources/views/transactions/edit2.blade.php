@@ -17,7 +17,7 @@
     <div class="card col-md-6" style="min-height:400px; !important; max-height:100%; height:100%; widht:100%">
         <div class="card-body">
 
-            {!! Form::model($transactions, ['route' => ['transactions.update', $transactions],'method' => 'put', 'autocomplete' => 'off', 'files' => true, 'enctype' =>'multipart/form-data']) !!}
+            {!! Form::model($transactions, ['route' => ['transactions.update', $transactions],'method' => 'put', 'autocomplete' => 'off', 'files' => true, 'enctype' =>'multipart/form-data', 'id' => 'myForm']) !!}
             <div class="row">
                 <div class="col-md-4">
                     <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
@@ -330,10 +330,19 @@
 
                         {!! Form::Label('monto_base', "Monto total base:") !!}
                         {!! Form::text('amount_total_base',null, ['class' => 'form-control montototal general font-weight-bold', 'required' => true, 'min' => 0, 'id' => 'monto_base', 'readonly' => true]) !!}
+                        <br>
+                        <br>
+                        <div class="form-group form-row">
+                            <div class="input-group-text">
+                                {!! Form::Label('description', "Descripcion:") !!}
+                                {!! Form::text('description',null, ['class' => 'form-control', 'required' => false, 'id' => 'description', 'readonly' => false]) !!}
+                            </div>
+                        </div>
 
                         <br>
 
                         {!! Form::hidden('status', null, ['class' => 'form-control', 'value' => 'Activo']) !!}
+
                         {{-- {!! Form::hidden('amount_commission_profit', null,  ['class' => 'form-control', 'id' => 'amount_commission_profit', 'value' => '0']) !!} --}}
 
 
@@ -487,74 +496,63 @@
 @section('js')
 <script>
 
-
-$('.general').inputmask({
-			alias: 'decimal',
-			allowMinus: false,
-			autoUnmask:true,
-			removeMaskOnSubmit:true,
-			rightAlign: true,
-			groupSeparator:".",
-			undoOnEscape:true,
-			//insertMode:false,
-			clearIncomplete:true,
-			digits: 2,
-            autoClear: true,
-			insertMode:true, });
-
-
-$(".rateMasks").attr("minlength","8");
-$(".rateMasks").attr("maxlength","8");
-$(".rateMasks").inputmask({
-			alias: 'decimal',
-			repeat: 4,
-			allowMinus: false,
-			autoUnmask:true,
-			removeMaskOnSubmit:true,
-			rightAlign: true,
-            autoClear: true,
-			groupSeparator:".",
-			undoOnEscape:true,
-			insertMode: false,
-			clearIncomplete:true,
-			digits: 7,
-			insertMode:true,
-});
+    $('.general').inputmask({
+        alias: 'decimal',
+        allowMinus: false,
+        autoUnmask:true,
+        removeMaskOnSubmit:true,
+        rightAlign: true,
+        groupSeparator:".",
+        undoOnEscape:true,
+        //insertMode:false,
+        clearIncomplete:true,
+        digits: 2,
+        autoClear: true,
+        insertMode:true, 
+    });
 
 
-$(document).ready(function() {
-    // alert(" " + {{ $transactions->type_transaction_id}});
-    if ({{ $transactions->type_coin_id}} == 1) {
-      
-        //  alert('aqui '  + $('#my_monto_dorales').val());
+    $(".rateMasks").attr("minlength","8");
+    $(".rateMasks").attr("maxlength","8");
+    $(".rateMasks").inputmask({
+                alias: 'decimal',
+                repeat: 4,
+                allowMinus: false,
+                autoUnmask:true,
+                removeMaskOnSubmit:true,
+                rightAlign: true,
+                autoClear: true,
+                groupSeparator:".",
+                undoOnEscape:true,
+                insertMode: false,
+                clearIncomplete:true,
+                digits: 7,
+                insertMode:true,
+    });
 
-        $('#tasa').attr("readonly", true);
-        $('#monto').attr("readonly", true);
-        $('#my_monto_dorales').attr("readonly", false);
 
-        $('#my_monto_dorales, #tasa, #monto, #percentage, #percentage_base, #tasa_base, #radio1, #radio2, #radio3, #radio1_base, #radio2_base, #radio3_base').on('input', function() {
+    $(document).ready(function() {
+        // alert(" " + {{ $transactions->type_transaction_id}});
+        if ({{ $transactions->type_coin_id}} == 1) {
+            
+            $('#tasa').attr("readonly", true);
+            $('#monto').attr("readonly", true);
+            $('#my_monto_dorales').attr("readonly", false);
+
+        }
+        else {
+            
+            $('#tasa').prop("readonly", false);
+            $('#monto').prop("readonly", false);
+            $('#monto_dolares').prop('readonly', true);
+
+        }
+        $('#myForm').on('input', function (){
+            alert('cambio');
             calcula();
-        });
-
-
-    }
-    else {
-      
-         $('#tasa').prop("readonly", false);
-         $('#monto').prop("readonly", false);
-         $('#monto_dolares').prop('readonly', true);
-
-         $('#tasa, #monto, #percentage, #percentage_base, #tasa_base, #radio1, #radio2, #radio3, #radio1_base, #radio2_base, #radio3_base').on('input', function() {
-            calcula();
-        });
-
-    }
- 
-});
-
-
-
-
+        });        
+    
+    });
 
     $("#file").fileinput({
 
@@ -743,13 +741,13 @@ $(document).ready(function() {
 
         let exchange_rate_base          = $('#tasa_base').val()         != "" ? parseFloat($('#tasa_base').val())    : 0;
         
-        let exonerar        = $('#radio1').is(':checked');
-        let descontar       = $('#radio2').is(':checked');
-        let incluir         = $('#radio3').is(':checked');
+        let exonerar                    = $('#radio1').is(':checked');
+        let descontar                   = $('#radio2').is(':checked');
+        let incluir                     = $('#radio3').is(':checked');
 
-        let exonerar_base   = $('#radio1_base').is(':checked');
-        let descontar_base  = $('#radio2_base').is(':checked');
-        let incluir_base    = $('#radio3_base').is(':checked');   
+        let exonerar_base               = $('#radio1_base').is(':checked');
+        let descontar_base              = $('#radio2_base').is(':checked');
+        let incluir_base                = $('#radio3_base').is(':checked');   
 
         let amount_base                 = 0 ; 
 
@@ -774,7 +772,7 @@ $(document).ready(function() {
             amount = amount_foreign_currency / exchange_rate;
 
         }
-        // alert('mi monto 2->' + amount);
+        
         let myTypeCommission = 1;
 
         if (percentage > 0 || percentage_base > 0){
@@ -853,8 +851,6 @@ $(document).ready(function() {
                 myCommission_base = 3;
             }
 
-            // alert(' incluir base ' + incluir_base + ' exonerar base ' + exonerar_base + ' descontar base ' + descontar_base  + ' myCOmmission es ' + myCommission_base);
-
             switch(myCommission_base){
                 case 1:
                     amount_total_base = amount_base + amount_commission_base;
@@ -918,8 +914,6 @@ $(document).ready(function() {
                     break;
             }
         }
-
-        // alert('pasa asigna final ->' + amount_total_base);
 
         $('#my_monto_dorales').val(amount);
         $('#percentage').val(percentage);

@@ -112,11 +112,9 @@
                 <div class="paginate text-right">
                     {{-- <button onclick="location.reload()" class="btn btn-primary font-weight-bold"> REFRESCAR <i class="fas fa-sync-alt"></i></button> --}}
                 </div>
-                {{--
+                
+                {{-- ***** seccion botones comision *****  --}}
 
-                   ***** seccion botones comision *****
-
-                --}}
                 <div class="btn-group botones" data-toggle="buttons">
                     <label class="btn btn-primary" [ngClass]="{'active': s}">
                         <input type="radio" name="options" id="c_porcentaje" class="c_porcentaje" autocomplete="off" (click)="s=true; blah();" value="1" checked> COMISIÓN PORCENTAJE
