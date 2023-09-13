@@ -74,16 +74,18 @@ $config3 = [
                                     <th>Tipo de Movimiento</th>
                                     <th style="width:1%; display:none;">Caja <i class="fas fa-search"></i></th>
                                     @can('transactions.update_status')
-                                    <th style="width:1%;">Activo/Anulado</th>
+                                        <th style="width:1%;">Activo/Anulado</th>
                                     @endcan
                                     @can('transactions.edit')
                                     <th style="width:1%;" class="no-exportar">Tasa/Comisión</th>
                                     @endcan
+                                    {{--
                                     @if((auth()->id())==2)
-                                    @can('transactions.edit')
-                                    <th style="width:1%;" class="no-exportar">Tasa/Comisión</th>
-                                    @endcan
+                                        @can('transactions.edit')
+                                        <th style="width:1%;" class="no-exportar">Tasa/Comisión</th>
+                                        @endcan
                                     @endif
+                                    --}}
                                     <th style="width:1%;" class="no-exportar">Ver <i class="fas fa-search"></i></th>
 
                                 </tr>
@@ -133,17 +135,19 @@ $config3 = [
                                     @endcan
                                     @can('transactions.edit')
                                         <td class="text-center">
-                                            <a href="{{route('transactions.edit', $transferencias->id)}}" class="btn btn-xl text-dark mx-1 shadow text-center"><i class="fas fa-lg fa-fw fa-coins"></i></a>
-                                        </td>
-                                    @endcan
-                                    @if((auth()->id())==2)
-                                    @can('transactions.edit')
-
-                                        <td class="text-center">
                                             <a href="{{route('transactions.edit2', $transferencias->id)}}" class="btn btn-xl text-dark mx-1 shadow text-center"><i class="fas fa-lg fa-fw fa-coins"></i></a>
                                         </td>
                                     @endcan
+                                    {{--
+                                    @if((auth()->id())==2)
+                                        @can('transactions.edit')
+
+                                            <td class="text-center">
+                                                <a href="{{route('transactions.edit2', $transferencias->id)}}" class="btn btn-xl text-dark mx-1 shadow text-center"><i class="fas fa-lg fa-fw fa-coins"></i></a>
+                                            </td>
+                                        @endcan
                                     @endif
+                                    --}}
                                     <td>
                                         <a href="{{ route('transactions.show', $transferencias->id) }}" class="btn btn-xl text-dark mx-1 shadow text-center"><i class="fa fa-lg fa-fw fas fa-search"></i></a>
                                     </td>

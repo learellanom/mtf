@@ -203,12 +203,13 @@
 
                                 
                                 <div class="form-group col-md-6">
-                                    {!! Form::Label('', "Porcentaje:") !!}
-
+                                     {!! Form::Label('percentage', "Porcentaje:") !!} 
+                        
                                     <div class="input-group-text">
                                         <i class="fa-fw fas fa-percentage mr-2"></i>
-                                       {{--  ['class' => 'form-control numeric percentage rateMasks']) --}}
-                                         {!! Form::text('percentage', null, ['class' => 'form-control numeric percentage rateMasks']) !!}
+                                       
+                                         {!! Form::text('percentage',null, ['class' => 'form-control percentage rateMasks', 'min' => 0]) !!}
+
                                     </div>
 
                                 </div>
@@ -265,7 +266,7 @@
                                       <i class="fa-fw fas fa-percentage mr-2"></i>
                                       
                                                                      
-                                    {!! Form::text('percentage_base',null, ['class' => 'form-control percentage general rateMasks', 'min' => 0, 'id' => 'percentage_base']) !!}
+                                    {!! Form::text('percentage_base',null, ['class' => 'form-control percentage general rateMasks', 'min' => 0]) !!}
                                   </div>
                               </div>
                             @else
@@ -521,9 +522,6 @@
                     digits: 7,
                     insertMode:true,
         });
-
-
-    
 
 
     $(document).ready(function() {
@@ -911,9 +909,7 @@
         }
 
         $('#my_monto_dorales').val(amount);
-        $('#percentage').val(percentage);
         $('#comision').val(amount_commission);
-        $('#percentage_base').val(percentage_base);
         $('#comision_base').val(amount_commission_base);
         $('#montototal').val(amount_total);
         $('#monto_base').val(amount_total_base);
