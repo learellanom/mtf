@@ -100,28 +100,7 @@
                             </div>
                                                  
                         </div>
-                        {{--
-                        <div class="form-row">
-                            <div class="form-group col">
 
-                                {!! Form::label('Tipo de Moneda', 'Tipo de Moneda: '); !!}
-                                {!! Form::label('', $transactions->type_coin_name, ['class' => 'form-control myStyle']); !!}
-
-                            </div>
-                            <div class="form-group col">
-
-                                {!! Form::label('Tasa', 'Tasa: '); !!}
-                                {!! Form::label('', $transactions->exchange_rate, ['class' => 'form-control myStyle']); !!}
-
-                            </div>     
-                            <div class="form-group col">
-
-                                {!! Form::label('amount_foreign_currency', 'Monto en Moneda Extranjera: '); !!}
-                                {!! Form::label('', $transactions->amount_foreign_currency, ['class' => 'form-control myStyle']); !!}
-
-                            </div>                                                                        
-                        </div>
-                        --}}
                         <div class="row">
                             <div class="form-group col">
 
@@ -214,18 +193,31 @@
 
                         
 
+
                         @if($transactions->exchange_rate_base == NULL)
                             <br>
                             <div class="form-row">
+
+
+                                {{-- Porcentaje --}}
+
+                                
                                 <div class="form-group col-md-6">
-                                    {!! Form::Label('percentage', "Porcentaje:") !!}
+                                    {!! Form::Label('', "Porcentaje:") !!}
+
                                     <div class="input-group-text">
                                         <i class="fa-fw fas fa-percentage mr-2"></i>
-                                        {!! Form::text('percentage',null, ['class' => 'form-control percentage rateMasks', 'min' => 0, 'id' => 'percentage']) !!}
+                                       {{--  ['class' => 'form-control numeric percentage rateMasks']) --}}
+                                         {!! Form::text('percentage', null, ['class' => 'form-control numeric percentage rateMasks']) !!}
                                     </div>
+
                                 </div>
 
                                 <div class="form-group col-md-6">
+
+
+                                    {{-- Comision --}}
+
 
                                     {!! Form::Label('comision', "Monto Comisión:") !!}
                                     <div class="input-group-text">
@@ -273,7 +265,7 @@
                                       <i class="fa-fw fas fa-percentage mr-2"></i>
                                       
                                                                      
-                                    {!! Form::text('percentage_base',null, ['class' => 'form-control percentage rateMasks', 'min' => 0, 'id' => 'percentage_base']) !!}
+                                    {!! Form::text('percentage_base',null, ['class' => 'form-control percentage general rateMasks', 'min' => 0, 'id' => 'percentage_base']) !!}
                                   </div>
                               </div>
                             @else
@@ -509,26 +501,29 @@
         digits: 2,
         autoClear: true,
         insertMode:true, 
-    });
+        });
 
 
-    $(".rateMasks").attr("minlength","8");
-    $(".rateMasks").attr("maxlength","8");
-    $(".rateMasks").inputmask({
-                alias: 'decimal',
-                repeat: 4,
-                allowMinus: false,
-                autoUnmask:true,
-                removeMaskOnSubmit:true,
-                rightAlign: true,
-                autoClear: true,
-                groupSeparator:".",
-                undoOnEscape:true,
-                insertMode: false,
-                clearIncomplete:true,
-                digits: 7,
-                insertMode:true,
-    });
+        $(".rateMasks").attr("minlength","8");
+        $(".rateMasks").attr("maxlength","8");
+        $(".rateMasks").inputmask({
+                    alias: 'decimal',
+                    repeat: 4,
+                    allowMinus: false,
+                    autoUnmask:true,
+                    removeMaskOnSubmit:true,
+                    rightAlign: true,
+                    autoClear: true,
+                    groupSeparator:".",
+                    undoOnEscape:true,
+                    insertMode: false,
+                    clearIncomplete:true,
+                    digits: 7,
+                    insertMode:true,
+        });
+
+
+    
 
 
     $(document).ready(function() {
@@ -548,7 +543,7 @@
 
         }
         $('#myForm').on('input', function (){
-            alert('cambio');
+            // alert('cambio');
             calcula();
         });        
     
