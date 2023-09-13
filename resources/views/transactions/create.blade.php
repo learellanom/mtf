@@ -145,7 +145,7 @@
 
                     {{-- Comision --}}
 
-                    
+
                     <div class="form-group col-md-6">
 
                         {!! Form::Label('comision', "Monto Comisión:") !!}
@@ -277,7 +277,7 @@
                     {!! Form::Label('description', "Descripción:") !!}
                     <div class="input-group-text">
                         <i class="fa-fw fas fa-text-width mr-2"></i>
-                    {!! Form::textarea('description',null, ['rows' => 1, 'class' => 'form-control', 'required' => true]) !!}
+                    {!! Form::textarea('description',null, ['rows' => 1, 'class' => 'form-control', 'required' => false]) !!}
                     </div>
                 </div>
 
