@@ -67,6 +67,9 @@ Route::get('dashboardest/{wallet}/{transaction?}/{fechaDesde?}/{fechaHasta?}', [
 Route::get('dashboardSaldos', [App\Http\Controllers\HomeController::class, 'saldos'])->name('dashboardSaldos');
 Route::get('dashboardSaldos/{fechaDesde?}/{fechaHasta?}', [App\Http\Controllers\HomeController::class, 'saldos'])->name('dashboardSaldos');
 
+Route::get('dashboardComisiones', [App\Http\Controllers\HomeController::class, 'comisiones'])->name('dashboardComisiones');
+Route::get('dashboardComisiones/{fechaDesde?}/{fechaHasta?}', [App\Http\Controllers\HomeController::class, 'comisiones'])->name('dashboardComisiones');
+
 
 Route::get('dashboard_est/export/', [App\Http\Controllers\HomeController::class, 'export'])->name('exports.excel'); //EXPORTACIÓN DE EXCEL
 Route::get('dashboard_est/export/{wallet}', [App\Http\Controllers\HomeController::class, 'export'])->name('exports.excel'); //EXPORTACIÓN DE EXCEL

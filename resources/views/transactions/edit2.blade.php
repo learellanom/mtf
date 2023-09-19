@@ -660,7 +660,7 @@
                 , DatoExtra: "Información EXTRA"
             }
 
-            alert(JSON.stringify(data));
+            // alert(JSON.stringify(data));
             return { datos: JSON.stringify(data) }; //Este objeto mandarias al SERVER al presionar upload
         }
     });
@@ -725,14 +725,14 @@
         // alert('calcula ----');
 
 
-        let exchange_rate               = $('#tasa').val()              != "" ? parseFloat($('#tasa').val()) : 0;
-        let amount_foreign_currency     = $('#monto').val()             != "" ? parseFloat($('#monto').val()) : 0;              // amount_foreign_currency - monto moneda extranjera
+        let exchange_rate               = $('#tasa').val()              != "" ? parseFloat($('#tasa').val())                : 0;
+        let amount_foreign_currency     = $('#monto').val()             != "" ? parseFloat($('#monto').val())               : 0;              // amount_foreign_currency - monto moneda extranjera
         let amount                      = $('#my_monto_dorales').val()  != "" ? parseFloat($('#my_monto_dorales').val())    : 0;
 
-        let percentage                  = $('#percentage').val()        != "" ? parseFloat($('#percentage').val())  : 0;
-        let percentage_base             = $('#percentage_base').val()   != "" ? parseFloat($('#percentage_base').val())    : 0;
+        let percentage                  = $('#percentage').val()        != "" ? parseFloat($('#percentage').val())          : 0;
+        let percentage_base             = $('#percentage_base').val()   != "" ? parseFloat($('#percentage_base').val())     : 0;
 
-        let exchange_rate_base          = $('#tasa_base').val()         != "" ? parseFloat($('#tasa_base').val())    : 0;
+        let exchange_rate_base          = $('#tasa_base').val()         != "" ? parseFloat($('#tasa_base').val())           : 0;
         
         let exonerar                    = $('#radio1').is(':checked');
         let descontar                   = $('#radio2').is(':checked');

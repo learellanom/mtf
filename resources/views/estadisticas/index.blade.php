@@ -12,9 +12,15 @@ $myClass = new app\Http\Controllers\statisticsController;
 
 $config = [
     'data' => $Transacciones,
-    'order' => [[1, 'desc']],
-    'columns' => [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, ['orderable' => false]],
+    'columns' => [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null],
 ];
+
+
+// $config = [
+//   'data' => $Transacciones,
+//    'order' => [[1, 'desc']],
+//    'columns' => [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, ['orderable' => false]],
+// ];
 
 $config['dom'] = '<"row" <"col-sm-7" B> <"col-sm-5 d-flex justify-content-end" i> >
                   <"row" <"col-12" tr> >
@@ -265,20 +271,24 @@ if (isset($balance->Total)){
                                     <th style="width:1%;">Cliente</th>
                                     <th style="width:1%;">Agente</th>
                                     <th style="width:1%;">Caja</th>
-                                    <th style="width:1%;">Anular/Activar <i class="fas fa-search"></i></th>
+                                    
                                     <th style="width:1%;">Ver <i class="fas fa-search"></i></th>
                                 </tr>
                             </thead>
                             @php
                                 $myTotal = 0;
+                                $myTotal = $balanceBefore; // asigna el saldo al corte para que calcule desde ahi
                             @endphp
                             @foreach($config['data'] as $row)
 
                                 @php
                                     if ($myWallet != 0){
                                   
+                                        // valida si viene con filtro por algun tipo de transaccion
+
                                         if ($myTypeTransactions == 0){
-                                            // dd($myWallet . ' - ' . $myTypeTransactions); 
+                                            
+                                             // dd(' MONTO TOTAL' . ' ' . $row->MontoTotalBase); 
                                             //       dd($myWallet);
                                             $myPorcentajeComision   = $row->PorcentajeComisionBase;
                                             $myMontoComision        = $row->MontoComisionBase;
@@ -286,8 +296,9 @@ if (isset($balance->Total)){
 
                                             $TasaCambio             = $row->TasaCambioBase;
                                             $Monto                  = $row->MontoBase;
-                                            $Monto                  = $row->Monto;
+                                            // $Monto                  = $row->Monto;
                                         }else{
+                                            
                                             $myPorcentajeComision   = $row->PorcentajeComision;
                                             $myMontoComision        = $row->MontoComision;
                                             $myTotal2               = $row->MontoTotal;
@@ -318,7 +329,7 @@ if (isset($balance->Total)){
                                     }
                                     
                                     if ($indWallet == 0){
-
+                                        
                                         $myTransaction  = $myClass->getCreditDebitGroup($row->TransactionId);
                                         switch  ($myTransaction){
                                             //
@@ -343,6 +354,7 @@ if (isset($balance->Total)){
 
                                         $myTransaction  = $myClass->getCreditDebitWallet($row->TransactionId);
                                         // echo "myTransaction  $row->TransactionId -- $myTransaction";
+                                        // dd($myTransaction . ' ' . $myTotal2 . ' y total es ' . $myTotal);
                                         switch  ($myTransaction){
                                             //
                                             // debito
@@ -370,6 +382,7 @@ if (isset($balance->Total)){
                                 @endphp
 
                                 {{-- dd($row)--}}
+                                
                                 <tr>
                                     <td style="display: none;">{!! $row->Id !!}</td>                                    
                                     <td>{!! $row->FechaTransaccion !!}</td>
@@ -404,17 +417,9 @@ if (isset($balance->Total)){
                                         </a>
                                     </td>
 
-                                    <td class="text-center">
-                                        <a
-                                            href="{{ route('transactions.show', ['movimiento'=> $row->Id]) }}"
-                                            title="Detalles"
-                                            class="btn btn-xl text-dark mx-1 shadow text-center">
-                                            <i class="fa fa-lg fa-fw fa-eye"></i>
-                                        </a>
-                                    </td>
 
                                     {{-- aqui va anular/activar --}}
-                                    
+                                    {{-- dd($myTotal2) --}}
                                 </tr>
                             @endforeach
                             {{--
@@ -498,18 +503,18 @@ if (isset($balance->Total)){
                 "previous": "Anterior"
             }
         },
-        "order": [[ 0, 'asc' ]],
+         "order": [[ 1, 'asc' ]],
         'dom' : 'Bfrtilp',
         'pageLength' : 7, 
         'buttons':[
             {
                 extend:  'excelHtml5',
-                exportOptions: { columns: [ 0, 1, 2, 3,4,5,6,7,8,9,10,11] },
+                exportOptions: { columns: [ 0, 1, 2, 3,4,5,6,7,8,9,10,11,12] },
                 text:    '<i class="fas fa-file-excel"></i>',
                 title: `Detalle de Movimientos`,
                 titleAttr: 'Exportar Excel',
                 className: 'btn btn-success',
-                "excelStyles": [
+                excelStyles: [
                     {
                         "template": ["title_medium", "gold_medium"]
                     },

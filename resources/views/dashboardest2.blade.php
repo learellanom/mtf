@@ -290,6 +290,7 @@ $config4 = [
 
             const wallet        = $('#wallet').val();
             const transaccion   = $('#typeTransactions').val();
+            
             theRoute(wallet, transaccion);
 
         });

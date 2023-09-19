@@ -347,7 +347,13 @@ return [
             'icon' => 'fas fa-fw fas fa-chart-line',
             'can'  => 'dashboardSaldos',
         ],
-
+        [
+            'text' => 'Consolidado de comisiones',
+            'url'  => 'dashboardComisiones',
+            'active' => ['dashboardComisiones*'],
+            'icon' => 'fas fa-fw fas fa-chart-line',
+            'can'  => 'dashboardComisiones',
+        ],
         [
             'text' => 'Detalles de movimiento',
             'url'  => 'estadisticasDetalle',

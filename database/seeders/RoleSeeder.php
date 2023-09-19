@@ -109,6 +109,8 @@ class RoleSeeder extends Seeder
         Permission::create(['name' => 'permissions.index', 'description' => 'Ver los permisos del sistema'])->assignRole($role1);
 
         Permission::create(['name' => 'estadisticasDetalle.estadisticasResumenGrupoWallet', 'description' => 'Resumen por Grupo Wallet'])->assignRole($role1);
+        Permission::create(['name' => 'dashboardSaldos', 'description' => 'Saldos posicion consolidada'])->assignRole($role1);
+        Permission::create(['name' => 'dashboardComisiones', 'description' => 'Dashboard de Comisiones'])->assignRole($role1);
 
     }
 }

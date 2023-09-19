@@ -366,8 +366,8 @@ class statisticsController extends Controller
             )->whereBetween('Transactions.type_transaction_id', [$myTypeTransactionsDesde, $myTypeTransactionsHasta]
             )->whereBetween('Transactions.transaction_date',    [$myFechaDesde . " 00:00:00", $myFechaHasta . " 23:59:00"]
             )->where('Transactions.status', '=', 'Activo'
-            )->orderBy('Transactions.transaction_date','DESC'
-            )->limit(500)
+            )->orderBy('Transactions.transaction_date','ASC'
+            )->limit(300)
             ->get();
 
             $Transacciones2 = array();
@@ -423,8 +423,8 @@ class statisticsController extends Controller
                     and transaction_date    between '$myFechaDesde  00:00:00'   and '$myFechaHasta 23:59:00' 
                     $myTokenCondition
                 order by
-                    Transactions.transaction_date DESC
-                limit 500
+                    Transactions.transaction_date ASC
+                limit 3000
 
             ";
     
@@ -472,6 +472,7 @@ class statisticsController extends Controller
         $parametros['myFechadesdeInvertida']    = $myFechadesdeInvertida;
 
         // dd($myFechadesdeInvertida);
+        \Log::info('leam ----> ' .  json_encode($Transacciones, JSON_PRETTY_PRINT));
         return view('estadisticas.index', $parametros);
 
     }
@@ -1060,7 +1061,7 @@ class statisticsController extends Controller
             $myGroup        = $request->group;
         }
 
-        // $Transacciones1         = $this->getwalletTransactionSummary($request);
+        // $Transacciones1         = $this->getWalletTransactionSummary($request);
         $Transacciones2         = $this->getWalletTransactionGroupSummary($request);
         $groups                 = $this->getGroups();
 
@@ -1280,21 +1281,21 @@ class statisticsController extends Controller
 
         $Transacciones = DB::table('transactions')
             ->select(DB::raw("
-                wallet_id                   as WalletId,
-                wallets.name                as WalletName,
-                type_transaction_id         as TypeTransactionId,
-                type_transactions.name      as TypeTransaccionName,
-                1                           as ItemGroup,                      
-                ''                          as GroupId,
-                ''                          as GroupName,                
-                count(*)                    as cant_transactions,
-                sum(amount)                 as total_amount,                
-                sum(amount_commission_base) as total_amount_commission_base,
-                sum(amount_commission)      as total_commission,
-                sum(amount_base)            as total_amount_base,                
-                sum(amount_total_base)      as total_Base,                
-                (sum(amount_commission)-sum(amount_commission_base)) as total_commission_profit,
-                sum(amount_total)           as total"))
+                wallet_id                       as WalletId,
+                wallets.name                    as WalletName,
+                type_transaction_id             as TypeTransactionId,
+                type_transactions.name          as TypeTransaccionName,
+                1                               as ItemGroup,                      
+                ''                              as GroupId,
+                ''                              as GroupName,                
+                count(*)                        as cant_transactions,
+                sum(amount)                     as total_amount,                
+                sum(amount_commission_base)     as total_amount_commission_base,
+                sum(amount_commission)          as total_commission,
+                sum(amount_base)                as total_amount_base,                
+                sum(amount_total_base)          as total_Base,                
+                sum(amount_commission_profit)   as total_commission_profit,
+                sum(amount_total)               as total"))
             ->leftJoin('type_transactions', 'type_transactions.id', '=', 'transactions.type_transaction_id')
             ->leftJoin('groups as wallets',           'wallets.id', '=', 'transactions.wallet_id')
             ->where('status','<>','Anulado')
@@ -1308,6 +1309,7 @@ class statisticsController extends Controller
         // dd($Transacciones);
         return $Transacciones;
     }
+    
     /*
     *
     *
@@ -1376,20 +1378,20 @@ class statisticsController extends Controller
         $myQuery =
         "
         select
-            wallet_id                   as WalletId,
-            wallets.name                as WalletName,
-            type_transaction_id         as TypeTransactionId,
-            type_transactions.name      as TypeTransaccionName,                       
-            group_id                    as GroupId,
-            groups.name                 as GroupName,
-            count(*)                    as cant_transactions,
-            sum(amount)                 as total_amount,
-            sum(amount_base)            as total_amount_base,
-            sum(amount_commission)      as total_commission,
-            sum(amount_commission_base) as total_amount_commission_base,
-            sum(amount_total)           as total,
-            sum(amount_total_base)      as total_Base,
-            (sum(amount_commission)-sum(amount_commission_base)) as total_commission_profit
+            wallet_id                       as WalletId,
+            wallets.name                    as WalletName,
+            type_transaction_id             as TypeTransactionId,
+            type_transactions.name          as TypeTransaccionName,                       
+            group_id                        as GroupId,
+            groups.name                     as GroupName,
+            count(*)                        as cant_transactions,
+            sum(amount)                     as total_amount,
+            sum(amount_base)                as total_amount_base,
+            sum(amount_commission)          as total_commission,
+            sum(amount_commission_base)     as total_amount_commission_base,
+            sum(amount_total)               as total,
+            sum(amount_total_base)          as total_Base,
+            sum(amount_commission_profit)   as total_commission_profit
         from mtf.transactions
             left join  mtf.groups as wallets    on wallet_id                = mtf.wallets.id
             left join  mtf.groups               on group_id                 = mtf.groups.id
@@ -1469,18 +1471,18 @@ class statisticsController extends Controller
         $myQuery =
         "
         select
-            0                           as WalletId,
-            ''                          as WalletName,
-            type_transaction_id         as TypeTransactionId,
-            type_transactions.name      as TypeTransaccionName,
-            count(*)                    as cant_transactions,
-            sum(amount)                 as total_amount,
-            sum(amount_base)            as total_amount_base,
-            sum(amount_commission)      as total_commission,
-            sum(amount_commission_base) as total_amount_commission_base,
-            sum(amount_total)           as total,
-            sum(amount_total_base)      as total_Base,
-            (sum(amount_commission)-sum(amount_commission_base)) as total_commission_profit
+            0                             as WalletId,
+            ''                            as WalletName,
+            type_transaction_id           as TypeTransactionId,
+            type_transactions.name        as TypeTransaccionName,
+            count(*)                      as cant_transactions,
+            sum(amount)                   as total_amount,
+            sum(amount_base)              as total_amount_base,
+            sum(amount_commission)        as total_commission,
+            sum(amount_commission_base)   as total_amount_commission_base,
+            sum(amount_total)             as total,
+            sum(amount_total_base)        as total_Base,
+            sum(amount_commission_profit) as total_commission_profit
         from mtf.transactions
             left join  mtf.type_transactions    on type_transaction_id      = mtf.type_transactions.id     
         where        
@@ -1552,20 +1554,20 @@ class statisticsController extends Controller
         $myQuery =
         "
         select
-            0                   as WalletId,
-            ''                as WalletName,
-            type_transaction_id         as TypeTransactionId,
-            type_transactions.name      as TypeTransaccionName,    
-            group_id                    as GroupId,
-            groups.name                 as GroupName,
-            count(*)                    as cant_transactions,
-            sum(amount)                 as total_amount,
-            sum(amount_base)            as total_amount_base,
-            sum(amount_commission)      as total_commission,
-            sum(amount_commission_base) as total_amount_commission_base,
-            sum(amount_total)           as total,
-            sum(amount_total_base)      as total_Base,
-            (sum(amount_commission)-sum(amount_commission_base)) as total_commission_profit
+            0                                   as WalletId,
+            ''                                  as WalletName,
+            type_transaction_id                 as TypeTransactionId,
+            type_transactions.name              as TypeTransaccionName,    
+            group_id                            as GroupId,
+            groups.name                         as GroupName,
+            count(*)                            as cant_transactions,
+            sum(amount)                         as total_amount,
+            sum(amount_base)                    as total_amount_base,
+            sum(amount_commission)              as total_commission,
+            sum(amount_commission_base)         as total_amount_commission_base,
+            sum(amount_total)                   as total,
+            sum(amount_total_base)              as total_Base,
+            sum(amount_commission_profit)       as total_commission_profit
         from mtf.transactions
             left join  mtf.groups               on group_id                 = mtf.groups.id
             left join  mtf.type_transactions    on type_transaction_id      = mtf.type_transactions.id     
@@ -2390,15 +2392,16 @@ class statisticsController extends Controller
             sum(MontoComision)                              as Comision,
             sum(MontoComisionBase)                          as ComisionBase,
             (sum(MontoCreditos) - sum(MontoDebitos) )       as Total,
-            (sum(MontoComision) - sum(MontoComisionBase) )  as ComisionGanancia
+            sum(MontoComisionProfit)                        as ComisionGanancia
         from(
             SELECT
-                wallet_id                   as IdWallet,
-                mtf.groups.name             as NombreWallet,
-                0 				            as MontoCreditos,
-                sum(amount_total_base)      as MontoDebitos,
-                sum(amount_commission)      as MontoComision,
-                sum(amount_commission_base) as MontoComisionBase
+                wallet_id                       as IdWallet,
+                mtf.groups.name                 as NombreWallet,
+                0 				                as MontoCreditos,
+                sum(amount_total_base)          as MontoDebitos,
+                sum(amount_commission)          as MontoComision,
+                sum(amount_commission_base)     as MontoComisionBase,
+                sum(amount_commission_profit)  as MontoComisionProfit
             FROM $myTable
             left join  mtf.groups on mtf.transactions.wallet_id  = mtf.groups.id
             where
@@ -2413,12 +2416,13 @@ class statisticsController extends Controller
                 NombreWallet
         union
             SELECT
-                wallet_id                   as IdWallet,
-                mtf.groups.name             as NombreWallet,
-                sum(amount_total_base)      as MontoCreditos,
-                0                           as MontoDebitos,
-                sum(amount_commission)      as MontoComision,
-                sum(amount_commission_base) as MontoComisionBase                
+                wallet_id                       as IdWallet,
+                mtf.groups.name                 as NombreWallet,
+                sum(amount_total_base)          as MontoCreditos,
+                0                               as MontoDebitos,
+                sum(amount_commission)          as MontoComision,
+                sum(amount_commission_base)     as MontoComisionBase,
+                sum(amount_commission_profit)   as MontoComisionProfit
             FROM $myTable
             left join  mtf.groups on mtf.transactions.wallet_id  = mtf.groups.id
             where
