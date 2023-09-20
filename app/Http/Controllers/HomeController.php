@@ -159,7 +159,7 @@ class HomeController extends Controller
     
     public function comisiones(request $request)
     {
-
+        
         $wallet_summary             = app(statisticsController::class)->getWalletTransactionSummary($request);
         // dd($wallet_summary );
         $request2                   = clone $request;
@@ -281,8 +281,9 @@ class HomeController extends Controller
         $parametros['balance']                      = $balance;
 
         // dd($transaction_summary);
+        //   dd($wallet_groupsummary);
 
-        return view('dashboardComisiones', $parametros);
+        return view('dashboardComisiones2', $parametros);
 
     }
 
