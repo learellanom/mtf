@@ -110,6 +110,7 @@ Route::post('filtrosGrabaGroup', [App\Http\Controllers\statisticsController::cla
 
 Route::post('filtrosGrabaEstadisticas', [App\Http\Controllers\statisticsController::class, 'filtrosGrabaEstadisticas'])->name('filtrosGrabaEstadisticas'); // Lee filtros
 
+Route::post('filtrosGrabaComisiones', [App\Http\Controllers\statisticsController::class, 'filtrosGrabaComisiones'])->name('filtrosGrabaComisiones'); // Lee filtros
 
 
 

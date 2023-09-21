@@ -274,17 +274,15 @@ $config4 = [
     @php
 
         
-        $myData = $myClass->filtrosLeeEstadisticas();
-
-       
+        $myData                         = $myClass->filtrosLeeComisiones();
 
         $myocultarresumengeneral        = $myData['ocultarresumengeneral'];
         $myocultarresumentransaccion    = $myData['ocultarresumentransaccion'];
         $mytransactions                 = $myData['transactions'];
         // dd($myData);
         
-        $myocultarresumengeneral        = (!$myocultarresumengeneral) ? 0 : $myocultarresumengeneral;
-        $myocultarresumentransaccion    = (!$myocultarresumentransaccion) ? 0 : $myocultarresumentransaccion;
+        $myocultarresumengeneral        = (!$myocultarresumengeneral)       ? 0 : $myocultarresumengeneral;
+        $myocultarresumentransaccion    = (!$myocultarresumentransaccion)   ? 0 : $myocultarresumentransaccion;
 
         // dd(' myocultarresumengeneral -> ' . $myocultarresumengeneral . ' myocultarresumentransaccion -> ' . $myocultarresumentransaccion . ' mytransactions -> ' . print_r($mytransactions,true) );
         // dd(json_encode($myocultarresumentransaccion));
@@ -308,9 +306,9 @@ $config4 = [
             $('.esconder').hide();
         }
 
-        let  myFechaDesde = {!! $myFechaDesde !!};
+        let     myFechaDesde = {!! $myFechaDesde !!};
         // console.log({!! $myFechaDesde !!});
-        const myFechaHasta = {!! $myFechaHasta !!};
+        const   myFechaHasta = {!! $myFechaHasta !!};
 
         // alert('Fechas -> desde -> ' + myFechaDesde);
 
@@ -1162,28 +1160,24 @@ $config4 = [
 
 
         @endforeach
-
-        let ctx44 = document.getElementById("myChartBar");
+        
+        let ctx444 = document.getElementById("myChartBar");
 
         console.log(myLabel);
         console.log(myData);
         
         {{--
-        myChart44 = new Chart(ctx44, {
+        let myChart444 = new Chart(ctx444, {
             type: 'bar',
+            labels: myLabel,
             data: {
-                labels: myLabel,
                 datasets: [{
-                    label: 'Dataset 1',
+                    label: 'Mi grafico',
                     data: myData,
-                    backgroundColor: myBackGroudColor,
-                    borderColor: myBorderColor,
-                    borderWidth: 6
                 }]
             }
-
         });
-      --}}
+        --}}
         
         
 
@@ -1364,20 +1358,20 @@ $config4 = [
     }
 
     function BuscaWallet(miWallet){
-            if (miWallet===0){
-                return;
-            }
+        if (miWallet===0){
+            return;
+        }
 
-            $('#wallet').each( function(index, element){
+        $('#wallet').each( function(index, element){
 
-                $(this).children("option").each(function(){
-                    if ($(this).val() === miWallet.toString()){
+            $(this).children("option").each(function(){
+                if ($(this).val() === miWallet.toString()){
 
-                        $("#wallet option[value="+ miWallet +"]").attr("selected",true);
-                    }
+                    $("#wallet option[value="+ miWallet +"]").attr("selected",true);
+                }
 
-                });
             });
+        });
     }
 
     function BuscaTransaccion(miTypeTransaction){
@@ -1473,7 +1467,7 @@ $config4 = [
             {
                 headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
                 method: "POST",
-                url: "{{route('filtrosGrabaEstadisticas')}}",
+                url: "{{route('filtrosGrabaComisiones')}}",
                 async: false,
                 data: { 
                     ocultarresumengeneral: ocultarresumengeneral,
