@@ -336,6 +336,8 @@
 
                         {!! Form::hidden('status', null, ['class' => 'form-control', 'value' => 'Activo']) !!}
 
+                        {!! Form::hidden('amount_base',null, ['class' => 'form-control', 'id' => 'amount_base']) !!}
+
                         {{-- {!! Form::hidden('amount_commission_profit', null,  ['class' => 'form-control', 'id' => 'amount_commission_profit', 'value' => '0']) !!} --}}
 
 
@@ -752,7 +754,7 @@
 
         let amount_commission_profit    = 0;
 
-        // alert('mi monto ->' + amount + ' type ' + {{ $transactions->type_coin_id}});
+         // alert('mi monto ->' + amount + ' type ' + {{ $transactions->type_coin_id}});
         // 1 incluir
         // 2 exonerar
         // 3 descontar
@@ -776,7 +778,7 @@
             }
         }
         
-        if (myTypeCommission = 1){
+        if (myTypeCommission == 1){
             //
             // comision porcentaje
             //
@@ -805,13 +807,13 @@
 
             
             switch(myCommission){
-                case 1:
+                case 1: // incluir
                     amount_total = amount + amount_commission;
                     break;
-                case 2:
+                case 2: // exonerar
                     amount_total = amount;
                     break;
-                case 3:
+                case 3: // descontar
                     amount_total = amount - amount_commission;
                     break;
                 default:
@@ -863,7 +865,7 @@
 
 
 
-        if (myTypeCommission = 2){
+        if (myTypeCommission == 2){
             //
             // comision tasa
             //
@@ -907,8 +909,10 @@
                     break;
             }
         }
+        
 
         $('#my_monto_dorales').val(amount);
+        $('#amount_base').val(amount_base);
         $('#comision').val(amount_commission);
         $('#comision_base').val(amount_commission_base);
         $('#montototal').val(amount_total);

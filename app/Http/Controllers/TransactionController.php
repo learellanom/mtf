@@ -827,14 +827,7 @@ class TransactionController extends Controller
         }
         $transactions->group_name = $myName;
 
-        $myName = "";
-        foreach($user as $key => $value){
-            if ($transactions->user_id == $key){
-                $myName = $value;
-                break;
-            }
-        }
-        $transactions->group_name = $myName;
+
 
         // $myPos              = array_search($transactions->type_transction_id,$type_transaction);
         // $myName             = $type_transactions($myPos);
@@ -849,7 +842,7 @@ class TransactionController extends Controller
     public function update(Request $request, $transaction)
     {
 
-        // dd($request->all());
+       //  dd($request->all());
 
         Transaction::find($transaction)->update($request->all());
         $movimientos = Transaction::findOrFail($transaction);
@@ -857,7 +850,8 @@ class TransactionController extends Controller
 
         if($request->file('file')){
            foreach($request->file('file') as $files){
-              $url = Storage::put('public/Transactions/'.$transaction, $files);
+
+              $url = Storage::put('public/Transactions/'.$transaction, $files); 
 
 
 

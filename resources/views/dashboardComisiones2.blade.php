@@ -1131,7 +1131,7 @@ $config4 = [
         });
 
         // grafico de barras general
-
+        /*
         myElement = `
             <div class="row">
                 <div class="col-md-12">
@@ -1166,7 +1166,7 @@ $config4 = [
 
         //console.log(myLabel);
         //console.log(myData);
-        
+        */
         {{--
         let myChart444 = new Chart(ctx444, {
             type: 'bar',
@@ -1184,7 +1184,7 @@ $config4 = [
 
         
 
-        $("#myCanvasGeneral").append(myElement);
+       // $("#myCanvasGeneral").append(myElement);
         
         // tabla principal
 
