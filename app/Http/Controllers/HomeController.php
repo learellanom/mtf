@@ -281,7 +281,7 @@ class HomeController extends Controller
         $parametros['balance']                      = $balance;
 
         // dd($transaction_summary);
-        //   dd($wallet_groupsummary);
+        //  dd($wallet_groupsummary);
 
         return view('dashboardComisiones2', $parametros);
 

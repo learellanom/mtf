@@ -846,8 +846,9 @@ $config4 = [
                                         <th class="myTdColor5" style="width:1%;">Monto Comision Ganancia</th>
                                     </tr>
                                 </thead>
-                                @foreach($wallet_summary as $wallet2)
-                                    <tr class="myTr" onClick="theRoute2({{0}}, {{0}}, {{0}}, {{$wallet2->TypeTransactionId}})">
+                                @foreach($wallet_summary as $wallet2) 
+                                                                    
+                                    <tr class="myTr" onClick="theRoute2({{0}}, {{$wallet2->GroupId > 0 ? $wallet2->GroupId : 0 }}, {{$wallet2->WalletId ?? 0}}, {{$wallet2->TypeTransactionId}})">
                                         @if($wallet2->TypeTransactionId == $wallet->TypeTransactionId)
                                             <td class="myTdHighlight">{{ $wallet2->TypeTransaccionName}}</td>
                                             <td class="myTdHighlight">{{ number_format($wallet2->cant_transactions) }}</td>
@@ -882,7 +883,7 @@ $config4 = [
                                 </thead>
                                 @foreach($wallet_groupsummary as $wallet2)
                                     @if($wallet2->TypeTransactionId == $wallet->TypeTransactionId)
-                                        <tr class="myTr" onClick="theRoute2({{0}}, {{$wallet2->GroupId ?? 0 }}, {{0}}, {{$wallet2->TypeTransactionId}})">
+                                        <tr class="myTr" onClick="theRoute2({{0}}, {{$wallet2->GroupId ?? 0 }}, {{$wallet2->WalletId ?? 0}}, {{$wallet2->TypeTransactionId}})">                                        
                                             <td class="myTdHighlight">{{ $wallet2->GroupName ?? "A cajas"}}</td>
                                             <td class="myTdHighlight">{{ number_format($wallet2->cant_transactions)}}</td>
                                             <td class="myTdHighlight">{{ number_format($wallet2->total_commission,2)}}</td>
@@ -1163,8 +1164,8 @@ $config4 = [
         
         let ctx444 = document.getElementById("myChartBar");
 
-        console.log(myLabel);
-        console.log(myData);
+        //console.log(myLabel);
+        //console.log(myData);
         
         {{--
         let myChart444 = new Chart(ctx444, {
@@ -1201,16 +1202,9 @@ $config4 = [
                             <tr>
                                 <th class="myTdColorBlack"  >Transacción</th>
                                 <th class="myTdColorBlack"  >Cant transacción</th>
-                                
-                                
                                 <th class="myTdColor2"      >Comision</th>
-                                
-                                
-                                
                                 <th class="myTdColor3"      >Comision Base</th>
-                                
-                                <th class="myTdColor5"  >Comision Ganancia</th>
-
+                                <th class="myTdColor5"      >Comision Ganancia</th>
                             </tr>
                         </thead>
                         @php
@@ -1339,7 +1333,7 @@ $config4 = [
         if (grupo  === "") grupo  = 0;
         if (wallet  === "") wallet  = 0;
         if (typeTransactions  === "") typeTransactions  = 0;
-
+        
         fechaDesde = $('#drCustomRanges').data('daterangepicker').startDate.format('YYYY-MM-DD')
         fechaHasta = $('#drCustomRanges').data('daterangepicker').endDate.format('YYYY-MM-DD')
 
@@ -1391,7 +1385,7 @@ $config4 = [
         });
     }
     function InicializaFechas(){
-        // $('#drCustomRanges').data('daterangepicker').setStartDate('01-01-2001');
+         $('#drCustomRanges').data('daterangepicker').setStartDate('01-01-2001');
 
     }
     function BuscaFechas(FechaDesde = 0,FechaHasta = 0){

@@ -223,7 +223,7 @@ class statisticsController extends Controller
             $myWalletDesde = $myWallet;
             $myWalletHasta = $myWallet;
         }
-
+        // dd('myWalletDesde -> ' . $myWalletDesde . 'myWalletDesde ->  ' . $myWalletHasta);
         $myHoraDesde = "00:00:00";
         $myHoraHasta = "23:59:00";
 
@@ -363,6 +363,7 @@ class statisticsController extends Controller
                 'type_coins', 'type_coins.id', '=', 'transactions.type_coin_id'                  
             )->whereBetween('Transactions.user_id',             [$myUserDesde, $myUserHasta]
             )->whereBetween('Transactions.group_id',            [$myGroupDesde, $myGroupHasta]
+            )->whereBetween('Transactions.wallet_id',           [$myWalletDesde, $myWalletHasta]
             )->whereBetween('Transactions.type_transaction_id', [$myTypeTransactionsDesde, $myTypeTransactionsHasta]
             )->whereBetween('Transactions.transaction_date',    [$myFechaDesde . " 00:00:00", $myFechaHasta . " 23:59:00"]
             )->where('Transactions.status', '=', 'Activo'
@@ -378,7 +379,7 @@ class statisticsController extends Controller
     
                 array_push($Transacciones2, $value2);
             }
-    
+            // dd('aqui');
 
         }else{
 
