@@ -63,6 +63,11 @@ $config4 = [
         background-color: #2874A6  !important;
         color: white !important;          
     }
+    .myTdColor6 {
+        width:1%;
+        background-color: #BB8FCE   !important;
+        color: white !important;          
+    }
     .myTdHighlight {
         font-weight: 800;
         color: green !important;          
@@ -989,6 +994,7 @@ $config4 = [
                                 <th style="width:1%;">Cant transacción</th>
                                 <th class="myTdColor2" style="width:1%;">Comision</th>
                                 <th class="myTdColor3" style="width:1%;">Comision Base</th>
+                                <th class="myTdColor6" style="width:1%;">Comision Exchange</th>
                                 <th class="myTdColor5" style="width:1%;">Comision Ganancia</th>
                             </tr>
                         </thead>
@@ -997,6 +1003,7 @@ $config4 = [
 
                             $totalComision          = 0;
                             $totalComisionBase      = 0;
+                            $totalComisionExchange  = 0;
                             $totalComisionGanancia  = 0;
 
                         @endphp
@@ -1010,6 +1017,7 @@ $config4 = [
                                     
                                     $totalComision          +=  $wallet2->total_amount_commission_base;
                                     $totalComisionBase      +=  $wallet2->total_amount_commission_base;
+                                    $totalComisionExchange  +=  $wallet2->exchange_profit;
                                     $totalComisionGanancia  +=  $wallet2->total_commission_profit;  
 
                                     $cant                   += $wallet2->cant_transactions;
@@ -1042,6 +1050,7 @@ $config4 = [
                                 <td>{{ number_format($wallet2->cant_transactions) }}</td>
                                 <td>{{ number_format($wallet2->total_commission ,2) }}</td>
                                 <td>{{ number_format($wallet2->total_amount_commission_base ,2) }}</td>
+                                <td>{{ number_format($wallet2->exchange_profit ,2) }}</td>
                                 <td>{{ number_format($wallet2->total_commission_profit,2) }}</td>
 
                             </tr>
@@ -1052,6 +1061,7 @@ $config4 = [
                             <td                   >{{ number_format($cant) }}</td>
                             <td class="myTdColor2">{{ number_format($totalComision,2) }}</td>
                             <td class="myTdColor3">{{ number_format($totalComisionBase,2) }}</td>
+                            <td class="myTdColor6">{{ number_format($totalComisionExchange,2) }}</td>                            
                             <td class="myTdColor5">{{ number_format($totalComisionGanancia,2) }}</td>    
                         </tr>
 
@@ -1204,6 +1214,7 @@ $config4 = [
                                 <th class="myTdColorBlack"  >Cant transacción</th>
                                 <th class="myTdColor2"      >Comision</th>
                                 <th class="myTdColor3"      >Comision Base</th>
+                                <th class="myTdColor6"      >Comision Exchange</th>
                                 <th class="myTdColor5"      >Comision Ganancia</th>
                             </tr>
                         </thead>
@@ -1242,6 +1253,7 @@ $config4 = [
                                             $total_amount_base_debit        = $wallet2->total_amount_base;    
                                             $total_amount_base_credit       = 0;    
 
+                                            
                                             if ($wallet2->TypeTransactionId == $myTypeTransaction ) 
                                                 $myStyle = "myTdColor4";
                                             else 
@@ -1279,11 +1291,8 @@ $config4 = [
                                 
 
                                 <td class="{{$myStyle}}" >{{ number_format($wallet2->total_commission ,2)               == 0 ? "" : number_format($wallet2->total_commission ,2)}}</td>
-                                
-                                
-
-                                
                                 <td class="{{$myStyle}}" >{{ number_format($wallet2->total_amount_commission_base ,2)   == 0 ? "" : number_format($wallet2->total_amount_commission_base ,2)}}</td>
+                                <td class="{{$myStyle}}" >{{ number_format($wallet2->exchange_profit ,2)                == 0 ? "" : number_format($wallet2->exchange_profit ,2)}}</td>
                                 <td class="{{$myStyle}}" >{{ number_format($wallet2->total_commission_profit ,2)        == 0 ? "" : number_format($wallet2->total_commission_profit ,2)}}</td>
 
                             </tr>
@@ -1292,6 +1301,7 @@ $config4 = [
                         <tr style="background-color: black; color:white;">
                             <td >{{ ' ' }}</td>
                             <td >{{ ' ' }}</td>
+                            <td></td>
                             <td></td>
                             <td></td>
                             <td></td>

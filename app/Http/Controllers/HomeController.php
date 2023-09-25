@@ -159,7 +159,9 @@ class HomeController extends Controller
     
     public function comisiones(request $request)
     {
-        
+     
+        // dd($request->fechaDesde . ' ' . $request->fechaHasta);
+
         $wallet_summary             = app(statisticsController::class)->getWalletTransactionSummary($request);
         // dd($wallet_summary );
         $request2                   = clone $request;
@@ -176,11 +178,11 @@ class HomeController extends Controller
         $request3                   = clone $request;
         $request3->transaction      = 0;
         $transaction_summary        = app(statisticsController::class)->getTransactionSummary($request3);
-
+        // dd($transaction_summary);
         $request4                   = clone $request;
         $transaction_group_summary  = app(statisticsController::class)->getTransactionGroupSummary($request4);
 
-        // dd($transaction_summary);
+        // dd($transaction_group_summary);
 
 
         /* MANTENER VALOR BUSCADO EN EL URL */

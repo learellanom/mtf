@@ -1296,7 +1296,14 @@ class statisticsController extends Controller
                 sum(amount_base)                as total_amount_base,                
                 sum(amount_total_base)          as total_Base,                
                 sum(amount_commission_profit)   as total_commission_profit,
-                sum(amount_total)               as total"))
+                sum(amount_total)               as total,
+                sum(case 
+				    when exchange_rate is not null  then amount_commission_profit
+				    when exchange_rate is null then 0
+			        end )
+                as exchange_profit"
+                )
+                )
             ->leftJoin('type_transactions', 'type_transactions.id', '=', 'transactions.type_transaction_id')
             ->leftJoin('groups as wallets',           'wallets.id', '=', 'transactions.wallet_id')
             ->where('status','<>','Anulado')
@@ -1392,7 +1399,12 @@ class statisticsController extends Controller
             sum(amount_commission_base)     as total_amount_commission_base,
             sum(amount_total)               as total,
             sum(amount_total_base)          as total_Base,
-            sum(amount_commission_profit)   as total_commission_profit
+            sum(amount_commission_profit)   as total_commission_profit,
+			sum(case 
+				when exchange_rate is not null  then amount_commission_profit
+				when exchange_rate is null then 0
+			end )
+            as exchange_profit               
         from mtf.transactions
             left join  mtf.groups as wallets    on wallet_id                = mtf.wallets.id
             left join  mtf.groups               on group_id                 = mtf.groups.id
@@ -1483,7 +1495,12 @@ class statisticsController extends Controller
             sum(amount_commission_base)   as total_amount_commission_base,
             sum(amount_total)             as total,
             sum(amount_total_base)        as total_Base,
-            sum(amount_commission_profit) as total_commission_profit
+            sum(amount_commission_profit) as total_commission_profit,
+			sum(case 
+				when exchange_rate is not null  then amount_commission_profit
+				when exchange_rate is null then 0
+			end )
+            as exchange_profit               
         from mtf.transactions
             left join  mtf.type_transactions    on type_transaction_id      = mtf.type_transactions.id     
         where        
@@ -1568,7 +1585,12 @@ class statisticsController extends Controller
             sum(amount_commission_base)         as total_amount_commission_base,
             sum(amount_total)                   as total,
             sum(amount_total_base)              as total_Base,
-            sum(amount_commission_profit)       as total_commission_profit
+            sum(amount_commission_profit)       as total_commission_profit,
+			sum(case 
+				when exchange_rate is not null  then amount_commission_profit
+				when exchange_rate is null then 0
+			end )
+            as exchange_profit                    
         from mtf.transactions
             left join  mtf.groups               on group_id                 = mtf.groups.id
             left join  mtf.type_transactions    on type_transaction_id      = mtf.type_transactions.id     
