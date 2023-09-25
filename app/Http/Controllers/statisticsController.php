@@ -1298,8 +1298,8 @@ class statisticsController extends Controller
                 sum(amount_commission_profit)   as total_commission_profit,
                 sum(amount_total)               as total,
                 sum(case 
-				    when exchange_rate is not null  then amount_commission_profit
-				    when exchange_rate is null then 0
+				    when percentage is null and exchange_rate is not null  then amount_commission_profit
+				    when percentage is null and exchange_rate is null then 0
 			        end )
                 as exchange_profit"
                 )
@@ -1401,8 +1401,8 @@ class statisticsController extends Controller
             sum(amount_total_base)          as total_Base,
             sum(amount_commission_profit)   as total_commission_profit,
 			sum(case 
-				when exchange_rate is not null  then amount_commission_profit
-				when exchange_rate is null then 0
+				when percentage is null and exchange_rate is not null  then amount_commission_profit
+				when percentage is null and exchange_rate is null then 0
 			end )
             as exchange_profit               
         from mtf.transactions
@@ -1497,8 +1497,8 @@ class statisticsController extends Controller
             sum(amount_total_base)        as total_Base,
             sum(amount_commission_profit) as total_commission_profit,
 			sum(case 
-				when exchange_rate is not null  then amount_commission_profit
-				when exchange_rate is null then 0
+				when percentage is null and exchange_rate is not null  then amount_commission_profit
+				when percentage is null and exchange_rate is null then 0
 			end )
             as exchange_profit               
         from mtf.transactions
@@ -1587,8 +1587,8 @@ class statisticsController extends Controller
             sum(amount_total_base)              as total_Base,
             sum(amount_commission_profit)       as total_commission_profit,
 			sum(case 
-				when exchange_rate is not null  then amount_commission_profit
-				when exchange_rate is null then 0
+				when percentage is null and exchange_rate is not null  then amount_commission_profit
+				when percentage is null and exchange_rate is null then 0
 			end )
             as exchange_profit                    
         from mtf.transactions
