@@ -870,8 +870,8 @@
                     break;
             }
 
-             exchange_rate = 0;
-             exchange_rate_base = 0;
+             // exchange_rate = 0;
+             // exchange_rate_base = 0;
         }
 
 
