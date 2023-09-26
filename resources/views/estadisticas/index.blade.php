@@ -70,6 +70,7 @@ if (isset($balance->Total)){
 <div class="container-left">
     <div class="row col-12">
 
+        {{-- dd($wallet) --}}
         <div class ="col-12 col-sm-2">
             <x-adminlte-select2 id="wallet"
                                 name="optionsWallets"
@@ -88,8 +89,6 @@ if (isset($balance->Total)){
                 <x-adminlte-options :options="$wallet" empty-option="Wallet.."/>
             </x-adminlte-select2>
         </div>
-
-
 
         <div class ="col-12 col-sm-2">
             <x-adminlte-select2 id="group"

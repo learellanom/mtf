@@ -1,4 +1,4 @@
-@extends('adminlte::page')
+    @extends('adminlte::page')
 @section('title', 'Estadisticas')
 <!-- @section('plugins.chartJs', true) -->
 @section('content')
@@ -628,22 +628,28 @@ $config4 = [
                                     <tr>
                                         <th style="width:1%;">Transacción</th>
                                         <th style="width:1%;">Cant transacción</th>
-                                        <th style="width:1%;">Monto comisión</th>
-                                        <th style="width:1%;">Monto comisión base</th>
+                                        <th class="myTdColor2" >Monto comisión</th>
+                                        <th class="myTdColor3" >Monto comisión base</th>
+                                        <th class="myTdColor6" >Monto comisión Exchange</th>
+                                        <th class="myTdColor5">Monto comisión Ganancia</th>                                        
                                     </tr>
                                 </thead>
                                 @foreach($transaction_summary as $wallet2)
                                     <tr class="myTr" onClick="theRoute2({{0}}, {{0}}, {{0}}, {{$wallet2->TypeTransactionId}})">
                                         @if($wallet2->TypeTransactionId == $wallet->TypeTransactionId)
-                                            <td class="font-weight-bold" style="color: green;">{{ $wallet2->TypeTransaccionName}}</td>
-                                            <td class="font-weight-bold" style="color: green;">{{ number_format($wallet2->cant_transactions) }}</td>
-                                            <td class="font-weight-bold" style="color: green;">{{ number_format($wallet2->total_commission,2)}}</td>
-                                            <td class="font-weight-bold" style="color: green;">{{ number_format($wallet2->total_amount_commission_base,2)}}</td>
+                                            <td class="myTdHighlight">{{ $wallet2->TypeTransaccionName}}</td>
+                                            <td class="myTdHighlight">{{ number_format($wallet2->cant_transactions) }}</td>
+                                            <td class="myTdHighlight">{{ number_format($wallet2->total_commission,2)}}</td>
+                                            <td class="myTdHighlight">{{ number_format($wallet2->total_amount_commission_base,2)}}</td>
+                                            <td class="myTdHighlight">{{ number_format($wallet2->exchange_profit,2)}}</td>
+                                            <td class="myTdHighlight">{{ number_format($wallet2->total_commission_profit,2)}}</td>
                                         @else
                                             <td >{{ $wallet2->TypeTransaccionName}}</td>
-                                            <td>{{ number_format($wallet2->cant_transactions) }}</td>
-                                            <td>{{ number_format($wallet2->total_commission,2)}}</td>
-                                            <td>{{ number_format($wallet2->total_amount_commission_base,2)}}</td>
+                                            <td >{{ number_format($wallet2->cant_transactions) }}</td>
+                                            <td >{{ number_format($wallet2->total_commission,2)}}</td>
+                                            <td >{{ number_format($wallet2->total_amount_commission_base,2)}}</td>
+                                            <td >{{ number_format($wallet2->exchange_profit,2)}}</td>
+                                            <td >{{ number_format($wallet2->total_commission_profit,2)}}</td>
                                         @endif
                                     </tr>
                                 @endforeach
@@ -661,6 +667,7 @@ $config4 = [
                                         <th style="width:1%;">Cant transacción</th>
                                         <th class="myTdColor2"style="width:1%;">Monto comisión</th>
                                         <th class="myTdColor3"style="width:1%;">Monto comisión Base</th>
+                                        <th class="myTdColor6"style="width:1%;">Monto comisión Exchange</th>
                                         <th class="myTdColor5"style="width:1%;">Monto comisión Ganancia</th>
                                     </tr>
 
@@ -670,15 +677,17 @@ $config4 = [
                                     $total_commission               = 0;
                                     $total_amount_commission_base   = 0;
                                     $total_commission_profit        = 0;
+                                    $total_exchange_profit          = 0;
                                 @endphp
                                 @foreach($wallet_groupsummary as $wallet2)
                                     @if($wallet2->TypeTransactionId == $wallet->TypeTransactionId)
                                         <tr class="myTr" onClick="theRoute2({{0}}, {{$wallet2->GroupId ?? 0 }}, {{0}}, {{$wallet2->TypeTransactionId}})">
-                                            <td class="font-weight-bold" style="color: green;">{{ $wallet2->GroupName ?? "A cajas"}}</td>
-                                            <td class="font-weight-bold" style="color: green;">{{ number_format($wallet2->cant_transactions)}}</td>
-                                            <td class="font-weight-bold" style="color: green;">{{ number_format($wallet2->total_commission,2)}}</td>
-                                            <td class="font-weight-bold" style="color: green;">{{ number_format($wallet2->total_amount_commission_base,2)}}</td>
-                                            <td class="font-weight-bold" style="color: green;">{{ number_format($wallet2->total_commission_profit,2)}}</td>                                            
+                                            <td class="myTdHighlight">{{ $wallet2->GroupName ?? "A cajas"}}</td>
+                                            <td class="myTdHighlight">{{ number_format($wallet2->cant_transactions)}}</td>
+                                            <td class="myTdHighlight">{{ number_format($wallet2->total_commission,2)}}</td>
+                                            <td class="myTdHighlight">{{ number_format($wallet2->total_amount_commission_base,2)}}</td>
+                                            <td class="myTdHighlight">{{ number_format($wallet2->exchange_profit,2)}}</td>
+                                            <td class="myTdHighlight">{{ number_format($wallet2->total_commission_profit,2)}}</td>                                            
                                         </tr>
 
                                         @php
@@ -686,6 +695,7 @@ $config4 = [
                                             $total_commission               += $wallet2->total_commission;
                                             $total_amount_commission_base   += $wallet2->total_amount_commission_base;
                                             $total_commission_profit        += $wallet2->total_commission_profit;
+                                            $total_exchange_profit          += $wallet2->exchange_profit;
                                         @endphp
 
                                     @endif
@@ -695,6 +705,7 @@ $config4 = [
                                     <td>{{ number_format($cant_transactions)}}</td>
                                     <td class="myTdColor2">{{ number_format($total_commission,2)}}</td>
                                     <td class="myTdColor3">{{ number_format($total_amount_commission_base,2)}}</td>
+                                    <td class="myTdColor6">{{ number_format($total_exchange_profit,2)}}</td>
                                     <td class="myTdColor5">{{ number_format($total_commission_profit,2)}}</td>
                                 </tr>
                             </table>
@@ -848,6 +859,7 @@ $config4 = [
                                         <th style="width:1%;">Cant transacción</th>
                                         <th class="myTdColor2" style="width:1%;">Monto Comision</th>
                                         <th class="myTdColor3" style="width:1%;">Monto Comision Base</th>
+                                        <th class="myTdColor6" style="width:1%;">Monto Comision Exchange</th>                                        
                                         <th class="myTdColor5" style="width:1%;">Monto Comision Ganancia</th>
                                     </tr>
                                 </thead>
@@ -859,12 +871,14 @@ $config4 = [
                                             <td class="myTdHighlight">{{ number_format($wallet2->cant_transactions) }}</td>
                                             <td class="myTdHighlight">{{ number_format($wallet2->total_commission,2)}}</td>
                                             <td class="myTdHighlight">{{ number_format($wallet2->total_amount_commission_base,2)}}</td>
+                                            <td class="myTdHighlight">{{ number_format($wallet2->exchange_profit,2)}}</td>
                                             <td class="myTdHighlight">{{ number_format($wallet2->total_commission_profit,2)}}</td>
                                         @else
                                             <td >{{ $wallet2->TypeTransaccionName}}</td>
                                             <td >{{ number_format($wallet2->cant_transactions) }}</td>
                                             <td >{{ number_format($wallet2->total_commission,2)}}</td>
                                             <td >{{ number_format($wallet2->total_amount_commission_base,2)}}</td>                                          
+                                            <td >{{ number_format($wallet2->exchange_profit,2)}}</td>                                          
                                             <td >{{ number_format($wallet2->total_commission_profit,2)}}</td>                                              
                                         @endif
                                     </tr>
@@ -882,6 +896,7 @@ $config4 = [
                                         <th style="width:1%;">Cant transacción</th>
                                         <th class="myTdColor2" style="width:1%;">Monto Comision</th>
                                         <th class="myTdColor3" style="width:1%;">Monto Comision Base</th>
+                                        <th class="myTdColor6" style="width:1%;">Monto Comision Exchange</th>                                           
                                         <th class="myTdColor5" style="width:1%;">Monto Comision Ganancia</th>                                        
 
                                     </tr>
@@ -893,6 +908,7 @@ $config4 = [
                                             <td class="myTdHighlight">{{ number_format($wallet2->cant_transactions)}}</td>
                                             <td class="myTdHighlight">{{ number_format($wallet2->total_commission,2)}}</td>
                                             <td class="myTdHighlight">{{ number_format($wallet2->total_amount_commission_base,2)}}</td>
+                                            <td class="myTdHighlight">{{ number_format($wallet2->exchange_profit,2)}}</td>
                                             <td class="myTdHighlight">{{ number_format($wallet2->total_commission_profit,2)}}</td>                                            
                                         </tr>
                                     @endif
@@ -1015,7 +1031,7 @@ $config4 = [
                                 @php
                                     $myTransaction          = $myClass->getCreditDebitWallet($wallet2->TypeTransactionId);
                                     
-                                    $totalComision          +=  $wallet2->total_amount_commission_base;
+                                    $totalComision          +=  $wallet2->total_commission;
                                     $totalComisionBase      +=  $wallet2->total_amount_commission_base;
                                     $totalComisionExchange  +=  $wallet2->exchange_profit;
                                     $totalComisionGanancia  +=  $wallet2->total_commission_profit;  

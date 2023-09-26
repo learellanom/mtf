@@ -1271,6 +1271,8 @@ class statisticsController extends Controller
             // dd('Fecha desde -> ' . $myFechaDesde . ' Fecha Hasta -> ' . $myFechaHasta);
 
         //
+        // dd($request->wallet);
+
         $myWalletDesde   = 0;
         $myWalletHasta   = 9999;
         $myWallet        = 0;

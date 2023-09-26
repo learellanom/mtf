@@ -282,7 +282,7 @@ class HomeController extends Controller
         $parametros['myFechaHastaBefore']           = $myFechaHastaBefore;
         $parametros['balance']                      = $balance;
 
-        // dd($transaction_summary);
+        //  dd($transaction_summary);
         //  dd($wallet_groupsummary);
 
         return view('dashboardComisiones2', $parametros);

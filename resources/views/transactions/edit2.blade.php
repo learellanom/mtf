@@ -338,7 +338,7 @@
 
                         {!! Form::hidden('amount_base',null, ['class' => 'form-control', 'id' => 'amount_base']) !!}
 
-                        {{-- {!! Form::hidden('amount_commission_profit', null,  ['class' => 'form-control', 'id' => 'amount_commission_profit', 'value' => '0']) !!} --}}
+                        {!! Form::hidden('amount_commission_profit', null,  ['class' => 'form-control', 'id' => 'amount_commission_profit', 'value' => '0']) !!}
 
 
                         {!! Form::Submit('GUARDAR', ['class' => 'btn btn-primary btn-block font-weight-bold', 'style' => "max-height: 300px;" , 'id' => 'publish']) !!}
@@ -780,14 +780,23 @@
         
         if (myTypeCommission == 1){
             //
-            // comision porcentaje
+            // Comision por porcentaje
             //
             if (percentage > 0){
                 amount_commission           = (amount * percentage ) / 100;
                 amount_total                = amount + amount_commission;
+
+                amount_commission_base      = (amount * percentage_base ) / 100;
+                amount_commission_profit    = amount_commission - amount_commission_base;
             }else{
                 amount_commission           = 0;
-                amount_total                = amount + amount_commission;            
+                amount_total                = amount + amount_commission;    
+                
+                
+                
+                
+                amount_commission_base      = (amount * percentage_base ) / 100;
+                amount_commission_profit    = amount_commission - amount_commission_base;                
             }
 
             // 1 incluir
@@ -860,6 +869,9 @@
                     amount_total_base = amount_base;
                     break;
             }
+
+             exchange_rate = 0;
+             exchange_rate_base = 0;
         }
 
 
@@ -908,6 +920,11 @@
                     amount_total_base = amount_base;
                     break;
             }
+
+             percentage_base          = 0;
+             percentage               = 0;
+             amount_commission        = 0;
+             amount_commission_base   = 0;
         }
         
 
@@ -918,6 +935,14 @@
         $('#montototal').val(amount_total);
         $('#monto_base').val(amount_total_base);
         $('#amount_commission_profit').val(amount_commission_profit);
+
+         $('#tasa').val(exchange_rate);
+         $('#tasa_base').val(exchange_rate_base );
+
+         $('#percentage').val(percentage);
+         $('#percentage_base').val(percentage_base);
+
+        // alert('amount commission ->' + amount_commission_profit);
 
     }
 
