@@ -1,12 +1,8 @@
 @extends('adminlte::page')
-
-
-
 @section('title', 'Transacciones')
 @section('content_header')
 
 <h1 class="text-center text-dark font-weight-bold">MODIFICAR TASA|COMISIÓN<i class="fas fa-coins"></i> </h1></a>
-
 
 @stop
 
@@ -204,12 +200,13 @@
                                 
                                 <div class="form-group col-md-6">
                                      {!! Form::Label('percentage', "Porcentaje:") !!} 
-                        
+                                    {{-- <label>uno</label> --}}
                                     <div class="input-group-text">
                                         <i class="fa-fw fas fa-percentage mr-2"></i>
-                                       
-                                         {!! Form::text('percentage',null, ['class' => 'form-control percentage rateMasks', 'min' => 0]) !!}
-
+                                        <!-- aqui -->
+                                         {!! Form::text('percentage',null, ['class' => 'form-control  rateMasks', 'min' => 0]) !!}
+                                         
+                                         {{-- <input class="form-control  rateMasks" min="0" name="percentage" type="text" value="0" id="" minlength="8" inputmode="decimal" style="text-align: right;"> --}}
                                     </div>
 
                                 </div>
@@ -261,12 +258,12 @@
 
                             @if($transactions->exchange_rate_base == NULL)
                               <div class="form-group col-md-6">
-                                  {!! Form::Label('percentage_base', "Porcentaje Base:") !!}
+                                  {!! Form::Label('', "Porcentaje Base:") !!}
                                   <div class="input-group-text">
-                                      <i class="fa-fw fas fa-percentage mr-2"></i>
-                                      
-                                                                     
-                                    {!! Form::text('percentage_base',null, ['class' => 'form-control percentage general rateMasks', 'min' => 0]) !!}
+                                      <i class="fa-fw fas fa-percentage mr-2"></i>                                                                     
+                                      <!-- aqui -->
+                                    {!! Form::text('percentage_base',null, ['class' => 'form-control percentage general rateMasks', 'id' => 'percentage_base']) !!}
+                                    
                                   </div>
                               </div>
                             @else
@@ -338,7 +335,7 @@
 
                         {!! Form::hidden('amount_base',null, ['class' => 'form-control', 'id' => 'amount_base']) !!}
 
-                        {!! Form::hidden('amount_commission_profit', null,  ['class' => 'form-control', 'id' => 'amount_commission_profit', 'value' => '0']) !!}
+                        {!! Form::hidden('amount_commission_profit', null,  ['class' => 'form-control', 'id' => 'amount_commission_profit']) !!}
 
 
                         {!! Form::Submit('GUARDAR', ['class' => 'btn btn-primary btn-block font-weight-bold', 'style' => "max-height: 300px;" , 'id' => 'publish']) !!}
@@ -728,12 +725,13 @@
 
 
         let exchange_rate               = $('#tasa').val()              != "" ? parseFloat($('#tasa').val())                : 0;
-        let amount_foreign_currency     = $('#monto').val()             != "" ? parseFloat($('#monto').val())               : 0;              // amount_foreign_currency - monto moneda extranjera
+        let amount_foreign_currency     = $('#monto').val()             != "" ? parseFloat($('#monto').val())               : 0;  // amount_foreign_currency - monto moneda extranjera
         let amount                      = $('#my_monto_dorales').val()  != "" ? parseFloat($('#my_monto_dorales').val())    : 0;
 
         let percentage                  = $('#percentage').val()        != "" ? parseFloat($('#percentage').val())          : 0;
+        //    percentage                  = $('#mipercentage').val()        != "" ? parseFloat($('#mipercentage').val())          : 0;
         let percentage_base             = $('#percentage_base').val()   != "" ? parseFloat($('#percentage_base').val())     : 0;
-
+        console.log('Porcentaje base : ' + percentage_base);
         let exchange_rate_base          = $('#tasa_base').val()         != "" ? parseFloat($('#tasa_base').val())           : 0;
         
         let exonerar                    = $('#radio1').is(':checked');
@@ -760,14 +758,16 @@
         // 3 descontar
 
         //
-        // si la transaccion no es en dorales recalcula el amouont
+        // si la transaccion no es en dorales recalcula el amount
         //
         if ({{ $transactions->type_coin_id}} != 1) {
             
             amount = amount_foreign_currency / exchange_rate;
 
         }
-        
+        //
+        // determina el tipo de comision
+        //
         let myTypeCommission = 1;
 
         if (percentage > 0 || percentage_base > 0){
@@ -777,11 +777,14 @@
                 myTypeCommission = 2;
             }
         }
-        
+        //
+        //
+        //
         if (myTypeCommission == 1){
             //
             // Comision por porcentaje
             //
+            console.log('porcentaje por comision');
             if (percentage > 0){
                 amount_commission           = (amount * percentage ) / 100;
                 amount_total                = amount + amount_commission;
@@ -792,9 +795,7 @@
                 amount_commission           = 0;
                 amount_total                = amount + amount_commission;    
                 
-                
-                
-                
+                  
                 amount_commission_base      = (amount * percentage_base ) / 100;
                 amount_commission_profit    = amount_commission - amount_commission_base;                
             }
