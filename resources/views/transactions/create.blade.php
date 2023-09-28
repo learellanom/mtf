@@ -270,9 +270,12 @@
 
                 <hr class="bg-dark esconder comi" style="height:1px;">
 
-                {!! Form::hidden('status', 'Activo', null, ['class' => 'form-control']) !!}
-                {!! Form::hidden('amount_commission_profit', null,  ['class' => 'form-control', 'id' => 'amount_commission_profit']) !!}
-                                  
+                {!! Form::hidden('status',                  'Activo', null, ['class' => 'form-control']) !!}
+
+                {{-- {!! Form::hidden('amount_commission_profit', 333, ['class' => 'form-control', 'id' => 'amount_commission_profit']) !!} --}}
+
+                {!! Form::hidden('amount_commission_profit', null, ['class' => 'form-control general','id' => 'amount_commission_profit', 'readonly' => true ]) !!}
+
                 <div class="form-group">
                     {!! Form::Label('description', "Descripción:") !!}
                     <div class="input-group-text">
@@ -281,7 +284,7 @@
                     </div>
                 </div>
 
-                {!! Form::Submit('GUARDAR', ['class' => 'btn btn-primary btn-block font-weight-bold', 'style' => "max-height: 400px;" , 'id' => 'publish']) !!}
+                {!! Form::Submit('GUARDAR', ['class' => 'btn btn-primary btn-block font-weight-bold', 'style' => "max-height: 400px;", 'id' => 'publish']) !!}
 
             </div>
 
@@ -574,6 +577,7 @@
             exonerar_base   = $('#radio1_base').is(':checked');
             transferencia   = $("#typetrasnferencia option:selected").text();
 
+            // alert($('#amount_commission_profit').val());
 
             if (transferencia === 'Nota de debito' || transferencia === 'Nota de credito'){
                 if ($('#percentage').val() <= 0) {
@@ -601,6 +605,19 @@
                 }
             }
         });
+
+        /*
+        *
+        *
+        *  formulario cambia (nueva implementacion)
+        * 
+        * 
+        */
+        $('#myForm').on('input', function (){
+            // alert('cambio');
+            calcula();
+        }); 
+
 
         $('#radio1').on('click', function() {
             $('#percentage').val("");
@@ -1113,7 +1130,7 @@
                 , DatoExtra: "Información EXTRA"
             }
 
-            alert(JSON.stringify(data));
+            // alert(JSON.stringify(data));
             return { datos: JSON.stringify(data) }; //Este objeto mandarias al SERVER al presionar upload
         }
     });
@@ -1166,15 +1183,15 @@
             if(incluir) {
                 montoreal = (monto_dolares + comision).toFixed(2);
                 $('#montototal').val((monto_dolares + comision));
-                //alert(montoreal);
-                $('#amount_commission_profit').val( comision - amount_commission_base);
-
+                
+                $('#amount_commission_profit').val(comision - amount_commission_base);
+                // alert($('#amount_commission_profit').val());
             } else if(descontar) {
                 montoreal = (monto_dolares - comision).toFixed(2);
                 $('#montototal').val((monto_dolares - comision));
                 $('#amount_commission_profit').val('0');
             }
-            
+           //
 
         }
         else {
@@ -1186,6 +1203,8 @@
             $('#montototal').val(monto_dolares);
             $('#amount_commission_profit').val('0');
         }
+
+        
     }
     /*
     *
@@ -1253,6 +1272,255 @@
         // aqui graba la ganancia comision
         $('#amount_commission_profit').val(parseFloat($('#monto_dolares').val()) - parseFloat($('#monto_extranjera_base').val()));
     }
+    {{--
+
+    function calcula(){
+        // alert('calcula ----');
+
+        let type_coin_id                = $('#typecoin').val()          != "" ? $('#typecoin').val()                        : 0; // tipo de moneda
+        let exchange_rate               = $('#tasa').val()              != "" ? parseFloat($('#tasa').val())                : 0;
+        let amount_foreign_currency     = $('#monto').val()             != "" ? parseFloat($('#monto').val())               : 0;  // amount_foreign_currency - monto moneda extranjera
+        let amount                      = $('#monto_dorales').val()     != "" ? parseFloat($('#monto_dorales').val())       : 0;
+
+        let percentage                  = $('#percentage').val()        != "" ? parseFloat($('#percentage').val())          : 0;
+        //    percentage                  = $('#mipercentage').val()        != "" ? parseFloat($('#mipercentage').val())          : 0;
+        let percentage_base             = $('#percentage_base').val()   != "" ? parseFloat($('#percentage_base').val())     : 0;
+        
+        let exchange_rate_base          = $('#tasa_base').val()         != "" ? parseFloat($('#tasa_base').val())           : 0;
+        
+        let exonerar                    = $('#radio1').is(':checked');
+        let descontar                   = $('#radio2').is(':checked');
+        let incluir                     = $('#radio3').is(':checked');
+
+        let exonerar_base               = $('#radio1_base').is(':checked');
+        let descontar_base              = $('#radio2_base').is(':checked');
+        let incluir_base                = $('#radio3_base').is(':checked');   
+
+        let amount_base                 = 0 ; 
+
+        let amount_commission           = 0;        
+        let amount_commission_base      = 0; 
+
+        let amount_total                = 0  
+        let amount_total_base           = 0;
+
+        let amount_commission_profit    = 0;
+
+
+        //
+        //
+        // validacion de entradas
+        //
+        //
+        if (type_coin_id ==0){
+            alert('Error: Tipo de Moneda sin seleccionar');
+            return;
+        }
+
+        if (type_coing_id != 1) {
+            if (!(exchange_rate > 0)){
+                alert('Error: Tasa de cambio en cero');
+                return;
+            }
+        }
+
+
+        // alert('mi monto ->' + amount + ' type ' + {{ $transactions->type_coin_id}});
+        // 1 incluir
+        // 2 exonerar
+        // 3 descontar
+
+        //
+        // si la transaccion no es en dorales recalcula el amount
+        //
+        if (type_coin_id != 1) {
+            
+            amount = amount_foreign_currency / exchange_rate;
+
+        }
+        //
+        // determina el tipo de comision
+        //
+        let myTypeCommission = 1;
+
+        if (percentage > 0 || percentage_base > 0){
+            myTypeCommission = 1;
+        }else{
+            if (exchange_rate_base > 0){
+                myTypeCommission = 2;
+            }
+        }
+        //
+        //
+        //
+        if (myTypeCommission == 1){
+            //
+            // Comision por porcentaje
+            //
+            console.log('porcentaje por comision');
+            if (percentage > 0){
+                amount_commission           = (amount * percentage ) / 100;
+                amount_total                = amount + amount_commission;
+
+                amount_commission_base      = (amount * percentage_base ) / 100;
+                amount_commission_profit    = amount_commission - amount_commission_base;
+            }else{
+                amount_commission           = 0;
+                amount_total                = amount + amount_commission;    
+                
+                  
+                amount_commission_base      = (amount * percentage_base ) / 100;
+                amount_commission_profit    = amount_commission - amount_commission_base;                
+            }
+
+            // 1 incluir
+            // 2 exonerar
+            // 3 descontar
+
+            let myCommission = 0;
+            
+
+            if (incluir) {
+                myCommission = 1;
+            }else if(exonerar) {
+                myCommission = 2;
+            }else{
+                myCommission = 3;
+            }
+
+            
+            switch(myCommission){
+                case 1: // incluir
+                    amount_total = amount + amount_commission;
+                    break;
+                case 2: // exonerar
+                    amount_total = amount;
+                    break;
+                case 3: // descontar
+                    amount_total = amount - amount_commission;
+                    break;
+                default:
+                    break;
+            }
+
+            if (percentage_base > 0){
+                amount_base                 = amount;
+                amount_commission_base      = (amount * percentage_base ) / 100;
+                amount_total_base           = amount + amount_commission_base;
+                amount_commission_profit    = amount_commission - amount_commission_base;
+            }else{
+                amount_base                 = amount;
+                amount_commission_base      = 0;
+                amount_total_base           = amount;            
+                amount_commission_profit    = amount_commission;
+            }
+
+            // 1 incluir
+            // 2 exonerar
+            // 3 descontar
+
+            let myCommission_base = 0;
+
+            if (incluir_base) {
+                myCommission_base = 1;
+            }else if(exonerar_base) {
+                myCommission_base = 2;
+            }else{
+                myCommission_base = 3;
+            }
+
+            switch(myCommission_base){
+                case 1:
+                    amount_total_base = amount_base + amount_commission_base;
+                    break;
+                case 2:
+                    amount_total_base = amount_base;
+                    break;
+                case 3:
+                    amount_total_base = amount_base - amount_commission_base;
+                    break;
+                default:
+                    amount_total_base = amount_base;
+                    break;
+            }
+
+             // exchange_rate = 0;
+             // exchange_rate_base = 0;
+        }
+
+
+
+
+        if (myTypeCommission == 2){
+            //
+            // comision tasa
+            //
+            if (exchange_rate_base > 0){
+                amount_base                 = amount_foreign_currency / exchange_rate_base;
+                amount_commission_base      = 0;
+                amount_total_base           = amount_base;
+                amount_commission_profit    = amount - amount_base;    
+            }else{
+                amount_base                 = amount;
+                amount_total_base           = amount;
+                amount_commission_profit    = 0;
+            }
+
+            // 1 incluir
+            // 2 exonerar
+            // 3 descontar
+
+            let myCommission_base = 0;
+
+            if (incluir_base) {
+                myCommission_base = 1;
+            }else if(exonerar_base) {
+                myCommission_base = 2;
+            }else{
+                myCommission_base = 3;
+            }
+
+            switch(myCommission_base){
+                case 1:
+                    amount_total_base = amount_base + amount_commission_base;
+                    break;
+                case 2:
+                    amount_total_base = amount_base;
+                    break;
+                case 3:
+                    amount_total_base = amount_base - amount_commission_base;
+                    break;
+                default:
+                    amount_total_base = amount_base;
+                    break;
+            }
+
+             percentage_base          = 0;
+             percentage               = 0;
+             amount_commission        = 0;
+             amount_commission_base   = 0;
+        }
+        
+
+        $('#monto_dorales').val(amount);
+        $('#amount_base').val(amount_base);
+        $('#comision').val(amount_commission);
+        $('#comision_base').val(amount_commission_base);
+        $('#montototal').val(amount_total);
+        $('#monto_base').val(amount_total_base);
+        $('#amount_commission_profit').val(amount_commission_profit);
+
+         $('#tasa').val(exchange_rate);
+         $('#tasa_base').val(exchange_rate_base );
+
+         $('#percentage').val(percentage);
+         $('#percentage_base').val(percentage_base);
+
+        // alert('amount commission ->' + amount_commission_profit);
+
+    }
+
+    --}}
 
 </script>
 

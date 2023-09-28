@@ -126,8 +126,30 @@ class TransactionController extends Controller
         $user               = User::pluck('name', 'id');
         $fecha              = Carbon::now();
 
+        if (auth()->id() == 2){
+            return view('transactions.create2', compact('type_coin', 'type_transaction', 'wallet', 'group', 'user', 'transaction', 'fecha'));
+            
+        }
         return view('transactions.create', compact('type_coin', 'type_transaction', 'wallet', 'group', 'user', 'transaction', 'fecha'));
     }
+
+    
+     /**
+     * Show the form for creating a new resource.
+     */
+    public function create2(transaction $transaction)
+    {
+
+        $type_coin          = Type_coin::pluck('name', 'id');
+        $type_transaction   = Type_transaction::whereIn('type_transaction', ['Transacciones'])->pluck('name', 'id');
+        $wallet             = Group::whereIn('type_wallet', ['transacciones', 'efectivo'])->where('type','=',2)->pluck('name', 'id');
+        $group              = Group::whereIn('type', [1])->pluck('name', 'id');
+        $user               = User::pluck('name', 'id');
+        $fecha              = Carbon::now();
+
+        return view('transactions.create2', compact('type_coin', 'type_transaction', 'wallet', 'group', 'user', 'transaction', 'fecha'));
+    }
+
 
     public function create_efectivo(transaction $transaction)
     {
@@ -169,12 +191,17 @@ class TransactionController extends Controller
     public function store(Request $request)
     {
         // dd($request->all());
+        // $myRequest = $request;
+        $request2                   = clone $request;
+        $request2->amount_commission_profit = -666;
+        // \Log::info('request2 -> ' . $request2->all());
+        // \Log::info('request  -> ' . $request->all());
 
-        $transaction = Transaction::create($request->all());
+         $transaction = Transaction::create($request->all() );
 
         $files = [];
-       if($request->hasFile('file')){
-        foreach($request->file('file') as $file)
+        if($request->hasFile('file')){
+        foreach($request2->file('file') as $file)
         {
 
             $url = Storage::put('public/Transactions/'.$transaction->id, $file);

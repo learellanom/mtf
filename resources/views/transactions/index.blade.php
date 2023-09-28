@@ -26,6 +26,8 @@ $config3 = [
     </a>
 @endcan
 
+
+
 <br><br>
 {{-- Compressed with style options / fill data using the plugin config --}}
 

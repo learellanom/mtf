@@ -501,26 +501,26 @@
         digits: 2,
         autoClear: true,
         insertMode:true, 
-        });
+    });
 
 
-        $(".rateMasks").attr("minlength","8");
-        $(".rateMasks").attr("maxlength","8");
-        $(".rateMasks").inputmask({
-                    alias: 'decimal',
-                    repeat: 4,
-                    allowMinus: false,
-                    autoUnmask:true,
-                    removeMaskOnSubmit:true,
-                    rightAlign: true,
-                    autoClear: true,
-                    groupSeparator:".",
-                    undoOnEscape:true,
-                    insertMode: false,
-                    clearIncomplete:true,
-                    digits: 7,
-                    insertMode:true,
-        });
+    $(".rateMasks").attr("minlength","8");
+    $(".rateMasks").attr("maxlength","8");
+    $(".rateMasks").inputmask({
+                alias: 'decimal',
+                repeat: 4,
+                allowMinus: false,
+                autoUnmask:true,
+                removeMaskOnSubmit:true,
+                rightAlign: true,
+                autoClear: true,
+                groupSeparator:".",
+                undoOnEscape:true,
+                insertMode: false,
+                clearIncomplete:true,
+                digits: 7,
+                insertMode:true,
+    });
 
 
     $(document).ready(function() {
@@ -723,7 +723,7 @@
     function calcula(){
         // alert('calcula ----');
 
-
+        let type_coin_id                = {{ $transactions->type_coin_id}} ;
         let exchange_rate               = $('#tasa').val()              != "" ? parseFloat($('#tasa').val())                : 0;
         let amount_foreign_currency     = $('#monto').val()             != "" ? parseFloat($('#monto').val())               : 0;  // amount_foreign_currency - monto moneda extranjera
         let amount                      = $('#my_monto_dorales').val()  != "" ? parseFloat($('#my_monto_dorales').val())    : 0;
@@ -760,7 +760,7 @@
         //
         // si la transaccion no es en dorales recalcula el amount
         //
-        if ({{ $transactions->type_coin_id}} != 1) {
+        if (type_coin_id != 1) {
             
             amount = amount_foreign_currency / exchange_rate;
 
