@@ -154,7 +154,8 @@
                         {!! Form::Label('percentage', "Porcentaje:") !!}
                         <div class="input-group-text">
                             <i class="fa-fw fas fa-percentage mr-2"></i>
-                        {!! Form::text('percentage',null, ['class' => 'form-control percentage rateMasks', 'required' => true, 'id' => 'percentage']) !!}
+                        {{-- {!! Form::text('percentage',null, ['class' => 'form-control percentage rateMasks', 'required' => true, 'id' => 'percentage']) !!} --}}
+                        {!! Form::text('percentage',null, ['class' => 'form-control percentage rateMasks myClass', 'required' => true, 'id' => '']) !!}
                         </div>
                     </div>
 
@@ -288,10 +289,14 @@
 
                 {!! Form::hidden('status',                  'Activo', null, ['class' => 'form-control']) !!}
 
-                {{-- {!! Form::hidden('amount_commission_profit', 333, ['class' => 'form-control', 'id' => 'amount_commission_profit']) !!} --}}
+                {{-- {!! Form::hidden('amount_commission_profit', null, ['class' => 'form-control', 'id' => 'amount_commission_profit']) !!} --}}
 
-                {!! Form::text('amount_commission_profit', null, ['class' => 'form-control general','id' => 'amount_commission_profit', 'readonly' => true, 'step' => 'any' ]) !!}
-
+                <div class="form-group">
+                    {!! Form::Label('amount_commission_profit', "Monto Comision Ganancia:") !!}
+                    <div class="input-group-text">
+                        {!! Form::text('amount_commission_profit', null, ['class' => 'form-control general','id' => 'amount_commission_profit', 'readonly' => true, 'step' => 'any' ]) !!}
+                    </div>
+                </div>
                 <div class="form-group">
                     {!! Form::Label('description', "Descripción:") !!}
                     <div class="input-group-text">
@@ -598,6 +603,7 @@
             
             // $('#amount_commission_profit').val(-666);
             // alert('amount_commission_profit antres de mandar -> ' + $('#amount_commission_profit').val());
+            alert('percentage ->' + $('.myClass').val());
             console.log('amount_commission_profit antres de mandar -> ' + $('#amount_commission_profit').val());
 
             if (transferencia === 'Nota de debito' || transferencia === 'Nota de credito'){
@@ -626,7 +632,7 @@
                 }
             }
 
-            // event.preventDefault();
+             event.preventDefault();
 
         });
 
@@ -1033,6 +1039,7 @@
 
         let percentage                  = $('#percentage').val()        != "" ? parseFloat($('#percentage').val())          : 0;
         //    percentage                  = $('#mipercentage').val()        != "" ? parseFloat($('#mipercentage').val())          : 0;
+       //  alert('percentage -> ' + percentage);
         let percentage_base             = $('#percentage_base').val()   != "" ? parseFloat($('#percentage_base').val())     : 0;
         
         let exchange_rate_base          = $('#tasa_base').val()         != "" ? parseFloat($('#tasa_base').val())           : 0;
