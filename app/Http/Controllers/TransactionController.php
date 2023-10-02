@@ -30,8 +30,8 @@ class TransactionController extends Controller
 
         $myFechaHasta = date("Y-m-d");
         $myFechaDesde = $this->get07DayBefore($myFechaHasta);
-        //$myFechaDesde = $this->get03DayBefore($myFechaHasta);
-        //$myFechaDesde = $this->get01DayBefore($myFechaHasta);
+        // $myFechaDesde = $this->get03DayBefore($myFechaHasta);
+        // $myFechaDesde = $this->get01DayBefore($myFechaHasta);
         // dd(' fechaDesde ->' . $myFechaDesde . ' fechaHasta ->' . $myFechaHasta);
         //
         // trae transacciones del usuario
@@ -49,8 +49,7 @@ class TransactionController extends Controller
          foreach(auth()->user()->roles as $roles)
          {
             if($roles->name == 'Administrador' || $roles->name == 'Supervisor'){
-                
-
+                // dd(' fecha desde -> ' . $myFechaDesde . ' fecha hasta -> ' .  $myFechaHasta );
                 // $transferencia = Transaction::whereNull(['transfer_number','pay_number'])->get();
                 $transferencia = Transaction::whereNull(['transfer_number','pay_number'])
                 ->whereBetween('transaction_date',    [$myFechaDesde . " 00:00:00", $myFechaHasta . " 23:59:00"])
@@ -67,7 +66,7 @@ class TransactionController extends Controller
             }
 
          }
-         // dd($transferencia);
+         \Log::info('transferencia -> ' . $transferencia);
 
         $myFechaDesde2 =  substr($myFechaDesde,8,2) . '-' . substr($myFechaDesde,5,2) . '-' . substr($myFechaDesde,0,4);
         $myFechaHasta2 =  substr($myFechaHasta,8,2) . '-' . substr($myFechaHasta,5,2) . '-' . substr($myFechaHasta,0,4);
@@ -126,7 +125,7 @@ class TransactionController extends Controller
         $user               = User::pluck('name', 'id');
         $fecha              = Carbon::now();
 
-        if (auth()->id() == 99){
+        if (auth()->id() == 2){
             return view('transactions.create2', compact('type_coin', 'type_transaction', 'wallet', 'group', 'user', 'transaction', 'fecha'));
             
         }

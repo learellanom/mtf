@@ -1300,6 +1300,7 @@ class statisticsController extends Controller
                 sum(amount_base)                as total_amount_base,                
                 sum(amount_total_base)          as total_Base,                
                 sum(amount_commission_profit)   as total_commission_profit,
+                (IFNULL(sum(amount_commission),0) - IFNULL(sum(amount_commission_base),0)) as total_commission_profit_2,
                 sum(amount_total)               as total,
                 sum(case 
 				    when percentage is null and exchange_rate is not null  then amount_commission_profit
@@ -1404,6 +1405,7 @@ class statisticsController extends Controller
             sum(amount_total)               as total,
             sum(amount_total_base)          as total_Base,
             sum(amount_commission_profit)   as total_commission_profit,
+            (IFNULL(sum(amount_commission),0) - IFNULL(sum(amount_commission_base),0)) as total_commission_profit_2,
 			sum(case 
 				when percentage is null and exchange_rate is not null  then amount_commission_profit
 				when percentage is null and exchange_rate is null then 0
@@ -1500,6 +1502,7 @@ class statisticsController extends Controller
             sum(amount_total)             as total,
             sum(amount_total_base)        as total_Base,
             sum(amount_commission_profit) as total_commission_profit,
+            (IFNULL(sum(amount_commission),0) - IFNULL(sum(amount_commission_base),0)) as amount_commission_profit_2,
 			sum(case 
 				when percentage is null and exchange_rate is not null  then amount_commission_profit
 				when percentage is null and exchange_rate is null then 0
@@ -1590,6 +1593,7 @@ class statisticsController extends Controller
             sum(amount_total)                   as total,
             sum(amount_total_base)              as total_Base,
             sum(amount_commission_profit)       as total_commission_profit,
+            (IFNULL(sum(amount_commission),0) - IFNULL(sum(amount_commission_base),0)) as amount_commission_profit_2,
 			sum(case 
 				when percentage is null and exchange_rate is not null  then amount_commission_profit
 				when percentage is null and exchange_rate is null then 0

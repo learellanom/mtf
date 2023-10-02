@@ -903,7 +903,7 @@ $config4 = [
                                 <th style="width:1%;">Saldo Total</th>
                                 <th style="width:1%;">{{ number_format($balance,2) }}</th>
                                 <th style="width:1%;"></th>
-                                <th style="width:1%;"></th>
+                                
                                 <th style="width:1%;">Saldo al corte</th>
                                 <th style="width:1%;">{{ number_format($balanceDetail,2) }}</th>
                             </tr>
@@ -912,7 +912,7 @@ $config4 = [
                                 <th style="width:1%;">Cant transacción</th>
                                 <th style="width:1%;">Entradas</th>
                                 <th style="width:1%;">Salidas</th>
-                                <th style="width:1%;">Comision</th>
+                                
                                 <th style="width:1%;">Saldo</th>
                             </tr>
                         </thead>
@@ -957,8 +957,7 @@ $config4 = [
                                         <td>{{ $wallet2->TypeTransaccionName}}</td>
                                         <td>{{ number_format($wallet2->cant_transactions) }}</td>
                                         <td>{{ ' ' }}</td>
-                                        <td>{{ number_format($myAmount ,2)}}</td> 
-                                        <td>{{ number_format($mytotal_amount_commission_base,2)}}</td>                                    
+                                        <td>{{ number_format($myAmount ,2)}}</td>                        
                                         <td>{{ ' ' }}</td>                                    
                                         @php
                                             $cantDebitos ++;
@@ -980,7 +979,6 @@ $config4 = [
                                         <td>{{ number_format($wallet2->cant_transactions) }}</td>
                                         <td>{{ number_format($myAmount ,2)}}</td>
                                         <td>{{ ' ' }}</td>
-                                        <td>{{ number_format($mytotal_amount_commission_base ,2) }}</td>
                                         <td>{{ ' ' }}</td>
                                         @break
                                 @endswitch
@@ -996,12 +994,9 @@ $config4 = [
                             <td >{{ ' ' }}</td>
                             <td >{{ number_format($totalCreditos,2) }}</td>
                             <td >{{ number_format($totalDebitos,2)}}</td>
-                            <td >{{ number_format($totalComision,2) }}</td>
-                            {{-- <td>{{  number_format($totalCreditos - ($totalDebitos + $totalComision),2) }}</td> --}}
                             <td>{{  number_format($totalCreditos - $totalDebitos,2) }}</td>
                         </tr>
                         <tr style="background-color: black; color:white;">
-                            <td >{{ ' ' }}</td>
                             <td >{{ ' ' }}</td>
                             <td >{{ ' ' }}</td>
                             <td >{{ ' ' }}</td>
@@ -1099,7 +1094,6 @@ $config4 = [
                                 <th style="width:1%;">Cant transacción</th>
                                 <th style="width:1%;">Entradas</th>
                                 <th style="width:1%;">Salidas</th>
-                                <th style="width:1%;">Comision</th>
                             </tr>
                         </thead>
                         @php
@@ -1133,13 +1127,13 @@ $config4 = [
                                             <td class="font-weight-bold" style="color: green;">{{  ' ' }}</td>
                                             <td class="font-weight-bold" style="color: green;">{{ number_format($wallet2->total_amount,2)}}</td>
                                             
-                                            <td class="font-weight-bold" style="color: green;">{{ number_format($wallet2->total_amount_commission_base ,2) }}</td>
+                                            
                                         @else
                                             <td                                                 >{{ $wallet2->TypeTransaccionName}}</td>
                                             <td                                                 >{{ number_format($wallet2->cant_transactions) }}</td>
                                             <td                                                 >{{  ' ' }}</td>
                                             <td class="font-weight-bold" style="color: green;"  >{{ number_format($wallet2->total_amount,2)}}</td>
-                                            <td class="font-weight-bold" style="color: green;">{{ number_format($wallet2->total_amount_commission_base ,2) }}</td>
+                                            
                                         @endif
                                         @php
                                             $cantDebitos ++;
@@ -1153,13 +1147,13 @@ $config4 = [
                                             <td class="font-weight-bold" style="color: green;">{{ number_format($wallet2->cant_transactions) }}</td>
                                             <td class="font-weight-bold" style="color: green;">{{ number_format($wallet2->total_amount,2)}}</td>
                                             <td class="font-weight-bold" style="color: green;">{{ ' ' }}</td>
-                                            <td class="font-weight-bold" style="color: green;">{{ number_format($wallet2->total_amount_commission_base ,2) }}</td>
+
                                         @else
                                             <td                                                 >{{ $wallet2->TypeTransaccionName}}</td>
                                             <td                                                 >{{ number_format($wallet2->cant_transactions) }}</td>
                                             <td                                                 >{{ number_format($wallet2->total_amount,2)}}</td>
                                             <td class="font-weight-bold" style="color: green;"  >{{ ' ' }}</td>
-                                            <td class="font-weight-bold" style="color: green;">{{ number_format($wallet2->total_amount_commission_base ,2) }}</td>
+
                                         @endif
                                         @php
                                             $cantCreditos ++;
@@ -1176,7 +1170,6 @@ $config4 = [
                             <td >{{ ' ' }}</td>
                             <td >{{ number_format($totalCreditos ,2) }}</td>
                             <td >{{ number_format($totalDebitos  ,2) }}</td>
-                            <td >{{ number_format($totalComision ,2) }}</td>
                         </tr>
                     </table>
                 </div>

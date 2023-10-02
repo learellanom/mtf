@@ -166,7 +166,7 @@ class HomeController extends Controller
         // dd($wallet_summary );
         $request2                   = clone $request;
         $request2->transaction      = 0;
-        $wallet_summary             = app(statisticsController::class)->getwalletTransactionSummary($request2);
+        $wallet_summary             = app(statisticsController::class)->getWalletTransactionSummary($request2);
         // dd($wallet_summary);
         $wallet_groupsummary        = app(statisticsController::class)->getWalletTransactionGroupSummary($request);
         // dd($wallet_groupsummary);

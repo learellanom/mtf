@@ -21,336 +21,339 @@
                     'enctype' => 'multipart/form-data', 
                     'id' => 'entre']) !!}
 
-            <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link active" id="pills-home-tab" data-toggle="pill" data-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">{{ __('Movimiento') }}</button>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="pills-profile-tab" data-toggle="pill" data-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">{{ __('Referencias') }}</button>
-                </li>
-            </ul>
+                {{-- Menu movimiento o referencias--}}                
 
-            <div class="tab-content" id="pills-tabContent">
-                {{--
+                <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button 
+                            class="nav-link active" 
+                            id="pills-home-tab" 
+                            data-toggle="pill" 
+                            data-target="#pills-home" 
+                            type="button" 
+                            role="tab" 
+                            aria-controls="pills-home" 
+                            aria-selected="true">
+                            {{ __('Movimiento') }}
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button 
+                            class="nav-link" 
+                            id="pills-profile-tab" 
+                            data-toggle="pill" 
+                            data-target="#pills-profile" 
+                            type="button" 
+                            role="tab" 
+                            aria-controls="pills-profile" 
+                            aria-selected="false">
+                            {{ __('Referencias') }}
+                        </button>
+                    </li>
+                </ul>
 
-                seccion A
+                <div class="tab-content" id="pills-tabContent">
 
-                --}}                
-                <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
-                    {!! Form::hidden('user_id',auth()->id(), null, ['class' => 'form-control', 'required' => true]) !!}
+                    {{-- seccion A --}}                
 
-                    <div class="form-row">
-                        <div class="form-group col-md-4">
-                            {!! Form::Label('typetrasnferencia', "Tipo de Movimiento:") !!}
-                            <div class="input-group-text col-md-12">
-                                <i class="fa-fw fas fa-random mr-2"></i>
-                            {!! Form::select('type_transaction_id',$type_transaction, null, ['class' => 'form-control typetrasnferencia', 'required' => true, 'id'=>'typetrasnferencia', 'readonly' => false]) !!}
-                            </div>
-                        </div>
+                    <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+                        {!! Form::hidden('user_id',auth()->id(), null, ['class' => 'form-control', 'required' => true]) !!}
 
-                        <div class="form-group col-md-4 esconder">
-                            {!! Form::Label('wallet', "Tipo de caja:") !!}
-                            <div class="input-group-text col-md-12">
-                                <i class="fa-fw fas fa-box-open mr-2"></i>
-                            {!! Form::select('wallet_id', $wallet, null, ['class' => 'form-control wallet', 'required' => true, 'id'=>'wallet', 'readonly' => false]) !!}
-                            </div>
-                        </div>
-
-                        <div class="form-group col-md-4">
-                            {!! Form::Label('clientes', "Cliente:") !!}
-                            <div class="input-group-text">
-                                <i class="fa-fw fas fas fa-user-friends mr-2"></i>
-                            {!! Form::select('group_id',$group, null,['class' => 'form-control clientes', 'required' => true, 'id' => 'clientes', 'readonly' => false]) !!}
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-row esconder">
-                        <div class="form-group col-md-4">
-                            {!! Form::Label('typecoin', "Tipo de moneda:") !!}
-                            <div class="input-group-text">
-                                <i class="fa-fw fas fa-dollar-sign mr-2"></i>
-                            {!! Form::select('type_coin_id',$type_coin, null, ['class' => 'form-control typecoin', 'required' => true, 'id' => 'typecoin', 'readonly' => false]) !!}
-                            </div>
-                        </div>
-                        <div class="form-group col-md-4">
-                            {!! Form::Label('tasa', "Tasa:") !!}
-                            <div class="input-group-text">
-                                <i class="fa-fw fas fa-random mr-2"></i>
-                            {!! Form::text('exchange_rate',null, ['class' => 'form-control percentage rateMasks', 'required' => true, 'id' => 'tasa', 'readonly' => true, 'minlength' => 9]) !!}
-                            
-                            </div>
-                        </div>
-
-
-                        {{-- Monto en moneda extranjera --}}
-
-
-                        <div class="form-group col-md-4">
-
-                            {!! Form::Label('monto', "Monto en moneda extranjera:") !!}
-                            <div class="input-group-text">
-                                <i class="fa-fw fas fa-coins mr-2"></i>
-                            {!! Form::text('amount_foreign_currency',null, ['class' => 'form-control general', 'required' => true, 'id' => 'monto', 'readonly' => true]) !!}
+                        <div class="form-row">
+                            <div class="form-group col-md-4">
+                                {!! Form::Label('typetrasnferencia', "Tipo de Movimiento:") !!}
+                                <div class="input-group-text col-md-12">
+                                    <i class="fa-fw fas fa-random mr-2"></i>
+                                {!! Form::select('type_transaction_id',$type_transaction, null, ['class' => 'form-control typetrasnferencia', 'required' => true, 'id'=>'typetrasnferencia', 'readonly' => false]) !!}
+                                </div>
                             </div>
 
+                            <div class="form-group col-md-4 esconder">
+                                {!! Form::Label('wallet', "Tipo de caja:") !!}
+                                <div class="input-group-text col-md-12">
+                                    <i class="fa-fw fas fa-box-open mr-2"></i>
+                                {!! Form::select('wallet_id', $wallet, null, ['class' => 'form-control wallet', 'required' => true, 'id'=>'wallet', 'readonly' => false]) !!}
+                                </div>
+                            </div>
+
+                            <div class="form-group col-md-4">
+                                {!! Form::Label('clientes', "Cliente:") !!}
+                                <div class="input-group-text">
+                                    <i class="fa-fw fas fas fa-user-friends mr-2"></i>
+                                {!! Form::select('group_id',$group, null,['class' => 'form-control clientes', 'required' => true, 'id' => 'clientes', 'readonly' => false]) !!}
+                                </div>
+                            </div>
                         </div>
-
-
-                    </div>
-
-
-                    <div class="form-row">
-
-                        {{-- Monto en dorales ajax --}}
-                        {{--
-                        <div class="form-group col-md-4">
-
-                            {!! Form::Label('', "Monto :") !!}
-                            <div class="input-group-text">
-                                <i class="fa-fw fas fa-coins mr-2"></i>
-                                {!! Form::text('amount', null, ['class' => 'form-control general',  'required' => true, 'id' => 'mymonto_dorales']) !!}
+                        <div class="form-row esconder">
+                            <div class="form-group col-md-4">
+                                {!! Form::Label('typecoin', "Tipo de moneda:") !!}
+                                <div class="input-group-text">
+                                    <i class="fa-fw fas fa-dollar-sign mr-2"></i>
+                                {!! Form::select('type_coin_id',$type_coin, null, ['class' => 'form-control typecoin', 'required' => true, 'id' => 'typecoin', 'readonly' => false]) !!}
+                                </div>
+                            </div>
+                            <div class="form-group col-md-4">
+                                {!! Form::Label('tasa', "Tasa:") !!}
+                                <div class="input-group-text">
+                                    <i class="fa-fw fas fa-random mr-2"></i>
+                                {!! Form::text('exchange_rate',null, ['class' => 'form-control percentage rateMasks', 'required' => true, 'id' => 'tasa', 'readonly' => true, 'minlength' => 9]) !!}
                                 
+                                </div>
+                            </div>
+
+
+                            {{-- Monto en moneda extranjera --}}
+
+
+                            <div class="form-group col-md-4">
+
+                                {!! Form::Label('monto', "Monto en moneda extranjera:") !!}
+                                <div class="input-group-text">
+                                    <i class="fa-fw fas fa-coins mr-2"></i>
+                                {!! Form::text('amount_foreign_currency',null, ['class' => 'form-control general', 'required' => true, 'id' => 'monto', 'readonly' => true]) !!}
+                                </div>
+
+                            </div>
+
+
+                        </div>
+
+
+                        <div class="form-row">
+
+                            {{-- Monto en dorales ajax --}}
+
+                            <div class="form-group col-md-4">
+
+                                {!! Form::Label('', "Monto en moneda extranjera:") !!}
+                                <div class="input-group-text">
+                                    <i class="fa-fw fas fa-coins mr-2"></i>
+                                {!! Form::text('amount',null, ['class' => 'form-control general', 'required' => true, 'id' => 'mymonto_dorales']) !!}
+                                </div>
+
+                            </div>
+
+                            <div class="form-group col-md-4">
+                                {!! Form::Label('fecha', "Fecha:") !!}
+                                <div class="input-group-text">
+                                    <i class="fa-fw fas fas fa-calendar-week mr-2"></i>
+                                    {!! Form::datetimeLocal('transaction_date', $fecha, ['class' => 'form-control', 'required' => true, 'id' => 'fecha']) !!}
+                                </div>
                             </div>
 
                         </div>
-                        --}}
-                        <div class="form-group col-md-4">
 
-                            {!! Form::Label('mymonto_dorales', "Monto en moneda extranjera:") !!}
+                    </div>
+                    
+                    {{-- ***** seccion botones comision *****  --}}
+
+                    <div class="btn-group botones" data-toggle="buttons">
+                        <label class="btn btn-primary" [ngClass]="{'active': s}">
+                            <input type="radio" name="options" id="c_porcentaje" class="c_porcentaje" autocomplete="off" (click)="s=true; blah();" value="1" checked> COMISIÓN PORCENTAJE
+                        </label>
+                        <label class="btn btn-primary" [ngClass]="{'active': !s}">
+                            <input type="radio" name="options" id="c_tasa" class="c_tasa" autocomplete="off"(click)="s=false; blah();" value="2"> COMISIÓN TASA
+                        </label>
+                    </div>
+
+                    <br>
+                    <hr class="bg-dark esconder" style="height:1px;">                
+                    <h4 class="text-uppercase font-weight-bold text-center esconder comi">Comisiones  </h4>
+
+                    <div class="form-row esconder comi">
+
+                    
+                        {{-- Porcentaje --}}
+            
+                        <div class="form-group col-md-6">
+                            {!! Form::Label('', "Porcentaje:") !!}
+                            <div class="input-group-text">
+                                <i class="fa-fw fas fa-percentage mr-2"></i>
+                                {!! Form::text('percentage',null, ['class' => 'form-control rateMasks', 'required' => 'true', 'id' => 'percentage']) !!}
+                            </div>
+                        </div>
+
+
+                        {{-- Comision --}}
+
+
+                        <div class="form-group col-md-6">
+
+                            {!! Form::Label('comision', "Monto Comisión:") !!}
                             <div class="input-group-text">
                                 <i class="fa-fw fas fa-coins mr-2"></i>
-                            {!! Form::text('amount',null, ['class' => 'form-control general', 'required' => true, 'id' => 'mymonto_dorales', 'readonly' => true]) !!}
+                            {!! Form::text('amount_commission',null, ['class' => 'form-control comision general', 'required' => true, 'readonly' => true, 'id' => 'comision']) !!}
                             </div>
 
                         </div>
-
-                        <div class="form-group col-md-4">
-                            {!! Form::Label('fecha', "Fecha:") !!}
-                            <div class="input-group-text">
-                                <i class="fa-fw fas fas fa-calendar-week mr-2"></i>
-                                {!! Form::datetimeLocal('transaction_date', $fecha, ['class' => 'form-control', 'required' => true, 'id' => 'fecha']) !!}
-                            </div>
-                        </div>
-
                     </div>
 
-                </div>
+                    <div class="form-group col-md-12 d-flex justify-content-center">
 
-                <div class="paginate text-right">
-                    {{-- <button onclick="location.reload()" class="btn btn-primary font-weight-bold"> REFRESCAR <i class="fas fa-sync-alt"></i></button> --}}
-                </div>
-                
-                {{-- ***** seccion botones comision *****  --}}
+                        <label class="form-check-label mx-auto esconder comi" for="radio1">
+                            {!! Form::radio('exonerate',2, null, ['id' => 'radio1', 'class' => 'exonerar', 'required' => true,]) !!}
+                            Exonerar comisión
+                        </label>
 
-                <div class="btn-group botones" data-toggle="buttons">
-                    <label class="btn btn-primary" [ngClass]="{'active': s}">
-                        <input type="radio" name="options" id="c_porcentaje" class="c_porcentaje" autocomplete="off" (click)="s=true; blah();" value="1" checked> COMISIÓN PORCENTAJE
-                    </label>
-                    <label class="btn btn-primary" [ngClass]="{'active': !s}">
-                        <input type="radio" name="options" id="c_tasa" class="c_tasa" autocomplete="off"(click)="s=false; blah();" value="2"> COMISIÓN TASA
-                    </label>
-                </div>
-
-                <br>
-                <hr class="bg-dark esconder" style="height:1px;">                
-                <h4 class="text-uppercase font-weight-bold text-center esconder comi">Comisiones  </h4>
-
-                <div class="form-row esconder comi">
-
-                
-                    {{-- Porcentaje --}}
-        
-                    <div class="form-group col-md-6">
-                        {!! Form::Label('', "Porcentaje:") !!}
-                        <div class="input-group-text">
-                            <i class="fa-fw fas fa-percentage mr-2"></i>
-                            {!! Form::text('percentage',null, ['class' => 'form-control rateMasks', 'required' => 'true', 'id' => 'percentage']) !!}
-                        </div>
-                    </div>
+                        <label class="form-check-label mx-auto esconder comi" for="radio3">
+                            {!! Form::radio('exonerate',1, null, ['id' => 'radio3', 'class' => 'incluir','required' => true,]) !!}
+                            Incluir comisión
+                        </label>
 
 
-                    {{-- Comision --}}
-
-
-                    <div class="form-group col-md-6">
-
-                        {!! Form::Label('comision', "Monto Comisión:") !!}
-                        <div class="input-group-text">
-                            <i class="fa-fw fas fa-coins mr-2"></i>
-                        {!! Form::text('amount_commission',null, ['class' => 'form-control comision general', 'required' => true, 'readonly' => true, 'id' => 'comision']) !!}
-                        </div>
-
-                    </div>
-                </div>
-
-                <div class="form-group col-md-12 d-flex justify-content-center">
-
-                    <label class="form-check-label mx-auto esconder comi" for="radio1">
-                        {!! Form::radio('exonerate',2, null, ['id' => 'radio1', 'class' => 'exonerar', 'required' => true,]) !!}
-                        Exonerar comisión
-                    </label>
-
-                    <label class="form-check-label mx-auto esconder comi" for="radio3">
-                        {!! Form::radio('exonerate',1, null, ['id' => 'radio3', 'class' => 'incluir','required' => true,]) !!}
-                        Incluir comisión
-                    </label>
-
-
-                    <label class="form-check-label mx-auto esconder comi" for="radio2">
-                        Descontar comisión
-                        {!! Form::radio('exonerate',3, null, ['id' => 'radio2', 'class' => 'descontar', 'required' => true,]) !!}
-                    </label>
-
-                </div>
-
-                <div class="form-group col-md esconder">
-                    {!! Form::Label('montototal', "Monto Total:") !!}
-                    <div class="input-group-text">
-                        <i class="fa-fw fas fa-coins mr-2"></i>
-                    {!! Form::text('amount_total',null, ['class' => 'form-control montototal general', 'required' => true, "minlength" => "3", 'id' => 'montototal', 'readonly' => true]) !!}
-                    </div>
-                </div>
-
-
-
-                {{-- ***** comision Base ***** --}}
-
-
-
-                <hr class="bg-dark esconder" style="height:1px;">
-
-
-                <h4 class="text-uppercase font-weight-bold text-center esconder comisionbase">Comisión Base  </h4>
-                <h4 class="text-uppercase font-weight-bold text-center tasa_basee" style="display:none;">Tasa Base  </h4>
-
-                {{-- <hr class="bg-dark esconder" style="height:1px;"> --}}
-
-                <div class="form-row esconder">
-
-
-                    {{-- Porcentaje base --}}
-
-                    <div class="form-group col-md-12 tasa">
-                        {!! Form::Label('', "Porcentaje Base:") !!}
-                        <div class="input-group-text">
-                            <i class="fa-fw fas fa-percentage mr-2"></i>
-                        {!! Form::text('percentage_base',null, ['class' => 'form-control percentage_base rateMasks', 'id' => 'percentage_base']) !!}
-                        </div>
-                    </div>
-
-
-                    {{-- --}}
-
-
-                    <div class="form-group col-md-12 base" style="display:none;">
-                        {!! Form::Label('tasa_base', "Tasa base:") !!}
-                        <div class="input-group-text">
-                            <i class="fa-fw fas fa-random mr-2"></i>
-                        {!! Form::text('exchange_rate_base',null, ['class' => 'form-control rateMasks', 'required' => true, 'id' => 'tasa_base']) !!}
-                        </div>
-                    </div>
-
-                    {!! Form::hidden('amount_base',null, ['class' => 'form-control general', 'min' => 0, 'readonly' => true, 'id' => 'monto_extranjera_base']) !!}
-
-                </div>
-
-
-
-                {{-- botones de exoneracion de comision Base --}}
-
-
-
-                <div class="form-group col-md-12 d-flex justify-content-center base">
-
-                    <label class="form-check-label mx-auto esconder comi comi_base" for="radio1_base">
-                        {!! Form::radio('exonerate_base',2, null, ['id' => 'radio1_base', 'required' => true, 'class' => 'exonerar_base']) !!}
-                        Exonerar comisión base
-                    </label>
-
-                    <label class="form-check-label mx-auto esconder comi comi_base" for="radio3_base">
-                        {!! Form::radio('exonerate_base',1, null, ['id' => 'radio3_base', 'required' => true, 'class' => 'incluir_base']) !!}
-                        Incluir comisión base
-                    </label>
-
-
-                    <label class="form-check-label mx-auto esconder comi comi_base" for="radio2_base">
-                        Descontar comisión base
-                        {!! Form::radio('exonerate_base',3, null, ['id' => 'radio2_base', 'required' => true, 'class' => 'descontar_base']) !!}
-                    </label>
-
-                </div>
-
-                <div class="form-row esconder">
-
-                    <div class="form-group col-md-6">
-
-                        {!! Form::Label('comision_base', "Monto Comisión Base:") !!}
-                        <div class="input-group-text">
-                            <i class="fa-fw fas fa-coins mr-2"></i>
-                        {!! Form::text('amount_commission_base',null, ['class' => 'form-control comision_base general', 'min' => 0, 'readonly' => true, 'id' => 'comision_base']) !!}
-                        </div>
+                        <label class="form-check-label mx-auto esconder comi" for="radio2">
+                            Descontar comisión
+                            {!! Form::radio('exonerate',3, null, ['id' => 'radio2', 'class' => 'descontar', 'required' => true,]) !!}
+                        </label>
 
                     </div>
 
                     <div class="form-group col-md esconder">
-                        {!! Form::Label('montototal_base', "Monto total Base:") !!}
+                        {!! Form::Label('montototal', "Monto Total:") !!}
                         <div class="input-group-text">
-                            <i class="fa-fw fas fas fa-coins mr-2"></i>
-                        {!! Form::text('amount_total_base', null, ['class' => 'form-control general','id' => 'montototal_base', 'readonly' => true ]) !!}
+                            <i class="fa-fw fas fa-coins mr-2"></i>
+                        {!! Form::text('amount_total',null, ['class' => 'form-control montototal general', 'required' => true, "minlength" => "3", 'id' => 'montototal', 'readonly' => true]) !!}
                         </div>
                     </div>
 
-                </div>
-
-                <hr class="bg-dark esconder comi" style="height:1px;">
-
-                {!! Form::hidden('status',                  'Activo', null, ['class' => 'form-control']) !!}
-
-                {{-- {!! Form::hidden('amount_commission_profit', null, ['class' => 'form-control', 'id' => 'amount_commission_profit']) !!} --}}
-
-                <div class="form-group">
-                    {!! Form::Label('amount_commission_profit', "Monto Comision Ganancia:") !!}
-                    <div class="input-group-text">
-                        {!! Form::text('amount_commission_profit', null, ['class' => 'form-control general','id' => 'amount_commission_profit', 'readonly' => true, 'step' => 'any' ]) !!}
-                    </div>
-                </div>
-                <div class="form-group">
-                    {!! Form::Label('description', "Descripción:") !!}
-                    <div class="input-group-text">
-                        <i class="fa-fw fas fa-text-width mr-2"></i>
-                    {!! Form::textarea('description',null, ['rows' => 1, 'class' => 'form-control', 'required' => false]) !!}
-                    </div>
-                </div>
-
-                {!! Form::Submit('GUARDAR', ['class' => 'btn btn-primary btn-block font-weight-bold', 'style' => "max-height: 400px;", 'id' => 'publish']) !!}
-
-            </div>
 
 
-            <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+                    {{-- ***** comision Base ***** --}}
 
-                <div class="form-group">
-                    <div class="custom-file col-md-12">
-                        {!! Form::label('file', 'Referencia:') !!}
 
-                        <div class="file-loading">
-                                {!! Form::file('file[]', ['class' => 'form-file-input file', 'accept' => 'image/*', 'multiple' => 'multiple', 'id' => 'file', 'data-allowed-file-extensions' => '["pdf","jpg","jpeg","png","gif"]']) !!}
+
+                    <hr class="bg-dark esconder" style="height:1px;">
+
+
+                    <h4 class="text-uppercase font-weight-bold text-center esconder comisionbase">Comisión Base  </h4>
+                    <h4 class="text-uppercase font-weight-bold text-center tasa_basee" style="display:none;">Tasa Base  </h4>
+
+                    {{-- <hr class="bg-dark esconder" style="height:1px;"> --}}
+
+                    <div class="form-row esconder">
+
+
+                        {{-- Porcentaje base --}}
+
+                        <div class="form-group col-md-12 tasa">
+                            {!! Form::Label('', "Porcentaje Base:") !!}
+                            <div class="input-group-text">
+                                <i class="fa-fw fas fa-percentage mr-2"></i>
+                            {!! Form::text('percentage_base',null, ['class' => 'form-control percentage_base rateMasks', 'id' => 'percentage_base']) !!}
+                            </div>
                         </div>
 
-                        @error('file')
-                            <small class="text-danger">{{$message}}</small>
-                        @enderror
+
+                        {{-- --}}
+
+
+                        <div class="form-group col-md-12 base" style="display:none;">
+                            {!! Form::Label('tasa_base', "Tasa base:") !!}
+                            <div class="input-group-text">
+                                <i class="fa-fw fas fa-random mr-2"></i>
+                            {!! Form::text('exchange_rate_base',null, ['class' => 'form-control rateMasks', 'required' => true, 'id' => 'tasa_base']) !!}
+                            </div>
+                        </div>
+
+                        {!! Form::hidden('amount_base',null, ['class' => 'form-control general', 'min' => 0, 'readonly' => true, 'id' => 'monto_extranjera_base']) !!}
 
                     </div>
+
+
+
+                    {{-- botones de exoneracion de comision Base --}}
+
+
+
+                    <div class="form-group col-md-12 d-flex justify-content-center base">
+
+                        <label class="form-check-label mx-auto esconder comi comi_base" for="radio1_base">
+                            {!! Form::radio('exonerate_base',2, null, ['id' => 'radio1_base', 'required' => true, 'class' => 'exonerar_base']) !!}
+                            Exonerar comisión base
+                        </label>
+
+                        <label class="form-check-label mx-auto esconder comi comi_base" for="radio3_base">
+                            {!! Form::radio('exonerate_base',1, null, ['id' => 'radio3_base', 'required' => true, 'class' => 'incluir_base']) !!}
+                            Incluir comisión base
+                        </label>
+
+
+                        <label class="form-check-label mx-auto esconder comi comi_base" for="radio2_base">
+                            Descontar comisión base
+                            {!! Form::radio('exonerate_base',3, null, ['id' => 'radio2_base', 'required' => true, 'class' => 'descontar_base']) !!}
+                        </label>
+
+                    </div>
+
+                    <div class="form-row esconder">
+
+                        <div class="form-group col-md-6">
+
+                            {!! Form::Label('comision_base', "Monto Comisión Base:") !!}
+                            <div class="input-group-text">
+                                <i class="fa-fw fas fa-coins mr-2"></i>
+                            {!! Form::text('amount_commission_base',null, ['class' => 'form-control comision_base general', 'min' => 0, 'readonly' => true, 'id' => 'comision_base']) !!}
+                            </div>
+
+                        </div>
+
+                        <div class="form-group col-md esconder">
+                            {!! Form::Label('montototal_base', "Monto total Base:") !!}
+                            <div class="input-group-text">
+                                <i class="fa-fw fas fas fa-coins mr-2"></i>
+                            {!! Form::text('amount_total_base', null, ['class' => 'form-control general','id' => 'montototal_base', 'readonly' => true ]) !!}
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <hr class="bg-dark esconder comi" style="height:1px;">
+
+                    {!! Form::hidden('status',                  'Activo', null, ['class' => 'form-control']) !!}
+
+                    {{-- {!! Form::hidden('amount_commission_profit', null, ['class' => 'form-control', 'id' => 'amount_commission_profit']) !!} --}}
+
+                    <div class="form-group">
+                        {!! Form::Label('amount_commission_profit', "Monto Comision Ganancia:") !!}
+                        <div class="input-group-text">
+                            {!! Form::text('amount_commission_profit', null, ['class' => 'form-control general','id' => 'amount_commission_profit', 'readonly' => true, 'step' => 'any' ]) !!}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        {!! Form::Label('description', "Descripción:") !!}
+                        <div class="input-group-text">
+                            <i class="fa-fw fas fa-text-width mr-2"></i>
+                        {!! Form::textarea('description',null, ['rows' => 1, 'class' => 'form-control', 'required' => false]) !!}
+                        </div>
+                    </div>
+
+                    {!! Form::Submit('GUARDAR', ['class' => 'btn btn-primary btn-block font-weight-bold', 'style' => "max-height: 400px;", 'id' => 'publish']) !!}
+
                 </div>
 
-                {!! Form::Submit('GUARDAR', ['class' => 'btn btn-primary btn-block font-weight-bold', 'style' => "max-height: 400px;" , 'id' => 'publish']) !!}
-            </div>
 
+                <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+
+                    <div class="form-group">
+                        <div class="custom-file col-md-12">
+                            {!! Form::label('file', 'Referencia:') !!}
+
+                            <div class="file-loading">
+                                    {!! Form::file('file[]', ['class' => 'form-file-input file', 'accept' => 'image/*', 'multiple' => 'multiple', 'id' => 'file', 'data-allowed-file-extensions' => '["pdf","jpg","jpeg","png","gif"]']) !!}
+                            </div>
+
+                            @error('file')
+                                <small class="text-danger">{{$message}}</small>
+                            @enderror
+
+                        </div>
+                    </div>
+
+                    {!! Form::Submit('GUARDAR', ['class' => 'btn btn-primary btn-block font-weight-bold', 'style' => "max-height: 400px;" , 'id' => 'publish']) !!}
+                </div>
+
+            {!! Form::close() !!}
         </div>
-
-        {!! Form::close() !!}
-
     </div>
 </div>
 
@@ -462,58 +465,6 @@
 @section('js')
 
 <script>
-    $( function() {
-        var availableTags = [
-            "cash",
-            "CASH",
-            "Saldo anterior",
-            "suift",
-            "abono",
-            "Abono en cash",
-            "Cash enviado",
-            "Ali",
-            "Abu",
-            "Cash Dubai",
-            "abono en Valencia",
-            "abono cash",
-            "cash libano",
-            "cash la yaguara",
-            "la yaguara",
-            "suift (preforman)",
-            "cash turquia",
-            "libano",
-            "Turquia",
-            "Turkia",
-            "Banesco",
-            "Banesco Panama",
-            "Mercantil",
-            "BDV",
-            "pago bolivares",
-            "cash recibido",
-            "pasaje de",
-            "pasajes",
-            "boletos",
-            "Abonado",
-            "recibido para",
-            "USDT",
-            "Token",
-            "Nomina",
-            "Pago nomina",
-            "Cobro en USDT",
-            "Nomina a",
-            "Bono",
-            "Pago a ",
-            "Cobro a ",
-            "Credito a ",
-            "Pago por suift",
-            "Transferencias bancaria",
-            ];
-
-        $("#description").autocomplete({
-            source: availableTags
-        });
-    });
-
 
     $(".clientes").select2({
         placeholder: "Seleccionar cliente",
@@ -534,8 +485,8 @@
         width: '100%'
     });
 
-    $("#typecoin").val("")
-    $("#typecoin").trigger("change");
+    //$("#typecoin").val("")
+    //$("#typecoin").trigger("change");
 
     $(".status").select2({
         placeholder: "Seleccionar estatus",
@@ -551,8 +502,9 @@
         allowClear: true,
         width: '100%'
     });
-    $("#wallet").val(null)
-    $("#wallet").trigger("change");
+
+    //$("#wallet").val(null)
+    //$("#wallet").trigger("change");
 
     $(".typetrasnferencia").select2({
         placeholder: "Seleccionar tipo de movimiento",
@@ -599,7 +551,9 @@
 
 
     $(document).ready(function() {
-        
+
+        inicializaDescripcion();
+
         // submit del form 
 
         $('#entre').on('submit', function() {
@@ -610,12 +564,14 @@
             exonerar_base   = $('#radio1_base').is(':checked');
             transferencia   = $("#typetrasnferencia option:selected").text();
 
-            
-            // alert('mymonto_dorales' + $("#mymonto_dorales").attr("readonly"));
 
-            // alert('amount_commission_profit antres de mandar -> ' + $('#amount_commission_profit').val());
-            // alert('percentage ->' + $('.myClass').val());
+
+            //
+            //
+            //
             console.log('amount_commission_profit antres de mandar -> ' + $('#amount_commission_profit').val());
+
+
 
             if (transferencia === 'Nota de debito' || transferencia === 'Nota de credito'){
                 if ($('#percentage').val() <= 0) {
@@ -642,7 +598,7 @@
                     }
                 }
             }
-
+            alert('submit de data interceptado');
              event.preventDefault();
 
         });
@@ -657,8 +613,10 @@
         $('#entre').on('input', function (){
             // alert('cambio form');
             // alert('amount con jquery ->' + $('#mymonto_dorales').val());
+            // alert('amount atributo ->' + myVal);
+
             
-            calcula();
+             calcula();
         }); 
 
 
@@ -697,42 +655,58 @@
 
         $('#typecoin').on('change', function() {
             // ajax
-             alert('cambia typecoin -> ' + $('#typecoin').val() + ' ' + JSON.stringify($("#mymonto_dolares")));
+           //  alert('cambia typecoin -> ' + $('#typecoin').val() + ' ' + JSON.stringify($("#mymonto_dolares")));
 
             if ($('#typecoin').val() == 1) {
-                alert('aqui');
+                // alert('aqui');
+
+                //
 
                 $('#tasa').prop("readonly", true);
                 $('#monto').prop("readonly", true);
-                $('#mymonto_dolares').prop("readonly", false);
-                
+                $('#mymonto_dorales').prop('readonly',false);
+
+                $('#mymonto_dorales').trigger('focus');
+
+                //
+
+                $('#tasa').val("");
+                $('#monto').val("");
+                //$('#mymonto_dorales').val("");
+
+                //$('#monto_extranjera_base').val("");
+                //$('#amount_commission_profit').val('0');
 
             } else if ($('#typecoin').val() == null)
             {
                 // cuando el tipode moneda es null
+                alert('es null el tipe coin');
+                //$('#tasa').attr("readonly", true);
+                //$('#monto').attr("readonly", true);
+                //$('#mymonto_dorales').prop('readonly',false);                
 
-                $('#tasa').attr("readonly", true);
-                $('#monto').attr("readonly", true);
+                //$('#tasa').val("");
+                //$('#monto').val("");
                 
 
-                $('#tasa').val("");
-                $('#monto').val("");
+                //$('#monto_extranjera_base').val("");
+
+                //$('#amount_commission_profit').val('0');
                 
 
-                $('#monto_extranjera_base').val("");
 
-                $('#amount_commission_profit').val('0');
             }
             else {
 
                 // cuando el tipo de moneda es distinta de usd y null
-
+                // alert('no es ');
                 $('#tasa').prop("readonly", false);
                 $('#monto').prop("readonly", false);
                 
-
-                $('#mymonto_dolares').prop("readonly", true);
+                $('#mymonto_dorales').attr('readonly',true);
                 
+
+
             }
         });
 
@@ -815,7 +789,7 @@
 
     }); //CIERRE DEL READY
 
-
+    
     $("#typetrasnferencia").on("change", function() {
         // Capturar dato seleccionado
 
@@ -917,10 +891,13 @@
             $('#typecoin').prop("disabled", false);
             $('#wallet').prop("required", true);
             $('#typecoin').prop("required", true);
-                --}}
+            --}}
         }
     });
+    
 
+
+    
     $("#file").fileinput({
         uploadUrl: '{{ route('transactions.store') }}'
         , language: 'es'
@@ -1041,6 +1018,58 @@
         )
 
     });
+    
+    function inicializaDescripcion(){
+        var availableTags = [
+            "cash",
+            "CASH",
+            "Saldo anterior",
+            "suift",
+            "abono",
+            "Abono en cash",
+            "Cash enviado",
+            "Ali",
+            "Abu",
+            "Cash Dubai",
+            "abono en Valencia",
+            "abono cash",
+            "cash libano",
+            "cash la yaguara",
+            "la yaguara",
+            "suift (preforman)",
+            "cash turquia",
+            "libano",
+            "Turquia",
+            "Turkia",
+            "Banesco",
+            "Banesco Panama",
+            "Mercantil",
+            "BDV",
+            "pago bolivares",
+            "cash recibido",
+            "pasaje de",
+            "pasajes",
+            "boletos",
+            "Abonado",
+            "recibido para",
+            "USDT",
+            "Token",
+            "Nomina",
+            "Pago nomina",
+            "Cobro en USDT",
+            "Nomina a",
+            "Bono",
+            "Pago a ",
+            "Cobro a ",
+            "Credito a ",
+            "Pago por suift",
+            "Transferencias bancaria",
+            ];
+
+        $("#description").autocomplete({
+            source: availableTags
+        });
+    }
 
     function calcula(){
 
@@ -1108,6 +1137,12 @@
             if (exchange_rate_base > 0){
                 myTypeCommission = 2;
             }
+        }
+
+        if (myTypeCommission == 0){
+            amount_commission = 0;
+            amount_total      = amount;
+            amount_total_base = amount;
         }
         //
         //

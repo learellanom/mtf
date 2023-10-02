@@ -284,209 +284,245 @@
 
 @section('js')
 <script>
-$(".typecoin").select2({
-  placeholder: "Seleccionar Moneda",
-  theme: 'bootstrap4',
-  allowClear: true,
-  width:'100%'
+
+  $(".typecoin").select2({
+    placeholder: "Seleccionar Moneda",
+    theme: 'bootstrap4',
+    allowClear: true,
+    width:'100%'
+  });
+  $("#typecoin").val("")
+  $("#typecoin").trigger("change");
+
+  $("#typetransaccion").select2({
+    placeholder: "Selecciona tipo transferencia",
+    theme: 'bootstrap4',
+    search: false,
+    width: '100%'
+  });
+  $("#typetransaccion").val("")
+  $("#typetransaccion").trigger("change");
+
+
+
+  $('.general').inputmask({
+    alias: 'decimal',
+    allowMinus: false,
+    autoUnmask:true,
+    removeMaskOnSubmit:true,
+    rightAlign: true,
+    groupSeparator:".",
+    undoOnEscape:true,
+    insertMode:false,
+    clearIncomplete:true,
+    digits: 2,
+          autoClear: true,
+    insertMode:true,
+  });
+
+
+  $(".rateMasks").attr("minlength","8");
+  $(".rateMasks").attr("maxlength","8");
+  $(".rateMasks").inputmask({
+    alias: 'decimal',
+    repeat: 4,
+    allowMinus: false,
+    autoUnmask:true,
+    removeMaskOnSubmit:true,
+    rightAlign: true,
+          autoClear: true,
+    groupSeparator:".",
+    undoOnEscape:true,
+    insertMode: false,
+    clearIncomplete:true,
+    digits: 7,
+    insertMode:true,
+  });
+
+
+
+  $('#monto_dolares').on('input', function() {
+      var dolar = $('#monto_dolares').val();
+      $('#montototal').val(dolar).inputmask({
+              alias: 'decimal',
+              allowMinus: false,
+              autoUnmask:true,
+              removeMaskOnSubmit:true,
+              rightAlign: true,
+              groupSeparator:".",
+              undoOnEscape:true,
+              insertMode:false,
+              clearIncomplete:true,
+              digits: 2,
+              insertMode:true,
+          });
+
+      $('#montototal').val(dolar);
+  });
+
+  /* OCULTAR LA CAJA SELECCIONADA */
+  $('.muestra').select2({
+    'theme':'bootstrap4',
+    search: false,
+    allowClear: true,
+    placeholder: "Seleccionar cliente",
+    width:'100%'
+  });
+  $(".muestra").val("")
+  $(".muestra").trigger("change");
+  $('.oculta').select2({
+    'theme':'bootstrap4',
+    search: false,
+    allowClear: true,
+    placeholder: "Seleccionar cliente",
+    width:'100%'
+  });
+  $(".oculta").val("")
+  $(".oculta").trigger("change");
+
+  $('#entre').on('submit', function() {
+    var val1 = $('#wallet').val();
+    var val2 = $('#wallet2').val();
+
+    exonerar_base = $('#radio1_base').is(':checked');
+
+    if (val1 == val2) {
+        Swal.fire('Las cajas no pueden ser iguales')
+        return false; //prevent form submission
+    }
+
+    if ($('#monto_dolares').val().length == 0) {
+        Swal.fire('Monto en dolares, no puede estar vacio :(');
+        return false;
+    }
+
+    if ($('#monto_dolares').val() <= 0) {
+        Swal.fire('Monto en dolares, no puede ser cero o menor a cero. :(');
+        return false;
+    }
+
+    if(!exonerar_base){
+        if ($('#percentage_base').val() <= 0) {
+        Swal.fire('Porcentage origen, no puede ser cero o menor a cero. :(');
+        return false;
+        }
+    }
 });
-$("#typecoin").val("")
-$("#typecoin").trigger("change");
 
-$("#typetransaccion").select2({
-  placeholder: "Selecciona tipo transferencia",
-  theme: 'bootstrap4',
-  search: false,
-  width: '100%'
-});
-$("#typetransaccion").val("")
-$("#typetransaccion").trigger("change");
+  $('#radio1_base').on('click', function() {
+    $('#percentage_base').val("");
+    $('#comision_base').val("");
+    $('#comision_base').attr("readonly", true);
+    $('#percentage_base').attr("readonly", true);
+  });
 
+  $('#radio2_base').on('click', function() {
 
+    $('#percentage_base').attr("readonly", false);
+  });
 
-$('.general').inputmask({
-			alias: 'decimal',
-			allowMinus: false,
-			autoUnmask:true,
-			removeMaskOnSubmit:true,
-			rightAlign: true,
-			groupSeparator:".",
-			undoOnEscape:true,
-			insertMode:false,
-			clearIncomplete:true,
-			digits: 2,
-            autoClear: true,
-			insertMode:true,
+  $('#radio3_base').on('click', function() {
+
+    $('#percentage_base').attr("readonly", false);
+  });
+
+  /* OCULTAR LA CAJA SELECCIONADA */
+
+  tasa = document.getElementById("tasa");
+  monto = document.getElementById("monto");
+  monto_dolares = document.getElementById("monto_dolares");
+  //const log = document.getElementById("montototal");
+
+  $('#monto_dolares, #percentage_base').on('input', function() {
+
+          let comision_base = parseFloat($('#comision_base').val());
+          let porcentage_base = parseFloat($('#percentage_base').val());
+          let montoreal_base = parseFloat($('#monto_base').val());
+
+          let exonerar_base = $('#radio1_base').is(':checked');
+          let descontar_base = $('#radio2_base').is(':checked');
+          let incluir_base = $('#radio3_base').is(':checked');
+
+          updateMontorealBase(exonerar_base, descontar_base, incluir_base, comision_base, porcentage_base, montoreal_base);
+
+      $('#radio1_base, #radio2_base, #radio3_base').on('click', function() {
+                  let comision_base = parseFloat($('#comision_base').val());
+                  let porcentage_base = parseFloat($('#percentage_base').val());
+                  let montoreal_base = parseFloat($('#monto_base').val());
+
+                  let exonerar_base = $('#radio1_base').is(':checked');
+                  let descontar_base = $('#radio2_base').is(':checked');
+                  let incluir_base = $('#radio3_base').is(':checked');
+            updateMontorealBase(exonerar_base, descontar_base, incluir_base, comision_base, porcentage_base, montoreal_base);
         });
 
+        function updateMontorealBase(exonerar_base, descontar_base, incluir_base, comision_base, porcentage_base, montoreal_base) {
+          let monto_dolares = parseFloat($('#monto_dolares').val());
 
-        $(".rateMasks").attr("minlength","8");
-	   $(".rateMasks").attr("maxlength","8");
-	   $(".rateMasks").inputmask({
-			alias: 'decimal',
-			repeat: 4,
-			allowMinus: false,
-			autoUnmask:true,
-			removeMaskOnSubmit:true,
-			rightAlign: true,
-            autoClear: true,
-			groupSeparator:".",
-			undoOnEscape:true,
-			insertMode: false,
-			clearIncomplete:true,
-			digits: 7,
-			insertMode:true,
-		});
+          if(porcentage_base > 0){
+              $('#comision_base').val((monto_dolares * (porcentage_base / 100)));
+              comision_base = (monto_dolares * (porcentage_base / 100));
+              //alert(comision);
+          }
 
 
+          if(!exonerar_base) {
+              if(incluir_base) {
+                montoreal_base = (monto_dolares + comision_base).toFixed(2);
+              $('#monto_base').val((monto_dolares + comision_base));
+              //alert(montoreal);
 
-$('#monto_dolares').on('input', function() {
-        var dolar = $('#monto_dolares').val();
-        $('#montototal').val(dolar).inputmask({
-                alias: 'decimal',
-                allowMinus: false,
-                autoUnmask:true,
-                removeMaskOnSubmit:true,
-                rightAlign: true,
-                groupSeparator:".",
-                undoOnEscape:true,
-                insertMode:false,
-                clearIncomplete:true,
-                digits: 2,
-                insertMode:true,
-            });
-
-        $('#montototal').val(dolar);
-});
-
-     /* OCULTAR LA CAJA SELECCIONADA */
-     $('.muestra').select2({
-        'theme':'bootstrap4',
-        search: false,
-        allowClear: true,
-        placeholder: "Seleccionar cliente",
-        width:'100%'
-     });
-     $(".muestra").val("")
-     $(".muestra").trigger("change");
-     $('.oculta').select2({
-        'theme':'bootstrap4',
-        search: false,
-        allowClear: true,
-        placeholder: "Seleccionar cliente",
-        width:'100%'
-     });
-     $(".oculta").val("")
-     $(".oculta").trigger("change");
-
-     $('#entre').on('submit', function() {
-        var val1 = $('#wallet').val();
-        var val2 = $('#wallet2').val();
-
-        exonerar_base = $('#radio1_base').is(':checked');
-
-        if (val1 == val2) {
-            Swal.fire('Las cajas no pueden ser iguales')
-            return false; //prevent form submission
+              } else if(descontar_base) {
+                  montoreal_base = (monto_dolares - comision_base).toFixed(2);
+              $('#monto_base').val((monto_dolares - comision_base));
+              }
+          }
+          else {
+              $('#percentage_base').val('');
+              $('#comision_base').val('');
+              montoreal_base = monto_dolares.toFixed(2);
+              $('#monto_base').val(monto_dolares);
+            }
         }
+  });
 
-        if ($('#monto_dolares').val().length == 0) {
-            Swal.fire('Monto en dolares, no puede estar vacio :(');
-            return false;
-        }
 
-        if ($('#monto_dolares').val() <= 0) {
-            Swal.fire('Monto en dolares, no puede ser cero o menor a cero. :(');
-            return false;
-        }
 
-        if(!exonerar_base){
-            if ($('#percentage_base').val() <= 0) {
-            Swal.fire('Porcentage origen, no puede ser cero o menor a cero. :(');
-            return false;
-           }
-        }
+  $("#typetransaccion").on("change", function() {
+      // Capturar dato seleccionado
+      var selectedValue = this.value;
+      var option = $("#typetransaccion option:selected").text();
+      // Realizar la acción deseada en función del valor seleccionado
+      if (option == 'Pago Efectivo')
+      {
+          $('#typetransaccion2').val(6);
+
+      }
+      else
+      {
+          $('#typetransaccion2').val(7);
+      }
+  });
+
+    $("#wallet, #typetransaccion").change(function() {
+        var valor = $(this).val(); // Capturamos el valor del select
+        var texto = $("#wallet option:selected").text(); // Capturamos el texto del option seleccionado
+        var texto2 = $("#typetransaccion option:selected").text(); //Capturamos el texto del option tipo transacción seleccionado
+
+        $("#descripcion2").val('Recibido de  ' +texto +'/' + texto2);
     });
 
-    $('#radio1_base').on('click', function() {
-        $('#percentage_base').val("");
-        $('#comision_base').val("");
-        $('#comision_base').attr("readonly", true);
-        $('#percentage_base').attr("readonly", true);
+    $("#wallet2, #typetransaccion").change(function() {
+        var valor = $(this).val(); // Capturamos el valor del select
+        var texto = $("#wallet2 option:selected").text(); // Capturamos el texto del option seleccionado
+
+        var texto2 = $("#typetransaccion option:selected").text(); //Capturamos el texto del option tipo transacción seleccionado
+
+        //alert(tipo);
+
+        $("#descripcion").val('Entregado a ' + texto + '/' + texto2);
+
     });
-
-    $('#radio2_base').on('click', function() {
-
-        $('#percentage_base').attr("readonly", false);
-    });
-
-    $('#radio3_base').on('click', function() {
-
-        $('#percentage_base').attr("readonly", false);
-    });
-
-    /* OCULTAR LA CAJA SELECCIONADA */
-
-            tasa = document.getElementById("tasa");
-            monto = document.getElementById("monto");
-            monto_dolares = document.getElementById("monto_dolares");
-            //const log = document.getElementById("montototal");
-
-            $('#monto_dolares, #percentage_base').on('input', function() {
-
-                    let comision_base = parseFloat($('#comision_base').val());
-                    let porcentage_base = parseFloat($('#percentage_base').val());
-                    let montoreal_base = parseFloat($('#monto_base').val());
-
-                    let exonerar_base = $('#radio1_base').is(':checked');
-                    let descontar_base = $('#radio2_base').is(':checked');
-                    let incluir_base = $('#radio3_base').is(':checked');
-
-                    updateMontorealBase(exonerar_base, descontar_base, incluir_base, comision_base, porcentage_base, montoreal_base);
-
-                $('#radio1_base, #radio2_base, #radio3_base').on('click', function() {
-                            let comision_base = parseFloat($('#comision_base').val());
-                            let porcentage_base = parseFloat($('#percentage_base').val());
-                            let montoreal_base = parseFloat($('#monto_base').val());
-
-                            let exonerar_base = $('#radio1_base').is(':checked');
-                            let descontar_base = $('#radio2_base').is(':checked');
-                            let incluir_base = $('#radio3_base').is(':checked');
-                     updateMontorealBase(exonerar_base, descontar_base, incluir_base, comision_base, porcentage_base, montoreal_base);
-                 });
-
-                 function updateMontorealBase(exonerar_base, descontar_base, incluir_base, comision_base, porcentage_base, montoreal_base) {
-                            let monto_dolares = parseFloat($('#monto_dolares').val());
-
-                            if(porcentage_base > 0){
-                               $('#comision_base').val((monto_dolares * (porcentage_base / 100)));
-                               comision_base = (monto_dolares * (porcentage_base / 100));
-                                //alert(comision);
-                            }
-
-
-                            if(!exonerar_base) {
-                                if(incluir_base) {
-                                 montoreal_base = (monto_dolares + comision_base).toFixed(2);
-                                $('#monto_base').val((monto_dolares + comision_base));
-                                //alert(montoreal);
-
-                                } else if(descontar_base) {
-                                    montoreal_base = (monto_dolares - comision_base).toFixed(2);
-                                $('#monto_base').val((monto_dolares - comision_base));
-                                }
-                            }
-                            else {
-                                $('#percentage_base').val('');
-                                $('#comision_base').val('');
-                                montoreal_base = monto_dolares.toFixed(2);
-                                $('#monto_base').val(monto_dolares);
-                             }
-                          }
-
-            });
-
-
 
     $("#typetransaccion").on("change", function() {
         // Capturar dato seleccionado
@@ -495,68 +531,30 @@ $('#monto_dolares').on('input', function() {
         // Realizar la acción deseada en función del valor seleccionado
         if (option == 'Pago Efectivo')
         {
-            $('#typetransaccion2').val(6);
-
+            $('#typetransaccion2').val(10);
+            //$('#typetransaccion2 option[value="8"]').attr('disabled', 'true');
         }
         else
         {
-            $('#typetransaccion2').val(7);
+            $('#typetransaccion2').val(8);
         }
     });
 
-    $("#wallet, #typetransaccion").change(function() {
-    var valor = $(this).val(); // Capturamos el valor del select
-    var texto = $("#wallet option:selected").text(); // Capturamos el texto del option seleccionado
-    var texto2 = $("#typetransaccion option:selected").text(); //Capturamos el texto del option tipo transacción seleccionado
 
-      $("#descripcion2").val('Recibido de  ' +texto +'/' + texto2);
-    });
-
-    $("#wallet2, #typetransaccion").change(function() {
-    var valor = $(this).val(); // Capturamos el valor del select
-    var texto = $("#wallet2 option:selected").text(); // Capturamos el texto del option seleccionado
-
-    var texto2 = $("#typetransaccion option:selected").text(); //Capturamos el texto del option tipo transacción seleccionado
-
-    //alert(tipo);
-
-        $("#descripcion").val('Entregado a ' + texto + '/' + texto2);
-
-    });
-
-
-
-        $("#typetransaccion").on("change", function() {
-            // Capturar dato seleccionado
-            var selectedValue = this.value;
-            var option = $("#typetransaccion option:selected").text();
-            // Realizar la acción deseada en función del valor seleccionado
-            if (option == 'Pago Efectivo')
-            {
-                $('#typetransaccion2').val(10);
-                //$('#typetransaccion2 option[value="8"]').attr('disabled', 'true');
-            }
-            else
-            {
-                $('#typetransaccion2').val(8);
-            }
-        });
-
-
-        $("#wallet").change(function() {
+    $("#wallet").change(function() {
         var valor = $(this).val(); // Capturamos el valor del select
         var texto = $(this).find('option:selected').text(); // Capturamos el texto del option seleccionado
 
-          $("#descripcion2").val('Recibido de cliente ' +texto);
-        });
+        $("#descripcion2").val('Recibido de cliente ' +texto);
+    });
 
-        $("#wallet2").change(function() {
+    $("#wallet2").change(function() {
         var valor = $(this).val(); // Capturamos el valor del select
         var texto = $(this).find('option:selected').text(); // Capturamos el texto del option seleccionado
 
-            $("#descripcion").val('Entregado a cliente ' +texto);
+        $("#descripcion").val('Entregado a cliente ' +texto);
 
-        });
+    });
 
 
 
