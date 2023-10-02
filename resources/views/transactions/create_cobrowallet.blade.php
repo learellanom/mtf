@@ -14,108 +14,104 @@
 @section('content')
 
 <div class="d-flex justify-content-center">
-  <div class="card col-md-5" style="min-height:500px !important; max-height:100%; height:100%; widht:100%;">
-    <div class="card-body">
+    <div class="card col-md-5" style="min-height:500px !important; max-height:100%; height:100%; widht:100%;">
+        <div class="card-body">
 
-      {!! Form::open(['route' => 'transactions.store_cobrowallet', 'autocomplete' => 'off', 'files' => true, 'enctype' =>'multipart/form-data', 'id' => 'entre']) !!}
+            {!! Form::open(['route' => 'transactions.store_cobrowallet', 'autocomplete' => 'off', 'files' => true, 'enctype' =>'multipart/form-data', 'id' => 'entre']) !!}
 
 
-              <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
-                <li class="nav-item" role="presentation">
-                  <button
-                      class="nav-link active text-uppercase font-weight-bold"
-                      id="pills-home-tab"
-                      data-toggle="pill"
-                      data-target="#pills-home"
-                      type="button"
-                      role="tab"
-                      aria-controls="pills-home"
-                      aria-selected="true">{{ __('Cobros') }}</button>
-                </li>
+                <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+                    <li class="nav-item" role="presentation">
+                    <button
+                        class="nav-link active text-uppercase font-weight-bold"
+                        id="pills-home-tab"
+                        data-toggle="pill"
+                        data-target="#pills-home"
+                        type="button"
+                        role="tab"
+                        aria-controls="pills-home"
+                        aria-selected="true">{{ __('Cobros') }}</button>
+                    </li>
 
-              </ul>
+                </ul>
 
-              <div class="tab-content" id="pills-tabContent">
-                <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+                <div class="tab-content" id="pills-tabContent">
+                    <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
 
-                    <div class="form-row">
+                        <div class="form-row">
 
-                        <div class="form-group col-md-6">
-                            {!! Form::Label('wallet2', "Caja destino (Proveedor):") !!}
-                            <div class="input-group-text col-md-12">
-                                <i class="fa-fw fas fa-random mr-2"></i>
-                            {!! Form::select('wallet2_id', $wallet2, null, ['class' => 'form-control wallet2 oculta', 'required' => true, 'id'=>'wallet2', 'readonly' => false]) !!}
+                            <div class="form-group col-md-6">
+                                {!! Form::Label('wallet2', "Caja destino (Proveedor):") !!}
+                                <div class="input-group-text col-md-12">
+                                    <i class="fa-fw fas fa-random mr-2"></i>
+                                {!! Form::select('wallet2_id', $wallet2, null, ['class' => 'form-control wallet2 oculta', 'required' => true, 'id'=>'wallet2', 'readonly' => false]) !!}
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="form-group col-md-6" >
-                            {!! Form::Label('wallet', "Caja de origen:") !!}
-                            <div class="input-group-text col-md-12">
-                                <i class="fa-fw fas fa-random mr-2"></i>
-                            {!! Form::select('wallet_id', $wallet, null, ['class' => 'form-control wallet muestra', 'required' => true, 'id'=>'wallet', 'readonly' => false]) !!}
+                            <div class="form-group col-md-6" >
+                                {!! Form::Label('wallet', "Caja de origen:") !!}
+                                <div class="input-group-text col-md-12">
+                                    <i class="fa-fw fas fa-random mr-2"></i>
+                                {!! Form::select('wallet_id', $wallet, null, ['class' => 'form-control wallet muestra', 'required' => true, 'id'=>'wallet', 'readonly' => false]) !!}
+                                </div>
                             </div>
+
                         </div>
-
-                    </div>
-
-                    <div class="form-row">
-                        <div class="form-group col-md-6">
-                            {!! Form::Label('amount', "Monto en dolares:") !!}
-                            <div class="input-group-text">
-                                <i class="fa-fw fas fas fa-funnel-dollar mr-2"></i>
-                            {!! Form::text('amount', null, ['class' => 'form-control general', 'required' => true, 'id' => 'monto_dolares']) !!}
-                            </div>
-                        </div>
-
-                        <div class="form-group col-md-6">
-                          {!! Form::Label('token', "Token:") !!}
-                          <div class="input-group-text">
-                              <i class="fa-fw fas fa-money-check-alt mr-2"></i>
-                          {!! Form::text('token',null, ['class' => 'form-control', 'placeholder' => 'Numero del Token']) !!}
-                          </div>
-                          <small class="form-text text-muted mr-4 text-right">Token no es obligatorio.</small>
-
-                      </div>
-
-                      </div>
-
-                        {!! Form::hidden('amount_total',null, ['class' => 'form-control montototal general', 'required' => true, 'min' => 0, 'id' => 'montototal', 'readonly' => true]) !!}
-
-                        {!! Form::hidden('status', 'Activo', null, ['class' => 'form-control']) !!}
-
-
-
-
-
 
                         <div class="form-row">
                             <div class="form-group col-md-6">
-                                {!! Form::Label('type_transaction_id', "Tipo de transacción:") !!}
+                                {!! Form::Label('amount', "Monto en dolares:") !!}
                                 <div class="input-group-text">
-                                    <i class="fa-fw fa fas fa-exchange-alt mr-2"></i>
-                                    {!! Form::select('type_transaction_id', $type_transaction, null, ['class' => 'form-control transaccion', 'required' => true, 'id' => 'typetransaccion' ]) !!}
+                                    <i class="fa-fw fas fas fa-funnel-dollar mr-2"></i>
+                                {!! Form::text('amount', null, ['class' => 'form-control general', 'required' => true, 'id' => 'monto_dolares']) !!}
                                 </div>
                             </div>
 
-                                <div class="form-group col-md-6">
-                                    {!! Form::Label('transaction_date', "Fecha:") !!}
-                                    <div class="input-group-text">
-                                        <i class="fa-fw fas fas fa-calendar-week mr-2"></i>
-                                    {!! Form::datetimeLocal('transaction_date', $fecha, ['class' => 'form-control', 'required' => true, 'id' => 'fecha']) !!}
-                                    </div>
-                                </div>
+                            <div class="form-group col-md-6">
+                            {!! Form::Label('token', "Token:") !!}
+                            <div class="input-group-text">
+                                <i class="fa-fw fas fa-money-check-alt mr-2"></i>
+                                {!! Form::text('token',null, ['class' => 'form-control', 'placeholder' => 'Numero del Token']) !!}
+                            </div>
 
+                            <small class="form-text text-muted mr-4 text-right">Token no es obligatorio.</small>
 
-                                    {!! Form::hidden('type_transaction2_id', null, ['class' => 'form-control transaccion','required' => true, 'id' => 'typetransaccion2']) !!}
+                        /div>
+
+                    </div>
+
+                    {!! Form::hidden('amount_total',null, ['class' => 'form-control montototal general', 'required' => true, 'min' => 0, 'id' => 'montototal', 'readonly' => true]) !!}
+
+                    {!! Form::hidden('status', 'Activo', null, ['class' => 'form-control']) !!}
+
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            {!! Form::Label('type_transaction_id', "Tipo de transacción:") !!}
+                            <div class="input-group-text">
+                                <i class="fa-fw fa fas fa-exchange-alt mr-2"></i>
+                                {!! Form::select('type_transaction_id', $type_transaction, null, ['class' => 'form-control transaccion', 'required' => true, 'id' => 'typetransaccion' ]) !!}
                             </div>
                         </div>
+
+                        <div class="form-group col-md-6">
+                            {!! Form::Label('transaction_date', "Fecha:") !!}
+                            <div class="input-group-text">
+                                <i class="fa-fw fas fas fa-calendar-week mr-2"></i>
+                            {!! Form::datetimeLocal('transaction_date', $fecha, ['class' => 'form-control', 'required' => true, 'id' => 'fecha']) !!}
+                            </div>
+                        </div>
+
+
+                        {!! Form::hidden('type_transaction2_id', null, ['class' => 'form-control transaccion','required' => true, 'id' => 'typetransaccion2']) !!}
+                    </div>
+                </div>
 
 
 
                 <div class="form-group">
 
 
-                        {{-- {!! Form::hidden('pay_number', $number,['class' => 'form-control', 'required' => true, 'readonly' => true]) !!} --}}
+                    {{-- {!! Form::hidden('pay_number', $number,['class' => 'form-control', 'required' => true, 'readonly' => true]) !!} --}}
 
                 </div>
                 <hr class="bg-dark esconder comi" style="height:1px;">
@@ -168,13 +164,9 @@
                     </div>
                 </div>
 
-
-
-
-
+                {!! Form::hidden('amount_commission_profit', null, ['class' => 'form-control general', 'id' => 'amount_commission_profit', 'readonly' => true]) !!}
 
                 <hr class="bg-dark esconder comi" style="height:1px;">
-
 
 
                 <div class="form-group">
@@ -313,67 +305,67 @@
 @section('js')
 <script>
 
-$(".typecoin").select2({
-  placeholder: "Seleccionar Moneda",
-  theme: 'bootstrap4',
-  allowClear: true,
-  width:'100%'
-});
-$("#typecoin").val("")
-$("#typecoin").trigger("change");
+    $(".typecoin").select2({
+        placeholder: "Seleccionar Moneda",
+        theme: 'bootstrap4',
+        allowClear: true,
+        width:'100%'
+    });
+    $("#typecoin").val("")
+    $("#typecoin").trigger("change");
 
-$("#typetransaccion").select2({
-  placeholder: "Selecciona tipo transferencia",
-  theme: 'bootstrap4',
-  search: false,
-  width: '100%'
-});
-$("#typetransaccion").val("")
-$("#typetransaccion").trigger("change");
+    $("#typetransaccion").select2({
+        placeholder: "Selecciona tipo transferencia",
+        theme: 'bootstrap4',
+        search: false,
+        width: '100%'
+    });
+    $("#typetransaccion").val("")
+    $("#typetransaccion").trigger("change");
 
-$('.general').inputmask({
-			alias: 'decimal',
-			allowMinus: false,
-			autoUnmask:true,
-			removeMaskOnSubmit:true,
-			rightAlign: true,
-			groupSeparator:".",
-			undoOnEscape:true,
-			insertMode:false,
-			clearIncomplete:true,
-			digits: 2,
-            autoClear: true,
-			insertMode:true, });
+    $('.general').inputmask({
+        alias: 'decimal',
+        allowMinus: true,
+        autoUnmask:true,
+        removeMaskOnSubmit:true,
+        rightAlign: true,
+        groupSeparator:".",
+        undoOnEscape:true,
+        insertMode:false,
+        clearIncomplete:true,
+        digits: 2,
+        autoClear: true,
+        insertMode:true, 
+    });
 
 
-       $(".rateMasks").attr("minlength","8");
-	   $(".rateMasks").attr("maxlength","8");
-	   $(".rateMasks").inputmask({
-			alias: 'decimal',
-			repeat: 4,
-			allowMinus: false,
-			autoUnmask:true,
-			removeMaskOnSubmit:true,
-			rightAlign: true,
-            autoClear: true,
-			groupSeparator:".",
-			undoOnEscape:true,
-			insertMode: false,
-			clearIncomplete:true,
-			digits: 7,
-			insertMode:true,
-		});
+    $(".rateMasks").attr("minlength","8");
+    $(".rateMasks").attr("maxlength","8");
+    $(".rateMasks").inputmask({
+        alias: 'decimal',
+        repeat: 4,
+        allowMinus: false,
+        autoUnmask:true,
+        removeMaskOnSubmit:true,
+        rightAlign: true,
+        autoClear: true,
+        groupSeparator:".",
+        undoOnEscape:true,
+        insertMode: false,
+        clearIncomplete:true,
+        digits: 7,
+        insertMode:true,
+    });
 
-      $('#monto_dolares').on('input', function() {
+    $('#monto_dolares').on('input', function() {
         var dolar = $('#monto_dolares').val();
         $('#montototal_base').val(dolar);
 
         $('#montototal').val(dolar);
-
-     });
+    });
 
   /* OCULTAR LA CAJA SELECCIONADA */
-  $('.muestra').select2({
+    $('.muestra').select2({
         'theme':'bootstrap4',
         search: false,
         allowClear: true,
@@ -415,16 +407,20 @@ $('.general').inputmask({
 
         if(!exonerar_base){
             if ($('#percentage_base').val() <= 0) {
-            Swal.fire('Porcentage base, no puede ser cero o menor a cero. :(');
-            return false;
+                Swal.fire('Porcentage base, no puede ser cero o menor a cero. :(');
+                return false;
+            }
         }
 
-    }
+        // console.log('amount  commission profit ->' + $('#amount_commission_profit').val());
+         // alert('funcion en mantenimiento');
+         // return false;
+
     });
- /* OCULTAR LA CAJA SELECCIONADA */
+    /* OCULTAR LA CAJA SELECCIONADA */
 
 
- $('#radio1_base').on('click', function() {
+     $('#radio1_base').on('click', function() {
         $('#percentage_base').val("");
         $('#comision_base').val("");
         $('#comision_base').attr("readonly", true);
@@ -442,14 +438,25 @@ $('.general').inputmask({
     });
 
 
-            /* CALCULO DE PORCENTAJE */
-            tasa = document.getElementById("tasa");
-            monto = document.getElementById("monto");
-            monto_dolares = document.getElementById("monto_dolares");
-            //const log = document.getElementById("montototal");
+    /* CALCULO DE PORCENTAJE */
+    tasa            = document.getElementById("tasa");
+    monto           = document.getElementById("monto");
+    monto_dolares   = document.getElementById("monto_dolares");
+    //const log = document.getElementById("montototal");
 
-            $('#monto_dolares, #percentage_base').on('input', function() {
+    $('#monto_dolares, #percentage_base').on('input', function() {
 
+        let comision_base = parseFloat($('#comision_base').val());
+        let porcentage_base = parseFloat($('#percentage_base').val());
+        let montoreal_base = parseFloat($('#monto_base').val());
+
+        let exonerar_base = $('#radio1_base').is(':checked');
+        let descontar_base = $('#radio2_base').is(':checked');
+        let incluir_base = $('#radio3_base').is(':checked');
+
+        updateMontorealBase(exonerar_base, descontar_base, incluir_base, comision_base, porcentage_base, montoreal_base);
+
+        $('#radio1_base, #radio2_base, #radio3_base').on('click', function() {
                     let comision_base = parseFloat($('#comision_base').val());
                     let porcentage_base = parseFloat($('#percentage_base').val());
                     let montoreal_base = parseFloat($('#monto_base').val());
@@ -457,76 +464,75 @@ $('.general').inputmask({
                     let exonerar_base = $('#radio1_base').is(':checked');
                     let descontar_base = $('#radio2_base').is(':checked');
                     let incluir_base = $('#radio3_base').is(':checked');
-
-                    updateMontorealBase(exonerar_base, descontar_base, incluir_base, comision_base, porcentage_base, montoreal_base);
-
-                $('#radio1_base, #radio2_base, #radio3_base').on('click', function() {
-                            let comision_base = parseFloat($('#comision_base').val());
-                            let porcentage_base = parseFloat($('#percentage_base').val());
-                            let montoreal_base = parseFloat($('#monto_base').val());
-
-                            let exonerar_base = $('#radio1_base').is(':checked');
-                            let descontar_base = $('#radio2_base').is(':checked');
-                            let incluir_base = $('#radio3_base').is(':checked');
-                     updateMontorealBase(exonerar_base, descontar_base, incluir_base, comision_base, porcentage_base, montoreal_base);
-                 });
-
-                 function updateMontorealBase(exonerar_base, descontar_base, incluir_base, comision_base, porcentage_base, montoreal_base) {
-                            let monto_dolares = parseFloat($('#monto_dolares').val());
-
-                            if(porcentage_base > 0){
-                               $('#comision_base').val((monto_dolares * (porcentage_base / 100)));
-                               comision_base = (monto_dolares * (porcentage_base / 100));
-                                //alert(comision);
-                            }
-
-
-                            if(!exonerar_base) {
-                                if(incluir_base) {
-                                 montoreal_base = (monto_dolares + comision_base).toFixed(2);
-                                $('#monto_base').val((monto_dolares + comision_base));
-                                //alert(montoreal);
-
-                                } else if(descontar_base) {
-                                    montoreal_base = (monto_dolares - comision_base).toFixed(2);
-                                $('#monto_base').val((monto_dolares - comision_base));
-                                }
-                            }
-                            else {
-                                $('#percentage_base').val('');
-                                $('#comision_base').val('');
-                                montoreal_base = monto_dolares.toFixed(2);
-                                $('#monto_base').val(monto_dolares);
-                             }
-                          }
-
-            });
-            /* CALCULO DE PORCENTAJE */
-
-        $("#typetransaccion").on("change", function() {
-            // Capturar dato seleccionado
-            var selectedValue = this.value;
-            var option = $("#typetransaccion option:selected").text();
-            // Realizar la acción deseada en función del valor seleccionado
-            if (option == 'Cobro en efectivo')
-            {
-                $('#typetransaccion2').val(12);
-            }
-            else
-            {
-                $('#typetransaccion2').val(8);
-            }
+                updateMontorealBase(exonerar_base, descontar_base, incluir_base, comision_base, porcentage_base, montoreal_base);
         });
 
-        $("#wallet, #typetransaccion").change(function() {
+        function updateMontorealBase(exonerar_base, descontar_base, incluir_base, comision_base, porcentage_base, montoreal_base) {
+            let monto_dolares               = parseFloat($('#monto_dolares').val());
+            let amount_commission_profit    = 0;
+
+            if(porcentage_base > 0){
+                $('#comision_base').val((monto_dolares * (porcentage_base / 100)));
+                comision_base = (monto_dolares * (porcentage_base / 100));
+                //alert(comision);
+            }
+
+            if (comision_base == 0) {
+                amount_commission_profit = 0;
+            }else{
+                amount_commission_profit = 0 + (comision_base * -1);
+            }
+
+
+            if(!exonerar_base) {
+                if(incluir_base) {
+                    montoreal_base = (monto_dolares + comision_base).toFixed(2);
+                $('#monto_base').val((monto_dolares + comision_base));
+                //alert(montoreal);
+
+                } else if(descontar_base) {
+                    montoreal_base = (monto_dolares - comision_base).toFixed(2);
+                $('#monto_base').val((monto_dolares - comision_base));
+                }
+            }
+            else {
+                $('#percentage_base').val('');
+                $('#comision_base').val('');
+                montoreal_base = monto_dolares.toFixed(2);
+                $('#monto_base').val(monto_dolares);
+            }
+
+            $('#amount_commission_profit').val(amount_commission_profit);
+
+        }
+
+    });
+    /* CALCULO DE PORCENTAJE */
+
+    $("#typetransaccion").on("change", function() {
+        // Capturar dato seleccionado
+        var selectedValue = this.value;
+        var option = $("#typetransaccion option:selected").text();
+        // Realizar la acción deseada en función del valor seleccionado
+        if (option == 'Cobro en efectivo')
+        {
+            $('#typetransaccion2').val(12);
+        }
+        else
+        {
+            $('#typetransaccion2').val(8);
+        }
+    });
+
+    $("#wallet, #typetransaccion").change(function() {
         var valor = $(this).val(); // Capturamos el valor del select
         var texto = $("#wallet option:selected").text(); // Capturamos el texto del option seleccionado
         var texto2 = $("#typetransaccion option:selected").text(); //Capturamos el texto del option tipo transacción seleccionado
 
-          $("#descripcion2").val('Recibido de  ' +texto +'/' + texto2);
-        });
+        $("#descripcion2").val('Recibido de  ' +texto +'/' + texto2);
+    });
 
-        $("#wallet2, #typetransaccion").change(function() {
+    $("#wallet2, #typetransaccion").change(function() {
         var valor = $(this).val(); // Capturamos el valor del select
         var texto = $("#wallet2 option:selected").text(); // Capturamos el texto del option seleccionado
 
@@ -534,13 +540,11 @@ $('.general').inputmask({
 
         //alert(tipo);
 
-            $("#descripcion").val('Entregado a ' + texto + '/' + texto2);
+        $("#descripcion").val('Entregado a ' + texto + '/' + texto2);
 
-        });
+    });
 
-
-
-/* REFERENCIAS PARA RESPALDO DE MOVIMIENTO */
+            /* REFERENCIAS PARA RESPALDO DE MOVIMIENTO */
      $("#file").fileinput({
         uploadUrl: '{{ route('transactions.store') }}'
         , language: 'es'
@@ -670,9 +674,6 @@ $('.general').inputmask({
     });
 
     /* REFERENCIAS PARA RESPALDO DE MOVIMIENTO */
-
-
-
 
 </script>
 

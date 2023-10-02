@@ -396,9 +396,6 @@
 
         $('#entre').on('submit', function() {
 
-
-
-
             var val1 = $('#wallet').val();
             var val2 = $('#wallet2').val();
             exonerar_base = $('#radio1_base').is(':checked');
@@ -466,14 +463,15 @@
             updateMontorealBase(exonerar_base, descontar_base, incluir_base, comision_base, porcentage_base, montoreal_base);
 
             $('#radio1_base, #radio2_base, #radio3_base').on('click', function() {
-                        let comision_base = parseFloat($('#comision_base').val());
-                        let porcentage_base = parseFloat($('#percentage_base').val());
-                        let montoreal_base = parseFloat($('#monto_base').val());
+                let comision_base = parseFloat($('#comision_base').val());
+                let porcentage_base = parseFloat($('#percentage_base').val());
+                let montoreal_base = parseFloat($('#monto_base').val());
 
-                        let exonerar_base = $('#radio1_base').is(':checked');
-                        let descontar_base = $('#radio2_base').is(':checked');
-                        let incluir_base = $('#radio3_base').is(':checked');
-                    updateMontorealBase(exonerar_base, descontar_base, incluir_base, comision_base, porcentage_base, montoreal_base);
+                let exonerar_base = $('#radio1_base').is(':checked');
+                let descontar_base = $('#radio2_base').is(':checked');
+                let incluir_base = $('#radio3_base').is(':checked');
+
+                updateMontorealBase(exonerar_base, descontar_base, incluir_base, comision_base, porcentage_base, montoreal_base);
             });
 
         });

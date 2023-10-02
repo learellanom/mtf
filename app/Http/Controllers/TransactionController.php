@@ -483,20 +483,21 @@ class TransactionController extends Controller
         $transactions = new Transaction;
         $number = date('YmdHis'). rand(100,200). 'T-C';
 
-        $transactions->type_transaction_id   = $request->input('type_transaction_id');
-        $transactions->group_id              = $request->input('group_id');
-        $transactions->wallet_id             = $request->input('wallet_id');
-        $transactions->amount                = $request->input('amount');
-        $transactions->amount_total_base     = $request->input('amount');
-        $transactions->amount_base           = $request->input('amount');
-        $transactions->transaction_date      = $request->input('transaction_date');
-        $transactions->description           = $request->input('description');
-        $transactions->pay_number            = $number;
-        $transactions->amount_commission     = $request->input('commission');
-        $transactions->percentage            = $request->input('percentage');
-        $transactions->exonerate             = $request->input('exonerate');
-        $transactions->amount_total          = $request->input('amount_total');
-        $transactions->user_id               = $user;
+        $transactions->type_transaction_id          = $request->input('type_transaction_id');
+        $transactions->group_id                     = $request->input('group_id');
+        $transactions->wallet_id                    = $request->input('wallet_id');
+        $transactions->amount                       = $request->input('amount');
+        $transactions->amount_total_base            = $request->input('amount');
+        $transactions->amount_base                  = $request->input('amount');
+        $transactions->transaction_date             = $request->input('transaction_date');
+        $transactions->description                  = $request->input('description');
+        $transactions->pay_number                   = $number;
+        $transactions->amount_commission            = $request->input('commission');
+        $transactions->percentage                   = $request->input('percentage');
+        $transactions->exonerate                    = $request->input('exonerate');
+        $transactions->amount_total                 = $request->input('amount_total');
+        $transactions->amount_commission_profit     = $request->input('amount_commission_profit');
+        $transactions->user_id                      = $user;
 
         $transactions->save();
 
@@ -504,20 +505,20 @@ class TransactionController extends Controller
 
         $transactions2 = new Transaction;
 
-        $transactions2->type_transaction_id   = $request->input('type_transaction2_id');
-        $transactions2->group_id              = $request->input('group2_id');
-        $transactions2->wallet_id             = $request->input('wallet2_id');
-        $transactions2->amount                = $request->input('amount');
-        $transactions2->amount_total_base     = $request->input('amount');
-        $transactions2->amount_base           = $request->input('amount');
-        $transactions2->transaction_date      = $request->input('transaction_date');
-        $transactions2->description           = $request->input('description2');
-        $transactions2->pay_number            = $number;
-        $transactions2->amount_commission     = 0;
-        $transactions2->percentage            = 0;
-        $transactions2->exonerate             = 2;
-        $transactions2->amount_total          = $request->input('amount');
-        $transactions2->user_id               = $user;
+        $transactions2->type_transaction_id         = $request->input('type_transaction2_id');
+        $transactions2->group_id                    = $request->input('group2_id');
+        $transactions2->wallet_id                   = $request->input('wallet2_id');
+        $transactions2->amount                      = $request->input('amount');
+        $transactions2->amount_total_base           = $request->input('amount');
+        $transactions2->amount_base                 = $request->input('amount');
+        $transactions2->transaction_date            = $request->input('transaction_date');
+        $transactions2->description                 = $request->input('description2');
+        $transactions2->pay_number                  = $number;
+        $transactions2->amount_commission           = 0;
+        $transactions2->percentage                  = 0;
+        $transactions2->exonerate                   = 2;
+        $transactions2->amount_total                = $request->input('amount');
+        $transactions2->user_id                     = $user;
         $transactions2->save();
 
          flash()->addSuccess('Movimiento guardado', 'Transacción entre clientes :D', ['timeOut' => 3000]);
@@ -581,6 +582,10 @@ class TransactionController extends Controller
 
     public function store_cobrowallet(Request $request)
     {
+
+
+        // 02-10-2023 se desincorpora el cobrod e la comision base  para nmo descuadrar el commission profit
+        
         $user = Auth::id();
         $transactions = new Transaction;
         $number = date('YmdHis'). rand(100,200). 'C-G';
@@ -594,11 +599,12 @@ class TransactionController extends Controller
         $transactions->description              = $request->input('description');
         $transactions->pay_number               = $number;
         $transactions->token                    = $request->input('token');
-        $transactions->amount_commission_base   = $request->input('amount_commission_base');
-        $transactions->percentage_base          = $request->input('percentage_base');
-        $transactions->exonerate_base           = $request->input('exonerate_base');
+        // $transactions->amount_commission_base   = $request->input('amount_commission_base');
+        // $transactions->percentage_base          = $request->input('percentage_base');
+        // $transactions->exonerate_base           = $request->input('exonerate_base');
         $transactions->amount_base              = $request->input('amount');
         $transactions->amount_total_base        = $request->input('amount_total_base');
+        // $transactions->amount_commission_profit = $request->input('amount_commission_profit');
         $transactions->user_id                  = $user;
 
         $transactions->save();
@@ -616,11 +622,12 @@ class TransactionController extends Controller
         $transactions2->description             = $request->input('description2');
         $transactions2->pay_number              = $number;
         $transactions2->token                   = $request->input('token');
-        $transactions2->amount_commission_base  = $request->input('amount_commission_base');
-        $transactions2->percentage_base         = $request->input('percentage_base');
-        $transactions2->exonerate_base          = $request->input('exonerate_base');
+        // $transactions2->amount_commission_base  = $request->input('amount_commission_base');
+        // $transactions2->percentage_base         = $request->input('percentage_base');
+        // $transactions2->exonerate_base          = $request->input('exonerate_base');
         $transactions2->amount_base             = $request->input('amount');
         $transactions2->amount_total_base       = $request->input('amount_total_base');
+        // $transactions2->amount_commission_profit = $request->input('amount_commission_profit');        
         $transactions2->user_id                 = $user;
         $transactions2->save();
 
