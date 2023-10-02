@@ -733,7 +733,8 @@
         let percentage_base             = $('#percentage_base').val()   != "" ? parseFloat($('#percentage_base').val())     : 0;
         console.log('Porcentaje base : ' + percentage_base);
         let exchange_rate_base          = $('#tasa_base').val()         != "" ? parseFloat($('#tasa_base').val())           : 0;
-        
+        console.log('Porcentaje base : ' + exchange_rate_base);
+
         let exonerar                    = $('#radio1').is(':checked');
         let descontar                   = $('#radio2').is(':checked');
         let incluir                     = $('#radio3').is(':checked');
@@ -747,7 +748,7 @@
         let amount_commission           = 0;        
         let amount_commission_base      = 0; 
 
-        let amount_total                = 0  
+        let amount_total                = 0;
         let amount_total_base           = 0;
 
         let amount_commission_profit    = 0;
@@ -777,6 +778,7 @@
                 myTypeCommission = 2;
             }
         }
+        console.log('myTypeCommission ' + myTypeCommission);
         //
         //
         //
@@ -816,19 +818,19 @@
             }
 
             
-            switch(myCommission){
-                case 1: // incluir
-                    amount_total = amount + amount_commission;
-                    break;
-                case 2: // exonerar
-                    amount_total = amount;
-                    break;
-                case 3: // descontar
-                    amount_total = amount - amount_commission;
-                    break;
-                default:
-                    break;
-            }
+                switch(myCommission){
+                    case 1: // incluir
+                        amount_total = amount + amount_commission;
+                        break;
+                    case 2: // exonerar
+                        amount_total = amount;
+                        break;
+                    case 3: // descontar
+                        amount_total = amount - amount_commission;
+                        break;
+                    default:
+                        break;
+                }
 
             if (percentage_base > 0){
                 amount_base                 = amount;
@@ -841,6 +843,8 @@
                 amount_total_base           = amount;            
                 amount_commission_profit    = amount_commission;
             }
+
+
 
             // 1 incluir
             // 2 exonerar
@@ -893,6 +897,10 @@
                 amount_commission_profit    = 0;
             }
 
+            console.log('pasa');
+                    amount_total = amount;
+
+                    
             // 1 incluir
             // 2 exonerar
             // 3 descontar

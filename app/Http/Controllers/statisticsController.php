@@ -332,6 +332,7 @@ class statisticsController extends Controller
                 'Transactions.id                        as Id',
                 'Transactions.amount_foreign_currency   as MontoMoneda',
                 'Transactions.exchange_rate             as TasaCambio',
+                'Transactions.exchange_rate_base        as TasaCambioBase',
                 'Transactions.type_coin_id              as TipoMonedaId',
                 'type_coins.name                        as TipoMoneda',
                 'users.name                             as AgenteName',
@@ -340,6 +341,7 @@ class statisticsController extends Controller
                 'Transactions.percentage                as PorcentajeComision',
                 'Transactions.amount_commission         as MontoComision',
                 'Transactions.amount_total_base         as MontoTotalBase',
+                'Transactions.amount_base               as MontoBase',
                 'Transactions.percentage_base           as PorcentajeComisionBase',
                 'Transactions.amount_commission_base    as MontoComisionBase',
                 'Transactions.type_transaction_id       as TransactionId',
@@ -407,6 +409,7 @@ class statisticsController extends Controller
                     wallets.name                           as WalletName,
                     transactions.description               as Descripcion,
                     transactions.transaction_date          as FechaTransaccion,
+                    transactions.group_id                  as ClienteId,
                     mtf.groups.name                        as ClientName,
                     transactions.token                     as token
                 from
@@ -426,7 +429,6 @@ class statisticsController extends Controller
                 order by
                     Transactions.transaction_date ASC
                 limit 3000
-
             ";
     
             // dd($myQuery);

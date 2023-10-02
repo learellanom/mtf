@@ -5,7 +5,7 @@
     <h1 class="text-center text-dark font-weight-bold">{{ __('NUEVA TRANSACCION 2     ') }} <i class="fas fa-exchange-alt"></i> </h1></a>
 
 
-@stop
+@endsection
 
 
 @section('content')
@@ -14,7 +14,12 @@
     <div class="card col-md-7 movi" style="min-height: 500px !important; max-height:100%; height:100%; widht:100%"">
         <div class="card-body">
 
-            {!! Form::open(['route' => 'transactions.store', 'autocomplete' => 'on', 'files' => true, 'enctype' =>'multipart/form-data', 'id' => 'entre']) !!}
+            {!! Form::open([
+                    'route' => 'transactions.store', 
+                    'autocomplete' => 'on', 
+                    'files' => true, 
+                    'enctype' => 'multipart/form-data', 
+                    'id' => 'entre']) !!}
 
             <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
                 <li class="nav-item" role="presentation">
@@ -77,6 +82,9 @@
                         </div>
 
 
+                        {{-- Monto en moneda extranjera --}}
+
+
                         <div class="form-group col-md-4">
 
                             {!! Form::Label('monto', "Monto en moneda extranjera:") !!}
@@ -87,32 +95,35 @@
 
                         </div>
 
+
                     </div>
+
 
                     <div class="form-row">
 
-                        
+                        {{-- Monto en dorales ajax --}}
+                        {{--
                         <div class="form-group col-md-4">
 
-                            {!! Form::Label('mymonto_dorales', "Monto :") !!}
+                            {!! Form::Label('', "Monto :") !!}
                             <div class="input-group-text">
                                 <i class="fa-fw fas fa-coins mr-2"></i>
-                                {!! Form::text('amount',null, ['class' => 'form-control general',  'required' => true, 'id' => 'mymonto_dorales', 'step' => 'any']) !!}
+                                {!! Form::text('amount', null, ['class' => 'form-control general',  'required' => true, 'id' => 'mymonto_dorales']) !!}
                                 
                             </div>
 
                         </div>
-
-
-                        {{--
+                        --}}
                         <div class="form-group col-md-4">
-                            <label>Monto en dorales:</label>
+
+                            {!! Form::Label('mymonto_dorales', "Monto en moneda extranjera:") !!}
                             <div class="input-group-text">
-                                <i class="fa-fw fas fas fa-funnel-dollar mr-2"></i>
-                                <input class="  " type="text" id="mymonto_dorales" name="amount" disabled/>
+                                <i class="fa-fw fas fa-coins mr-2"></i>
+                            {!! Form::text('amount',null, ['class' => 'form-control general', 'required' => true, 'id' => 'mymonto_dorales', 'readonly' => true]) !!}
                             </div>
+
                         </div>
-                            --}}
+
                         <div class="form-group col-md-4">
                             {!! Form::Label('fecha', "Fecha:") !!}
                             <div class="input-group-text">
@@ -146,16 +157,14 @@
 
                 <div class="form-row esconder comi">
 
-
-                    {{-- Porcentaje --}}
-
                 
+                    {{-- Porcentaje --}}
+        
                     <div class="form-group col-md-6">
-                        {!! Form::Label('percentage', "Porcentaje:") !!}
+                        {!! Form::Label('', "Porcentaje:") !!}
                         <div class="input-group-text">
                             <i class="fa-fw fas fa-percentage mr-2"></i>
-                        {{-- {!! Form::text('percentage',null, ['class' => 'form-control percentage rateMasks', 'required' => true, 'id' => 'percentage']) !!} --}}
-                        {!! Form::text('percentage',null, ['class' => 'form-control percentage rateMasks myClass', 'required' => true, 'id' => '']) !!}
+                            {!! Form::text('percentage',null, ['class' => 'form-control rateMasks', 'required' => 'true', 'id' => 'percentage']) !!}
                         </div>
                     </div>
 
@@ -218,13 +227,21 @@
 
                 <div class="form-row esconder">
 
+
+                    {{-- Porcentaje base --}}
+
                     <div class="form-group col-md-12 tasa">
-                        {!! Form::Label('percentage_base', "Porcentaje Base:") !!}
+                        {!! Form::Label('', "Porcentaje Base:") !!}
                         <div class="input-group-text">
                             <i class="fa-fw fas fa-percentage mr-2"></i>
                         {!! Form::text('percentage_base',null, ['class' => 'form-control percentage_base rateMasks', 'id' => 'percentage_base']) !!}
                         </div>
                     </div>
+
+
+                    {{-- --}}
+
+
                     <div class="form-group col-md-12 base" style="display:none;">
                         {!! Form::Label('tasa_base', "Tasa base:") !!}
                         <div class="input-group-text">
@@ -579,14 +596,7 @@
         insertMode:true,
     });
 
-    
-    $('#monto_dolares').on('input', function() {
-        var input1Value = $('#monto_dolares').val();
-        //$('#montototal').val(input1Value);
-        $('#montototal_base').val(input1Value);
-        //$('#monto_extranjera_base').val(input1Value);
-     });
-     
+
 
     $(document).ready(function() {
         
@@ -601,9 +611,10 @@
             transferencia   = $("#typetrasnferencia option:selected").text();
 
             
-            // $('#amount_commission_profit').val(-666);
+            // alert('mymonto_dorales' + $("#mymonto_dorales").attr("readonly"));
+
             // alert('amount_commission_profit antres de mandar -> ' + $('#amount_commission_profit').val());
-            alert('percentage ->' + $('.myClass').val());
+            // alert('percentage ->' + $('.myClass').val());
             console.log('amount_commission_profit antres de mandar -> ' + $('#amount_commission_profit').val());
 
             if (transferencia === 'Nota de debito' || transferencia === 'Nota de credito'){
@@ -644,7 +655,7 @@
         * 
         */
         $('#entre').on('input', function (){
-            // alert('cambio');
+            // alert('cambio form');
             // alert('amount con jquery ->' + $('#mymonto_dorales').val());
             
             calcula();
@@ -685,16 +696,16 @@
 
 
         $('#typecoin').on('change', function() {
-
-            // alert('cambia typecoin -> ' + $('#mymonto_dolares').prop('readonly'));
+            // ajax
+             alert('cambia typecoin -> ' + $('#typecoin').val() + ' ' + JSON.stringify($("#mymonto_dolares")));
 
             if ($('#typecoin').val() == 1) {
-                // alert('aqui');
+                alert('aqui');
 
                 $('#tasa').prop("readonly", true);
                 $('#monto').prop("readonly", true);
+                $('#mymonto_dolares').prop("readonly", false);
                 
-                $('#mymonto_dolares').removeAttr("readonly");
 
             } else if ($('#typecoin').val() == null)
             {
@@ -702,11 +713,11 @@
 
                 $('#tasa').attr("readonly", true);
                 $('#monto').attr("readonly", true);
-                $('#mymonto_dolares').attr('readonly', true);
+                
 
                 $('#tasa').val("");
                 $('#monto').val("");
-                $('#mymonto_dolares').val("");
+                
 
                 $('#monto_extranjera_base').val("");
 
@@ -718,6 +729,8 @@
 
                 $('#tasa').prop("readonly", false);
                 $('#monto').prop("readonly", false);
+                
+
                 $('#mymonto_dolares').prop("readonly", true);
                 
             }
@@ -1030,19 +1043,17 @@
     });
 
     function calcula(){
-        // alert('calcula ----');
 
         let type_coin_id                = $('#typecoin').val()          != "" ? $('#typecoin').val()                        : 0; // tipo de moneda
-        let exchange_rate               = $('#tasa').val()              != "" ? parseFloat($('#tasa').val())                : 0;
-        let amount_foreign_currency     = $('#monto').val()             != "" ? parseFloat($('#monto').val())               : 0;  // amount_foreign_currency - monto moneda extranjera
-        let amount                      = $('#mymonto_dorales').val()     != "" ? parseFloat($('#mymonto_dorales').val())       : 0;
-
+        let exchange_rate               = $('#tasa').val()              == "" ? 0 : parseFloat($('#tasa').val());
+        let amount_foreign_currency     = $('#monto').val()             == "" ? 0 : parseFloat($('#monto').val());  // amount_foreign_currency - monto moneda extranjera
+        let amount                      = $('#mymonto_dorales').val()   == "" ? 0 : parseFloat($('#mymonto_dorales').val());
         let percentage                  = $('#percentage').val()        != "" ? parseFloat($('#percentage').val())          : 0;
         //    percentage                  = $('#mipercentage').val()        != "" ? parseFloat($('#mipercentage').val())          : 0;
        //  alert('percentage -> ' + percentage);
         let percentage_base             = $('#percentage_base').val()   != "" ? parseFloat($('#percentage_base').val())     : 0;
         
-        let exchange_rate_base          = $('#tasa_base').val()         != "" ? parseFloat($('#tasa_base').val())           : 0;
+        let exchange_rate_base          = $('#tasa_base').val()         == "" ? 0 : parseFloat($('#tasa_base').val());
         
         let exonerar                    = $('#radio1').is(':checked');
         let descontar                   = $('#radio2').is(':checked');
@@ -1078,15 +1089,18 @@
         //
         // si la transaccion no es en dorales recalcula el amount
         //
+        if (type_coin_id == 0) {
+            return;
+        }
         if (type_coin_id != 1) {
-            // alert('no es dorales');
-            amount = amount_foreign_currency / exchange_rate;
-
+            if (exchange_rate != 0){
+                amount = amount_foreign_currency / exchange_rate;
+            }
         }
         //
         // determina el tipo de comision
         //
-        let myTypeCommission = 1;
+        let myTypeCommission = 0;
 
         if (percentage > 0 || percentage_base > 0){
             myTypeCommission = 1;
@@ -1259,8 +1273,11 @@
         
         console.log('llega con amount commission ->' + amount_commission);
         console.log ('la comision es ->' + amount_commission_profit); 
+        
+        if (type_coin_id != 1) {
+            $('#mymonto_dorales').val(parseFloat(amount));
+        }
 
-        $('#mymonto_dorales').val(amount);
         $('#monto_extranjera_base').val(amount_base);
         
         $('#comision').val(amount_commission);
@@ -1272,8 +1289,8 @@
          $('#tasa').val(exchange_rate);
          $('#tasa_base').val(exchange_rate_base );
 
-         $('#percentage').val(percentage);
-         $('#percentage_base').val(percentage_base);
+         // $('#percentage').val(percentage);
+         // $('#percentage_base').val(percentage_base);
 
          //alert('amount commission profit en $ ->' + $('#amount_commission_profit').val());
          //alert('calculo ->' + (1-4));

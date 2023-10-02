@@ -126,7 +126,7 @@ class TransactionController extends Controller
         $user               = User::pluck('name', 'id');
         $fecha              = Carbon::now();
 
-        if (auth()->id() == 2){
+        if (auth()->id() == 99){
             return view('transactions.create2', compact('type_coin', 'type_transaction', 'wallet', 'group', 'user', 'transaction', 'fecha'));
             
         }
@@ -192,12 +192,11 @@ class TransactionController extends Controller
     {
         // dd($request->all());
         // $myRequest = $request;
-        $request2                   = clone $request;
-        $request2->amount_commission_profit = -666;
+
         // \Log::info('request2 -> ' . $request2->all());
         // \Log::info('request  -> ' . $request->all());
 
-         $transaction = Transaction::create($request->all() );
+        $transaction = Transaction::create($request->all() );
 
         $files = [];
         if($request->hasFile('file')){

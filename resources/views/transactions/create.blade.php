@@ -274,7 +274,13 @@
 
                 {{-- {!! Form::hidden('amount_commission_profit', 333, ['class' => 'form-control', 'id' => 'amount_commission_profit']) !!} --}}
 
-                {!! Form::hidden('amount_commission_profit', null, ['class' => 'form-control general','id' => 'amount_commission_profit', 'readonly' => true ]) !!}
+                <div class="form-group">
+                    {!! Form::Label('amount_commission_profit', "Monto comision ganancia:") !!}
+                    <div class="input-group-text">
+                        {!! Form::text('amount_commission_profit', null, ['class' => 'form-control general','id' => 'amount_commission_profit', 'readonly' => true ]) !!}
+                    </div>
+                </div>
+
 
                 <div class="form-group">
                     {!! Form::Label('description', "Descripción:") !!}
@@ -527,7 +533,6 @@
 
     $('.general').inputmask({
         alias: 'decimal',
-        allowMinus: false,
         autoUnmask:true,
         removeMaskOnSubmit:true,
         rightAlign: true,
