@@ -221,6 +221,14 @@
                     <th ></th>
                     <th ></th>
                     <th ></th>
+                    <th colspan="6" style="text-align:center; background-color: {{$myBackGroundColor}}; color: #ffffff; font-weight: bolder; font-size: 15px; text-transform: uppercase; width:300px;">
+                        {{  $myWalletName }}
+                    </th>
+                </tr>
+                <tr>
+                    <th ></th>
+                    <th ></th>
+                    <th ></th>
                     <th colspan="2" style="text-align:center; background-color: {{$myBackGroundColor}}; color: #ffffff; font-weight: bolder; font-size: 15px; text-transform: uppercase; width:300px;">
                         Saldo total: {{ number_format($balance,2)}}
                     </th>
@@ -228,8 +236,6 @@
                     <th colspan="2" style="text-align:center; background-color: {{$myBackGroundColor}}; color: #ffffff; font-weight: bolder; font-size: 15px; text-transform: uppercase; width:300px;">
                         Saldo al corte:  {{ number_format($balanceDetail,2) }}
                     </th>
-
-                    
                 </tr>
                 <tr>
                     @if($fechaDesde != "2001-01-01")
@@ -357,14 +363,14 @@
                             <th></th>
                             <th></th>
                             <th></th>
-                            <th colspan="4" style="text-align:center; background-color: {{$myBackGroundColor}}; color: #ffffff; font-weight: bolder; font-size: 15px; text-transform: uppercase; width:300px;">{{ $summary_row->WalletName}}</th>
+                            <th colspan="7" style="text-align:center; background-color: {{$myBackGroundColor}}; color: #ffffff; font-weight: bolder; font-size: 15px; text-transform: uppercase; width:300px;">{{ $summary_row->WalletName}}</th>
                         </tr>   
                         <tr>
                             @if($fechaDesde != "2001-01-01")
                                 <th></th>
                                 <th></th>
                                 <th></th>
-                                <th colspan="4" style="text-align:center; background-color: {{$myBackGroundColor}}; color: #ffffff; font-weight: bolder; font-size: 15px; text-transform: uppercase; width:300px;">
+                                <th colspan="7" style="text-align:center; background-color: {{$myBackGroundColor}}; color: #ffffff; font-weight: bolder; font-size: 15px; text-transform: uppercase; width:300px;">
                                     Fecha desde: {{ $fechaDesde }}   |      Fecha Hasta:  {{ $fechaHasta }}
                                 </th>
 
@@ -372,7 +378,7 @@
                                 <th></th>
                                 <th></th>
                                 <th></th>                                                
-                                <th colspan="4" style="text-align:center; background-color: {{$myBackGroundColor}}; color: #ffffff; font-weight: bolder; font-size: 15px; text-transform: uppercase; width:300px;">
+                                <th colspan="7" style="text-align:center; background-color: {{$myBackGroundColor}}; color: #ffffff; font-weight: bolder; font-size: 15px; text-transform: uppercase; width:300px;">
                                     a la Fecha:  {{ date('d-m-Y') }}
                                 </th>
 
@@ -382,7 +388,7 @@
                             <th></th>
                             <th></th>
                             <th></th>
-                            <th colspan="4" style="text-align:center; background-color: {{$myBackGroundColor}}; color: #ffffff; font-weight: bolder; font-size: 15px; text-transform: uppercase; width:300px;">{{ $summary_row->TypeTransaccionName}}</th>
+                            <th colspan="7" style="text-align:center; background-color: {{$myBackGroundColor}}; color: #ffffff; font-weight: bolder; font-size: 15px; text-transform: uppercase; width:300px;">{{ $summary_row->TypeTransaccionName}}</th>
                         </tr>
                         <tr>
                             <th></th>
@@ -391,7 +397,10 @@
                             <th style="background-color: {{$myBackGroundColor}}; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:200px;">Grupo</th>
                             <th style="background-color: {{$myBackGroundColor}}; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:200px;">Transacción</th>
                             <th style="background-color: {{$myBackGroundColor}}; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:150px;">Cant transacción</th>
-                            <th style="background-color: {{$myBackGroundColor}}; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:200px;">Monto transacción</th>
+                            <th style="background-color: {{$myBackGroundColor}}; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:200px;">Monto Comision</th>
+                            <th style="background-color: {{$myBackGroundColor}}; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:200px;">Monto Comision Base</th>
+                            <th style="background-color: {{$myBackGroundColor}}; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:200px;">Monto Comision Exchange</th>
+                            <th style="background-color: {{$myBackGroundColor}}; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:200px;">Monto Comision Ganancia</th>                            
                         </tr>
                     </thead>
 
@@ -406,7 +415,10 @@
                                 <td>{{ $groupsummary_row->GroupName }}</td>
                                 <td>{{ $groupsummary_row->TypeTransaccionName }}</td>
                                 <td>{{ $groupsummary_row->cant_transactions }}</td>
-                                <td>{{ $groupsummary_row->total_amount }}</td>
+                                <td>{{ $groupsummary_row->total_commission }}</td>
+                                <td>{{ $groupsummary_row->total_amount_commission_base }}</td>
+                                <td>{{ $groupsummary_row->exchange_profit }}</td>
+                                <td>{{ $groupsummary_row->total_commission_profit }}</td>
                             </tr>
 
                         @endif
@@ -419,7 +431,10 @@
                         <td style="background-color: {{$myBackGroundColor}}; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:200px;"></td>
                         <td style="background-color: {{$myBackGroundColor}}; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:200px;"></td>
                         <td style="background-color: {{$myBackGroundColor}}; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:200px;">{{ $summary_row->cant_transactions }}</td>
-                        <td style="background-color: {{$myBackGroundColor}}; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:200px;">{{ $summary_row->total_amount }}</td>
+                        <td style="background-color: {{$myBackGroundColor}}; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:200px;">{{ $summary_row->total_commission }}</td>
+                        <td style="background-color: {{$myBackGroundColor}}; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:200px;">{{ $summary_row->total_amount_commission_base }}</td>
+                        <td style="background-color: {{$myBackGroundColor}}; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:200px;">{{ $summary_row->exchange_profit }}</td>
+                        <td style="background-color: {{$myBackGroundColor}}; color: #ffffff; font-weight: bolder; font-size: 13px; text-transform: uppercase; width:200px;">{{ $summary_row->total_commission_profit }}</td>
                     </tr>              
                     <hr>
 

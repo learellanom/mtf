@@ -576,9 +576,23 @@ class HomeController extends Controller
         $ocultarresumengeneral          = $request->ocultarresumengeneral;
         $ocultarresumentransaccion      = $request->ocultarresumentransaccion;
         $transactions                   = $request->transactions;
+
         
+
+        $wallets        = app(statisticsController::class)->getWallet();
+        $myWallet       = $wallet;
+        $myWalletName   = "";
+        if ($myWallet != 0){
+            foreach($wallets as $key => $value){
+                if($myWallet == $key){
+                    $myWalletName = $value;
+                }
+            }
+        }
+
+
         //dd($balanceDetail);
-        return Excel::download(new DashboardExportComisiones($wallet_summary, $wallet_groupsummary, $transaction_summary, $transaction_group_summary, $balance, $balanceDetail, $fechaDesde, $fechaHasta, $ocultarresumengeneral, $ocultarresumentransaccion, $transactions), 'Estadisticas por Caja.xlsx');
+        return Excel::download(new DashboardExportComisiones($wallet_summary, $wallet_groupsummary, $transaction_summary, $transaction_group_summary, $balance, $balanceDetail, $fechaDesde, $fechaHasta, $ocultarresumengeneral, $ocultarresumentransaccion, $transactions, $myWallet, $myWalletName), 'Estadisticas Comisiones.xlsx');
 
     }
 
@@ -748,6 +762,119 @@ class HomeController extends Controller
 
     public function exportPDF(request $request){
 
+        $wallet_summary             = app(statisticsController::class)->getwalletTransactionSummary($request);
+
+        $request2                   = clone $request;
+        $request2->transaction      = 0;
+        $wallet_summary             = app(statisticsController::class)->getwalletTransactionSummary($request2);
+
+        $wallet_groupsummary        = app(statisticsController::class)->getWalletTransactionGroupSummary($request);
+        // dd($wallet_groupsummary);
+        $wallet                     = app(statisticsController::class)->getWallet();
+        // dd($wallet);
+        $typeTransactions           = app(statisticsController::class)->getTypeTransactions();
+
+
+        $request3                   = clone $request;
+        $request3->transaction      = 0;
+        $transaction_summary        = app(statisticsController::class)->getTransactionSummary($request3);
+
+        $request4                   = clone $request;
+        $transaction_group_summary  = app(statisticsController::class)->getTransactionGroupSummary($request4);
+
+        // dd($transaction_summary);
+
+
+        /* MANTENER VALOR BUSCADO EN EL URL */
+        $myWalletDesde   = 0;
+        $myWalletHasta   = 9999;
+        $myWallet        = 0;
+        if ($request->wallet){
+            $myWalletDesde   = $request->wallet;
+            $myWalletHasta   = $request->wallet;
+            $myWallet        = $request->wallet;
+        }
+        $myTypeTransaction      = 0;
+        $myTypeTransactionDesde = 0;
+        $myTypeTransactionHasta = 9999;
+        if ($request->transaction) {
+            $myTypeTransaction      = $request->transaction;
+            $myTypeTransactionDesde = $request->transaction;
+            $myTypeTransactionHasta = $request->transaction;
+
+        }
+
+        $myFechaDesde = "2001-01-01";
+        $myFechaHasta = "9999-12-31";
+
+        $myFechaDesde2 = "2001-01-01";
+        $myFechaHasta2 = "9999-12-31";
+
+        if ($request->fechaDesde){
+            $myFechaDesde = $request->fechaDesde;
+            $myFechaHasta = $request->fechaHasta;
+
+            $myFechaDesde2 = $myFechaDesde . " 00:00:00";
+            $myFechaHasta2 = $myFechaHasta . " 12:59:00";
+        }
+
+        if ($request->fechaHasta){
+            $myFechaHasta = $request->fechaHasta;
+            $myFechaHasta2 = $myFechaHasta . " 12:59:00";
+            /* MANTENER VALOR BUSCADO EN EL URL */
+        }
+
+
+
+        $balance = 0;
+
+        if ($myWallet > 0){
+            $balance2 = app(statisticsController::class)->getBalanceWallet($myWallet);
+            if(isset($balance2->Total)){
+                $balance  = $balance2->Total;
+            }
+            // $balance = $this->getBalancemyWallet($myWallet, $myFechaDesde, $myFechaHasta);
+        };
+
+       // dd($myFechaDesde);
+        $balanceDetail      = 0;
+        $myFechaDesdeBefore = "2001-01-01";
+        $myFechaHastaBefore = "9999-12-31";
+        $balance3 = 0;
+
+        $balanceDetail = 0;
+        if ($myWallet > 0){
+            // dd($indRecibeFecha);
+            if ($myFechaDesde != "2001-01-01"){
+                $myFechaHastaBefore = app(statisticsController::class)->getDayBefore($myFechaDesde);
+            }
+
+            $balanceDetail           = app(statisticsController::class)->getBalanceWalletBefore($myWallet, $myFechaDesde, $myFechaHasta);
+
+        };
+
+        $parametros['transaction_group_summary']    = $transaction_group_summary;        
+        $parametros['transaction_summary']          = $transaction_summary;  
+        $parametros['wallet_summary']               = $wallet_summary;
+        $parametros['wallet_groupsummary']          = $wallet_groupsummary;
+        $parametros['wallet']                       = $wallet;
+        $parametros['typeTransactions']             = $typeTransactions;
+        $parametros['myWallet']                     = $myWallet;
+        $parametros['myTypeTransaction']            = $myTypeTransaction;      
+        $parametros['myFechaDesde']                 = $myFechaDesde;
+        $parametros['myFechaHasta']                 = $myFechaHasta;
+        $parametros['balanceDetail']                = $balanceDetail;
+        $parametros['myFechaDesdeBefore']           = $myFechaDesdeBefore;
+        $parametros['myFechaHastaBefore']           = $myFechaHastaBefore;
+        $parametros['balance']                      = $balance;
+        
+        $pdf = \PDF::loadView('dashboardest22', $parametros);
+        return $pdf->download('Estadisticas.pdf');
+
+    }
+
+    public function exportPDFComisiones(request $request){
+
 
         $wallet_summary             = app(statisticsController::class)->getwalletTransactionSummary($request);
 
@@ -841,6 +968,20 @@ class HomeController extends Controller
 
         };
 
+
+        $wallets        = app(statisticsController::class)->getWallet();
+        
+        $myWalletName   = "";
+        if ($myWallet != 0){
+            foreach($wallets as $key => $value){
+                if($myWallet == $key){
+                    $myWalletName = $value;
+                }
+            }
+        }
+
+
+
         $parametros['transaction_group_summary']    = $transaction_group_summary;        
         $parametros['transaction_summary']          = $transaction_summary;  
         $parametros['wallet_summary']               = $wallet_summary;
@@ -855,9 +996,16 @@ class HomeController extends Controller
         $parametros['myFechaDesdeBefore']           = $myFechaDesdeBefore;
         $parametros['myFechaHastaBefore']           = $myFechaHastaBefore;
         $parametros['balance']                      = $balance;
+        $parametros['myWalletName']                 = $myWalletName;
         
-        $pdf = \PDF::loadView('dashboardest22', $parametros);
-        return $pdf->download('Estadisticas.pdf');
+         $pdf = \PDF::loadView('dashboardComisionesPDF', $parametros);
+         return $pdf->download('EstadisticasComisiones.pdf');
+
+
+        // $pdf = \PDF::loadView('dashboardest22', $parametros);
+        // return $pdf->download('Estadisticas.pdf');
+
+
     }
 
 }

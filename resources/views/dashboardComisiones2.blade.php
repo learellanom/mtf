@@ -1640,7 +1640,7 @@ $config4 = [
 
         // href={{route('exports.excel', [$myWallet, $myFechaDesde, $myFechaHasta])}}
 
-        myRoute = "{{route('exports.EstadisticaPDF', ['wallet' => 'wallet2', 'transaction' => 'transaction2', 'fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2', 'ocultarresumengeneral' => 'ocultarresumengeneral2', 'ocultarresumentransaccion' => 'ocultarresumentransaccion2', 'transactions' => 'transactions2'])}}"
+        myRoute = "{{route('exports.EstadisticaComisionesPDF', ['wallet' => 'wallet2', 'transaction' => 'transaction2', 'fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2', 'ocultarresumengeneral' => 'ocultarresumengeneral2', 'ocultarresumentransaccion' => 'ocultarresumentransaccion2', 'transactions' => 'transactions2'])}}"
                             
         myRoute = myRoute.replace('wallet2',                        wallet);
         myRoute = myRoute.replace('transaction2',                   transaction);

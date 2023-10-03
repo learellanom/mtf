@@ -94,6 +94,16 @@ Route::get('dashboardest/exportpdf/{wallet?}/{transaction?}/{fechaDesde?}/{fecha
             [App\Http\Controllers\HomeController::class, 'exportPDF'])->name('exports.EstadisticaPDF'); //EXPORTACIÓN DE PDF
 
 
+Route::get('dashboardest/exportcomisionespdf/',                
+            [App\Http\Controllers\HomeController::class, 'exportPDFComisiones'])->name('exports.EstadisticaComisionesPDF'); //EXPORTACIÓN DE PDF
+Route::get('dashboardest/exportcomisionespdf/{wallet}',                   
+            [App\Http\Controllers\HomeController::class, 'exportPDFComisiones'])->name('exports.EstadisticaComisionesPDF'); //EXPORTACIÓN DE PDF
+Route::get('dashboardest/exportcomisionespdf/{wallet}/{transaction?}/',   
+            [App\Http\Controllers\HomeController::class, 'exportPDFComisiones'])->name('exports.EstadisticaComisionesPDF'); //EXPORTACIÓN DE PDF
+Route::get('dashboardest/exportcomisionespdf/{wallet?}/{transaction?}/{fechaDesde?}/{fechaHasta?}/{ocultarresumengeneral?}/{ocultarresumentransaccion?}/{transactions?}', 
+            [App\Http\Controllers\HomeController::class, 'exportPDFComisiones'])->name('exports.EstadisticaComisionesPDF'); //EXPORTACIÓN DE PDF
+
+
 
 Route::get('dashboard_saldos/export/', [App\Http\Controllers\HomeController::class, 'exportSaldos'])->name('exports.saldos'); //EXPORTACIÓN DE EXCEL
 Route::get('dashboard_saldos/export/{fechaDesde?}/{fechaHasta?}/{filtroWallet?}/{filtroGroup?}/{filtroWalletB?}/{filtroGroupB?}/{resumen?}', [App\Http\Controllers\HomeController::class, 'exportSaldos'])->name('exports.saldos'); //EXPORTACIÓN DE EXCEL

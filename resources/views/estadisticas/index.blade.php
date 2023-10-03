@@ -270,7 +270,7 @@ if (isset($balance->Total)){
                                     <th style="width:1%;">Cliente</th>
                                     <th style="width:1%;">Agente</th>
                                     <th style="width:1%;">Caja</th>
-                                    
+
                                     <th style="width:1%;">Ver <i class="fas fa-search"></i></th>
                                 </tr>
                             </thead>

@@ -36,9 +36,9 @@ class DashboardExportComisiones implements FromView, WithColumnFormatting
 
     private $ocultarresumengeneral, $ocultarresumentransaccion, $transactions;
 
-    private $myWallet, $myTypeTransaction;
+    private $myWallet, $myWalletName, $myTypeTransaction;
     
-    public function __construct($wallet_summary, $wallet_groupsummary,$transaction_summary,$transaction_group_summary, $balance, $balanceDetail, $fechaDesde, $fechaHasta, $ocultarresumengeneral, $ocultarresumentransaccion, $transactions)
+    public function __construct($wallet_summary, $wallet_groupsummary,$transaction_summary,$transaction_group_summary, $balance, $balanceDetail, $fechaDesde, $fechaHasta, $ocultarresumengeneral, $ocultarresumentransaccion, $transactions, $myWallet, $myWalletName)
     {
         $this->wallet_summary               = $wallet_summary;
         $this->wallet_groupsummary          = $wallet_groupsummary;
@@ -55,6 +55,10 @@ class DashboardExportComisiones implements FromView, WithColumnFormatting
         $this->ocultarresumengeneral        = $ocultarresumengeneral;
         $this->ocultarresumentransaccion    = $ocultarresumentransaccion;
         $this->transactions                 = $transactions;
+
+        $this->myWallet                     = $myWallet;
+        $this->myWalletName                 = $myWalletName;
+        
     }
 
     public function view(): View
@@ -72,6 +76,8 @@ class DashboardExportComisiones implements FromView, WithColumnFormatting
             'ocultarresumengeneral'     => $this->ocultarresumengeneral,
             'ocultarresumentransaccion' => $this->ocultarresumentransaccion,
             'transactions'              => $this->transactions,
+            'myWallet'                  => $this->myWallet,
+            'myWalletName'              => $this->myWalletName,
         ]);
     }
 
