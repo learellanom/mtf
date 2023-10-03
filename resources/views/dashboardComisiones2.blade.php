@@ -1611,7 +1611,7 @@ $config4 = [
         
         let transaction                 = "{{$myTypeTransaction ?? 0}}"; 
 
-        myRoute = "{{route('exports.excel', ['wallet' => 'wallet2', 'transaction' => 'transaction2', 'fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2', 'ocultarresumengeneral' => 'ocultarresumengeneral2', 'ocultarresumentransaccion' => 'ocultarresumentransaccion2', 'transactions' => 'transactions2'])}}"
+        myRoute = "{{route('exportsComisiones.excel', ['wallet' => 'wallet2', 'transaction' => 'transaction2', 'fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2', 'ocultarresumengeneral' => 'ocultarresumengeneral2', 'ocultarresumentransaccion' => 'ocultarresumentransaccion2', 'transactions' => 'transactions2'])}}"
 
         myRoute = myRoute.replace('wallet2',                        wallet);
         myRoute = myRoute.replace('transaction2',                   transaction);        
@@ -1621,7 +1621,7 @@ $config4 = [
         myRoute = myRoute.replace('ocultarresumentransaccion2',     ocultarresumentransaccion);
         myRoute = myRoute.replace('transactions2',                  transactions);
 
-         alert(' myRoute ->' + myRoute);
+        // alert(' myRoute ->' + myRoute);
 
         location.href = myRoute;
     }

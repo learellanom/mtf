@@ -684,10 +684,12 @@
                 //const log = document.getElementById("montototal");
 
                 $('#monto_dolares, #percentage').on('input', function() {
+
                     if(tasa.value == null && monto.value == null){
                         monto_total         = monto_dolares;
                         monto_dolares.value = monto_total.toFixed(2);
                     }
+                    
                     let comision    = parseFloat($('#comision').val());
                     let porcentage  = parseFloat($('#percentage').val());
                     let montoreal   = parseFloat($('#montototal').val());
@@ -1247,7 +1249,7 @@
                 montoreal_base = (monto_dolares - comision_base).toFixed(2);
                 $('#montototal_base').val((monto_dolares - comision_base));
                 $('#monto_extranjera_base').val(monto_dolares); 
-                $('#amount_commission_profit').val( '0');
+                // $('#amount_commission_profit').val( '0');
             }
         }
         else {

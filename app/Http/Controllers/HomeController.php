@@ -8,6 +8,7 @@ use App\Http\Controllers\statisticsController;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Pagination\Paginator;
 use App\Exports\DashboardestExport;
+use App\Exports\DashboardExportComisiones;
 use App\Exports\DashboardSaldosExport;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -507,6 +508,77 @@ class HomeController extends Controller
 
         //dd($balanceDetail);
         return Excel::download(new DashboardestExport($wallet_summary, $wallet_groupsummary, $transaction_summary, $transaction_group_summary, $balance, $balanceDetail, $fechaDesde, $fechaHasta, $ocultarresumengeneral, $ocultarresumentransaccion, $transactions), 'Estadisticas por Caja.xlsx');
+
+    }
+
+    
+    public function exportComisiones(request $request)
+    {
+        $wallet_summary             = app(statisticsController::class)->getWalletTransactionSummary($request);
+
+        $request2                   = clone $request;
+        $request2->transaction      = 0;
+
+        $wallet_summary             = app(statisticsController::class)->getWalletTransactionSummary($request2);
+
+        $wallet_groupsummary        = app(statisticsController::class)->getWalletTransactionGroupSummary($request);
+
+        $request3                   = clone $request;
+        $request3->transaction      = 0;
+        $transaction_summary        = app(statisticsController::class)->getTransactionSummary($request3);
+
+        $request4                   = clone $request;
+        $transaction_group_summary  = app(statisticsController::class)->getTransactionGroupSummary($request4);
+
+        //$request5               = clone $request;
+        $balance                    = 0;
+
+        $wallet = 0;
+        if ($request->wallet){
+            $wallet = $request->wallet;
+        }
+
+        if ($wallet > 0){
+            $balance2 = app(statisticsController::class)->getBalanceWallet($wallet);
+
+            if(isset($balance2->Total)){
+                $balance  = $balance2->Total;
+                //dd($balance);
+
+            }
+            // $balance = $this->getBalancemyWallet($myWallet, $myFechaDesde, $myFechaHasta);
+        };
+
+        $fechaDesde     = "2001-01-01";
+        $fechaHasta     = "9999-12-31";
+        if ($request->fechaDesde){
+            $fechaDesde = $request->fechaDesde;
+        }
+        if ($request->fechaHasta){
+            $fechaHasta = $request->fechaHasta;
+        }
+
+
+        if($wallet == 0) {
+            $wallet_summary = [];
+            $wallet_groupsummary = [];
+
+        }else{
+            $transaction_summary = [];
+            $transaction_group_summary = [];
+        }
+
+        $balanceDetail = app(statisticsController::class)->getBalanceWalletBefore($wallet, $fechaDesde, $fechaHasta);
+
+
+        // dd($request->ocultarresumengeneral . ' ' . $request->ocultarresumentransaccion . ' ' . $request->transactions . ' wallet ' . $request->wallet);
+
+        $ocultarresumengeneral          = $request->ocultarresumengeneral;
+        $ocultarresumentransaccion      = $request->ocultarresumentransaccion;
+        $transactions                   = $request->transactions;
+        
+        //dd($balanceDetail);
+        return Excel::download(new DashboardExportComisiones($wallet_summary, $wallet_groupsummary, $transaction_summary, $transaction_group_summary, $balance, $balanceDetail, $fechaDesde, $fechaHasta, $ocultarresumengeneral, $ocultarresumentransaccion, $transactions), 'Estadisticas por Caja.xlsx');
 
     }
 
