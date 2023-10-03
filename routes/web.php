@@ -78,6 +78,12 @@ Route::get('dashboard_est/export/{wallet}/{transaction?}/', [App\Http\Controller
 Route::get('dashboard_est/export/{wallet?}/{transaction?}/{fechaDesde?}/{fechaHasta?}/{ocultarresumengeneral?}/{ocultarresumentransaccion?}/{transactions?}', [App\Http\Controllers\HomeController::class, 'export'])->name('exports.excel'); //EXPORTACIÓN DE EXCEL
 
 
+Route::get('dashboard_est/exportComisiones/', [App\Http\Controllers\HomeController::class, 'exportComisiones'])->name('exportsComisiones.excel'); //EXPORTACIÓN DE EXCEL
+Route::get('dashboard_est/exportComisiones/{wallet}', [App\Http\Controllers\HomeController::class, 'exportComisiones'])->name('exportsComisiones.excel'); //EXPORTACIÓN DE EXCEL
+Route::get('dashboard_est/exportComisiones/{wallet}/{transaction?}/', [App\Http\Controllers\HomeController::class, 'exportComisiones'])->name('exportsComisiones.excel'); //EXPORTACIÓN DE EXCEL
+Route::get('dashboard_est/exportComisiones/{wallet?}/{transaction?}/{fechaDesde?}/{fechaHasta?}/{ocultarresumengeneral?}/{ocultarresumentransaccion?}/{transactions?}', [App\Http\Controllers\HomeController::class, 'exportComisiones'])->name('exportsComisiones.excel'); //EXPORTACIÓN DE EXCEL
+
+
 Route::get('dashboardest/exportpdf/',                           
             [App\Http\Controllers\HomeController::class, 'exportPDF'])->name('exports.EstadisticaPDF'); //EXPORTACIÓN DE PDF
 Route::get('dashboardest/exportpdf/{wallet}',                   
@@ -86,6 +92,16 @@ Route::get('dashboardest/exportpdf/{wallet}/{transaction?}/',
             [App\Http\Controllers\HomeController::class, 'exportPDF'])->name('exports.EstadisticaPDF'); //EXPORTACIÓN DE PDF
 Route::get('dashboardest/exportpdf/{wallet?}/{transaction?}/{fechaDesde?}/{fechaHasta?}/{ocultarresumengeneral?}/{ocultarresumentransaccion?}/{transactions?}', 
             [App\Http\Controllers\HomeController::class, 'exportPDF'])->name('exports.EstadisticaPDF'); //EXPORTACIÓN DE PDF
+
+
+Route::get('dashboardest/exportcomisionespdf/',                
+            [App\Http\Controllers\HomeController::class, 'exportPDFComisiones'])->name('exports.EstadisticaComisionesPDF'); //EXPORTACIÓN DE PDF
+Route::get('dashboardest/exportcomisionespdf/{wallet}',                   
+            [App\Http\Controllers\HomeController::class, 'exportPDFComisiones'])->name('exports.EstadisticaComisionesPDF'); //EXPORTACIÓN DE PDF
+Route::get('dashboardest/exportcomisionespdf/{wallet}/{transaction?}/',   
+            [App\Http\Controllers\HomeController::class, 'exportPDFComisiones'])->name('exports.EstadisticaComisionesPDF'); //EXPORTACIÓN DE PDF
+Route::get('dashboardest/exportcomisionespdf/{wallet?}/{transaction?}/{fechaDesde?}/{fechaHasta?}/{ocultarresumengeneral?}/{ocultarresumentransaccion?}/{transactions?}', 
+            [App\Http\Controllers\HomeController::class, 'exportPDFComisiones'])->name('exports.EstadisticaComisionesPDF'); //EXPORTACIÓN DE PDF
 
 
 
