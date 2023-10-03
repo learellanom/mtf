@@ -38,7 +38,7 @@ Route::get('/offline', function () {
 Route::get('lang/{locale}', [LanguageController::class, 'index'])->name('lang');
 
 Route::get('/', function () {
-    return view('auth.login');
+     return view('auth.login');
 });
 
 Route::post('/darkmode/toggle', [DarkModeController::class, 'toggle'])

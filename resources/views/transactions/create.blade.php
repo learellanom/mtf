@@ -1206,7 +1206,7 @@
             $('#comision').val(0);
             montoreal = monto_dolares.toFixed(2);
             $('#montototal').val(monto_dolares);
-            $('#amount_commission_profit').val('0');
+            // $('#amount_commission_profit').val('0');
         }
 
         
