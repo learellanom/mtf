@@ -12,7 +12,11 @@
 
 
 @section('content')
+{{--
+    
+aqui estoy colocando en mi laptop
 
+--}]}
 <div class="d-flex justify-content-center">
     <div class="card col-md-7 movi" style="min-height: 500px !important; max-height:100%; height:100%; widht:100%"">
         <div class="card-body">
@@ -1239,11 +1243,7 @@
             $('#comision').val(0);
             montoreal = monto_dolares.toFixed(2);
             $('#montototal').val(monto_dolares);
-<<<<<<< HEAD
-            // $('#amount_commission_profit').val('0');
-=======
             
->>>>>>> 561e0ca9a71d5686f5aa8686c85aaeefc2fb16ef
         }
 
         $('#amount_commission_profit').val(comision - amount_commission_base);
