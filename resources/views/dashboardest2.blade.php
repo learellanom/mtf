@@ -777,8 +777,10 @@ $config4 = [
                                         <th style="width:1%;">Monto Transaccion</th>
                                     </tr>
                                 </thead>
+                                {{-- dd($wallet_summary) ajax --}}
+                                <!-- ajax -->
                                 @foreach($wallet_summary as $wallet2)
-                                    <tr class="myTr" onClick="theRoute2({{0}}, {{0}}, {{0}}, {{$wallet2->TypeTransactionId}})">
+                                    <tr class="myTr" onClick="theRoute2({{0}}, {{0}}, {{$wallet2->WalletId}}, {{$wallet2->TypeTransactionId}})">
                                         @if($wallet2->TypeTransactionId == $wallet->TypeTransactionId)
                                             <td class="font-weight-bold" style="color: green;">{{ $wallet2->TypeTransaccionName}}</td>
                                             <td class="font-weight-bold" style="color: green;">{{ number_format($wallet2->cant_transactions) }}</td>
@@ -802,9 +804,10 @@ $config4 = [
                                         <th style="width:1%;">Monto Transaccion</th>
                                     </tr>
                                 </thead>
+                                
                                 @foreach($wallet_groupsummary as $wallet2)
                                     @if($wallet2->TypeTransactionId == $wallet->TypeTransactionId)
-                                        <tr class="myTr" onClick="theRoute2({{0}}, {{$wallet2->GroupId ?? 0 }}, {{0}}, {{$wallet2->TypeTransactionId}})">
+                                        <tr class="myTr" onClick="theRoute2({{0}}, {{$wallet2->GroupId ?? 0 }}, {{$wallet2->WalletId}}, {{$wallet2->TypeTransactionId}})">
                                             <td class="font-weight-bold" style="color: green;">{{ $wallet2->GroupName ?? "A cajas"}}</td>
                                             <td class="font-weight-bold" style="color: green;">{{ number_format($wallet2->cant_transactions)}}</td>
                                             <td class="font-weight-bold" style="color: green;">{{ number_format($wallet2->total_amount,2)}}</td>
