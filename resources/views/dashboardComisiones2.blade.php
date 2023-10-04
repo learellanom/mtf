@@ -1021,9 +1021,9 @@ $config4 = [
                             $totalComisionBase      = 0;
                             $totalComisionExchange  = 0;
                             $totalComisionGanancia  = 0;
-
+                            $totalComisionGanancia2  = 0;
                         @endphp
-                        {{-- dd($wallet_summary) --}}
+                         
                         @foreach($wallet_summary as $wallet2)
 
                             <tr class="myTr" onClick="theRoute2({{0}}, {{0}}, {{$wallet2->WalletId}}, {{$wallet2->TypeTransactionId}})">
@@ -1035,6 +1035,7 @@ $config4 = [
                                     $totalComisionBase      +=  $wallet2->total_amount_commission_base;
                                     $totalComisionExchange  +=  $wallet2->exchange_profit;
                                     $totalComisionGanancia  +=  $wallet2->total_commission_profit;  
+                                    $totalComisionGanancia2  +=  $wallet2->total_commission_profit_2;  
 
                                     $cant                   += $wallet2->cant_transactions;
                                 @endphp
@@ -1067,8 +1068,8 @@ $config4 = [
                                 <td>{{ number_format($wallet2->total_commission ,2) }}</td>
                                 <td>{{ number_format($wallet2->total_amount_commission_base ,2) }}</td>
                                 <td>{{ number_format($wallet2->exchange_profit ,2) }}</td>
-                                <td>{{ number_format($wallet2->total_commission_profit,2) }}</td>
-
+                                <!-- <td>{{ number_format($wallet2->total_commission_profit,2) }}</td> -->
+                                <td>{{ number_format($wallet2->total_commission_profit_2,2) }}</td>
                             </tr>
                         @endforeach
 
@@ -1078,7 +1079,8 @@ $config4 = [
                             <td class="myTdColor2">{{ number_format($totalComision,2) }}</td>
                             <td class="myTdColor3">{{ number_format($totalComisionBase,2) }}</td>
                             <td class="myTdColor6">{{ number_format($totalComisionExchange,2) }}</td>                            
-                            <td class="myTdColor5">{{ number_format($totalComisionGanancia,2) }}</td>    
+                            <!-- <td class="myTdColor5">{{ number_format($totalComisionGanancia,2) }}</td>     -->
+                            <td class="myTdColor5">{{ number_format($totalComisionGanancia2,2) }}</td>                                
                         </tr>
 
                     </table>
@@ -1310,7 +1312,7 @@ $config4 = [
                                 <td class="{{$myStyle}}" >{{ number_format($wallet2->total_amount_commission_base ,2)   == 0 ? "" : number_format($wallet2->total_amount_commission_base ,2)}}</td>
                                 <td class="{{$myStyle}}" >{{ number_format($wallet2->exchange_profit ,2)                == 0 ? "" : number_format($wallet2->exchange_profit ,2)}}</td>
                                 <!-- <td class="{{$myStyle}}" >{{ number_format($wallet2->total_commission_profit,2)        == 0 ? "" : number_format($wallet2->total_commission_profit ,2)}}</td> -->
-                                <td class="{{$myStyle}}" >{{ number_format($wallet2->amount_commission_profit_2,2)        == 0 ? "" : number_format($wallet2->amount_commission_profit_2,2)}}</td> 
+                                <td class="{{$myStyle}}" >{{ number_format($wallet2->amount_commission_profit_2,2)        == 0 ? "" : number_format($wallet2->amount_commission_profit_2,2)}}</td>
                             </tr>
 
                         @endforeach
