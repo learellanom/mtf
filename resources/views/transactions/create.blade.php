@@ -582,7 +582,27 @@
             exonerar_base   = $('#radio1_base').is(':checked');
             transferencia   = $("#typetrasnferencia option:selected").text();
 
+
+
             // alert($('#amount_commission_profit').val());
+            /*
+            let amount_commission_profit = $('#amount_commission_profit').val() =="" ? 0 : $('#amount_commission_profit').val();
+            if (amount_commission_profit==0){
+                Swal.fire('Error: Comision Ganancia calculada en Cero');
+                return false;
+            }
+            */
+           //
+           // Valida fecha
+           //
+            // if ({{auth()->id()}} == 2){
+            let myDate      = new Date($('#fecha').val());
+            let myDateNow   = new Date();
+
+            if (myDate > myDateNow){
+                Swal.fire('Error: Fecha de transacción no puede ser mayor a la fecha');
+                return false;
+            }
 
             if (transferencia === 'Nota de debito' || transferencia === 'Nota de credito'){
                 if ($('#percentage').val() <= 0) {
@@ -609,6 +629,16 @@
                     }
                 }
             }
+
+            //
+            // graba comision ganancia
+            //
+            let amount_commission       = $('#comision').val()          != "" ? parseFloat($('#comision').val())            : 0;
+            let amount_commission_base  = $('#comision_base').val()     != "" ? parseFloat($('#comision_base').val())       : 0;
+            let amount_commission_profit    = amount_commission - amount_commission_base;
+
+            $('#amount_commission_profit').val(amount_commission_profit);
+
         });
 
         /*
@@ -689,7 +719,7 @@
                         monto_total         = monto_dolares;
                         monto_dolares.value = monto_total.toFixed(2);
                     }
-                    
+
                     let comision    = parseFloat($('#comision').val());
                     let porcentage  = parseFloat($('#percentage').val());
                     let montoreal   = parseFloat($('#montototal').val());
@@ -1191,12 +1221,13 @@
                 montoreal = (monto_dolares + comision).toFixed(2);
                 $('#montototal').val((monto_dolares + comision));
                 
-                $('#amount_commission_profit').val(comision - amount_commission_base);
+                
                 // alert($('#amount_commission_profit').val());
             } else if(descontar) {
                 montoreal = (monto_dolares - comision).toFixed(2);
                 $('#montototal').val((monto_dolares - comision));
-                $('#amount_commission_profit').val('0');
+                // $('#amount_commission_profit').val('0');
+
             }
            //
 
@@ -1208,10 +1239,10 @@
             $('#comision').val(0);
             montoreal = monto_dolares.toFixed(2);
             $('#montototal').val(monto_dolares);
-            $('#amount_commission_profit').val('0');
+            
         }
 
-        
+        $('#amount_commission_profit').val(comision - amount_commission_base);
     }
     /*
     *
@@ -1243,13 +1274,13 @@
                 $('#montototal_base').val((monto_dolares + comision_base));
                 // alert(montoreal);
                 $('#monto_extranjera_base').val(monto_dolares); 
-                $('#amount_commission_profit').val( comision - comision_base);
+                
 
             } else if(descontar_base) {
                 montoreal_base = (monto_dolares - comision_base).toFixed(2);
                 $('#montototal_base').val((monto_dolares - comision_base));
                 $('#monto_extranjera_base').val(monto_dolares); 
-                // $('#amount_commission_profit').val( '0');
+                
             }
         }
         else {
@@ -1258,8 +1289,11 @@
             montoreal_base = monto_dolares.toFixed(2);
             $('#montototal_base').val(monto_dolares);
             $('#monto_extranjera_base').val(monto_dolares);
-            $('#amount_commission_profit').val('0');
+            
         }
+
+        $('#amount_commission_profit').val( comision - comision_base);
+
     }
     /*
     *

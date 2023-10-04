@@ -125,7 +125,7 @@ class TransactionController extends Controller
         $user               = User::pluck('name', 'id');
         $fecha              = Carbon::now();
 
-        if (auth()->id() == 2){
+        if (auth()->id() == 99){
             return view('transactions.create2', compact('type_coin', 'type_transaction', 'wallet', 'group', 'user', 'transaction', 'fecha'));
             
         }
@@ -585,7 +585,7 @@ class TransactionController extends Controller
 
 
         // 02-10-2023 se desincorpora el cobrod e la comision base  para nmo descuadrar el commission profit
-        
+
         $user = Auth::id();
         $transactions = new Transaction;
         $number = date('YmdHis'). rand(100,200). 'C-G';
