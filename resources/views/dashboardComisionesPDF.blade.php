@@ -137,7 +137,10 @@
 
             {{-- dd('balance-> ' . $balance . ' --- ' . $balanceDetail . ' ' . $myFechaDesdeBefore . ' ' . $myFechaHastaBefore) --}}
 
-            <div class ="row mb-4 text-center " style="background-color: white; font-size:10px; margin-left: 200px;" data-wallet="{{$myWallet}}">
+            <div 
+                class ="row mb-4 justify-content-center text-center align-items-center " 
+                style="background-color: white; font-size:10px; margin-left: 150px;" 
+                data-wallet="{{$myWallet}}">
                 <div class="col-12 col-md-12">
                     <table class="table thead-light" style="background-color: white;">
                         <thead class="thead-dark" style="background-color: black; color:white;">
@@ -227,7 +230,7 @@
             </div>
         </div>
     @else
-        <div id="myCanvasGeneral" style=" text-align: center; margin-left: 10px; {{$myStyle }}">
+        <div id="myCanvasGeneral" style=" text-align: center; font-size: 10px; margin-left: 10px; {{$myStyle }}">
             <div class="row" data-wallet="{{$myWallet}}">
                 <div class="col-md-12">
                     <div class="card">
@@ -349,7 +352,8 @@
                     </div>
                 
                 <div class ="" style="background-color: white;" data-id="">
-                    <h3>{{ $wallet->TypeTransaccionName}}</h3>            
+                    <h3>{{ $wallet->TypeTransaccionName}}</h3>     
+                    <!--  
                     <div style="float:left;">
                         <table class="table thead-light" style="background-color: white;">
                             <thead class="thead-dark" style="background-color: black; color: white;">
@@ -377,7 +381,10 @@
                                 <tr>
                                     <th style="width:100px;">Transacción</th>
                                     <th style="width:100px;">Cant transacción</th>
-                                    <th style="width:100px;">Monto Transaccion</th>
+                                    <th style="width:100px;">Comision</th>
+                                    <th style="width:100px;">Comision Base</th>
+                                    <th style="width:100px;">Comision Exchange</th>
+                                    <th style="width:100px;">Comision Ganancia</th>
                                 </tr>
                             </thead>
                             @foreach($wallet_summary as $wallet2)
@@ -386,21 +393,32 @@
                                         <td class="font-weight-bold" style="color: green;">{{ $wallet2->TypeTransaccionName}}</td>
                                         <td class="font-weight-bold" style="color: green;">{{ number_format($wallet2->cant_transactions) }}</td>
                                         <td class="font-weight-bold" style="color: green;">{{ number_format($wallet2->total_amount,2)}}</td>
+                                        <td class="font-weight-bold" style="color: green;">{{ number_format($wallet2->total_amount,2)}}</td>
+                                        <td class="font-weight-bold" style="color: green;">{{ number_format($wallet2->total_amount,2)}}</td>
+                                        <td class="font-weight-bold" style="color: green;">{{ number_format($wallet2->total_amount,2)}}</td>
+                                        <td class="font-weight-bold" style="color: green;">{{ number_format($wallet2->total_amount,2)}}</td>
+                                        <td class="font-weight-bold" style="color: green;">{{ number_format($wallet2->total_amount,2)}}</td>
                                     @else
                                         <td >{{ $wallet2->TypeTransaccionName}}</td>
                                         <td>{{ number_format($wallet2->cant_transactions) }}</td>
+                                        <td>{{ number_format($wallet2->total_amount,2)}}</td>
+                                        <td>{{ number_format($wallet2->total_amount,2)}}</td>
+                                        <td>{{ number_format($wallet2->total_amount,2)}}</td>
+                                        <td>{{ number_format($wallet2->total_amount,2)}}</td>
+                                        <td>{{ number_format($wallet2->total_amount,2)}}</td>
                                         <td>{{ number_format($wallet2->total_amount,2)}}</td>
                                     @endif
                                 </tr>
                             @endforeach
                         </table>
                     </div>
+                    -->
 
-                    <div class="" style="float: right;"> 
+                    <div class="" style="margin-left: 200px;"> 
                         <table class="table thead-light" style="background-color: white;">
                             <thead class="thead-dark" style="background-color: black; color: white;">
                                 <tr>
-                                    <td colspan="3">
+                                    <td colspan="6">
 
                                     <h3>
                                             {{$myWalletDes->name}}
@@ -425,18 +443,59 @@
                                 <tr>
                                     <th style="width:100px;">Grupo</th>
                                     <th style="width:100px;">Cant transacción</th>
-                                    <th style="width:100px;">Monto Transaccion</th>
+                                    <th style="width:100px;">Comision</th>
+                                    <th style="width:100px;">Comision Base</th>
+                                    <th style="width:100px;">Comision Exchange</th>
+                                    <th style="width:100px;">Comision Ganancia</th>
                                 </tr>
                             </thead>
+                            
+                            @php 
+                                $cant_transactions              = 0;
+                                $total_commission               = 0;
+                                $total_amount_commission_base   = 0;
+                                $exchange_profit                = 0;
+                                $total_commission_profit        = 0;
+                            @endphp
+
                             @foreach($wallet_groupsummary as $wallet2)
                                 @if($wallet2->TypeTransactionId == $wallet->TypeTransactionId)
                                     <tr class="myTr" onClick="theRoute2({{0}}, {{$wallet2->GroupId ?? 0 }}, {{0}}, {{$wallet2->TypeTransactionId}})">
-                                        <td class="font-weight-bold" style="color: green;">{{ $wallet2->GroupName ?? "A cajas"}}</td>
-                                        <td class="font-weight-bold" style="color: green;">{{ number_format($wallet2->cant_transactions)}}</td>
-                                        <td class="font-weight-bold" style="color: green;">{{ number_format($wallet2->total_amount,2)}}</td>
+                                        <td class="font-weight-bold" style="">{{ $wallet2->GroupName ?? "A cajas"}}</td>
+                                        <td class="font-weight-bold" style="">{{ number_format($wallet2->cant_transactions)}}</td>
+                                        <td class="font-weight-bold" style="">{{ number_format($wallet2->total_commission,2)}}</td>
+                                        <td class="font-weight-bold" style="">{{ number_format($wallet2->total_amount_commission_base,2)}}</td>
+                                        <td class="font-weight-bold" style="">{{ number_format($wallet2->exchange_profit,2)}}</td>
+                                        <td class="font-weight-bold" style="">{{ number_format($wallet2->total_commission_profit,2)}}</td>
                                     </tr>
+
+                                    @php 
+                                        $cant_transactions              += $wallet2->cant_transactions;
+                                        $total_commission               += $wallet2->total_commission;
+                                        $total_amount_commission_base   += $wallet2->total_amount_commission_base;
+                                        $exchange_profit                += $wallet2->exchange_profit;
+                                        $total_commission_profit        += $wallet2->total_commission_profit;                              
+                                    @endphp
+
                                 @endif
                             @endforeach
+
+                            
+                            <tr 
+                                class="myTr" 
+                                onClick="theRoute2({{0}}, {{$wallet2->GroupId ?? 0 }}, {{0}}, {{$wallet2->TypeTransactionId}})"
+                                style="background-color: black; color: white;"
+                                >
+                                <td class="font-weight-bold" style=""></td>
+                                <td class="font-weight-bold" style="">{{ number_format($cant_transactions)}}</td>
+                                <td class="font-weight-bold" style="">{{ number_format($total_commission,2)}}</td>
+                                <td class="font-weight-bold" style="">{{ number_format($total_amount_commission_base,2)}}</td>
+                                <td class="font-weight-bold" style="">{{ number_format($exchange_profit,2)}}</td>
+                                <td class="font-weight-bold" style="">{{ number_format($total_commission_profit,2)}}</td>
+                            </tr>
+
+
+
                         </table>
                     </div>
                 </div>
@@ -487,7 +546,10 @@
                                 <tr>
                                     <th style="width:1%;">Transacción</th>
                                     <th style="width:1%;">Cant transacción</th>
-                                    <th style="width:1%;">Monto Transaccion</th>
+                                    <th style="width:1%;">Comision</th>
+                                    <th style="width:1%;">Comision Base</th>
+                                    <th style="width:1%;">Comision Exchange</th>
+                                    <th style="width:1%;">Comision Ganancia</th>
                                 </tr>
                             </thead>
                             @foreach($transaction_summary as $wallet2)
