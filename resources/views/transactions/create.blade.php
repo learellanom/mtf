@@ -636,8 +636,11 @@
             let amount_commission       = $('#comision').val()          != "" ? parseFloat($('#comision').val())            : 0;
             let amount_commission_base  = $('#comision_base').val()     != "" ? parseFloat($('#comision_base').val())       : 0;
             let amount_commission_profit    = amount_commission - amount_commission_base;
-
-            $('#amount_commission_profit').val(amount_commission_profit);
+            if ({{auth()->id()}} == 99){
+                // alert('la comision profit es : ' + amount_commission_profit + ' el tipo ' + typeof amount_commission_profit);
+                // console.log('la comision profit es : ' + amount_commission_profit);
+            }
+             
 
         });
 
@@ -1292,7 +1295,7 @@
             
         }
 
-        $('#amount_commission_profit').val( comision - comision_base);
+        // $('#amount_commission_profit').val( comision - comision_base);
 
     }
     /*

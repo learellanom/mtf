@@ -471,17 +471,33 @@ class TransactionController extends Controller
         $user               = User::pluck('name', 'id');
         $fecha              = Carbon::now();
 
+        $type_transaction_debit    = Type_transaction::where('type_transaction_group', '2')->pluck('name', 'id');
+        $type_transaction_credit   = Type_transaction::where('type_transaction_group', '1')->pluck('name', 'id');
+
+        $parametros['type_coin'] = $type_coin;
+        $parametros['type_transaction'] = $type_transaction;
+        $parametros['type_transaction2'] = $type_transaction2;
+        $parametros['wallet'] = $wallet;
+        $parametros['group'] = $group;
+        $parametros['group2'] = $group2;
+        $parametros['user'] = $user;
+        $parametros['fecha'] = $fecha;
+        $parametros['type_transaction_debit'] = $type_transaction_debit;
+        $parametros['type_transaction_credit'] = $type_transaction_credit;
         //$number = date('YmdHis').'T-C';
         // dd($wallet);
-
-        return view('transactions.create_pagocliente', compact('type_coin', 'type_transaction', 'wallet', 'type_transaction2', 'group', 'group2', 'user', 'transaction', 'fecha'));
+        if (auth()->id() == 2){
+            return view('transactions.create_pagocliente2', $parametros);
+        }else{
+            return view('transactions.create_pagocliente', compact('type_coin', 'type_transaction', 'wallet', 'type_transaction2', 'group', 'group2', 'user', 'transaction', 'fecha'));
+        }
     }
 
     public function store_pagocliente(Request $request)
     {
-        $user = Auth::id();
-        $transactions = new Transaction;
-        $number = date('YmdHis'). rand(100,200). 'T-C';
+        $user           = Auth::id();
+        $transactions   = new Transaction;
+        $number         = date('YmdHis'). rand(100,200). 'T-C';
 
         $transactions->type_transaction_id          = $request->input('type_transaction_id');
         $transactions->group_id                     = $request->input('group_id');
