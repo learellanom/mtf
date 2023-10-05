@@ -14,7 +14,7 @@
 @section('content')
 {{--
     
-aqui estoy colocando en mi laptop
+aqui estoy colocando en mi laptop 2
 
 --}]}
 <div class="d-flex justify-content-center">
