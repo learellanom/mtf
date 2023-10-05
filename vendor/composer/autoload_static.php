@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit9e6586008271ccd4f97236c9a9803657
+class ComposerStaticInit131e96a4084a40d62d27fb597daa6b6b
 {
     public static $files = array (
         '6e3fae29631ef280660b3cdad06f25a8' => __DIR__ . '/..' . '/symfony/deprecation-contracts/function.php',
@@ -453,8 +453,8 @@ class ComposerStaticInit9e6586008271ccd4f97236c9a9803657
         ),
         'Psr\\Http\\Message\\' => 
         array (
-            0 => __DIR__ . '/..' . '/psr/http-factory/src',
-            1 => __DIR__ . '/..' . '/psr/http-message/src',
+            0 => __DIR__ . '/..' . '/psr/http-message/src',
+            1 => __DIR__ . '/..' . '/psr/http-factory/src',
         ),
         'Psr\\Http\\Client\\' => 
         array (
@@ -796,6 +796,7 @@ class ComposerStaticInit9e6586008271ccd4f97236c9a9803657
     public static $classMap = array (
         'App\\Console\\Kernel' => __DIR__ . '/../..' . '/app/Console/Kernel.php',
         'App\\Exceptions\\Handler' => __DIR__ . '/../..' . '/app/Exceptions/Handler.php',
+        'App\\Exports\\DashboardExportComisiones' => __DIR__ . '/../..' . '/app/Exports/DashboardExportComisiones.php',
         'App\\Exports\\DashboardSaldosExport' => __DIR__ . '/../..' . '/app/Exports/DashboardSaldosExport.php',
         'App\\Exports\\DashboardestExport' => __DIR__ . '/../..' . '/app/Exports/DashboardestExport.php',
         'App\\Exports\\UsersExport' => __DIR__ . '/../..' . '/app/Exports/UsersExport.php',
@@ -3263,6 +3264,7 @@ class ComposerStaticInit9e6586008271ccd4f97236c9a9803657
         'Illuminate\\Console\\Events\\ScheduledTaskSkipped' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Console/Events/ScheduledTaskSkipped.php',
         'Illuminate\\Console\\Events\\ScheduledTaskStarting' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Console/Events/ScheduledTaskStarting.php',
         'Illuminate\\Console\\GeneratorCommand' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Console/GeneratorCommand.php',
+        'Illuminate\\Console\\MigrationGeneratorCommand' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Console/MigrationGeneratorCommand.php',
         'Illuminate\\Console\\OutputStyle' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Console/OutputStyle.php',
         'Illuminate\\Console\\Parser' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Console/Parser.php',
         'Illuminate\\Console\\QuestionHelper' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Console/QuestionHelper.php',
@@ -8662,10 +8664,10 @@ class ComposerStaticInit9e6586008271ccd4f97236c9a9803657
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit9e6586008271ccd4f97236c9a9803657::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit9e6586008271ccd4f97236c9a9803657::$prefixDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInit9e6586008271ccd4f97236c9a9803657::$prefixesPsr0;
-            $loader->classMap = ComposerStaticInit9e6586008271ccd4f97236c9a9803657::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit131e96a4084a40d62d27fb597daa6b6b::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit131e96a4084a40d62d27fb597daa6b6b::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInit131e96a4084a40d62d27fb597daa6b6b::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInit131e96a4084a40d62d27fb597daa6b6b::$classMap;
 
         }, null, ClassLoader::class);
     }

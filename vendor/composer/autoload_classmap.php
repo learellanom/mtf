@@ -8,6 +8,7 @@ $baseDir = dirname($vendorDir);
 return array(
     'App\\Console\\Kernel' => $baseDir . '/app/Console/Kernel.php',
     'App\\Exceptions\\Handler' => $baseDir . '/app/Exceptions/Handler.php',
+    'App\\Exports\\DashboardExportComisiones' => $baseDir . '/app/Exports/DashboardExportComisiones.php',
     'App\\Exports\\DashboardSaldosExport' => $baseDir . '/app/Exports/DashboardSaldosExport.php',
     'App\\Exports\\DashboardestExport' => $baseDir . '/app/Exports/DashboardestExport.php',
     'App\\Exports\\UsersExport' => $baseDir . '/app/Exports/UsersExport.php',
@@ -2475,6 +2476,7 @@ return array(
     'Illuminate\\Console\\Events\\ScheduledTaskSkipped' => $vendorDir . '/laravel/framework/src/Illuminate/Console/Events/ScheduledTaskSkipped.php',
     'Illuminate\\Console\\Events\\ScheduledTaskStarting' => $vendorDir . '/laravel/framework/src/Illuminate/Console/Events/ScheduledTaskStarting.php',
     'Illuminate\\Console\\GeneratorCommand' => $vendorDir . '/laravel/framework/src/Illuminate/Console/GeneratorCommand.php',
+    'Illuminate\\Console\\MigrationGeneratorCommand' => $vendorDir . '/laravel/framework/src/Illuminate/Console/MigrationGeneratorCommand.php',
     'Illuminate\\Console\\OutputStyle' => $vendorDir . '/laravel/framework/src/Illuminate/Console/OutputStyle.php',
     'Illuminate\\Console\\Parser' => $vendorDir . '/laravel/framework/src/Illuminate/Console/Parser.php',
     'Illuminate\\Console\\QuestionHelper' => $vendorDir . '/laravel/framework/src/Illuminate/Console/QuestionHelper.php',
