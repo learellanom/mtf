@@ -5,6 +5,7 @@
 /vendor
 vendor/
 node_modules/
+npm-debug.log
 /storage/*.key
 .phpunit.result.cache
 Homestead.json

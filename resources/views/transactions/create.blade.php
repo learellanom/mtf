@@ -12,11 +12,7 @@
 
 
 @section('content')
-{{--
-    
-aqui estoy colocando en mi laptop 2
 
---}]}
 <div class="d-flex justify-content-center">
     <div class="card col-md-7 movi" style="min-height: 500px !important; max-height:100%; height:100%; widht:100%"">
         <div class="card-body">
