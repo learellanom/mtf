@@ -1,4 +1,4 @@
-    @extends('adminlte::page')
+@extends('adminlte::page')
 @section('title', 'Estadisticas')
 <!-- @section('plugins.chartJs', true) -->
 @section('content')
@@ -937,7 +937,7 @@ $config4 = [
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-body">
-                            <h3 class="text-center text-uppercase font-weight-bold">Comisiones</h3>
+                            <h3 class="text-center text-uppercase font-weight-bold">Comisiones por Grupo</h3>
                             <canvas id="myChartDoughnut"></canvas>
                         </div>
                     </div>
@@ -1006,7 +1006,9 @@ $config4 = [
                             </tr>
                             --}}
                             <tr>
+                                <th style="width:1%;">Wallet</th>
                                 <th style="width:1%;">Transacción</th>
+                                <th style="width:1%;">Grupo</th>                                
                                 <th style="width:1%;">Cant transacción</th>
                                 <th class="myTdColor2" style="width:1%;">Comision</th>
                                 <th class="myTdColor3" style="width:1%;">Comision Base</th>
@@ -1024,7 +1026,7 @@ $config4 = [
                             $totalComisionGanancia2  = 0;
                         @endphp
                          
-                        @foreach($wallet_summary as $wallet2)
+                        @foreach($wallet_groupsummary as $wallet2)
 
                             <tr class="myTr" onClick="theRoute2({{0}}, {{0}}, {{$wallet2->WalletId}}, {{$wallet2->TypeTransactionId}})">
 
@@ -1063,7 +1065,9 @@ $config4 = [
                                         @break
                                 @endswitch
 
+                                <td>{{ $wallet2->WalletName}}</td>                               
                                 <td>{{ $wallet2->TypeTransaccionName}}</td>
+                                <td>{{ $wallet2->GroupName}}</td>
                                 <td>{{ number_format($wallet2->cant_transactions) }}</td>
                                 <td>{{ number_format($wallet2->total_commission ,2) }}</td>
                                 <td>{{ number_format($wallet2->total_amount_commission_base ,2) }}</td>
@@ -1074,6 +1078,8 @@ $config4 = [
                         @endforeach
 
                         <tr style="background-color: black; color:white;">
+                            <td ></td>
+                            <td ></td>
                             <td ></td>
                             <td                   >{{ number_format($cant) }}</td>
                             <td class="myTdColor2">{{ number_format($totalComision,2) }}</td>
@@ -1095,6 +1101,7 @@ $config4 = [
 
     /*
     *
+    *
     *   calculogeneral3
     *   sin wallet
     *
@@ -1111,7 +1118,7 @@ $config4 = [
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-body">
-                            <h3 class="text-center text-uppercase font-weight-bold">Comisiones</h3>
+                            <h3 class="text-center text-uppercase font-weight-bold">Comisiones por Grupo</h3>
                             <canvas id="myChartDoughnut"></canvas>
                         </div>
                     </div>
@@ -1156,58 +1163,7 @@ $config4 = [
             },
 
         });
-
-        // grafico de barras general
-        /*
-        myElement = `
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="card">
-                        <div class="card-body">
-                            <h3 class="text-center text-uppercase font-weight-bold">Comisiones</h3>
-                            <canvas id="myChartBar"></canvas>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        `;
-
-
-
-        let myLabel             = [];
-        let myData              = [];
-        let myBackGroudColor    = [];
-        let myBorderColor       = [];
-
-        @foreach($transaction_summary as $wallet2)
-
-                    myLabel.push("{{$wallet2->TypeTransaccionName }}");
-                    myData.push("{{$wallet2->total_commission_profit}}");
-                    myBackGroudColor.push('rgb(0, 173, 181)');
-                    myBorderColor.push('rgb(0, 173, 181)');
-
-
-        @endforeach
-        
-        let ctx444 = document.getElementById("myChartBar");
-
-        //console.log(myLabel);
-        //console.log(myData);
-        */
-        {{--
-        let myChart444 = new Chart(ctx444, {
-            type: 'bar',
-            labels: myLabel,
-            data: {
-                datasets: [{
-                    label: 'Mi grafico',
-                    data: myData,
-                }]
-            }
-        });
-        --}}
-        
-        
+      
 
         
 
@@ -1227,7 +1183,9 @@ $config4 = [
                     <table class="table thead-light" style="background-color: white;">
                         <thead class="thead-dark">
                             <tr>
-                                <th class="myTdColorBlack"  >Transacción 2</th>
+                                <th class="myTdColorBlack"  >Wallet</th>
+                                <th class="myTdColorBlack"  >Transacción</th>
+                                <th class="myTdColorBlack"  >Grupo</th>                                
                                 <th class="myTdColorBlack"  >Cant transacción</th>
                                 <th class="myTdColor2"      >Comision</th>
                                 <th class="myTdColor3"      >Comision Base</th>
@@ -1245,7 +1203,7 @@ $config4 = [
                             $totalComision  = 0;
                         @endphp
                         
-                        @foreach($transaction_summary as $wallet2)
+                        @foreach($wallet_groupsummary as $wallet2)
                         
                             <tr class="myTr" onClick="theRoute2({{0}}, {{0}}, {{0}}, {{$wallet2->TypeTransactionId}})">
 
@@ -1302,22 +1260,24 @@ $config4 = [
                                         @endphp
                                         @break
                                 @endswitch
-
+                                <td class="{{$myStyle}}" >{{ $wallet2->WalletName}}</td>
                                 <td class="{{$myStyle}}" >{{ $wallet2->TypeTransaccionName}}</td>
+                                <td class="{{$myStyle}}" >{{ $wallet2->GroupName}}</td>
                                 <td class="{{$myStyle}}" >{{ number_format($wallet2->cant_transactions) }}</td>
                                 
-
                                 <td class="{{$myStyle}}" >{{ number_format($wallet2->total_commission ,2)               == 0 ? "" : number_format($wallet2->total_commission ,2)}}</td>
                                 <td class="{{$myStyle}}" >{{ number_format($wallet2->total_amount_commission_base ,2)   == 0 ? "" : number_format($wallet2->total_amount_commission_base ,2)}}</td>
                                 <td class="{{$myStyle}}" >{{ number_format($wallet2->exchange_profit ,2)                == 0 ? "" : number_format($wallet2->exchange_profit ,2)}}</td>
                                 <!-- <td class="{{$myStyle}}" >{{ number_format($wallet2->total_commission_profit,2)        == 0 ? "" : number_format($wallet2->total_commission_profit ,2)}}</td> -->
-                                <td class="{{$myStyle}}" >{{ number_format($wallet2->amount_commission_profit_2,2)        == 0 ? "" : number_format($wallet2->amount_commission_profit_2,2)}}</td>
+                                <td class="{{$myStyle}}" >{{ number_format($wallet2->exchange_profit,2)        == 0 ? "" : number_format($wallet2->exchange_profit,2)}}</td>
                             </tr>
 
                         @endforeach
                         <tr style="background-color: black; color:white;">
-                            <td >{{ ' ' }}</td>
-                            <td >{{ ' ' }}</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
                             <td></td>
                             <td></td>
                             <td></td>
@@ -1343,7 +1303,7 @@ $config4 = [
 
         let myRoute = "";
 
-        myRoute = "{{ route('dashboardComisiones', ['wallet' => 'wallet2' , 'transaction' => 'transaction2', 'fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2']) }}";
+        myRoute = "{{ route('dashboardComisionesGrupo', ['wallet' => 'wallet2' , 'transaction' => 'transaction2', 'fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2']) }}";
         myRoute = myRoute.replace('wallet2',wallet);
         myRoute = myRoute.replace('transaction2',transaction);
         myRoute = myRoute.replace('fechaDesde2',fechaDesde);

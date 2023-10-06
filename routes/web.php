@@ -71,6 +71,10 @@ Route::get('dashboardComisiones', [App\Http\Controllers\HomeController::class, '
 Route::get('dashboardComisiones/{wallet}/{transaction?}', [App\Http\Controllers\HomeController::class, 'comisiones'])->name('dashboardComisiones');
 Route::get('dashboardComisiones/{wallet}/{transaction?}/{fechaDesde?}/{fechaHasta?}', [App\Http\Controllers\HomeController::class, 'comisiones'])->name('dashboardComisiones');
 
+Route::get('dashboardComisionesGrupo', [App\Http\Controllers\HomeController::class, 'comisionesGrupo'])->name('dashboardComisionesGrupo');
+Route::get('dashboardComisionesGrupo/{wallet}/{transaction?}', [App\Http\Controllers\HomeController::class, 'comisionesGrupo'])->name('dashboardComisionesGrupo');
+Route::get('dashboardComisionesGrupo/{wallet}/{transaction?}/{fechaDesde?}/{fechaHasta?}', [App\Http\Controllers\HomeController::class, 'comisionesGrupo'])->name('dashboardComisionesGrupo');
+
 
 Route::get('dashboard_est/export/', [App\Http\Controllers\HomeController::class, 'export'])->name('exports.excel'); //EXPORTACIÓN DE EXCEL
 Route::get('dashboard_est/export/{wallet}', [App\Http\Controllers\HomeController::class, 'export'])->name('exports.excel'); //EXPORTACIÓN DE EXCEL

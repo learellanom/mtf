@@ -355,6 +355,13 @@ return [
             'can'  => 'dashboardComisiones',
         ],
         [
+            'text' => 'Consolidado de comisiones por Grupo',
+            'url'  => 'dashboardComisionesGrupo',
+            'active' => ['dashboardComisionesGrupo*'],
+            'icon' => 'fas fa-fw fas fa-chart-line',
+            'can'  => 'dashboardComisionesGrupo',
+        ],        
+        [
             'text' => 'Detalles de movimiento',
             'url'  => 'estadisticasDetalle',
             'active' => ['estadisticasDetalle', 'regex:@^estadisticasDetalle/[0-9]+/*@'],
