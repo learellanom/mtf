@@ -303,6 +303,13 @@ class HomeController extends Controller
         // dd($wallet_summary);
         $wallet_groupsummary        = app(statisticsController::class)->getWalletTransactionGroupSummary($request);
         // dd($wallet_groupsummary);
+
+        $requestGeneral             = clone $request;
+        $requestGeneral->wallet     = 0;
+        // dd($requestGeneral->wallet);
+        $wallet_groupsummaryGeneral = app(statisticsController::class)->getWalletTransactionGroupSummary($requestGeneral);
+        // dd($wallet_groupsummary);
+
         $wallet                     = app(statisticsController::class)->getWallet();
         // dd($wallet);
         $typeTransactions           = app(statisticsController::class)->getTypeTransactions();
@@ -414,7 +421,8 @@ class HomeController extends Controller
         $parametros['myFechaDesdeBefore']           = $myFechaDesdeBefore;
         $parametros['myFechaHastaBefore']           = $myFechaHastaBefore;
         $parametros['balance']                      = $balance;
-
+        $parametros['wallet_groupsummaryGeneral']   = $wallet_groupsummaryGeneral;
+        
         //  dd($transaction_summary);
         //  dd($wallet_groupsummary);
 

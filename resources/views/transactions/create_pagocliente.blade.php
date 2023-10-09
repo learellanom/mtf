@@ -143,7 +143,8 @@
                     </div>
                 </div>
 
-                {!! Form::hidden('amount_commission_profit', null, ['class' => 'form-control general', 'id' => 'amount_commission_profit', 'readonly' => true ]) !!}
+                {!! Form::hidden('amount_commission_profit', 0, ['class' => 'form-control general', 'id' => 'amount_commission_profit', 'readonly' => true ]) !!}
+                {!! Form::hidden('amount_commission_profit2', 0, ['class' => 'form-control general', 'id' => 'amount_commission_profit2', 'readonly' => true ]) !!}
 
                 <hr class="bg-dark esconder comi" style="height:1px;">
 
@@ -432,69 +433,73 @@
     monto = document.getElementById("monto");
     monto_dolares = document.getElementById("monto_dolares");
     //const log = document.getElementById("montototal");
+    $('#radio1_base, #radio2_base, #radio3_base').on('click', function() {
+        
+        let comision_base   = $('#comision_base').val() != "" ? parseFloat($('#comision_base').val()) : 0;
+        let porcentage_base = $('#percentage_base').val() != "" ? parseFloat($('#percentage_base').val()) : 0;
+        let montoreal_base  = $('#monto_base').val() != "" ? parseFloat($('#monto_base').val()) : 0;
+
+        let exonerar_base   = $('#radio1_base').is(':checked');
+        let descontar_base  = $('#radio2_base').is(':checked');
+        let incluir_base    = $('#radio3_base').is(':checked');
+
+        updateMontorealBase(exonerar_base, descontar_base, incluir_base, comision_base, porcentage_base, montoreal_base);
+              
+    });
 
     $('#monto_dolares, #percentage_base').on('input', function() {
 
-          let comision_base = parseFloat($('#comision_base').val());
-          let porcentage_base = parseFloat($('#percentage_base').val());
-          let montoreal_base = parseFloat($('#monto_base').val());
+        let comision_base = $('#comision_base').val() != "" ? parseFloat($('#comision_base').val()) : 0;
+        
+        let porcentage_base = parseFloat($('#percentage_base').val());
+        let montoreal_base = parseFloat($('#monto_base').val());
 
-          let exonerar_base = $('#radio1_base').is(':checked');
-          let descontar_base = $('#radio2_base').is(':checked');
-          let incluir_base = $('#radio3_base').is(':checked');
+        let exonerar_base = $('#radio1_base').is(':checked');
+        let descontar_base = $('#radio2_base').is(':checked');
+        let incluir_base = $('#radio3_base').is(':checked');
 
-          updateMontorealBase(exonerar_base, descontar_base, incluir_base, comision_base, porcentage_base, montoreal_base);
+        updateMontorealBase(exonerar_base, descontar_base, incluir_base, comision_base, porcentage_base, montoreal_base);
 
-      $('#radio1_base, #radio2_base, #radio3_base').on('click', function() {
-            let comision_base = parseFloat($('#comision_base').val());
-            let porcentage_base = parseFloat($('#percentage_base').val());
-            let montoreal_base = parseFloat($('#monto_base').val());
-
-            let exonerar_base = $('#radio1_base').is(':checked');
-            let descontar_base = $('#radio2_base').is(':checked');
-            let incluir_base = $('#radio3_base').is(':checked');
-
-            updateMontorealBase(exonerar_base, descontar_base, incluir_base, comision_base, porcentage_base, montoreal_base);
-        });
-
-        function updateMontorealBase(exonerar_base, descontar_base, incluir_base, comision_base, porcentage_base, montoreal_base) {
-
-            let monto_dolares = parseFloat($('#monto_dolares').val());
-            let amount_commission_profit    = 0;
-
-            if(porcentage_base > 0){
-                $('#comision_base').val((monto_dolares * (porcentage_base / 100)));
-                comision_base = (monto_dolares * (porcentage_base / 100));
-                //alert(comision);
-            }
-
-            if (comision_base == 0) {
-                amount_commission_profit = 0;
-            }else{
-                amount_commission_profit = comision_base;
-            }
-            
-            if(!exonerar_base) {
-                if(incluir_base) {
-                    montoreal_base = (monto_dolares + comision_base).toFixed(2);
-                    $('#monto_base').val((monto_dolares + comision_base));
-                    //alert(montoreal);
-                } else if(descontar_base) {
-                    montoreal_base = (monto_dolares - comision_base).toFixed(2);
-                    $('#monto_base').val((monto_dolares - comision_base));
-                }
-            }
-            else {
-                $('#percentage_base').val('');
-                $('#comision_base').val('');
-                montoreal_base = monto_dolares.toFixed(2);
-                $('#monto_base').val(monto_dolares);
-            }
-
-            $('#amount_commission_profit').val(amount_commission_profit);
-
-        }
     });
+
+    function updateMontorealBase(exonerar_base, descontar_base, incluir_base, comision_base, porcentage_base, montoreal_base) {
+             
+        let monto_dolares = parseFloat($('#monto_dolares').val());
+        let amount_commission_profit    = 0;
+        
+        if(porcentage_base > 0){
+            $('#comision_base').val((monto_dolares * (porcentage_base / 100)));
+            comision_base = (monto_dolares * (porcentage_base / 100));
+            //alert(comision);
+        }
+        
+        if (comision_base == 0) {
+            amount_commission_profit = 0;
+        }else{
+            amount_commission_profit = comision_base;
+        }
+        
+        if(!exonerar_base) {
+            if(incluir_base) {
+                montoreal_base = (monto_dolares + comision_base).toFixed(2);
+                $('#monto_base').val((monto_dolares + comision_base));
+                //alert(montoreal);
+            } else if(descontar_base) {
+                montoreal_base = (monto_dolares - comision_base).toFixed(2);
+                $('#monto_base').val((monto_dolares - comision_base));
+            }
+        }
+        else {
+            $('#percentage_base').val('');
+            $('#comision_base').val('');
+            montoreal_base = monto_dolares.toFixed(2);
+            $('#monto_base').val(monto_dolares);
+        }
+
+        $('#amount_commission_profit').val(amount_commission_profit);
+
+    }
+    
 
 
 
