@@ -31,6 +31,14 @@ $config4 = [
 
 // dd($wallet);
 
+
+$myCantGeneral                  = 0;
+$totalComisionGeneral           = 0;
+$totalComisionBaseGeneral       = 0;
+$totalComisionExchangeGeneral   = 0;
+$totalComisionGananciaGeneral   = 0;
+$totalComisionGanancia2General  = 0;
+
 @endphp
 <style>
     .myTr {
@@ -273,7 +281,7 @@ $config4 = [
     BuscaWallet(miWallet);
 
     const miTypeTransaction= {!! $myTypeTransaction !!};
-
+    
     BuscaTransaccion(miTypeTransaction);
 
     @php
@@ -389,7 +397,9 @@ $config4 = [
             calculos3();
         }else{
             calculoGeneral2();
-            calculos2();
+            calculoGeneral22();
+            calculoGeneral222();
+            //calculos2();
         }
         
         leeFiltros();  
@@ -988,6 +998,11 @@ $config4 = [
                 .myTr:hover{
                     background-color: #D7DBDD  !important;
                 }
+                .myWidth{
+                    width: 1%;
+                    min-width: 1%;
+                    max-width: 1%;
+                }
             </style>
 
             {{-- dd($balanceDetail . ' ' . $myFechaDesdeBefore . ' ' . $myFechaHastaBefore) --}}
@@ -998,7 +1013,7 @@ $config4 = [
                         <thead class="thead-dark">
                             {{--
                             <tr>
-                                <th style="width:1%;">Saldo Total</th>
+                                <th style="width:1%; min-width: 1%; max-width: 1%;">Saldo Total</th>
                                 <th style="width:1%;">{{ number_format($balance,2) }}</th>
                                 <th style="width:1%;"></th>
                                 <th style="width:1%;">Saldo al corte</th>
@@ -1006,14 +1021,14 @@ $config4 = [
                             </tr>
                             --}}
                             <tr>
-                                <th style="width:1%;">Wallet</th>
-                                <th style="width:1%;">Transacción</th>
-                                <th style="width:1%;">Grupo</th>                                
-                                <th style="width:1%;">Cant transacción</th>
-                                <th class="myTdColor2" style="width:1%;">Comision</th>
-                                <th class="myTdColor3" style="width:1%;">Comision Base</th>
-                                <th class="myTdColor6" style="width:1%;">Comision Exchange</th>
-                                <th class="myTdColor5" style="width:1%;">Comision Ganancia</th>
+                                <th class="myWidth"             >Wallet</th>
+                                <th class="myWidth"             >Transacción</th>
+                                <th class="myWidth"             >Grupo</th>                                
+                                <th class="myWidth"             >Cant transacción</th>
+                                <th class="myTdColor2 myWidth"  >Comision</th>
+                                <th class="myTdColor3 myWidth"  >Comision Base</th>
+                                <th class="myTdColor6 myWidth"  >Comision Exchange</th>
+                                <th class="myTdColor5 myWidth"  >Comision Ganancia</th>
                             </tr>
                         </thead>
                         @php
@@ -1031,15 +1046,23 @@ $config4 = [
                             <tr class="myTr" onClick="theRoute2({{0}}, {{0}}, {{$wallet2->WalletId}}, {{$wallet2->TypeTransactionId}})">
 
                                 @php
-                                    $myTransaction          = $myClass->getCreditDebitWallet($wallet2->TypeTransactionId);
+                                    $myTransaction                  = $myClass->getCreditDebitWallet($wallet2->TypeTransactionId);
                                     
-                                    $totalComision          +=  $wallet2->total_commission;
-                                    $totalComisionBase      +=  $wallet2->total_amount_commission_base;
-                                    $totalComisionExchange  +=  $wallet2->exchange_profit;
-                                    $totalComisionGanancia  +=  $wallet2->total_commission_profit;  
-                                    $totalComisionGanancia2  +=  $wallet2->total_commission_profit_2;  
+                                    $totalComision                  +=  $wallet2->total_commission;
+                                    $totalComisionBase              +=  $wallet2->total_amount_commission_base;
+                                    $totalComisionExchange          +=  $wallet2->exchange_profit;
+                                    $totalComisionGanancia          +=  $wallet2->total_commission_profit;  
+                                    $totalComisionGanancia2         +=  $wallet2->total_commission_profit_2;  
 
-                                    $cant                   += $wallet2->cant_transactions;
+                                    $cant                           += $wallet2->cant_transactions;
+
+                                    $myCantGeneral                  += $wallet2->cant_transactions;
+                                    $totalComisionGeneral           += $wallet2->total_commission;
+                                    $totalComisionBaseGeneral       += $wallet2->total_amount_commission_base;
+                                    $totalComisionExchangeGeneral   += $wallet2->exchange_profit;
+                                    $totalComisionGananciaGeneral   += $wallet2->total_commission_profit;
+                                    $totalComisionGanancia2General  += $wallet2->total_commission_profit_2;  
+
                                 @endphp
 
                                 @switch($myTransaction)
@@ -1099,6 +1122,294 @@ $config4 = [
 
     }
 
+    
+    /*
+    *
+    *
+    *  calculoGeneral2
+    *  resumen general por wallet
+    *
+    */
+    function calculoGeneral22(){
+    {{--
+    myElement = `
+    <div class="row" data-wallet="{{$wallet2->WalletId}}">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <h3 class="text-center text-uppercase font-weight-bold">Comisiones por Grupo</h3>
+                    <canvas id="myChartDoughnut"></canvas>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    `;
+    $("#myCanvasGeneral").append(myElement);
+
+    const COLORS = [
+            'rgb(0, 173, 181)',
+            'rgb(58, 16, 120)',
+            'rgb(255, 184, 76)',
+            'rgb(49, 225, 247)',
+            'rgb(8, 2, 2)',
+            'rgb(0, 129, 180)',
+            'rgb(7, 10, 82)',
+            'rgb(213, 206, 163)',
+            'rgb(60, 42, 33)',
+            'rgb(2, 89, 85)',
+            'rgb(255, 132, 0)',
+            'rgb(184, 98, 27)',
+            'rgb(114, 0, 27)',
+    ];
+
+    const ctx2          = document.getElementById('myChartDoughnut');
+    const myChart2      = new Chart(ctx2, {
+    type: 'doughnut',
+    data : {
+        labels: [@foreach($wallet_summary as $wallet) "{{$wallet->TypeTransaccionName }}", @endforeach ],
+        datasets: [
+            {
+            label: 'Dataset 1',
+            data: [@foreach($wallet_summary as $wallet) {{$wallet->total_commission_profit. ',' }} @endforeach],
+            backgroundColor:COLORS,
+            hoverOffset: 4
+        }]
+    },
+
+    });
+    --}}
+    myElement =
+        `
+        <style>
+            .myTr {
+                cursor: pointer;
+            }
+            .myTr:hover{
+                background-color: #D7DBDD  !important;
+            }
+            .myWidth{
+                    width: 1%;
+                    min-width: 1%;
+                    max-width: 1%;
+                }
+        </style>
+
+        {{-- dd($balanceDetail . ' ' . $myFechaDesdeBefore . ' ' . $myFechaHastaBefore) --}}
+
+        <div class ="row mb-4" style="background-color: white;" data-wallet="{{$wallet2->WalletId}}">
+            <div class="col-12 col-md-12">
+                <table class="table thead-light" style="background-color: white;">
+                    <thead class="thead-dark">
+                        {{--
+                        <tr>
+                            <th style="width:1%;">Saldo Total</th>
+                            <th style="width:1%;">{{ number_format($balance,2) }}</th>
+                            <th style="width:1%;"></th>
+                            <th style="width:1%;">Saldo al corte</th>
+                            <th style="width:1%;">{{ number_format($balanceDetail,2) }}</th>    
+                        </tr>
+                        --}}
+                        <tr>
+                            <th class="myWidth"             >Wallet</th>
+                            <th class="myWidth"             >Transacción</th>
+                            <th class="myWidth"             >Grupo</th>                                
+                            <th class="myWidth"             >Cant transacción</th>
+                            <th class="myTdColor2 myWidth"  >Comision</th>
+                            <th class="myTdColor3 myWidth"  >Comision Base</th>
+                            <th class="myTdColor6 myWidth"  >Comision Exchange</th>
+                            <th class="myTdColor5 myWidth"  >Comision Ganancia</th>
+                        </tr>
+                    </thead>
+                    @php
+                        $cant                   = 0;
+
+                        $totalComision          = 0;
+                        $totalComisionBase      = 0;
+                        $totalComisionExchange  = 0;
+                        $totalComisionGanancia  = 0;
+                        $totalComisionGanancia2  = 0;
+
+
+
+                        $myGroupArray = array();
+                        foreach($wallet_groupsummary as $wallet2){
+                            $myGroupArray[$wallet2->GroupId] = $wallet2->GroupName;
+                        }
+                        ksort($myGroupArray);
+                         //$myVal = array_key_exists(3,$myGroupArray);
+                        // $myVal = "";
+                        // dd(' lo busco ' . (($myVal) ? 'existe' : 'NO') . ' - ' . print_r($myGroupArray,true));
+
+                        // dd($wallet_groupsummaryGeneral);
+                    @endphp
+                        
+                    @foreach($wallet_groupsummaryGeneral as $wallet2)
+
+                        @php
+                            $myInd = array_key_exists($wallet2->WalletId,$myGroupArray);
+                        @endphp
+                        @if(!$myInd)
+                            @php
+                               //  dd('Indicador -> ' . $myInd .  ' busca -> ' . $wallet2->WalletId . 'el array es ->' . print_r($myGroupArray,true) );
+                            @endphp
+                            @continue
+                        @endif
+
+
+                        @php
+                            $myInd = true;
+                            if ($myTypeTransaction != 0){
+                                if ($wallet2->TypeTransactionId != $myTypeTransaction){
+                                    $myInd = false;
+                                }
+                            }
+                        @endphp
+                        @if(!$myInd) 
+                            @continue
+                        @endif
+
+                        <tr class="myTr" onClick="theRoute2({{0}}, {{0}}, {{$wallet2->WalletId}}, {{$wallet2->TypeTransactionId}})">
+
+                            @php
+                                $myTransaction          = $myClass->getCreditDebitWallet($wallet2->TypeTransactionId);
+                                
+                                $totalComision          +=  $wallet2->total_commission;
+                                $totalComisionBase      +=  $wallet2->total_amount_commission_base;
+                                $totalComisionExchange  +=  $wallet2->exchange_profit;
+                                $totalComisionGanancia  +=  $wallet2->total_commission_profit;  
+                                $totalComisionGanancia2  +=  $wallet2->total_commission_profit_2;  
+
+                                $cant                   += $wallet2->cant_transactions;
+
+                                $myCantGeneral                  += $wallet2->cant_transactions;
+                                $totalComisionGeneral           += $wallet2->total_commission;
+                                $totalComisionBaseGeneral       += $wallet2->total_amount_commission_base;
+                                $totalComisionExchangeGeneral   += $wallet2->exchange_profit;
+                                $totalComisionGananciaGeneral   += $wallet2->total_commission_profit;
+                                $totalComisionGanancia2General  += $wallet2->total_commission_profit_2;  
+                            @endphp
+
+                            @switch($myTransaction)
+                                //
+                                // debito
+                                // resta
+                                //
+                                @case("Debito")
+
+                                    @php
+
+                                    @endphp
+                                    @break
+
+                                //
+                                // credito
+                                // suma
+                                //
+                                @case("Credito")
+                                    @php
+                                        
+                                    @endphp                                                
+                                    @break
+                            @endswitch
+
+                            <td class="myWidth" >{{ $wallet2->WalletName}}</td>                               
+                            <td class="myWidth" >{{ $wallet2->TypeTransaccionName}}</td>
+                            <td class="myWidth" >{{ $wallet2->GroupName}}</td>
+                            <td class="myWidth" >{{ number_format($wallet2->cant_transactions) }}</td>
+                            <td class="myWidth" >{{ number_format($wallet2->total_commission ,2) }}</td>
+                            <td class="myWidth" >{{ number_format($wallet2->total_amount_commission_base ,2) }}</td>
+                            <td class="myWidth" >{{ number_format($wallet2->exchange_profit ,2) }}</td>
+                            <!-- <td>{{ number_format($wallet2->total_commission_profit,2) }}</td> -->
+                            <td class="myWidth">{{ number_format($wallet2->total_commission_profit_2,2) }}</td>
+                        </tr>
+                    @endforeach
+
+                    <tr style="background-color: black; color:white;">
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td                   >{{ number_format($cant) }}</td>
+                        <td class="myTdColor2">{{ number_format($totalComision,2) }}</td>
+                        <td class="myTdColor3">{{ number_format($totalComisionBase,2) }}</td>
+                        <td class="myTdColor6">{{ number_format($totalComisionExchange,2) }}</td>                            
+                        <!-- <td class="myTdColor5">{{ number_format($totalComisionGanancia,2) }}</td>     -->
+                        <td class="myTdColor5">{{ number_format($totalComisionGanancia2,2) }}</td>                                
+                    </tr>
+
+                </table>
+            </div>
+            
+        </div>
+        `;
+
+        $("#myCanvasGeneral").append(myElement);
+
+    }
+    /*
+    *
+    *
+    *  calculoGeneral2
+    *  resumen general por wallet
+    *
+    */
+    function calculoGeneral222(){
+
+        myElement =
+        `
+        <style>
+            .myTr {
+                cursor: pointer;
+            }
+            .myTr:hover{
+                background-color: #D7DBDD  !important;
+            }
+            .myWidth{
+                width: 1%;
+                min-width: 1%;
+                max-width: 1%;
+            }            
+        </style>
+
+        {{-- dd($balanceDetail . ' ' . $myFechaDesdeBefore . ' ' . $myFechaHastaBefore) --}}
+
+        <div class ="row mb-4" style="background-color: white;" data-wallet="{{$wallet2->WalletId}}">
+            <div class="col-12 col-md-12">
+                <table class="table thead-light" style="background-color: white;">
+                    {{--
+                    <thead class="thead-dark">
+                        <tr>
+                            <th style="width:1%;">Wallet</th>
+                            <th style="width:1%;">Transacción</th>
+                            <th style="width:1%;">Grupo</th>                                
+                            <th style="width:1%;">Cant transacción</th>
+                            <th class="myTdColor2" style="width:1%;">Comision</th>
+                            <th class="myTdColor3" style="width:1%;">Comision Base</th>
+                            <th class="myTdColor6" style="width:1%;">Comision Exchange</th>
+                            <th class="myTdColor5" style="width:1%;">Comision Ganancia</th>
+                        </tr>
+                    </thead>
+                    --}}
+                    <tr style="background-color: black; color:white;">
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td                   >{{ number_format($myCantGeneral) }}</td>
+                        <td class="myTdColor2">{{ number_format($totalComisionGeneral,2) }}</td>
+                        <td class="myTdColor3">{{ number_format($totalComisionBaseGeneral,2) }}</td>
+                        <td class="myTdColor6">{{ number_format($totalComisionExchangeGeneral,2) }}</td>                            
+                        <!-- <td class="myTdColor5">{{ number_format($totalComisionGananciaGeneral,2) }}</td>     -->
+                        <td class="myTdColor5">{{ number_format($totalComisionGanancia2General,2) }}</td>                                
+                    </tr>
+
+                </table>
+            </div>
+            
+        </div>
+        `;
+        $("#myCanvasGeneral").append(myElement);
+               
+    }
     /*
     *
     *
@@ -1109,7 +1420,7 @@ $config4 = [
     function calculoGeneral3(){
 
         let myElement;
-
+        armaGrupos();
 
         // grafico principal
 
@@ -1291,6 +1602,7 @@ $config4 = [
             </div>
         `;
         $("#myCanvasGeneral").append(myElement);
+
 
     }
 
@@ -1616,7 +1928,19 @@ $config4 = [
         location.href = myRoute;
     }
 
-            
+    function armaGrupos(){
+        @php
+        $myGroupArray = array();
+        foreach($wallet_groupsummary as $wallet2){
+            $myGroupArray[$wallet2->GroupId] = $wallet2->GroupName;
+        }
+        ksort($myGroupArray);
+        // $myVal = array_key_exists(3,$myGroupArray);
+        // $myVal = "";
+        //dd(' lo busco ' . (($myVal) ? 'existe' : 'NO') . ' - ' . print_r($myGroupArray,true));
+        @endphp
+    }
+
 </script>
 
 @endsection

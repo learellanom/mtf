@@ -1429,9 +1429,8 @@ class statisticsController extends Controller
             GroupId,
             GroupName
         order by
-            TypeTransactionId,
+            WalletName,
             TypeTransaccionName,
-            GroupId,
             GroupName            
         ";
        
