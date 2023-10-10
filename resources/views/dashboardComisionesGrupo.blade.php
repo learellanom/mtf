@@ -87,6 +87,9 @@ $totalComisionGanancia2General  = 0;
     <div class="card">
         <div class="card-header">
             <div class="row">
+
+
+
                 <div class="col col-md-3">
                     <x-adminlte-select2 id="wallet"
                     name="optionsWallets"
@@ -104,6 +107,27 @@ $totalComisionGanancia2General  = 0;
                     <x-adminlte-options :options="$wallet" empty-option="Wallet.."/>
                     </x-adminlte-select2>
                 </div>
+
+
+                <div class="col col-md-3">
+                    <x-adminlte-select2 id="wallet2"
+                    name="optionsWallets2"
+                    
+                    label-class="text-lightblue"
+                    data-placeholder="Seleccione una caja"
+
+                    :config="$config4"
+                    >
+                    <x-slot name="prependSlot">
+                        <div class="input-group-text bg-gradient-light">
+                            <i class="fas fa-box"></i>
+                        </div>
+                    </x-slot>
+                    <x-adminlte-options :options="$wallet" empty-option="Wallet.."/>
+                    </x-adminlte-select2>
+                </div>
+
+                {{--
                 <div class="col col-md-3">
                     <x-adminlte-select2 id="typeTransactions"
                     name="optionstypeTransactions"
@@ -122,6 +146,8 @@ $totalComisionGanancia2General  = 0;
                     <x-adminlte-options :options="$typeTransactions" empty-option="Selecciona Transaccion.."/>
                     </x-adminlte-select2>
                 </div>
+                --}}
+
 
                 <div class ="col-12 col-md-3">
                     <x-adminlte-date-range
@@ -276,10 +302,12 @@ $totalComisionGanancia2General  = 0;
 
 <script>
 
-    const miWallet = {!! $myWallet !!};
+    const miWallet  = {!! $myWallet !!};
+    const miWallet2 = {!! $myWallet2 !!};
 
     BuscaWallet(miWallet);
-
+    BuscaWallet2(miWallet2);
+    
     const miTypeTransaction= {!! $myTypeTransaction !!};
     
     BuscaTransaccion(miTypeTransaction);
@@ -287,7 +315,7 @@ $totalComisionGanancia2General  = 0;
     @php
 
         
-        $myData                         = $myClass->filtrosLeeComisiones();
+        $myData                         = $myClass->filtrosLeeComisionesGrupo();
 
         $myocultarresumengeneral        = $myData['ocultarresumengeneral'];
         $myocultarresumentransaccion    = $myData['ocultarresumentransaccion'];
@@ -299,8 +327,8 @@ $totalComisionGanancia2General  = 0;
 
         // dd(' myocultarresumengeneral -> ' . $myocultarresumengeneral . ' myocultarresumentransaccion -> ' . $myocultarresumentransaccion . ' mytransactions -> ' . print_r($mytransactions,true) );
         // dd(json_encode($myocultarresumentransaccion));
-        //dd(json_encode($myocultarresumengeneral));
-        //dd(json_encode($mytransactions));
+        // dd(json_encode($myocultarresumengeneral));
+        // dd(json_encode($mytransactions));
 
     @endphp
 
@@ -309,9 +337,9 @@ $totalComisionGanancia2General  = 0;
 
             // Valida y esconde
 
-        let text        = window.location.href;
-        const myArray   = text.split("/");
-        const myLength  = myArray.length;
+        let     text      = window.location.href;
+        const   myArray   = text.split("/");
+        const   myLength  = myArray.length;
 
         if (window.location.href.indexOf("?") === -1) {
             $('.esconder').show();
@@ -332,12 +360,22 @@ $totalComisionGanancia2General  = 0;
         $('#wallet').on('change', function (){
 
             const wallet        = $('#wallet').val();
+            const wallet2       = $('#wallet2').val();
             const transaccion   = $('#typeTransactions').val();
             
-             theRoute(wallet, transaccion);
+             theRoute(wallet, wallet2);
 
         });
+        $('#wallet2').on('change', function (){
 
+            const wallet        = $('#wallet').val();
+            const wallet2       = $('#wallet2').val();
+            const transaccion   = $('#typeTransactions').val();
+
+            theRoute(wallet, wallet2);
+
+        });
+        {{--
         $('#typeTransactions').on('change', function (){
 
             const wallet        = $('#wallet').val();
@@ -346,7 +384,7 @@ $totalComisionGanancia2General  = 0;
             theRoute(wallet, transaccion);
 
         });
-
+        --}}
         $('#drCustomRanges').on('change', function () {
 
             let myFechaDesde, myFechaHasta;
@@ -1021,14 +1059,14 @@ $totalComisionGanancia2General  = 0;
                             </tr>
                             --}}
                             <tr>
-                                <th class="myWidth"             >Wallet</th>
-                                <th class="myWidth"             >Transacción</th>
-                                <th class="myWidth"             >Grupo</th>                                
-                                <th class="myWidth"             >Cant transacción</th>
-                                <th class="myTdColor2 myWidth"  >Comision</th>
-                                <th class="myTdColor3 myWidth"  >Comision Base</th>
-                                <th class="myTdColor6 myWidth"  >Comision Exchange</th>
-                                <th class="myTdColor5 myWidth"  >Comision Ganancia</th>
+                                <th class=""            style="width: 4rem;">Wallettt</th>
+                                <th class=""            style="width: 4rem;">Transacción</th>
+                                <th class=""            style="width: 4rem;">Grupo</th>                                
+                                <th class=""            style="width: 4rem;">Cant transacción</th>
+                                <th class="myTdColor2 " style="">Comision</th>
+                                <th class="myTdColor3 " style="">Comision Base</th>
+                                <th class="myTdColor6 " style="">Comision Exchange</th>
+                                <th class="myTdColor5 " style="">Comision Ganancia</th>
                             </tr>
                         </thead>
                         @php
@@ -1042,6 +1080,20 @@ $totalComisionGanancia2General  = 0;
                         @endphp
                          
                         @foreach($wallet_groupsummary as $wallet2)
+                            
+                            @php
+                            // ajax
+                                $indNoMostrar = 0;
+                                foreach($mytransactions as $myTrans){
+                                    if ($myTrans == $wallet2->TypeTransactionId) {
+                                        $indNoMostrar = 1;
+                                    }
+                                }
+                            @endphp
+
+                            @if($indNoMostrar == 1)
+                                @continue
+                            @endif
 
                             <tr class="myTr" onClick="theRoute2({{0}}, {{0}}, {{$wallet2->WalletId}}, {{$wallet2->TypeTransactionId}})">
 
@@ -1133,52 +1185,53 @@ $totalComisionGanancia2General  = 0;
     function calculoGeneral22(){
     {{--
     myElement = `
-    <div class="row" data-wallet="{{$wallet2->WalletId}}">
-        <div class="col-md-12">
-            <div class="card">
-                <div class="card-body">
-                    <h3 class="text-center text-uppercase font-weight-bold">Comisiones por Grupo</h3>
-                    <canvas id="myChartDoughnut"></canvas>
+        <div class="row" data-wallet="{{$wallet2->WalletId}}">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="text-center text-uppercase font-weight-bold">Comisiones por Grupo</h3>
+                        <canvas id="myChartDoughnut"></canvas>
+                    </div>
                 </div>
             </div>
-        </div>
 
-    </div>
-    `;
+        </div>
+        `;
     $("#myCanvasGeneral").append(myElement);
 
-    const COLORS = [
-            'rgb(0, 173, 181)',
-            'rgb(58, 16, 120)',
-            'rgb(255, 184, 76)',
-            'rgb(49, 225, 247)',
-            'rgb(8, 2, 2)',
-            'rgb(0, 129, 180)',
-            'rgb(7, 10, 82)',
-            'rgb(213, 206, 163)',
-            'rgb(60, 42, 33)',
-            'rgb(2, 89, 85)',
-            'rgb(255, 132, 0)',
-            'rgb(184, 98, 27)',
-            'rgb(114, 0, 27)',
-    ];
+        const COLORS = [
+                'rgb(0, 173, 181)',
+                'rgb(58, 16, 120)',
+                'rgb(255, 184, 76)',
+                'rgb(49, 225, 247)',
+                'rgb(8, 2, 2)',
+                'rgb(0, 129, 180)',
+                'rgb(7, 10, 82)',
+                'rgb(213, 206, 163)',
+                'rgb(60, 42, 33)',
+                'rgb(2, 89, 85)',
+                'rgb(255, 132, 0)',
+                'rgb(184, 98, 27)',
+                'rgb(114, 0, 27)',
+        ];
 
-    const ctx2          = document.getElementById('myChartDoughnut');
-    const myChart2      = new Chart(ctx2, {
-    type: 'doughnut',
-    data : {
-        labels: [@foreach($wallet_summary as $wallet) "{{$wallet->TypeTransaccionName }}", @endforeach ],
-        datasets: [
-            {
-            label: 'Dataset 1',
-            data: [@foreach($wallet_summary as $wallet) {{$wallet->total_commission_profit. ',' }} @endforeach],
-            backgroundColor:COLORS,
-            hoverOffset: 4
-        }]
-    },
+        const ctx2          = document.getElementById('myChartDoughnut');
+        const myChart2      = new Chart(ctx2, {
+        type: 'doughnut',
+        data : {
+            labels: [@foreach($wallet_summary as $wallet) "{{$wallet->TypeTransaccionName }}", @endforeach ],
+            datasets: [
+                {
+                label: 'Dataset 1',
+                data: [@foreach($wallet_summary as $wallet) {{$wallet->total_commission_profit. ',' }} @endforeach],
+                backgroundColor:COLORS,
+                hoverOffset: 4
+            }]
+        },
 
     });
     --}}
+
     myElement =
         `
         <style>
@@ -1246,6 +1299,7 @@ $totalComisionGanancia2General  = 0;
                         
                     @foreach($wallet_groupsummaryGeneral as $wallet2)
 
+                        <!--
                         @php
                             $myInd = array_key_exists($wallet2->WalletId,$myGroupArray);
                         @endphp
@@ -1255,15 +1309,20 @@ $totalComisionGanancia2General  = 0;
                             @endphp
                             @continue
                         @endif
-
+                        -->
 
                         @php
+                            
                             $myInd = true;
-                            if ($myTypeTransaction != 0){
-                                if ($wallet2->TypeTransactionId != $myTypeTransaction){
-                                    $myInd = false;
+                            
+                            foreach($mytransactions as $mytrans){
+                                if ($mytrans != 0){
+                                    if ($wallet2->TypeTransactionId == $mytrans){
+                                        $myInd = false;
+                                    }
                                 }
                             }
+                            
                         @endphp
                         @if(!$myInd) 
                             @continue
@@ -1607,17 +1666,17 @@ $totalComisionGanancia2General  = 0;
     }
 
 
-    function theRoute(wallet = 0, transaction = 0, fechaDesde = 0, fechaHasta = 0){
+    function theRoute(wallet = 0, wallet2 = 0, fechaDesde = 0, fechaHasta = 0){
 
 
         if (wallet   === "") wallet  = 0;
-        if (transaction   === "") transaction  = 0;
+        if (wallet2   === "") wallet2  = 0;
 
         let myRoute = "";
 
-        myRoute = "{{ route('dashboardComisionesGrupo', ['wallet' => 'wallet2' , 'transaction' => 'transaction2', 'fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2']) }}";
+        myRoute = "{{ route('dashboardComisionesGrupo', ['wallet' => 'wallet2' , 'wallet2' => 'wallet22', 'fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2']) }}";
         myRoute = myRoute.replace('wallet2',wallet);
-        myRoute = myRoute.replace('transaction2',transaction);
+        myRoute = myRoute.replace('wallet22',wallet2);
         myRoute = myRoute.replace('fechaDesde2',fechaDesde);
         myRoute = myRoute.replace('fechaHasta2',fechaHasta);
 
@@ -1666,7 +1725,22 @@ $totalComisionGanancia2General  = 0;
             });
         });
     }
+    function BuscaWallet2(miWallet){
+        if (miWallet===0){
+            return;
+        }
 
+        $('#wallet2').each( function(index, element){
+
+            $(this).children("option").each(function(){
+                if ($(this).val() === miWallet.toString()){
+
+                    $("#wallet2 option[value="+ miWallet +"]").attr("selected",true);
+                }
+
+            });
+        });
+    }
     function BuscaTransaccion(miTypeTransaction){
         if (miTypeTransaction===0){
             return;
@@ -1760,7 +1834,7 @@ $totalComisionGanancia2General  = 0;
             {
                 headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
                 method: "POST",
-                url: "{{route('filtrosGrabaComisiones')}}",
+                url: "{{route('filtrosGrabaComisionesGrupo')}}",
                 async: false,
                 data: { 
                     ocultarresumengeneral: ocultarresumengeneral,
@@ -1795,7 +1869,7 @@ $totalComisionGanancia2General  = 0;
 
     function leeFiltros(){
 
-        let myocultarresumengeneral = "{{ ($myocultarresumengeneral) ? true : false  }}" ? true : false;
+        let myocultarresumengeneral     = "{{ ($myocultarresumengeneral) ? true : false  }}" ? true : false;
         let myocultarresumentransaccion = "{{ ($myocultarresumentransaccion) ? true : false  }}" ? true : false;
 
         if (myocultarresumengeneral){
