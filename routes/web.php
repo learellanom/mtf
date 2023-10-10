@@ -72,8 +72,8 @@ Route::get('dashboardComisiones/{wallet}/{transaction?}', [App\Http\Controllers\
 Route::get('dashboardComisiones/{wallet}/{transaction?}/{fechaDesde?}/{fechaHasta?}', [App\Http\Controllers\HomeController::class, 'comisiones'])->name('dashboardComisiones');
 
 Route::get('dashboardComisionesGrupo', [App\Http\Controllers\HomeController::class, 'comisionesGrupo'])->name('dashboardComisionesGrupo');
-Route::get('dashboardComisionesGrupo/{wallet}/{transaction?}', [App\Http\Controllers\HomeController::class, 'comisionesGrupo'])->name('dashboardComisionesGrupo');
-Route::get('dashboardComisionesGrupo/{wallet}/{transaction?}/{fechaDesde?}/{fechaHasta?}', [App\Http\Controllers\HomeController::class, 'comisionesGrupo'])->name('dashboardComisionesGrupo');
+Route::get('dashboardComisionesGrupo/{wallet}/{wallet2?}', [App\Http\Controllers\HomeController::class, 'comisionesGrupo'])->name('dashboardComisionesGrupo');
+Route::get('dashboardComisionesGrupo/{wallet}/{wallet2?}/{fechaDesde?}/{fechaHasta?}', [App\Http\Controllers\HomeController::class, 'comisionesGrupo'])->name('dashboardComisionesGrupo');
 
 
 Route::get('dashboard_est/export/', [App\Http\Controllers\HomeController::class, 'export'])->name('exports.excel'); //EXPORTACIÓN DE EXCEL
@@ -132,6 +132,7 @@ Route::post('filtrosGrabaEstadisticas', [App\Http\Controllers\statisticsControll
 
 Route::post('filtrosGrabaComisiones', [App\Http\Controllers\statisticsController::class, 'filtrosGrabaComisiones'])->name('filtrosGrabaComisiones'); // Lee filtros
 
+Route::post('filtrosGrabaComisionesGrupo', [App\Http\Controllers\statisticsController::class, 'filtrosGrabaComisionesgrupo'])->name('filtrosGrabaComisionesGrupo'); // Lee filtros comisiones grupo
 
 
 
