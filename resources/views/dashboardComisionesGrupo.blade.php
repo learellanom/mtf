@@ -80,6 +80,11 @@ $totalComisionGanancia2General  = 0;
         font-weight: 800;
         color: green !important;          
     }    
+    .myWidth {
+        width: 10rem;
+        min-width: 10rem;
+        max-width: 10rem;
+    }
 </style>
 
 <div class="container">
@@ -233,7 +238,7 @@ $totalComisionGanancia2General  = 0;
                     <div class="row justify-content-center text-center align-items-center">
 
                         <div class="col-12 col-md-6 col-lg-6 col-xl-4 justify-content-center text-center align-items-center">
-                            <label for="ResumenGeneral">Ocultar Resumen General:</label>
+                            <label for="ResumenGeneral">Ocultar resumen general caja primaria:</label>
                             <input type="checkbox" id="ResumenGeneral" name="ResumenGeneral"><br><br>
                         </div>  
 
@@ -243,7 +248,7 @@ $totalComisionGanancia2General  = 0;
                     <div class="row justify-content-center text-center align-items-center">
 
                         <div class="col-12 col-md-6 col-lg-6 col-xl-4 justify-content-center text-center align-items-center">
-                            <label for="ResumenTransaccion">Ocultar Resumen Transaccion:</label>
+                            <label for="ResumenTransaccion">Ocultar resumen por caja secundaria:</label>
                             <input type="checkbox" id="ResumenTransaccion" name="ResumenTransaccion"><br><br>
                         </div>  
 
@@ -1036,10 +1041,16 @@ $totalComisionGanancia2General  = 0;
                 .myTr:hover{
                     background-color: #D7DBDD  !important;
                 }
-                .myWidth{
-                    width: 1%;
-                    min-width: 1%;
-                    max-width: 1%;
+                .myTable th {
+                    width: 20% !important;
+                    min-wdth: 20% !important;
+                    max-wdth: 20% !important;
+                    background-color: orange !important;
+                }
+                .myWidth2{
+                    width: 12%;
+                    min-width: 12%;
+                    max-width: 12%;
                 }
             </style>
 
@@ -1059,14 +1070,14 @@ $totalComisionGanancia2General  = 0;
                             </tr>
                             --}}
                             <tr>
-                                <th class=""            style="width: 4rem;">Wallettt</th>
-                                <th class=""            style="width: 4rem;">Transacción</th>
-                                <th class=""            style="width: 4rem;">Grupo</th>                                
-                                <th class=""            style="width: 4rem;">Cant transacción</th>
-                                <th class="myTdColor2 " style="">Comision</th>
-                                <th class="myTdColor3 " style="">Comision Base</th>
-                                <th class="myTdColor6 " style="">Comision Exchange</th>
-                                <th class="myTdColor5 " style="">Comision Ganancia</th>
+                                <th class="myWidth2"   >Wallet</th>
+                                <th class="myWidth2"   >Transacción</th>
+                                <th class="myWidth2"   >Grupo</th>                                
+                                <th class="myWidth2"   >Cant transacción</th>
+                                <th class="myTdColor2 myWidth2" >Comision</th>
+                                <th class="myTdColor3 myWidth2" >Comision Base</th>
+                                <th class="myTdColor6 myWidth2" >Comision Exchange</th>
+                                <th class="myTdColor5 myWidth2" >Comision Ganancia</th>
                             </tr>
                         </thead>
                         @php
@@ -1241,11 +1252,11 @@ $totalComisionGanancia2General  = 0;
             .myTr:hover{
                 background-color: #D7DBDD  !important;
             }
-            .myWidth{
-                    width: 1%;
-                    min-width: 1%;
-                    max-width: 1%;
-                }
+            .myWidth22{
+                    width: 12%;
+                    min-width: 12%;
+                    max-width: 12%;
+                }            
         </style>
 
         {{-- dd($balanceDetail . ' ' . $myFechaDesdeBefore . ' ' . $myFechaHastaBefore) --}}
@@ -1264,14 +1275,14 @@ $totalComisionGanancia2General  = 0;
                         </tr>
                         --}}
                         <tr>
-                            <th class="myWidth"             >Wallet</th>
-                            <th class="myWidth"             >Transacción</th>
-                            <th class="myWidth"             >Grupo</th>                                
-                            <th class="myWidth"             >Cant transacción</th>
-                            <th class="myTdColor2 myWidth"  >Comision</th>
-                            <th class="myTdColor3 myWidth"  >Comision Base</th>
-                            <th class="myTdColor6 myWidth"  >Comision Exchange</th>
-                            <th class="myTdColor5 myWidth"  >Comision Ganancia</th>
+                            <th class="myWidth22"             >Wallet</th>
+                            <th class="myWidth22"             >Transacción</th>
+                            <th class="myWidth22"             >Grupo</th>                                
+                            <th class="myWidth22"             >Cant transacción</th>
+                            <th class="myTdColor2 myWidth22"  >Comision</th>
+                            <th class="myTdColor3 myWidth22"  >Comision Base</th>
+                            <th class="myTdColor6 myWidth22"  >Comision Exchange</th>
+                            <th class="myTdColor5 myWidth22"  >Comision Ganancia</th>
                         </tr>
                     </thead>
                     @php
@@ -1372,15 +1383,15 @@ $totalComisionGanancia2General  = 0;
                                     @break
                             @endswitch
 
-                            <td class="myWidth" >{{ $wallet2->WalletName}}</td>                               
-                            <td class="myWidth" >{{ $wallet2->TypeTransaccionName}}</td>
-                            <td class="myWidth" >{{ $wallet2->GroupName}}</td>
-                            <td class="myWidth" >{{ number_format($wallet2->cant_transactions) }}</td>
-                            <td class="myWidth" >{{ number_format($wallet2->total_commission ,2) }}</td>
-                            <td class="myWidth" >{{ number_format($wallet2->total_amount_commission_base ,2) }}</td>
-                            <td class="myWidth" >{{ number_format($wallet2->exchange_profit ,2) }}</td>
+                            <td class="myWidth22" >{{ $wallet2->WalletName}}</td>                               
+                            <td class="myWidth22" >{{ $wallet2->TypeTransaccionName}}</td>
+                            <td class="myWidth22" >{{ $wallet2->GroupName}}</td>
+                            <td class="myWidth22" >{{ number_format($wallet2->cant_transactions) }}</td>
+                            <td class="myWidth22" >{{ number_format($wallet2->total_commission ,2) }}</td>
+                            <td class="myWidth22" >{{ number_format($wallet2->total_amount_commission_base ,2) }}</td>
+                            <td class="myWidth22" >{{ number_format($wallet2->exchange_profit ,2) }}</td>
                             <!-- <td>{{ number_format($wallet2->total_commission_profit,2) }}</td> -->
-                            <td class="myWidth">{{ number_format($wallet2->total_commission_profit_2,2) }}</td>
+                            <td class="myWidth22">{{ number_format($wallet2->total_commission_profit_2,2) }}</td>
                         </tr>
                     @endforeach
 
@@ -1422,12 +1433,12 @@ $totalComisionGanancia2General  = 0;
             }
             .myTr:hover{
                 background-color: #D7DBDD  !important;
-            }
-            .myWidth{
-                width: 1%;
-                min-width: 1%;
-                max-width: 1%;
-            }            
+            }        
+            .myWidth222{
+                width: 12%;
+                min-width: 12%;
+                max-width: 12%;
+            }                 
         </style>
 
         {{-- dd($balanceDetail . ' ' . $myFechaDesdeBefore . ' ' . $myFechaHastaBefore) --}}
@@ -1438,27 +1449,27 @@ $totalComisionGanancia2General  = 0;
                     {{--
                     <thead class="thead-dark">
                         <tr>
-                            <th style="width:1%;">Wallet</th>
-                            <th style="width:1%;">Transacción</th>
-                            <th style="width:1%;">Grupo</th>                                
-                            <th style="width:1%;">Cant transacción</th>
-                            <th class="myTdColor2" style="width:1%;">Comision</th>
-                            <th class="myTdColor3" style="width:1%;">Comision Base</th>
-                            <th class="myTdColor6" style="width:1%;">Comision Exchange</th>
-                            <th class="myTdColor5" style="width:1%;">Comision Ganancia</th>
+                            <th class="myWidth222" >Wallet</th>
+                            <th class="myWidth222" >Transacción</th>
+                            <th class="myWidth222" >Grupo</th>                                
+                            <th class="myWidth222" >Cant transacción</th>
+                            <th class="myTdColor2 myWidth222" >Comision</th>
+                            <th class="myTdColor3 myWidth222" >Comision Base</th>
+                            <th class="myTdColor6 myWidth222" >Comision Exchange</th>
+                            <th class="myTdColor5 myWidth222" >Comision Ganancia</th>
                         </tr>
                     </thead>
                     --}}
                     <tr style="background-color: black; color:white;">
-                        <td ></td>
-                        <td ></td>
-                        <td ></td>
-                        <td                   >{{ number_format($myCantGeneral) }}</td>
-                        <td class="myTdColor2">{{ number_format($totalComisionGeneral,2) }}</td>
-                        <td class="myTdColor3">{{ number_format($totalComisionBaseGeneral,2) }}</td>
-                        <td class="myTdColor6">{{ number_format($totalComisionExchangeGeneral,2) }}</td>                            
+                        <td class="myWidth222" ></td>
+                        <td class="myWidth222" ></td>
+                        <td class="myWidth222" ></td>
+                        <td class="myWidth222"                  >{{ number_format($myCantGeneral) }}</td>
+                        <td class="myTdColor2 myWidth222">{{ number_format($totalComisionGeneral,2) }}</td>
+                        <td class="myTdColor3 myWidth222">{{ number_format($totalComisionBaseGeneral,2) }}</td>
+                        <td class="myTdColor6 myWidth222">{{ number_format($totalComisionExchangeGeneral,2) }}</td>                            
                         <!-- <td class="myTdColor5">{{ number_format($totalComisionGananciaGeneral,2) }}</td>     -->
-                        <td class="myTdColor5">{{ number_format($totalComisionGanancia2General,2) }}</td>                                
+                        <td class="myTdColor5 myWidth222">{{ number_format($totalComisionGanancia2General,2) }}</td>                                
                     </tr>
 
                 </table>
