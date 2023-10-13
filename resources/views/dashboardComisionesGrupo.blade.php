@@ -408,8 +408,9 @@ $totalComisionGanancia2General  = 0;
                             ;
 
                 const wallet        = $('#wallet').val();
+                const wallet2       = $('#wallet2').val();
                 const transaccion   = $('#typeTransactions').val();
-                theRoute(wallet, transaccion, myFechaDesde,myFechaHasta);
+                theRoute(wallet, wallet2, myFechaDesde,myFechaHasta);
 
         });
 
@@ -437,7 +438,7 @@ $totalComisionGanancia2General  = 0;
         if (!miWallet){
             // alert ('aqui');
             calculoGeneral3();
-            calculos3();
+            // calculos3();
         }else{
             calculoGeneral2();
             calculoGeneral22();
@@ -1342,22 +1343,39 @@ $totalComisionGanancia2General  = 0;
                         <tr class="myTr" onClick="theRoute2({{0}}, {{0}}, {{$wallet2->WalletId}}, {{$wallet2->TypeTransactionId}})">
 
                             @php
-                                $myTransaction          = $myClass->getCreditDebitWallet($wallet2->TypeTransactionId);
+                                // $myTransaction          = $myClass->getCreditDebitWallet($wallet2->TypeTransactionId);
+                                $myTransaction          = $myClass->getCreditDebitGroup($wallet2->TypeTransactionId);
                                 
-                                $totalComision          +=  $wallet2->total_commission;
-                                $totalComisionBase      +=  $wallet2->total_amount_commission_base;
-                                $totalComisionExchange  +=  $wallet2->exchange_profit;
-                                $totalComisionGanancia  +=  $wallet2->total_commission_profit;  
-                                $totalComisionGanancia2  +=  $wallet2->total_commission_profit_2;  
+                                switch($myTransaction){
+                                    case 'Debito':
+                                        $my_total_commission                = 0;
+                                        $my_total_amount_commission_base    = $wallet2->total_commission;                                        
+                                        break;
+                                    case 'Credito':
+                                        $my_total_commission                = $wallet2->total_commission;
+                                        $my_total_amount_commission_base    = 0;                                        
+                                        break;
+                                    default:
+                                }
 
-                                $cant                   += $wallet2->cant_transactions;
+                                $my_total_commission_profit     =   $my_total_commission - $my_total_amount_commission_base;
+
+                                $totalComision                  +=  $my_total_commission ;
+                                $totalComisionBase              +=  $my_total_amount_commission_base;
+                                $totalComisionExchange          +=  $wallet2->exchange_profit;
+                                $totalComisionGanancia          +=  $my_total_commission_profit;  
+                                $totalComisionGanancia2         +=  $my_total_commission_profit ; 
+
+                                $cant                           += $wallet2->cant_transactions;
 
                                 $myCantGeneral                  += $wallet2->cant_transactions;
-                                $totalComisionGeneral           += $wallet2->total_commission;
-                                $totalComisionBaseGeneral       += $wallet2->total_amount_commission_base;
+                                $totalComisionGeneral           += $my_total_commission;
+                                $totalComisionBaseGeneral       += $my_total_amount_commission_base;
                                 $totalComisionExchangeGeneral   += $wallet2->exchange_profit;
-                                $totalComisionGananciaGeneral   += $wallet2->total_commission_profit;
-                                $totalComisionGanancia2General  += $wallet2->total_commission_profit_2;  
+                                $totalComisionGananciaGeneral   += $my_total_commission_profit ;
+                                $totalComisionGanancia2General  += $my_total_commission_profit ;  
+
+
                             @endphp
 
                             @switch($myTransaction)
@@ -1368,7 +1386,6 @@ $totalComisionGanancia2General  = 0;
                                 @case("Debito")
 
                                     @php
-
                                     @endphp
                                     @break
 
@@ -1387,11 +1404,11 @@ $totalComisionGanancia2General  = 0;
                             <td class="myWidth22" >{{ $wallet2->TypeTransaccionName}}</td>
                             <td class="myWidth22" >{{ $wallet2->GroupName}}</td>
                             <td class="myWidth22" >{{ number_format($wallet2->cant_transactions) }}</td>
-                            <td class="myWidth22" >{{ number_format($wallet2->total_commission ,2) }}</td>
-                            <td class="myWidth22" >{{ number_format($wallet2->total_amount_commission_base ,2) }}</td>
+                            <td class="myWidth22" >{{ number_format($my_total_commission,2) }}</td>
+                            <td class="myWidth22" >{{ number_format($my_total_amount_commission_base  ,2) }}</td>
                             <td class="myWidth22" >{{ number_format($wallet2->exchange_profit ,2) }}</td>
                             <!-- <td>{{ number_format($wallet2->total_commission_profit,2) }}</td> -->
-                            <td class="myWidth22">{{ number_format($wallet2->total_commission_profit_2,2) }}</td>
+                            <td class="myWidth22">{{ number_format($my_total_commission_profit,2) }}</td>
                         </tr>
                     @endforeach
 

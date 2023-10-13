@@ -107,27 +107,47 @@
                     {{-- {!! Form::hidden('pay_number', $number,['class' => 'form-control', 'required' => true, 'readonly' => true]) !!} --}}
                 </div>
 
+
+
+                {{-- Comision Origen --}}
+
+
                 <hr class="bg-dark esconder comi" style="height:1px;">
                 <h4 class="text-uppercase font-weight-bold text-center esconder comi">Comisión Origen  </h4>
                 <div class="form-row esconder comi">
 
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-md-4">
                         {!! Form::Label('percentage_base', "Porcentaje Origen:") !!}
                         <div class="input-group-text">
                             <i class="fa-fw fas fa-percentage mr-2"></i>
-                        {!! Form::text('percentage',null, ['class' => 'form-control percentage rateMasks',  'min' => 0, 'id' => 'percentage_base']) !!}
+                            {!! Form::text('percentage',null, ['class' => 'form-control percentage rateMasks',  'min' => 0, 'id' => 'percentage_base']) !!}
                         </div>
                     </div>
 
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-md-4">
 
                         {!! Form::Label('comision_base', "Monto Comisión Origen:") !!}
                         <div class="input-group-text">
                             <i class="fa-fw fas fa-coins mr-2"></i>
-                        {!! Form::text('commission',null, ['class' => 'form-control comision_base general', 'min' => 0, 'readonly' => true, 'id' => 'comision_base']) !!}
+                            {!! Form::text('commission',null, ['class' => 'form-control comision_base general', 'min' => 0, 'readonly' => true, 'id' => 'comision_base']) !!}
                         </div>
 
                     </div>
+
+                    <div class="form-group col-md-4 ">
+
+
+                        {{-- Monto total Origen --}}
+
+
+
+                        {!! Form::Label('montototal', "Monto total Origen:") !!}
+                        <div class="input-group-text">
+                            <i class="fa-fw fas fas fa-coins mr-2"></i>
+                        {!! Form::text('amount_total', null, ['class' => 'form-control general', 'id' => 'monto_base', 'readonly' => true ]) !!}
+                        </div>
+                    </div>
+
                 </div>
 
                 <div class="form-group col-md-12 d-flex justify-content-center">
@@ -149,13 +169,67 @@
                     </label>
 
                 </div>
+                
+                <div class="form-row justify-content-end">
 
-                <div class="form-group col-md">
-                    {!! Form::Label('montototal', "Monto total:") !!}
-                    <div class="input-group-text">
-                        <i class="fa-fw fas fas fa-coins mr-2"></i>
-                    {!! Form::text('amount_total', null, ['class' => 'form-control general', 'id' => 'monto_base', 'readonly' => true ]) !!}
+                </div>
+                {{-- Comision destino --}}
+
+
+                <hr class="bg-dark esconder comi" style="height:1px;">
+                <h4 class="text-uppercase font-weight-bold text-center esconder comi">Comisión Destino</h4>
+                <hr class="bg-dark esconder comi" style="height:1px;">
+
+                <div class="form-row esconder comi">
+
+                    <div class="form-group col-md-4">
+                        {!! Form::Label('percentage_base2', "Porcentaje Destino:") !!}
+                        <div class="input-group-text">
+                            <i class="fa-fw fas fa-percentage mr-2"></i>
+                            {!! Form::text('percentage2',null, ['class' => 'form-control percentage rateMasks',  'min' => 0, 'id' => 'percentage_base2']) !!}
+                        </div>
                     </div>
+
+                    <div class="form-group col-md-4">
+
+                        {!! Form::Label('comision_base2', "Monto Comisión Destino:") !!}
+                        <div class="input-group-text">
+                            <i class="fa-fw fas fa-coins mr-2"></i>
+                            {!! Form::text('commission2',null, ['class' => 'form-control comision_base general', 'min' => 0, 'readonly' => true, 'id' => 'comision_base2']) !!}
+                        </div>
+
+                    </div>
+
+                    {{-- Monto total Destino --}}
+
+                    <div class="form-group col-md-4">
+                        {!! Form::Label('montototal', "Monto total Destino:") !!}
+                        <div class="input-group-text">
+                            <i class="fa-fw fas fas fa-coins mr-2"></i>
+                            {!! Form::text('amount_total', null, ['class' => 'form-control general', 'id' => 'monto_base', 'readonly' => true ]) !!}
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="form-group col-md-12 d-flex justify-content-center">
+
+                    <label class="form-check-label mx-auto esconder comi" for="radio1_base">
+                        {!! Form::radio('exonerate2',2, null, ['id' => 'radio1_base2', 'class' => 'exonerar_base']) !!}
+                        Exonerar comisión origen
+                    </label>
+
+                    <label class="form-check-label mx-auto esconder comi" for="radio3_base">
+                        {!! Form::radio('exonerate2',1, null, ['id' => 'radio3_base2', 'class' => 'incluir_base']) !!}
+                        Incluir comisión origen
+                    </label>
+
+
+                    <label class="form-check-label mx-auto esconder comi" for="radio2_base">
+                        Descontar comisión origen
+                        {!! Form::radio('exonerate2',3, null, ['id' => 'radio2_base2', 'class' => 'descontar_base']) !!}
+                    </label>
+
                 </div>
 
                 {!! Form::hidden('amount_commission_profit', null, ['class' => 'form-control general', 'id' => 'amount_commission_profit', 'readonly' => true ]) !!}

@@ -486,7 +486,7 @@ class TransactionController extends Controller
         $parametros['type_transaction_credit'] = $type_transaction_credit;
         //$number = date('YmdHis').'T-C';
         // dd($wallet);
-        if (auth()->id() == 99){
+        if (auth()->id() == 2){
             return view('transactions.create_pagocliente2', $parametros);
         }else{
             return view('transactions.create_pagocliente', compact('type_coin', 'type_transaction', 'wallet', 'type_transaction2', 'group', 'group2', 'user', 'transaction', 'fecha'));
