@@ -462,28 +462,30 @@ class TransactionController extends Controller
     public function create_pagoclientes(transaction $transaction)
     {
 
-        $type_coin          = Type_coin::pluck('name', 'id');
-        $type_transaction   = Type_transaction::whereIn('name', ['Cobro en efectivo'])->pluck('id');
-        $type_transaction2  = Type_transaction::whereIn('name', ['Pago Efectivo'])->pluck('id');
-        $wallet             = Group::where('type','=','2')->whereIn('name', ['Caja Puente'])->pluck('id');
-        $group              = Group::where('type','=','1')->pluck('name', 'id');
-        $group2             = Group::where('type','=','1')->pluck('name', 'id');
-        $user               = User::pluck('name', 'id');
-        $fecha              = Carbon::now();
+        $type_coin                              = Type_coin::pluck('name', 'id');
 
-        $type_transaction_debit    = Type_transaction::where('type_transaction_group', '2')->pluck('name', 'id');
-        $type_transaction_credit   = Type_transaction::where('type_transaction_group', '1')->pluck('name', 'id');
+        $type_transaction                       = Type_transaction::whereIn('name', ['Cobro en efectivo'])->pluck('id');
+        $type_transaction2                      = Type_transaction::whereIn('name', ['Pago Efectivo'])->pluck('id');
 
-        $parametros['type_coin'] = $type_coin;
-        $parametros['type_transaction'] = $type_transaction;
-        $parametros['type_transaction2'] = $type_transaction2;
-        $parametros['wallet'] = $wallet;
-        $parametros['group'] = $group;
-        $parametros['group2'] = $group2;
-        $parametros['user'] = $user;
-        $parametros['fecha'] = $fecha;
-        $parametros['type_transaction_debit'] = $type_transaction_debit;
-        $parametros['type_transaction_credit'] = $type_transaction_credit;
+        $wallet                                 = Group::where('type','=','2')->whereIn('name', ['Caja Puente'])->pluck('id');
+        $group                                  = Group::where('type','=','1')->pluck('name', 'id');
+        $group2                                 = Group::where('type','=','1')->pluck('name', 'id');
+        $user                                   = User::pluck('name', 'id');
+        $fecha                                  = Carbon::now();
+
+        $type_transaction_debit                 = Type_transaction::where('type_transaction_group', '2')->pluck('name', 'id');
+        $type_transaction_credit                = Type_transaction::where('type_transaction_group', '1')->pluck('name', 'id');
+
+        $parametros['type_coin']                = $type_coin;
+        $parametros['type_transaction']         = $type_transaction;
+        $parametros['type_transaction2']        = $type_transaction2;
+        $parametros['wallet']                   = $wallet;
+        $parametros['group']                    = $group;
+        $parametros['group2']                   = $group2;
+        $parametros['user']                     = $user;
+        $parametros['fecha']                    = $fecha;
+        $parametros['type_transaction_debit']   = $type_transaction_debit;
+        $parametros['type_transaction_credit']  = $type_transaction_credit;
         //$number = date('YmdHis').'T-C';
         // dd($wallet);
         if (auth()->id() == 2){
@@ -498,6 +500,72 @@ class TransactionController extends Controller
         $user           = Auth::id();
         $transactions   = new Transaction;
         $number         = date('YmdHis'). rand(100,200). 'T-C';
+
+        $transactions->type_transaction_id          = $request->input('typetrasnferencia2Debit');
+        $transactions->group_id                     = $request->input('group_id');
+        $transactions->wallet_id                    = $request->input('wallet_id');
+        $transactions->amount                       = $request->input('amount');
+        $transactions->amount_total_base            = $request->input('amount');
+        $transactions->amount_base                  = $request->input('amount');
+        $transactions->transaction_date             = $request->input('transaction_date');
+        $transactions->description                  = $request->input('description');
+        $transactions->pay_number                   = $number;
+        $transactions->amount_commission            = $request->input('commission');
+        $transactions->percentage                   = $request->input('percentage');
+        $transactions->exonerate                    = $request->input('exonerate');
+        $transactions->amount_total                 = $request->input('amount_total');
+        $transactions->amount_commission_profit     = $request->input('amount_commission_profit');
+        $transactions->user_id                      = $user;
+
+        $transactions->save();
+
+
+
+        $transactions2 = new Transaction;
+
+        $transactions2->type_transaction_id         = $request->input('typetrasnferencia2Credit');
+        $transactions2->group_id                    = $request->input('group2_id');
+        $transactions2->wallet_id                   = $request->input('wallet2_id');
+        $transactions2->amount                      = $request->input('amount');
+        $transactions2->amount_total_base           = $request->input('amount');
+        $transactions2->amount_base                 = $request->input('amount');
+        $transactions2->transaction_date            = $request->input('transaction_date');
+        $transactions2->description                 = $request->input('description2');
+        $transactions2->pay_number                  = $number;
+        $transactions2->amount_commission           = 0;
+        $transactions2->percentage                  = 0;
+        $transactions2->exonerate                   = 2;
+        $transactions2->amount_total                = $request->input('amount');
+        $transactions2->user_id                     = $user;
+
+        $transactions2->save();
+
+         flash()->addSuccess('Movimiento guardado', 'Transacción entre clientes :D', ['timeOut' => 3000]);
+
+         return Redirect::back()->withInput();
+    }
+
+    public function store_pagocliente2(Request $request)
+    {
+        $user           = Auth::id();
+        $transactions   = new Transaction;
+        $number         = date('YmdHis'). rand(100,200). 'T-C';
+
+
+        \Log::info('store_pagocliente2 type_transaction_id     -> ' . $request->input('type_transaction_id'));
+        \Log::info('store_pagocliente2 group_id                    -> ' . $request->input('group_id'));
+        \Log::info('store_pagocliente2 wallet_id                   -> ' . $request->input('wallet_id'));
+        \Log::info('store_pagocliente2 amount                      -> ' . $request->input('amount'));
+        \Log::info('store_pagocliente2 transaction_date            -> ' . $request->input('transaction_date'));
+        \Log::info('store_pagocliente2 description                 -> ' . $request->input('description'));
+        \Log::info('store_pagocliente2 number                      -> ' . $number);
+        \Log::info('store_pagocliente2 commission                  -> ' . $request->input('commission'));
+        \Log::info('store_pagocliente2 percentage                  -> ' . $request->input('percentage'));
+        \Log::info('store_pagocliente2 exonerate                   -> ' . $request->input('exonerate'));
+        \Log::info('store_pagocliente2 amount_total                -> ' . $request->input('amount_total'));
+        \Log::info('store_pagocliente2 amount_commission_profit    -> ' . $request->input('amount_commission_profit'));
+
+        
 
         $transactions->type_transaction_id          = $request->input('type_transaction_id');
         $transactions->group_id                     = $request->input('group_id');
@@ -521,7 +589,7 @@ class TransactionController extends Controller
 
         $transactions2 = new Transaction;
 
-        $transactions2->type_transaction_id         = $request->input('type_transaction2_id');
+        $transactions2->type_transaction_id         = $request->input('type_transaction_id2');
         $transactions2->group_id                    = $request->input('group2_id');
         $transactions2->wallet_id                   = $request->input('wallet2_id');
         $transactions2->amount                      = $request->input('amount');
@@ -530,18 +598,19 @@ class TransactionController extends Controller
         $transactions2->transaction_date            = $request->input('transaction_date');
         $transactions2->description                 = $request->input('description2');
         $transactions2->pay_number                  = $number;
-        $transactions2->amount_commission           = 0;
-        $transactions2->percentage                  = 0;
-        $transactions2->exonerate                   = 2;
-        $transactions2->amount_total                = $request->input('amount');
+        $transactions2->amount_commission           = $request->input('commission2');
+        $transactions2->percentage                  = $request->input('percentage2');
+        $transactions2->exonerate                   = $request->input('exonerate2');
+        $transactions2->amount_total                = $request->input('amount_total2');
+        $transactions2->amount_commission_profit     = $request->input('amount_commission_profit2');        
         $transactions2->user_id                     = $user;
+
         $transactions2->save();
 
          flash()->addSuccess('Movimiento guardado', 'Transacción entre clientes :D', ['timeOut' => 3000]);
 
          return Redirect::back()->withInput();
     }
-
     public function index_cobrowallet(transaction $transaction)
     {
          foreach(auth()->user()->roles as $roles)
