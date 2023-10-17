@@ -488,11 +488,14 @@ class TransactionController extends Controller
         $parametros['type_transaction_credit']  = $type_transaction_credit;
         //$number = date('YmdHis').'T-C';
         // dd($wallet);
-        if (auth()->id() == 2){
+        /*
+        if (auth()->id() == 99){
             return view('transactions.create_pagocliente2', $parametros);
         }else{
             return view('transactions.create_pagocliente', compact('type_coin', 'type_transaction', 'wallet', 'type_transaction2', 'group', 'group2', 'user', 'transaction', 'fecha'));
         }
+        */
+        return view('transactions.create_pagocliente2', $parametros);
     }
 
     public function store_pagocliente(Request $request)
@@ -551,7 +554,7 @@ class TransactionController extends Controller
         $transactions   = new Transaction;
         $number         = date('YmdHis'). rand(100,200). 'T-C';
 
-
+        /*
         \Log::info('store_pagocliente2 type_transaction_id     -> ' . $request->input('type_transaction_id'));
         \Log::info('store_pagocliente2 group_id                    -> ' . $request->input('group_id'));
         \Log::info('store_pagocliente2 wallet_id                   -> ' . $request->input('wallet_id'));
@@ -564,7 +567,7 @@ class TransactionController extends Controller
         \Log::info('store_pagocliente2 exonerate                   -> ' . $request->input('exonerate'));
         \Log::info('store_pagocliente2 amount_total                -> ' . $request->input('amount_total'));
         \Log::info('store_pagocliente2 amount_commission_profit    -> ' . $request->input('amount_commission_profit'));
-
+        */
         
 
         $transactions->type_transaction_id          = $request->input('type_transaction_id');
