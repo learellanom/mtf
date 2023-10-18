@@ -128,9 +128,14 @@ $config3 = [
                                                 </button>
 
                                                 @elseif($transferencias->status == 'Anulado')
+                                                {{--
                                                 <button class="btn btn-xl text-danger mx-1 shadow text-center" title="Anulado">
                                                     <i class="fa fa-lg fa-fw fas fa-times"></i><p style="display: none;">Anulado</p>
                                                 </button>
+                                                --}}
+                                                <div class="btn btn-xl text-danger mx-1 shadow text-center">
+                                                    <i class="fa fa-lg fa-fw fas fa-times"></i><p style="display: none;">Anulado</p>
+                                                </div>
                                                 @endif
                                             {!! Form::close() !!}
                                         </td>

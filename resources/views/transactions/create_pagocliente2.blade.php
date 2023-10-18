@@ -44,7 +44,7 @@
                                 <i class="fa-fw fas fa-random mr-2"></i>
                             {!! Form::select('type_transaction_id',$type_transaction_debit, null, ['class' => 'form-control typetrasnferencia', 'required' => true, 'id'=>'typetrasnferencia2Debit', 'readonly' => false]) !!}
                             </div>
-                        </div>    
+                        </div>      
                         <div class="form-group col-md-6">
                             {!! Form::Label('typetrasnferencia2Credit', "Tipo de Movimiento Destino:") !!}
                             <div class="input-group-text col-md-12">
@@ -240,6 +240,14 @@
                     {!! Form::hidden('amount_commission_profit2', null, ['class' => 'form-control general', 'id' => 'amount_commission_profit2', 'readonly' => true ]) !!}
 
                     <hr class="bg-dark esconder comi" style="height:1px;">
+
+                    <div class="form-group">
+                        {!! Form::Label('observacion', "Observaciones:") !!}
+                            <div class="input-group-text">
+                                <i class="fa-fw fas fa-text-width mr-2"></i>
+                            {!! Form::text('observacion', null, ['id' => 'observacion', 'class' => 'form-control', 'readonly' => false, 'required' => false]) !!}
+                            </div>
+                    </div>
 
                     <div class="form-group">
                         {!! Form::Label('description', "Descripción origen:") !!}
@@ -651,6 +659,7 @@
 
     $("#wallet, #typetrasnferencia2Credit").change(function() {
         
+        
         var texto = $("#wallet").find('option:selected').text(); // Capturamos el texto del option seleccionado
         var texto2 = $("#typetrasnferencia2Credit option:selected").text();
 
@@ -658,6 +667,7 @@
     });
 
 
+    $('#observacionOrigen').input(function() {});
 
     /* REFERENCIAS PARA RESPALDO DE MOVIMIENTO */
 
