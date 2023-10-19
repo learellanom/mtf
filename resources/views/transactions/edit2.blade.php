@@ -178,12 +178,15 @@
                                 </div>
 
                             @endif
+                            
                             <div class="form-group col-md-4">
-
-                                {!! Form::label('transaction_date', 'Fecha: '); !!}
-                                {!! Form::label('', date_format( date_create($transactions->transaction_date) , "d/m/Y H:i:s"), ['class' => 'form-control myStyle']); !!}
-
-                            </div>   
+                                {!! Form::Label('', "Fecha:") !!}
+                                <div class="input-group-text">
+                                    <i class="fa-fw fas fas fa-calendar-week mr-2"></i>
+                                    {!! Form::datetimelocal('transaction_date', date_create($transactions->transaction_date), ['class' => 'form-control', 'required' => true, 'id' => 'transaction_date', 'readonly' => true]) !!}
+                                </div>
+                            </div>
+                            
                         </div>   
 
 
@@ -199,14 +202,14 @@
 
                                 
                                 <div class="form-group col-md-6">
-                                     {!! Form::Label('percentage', "Porcentaje:") !!} 
+                                     {!! Form::Label('', "Porcentaje:") !!} 
                                     {{-- <label>uno</label> --}}
                                     <div class="input-group-text">
                                         <i class="fa-fw fas fa-percentage mr-2"></i>
                                         <!-- aqui -->
-                                         {!! Form::text('percentage',null, ['class' => 'form-control  rateMasks', 'min' => 0]) !!}
+                                        {!! Form::text('percentage',null, ['id' => 'percentage', 'class' => 'form-control percentage rateMasks', 'min' => 0, 'inputmode' => 'decimal']) !!}
                                          
-                                         {{-- <input class="form-control  rateMasks" min="0" name="percentage" type="text" value="0" id="" minlength="8" inputmode="decimal" style="text-align: right;"> --}}
+                                        {{-- <input id="percentage" class="form-control  rateMasks" min="0" name="percentage" type="text" value="0"  minlength="8" inputmode="decimal" style="text-align: right;"> --}}
                                     </div>
 
                                 </div>
@@ -262,7 +265,7 @@
                                   <div class="input-group-text">
                                       <i class="fa-fw fas fa-percentage mr-2"></i>                                                                     
                                       <!-- aqui -->
-                                    {!! Form::text('percentage_base',null, ['class' => 'form-control percentage general rateMasks', 'id' => 'percentage_base']) !!}
+                                    {!! Form::text('percentage_base',null, ['class' => 'form-control rateMasks', 'id' => 'percentage_base']) !!}
                                     
                                   </div>
                               </div>
@@ -271,7 +274,7 @@
                                     {!! Form::Label('tasa_base', "Tasa base:") !!}
                                     <div class="input-group-text">
                                         <i class="fa-fw fas fa-percentage mr-2"></i>
-                                        {!! Form::text('exchange_rate_base',null, ['class' => 'form-control percentage_base rateMasks', 'id' => 'tasa_base']) !!}
+                                        {!! Form::text('exchange_rate_base',null, ['class' => 'form-control  rateMasks', 'id' => 'tasa_base']) !!}
                                     </div>
                                 </div>
                                 {!! Form::hidden('amount_base',null, ['class' => 'form-control comision_base', 'min' => 0, 'readonly' => true, 'id' => 'monto_extranjera_base']) !!}
@@ -510,7 +513,7 @@
                 alias: 'decimal',
                 repeat: 4,
                 allowMinus: false,
-                autoUnmask:true,
+                utoUnmask: true,
                 removeMaskOnSubmit:true,
                 rightAlign: true,
                 autoClear: true,
@@ -729,7 +732,6 @@
         let amount                      = $('#my_monto_dorales').val()  != "" ? parseFloat($('#my_monto_dorales').val())    : 0;
 
         let percentage                  = $('#percentage').val()        != "" ? parseFloat($('#percentage').val())          : 0;
-        //    percentage                  = $('#mipercentage').val()        != "" ? parseFloat($('#mipercentage').val())          : 0;
         let percentage_base             = $('#percentage_base').val()   != "" ? parseFloat($('#percentage_base').val())     : 0;
         console.log('Porcentaje base : ' + percentage_base);
         let exchange_rate_base          = $('#tasa_base').val()         != "" ? parseFloat($('#tasa_base').val())           : 0;
@@ -753,6 +755,8 @@
 
         let amount_commission_profit    = 0;
 
+        // alert($('#percentage').val() );
+        // alert(percentage);
          // alert('mi monto ->' + amount + ' type ' + {{ $transactions->type_coin_id}});
         // 1 incluir
         // 2 exonerar
