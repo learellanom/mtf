@@ -949,11 +949,11 @@
         $('#monto_base').val(amount_total_base);
         $('#amount_commission_profit').val(amount_commission_profit);
 
-         $('#tasa').val(exchange_rate);
-         $('#tasa_base').val(exchange_rate_base );
+        $('#tasa').val(exchange_rate);
+        $('#tasa_base').val(exchange_rate_base );
 
-         $('#percentage').val(percentage);
-         $('#percentage_base').val(percentage_base);
+        // $('#percentage').val(percentage);
+        // $('#percentage_base').val(percentage_base);
 
         // alert('amount commission ->' + amount_commission_profit);
 
