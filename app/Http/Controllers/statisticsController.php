@@ -2586,6 +2586,259 @@ class statisticsController extends Controller
     /*
     *
     *
+    *       getComissions
+    *
+    *
+    */
+    function commissionsProfit(Request $request){
+
+        $request->wallet        = 89; // abu mahmud
+        $request->transaction   = 11; // pago usdt
+
+        if ($request->wallet){
+            $myWalletDesde = $request->wallet;
+            $myWalletHasta = $request->wallet;
+
+        }else{
+
+            $myWalletDesde = 00000;
+            $myWalletHasta = 99999;
+
+        }
+   
+        if ($request->group === 0){
+            $myGroupDesde = $request->group;
+            $myGroupHasta = $request->group;
+
+        }else{
+            $myGroupDesde = 00000;
+            $myGroupHasta = 99999;
+
+        }
+
+        if ($request->transaction){
+            $myTransactionDesde     = $request->transaction;
+            $myTransactionHasta   = $request->transaction;            
+
+        }else{
+            $myTransactionDesde = 00000;
+            $myTransactionHasta = 99999;
+        }
+
+        $myFechaDesde = "2001-01-01";
+        $myFechaHasta = "9999-12-31";
+        if ($request->fechaDesde){
+            $myFechaDesde = $request->fechaDesde;
+            $myFechaHasta = $request->fechaHasta;
+        }
+
+        if ($request->fechaHasta){
+            $myFechaHasta = $request->fechaHasta;
+        }
+
+        $horaDesde = " 00:00:00";
+        $horaHasta = " 23:59:00";
+
+        $myFechaDesde = $myFechaDesde . $horaDesde;
+        $myFechaHasta = $myFechaHasta . $horaHasta;
+
+        $myTable = "mtf.transactions";
+
+        $myQuery =
+        "
+            select
+                mtf.transactions.wallet_id                      as WalletId,
+                wallets.name                                    as WalletName,
+                mtf.transactions.group_id                       as GroupId,
+                mtf.groups.name                                 as GroupName,
+                mtf.transactions.type_transaction_id            as TransactionId,
+                type_transactions.name                          as TipoTransaccion,
+                transaction_date                                as TransactionDate,
+                percentage                                      as Percentage,
+                percentage_base                                 as PercentageBase,
+                exchange_rate                                   as ExchangeRate,
+                exchange_rate_base                              as ExchangeRateBase,
+                mtf.transactions.amount_foreign_currency        as AmountForeignCurrency,
+                mtf.transactions.amount                         as Amount,
+                mtf.transactions.amount_total                   as AmountTotal,
+                mtf.transactions.amount_commission              as AmountCommission,
+                mtf.transactions.amount_base                    as AmountBase,
+                mtf.transactions.amount_total_base              as AmountTotalBase,
+                mtf.transactions.amount_commission_base         as AmountCommissionBase,
+                mtf.transactions.amount_commission_profit       as AmountCommissionProfit,
+                mtf.transactions.amount                         as Saldo
+            from
+                        mtf.transactions
+            left join   mtf.type_transactions   on mtf.transactions.type_transaction_id = mtf.type_transactions.id
+            left join   mtf.groups as wallets   on mtf.transactions.wallet_id           = wallets.id
+            left join   mtf.groups              on mtf.Transactions.group_id            = mtf.groups.id
+            where
+                    status = 'Activo'
+                and wallet_id           between $myWalletDesde              and     $myWalletHasta
+                and type_transaction_id between $myTransactionDesde         and     $myTransactionHasta
+                and transaction_date    between '$myFechaDesde'             and     '$myFechaHasta'
+            order by
+                Transactions.transaction_date ASC
+
+        ";
+
+        // dd($myQuery);
+        // \Log::info('leam My query *** -> ' . $myQuery);
+        $Recargas = DB::select($myQuery);
+        // dd($Recargas);
+        // convierte coleccion en array
+        // $Transacciones2 = collect($Transacciones)->map(function($x){ return (array) $x; })->toArray();
+        // \Log::info('leam grupo query           *** -> ' . print_r($myQuery,true));
+        // \Log::info('leam grupo transacciones   *** -> ' . print_r($Transacciones,true));
+        
+ 
+        $request->wallet        = 93; // caja usdt
+        $request->transaction   = 11; // pago usdt
+  
+        if ($request->wallet){
+            $myWalletDesde = $request->wallet;
+            $myWalletHasta = $request->wallet;
+
+        }else{
+
+            $myWalletDesde = 00000;
+            $myWalletHasta = 99999;
+
+        }
+   
+        if ($request->group === 0){
+            $myGroupDesde = $request->group;
+            $myGroupHasta = $request->group;
+
+        }else{
+            $myGroupDesde = 00000;
+            $myGroupHasta = 99999;
+
+        }
+
+        if ($request->transaction){
+            $myTransactionDesde     = $request->transaction;
+            $myTransactionHasta   = $request->transaction;            
+
+        }else{
+            $myTransactionDesde = 00000;
+            $myTransactionHasta = 99999;
+        }
+
+        $myFechaDesde = "2001-01-01";
+        $myFechaHasta = "9999-12-31";
+        if ($request->fechaDesde){
+            $myFechaDesde = $request->fechaDesde;
+            $myFechaHasta = $request->fechaHasta;
+        }
+
+        if ($request->fechaHasta){
+            $myFechaHasta = $request->fechaHasta;
+        }
+
+        $horaDesde = " 00:00:00";
+        $horaHasta = " 23:59:00";
+
+        $myFechaDesde = $myFechaDesde . $horaDesde;
+        $myFechaHasta = $myFechaHasta . $horaHasta;
+      
+
+        $myQuery =
+        "
+            select
+                mtf.transactions.wallet_id                      as WalletId,
+                wallets.name                                    as WalletName,
+                mtf.transactions.group_id                       as GroupId,
+                mtf.groups.name                                 as GroupName,
+                mtf.transactions.type_transaction_id            as TransactionId,
+                type_transactions.name                          as TipoTransaccion,
+                transaction_date                                as TransactionDate,
+                percentage                                      as Percentage,
+                percentage_base                                 as PercentageBase,
+                exchange_rate                                   as ExchangeRate,
+                exchange_rate_base                              as ExchangeRateBase,
+                mtf.transactions.amount_foreign_currency        as AmountForeignCurrency,
+                mtf.transactions.amount                         as Amount,
+                mtf.transactions.amount_total                   as AmountTotal,
+                mtf.transactions.amount_commission              as AmountCommission,
+                mtf.transactions.amount_base                    as AmountBase,
+                mtf.transactions.amount_total_base              as AmountTotalBase,
+                mtf.transactions.amount_commission_base         as AmountCommissionBase,
+                mtf.transactions.amount_commission_profit       as AmountCommissionProfit,
+                0                                                as Saldo
+            from
+                        mtf.transactions
+            left join   mtf.type_transactions   on mtf.transactions.type_transaction_id = mtf.type_transactions.id
+            left join   mtf.groups as wallets   on mtf.transactions.wallet_id           = wallets.id
+            left join   mtf.groups              on mtf.Transactions.group_id            = mtf.groups.id
+            where
+                    status = 'Activo'
+                and wallet_id           between $myWalletDesde              and     $myWalletHasta
+                and type_transaction_id between $myTransactionDesde         and     $myTransactionHasta
+                and transaction_date    between '$myFechaDesde'             and     '$myFechaHasta'
+            order by
+                Transactions.transaction_date ASC
+
+        ";
+
+        // dd($myQuery);
+        // \Log::info('leam My query *** -> ' . $myQuery);
+        $Transacciones = DB::select($myQuery);
+
+        // dd($Transacciones);
+        $Transacciones2 =[];
+
+        foreach($Transacciones as $key => $myTransaccion){
+            $cant = 0;
+            
+                foreach($Recargas as $myRecarga){
+                    if ($cant > 100) { dd($Transacciones2); }
+
+                    $myTransaccion->RecargaAmount               = $myRecarga->Amount;
+                    $myTransaccion->RecargaPercentageBase       = $myRecarga->PercentageBase;
+                    $myTransaccion->RecargaAmountCommissionBase = $myRecarga->AmountCommissionBase;
+                    $myTransaccion->RecargaSaldoAntes           = $myRecarga->Saldo;
+                    
+                    if($myTransaccion->Amount <= $myRecarga->Saldo) {
+                        // $myTransacciones->Amount    = $myRecargas->Amount;              
+                        $myRecarga->Saldo               -= $myTransaccion->Amount;
+                        $myTransaccion->RecargaSaldo    = $myRecarga->Saldo;
+                        $myTransaccion->key             = $key;
+
+                        $Transacciones2 [] = $myTransaccion;
+                        break;
+                    }else{
+                        if($myTransaccion->Amount > $myRecarga->Saldo) {
+                            $myTransaccion->Amount          = $myRecarga->Amount;
+                            $myTransaccion->AmountBase      = $myTransaccion->Amount;
+                            // $myTransaccion->Amount       = $myTransaccion->Amount - $myRecargas->Amount;
+                            $myRecarga->Saldo               = 0;
+                            $myTransaccion->RecargaSaldo                = $myRecarga->Saldo;
+                            
+                            // inserta  
+                            $myTransaccion->key = $key;
+                            // array_splice($Transacciones,($key + 1), 0, $myTransaccion);
+                             $Transacciones2 [] = $myTransaccion;
+                            if ($key == 20) dd($Transacciones2);
+                            $cant++;
+                            continue;
+                        }
+                    }
+
+                }
+            
+            
+        };
+        dd($Transacciones2);
+
+        return $Transacciones;
+
+
+
+    }    
+    /*
+    *
+    *
     *       getBalanceSupplier
     *
     *
