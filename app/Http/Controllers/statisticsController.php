@@ -2798,7 +2798,7 @@ class statisticsController extends Controller
                     $myTransaccion->RecargaPercentageBase       = $myRecarga->PercentageBase;
                     $myTransaccion->RecargaAmountCommissionBase = $myRecarga->AmountCommissionBase;
                     $myTransaccion->RecargaSaldoAntes           = $myRecarga->Saldo;
-                    
+
                     if($myTransaccion->Amount <= $myRecarga->Saldo) {
                         // $myTransacciones->Amount    = $myRecargas->Amount;              
                         $myRecarga->Saldo               -= $myTransaccion->Amount;
@@ -2813,7 +2813,7 @@ class statisticsController extends Controller
                             $myTransaccion->AmountBase      = $myTransaccion->Amount;
                             // $myTransaccion->Amount       = $myTransaccion->Amount - $myRecargas->Amount;
                             $myRecarga->Saldo               = 0;
-                            $myTransaccion->RecargaSaldo                = $myRecarga->Saldo;
+                            $myTransaccion->RecargaSaldo    = $myRecarga->Saldo;
                             
                             // inserta  
                             $myTransaccion->key = $key;
