@@ -294,6 +294,25 @@ class HomeController extends Controller
     {
         
         // dd($request->fechaDesde . ' ' . $request->fechaHasta);
+        
+        
+        // new
+        if (auth()->id() == 2){
+
+            $request->wallet        = 89; // abu mahmud
+            $request->transaction   = 11; // pago usdt
+
+            $wallet_transactions        = app(statisticsController::class)->commissionsProfit($request);
+
+            $request->wallet        = 93; // caja usdt
+            $request->transaction   = 11; // pago usdt
+
+            $wallet_transactions2        = app(statisticsController::class)->commissionsProfit($request);
+
+            dd($wallet_transactions2);
+
+        }
+
 
         $wallet_summary             = app(statisticsController::class)->getWalletTransactionSummary($request);
         // dd($wallet_summary );
