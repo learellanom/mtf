@@ -2647,6 +2647,7 @@ class statisticsController extends Controller
         $myQuery =
         "
             select
+                mtf.transactions.id                             as Id,
                 mtf.transactions.wallet_id                      as WalletId,
                 wallets.name                                    as WalletName,
                 mtf.transactions.group_id                       as GroupId,
@@ -2678,7 +2679,8 @@ class statisticsController extends Controller
                 and type_transaction_id between $myTransactionDesde         and     $myTransactionHasta
                 and transaction_date    between '$myFechaDesde'             and     '$myFechaHasta'
             order by
-                Transactions.transaction_date ASC
+                Transactions.transaction_date ASC,
+                id ASC
 
         ";
 
@@ -2746,6 +2748,7 @@ class statisticsController extends Controller
         $myQuery =
         "
             select
+                mtf.transactions.id                             as Id,
                 mtf.transactions.wallet_id                      as WalletId,
                 wallets.name                                    as WalletName,
                 mtf.transactions.group_id                       as GroupId,
@@ -2777,7 +2780,9 @@ class statisticsController extends Controller
                 and type_transaction_id between $myTransactionDesde         and     $myTransactionHasta
                 and transaction_date    between '$myFechaDesde'             and     '$myFechaHasta'
             order by
-                Transactions.transaction_date ASC
+                Transactions.transaction_date ASC,
+                wallets.name ASC,
+                mtf.groups.name ASC
 
         ";
 
@@ -2789,51 +2794,181 @@ class statisticsController extends Controller
         $Transacciones2 =[];
 
         foreach($Transacciones as $key => $myTransaccion){
+
             $cant = 0;
             
-                foreach($Recargas as $myRecarga){
-                    if ($cant > 100) { dd($Transacciones2); }
-
-                    $myTransaccion->RecargaAmount               = $myRecarga->Amount;
-                    $myTransaccion->RecargaPercentageBase       = $myRecarga->PercentageBase;
-                    $myTransaccion->RecargaAmountCommissionBase = $myRecarga->AmountCommissionBase;
-                    $myTransaccion->RecargaSaldoAntes           = $myRecarga->Saldo;
-
-                    if($myTransaccion->Amount <= $myRecarga->Saldo) {
-                        // $myTransacciones->Amount    = $myRecargas->Amount;              
-                        $myRecarga->Saldo               -= $myTransaccion->Amount;
-                        $myTransaccion->RecargaSaldo    = $myRecarga->Saldo;
-                        $myTransaccion->key             = $key;
-
-                        $Transacciones2 [] = $myTransaccion;
-                        break;
-                    }else{
-                        if($myTransaccion->Amount > $myRecarga->Saldo) {
-                            $myTransaccion->Amount          = $myRecarga->Amount;
-                            $myTransaccion->AmountBase      = $myTransaccion->Amount;
-                            // $myTransaccion->Amount       = $myTransaccion->Amount - $myRecargas->Amount;
-                            $myRecarga->Saldo               = 0;
-                            $myTransaccion->RecargaSaldo    = $myRecarga->Saldo;
-                            
-                            // inserta  
-                            $myTransaccion->key = $key;
-                            // array_splice($Transacciones,($key + 1), 0, $myTransaccion);
-                             $Transacciones2 [] = $myTransaccion;
-                            if ($key == 20) dd($Transacciones2);
-                            $cant++;
-                            continue;
-                        }
-                    }
-
-                }
             
+            $myTransaccion2             = $myTransaccion;
+            $myTransaccion2->Amount2    = $myTransaccion->Amount;
+
+            /*
+            echo "<br>";
+            echo "<br>";
+            echo "<br> Recargas";
+            echo "<br>";
+            echo "<br>";
+            echo "<pre>";
+            echo print_r($Recargas);
+            echo "</pre>";
+            echo "<br>";
+            echo "<br>";
+            */
+
+            foreach($Recargas as $myRecarga){
+                //
+                // Busca solo las recargas que tengan saldo
+                //
+                
+                if ($myRecarga->Saldo <= 0) {
+                    continue;
+                }
+
+                // if ($cant > 100) { dd($Transacciones2); }
+
+                if($myTransaccion2->Amount2 <= $myRecarga->Saldo) {
+                    $myTransaccion2->RecargaSaldoAntes          = $myRecarga->Saldo;       
+                    $myTransaccion2->RecargaPercentageBase      = $myRecarga->PercentageBase;
+                    $myTransaccion2->RecargaId                  = $myRecarga->Id;
+                    $myTransaccion2->RecargaAmount              = $myRecarga->Amount;
+                    $myRecarga->Saldo                           -= $myTransaccion2->Amount2;
+                    $myTransaccion2->RecargaSaldo               = $myRecarga->Saldo;
+                    $myTransaccion2->key                        = $key;
+                    $myTransaccion2->PercentageBase             = $myRecarga->PercentageBase;
+                    $myTransaccion2->AmountCommissionBase       = ($myTransaccion2->Amount * $myRecarga->PercentageBase) / 100;
+                    $myTransaccion2->AmountBase                 = $myTransaccion2->Amount;
+                    $myTransaccion2->AmountTotalBase            = $myTransaccion2->Amount + $myTransaccion2->AmountCommissionBase;
+                    $myTransaccion2->AmountCommissionProfit     = $myTransaccion2->AmountCommission - $myTransaccion2->AmountCommissionBase;
+
+                    $Transacciones2 [] = $myTransaccion2;
+
+
+                    echo "<br>";
+                    echo "<br>";
+                    echo "<br> Transaccion2  ------ ";
+                    echo "<br>";
+                    echo "<br>";
+                    echo "<pre>";
+                    print_r($myTransaccion2);  
+                    echo "</pre>";
+
+                    break;
+                }else{
+
+                    if($myTransaccion2->Amount2 > $myRecarga->Saldo) {
+
+                        if ($key > 18) {
+ 
+                        }
+
+                        // if ($myTransaccion2->Amount == 2941265.77) { 
+                            // echo "<br>";
+                            // echo "<br>" . "Transaccion2  222***************************************************************************";
+                            // echo "<br>";
+                            // echo "<pre>";
+                            // echo print_r($myTransaccion2,true);
+                            // echo "</pre>";
+                            // echo "<br>";
+                            // echo "<br>" . "recarga -------";
+                            // echo "<br>";
+                            // echo "<pre>";
+                            // echo print_r($myRecarga,true);
+                            // echo "</pre>";
+                            
+                            // dd($myRecarga, true);  
+                        // }
+                        $myAmount22                                 = $myTransaccion2->Amount2  - $myRecarga->Saldo; 
+                        $myAmount2                                  = $myTransaccion2->Amount2 - ($myTransaccion2->Amount2  - $myRecarga->Saldo); 
+
+                        $myTransaccion2->Amount2                    = $myAmount2;
+                        $myTransaccion2->RecargaSaldoAntes          = $myRecarga->Saldo;
+                        $saldoRecarga2                              = $myRecarga->Saldo;
+                        $myTransaccion2->RecargaPercentageBase      = $myRecarga->PercentageBase;
+                        $myTransaccion2->RecargaId                  = $myRecarga->Id;
+                        $myTransaccion2->RecargaAmount              = $myRecarga->Amount;
+                        $myRecarga->Saldo                           = 0;
+                        $myTransaccion2->RecargaSaldo               = 0;
+                        $myTransaccion2->PercentageBase             = $myRecarga->PercentageBase;
+                        $myTransaccion2->AmountCommissionBase       = ($myTransaccion2->Amount2 * $myRecarga->PercentageBase) / 100;
+                        $myTransaccion2->AmountCommissionProfit     = $myTransaccion2->AmountCommission - $myTransaccion2->AmountCommissionBase;
+                        $myTransaccion2->AmountBase                 = $myAmount2;
+                        $myTransaccion2->AmountTotalBase            = $myAmount2 + $myTransaccion2->AmountCommissionBase;
+                        $myTransaccion2->key                        = $key;
+
+                        $Transacciones2 []                          = $myTransaccion2;
+                        // dd($myTransaccion2);
+                        // if ($myTransaccion2->Amount == 2941265.77) { 
+                            // echo "<br>";
+                            // echo "<br>";
+                            // echo "<br> Recarga modificada ------" ;
+                            // echo "<br>";
+                            // echo "<br>";
+                            // echo "<pre>";
+                            // echo print_r($myRecarga, true);
+                            // echo "</pre>";
+                            // echo "<br>";
+                            // echo "<br>";
+                            // echo "<br> Transaccion2 modificada ------ ";
+                            // echo "<br>";
+                            // echo "<br>";
+                            // echo "<pre>";
+                            // print_r($myTransaccion2);  
+                            // echo "</pre>";
+
+                        // }
+
+                        echo "<br>";
+                        echo "<br>";
+                        echo "<br> Transaccion2 2 ------ ";
+                        echo "<br>";
+                        echo "<br>";
+                        echo "<pre>";
+                        print_r($myTransaccion2);  
+                        echo "</pre>";
+                        $myTransaccion2->Amount2                = $myAmount22;
+                        $myTransaccion2->RecargaSaldoAntes      = 0;
+                        // $myTransaccion2->Amount2                = $myTransaccion2->Amount - $saldoRecarga2;
+                        $myTransaccion2->key                    = $key;
+
+                        // if ($myTransaccion2->Amount == 2941265.77) { 
+                            //echo "<br>";
+                            //echo "<br>";
+                            //echo "<br> recarga - nueva --- ";
+                            //echo "<br>";
+                            //echo "<br>";
+                            //echo "<pre>";
+                            //echo print_r($myRecarga, true);
+
+                            //echo "<br>";
+                            //echo "<br>";
+                            //echo "<br> Transaccion2  ------ ";
+                            //echo "<br>";
+                            //echo "<br>";
+                            //echo "<pre>";
+                            //print_r($myTransaccion2);  
+                            //echo "</pre>";
+                            
+                        // }
+
+                        if ($myTransaccion2->Amount2  <= 0){
+                            break;
+                        }
+
+                        $cant++;
+                        // if ($key == 10) dd($Transacciones2);
+
+                        // dd($myTransaccion2);
+                        // dd($myRecarga);
+                        continue;
+                    }
+                }
+
+            }
+        
             
         };
-        dd($Transacciones2);
-
+        // dd($Transacciones2);
+        die();
         return $Transacciones;
-
-
 
     }    
     /*
