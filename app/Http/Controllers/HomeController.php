@@ -297,48 +297,11 @@ class HomeController extends Controller
         
         
         // new
-        if (auth()->id() == 22){
+        if (auth()->id() == 2){
 
-            //$request->wallet        = 89; // abu mahmud
-            //$request->transaction   = 11; // pago usdt
-
-            // $request->wallet        = 93; // caja usdt
-            // $request->transaction   = 11; // pago usdt
-            $wallet                     = app(statisticsController::class)->getWallet();
-            list($Recargas, $Transacciones) = app(statisticsController::class)->commissionsProfit($request);
-
-            // dd($Recargas);
-            // dd($Transacciones);
-
-
-
-            $parametros['transaction_group_summary']    = $transaction_group_summary;
-            $parametros['transaction_summary']          = $transaction_summary;
-            $parametros['wallet_summary']               = $wallet_summary;
-            $parametros['wallet_groupsummary']          = $wallet_groupsummary;
-            $parametros['wallet']                       = $wallet;
-            $parametros['typeTransactions']             = $typeTransactions;
-            $parametros['myWallet']                     = $myWallet;                //
-            $parametros['myWallet2']                    = $myWallet2;               // 
-            $parametros['myTypeTransaction']            = $myTypeTransaction;
-            $parametros['myFechaDesde']                 = $myFechaDesde;
-            $parametros['myFechaHasta']                 = $myFechaHasta;
-            $parametros['balanceDetail']                = $balanceDetail;
-            $parametros['myFechaDesdeBefore']           = $myFechaDesdeBefore;
-            $parametros['myFechaHastaBefore']           = $myFechaHastaBefore;
-            $parametros['balance']                      = $balance;
-            $parametros['wallet_groupsummaryGeneral']   = $wallet_groupsummaryGeneral;
-
-
-
-            $parametros['Recargas']                     = $Recargas;
-            $parametros['Transacciones']                = $Transacciones;   //
+            $this->comisionesGrupo2($request);
             
-            //  dd($transaction_summary);
-            //  dd($wallet_groupsummary);
-    
-            return view('dashboardComisionesGrupo2', $parametros);
-
+            
 
         }
 
@@ -468,10 +431,10 @@ class HomeController extends Controller
         $parametros['transaction_summary']          = $transaction_summary;
         $parametros['wallet_summary']               = $wallet_summary;
         $parametros['wallet_groupsummary']          = $wallet_groupsummary;
-        $parametros['wallet']                       = $wallet;
+        $parametros['wallet']                       = $wallet;                  //
         $parametros['typeTransactions']             = $typeTransactions;
-        $parametros['myWallet']                     = $myWallet;
-        $parametros['myWallet2']                    = $myWallet2;
+        $parametros['myWallet']                     = $myWallet;                //
+        $parametros['myWallet2']                    = $myWallet2;               //
         $parametros['myTypeTransaction']            = $myTypeTransaction;
         $parametros['myFechaDesde']                 = $myFechaDesde;
         $parametros['myFechaHasta']                 = $myFechaHasta;
@@ -492,40 +455,8 @@ class HomeController extends Controller
         
         // dd($request->fechaDesde . ' ' . $request->fechaHasta);
         
-        
-        // new
-
-
-
-        $wallet_summary             = app(statisticsController::class)->getWalletTransactionSummary($request);
-        // dd($wallet_summary );
-        $request2                   = clone $request;
-        $request2->transaction      = 0;
-        $wallet_summary             = app(statisticsController::class)->getWalletTransactionSummary($request2);
-        // dd($wallet_summary);
-        $wallet_groupsummary        = app(statisticsController::class)->getWalletTransactionGroupSummary($request);
-        // dd($wallet_groupsummary);
-
-        $requestGeneral             = clone $request;
-        $requestGeneral->wallet     = $requestGeneral->wallet2 ?? 0;
-        // dd($requestGeneral->wallet);
-        $wallet_groupsummaryGeneral = app(statisticsController::class)->getWalletTransactionGroupSummary($requestGeneral);
-        // dd($wallet_groupsummary);
-
-        
         // dd($wallet);
-        $typeTransactions           = app(statisticsController::class)->getTypeTransactions();
-
-
-        $request3                   = clone $request;
-        $request3->transaction      = 0;
-        $transaction_summary        = app(statisticsController::class)->getTransactionSummary($request3);
-        // dd($transaction_summary);
-        $request4                   = clone $request;
-        $transaction_group_summary  = app(statisticsController::class)->getTransactionGroupSummary($request4);
-
-        // dd($transaction_group_summary);
-
+        $typeTransactions           = app(statisticsController::class)->getTypeTransactions(); // *
 
         /* MANTENER VALOR BUSCADO EN EL URL */
         $myWalletDesde   = 0;
@@ -575,111 +506,41 @@ class HomeController extends Controller
             /* MANTENER VALOR BUSCADO EN EL URL */
         }
 
-
-
-        $balance = 0;
-
-        if ($myWallet > 0){
-            $balance2 = app(statisticsController::class)->getBalanceWallet($myWallet);
-            if(isset($balance2->Total)){
-                $balance  = $balance2->Total;
-            }
-            // $balance = $this->getBalancemyWallet($myWallet, $myFechaDesde, $myFechaHasta);
-        };
-
-
        // dd($myFechaDesde);
-        $balanceDetail      = 0;
+        
         $myFechaDesdeBefore = "2001-01-01";
         $myFechaHastaBefore = "9999-12-31";
-        $balance3           = 0;
-
-        $balanceDetail = 0;
-        if ($myWallet > 0){
-            // dd($indRecibeFecha);
-            if ($myFechaDesde != "2001-01-01"){
-                $myFechaHastaBefore = app(statisticsController::class)->getDayBefore($myFechaDesde);
-            }
-
-            // \Log::info("leam 1-> myFechaDesde  -> $myFechaDesde");
-            // \Log::info("leam 1-> myFechaHasta  -> $myFechaHasta");
-            // \Log::info("leam 1-> balanceDetail -> $balanceDetail");
-            // \Log::info("leam 1-> myFechaDesdeBefore -> $myFechaDesdeBefore");
-            // \Log::info("leam 1-> myFechaHastaBefore -> $myFechaHastaBefore");
-
-            $balanceDetail           = app(statisticsController::class)->getBalanceWalletBefore($myWallet, $myFechaDesde, $myFechaHasta);
+        
 
 
+        $wallet                         = app(statisticsController::class)->getWallet();
+        list($Recargas, $Transacciones2) = app(statisticsController::class)->commissionsProfit($request);
 
-            // \Log::info("leam 2-> balance3 -> " . print_r($balance3,true));
-            // \Log::info("leam 2-> balanceDetail -> " . print_r($balanceDetail,true));
-            // \Log::info("leam 2-> ");
-            // \Log::info("leam 2-> ");
+    
 
-        };
-
-
-        if (auth()->id() == 222){
-
-            //$request->wallet        = 89; // abu mahmud
-            //$request->transaction   = 11; // pago usdt
-
-            // $request->wallet        = 93; // caja usdt
-            // $request->transaction   = 11; // pago usdt
-            $wallet                     = app(statisticsController::class)->getWallet();
-            list($Recargas, $Transacciones2) = app(statisticsController::class)->commissionsProfit($request);
-
-
-            $parametros['transaction_group_summary']    = $transaction_group_summary;
-            $parametros['transaction_summary']          = $transaction_summary;
-            $parametros['wallet_summary']               = $wallet_summary;
-            $parametros['wallet_groupsummary']          = $wallet_groupsummary;
-            $parametros['wallet']                       = $wallet;
-            $parametros['typeTransactions']             = $typeTransactions;
-            $parametros['myWallet']                     = $myWallet;                //
-            $parametros['myWallet2']                    = $myWallet2;               // 
-            $parametros['myTypeTransaction']            = $myTypeTransaction;
-            $parametros['myFechaDesde']                 = $myFechaDesde;
-            $parametros['myFechaHasta']                 = $myFechaHasta;
-            $parametros['balanceDetail']                = $balanceDetail;
-            $parametros['myFechaDesdeBefore']           = $myFechaDesdeBefore;
-            $parametros['myFechaHastaBefore']           = $myFechaHastaBefore;
-            $parametros['balance']                      = $balance;
-            $parametros['wallet_groupsummaryGeneral']   = $wallet_groupsummaryGeneral;
-
-
-
-            $parametros['Recargas']                     = $Recargas;
-            $parametros['Transacciones']                = $Transacciones;   //
-
-            dd($Recargas);
-            dd($Transacciones2);
-
-        }
-
-        $parametros['transaction_group_summary']    = $transaction_group_summary;
-        $parametros['transaction_summary']          = $transaction_summary;
-        $parametros['wallet_summary']               = $wallet_summary;
-        $parametros['wallet_groupsummary']          = $wallet_groupsummary;
-        $parametros['wallet']                       = $wallet;
+        $parametros['wallet']                       = $wallet;                  //
         $parametros['typeTransactions']             = $typeTransactions;
-        $parametros['myWallet']                     = $myWallet;
-        $parametros['myWallet2']                    = $myWallet2;
+        $parametros['myWallet']                     = $myWallet;                //
+        $parametros['myWallet2']                    = $myWallet2;               // 
         $parametros['myTypeTransaction']            = $myTypeTransaction;
         $parametros['myFechaDesde']                 = $myFechaDesde;
         $parametros['myFechaHasta']                 = $myFechaHasta;
-        $parametros['balanceDetail']                = $balanceDetail;
         $parametros['myFechaDesdeBefore']           = $myFechaDesdeBefore;
         $parametros['myFechaHastaBefore']           = $myFechaHastaBefore;
-        $parametros['balance']                      = $balance;
-        $parametros['wallet_groupsummaryGeneral']   = $wallet_groupsummaryGeneral;
-        
-        //  dd($transaction_summary);
-        //  dd($wallet_groupsummary);
 
-        return view('dashboardComisionesGrupo', $parametros);
+
+        $parametros['Recargas']                     = $Recargas;
+        $parametros['Transacciones']                = $Transacciones2;   //
+        
+         // dd($Recargas);
+        // dd($Transacciones2);
+        //         dd($parametros);
+  //        dd('leam aqui 3');
+                     
+        return view('dashboardComisionesGrupo2', $parametros);
 
     }
+    
     public function saldos(request $request)
     {
         
