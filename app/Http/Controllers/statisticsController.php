@@ -2592,6 +2592,8 @@ class statisticsController extends Controller
     */
     function commissionsProfit(Request $request){
 
+        $verLog = 0;
+
         $request->wallet        = 89; // abu mahmud
         $request->transaction   = 11; // pago usdt
 
@@ -2841,15 +2843,16 @@ class statisticsController extends Controller
 
                     $Transacciones2 [] = $myTransaccion2;
 
-
-                    echo "<br>";
-                    echo "<br>";
-                    echo "<br> Transaccion2  ------ ";
-                    echo "<br>";
-                    echo "<br>";
-                    echo "<pre>";
-                    print_r($myTransaccion2);  
-                    echo "</pre>";
+                    if ($verLog ==1){
+                        echo "<br>";
+                        echo "<br>";
+                        echo "<br> Transaccion2  ------ ";
+                        echo "<br>";
+                        echo "<br>";
+                        echo "<pre>";
+                        print_r($myTransaccion2);  
+                        echo "</pre>";
+                        }
 
                     break;
                 }else{
@@ -2915,15 +2918,16 @@ class statisticsController extends Controller
                             // echo "</pre>";
 
                         // }
-
-                        echo "<br>";
-                        echo "<br>";
-                        echo "<br> Transaccion2 2 ------ ";
-                        echo "<br>";
-                        echo "<br>";
-                        echo "<pre>";
-                        print_r($myTransaccion2);  
-                        echo "</pre>";
+                        if ($verLog ==1){
+                            echo "<br>";
+                            echo "<br>";
+                            echo "<br> Transaccion2 2 ------ ";
+                            echo "<br>";
+                            echo "<br>";
+                            echo "<pre>";
+                            print_r($myTransaccion2);  
+                            echo "</pre>";
+                        }
                         $myTransaccion2->Amount2                = $myAmount22;
                         $myTransaccion2->RecargaSaldoAntes      = 0;
                         // $myTransaccion2->Amount2                = $myTransaccion2->Amount - $saldoRecarga2;
@@ -2967,8 +2971,8 @@ class statisticsController extends Controller
             
         };
         // dd($Transacciones2);
-        die();
-        return $Transacciones;
+        // die();
+        return [$Recargas, $Transacciones2];
 
     }    
     /*
