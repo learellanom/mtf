@@ -197,6 +197,18 @@ $totalComisionGanancia2General  = 0;
 
             <button 
                 class="nav-link" 
+                id="nav-recarga-tab" 
+                data-toggle="tab" 
+                data-target="#nav-recarga" 
+                type="button" 
+                role="tab" 
+                aria-controls="nav-recarga" 
+                aria-selected="true">
+                Recarga
+            </button>
+
+            <button 
+                class="nav-link" 
                 id="nav-profile-tab" 
                 data-toggle="tab" 
                 data-target="#nav-profile" 
@@ -218,7 +230,7 @@ $totalComisionGanancia2General  = 0;
 
         {{-- Estadisticas --}}
 
-        <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+        <div class="tab-pane fade show active" id="nav-home"    role="tabpanel"     aria-labelledby="nav-home-tab">
 
             <div id="myCanvasGeneral"></div>
 
@@ -226,6 +238,15 @@ $totalComisionGanancia2General  = 0;
 
         </div>
 
+        {{-- Recargas --}}
+
+        <div class="tab-pane fade"              id="nav-recarga" role="tabpanel"    aria-labelledby="nav-recarga-tab">
+
+            <div id="myCanvasGeneralRecarga"></div>
+
+            <div id="myCanvasRecarga"></div>
+
+        </div>
         {{-- Filtros --}}
 
         <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">Filtros
@@ -435,7 +456,7 @@ $totalComisionGanancia2General  = 0;
 
         cargaTransacciones();
         
-        // calculoGeneral2();
+        calculoGeneral2();
         calculoGeneral22();
         
         leeFiltros();  
@@ -615,13 +636,13 @@ $totalComisionGanancia2General  = 0;
                 <div class="col-12 col-md-12">
                     <table class="table thead-light" style="background-color: white;">
                         <thead class="thead-dark">
-
                             <tr>
-                                <th class="myWidth2"            >Wallet</th>
-                                <th class="myWidth2"            >Id</th>
+                                <th class=""  style="width: 25% !important;">Wallet</th>
+                                <th class="myWidth2"  style="width: 5% !important;">Id</th>
                                 <th class="myWidth2"            >Transacción</th>
                                 <th class="myWidth2"            >Grupo</th>                                
                                 <th class="myWidth2"            >Monto</th>
+                                <th class=""    style="width:24% !important;"        >Fecha</th>
                                 <th class="myTdColor2 myWidth2" >Porcentaje comision base</th>
                                 <th class="myTdColor3 myWidth2" >Monto comision base</th>
                                 <th class="myTdColor6 myWidth2" >Totasl monto</th>
@@ -717,7 +738,7 @@ $totalComisionGanancia2General  = 0;
             </div>
         `;
     
-        $("#myCanvasGeneral").append(myElement);
+        $("#myCanvasGeneralRecarga").append(myElement);
 
     }
 
@@ -801,15 +822,6 @@ $totalComisionGanancia2General  = 0;
             <div class="col-12 col-md-12">
                 <table class="table thead-light" style="background-color: white;">
                     <thead class="thead-dark">
-                        {{--
-                        <tr>
-                            <th style="width:1%;">Saldo Total</th>
-                            <th style="width:1%;">{{ number_format($balance,2) }}</th>
-                            <th style="width:1%;"></th>
-                            <th style="width:1%;">Saldo al corte</th>
-                            <th style="width:1%;">{{ number_format($balanceDetail,2) }}</th>    
-                        </tr>
-                        --}}
                         <tr>
                             <th class="myWidth22"             >Id</th>                        
                             <th class="myWidth22"             >Wallet</th>

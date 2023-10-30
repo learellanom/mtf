@@ -516,7 +516,7 @@ class HomeController extends Controller
         $wallet                         = app(statisticsController::class)->getWallet();
         list($Recargas, $Transacciones2) = app(statisticsController::class)->commissionsProfit($request);
 
-    
+        // dd('transacciones 2 ->' . print_r($Transacciones2,true));
 
         $parametros['wallet']                       = $wallet;                  //
         $parametros['typeTransactions']             = $typeTransactions;
@@ -532,10 +532,10 @@ class HomeController extends Controller
         $parametros['Recargas']                     = $Recargas;
         $parametros['Transacciones']                = $Transacciones2;   //
         
-         // dd($Recargas);
-        // dd($Transacciones2);
-        //         dd($parametros);
-  //        dd('leam aqui 3');
+        // dd($Recargas);
+         
+        // dd($parametros);
+        // dd('leam aqui 3');
                      
         return view('dashboardComisionesGrupo2', $parametros);
 
