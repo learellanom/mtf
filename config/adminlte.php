@@ -350,17 +350,24 @@ return [
         [
             'text' => 'Consolidado de comisiones',
             'url'  => 'dashboardComisiones',
-            'active' => ['dashboardComisiones*'],
+            'active' => ['dashboardComisiones'],
             'icon' => 'fas fa-fw fas fa-chart-line',
             'can'  => 'dashboardComisiones',
         ],
         [
             'text' => 'Consolidado de comisiones por Grupo',
             'url'  => 'dashboardComisionesGrupo',
-            'active' => ['dashboardComisionesGrupo*'],
+            'active' => ['dashboardComisionesGrupo'],
             'icon' => 'fas fa-fw fas fa-chart-line',
             'can'  => 'dashboardComisionesGrupo',
         ],        
+        [
+            'text' => 'Detalles de comision USDT',
+            'url'  => 'dashboardComisionesGrupo2',
+            'active' => ['dashboardComisionesGrupo2'],
+            'icon' => 'fas fa-fw fas fa-chart-line',
+            'can'  => 'dashboardComisionesGrupo2',
+        ],          
         [
             'text' => 'Detalles de movimiento',
             'url'  => 'estadisticasDetalle',

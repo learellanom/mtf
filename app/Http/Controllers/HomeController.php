@@ -297,13 +297,10 @@ class HomeController extends Controller
         
         
         // new
-        if (auth()->id() == 2){
+       // if (auth()->id() == 2){
 
-            $this->comisionesGrupo2($request);
-            
-            
 
-        }
+        // }
 
 
         $wallet_summary             = app(statisticsController::class)->getWalletTransactionSummary($request);

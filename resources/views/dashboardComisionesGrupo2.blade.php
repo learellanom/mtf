@@ -87,7 +87,7 @@ $totalComisionGanancia2General  = 0;
     }
 </style>
 
-<div class="container">
+<div class="container justify-content-center" style="display: contents;">
 
     <div class="card">
         <div class="card-header">
@@ -170,6 +170,8 @@ $totalComisionGanancia2General  = 0;
 
                 </div>
                 <div class ="col-12 col-md-3">
+                    <a class="btn btn-primary "><i class="fas fa-broom"></i></a>
+                    <a class="btn btn-primary "><i class="fas fa-search"></i></a>                    
                     <a class="btn btn-primary imprimir"><i class="fas fa-print"></i></a>
                     <a class="btn btn-success"  onclick="exportaEstadisticas();"><i class="fas fa-file-excel"></i></a>
                     <a class="btn btn-danger"   onclick="exportaEstadisticasPDF();"><i class="fas fa-file-pdf"></i></a>
@@ -390,7 +392,7 @@ $totalComisionGanancia2General  = 0;
             const wallet2       = $('#wallet2').val();
             const transaccion   = $('#typeTransactions').val();
             
-             theRoute(wallet, wallet2);
+            //  theRoute(wallet, wallet2);
 
         });
         $('#wallet2').on('change', function (){
@@ -399,7 +401,7 @@ $totalComisionGanancia2General  = 0;
             const wallet2       = $('#wallet2').val();
             const transaccion   = $('#typeTransactions').val();
 
-            theRoute(wallet, wallet2);
+            // theRoute(wallet, wallet2);
 
         });
         {{--
@@ -408,7 +410,7 @@ $totalComisionGanancia2General  = 0;
             const wallet        = $('#wallet').val();
             const transaccion   = $('#typeTransactions').val();
 
-            theRoute(wallet, transaccion);
+           // theRoute(wallet, transaccion);
 
         });
         --}}
@@ -642,7 +644,7 @@ $totalComisionGanancia2General  = 0;
                                 <th class="myWidth2"            >Transacción</th>
                                 <th class="myWidth2"            >Grupo</th>                                
                                 <th class="myWidth2"            >Monto</th>
-                                <th class=""    style="width:24% !important;"        >Fecha</th>
+                                <th class=""    style="width:30% !important;"        >Fecha</th>
                                 <th class="myTdColor2 myWidth2" >Porcentaje comision base</th>
                                 <th class="myTdColor3 myWidth2" >Monto comision base</th>
                                 <th class="myTdColor6 myWidth2" >Totasl monto</th>
@@ -681,6 +683,8 @@ $totalComisionGanancia2General  = 0;
                                     $totalComisionExchangeGeneral   += 0;
                                     $totalComisionGananciaGeneral   += 0;
                                     $totalComisionGanancia2General  += 0;  
+                                    
+                                    $myDate = date_create($wallet2->TransactionDate);
 
                                 @endphp
 
@@ -712,7 +716,7 @@ $totalComisionGanancia2General  = 0;
                                 <td>{{ $wallet2->TypeTransactionName}}</td>
                                 <td>{{ $wallet2->GroupName}}</td>
                                 <td>{{ number_format($wallet2->Amount ,2) }}</td>
-                                <td>{{ $wallet2->TransactionDate }}</td>
+                                <td>{{ date_format($myDate, "d/m/Y H:i:s") }}</td>
                                 <td>{{ number_format($wallet2->PercentageBase ,2) }}</td>
                                 <td>{{ number_format($wallet2->AmountCommissionBase,2) }}</td>
                                 <td>{{ number_format($wallet2->AmountTotalBase,2) }}</td>
@@ -823,18 +827,18 @@ $totalComisionGanancia2General  = 0;
                 <table class="table thead-light" style="background-color: white;">
                     <thead class="thead-dark">
                         <tr>
-                            <th class="myWidth22"             >Id</th>                        
+                            <th class="" style="width:1%"     >Id</th>                        
                             <th class="myWidth22"             >Wallet</th>
                             <th class="myWidth22"             >Transacción</th>
                             <th class="myWidth22"             >Grupo</th>                                
-                            <th class="myWidth22"             >fecha</th>
+                            <th class="" style="width: 30%"   >Fecha</th>
                             <th class="myTdColor2 myWidth22"  >Monto</th>                            
                             <th class="myTdColor2 myWidth22"  >Monto 2</th>   
-                            <th class="myTdColor2 myWidth22"  >Porce Comision</th>
+                            <th class="myTdColor2 "           >Porce Comision</th>
                             <th class="myTdColor2 myWidth22"  >Mto Comision</th>
                             <th class="myTdColor3 myWidth22"  >Porc Comision Base</th>
                             <th class="myTdColor3 myWidth22"  >Mto Comision Base</th>
-                            <th class="myTdColor5 myWidth22"  >Comision Ganancia</th>                            
+                            <th class="myTdColor3 myWidth22"  >Comision Ganancia</th>                            
                             <th class="myTdColor5 myWidth22"  >Recarga ID</th>
                             <th class="myTdColor5 myWidth22"  >Recarga Monto</th>
                             <th class="myTdColor5 myWidth22"  >Porc Base</th>
@@ -889,6 +893,7 @@ $totalComisionGanancia2General  = 0;
                                 $totalComisionGananciaGeneral   += 0;
                                 $totalComisionGanancia2General  += 0;  
 
+                                $myDate = date_create($wallet2->TransactionDate);
 
                             @endphp
 
@@ -913,11 +918,12 @@ $totalComisionGanancia2General  = 0;
                                     @endphp                                                
                                     @break
                             @endswitch
+
                             <td class="myWidth22"   >{{ $wallet2->Id}}</td>   
                             <td class="myWidth22"   >{{ $wallet2->WalletName}}</td>                               
                             <td class="myWidth22"   >{{ $wallet2->TypeTransactionName}}</td>
                             <td class="myWidth22"   >{{ $wallet2->GroupName}}</td>
-                            <td class="myWidth22"   >{{ $wallet2->TransactionDate }}</td>
+                            <td class="myWidth22"   >{{ date_format($myDate, "d/m/Y H:i:s") }}</td>
                             <td class="myWidth22"   >{{ number_format($wallet2->Amount,2) }}</td>
                             <td class="myWidth22"   >{{ number_format($wallet2->Amount2,2) }}</td>
                             <td class="myWidth22"   >{{ number_format($wallet2->Percentage  ,2) }}</td>
@@ -929,6 +935,7 @@ $totalComisionGanancia2General  = 0;
                             <td class="myWidth22"   >{{ number_format($wallet2->RecargaAmount,2) }}</td>
                             <td class="myWidth22"   >{{ number_format($wallet2->RecargaPercentageBase,2) }}</td>                                                                                    
                             <td class="myWidth22"   >{{ number_format($wallet2->RecargaSaldo,2) }}</td>    
+
                         </tr>
                     @endforeach
 

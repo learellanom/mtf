@@ -2862,7 +2862,7 @@ class statisticsController extends Controller
 
             $myTransaccion2->Amount2    = $myTransaccion->Amount;
 
-            foreach($Recargas as $myRecarga){
+            foreach($Recargas3 as $myRecarga){
                 //
                 // Busca solo las recargas que tengan saldo
                 //
