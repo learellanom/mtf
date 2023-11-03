@@ -89,18 +89,20 @@ $totalComisionGanancia2General  = 0;
 
 <div class="container justify-content-center" style="display: contents;">
 
+    <div class="row col-12 col-md-12 justify-content-center text-center align-items-center" style="min-height: 5rem !important">
+        <h4>Detalle de comisiones USDT</h4>
+    </div>
+    
     <div class="card">
         <div class="card-header">
             <div class="row">
-
-
-
-                <div class="col col-md-3">
+                {{--
+                <div class="col-12 col-lg-3">
                     <x-adminlte-select2 id="wallet"
                     name="optionsWallets"
                     
                     label-class="text-lightblue"
-                    data-placeholder="Seleccione una caja"
+                    data-placeholder="Seleccione una caja Proveedor"
 
                     :config="$config4"
                     >
@@ -112,19 +114,21 @@ $totalComisionGanancia2General  = 0;
                     <x-adminlte-options :options="$wallet" empty-option="Wallet.."/>
                     </x-adminlte-select2>
                 </div>
+                --}}
 
-
-                <div class="col col-md-3">
+                <div class="col-12 col-lg-3">
                     <x-adminlte-select2 id="wallet2"
                     name="optionsWallets2"
                     
                     label-class="text-lightblue"
-                    data-placeholder="Seleccione una caja"
+                    data-placeholder="Seleccione una caja USDT"
 
                     :config="$config4"
                     >
                     <x-slot name="prependSlot">
+                        
                         <div class="input-group-text bg-gradient-light">
+                        
                             <i class="fas fa-box"></i>
                         </div>
                     </x-slot>
@@ -154,7 +158,7 @@ $totalComisionGanancia2General  = 0;
                 --}}
 
 
-                <div class ="col-12 col-md-3">
+                <div class ="col-12 col-lg-3">
                     <x-adminlte-date-range
                         name="drCustomRanges"
                         enable-default-ranges="Last 30 Days"
@@ -169,13 +173,19 @@ $totalComisionGanancia2General  = 0;
 
 
                 </div>
-                <div class ="col-12 col-md-3">
-                    <a class="btn btn-primary "><i class="fas fa-broom"></i></a>
-                    <a class="btn btn-primary "><i class="fas fa-search"></i></a>                    
-                    <a class="btn btn-primary imprimir"><i class="fas fa-print"></i></a>
-                    <a class="btn btn-success"  onclick="exportaEstadisticas();"><i class="fas fa-file-excel"></i></a>
-                    <a class="btn btn-danger"   onclick="exportaEstadisticasPDF();"><i class="fas fa-file-pdf"></i></a>
-                    {{-- <a class="btn btn-success" href={{route('exports.excel', [$myWallet, $myFechaDesde, $myFechaHasta])}}><i class="fas fa-file-excel"></i></a> --}}
+
+                <div class ="col-12 col-lg-3">
+                    <div class="row">
+                        <button 
+                            class="btn btn-primary"             
+                            type="buttom"          
+                            onclick="theRoute();" >
+                            <i class="fas fa-broom"></i>
+                        </button>
+                        <button class="btn btn-primary imprimir"  id="myBtnImprimir"    type="buttom" disabled                                  ><i class="fas fa-print"></i></button>
+                        <button class="btn btn-success"           id="myBtnExcel"       type="buttom" disabled onclick="exportaEstadisticas();" ><i class="fas fa-file-excel"></i></button>
+                        <button class="btn btn-danger"            id="myBtnPDF"         type="buttom" disabled onclick="exportaEstadisticasPDF();"><i class="fas fa-file-pdf"></i></button>
+                    </div>
                 </div>
 
             </div>
@@ -208,7 +218,7 @@ $totalComisionGanancia2General  = 0;
                 aria-selected="true">
                 Recarga
             </button>
-
+                {{--
             <button 
                 class="nav-link" 
                 id="nav-profile-tab" 
@@ -220,7 +230,7 @@ $totalComisionGanancia2General  = 0;
                 aria-selected="false">
                 Filtros
             </button>
-
+                    --}}
         </div>
     </nav>
 
@@ -250,7 +260,7 @@ $totalComisionGanancia2General  = 0;
 
         </div>
         {{-- Filtros --}}
-
+                    {{--
         <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">Filtros
 
             <div class="card mb-4">
@@ -321,6 +331,7 @@ $totalComisionGanancia2General  = 0;
                 </div>
             </div>
         </div>
+        --}}
     </div>
 </div>
 
@@ -330,15 +341,10 @@ $totalComisionGanancia2General  = 0;
 
 <script>
     
-    const miWallet  = {!! $myWallet !!};
-    const miWallet2 = {!! $myWallet2 !!};
-
+    const miWallet          = {!! $myWallet !!};
+    
+                
     BuscaWallet(miWallet);
-    BuscaWallet2(miWallet2);
-    
-    const miTypeTransaction= {!! $myTypeTransaction !!};
-    
-    BuscaTransaccion(miTypeTransaction);
     
 
     @php
@@ -349,71 +355,53 @@ $totalComisionGanancia2General  = 0;
         $myocultarresumengeneral        = $myData['ocultarresumengeneral'];
         $myocultarresumentransaccion    = $myData['ocultarresumentransaccion'];
         $mytransactions                 = $myData['transactions'];
-        // dd($myData);
         
         $myocultarresumengeneral        = (!$myocultarresumengeneral)       ? 0 : $myocultarresumengeneral;
         $myocultarresumentransaccion    = (!$myocultarresumentransaccion)   ? 0 : $myocultarresumentransaccion;
 
-        // dd(' myocultarresumengeneral -> ' . $myocultarresumengeneral . ' myocultarresumentransaccion -> ' . $myocultarresumentransaccion . ' mytransactions -> ' . print_r($mytransactions,true) );
-        // dd(json_encode($myocultarresumentransaccion));
-        // dd(json_encode($myocultarresumengeneral));
-        // dd(json_encode($mytransactions));
+
 
     @endphp
 
 
     $(() => {
 
-            // Valida y esconde
+        const myFechaDesde = {!! substr($myFechaDesde,0,4) !!} + '-' + {!! substr($myFechaDesde,5,2) !!} + '-' + {!! substr($myFechaDesde,8,2) !!} ;
+        const myFechaHasta = {!! substr($myFechaHasta,0,4) !!} + '-' + {!! substr($myFechaHasta,5,2) !!} + '-' + {!! substr($myFechaHasta,8,2) !!} ;
 
-        let     text      = window.location.href;
-        const   myArray   = text.split("/");
-        const   myLength  = myArray.length;
-
-        if (window.location.href.indexOf("?") === -1) {
-            $('.esconder').show();
-        } else {
-            $('.esconder').hide();
-        }
-
-        let     myFechaDesde = {!! $myFechaDesde !!};
-        // console.log({!! $myFechaDesde !!});
-        const   myFechaHasta = {!! $myFechaHasta !!};
-
-        // alert('Fechas -> desde -> ' + myFechaDesde);
+        //
+        
+        console.log('myFechaDesde ->  {{ $myFechaDesde }}'); 
+        console.log('myFechaDesde -> ' + myFechaDesde);
+        console.log('myFechaHasta -> ' + myFechaHasta);
 
         InicializaFechas();
 
         BuscaFechas(myFechaDesde, myFechaHasta);
 
-        $('#wallet').on('change', function (){
-
-            const wallet        = $('#wallet').val();
-            const wallet2       = $('#wallet2').val();
-            const transaccion   = $('#typeTransactions').val();
-            
-            //  theRoute(wallet, wallet2);
-
-        });
         $('#wallet2').on('change', function (){
 
-            const wallet        = $('#wallet').val();
-            const wallet2       = $('#wallet2').val();
-            const transaccion   = $('#typeTransactions').val();
+            let myFechaDesde, myFechaHasta;
+            myFechaDesde =  ($('#drCustomRanges').val()).substr(6,4) +
+                            '-' +
+                            ($('#drCustomRanges').val()).substr(3,2) +
+                            '-' +
+                            ($('#drCustomRanges').val()).substr(0,2)
+                            ;
 
-            // theRoute(wallet, wallet2);
+            myFechaHasta =  ($('#drCustomRanges').val()).substr(19,4) +
+                            '-' +
+                            ($('#drCustomRanges').val()).substr(16,2) +
+                            '-' +
+                            ($('#drCustomRanges').val()).substr(13,2)
+                            ;
+
+            const wallet       = $('#wallet2').val() == "" ? 0 : $('#wallet2').val();
+
+             theRoute(wallet, myFechaDesde,myFechaHasta);
 
         });
-        {{--
-        $('#typeTransactions').on('change', function (){
 
-            const wallet        = $('#wallet').val();
-            const transaccion   = $('#typeTransactions').val();
-
-           // theRoute(wallet, transaccion);
-
-        });
-        --}}
         $('#drCustomRanges').on('change', function () {
 
             let myFechaDesde, myFechaHasta;
@@ -431,10 +419,10 @@ $totalComisionGanancia2General  = 0;
                             ($('#drCustomRanges').val()).substr(13,2)
                             ;
 
-                const wallet        = $('#wallet').val();
-                const wallet2       = $('#wallet2').val();
+                
+                const wallet       = $('#wallet2').val();
                 const transaccion   = $('#typeTransactions').val();
-                theRoute(wallet, wallet2, myFechaDesde,myFechaHasta);
+                theRoute(wallet, myFechaDesde,myFechaHasta);
 
         });
 
@@ -456,11 +444,17 @@ $totalComisionGanancia2General  = 0;
                                 </div>`
         });
 
-        cargaTransacciones();
-        
-        calculoGeneral2();
-        calculoGeneral22();
-        
+        // cargaTransacciones();
+
+        if (miWallet !=0 ){
+            calculoRecargas();
+            calculoTransacciones();
+            @if(count($Transacciones))
+                toggleBotones();
+            @endif
+        }else{
+            pantallaInicial();
+        }
         leeFiltros();  
         aplicaFiltros();      
 
@@ -507,7 +501,6 @@ $totalComisionGanancia2General  = 0;
 
             $('#my-select').multiSelect('deselect_all');
 
-
         });
 
         $('#myButtonAplicar').on('click', function (){
@@ -552,63 +545,27 @@ $totalComisionGanancia2General  = 0;
     });
 
 
+    function pantallaInicial(){
+        let myElement =`
+            <div class="row  justify-content-center text-center align-items-center" style="margin-top: 5rem; margin-bottom: 5rem;">
+                <h3>Seleccione criterio de busqueda</h3>
+            </div>        
+        `;
+        $("#myCanvasGeneralRecarga").append(myElement);
+
+
+        $("#myCanvasGeneral").append(myElement);
+
+    }
+
     /*
     *
-    *
-    *   calculoGeneral2
+    *   calculoRecargas
     *   resumen general por wallet
     *   muestra recargas
     * 
     */
-    function calculoGeneral2(){
-        {{--
-         myElement = `
-            <div class="row" data-wallet="{{$wallet2->WalletId}}">
-                <div class="col-md-12">
-                    <div class="card">
-                        <div class="card-body">
-                            <h3 class="text-center text-uppercase font-weight-bold">Comisiones por Grupo...</h3>
-                            <canvas id="myChartDoughnut"></canvas>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        `;
-        $("#myCanvasGeneral").append(myElement);
-
-        const COLORS = [
-                    'rgb(0, 173, 181)',
-                    'rgb(58, 16, 120)',
-                    'rgb(255, 184, 76)',
-                    'rgb(49, 225, 247)',
-                    'rgb(8, 2, 2)',
-                    'rgb(0, 129, 180)',
-                    'rgb(7, 10, 82)',
-                    'rgb(213, 206, 163)',
-                    'rgb(60, 42, 33)',
-                    'rgb(2, 89, 85)',
-                    'rgb(255, 132, 0)',
-                    'rgb(184, 98, 27)',
-                    'rgb(114, 0, 27)',
-        ];
-
-        const ctx2          = document.getElementById('myChartDoughnut');
-        const myChart2      = new Chart(ctx2, {
-            type: 'doughnut',
-            data : {
-                labels: [@foreach($wallet_summary as $wallet) "{{$wallet->TypeTransaccionName }}", @endforeach ],
-                datasets: [
-                    {
-                    label: 'Dataset 1',
-                    data: [@foreach($wallet_summary as $wallet) {{$wallet->total_commission_profit. ',' }} @endforeach],
-                    backgroundColor:COLORS,
-                    hoverOffset: 4
-                }]
-            },
-
-        });
-        --}}
+    function calculoRecargas(myFechaDesde = "", myFechaHasta =""){
         
         myElement =
         `
@@ -633,7 +590,7 @@ $totalComisionGanancia2General  = 0;
             </style>
 
             {{-- dd($balanceDetail . ' ' . $myFechaDesdeBefore . ' ' . $myFechaHastaBefore) --}}
-
+  
             <div class ="row mb-4" style="background-color: white;" data-wallet="">
                 <div class="col-12 col-md-12">
                     <table class="table thead-light" style="background-color: white;">
@@ -641,13 +598,14 @@ $totalComisionGanancia2General  = 0;
                             <tr>
                                 <th class=""  style="width: 25% !important;">Wallet</th>
                                 <th class="myWidth2"  style="width: 5% !important;">Id</th>
-                                <th class="myWidth2"            >Transacción</th>
-                                <th class="myWidth2"            >Grupo</th>                                
-                                <th class="myWidth2"            >Monto</th>
-                                <th class=""    style="width:30% !important;"        >Fecha</th>
+                                <th class="myWidth2"                         >Transacción</th>
+                                <th class="myWidth2"                         >Grupo</th>                                
+                                <th class="myWidth2"                         >Monto</th>
+                                <th class=""    style="width:30% !important;">Fecha</th>
                                 <th class="myTdColor2 myWidth2" >Porcentaje comision base</th>
                                 <th class="myTdColor3 myWidth2" >Monto comision base</th>
                                 <th class="myTdColor6 myWidth2" >Totasl monto</th>
+                                <th></th>
                             </tr>
                         </thead>
                         @php
@@ -658,16 +616,21 @@ $totalComisionGanancia2General  = 0;
                             $totalComisionExchange   = 0;
                             $totalComisionGanancia   = 0;
                             $totalComisionGanancia2  = 0;
+
+
+                            $myFechaDesdeDate = Date($myFechaDesde);
+                            $myFechaHastaDate = Date($myFechaHasta);
+
                         @endphp
-                         
+                        @if(count($Recargas)>0)
                         @foreach($Recargas as $wallet2)
                             
 
 
-                            <tr class="myTr" onClick="theRoute2({{0}}, {{0}}, {{$wallet2->WalletId}}, {{$wallet2->TypeTransactionId}})">
+                            <tr class="myTr">
 
                                 @php
-                                    $myTransaction                  = $myClass->getCreditDebitWallet($wallet2->TypeTransactionId);
+                                    
                                     
                                     $totalComision                  +=  0;
                                     $totalComisionBase              +=  0;
@@ -686,31 +649,11 @@ $totalComisionGanancia2General  = 0;
                                     
                                     $myDate = date_create($wallet2->TransactionDate);
 
+                                    $myDate2 = Date(substr($wallet2->TransactionDate,0,10));
+
+
                                 @endphp
 
-                                @switch($myTransaction)
-                                    //
-                                    // debito
-                                    // resta
-                                    //
-                                    @case("Debito")
-
-                                        @php
-   
-                                        @endphp
-                                        @break
-
-                                    //
-                                    // credito
-                                    // suma
-                                    //
-                                    @case("Credito")
-                                        @php
-                                            
-                                        @endphp                                                
-                                        @break
-                                @endswitch
-                                
                                 <td>{{ $wallet2->WalletName}}</td>                               
                                 <td>{{ $wallet2->Id}}</td>       
                                 <td>{{ $wallet2->TypeTransactionName}}</td>
@@ -720,22 +663,36 @@ $totalComisionGanancia2General  = 0;
                                 <td>{{ number_format($wallet2->PercentageBase ,2) }}</td>
                                 <td>{{ number_format($wallet2->AmountCommissionBase,2) }}</td>
                                 <td>{{ number_format($wallet2->AmountTotalBase,2) }}</td>
+                                <td>
+                                    <a href="{{ route('transactions.show', $wallet2->Id) }}" 
+                                        class="btn btn-xs text-dark shadow text-center">
+                                        <i class="fas fa-eye" style="color: green;"></i>
+                                    </a>
+                                </td>                                
                             </tr>
                         @endforeach
 
                         <tr style="background-color: black; color:white;">
-                            <td ></td>
-                            <td ></td>
-                            <td ></td>
-                            <td ></td>
-                            <td                   ></td>
-                            <td class="myTdColor2"></td>
-                            <td class="myTdColor3"></td>
-                            <td class="myTdColor6"></td>                            
-                            <!-- <td class="myTdColor5"></td>     -->
-                            <td class="myTdColor5"></td>                                
+                            <td                     ></td>
+                            <td                     ></td>
+                            <td                     ></td>
+                            <td                     ></td>
+                            <td                     ></td>
+                            <td                     ></td>
+                            <td class="myTdColor2"  ></td>
+                            <td class="myTdColor3"  ></td>
+                            <td class="myTdColor6"  ></td>                                
+                            <td></td>
                         </tr>
-
+                        @else
+                            <tr class="myTr"">
+                                <td colspan="16">
+                                    <div class="row  justify-content-center text-center align-items-center" style="margin-top: 5rem; margin-bottom: 5rem;">
+                                        <h3>Sin transacciones registradas</h3>
+                                    </div>
+                                </td>
+                            </tr>  
+                        @endif
                     </table>
                 </div>
 
@@ -750,60 +707,12 @@ $totalComisionGanancia2General  = 0;
     /*
     *
     *
-    *  calculoGeneral2
+    *  calculoTransacciones
     *  resumen general por wallet
     *
     */
-    function calculoGeneral22(){
-    {{--
-    myElement = `
-        <div class="row" data-wallet="{{$wallet2->WalletId}}">
-            <div class="col-md-12">
-                <div class="card">
-                    <div class="card-body">
-                        <h3 class="text-center text-uppercase font-weight-bold">Comisiones por Grupo</h3>
-                        <canvas id="myChartDoughnut"></canvas>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-        `;
-    $("#myCanvasGeneral").append(myElement);
-
-        const COLORS = [
-                'rgb(0, 173, 181)',
-                'rgb(58, 16, 120)',
-                'rgb(255, 184, 76)',
-                'rgb(49, 225, 247)',
-                'rgb(8, 2, 2)',
-                'rgb(0, 129, 180)',
-                'rgb(7, 10, 82)',
-                'rgb(213, 206, 163)',
-                'rgb(60, 42, 33)',
-                'rgb(2, 89, 85)',
-                'rgb(255, 132, 0)',
-                'rgb(184, 98, 27)',
-                'rgb(114, 0, 27)',
-        ];
-
-        const ctx2          = document.getElementById('myChartDoughnut');
-        const myChart2      = new Chart(ctx2, {
-        type: 'doughnut',
-        data : {
-            labels: [@foreach($wallet_summary as $wallet) "{{$wallet->TypeTransaccionName }}", @endforeach ],
-            datasets: [
-                {
-                label: 'Dataset 1',
-                data: [@foreach($wallet_summary as $wallet) {{$wallet->total_commission_profit. ',' }} @endforeach],
-                backgroundColor:COLORS,
-                hoverOffset: 4
-            }]
-        },
-
-    });
-    --}}
-
+    function calculoTransacciones(){
+ 
     myElement =
         `
         <style>
@@ -821,13 +730,13 @@ $totalComisionGanancia2General  = 0;
         </style>
 
         {{-- dd($balanceDetail . ' ' . $myFechaDesdeBefore . ' ' . $myFechaHastaBefore) --}}
-
-        <div class ="row mb-4" style="background-color: white;" data-wallet="{{$wallet2->WalletId}}">
+                
+        <div class ="row mb-4" style="background-color: white;" data-wallet="">
             <div class="col-12 col-md-12">
                 <table class="table thead-light" style="background-color: white;">
                     <thead class="thead-dark">
                         <tr>
-                            <th class="" style="width:1%"     >Id</th>                        
+                            <th class="" style="width: 100px;">Id</th>                        
                             <th class="myWidth22"             >Wallet</th>
                             <th class="myWidth22"             >Transacción</th>
                             <th class="myWidth22"             >Grupo</th>                                
@@ -843,120 +752,140 @@ $totalComisionGanancia2General  = 0;
                             <th class="myTdColor5 myWidth22"  >Recarga Monto</th>
                             <th class="myTdColor5 myWidth22"  >Porc Base</th>
                             <th class="myTdColor5 myWidth22"  >Recarga Saldo</th>
+                            <th></th>
+                            <th></th>
                         </tr>
                     </thead>
                     @php
-                        $cant                   = 0;
+                        $cant                    = 0;
 
-                        $totalComision          = 0;
-                        $totalComisionBase      = 0;
-                        $totalComisionExchange  = 0;
-                        $totalComisionGanancia  = 0;
-                        $totalComisionGanancia2  = 0;
+                        $totalComision           = 0;
+                        $totalComisionBase       = 0;
+                        $totalComisionGanancia   = 0;
+            
+                        $myFechaDesdeDate = Date($myFechaDesde);
+                        $myFechaHastaDate = Date($myFechaHasta);
 
+                         // dd($myFechaDesdeDate);
+                         // dd($myFechaHastaDate);
+                         
                     @endphp
-                        
-                    @foreach($Transacciones as $wallet2)
+                    
+                    @if(count($Transacciones)>0)
+                        @foreach($Transacciones as $wallet2)
+                            @php 
+                                    $myDate = new DateTime($wallet2->TransactionDate);
 
-                        <tr class="myTr" onClick="theRoute2({{0}}, {{0}}, {{$wallet2->WalletId}}, {{$wallet2->TypeTransactionId}})">
+                                    $myDate2 = Date(substr($wallet2->TransactionDate,0,10));
 
-                            @php
-                                // $myTransaction          = $myClass->getCreditDebitWallet($wallet2->TypeTransactionId);
-                                //$myTransaction          = $myClass->getCreditDebitGroup($wallet2->TypeTransactionId);
-                                $myTransaccion = "";
-                                switch($myTransaction){
-                                    case 'Debito':
-                                        $my_total_commission                = 0;
-                                        $my_total_amount_commission_base    = 0;
-                                        break;
-                                    case 'Credito':
-                                        $my_total_commission                = 0;
-                                        $my_total_amount_commission_base    = 0;                                        
-                                        break;
-                                    default:
-                                }
+                                    // dd($myDate);
 
-                                $my_total_commission_profit     =   0;
+                                    $myContinue = 0;
+                                    
+                                    if ($myDate2 >= $myFechaDesdeDate && $myDate2 <= $myFechaHastaDate) {                                    
+                                        $myContinue = 1;
+                                    }
 
-                                $totalComision                  +=  0 ;
-                                $totalComisionBase              +=  0;
-                                $totalComisionExchange          +=  0;
-                                $totalComisionGanancia          +=  0;  
-                                $totalComisionGanancia2         +=  0; 
-
-                                $cant                           += 1;
-
-                                $myCantGeneral                  += 0;
-                                $totalComisionGeneral           += 0;
-                                $totalComisionBaseGeneral       += 0;
-                                $totalComisionExchangeGeneral   += 0;
-                                $totalComisionGananciaGeneral   += 0;
-                                $totalComisionGanancia2General  += 0;  
-
-                                $myDate = date_create($wallet2->TransactionDate);
-
+                                    \Log::info('myDate -> ' . print_r($myDate2,true) . ' myFechaDesdeDate -> ' . print_r($myFechaDesdeDate,true) . ' myFechaHastaDate -> ' . print_r($myFechaHastaDate,true) . ' continue ->' . $myContinue);
                             @endphp
+                            @if($myContinue == 0)
+                                    @continue
+                            @endif
+                            <tr class="myTr">
+                                @php
 
-                            @switch($myTransaction)
-                                //
-                                // debito
-                                // resta
-                                //
-                                @case("Debito")
+                                    $my_total_commission_profit     =   0;
 
-                                    @php
-                                    @endphp
-                                    @break
+                                    $totalComision                  +=  $wallet2->AmountCommission ;
+                                    $totalComisionBase              +=  $wallet2->AmountCommissionBase;
+                                    $totalComisionGanancia          +=  $wallet2->AmountCommissionProfit;   
 
-                                //
-                                // credito
-                                // suma
-                                //
-                                @case("Credito")
-                                    @php
-                                        
-                                    @endphp                                                
-                                    @break
-                            @endswitch
+                                    // 
+                                    // Filtra transacciones
+                                    //
 
-                            <td class="myWidth22"   >{{ $wallet2->Id}}</td>   
-                            <td class="myWidth22"   >{{ $wallet2->WalletName}}</td>                               
-                            <td class="myWidth22"   >{{ $wallet2->TypeTransactionName}}</td>
-                            <td class="myWidth22"   >{{ $wallet2->GroupName}}</td>
-                            <td class="myWidth22"   >{{ date_format($myDate, "d/m/Y H:i:s") }}</td>
-                            <td class="myWidth22"   >{{ number_format($wallet2->Amount,2) }}</td>
-                            <td class="myWidth22"   >{{ number_format($wallet2->Amount2,2) }}</td>
-                            <td class="myWidth22"   >{{ number_format($wallet2->Percentage  ,2) }}</td>
-                            <td class="myWidth22"   >{{ number_format($wallet2->AmountCommission ,2) }}</td>
-                            <td                     >{{ number_format($wallet2->PercentageBase,2) }}</td> 
-                            <td class="myWidth22"   >{{ number_format($wallet2->AmountCommissionBase,2) }}</td>
-                            <td class="myWidth22"   >{{ number_format($wallet2->AmountCommissionProfit,2) }}</td>
-                            <td class="myWidth22"   >{{ $wallet2->RecargaId }}</td>
-                            <td class="myWidth22"   >{{ number_format($wallet2->RecargaAmount,2) }}</td>
-                            <td class="myWidth22"   >{{ number_format($wallet2->RecargaPercentageBase,2) }}</td>                                                                                    
-                            <td class="myWidth22"   >{{ number_format($wallet2->RecargaSaldo,2) }}</td>    
+                                    $cant                           += 1;
+                                @endphp
+                                
+                            
 
+
+                                <td class="myWidth22"   >{{ $wallet2->Id}}</td>   
+                                <td class="myWidth22"   >{{ $wallet2->WalletName}}</td>                               
+                                <td class="myWidth22"   >{{ $wallet2->TypeTransactionName}}</td>
+                                <td class="myWidth22"   >{{ $wallet2->GroupName}}</td>
+                                <td class="myWidth22"   >{{ date_format($myDate, "d/m/Y H:i:s") }}</td>
+                                <td class="myWidth22"   >{{ number_format($wallet2->Amount,2) }}</td>
+                                <td class="myWidth22"   >{{ number_format($wallet2->Amount2,2) }}</td>
+                                <td class="myWidth22"   >{{ number_format($wallet2->Percentage  ,2) }}</td>
+                                <td class="myWidth22"   >{{ number_format($wallet2->AmountCommission ,2) }}</td>
+                                <td                     >{{ number_format($wallet2->PercentageBase,2) }}</td> 
+                                <td class="myWidth22"   >{{ number_format($wallet2->AmountCommissionBase,2) }}</td>
+                                <td class="myWidth22"   >{{ number_format($wallet2->AmountCommissionProfit,2) }}</td>
+                                <td class="myWidth22"   >{{ $wallet2->RecargaId }}</td>
+                                <td class="myWidth22"   >{{ number_format($wallet2->RecargaAmount,2) }}</td>
+                                <td class="myWidth22"   >{{ number_format($wallet2->RecargaPercentageBase,2) }}</td>                                                                                    
+                                <td class="myWidth22"   >{{ number_format($wallet2->RecargaSaldo,2) }}</td>    
+                                <td>
+                                    <a 
+                                        href="{{ route('transactions.show', $wallet2->Id) }}" 
+                                        class="btn btn-xs text-dark shadow text-center">
+                                        <i class="fas fa-eye" style="color: blue;"></i>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a href="{{ route('transactions.show', $wallet2->RecargaId) }}" 
+                                        class="btn btn-xs text-dark shadow text-center">
+                                        <i class="fas fa-eye" style="color: green;"></i>
+                                    </a>
+                                </td>
+
+                            </tr>
+                            
+
+                        @endforeach
+
+                        <tr style="background-color: black; color:white;">
+                            <td                     ></td>                    
+                            <td                     ></td>
+                            <td                     ></td>
+                            <td                     ></td>
+                            <td                     ></td>
+                            <td class="myTdColor2"  ></td>
+                            <td class="myTdColor2"  ></td>
+                            <td class="myTdColor2"  ></td>
+                            <td class="myTdColor2"  >{{ number_format($totalComision,2) }}</td>                            
+                            <td class="myTdColor3"  ></td>                                
+                            <td class="myTdColor3"  >{{ number_format($totalComisionBase,2) }}</td>                                
+                            <td class="myTdColor3"  >{{ number_format($totalComisionGanancia,2) }}</td>                                
+                            <td class="myTdColor5"  ></td>                                
+                            <td class="myTdColor5"  ></td>                                
+                            <td class="myTdColor5"  ></td>                                                                                                                                                        
+                            <td class="myTdColor5"  ></td>        
+                            <td class=""  ></td>     
+                            <td class=""  ></td>     
                         </tr>
-                    @endforeach
 
-                    <tr style="background-color: black; color:white;">
-                        <td                     ></td>                    
-                        <td                     ></td>
-                        <td                     ></td>
-                        <td                     ></td>
-                        <td                     ></td>
-                        <td class="myTdColor2"  >{{ number_format($totalComision,2) }}</td>
-                        <td class="myTdColor3"  ></td>
-                        <td class="myTdColor3"  ></td>
-                        <td class="myTdColor6"  >{{ number_format($totalComisionExchange,2) }}</td>                            
-                        <td class="myTdColor5"  ></td>                                
-                        <td class="myTdColor5"  >{{ number_format($totalComisionGanancia2,2) }}</td>                                
-                        <td class="myTdColor5"  >{{ number_format($totalComisionGanancia2,2) }}</td>                                
-                        <td class="myTdColor5"  ></td>                                
-                        <td class="myTdColor5"  >{{ number_format($totalComisionGanancia2,2) }}</td>                                
-                        <td class="myTdColor5"  ></td>                                                                                                                                                        
-                        <td class="myTdColor5"  ></td>        
-                    </tr>
+                    
+                        @if($cant == 0)
+                            <tr class="myTr"">
+                                <td colspan="16">
+                                    <div class="row  justify-content-center text-center align-items-center" style="margin-top: 5rem; margin-bottom: 5rem;">
+                                        <h3>Sin transacciones registradas</h3>
+                                    </div>
+                                </td>
+                            </tr>                    
+                        @endif
+
+                    @else
+                        <tr class="myTr"">
+                            <td colspan="16">
+                                <div class="row  justify-content-center text-center align-items-center" style="margin-top: 5rem; margin-bottom: 5rem;">
+                                    <h3>Sin transacciones registradas</h3>
+                                </div>
+                            </td>
+                        </tr>
+                    @endif
 
                 </table>
             </div>
@@ -968,22 +897,16 @@ $totalComisionGanancia2General  = 0;
 
     }
 
-
-
-    function theRoute(wallet = 0, wallet2 = 0, fechaDesde = 0, fechaHasta = 0){
-
-
-        if (wallet   === "") wallet  = 0;
-        if (wallet2   === "") wallet2  = 0;
+    function theRoute(wallet = '', fechaDesde = '', fechaHasta = ''){
 
         let myRoute = "";
 
-        myRoute = "{{ route('dashboardComisionesGrupo', ['wallet' => 'wallet2' , 'wallet2' => 'wallet22', 'fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2']) }}";
+        myRoute = "{{ route('dashboardComisionesGrupo2', ['wallet' => 'wallet2' , 'fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2']) }}";
         myRoute = myRoute.replace('wallet2',wallet);
-        myRoute = myRoute.replace('wallet22',wallet2);
         myRoute = myRoute.replace('fechaDesde2',fechaDesde);
         myRoute = myRoute.replace('fechaHasta2',fechaHasta);
-
+            
+        // alert(myRoute);
         location.href = myRoute;
 
     }
@@ -1017,26 +940,11 @@ $totalComisionGanancia2General  = 0;
         if (miWallet===0){
             return;
         }
-
-        $('#wallet').each( function(index, element){
-
-            $(this).children("option").each(function(){
-                if ($(this).val() === miWallet.toString()){
-
-                    $("#wallet option[value="+ miWallet +"]").attr("selected",true);
-                }
-
-            });
-        });
-    }
-    function BuscaWallet2(miWallet){
-        if (miWallet===0){
-            return;
-        }
-
+        
         $('#wallet2').each( function(index, element){
 
             $(this).children("option").each(function(){
+                
                 if ($(this).val() === miWallet.toString()){
 
                     $("#wallet2 option[value="+ miWallet +"]").attr("selected",true);
@@ -1045,37 +953,23 @@ $totalComisionGanancia2General  = 0;
             });
         });
     }
-    function BuscaTransaccion(miTypeTransaction){
-        if (miTypeTransaction===0){
-            return;
-        }
 
-        $('#typeTransactions').each( function(index, element){
-
-            $(this).children("option").each(function(){
-                if ($(this).val() === miTypeTransaction.toString()){
-
-                    $("#typeTransactions option[value="+ miTypeTransaction +"]").attr("selected",true);
-                }
-
-            });
-        });
-    }
     function InicializaFechas(){
          $('#drCustomRanges').data('daterangepicker').setStartDate('01-01-2001');
 
     }
     function BuscaFechas(FechaDesde = 0,FechaHasta = 0){
-
+        
         myLocation  = window.location.toString();
 
         myArray     = myLocation.split("/");
-        if (myArray.length > 4){
-            FechaDesde = myArray[6];
-            FechaHasta = myArray[7];
+        
+        if (myArray.length > 5){
+            FechaDesde = myArray[5];
+            FechaHasta = myArray[6];
         }else{
-            FechaDesde = 0;
-            FechaHasta = 0;
+            FechaDesde = '2001-01-01';
+            FechaHasta = '9999-12-31';
         }
 
         if (FechaDesde == 0) return;
@@ -1242,11 +1136,7 @@ $totalComisionGanancia2General  = 0;
                     }
                 }
             });
-
-
         });
-
-
     }
 
 
@@ -1305,20 +1195,15 @@ $totalComisionGanancia2General  = 0;
 
         location.href = myRoute;
     }
-    {{--
-    function armaGrupos(){
-        @php
-        $myGroupArray = array();
-        foreach($wallet_groupsummary as $wallet2){
-            $myGroupArray[$wallet2->GroupId] = $wallet2->GroupName;
-        }
-        ksort($myGroupArray);
-        // $myVal = array_key_exists(3,$myGroupArray);
-        // $myVal = "";
-        //dd(' lo busco ' . (($myVal) ? 'existe' : 'NO') . ' - ' . print_r($myGroupArray,true));
-        @endphp
+
+    function toggleBotones(){
+        
+        $('#myBtnImprimir').prop('disabled') ? $('#myBtnImprimir').prop('disabled',false) : $('#myBtnImprimir').prop('disabled',true)
+        $('#myBtnExcel').prop('disabled') ? $('#myBtnImprimir').prop('disabled',false) : $('#myBtnImprimir').prop('disabled',true)
+        $('#myBtnPDF').prop('disabled') ? $('#myBtnImprimir').prop('disabled',false) : $('#myBtnImprimir').prop('disabled',true)
+
+
     }
-    --}}
 </script>
 
 @endsection

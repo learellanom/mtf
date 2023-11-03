@@ -475,7 +475,7 @@ class statisticsController extends Controller
         $parametros['myFechadesdeInvertida']    = $myFechadesdeInvertida;
 
         // dd($myFechadesdeInvertida);
-        \Log::info('leam ----> ' .  json_encode($Transacciones, JSON_PRETTY_PRINT));
+        // \Log::info('leam ----> ' .  json_encode($Transacciones, JSON_PRETTY_PRINT));
         return view('estadisticas.index', $parametros);
 
     }
@@ -2591,10 +2591,11 @@ class statisticsController extends Controller
     *
     */
     function commissionsProfit(Request $request){
+        \Log::info('leam - el wallet es ->' . $request->wallet);
+        // $request->wallet        = 89;   // abu mahmud
+        // $request->wallet        = 93;   // caja usdt
+        // $request->wallet        = 139;  // caja principal usdt
 
-
-
-        $request->wallet        = 89; // abu mahmud
         $request->transaction   = 11; // pago usdt y 13 cobro usdt
 
         if ($request->wallet){
@@ -2637,6 +2638,8 @@ class statisticsController extends Controller
             $myFechaHasta = $request->fechaHasta;
         }
 
+        $myFechaDesde = "2001-01-01";
+        $myFechaHasta = "9999-12-31";
         $horaDesde = " 00:00:00";
         $horaHasta = " 23:59:00";
 
@@ -2676,7 +2679,7 @@ class statisticsController extends Controller
             left join   mtf.groups              on mtf.Transactions.group_id            = mtf.groups.id
             where
                     status = 'Activo'
-                and wallet_id           between $myWalletDesde              and     $myWalletHasta
+                and group_id            between $myWalletDesde              and     $myWalletHasta
                 and type_transaction_id between $myTransactionDesde         and     $myTransactionHasta
                 and transaction_date    between '$myFechaDesde'             and     '$myFechaHasta'
             order by
@@ -2691,11 +2694,10 @@ class statisticsController extends Controller
         // dd($Recargas);
 
 
-        $myWalletDesde          = 93;
-        $myWalletHasta          = 93;
 
-        $myTransactionDesde     = 13;
+        $myTransactionDesde     = 13; // 13 corbos usdt
         $myTransactionHasta     = 13;
+
         $myQuery =
          "
              select
@@ -2708,7 +2710,7 @@ class statisticsController extends Controller
                  type_transactions.name                          as TypeTransactionName,
                  transaction_date                                as TransactionDate,
                  percentage                                      as Percentage,
-                 percentage_base                                 as PercentageBase,
+                 1.5                                 as PercentageBase,
                  exchange_rate                                   as ExchangeRate,
                  exchange_rate_base                              as ExchangeRateBase,
                  mtf.transactions.amount_foreign_currency        as AmountForeignCurrency,
@@ -2752,7 +2754,7 @@ class statisticsController extends Controller
         // \Log::info('leam grupo transacciones   *** -> ' . print_r($Transacciones,true));
         
  
-        $request->wallet        = 93; // caja usdt
+        
         $request->transaction   = 11; // pago usdt
   
         if ($request->wallet){
@@ -2796,6 +2798,8 @@ class statisticsController extends Controller
             $myFechaHasta = $request->fechaHasta;
         }
 
+        $myFechaDesde = "2001-01-01";
+        $myFechaHasta = "9999-12-31";
         $horaDesde = " 00:00:00";
         $horaHasta = " 23:59:00";
 

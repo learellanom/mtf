@@ -77,8 +77,8 @@ Route::get('dashboardComisionesGrupo/{wallet}/{wallet2?}/{fechaDesde?}/{fechaHas
 
 
 Route::get('dashboardComisionesGrupo2', [App\Http\Controllers\HomeController::class, 'comisionesGrupo2'])->name('dashboardComisionesGrupo2');
-Route::get('dashboardComisionesGrupo2/{wallet}/{wallet2?}', [App\Http\Controllers\HomeController::class, 'comisionesGrupo2'])->name('dashboardComisionesGrupo2');
-Route::get('dashboardComisionesGrupo2/{wallet}/{wallet2?}/{fechaDesde?}/{fechaHasta?}', [App\Http\Controllers\HomeController::class, 'comisionesGrupo2'])->name('dashboardComisionesGrupo2');
+Route::get('dashboardComisionesGrupo2/{wallet?}', [App\Http\Controllers\HomeController::class, 'comisionesGrupo2'])->name('dashboardComisionesGrupo2');
+Route::get('dashboardComisionesGrupo2/{wallet?}/{fechaDesde?}/{fechaHasta?}', [App\Http\Controllers\HomeController::class, 'comisionesGrupo2'])->name('dashboardComisionesGrupo2');
 
 Route::get('dashboard_est/export/', [App\Http\Controllers\HomeController::class, 'export'])->name('exports.excel'); //EXPORTACIÓN DE EXCEL
 Route::get('dashboard_est/export/{wallet}', [App\Http\Controllers\HomeController::class, 'export'])->name('exports.excel'); //EXPORTACIÓN DE EXCEL
