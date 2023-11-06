@@ -297,13 +297,10 @@ class HomeController extends Controller
         
         
         // new
-        if (auth()->id() == 2){
+       // if (auth()->id() == 2){
 
-            $this->comisionesGrupo2($request);
-            
-            
 
-        }
+        // }
 
 
         $wallet_summary             = app(statisticsController::class)->getWalletTransactionSummary($request);
@@ -468,13 +465,6 @@ class HomeController extends Controller
             $myWallet        = $request->wallet;
         }
 
-        $myWallet2 = 0;
-        if ($request->wallet2){
-            $myWalletDesde   = $request->wallet2;
-            $myWalletHasta   = $request->wallet2;
-            $myWallet2        = $request->wallet2;
-        }
-
 
         $myTypeTransaction      = 0;
         $myTypeTransactionDesde = 0;
@@ -513,21 +503,26 @@ class HomeController extends Controller
         
 
 
-        $wallet                         = app(statisticsController::class)->getWallet();
-        list($Recargas, $Transacciones2) = app(statisticsController::class)->commissionsProfit($request);
+        $wallet                          = app(statisticsController::class)->getWallet();
+        if ($myWallet != 0){
+            list($Recargas, $Transacciones2) = app(statisticsController::class)->commissionsProfit($request);
+        }else{
+            $Recargas = [];
+            $Transacciones2 = [];
+        }
 
         // dd('transacciones 2 ->' . print_r($Transacciones2,true));
 
         $parametros['wallet']                       = $wallet;                  //
         $parametros['typeTransactions']             = $typeTransactions;
         $parametros['myWallet']                     = $myWallet;                //
-        $parametros['myWallet2']                    = $myWallet2;               // 
         $parametros['myTypeTransaction']            = $myTypeTransaction;
-        $parametros['myFechaDesde']                 = $myFechaDesde;
+        $parametros['myFechaDesde']                 = urlencode($myFechaDesde);
         $parametros['myFechaHasta']                 = $myFechaHasta;
         $parametros['myFechaDesdeBefore']           = $myFechaDesdeBefore;
         $parametros['myFechaHastaBefore']           = $myFechaHastaBefore;
 
+        // die(urlencode($myFechaDesde));
 
         $parametros['Recargas']                     = $Recargas;
         $parametros['Transacciones']                = $Transacciones2;   //
@@ -1259,3 +1254,4 @@ class HomeController extends Controller
     }
 
 }
+
