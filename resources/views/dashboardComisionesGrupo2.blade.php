@@ -22,6 +22,7 @@ $config2 =
 $config3 = [
     "locale" => ["format" => "DD-MM-YYYY"],
     "allowClear" => true,
+    "showDropdowns:" => "true",
 ];
 
 $config4 = [
@@ -168,6 +169,12 @@ $totalComisionGanancia2General  = 0;
                             <div class="input-group-text bg-gradient-light">
                                 <i class="fas fa-calendar-alt"></i>
                             </div>
+                        </x-slot>
+                        <x-slot name="appendSlot">
+                            <x-adminlte-button 
+                                id="myDrClearButton"
+                                label="X" 
+                                icon="fas  fa-x"/>
                         </x-slot>
                     </x-adminlte-date-range>
 
@@ -458,6 +465,12 @@ $totalComisionGanancia2General  = 0;
         leeFiltros();  
         aplicaFiltros();      
 
+
+        $('#myDrClearButton').on('click', function (){
+            const wallet       = $('#wallet2').val() == "" ? 0 : $('#wallet2').val();
+            theRoute(wallet);       
+        });
+
         $('#myButtonLimpiar2').on('click', function (){
 
             // alert('El canvas general ->' + $('#ResumenGeneral').prop('checked'));
@@ -650,10 +663,30 @@ $totalComisionGanancia2General  = 0;
                                     $myDate = date_create($wallet2->TransactionDate);
 
                                     $myDate2 = Date(substr($wallet2->TransactionDate,0,10));
+                                    $myContinue = 0;
+                                    // 
+                                    // Filtra transacciones
+                                    //
+                                    foreach($Transacciones as $myTransaccion){
 
+                                        $myDateTransaccion = Date(substr($myTransaccion->TransactionDate,0,10));
+                                        
+                                        
+                                        if ($myDateTransaccion >= $myFechaDesdeDate && $myDateTransaccion <= $myFechaHastaDate) {                            
+                                            // preguntar si la recarga esta en ese rango
+                                            if ($myTransaccion->RecargaId == $wallet2->Id) {
+                                                $myContinue = 1;
+                                                break;
+                                            }
+                                        }
+                                    
+                                    };
+                                    \Log::info('leam - Recarga filtra - Recarga ID -> ' . $wallet2->Id . ' myContinue ->' . $myContinue );
 
                                 @endphp
-
+                                @if($myContinue == 0)
+                                   @continue;
+                                @endif
                                 <td>{{ $wallet2->WalletName}}</td>                               
                                 <td>{{ $wallet2->Id}}</td>       
                                 <td>{{ $wallet2->TypeTransactionName}}</td>
@@ -769,6 +802,7 @@ $totalComisionGanancia2General  = 0;
                          // dd($myFechaDesdeDate);
                          // dd($myFechaHastaDate);
                          
+                         $Recargas2= [];
                     @endphp
                     
                     @if(count($Transacciones)>0)
@@ -780,8 +814,10 @@ $totalComisionGanancia2General  = 0;
 
                                     // dd($myDate);
 
+                                    //
+                                    // filtra
+                                    //
                                     $myContinue = 0;
-                                    
                                     if ($myDate2 >= $myFechaDesdeDate && $myDate2 <= $myFechaHastaDate) {                                    
                                         $myContinue = 1;
                                     }
@@ -799,10 +835,6 @@ $totalComisionGanancia2General  = 0;
                                     $totalComision                  +=  $wallet2->AmountCommission ;
                                     $totalComisionBase              +=  $wallet2->AmountCommissionBase;
                                     $totalComisionGanancia          +=  $wallet2->AmountCommissionProfit;   
-
-                                    // 
-                                    // Filtra transacciones
-                                    //
 
                                     $cant                           += 1;
                                 @endphp
