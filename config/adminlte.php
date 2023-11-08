@@ -338,6 +338,7 @@ return [
             'active' => ['dashboardest*'],
             'icon' => 'fas fa-fw fas fa-chart-line',
             'can'  => 'dashboardtest',
+            'classes' => '',
         ],
 
         [
@@ -347,27 +348,14 @@ return [
             'icon' => 'fas fa-fw fas fa-chart-line',
             'can'  => 'dashboardSaldos',
         ],
-        [
-            'text' => 'Consolidado de comisiones',
-            'url'  => 'dashboardComisiones',
-            'active' => ['dashboardComisiones'],
-            'icon' => 'fas fa-fw fas fa-chart-line',
-            'can'  => 'dashboardComisiones',
-        ],
-        [
-            'text' => 'Consolidado de comisiones por Grupo',
-            'url'  => 'dashboardComisionesGrupo',
-            'active' => ['dashboardComisionesGrupo'],
-            'icon' => 'fas fa-fw fas fa-chart-line',
-            'can'  => 'dashboardComisionesGrupo',
-        ],        
-        [
-            'text' => 'Detalles de comision USDT',
-            'url'  => 'dashboardComisionesGrupo2',
-            'active' => ['dashboardComisionesGrupo2'],
-            'icon' => 'fas fa-fw fas fa-chart-line',
-            'can'  => 'dashboardComisionesGrupo2',
-        ],          
+     
+        // [
+        //     'text' => 'Detalles de comision USDT',
+        //     'url'  => 'dashboardComisionesGrupo2',
+        //     'active' => ['dashboardComisionesGrupo2'],
+        //     'icon' => 'fas fa-fw fas fa-chart-line',
+        //     'can'  => 'dashboardComisionesGrupo2',
+        // ],          
         [
             'text' => 'Detalles de movimiento',
             'url'  => 'estadisticasDetalle',
@@ -375,13 +363,42 @@ return [
             'icon' => 'fas fa-fw fas fa-chart-bar',
             'can'  => 'estadisticasDetalle.index',
         ],
-        // [
-        //     'text' => 'Resumen por Grupo Wallet',
-        //     'url'  => 'estadisticasResumenGrupoWallet',
-        //     'active' => ['estadisticasResumenGrupoWallet*'],
-        //     'icon' => 'fas fa-fw fas fa-chart-bar',
-        //     'can'  => 'estadisticasDetalle.estadisticasResumenGrupoWallet',
-        // ],
+        [
+            'text'      => 'Comisiones',
+            'icon'      => 'fas fa-fw fa-share',
+            'icon_color' => 'primary',
+            'submenu'   => [
+                [
+                    'text' => 'Consolidado',
+                    'url'  => 'dashboardComisiones',
+                    'classes'   =>  'ml-4',                             
+                    'can'  => 'dashboardComisiones',
+                    'icon_color' => 'primary',                    
+                ],                 
+                [
+                    'text' => 'Comisiones Grupo',
+                    'url'  => 'dashboardComisionesGrupo',
+                    'classes'   =>  'ml-4',                    
+                    'can'  => 'dashboardComisionesGrupo',
+                    'icon_color' => 'primary',                    
+                ],  
+                [
+                    'text'      => 'Detalle  USDT',
+                    'url'       => 'dashboardComisionesGrupo2',
+                    'active'    => ['dashboardComisionesGrupo2'],
+                    'classes'   =>  'ml-4',
+                    'can'       => 'dashboardComisionesGrupo2',
+                    'icon_color' => 'primary',
+                ],
+                [
+                    'text'      => 'Resumen Grupo USDT',
+                    'url'       => 'dashboardComisionesGrupoRes',
+                    'active'    => ['dashboardComisionesGrupoRes'],
+                    'classes'   =>  'ml-4',
+                    'icon_color' => 'primary',
+                ],
+            ]
+        ],
         [
             'text' => 'Resumen por Grupo',
             'url'  => 'estadisticasResumenGrupo',
