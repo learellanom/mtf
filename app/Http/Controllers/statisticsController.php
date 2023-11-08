@@ -2591,55 +2591,46 @@ class statisticsController extends Controller
     *
     */
     function commissionsProfit(Request $request){
-        \Log::info('leam - el wallet es ->' . $request->wallet);
+        \Log::info('leam - statisticsController - commissionsProfit - el wallet es ->' . $request->wallet);
         // $request->wallet        = 89;   // abu mahmud
         // $request->wallet        = 93;   // caja usdt
         // $request->wallet        = 139;  // caja principal usdt
 
         $request->transaction   = 11; // pago usdt y 13 cobro usdt
 
+        $myWalletDesde = 00000;
+        $myWalletHasta = 99999;
         if ($request->wallet){
             $myWalletDesde = $request->wallet;
             $myWalletHasta = $request->wallet;
-
-        }else{
-
-            $myWalletDesde = 00000;
-            $myWalletHasta = 99999;
-
         }
-   
-        if ($request->group === 0){
+
+        $myGroupDesde = 00000;
+        $myGroupHasta = 99999;
+        if ($request->group){
             $myGroupDesde = $request->group;
             $myGroupHasta = $request->group;
-
-        }else{
-            $myGroupDesde = 00000;
-            $myGroupHasta = 99999;
-
         }
 
+        $myTransactionDesde     = 0000;
+        $myTransactionHasta     = 9999;
         if ($request->transaction){
             $myTransactionDesde     = $request->transaction;
             $myTransactionHasta     = $request->transaction;
-        }else{
-            $myTransactionDesde     = 0000;
-            $myTransactionHasta     = 9999;
         }
 
         $myFechaDesde = "2001-01-01";
         $myFechaHasta = "9999-12-31";
         if ($request->fechaDesde){
             $myFechaDesde = $request->fechaDesde;
-            $myFechaHasta = $request->fechaHasta;
         }
-
         if ($request->fechaHasta){
             $myFechaHasta = $request->fechaHasta;
         }
 
         $myFechaDesde = "2001-01-01";
         $myFechaHasta = "9999-12-31";
+
         $horaDesde = " 00:00:00";
         $horaHasta = " 23:59:00";
 
@@ -2685,15 +2676,12 @@ class statisticsController extends Controller
             order by
                 Transactions.transaction_date ASC,
                 id ASC
-
         ";
 
         // dd($myQuery);
-        // \Log::info('leam My query *** -> ' . $myQuery);
+        
         $Recargas = DB::select($myQuery);
         // dd($Recargas);
-
-
 
         $myTransactionDesde     = 13; // 13 corbos usdt
         $myTransactionHasta     = 13;
@@ -2747,61 +2735,47 @@ class statisticsController extends Controller
         usort($Recargas3, function($a, $b) {return strcmp($a->TransactionDate, $b->TransactionDate);});
 
        // dd($Recargas3);
-
-        // convierte coleccion en array
-        // $Transacciones2 = collect($Transacciones)->map(function($x){ return (array) $x; })->toArray();
-        // \Log::info('leam grupo query           *** -> ' . print_r($myQuery,true));
-        // \Log::info('leam grupo transacciones   *** -> ' . print_r($Transacciones,true));
-        
- 
-        
+        //
+        //
+        // Busca transacciones de pagos
+        //
+        //
         $request->transaction   = 11; // pago usdt
-  
+
+        $myWalletDesde = 00000;
+        $myWalletHasta = 99999;
         if ($request->wallet){
             $myWalletDesde = $request->wallet;
             $myWalletHasta = $request->wallet;
-
-        }else{
-
-            $myWalletDesde = 00000;
-            $myWalletHasta = 99999;
-
         }
-   
-        if ($request->group === 0){
+
+        $myGroupDesde = 00000;
+        $myGroupHasta = 99999;
+        if ($request->group){
             $myGroupDesde = $request->group;
             $myGroupHasta = $request->group;
-
-        }else{
-            $myGroupDesde = 00000;
-            $myGroupHasta = 99999;
-
         }
 
+        $myTransactionDesde = 00000;
+        $myTransactionHasta = 99999;
         if ($request->transaction){
             $myTransactionDesde     = $request->transaction;
-            $myTransactionHasta   = $request->transaction;            
-
-        }else{
-            $myTransactionDesde = 00000;
-            $myTransactionHasta = 99999;
+            $myTransactionHasta     = $request->transaction;
         }
 
         $myFechaDesde = "2001-01-01";
         $myFechaHasta = "9999-12-31";
         if ($request->fechaDesde){
             $myFechaDesde = $request->fechaDesde;
-            $myFechaHasta = $request->fechaHasta;
         }
-
         if ($request->fechaHasta){
             $myFechaHasta = $request->fechaHasta;
         }
 
-        $myFechaDesde = "2001-01-01";
-        $myFechaHasta = "9999-12-31";
-        $horaDesde = " 00:00:00";
-        $horaHasta = " 23:59:00";
+        $myFechaDesde   = "2001-01-01";
+        $myFechaHasta   = "9999-12-31";
+        $horaDesde      = " 00:00:00";
+        $horaHasta      = " 23:59:00";
 
         $myFechaDesde = $myFechaDesde . $horaDesde;
         $myFechaHasta = $myFechaHasta . $horaHasta;
@@ -2849,13 +2823,13 @@ class statisticsController extends Controller
         ";
 
         // dd($myQuery);
+         // dd($Transacciones);
         // \Log::info('leam My query *** -> ' . $myQuery);
-        $Transacciones = DB::select($myQuery);
 
-        // dd($Transacciones);
+        $Transacciones  = DB::select($myQuery);
+       
         $Transacciones2 = [];
         $verLog         = 0;
-       
        
         foreach($Transacciones as $key => $myTransaccion){
 
@@ -3033,23 +3007,25 @@ class statisticsController extends Controller
         }
         // dd($Transacciones2);
 
-
-        $Transacciones3  = $Transacciones2;
+        //
+        //
+        // transcacioens resumidas por wallet - grupo
+        //
+        //
+        $Transacciones3     = $Transacciones2;
 
         $myGroup            = array_column($Transacciones3, 'GroupName');
         $myTransactionDate  = array_column($Transacciones3, 'TransactionDate');
 
-        // usort($Transacciones3, function($a, $b) {return strcmp($a->GroupName, $b->GroupName);});
-
         array_multisort($myGroup, SORT_ASC, $myGroup, $myTransactionDate, SORT_DESC, $Transacciones3);
 
-        $myWalletIdTemp             = 0;
-        $myWalletNameTemp           = "";                
-        $myGroupIdTemp              = 0;
-        $myGroupNameTemp            = "";
-        $myTypeTransactionIdTemp    = 0;
-        $myTypeTransactionName      = "";
-        $myTransactionDateTemp      = "";
+        $myWalletIdTemp                     = 0;
+        $myWalletNameTemp                   = "";                
+        $myGroupIdTemp                      = 0;
+        $myGroupNameTemp                    = "";
+        $myTypeTransactionIdTemp            = 0;
+        $myTypeTransactionName              = "";
+        $myTransactionDateTemp              = "";
 
         $myAmountFecha                      = 0;
         $myAmountTotalFecha                 = 0;
@@ -3059,8 +3035,30 @@ class statisticsController extends Controller
         $myAmountCommissionBaseFecha        = 0;
         $myAmountCommissionProfitFecha      = 0;   
 
+        $cant                               = 0;
+
+        $myFechaDesde = "2001-01-01";
+        $myFechaHasta = "9999-12-31";
+
+        if ($request->fechaDesde){
+            $myFechaDesde = $request->fechaDesde;
+        }
+        if ($request->fechaHasta){
+            $myFechaHasta = $request->fechaHasta;
+        }
+
         foreach($Transacciones3 as $key => $myTransaccion3){
-            if ($key == 1){
+            
+
+            $myDate      = substr($myTransaccion3->TransactionDate,0,10);
+            // \Log::info('leam - statisticsComntroller - commisionFProfit - myDate ->' . $myDate . ' -- myFechaDesde ->' . $myFechaDesde . ' -- myFechaHasta ->' . $myFechaHasta);
+
+            if ($myDate < $myFechaDesde || $myDate > $myFechaHasta){
+                // \Log::info('leam - statisticsComntroller - commisionFProfit - myDate' . $myDate . ' -- myFechaDesde ->' . $myFechaDesde . ' -- myFechaHasta ->' . $myFechaHasta . ' -- continue');
+                continue;
+            }
+
+            if ($cant === 0){
                 // dd('el primero ->' . ' el key ->' . $key . ' -- ' . print_r($myTransaccion3, true));
                 $myWalletIdTemp             = $myTransaccion3->WalletId;
                 $myWalletNameTemp           = $myTransaccion3->WalletName;                
@@ -3068,12 +3066,14 @@ class statisticsController extends Controller
                 $myGroupNameTemp            = $myTransaccion3->GroupName;
                 $myTypeTransactionIdTemp    = $myTransaccion3->TypeTransactionId;
                 $myTypeTransactionName      = $myTransaccion3->TypeTransactionName;
-                $myTransactionDateTemp      = $myTransaccion3->TransactionDate;
+                $myTransactionDateTemp      = substr($myTransaccion3->TransactionDate,0,10);
+
             }
 
-            if ($myGroupNameTemp != $myTransaccion3->GroupName || $myTransactionDateTemp != $myTransaccion3->TransactionDate){
-
+            // if ($myGroupNameTemp != $myTransaccion3->GroupName || $myTransactionDateTemp != $myTransaccion3->TransactionDate){ 
+            if ($myGroupNameTemp != $myTransaccion3->GroupName){
                 // $genericObject = new stdClass();
+
                 $genericObject = new \stdClass();
 
                 $genericObject->WalletId                = $myWalletIdTemp;
@@ -3108,8 +3108,8 @@ class statisticsController extends Controller
                 $myGroupNameTemp            = $myTransaccion3->GroupName;
                 $myTypeTransactionIdTemp    = $myTransaccion3->TypeTransactionId;
                 $myTypeTransactionName      = $myTransaccion3->TypeTransactionName;
-                $myTransactionDateTemp      = $myTransaccion3->TransactionDate;
-
+                $myTransactionDateTemp      = substr($myTransaccion3->TransactionDate,0,10);
+                //die();
             }
 
             $myAmountFecha                      += $myTransaccion3->Amount;
@@ -3119,6 +3119,8 @@ class statisticsController extends Controller
             $myAmountTotalBaseFecha             += $myTransaccion3->AmountTotalBase;
             $myAmountCommissionBaseFecha        += $myTransaccion3->AmountCommissionBase;
             $myAmountCommissionProfitFecha      += $myTransaccion3->AmountCommissionProfit;
+
+            $cant++;
 
         }
 
@@ -3153,9 +3155,585 @@ class statisticsController extends Controller
         // dd($Transacciones4);
 
         return [$Recargas3, $Transacciones2];
-        // return $Transacciones2;
+        
 
     }    
+    /*
+    *
+    *
+    *       getComissions
+    *
+    *
+    */
+    function commissionsProfitRes(Request $request){
+        \Log::info('leam - statisticsController - commissionsProfit - el wallet es ->' . $request->wallet);
+        // $request->wallet        = 89;   // abu mahmud
+        // $request->wallet        = 93;   // caja usdt
+        // $request->wallet        = 139;  // caja principal usdt
+
+        $request->transaction   = 11; // pago usdt y 13 cobro usdt
+
+        $myWalletDesde = 00000;
+        $myWalletHasta = 99999;
+        if ($request->wallet){
+            $myWalletDesde = $request->wallet;
+            $myWalletHasta = $request->wallet;
+        }
+
+        $myGroupDesde = 00000;
+        $myGroupHasta = 99999;
+        if ($request->group){
+            $myGroupDesde = $request->group;
+            $myGroupHasta = $request->group;
+        }
+
+        $myTransactionDesde     = 0000;
+        $myTransactionHasta     = 9999;
+        if ($request->transaction){
+            $myTransactionDesde     = $request->transaction;
+            $myTransactionHasta     = $request->transaction;
+        }
+
+        $myFechaDesde = "2001-01-01";
+        $myFechaHasta = "9999-12-31";
+        if ($request->fechaDesde){
+            $myFechaDesde = $request->fechaDesde;
+        }
+        if ($request->fechaHasta){
+            $myFechaHasta = $request->fechaHasta;
+        }
+
+        $myFechaDesde = "2001-01-01";
+        $myFechaHasta = "9999-12-31";
+
+        $horaDesde = " 00:00:00";
+        $horaHasta = " 23:59:00";
+
+        $myFechaDesde = $myFechaDesde . $horaDesde;
+        $myFechaHasta = $myFechaHasta . $horaHasta;
+
+        $myTable = "mtf.transactions";
+
+        $myQuery =
+        "
+            select
+                mtf.transactions.id                             as Id,
+                mtf.transactions.wallet_id                      as WalletId,
+                wallets.name                                    as WalletName,
+                mtf.transactions.group_id                       as GroupId,
+                mtf.groups.name                                 as GroupName,
+                mtf.transactions.type_transaction_id            as TypeTransactionId,
+                type_transactions.name                          as TypeTransactionName,
+                transaction_date                                as TransactionDate,
+                percentage                                      as Percentage,
+                percentage_base                                 as PercentageBase,
+                exchange_rate                                   as ExchangeRate,
+                exchange_rate_base                              as ExchangeRateBase,
+                mtf.transactions.amount_foreign_currency        as AmountForeignCurrency,
+                mtf.transactions.amount                         as Amount,
+                mtf.transactions.amount_total                   as AmountTotal,
+                mtf.transactions.amount_commission              as AmountCommission,
+                mtf.transactions.amount_base                    as AmountBase,
+                mtf.transactions.amount_total_base              as AmountTotalBase,
+                mtf.transactions.amount_commission_base         as AmountCommissionBase,
+                mtf.transactions.amount_commission_profit       as AmountCommissionProfit,
+                mtf.transactions.amount                         as Saldo
+            from
+                        mtf.transactions
+            left join   mtf.type_transactions   on mtf.transactions.type_transaction_id = mtf.type_transactions.id
+            left join   mtf.groups as wallets   on mtf.transactions.wallet_id           = wallets.id
+            left join   mtf.groups              on mtf.Transactions.group_id            = mtf.groups.id
+            where
+                    status = 'Activo'
+                and group_id            between $myWalletDesde              and     $myWalletHasta
+                and type_transaction_id between $myTransactionDesde         and     $myTransactionHasta
+                and transaction_date    between '$myFechaDesde'             and     '$myFechaHasta'
+            order by
+                Transactions.transaction_date ASC,
+                id ASC
+        ";
+
+        // dd($myQuery);
+        
+        $Recargas = DB::select($myQuery);
+        // dd($Recargas);
+
+        $myTransactionDesde     = 13; // 13 corbos usdt
+        $myTransactionHasta     = 13;
+
+        $myQuery =
+         "
+             select
+                 mtf.transactions.id                             as Id,
+                 mtf.transactions.wallet_id                      as WalletId,
+                 wallets.name                                    as WalletName,
+                 mtf.transactions.group_id                       as GroupId,
+                 mtf.groups.name                                 as GroupName,
+                 mtf.transactions.type_transaction_id            as TypeTransactionId,
+                 type_transactions.name                          as TypeTransactionName,
+                 transaction_date                                as TransactionDate,
+                 percentage                                      as Percentage,
+                 1.5                                 as PercentageBase,
+                 exchange_rate                                   as ExchangeRate,
+                 exchange_rate_base                              as ExchangeRateBase,
+                 mtf.transactions.amount_foreign_currency        as AmountForeignCurrency,
+                 mtf.transactions.amount                         as Amount,
+                 mtf.transactions.amount_total                   as AmountTotal,
+                 mtf.transactions.amount_commission              as AmountCommission,
+                 mtf.transactions.amount_base                    as AmountBase,
+                 mtf.transactions.amount_total_base              as AmountTotalBase,
+                 mtf.transactions.amount_commission_base         as AmountCommissionBase,
+                 mtf.transactions.amount_commission_profit       as AmountCommissionProfit,
+                 mtf.transactions.amount                         as Saldo
+             from
+                         mtf.transactions
+             left join   mtf.type_transactions   on mtf.transactions.type_transaction_id = mtf.type_transactions.id
+             left join   mtf.groups as wallets   on mtf.transactions.wallet_id           = wallets.id
+             left join   mtf.groups              on mtf.Transactions.group_id            = mtf.groups.id
+             where
+                     status = 'Activo'
+                 and wallet_id           between $myWalletDesde              and     $myWalletHasta
+                 and type_transaction_id between $myTransactionDesde         and     $myTransactionHasta
+                 and transaction_date    between '$myFechaDesde'             and     '$myFechaHasta'
+             order by
+                 Transactions.transaction_date ASC,
+                 id ASC
+ 
+         ";
+ 
+        //dd($myQuery);
+         $Recargas2 = DB::select($myQuery);
+        // dd($Recargas2);
+
+        $Recargas3 = array_merge($Recargas, $Recargas2);
+        
+        usort($Recargas3, function($a, $b) {return strcmp($a->TransactionDate, $b->TransactionDate);});
+
+       // dd($Recargas3);
+        //
+        //
+        // Busca transacciones de pagos
+        //
+        //
+        $request->transaction   = 11; // pago usdt
+
+        $myWalletDesde = 00000;
+        $myWalletHasta = 99999;
+        if ($request->wallet){
+            $myWalletDesde = $request->wallet;
+            $myWalletHasta = $request->wallet;
+        }
+
+        $myGroupDesde = 00000;
+        $myGroupHasta = 99999;
+        if ($request->group){
+            $myGroupDesde = $request->group;
+            $myGroupHasta = $request->group;
+        }
+
+        $myTransactionDesde = 00000;
+        $myTransactionHasta = 99999;
+        if ($request->transaction){
+            $myTransactionDesde     = $request->transaction;
+            $myTransactionHasta     = $request->transaction;
+        }
+
+        $myFechaDesde = "2001-01-01";
+        $myFechaHasta = "9999-12-31";
+        if ($request->fechaDesde){
+            $myFechaDesde = $request->fechaDesde;
+        }
+        if ($request->fechaHasta){
+            $myFechaHasta = $request->fechaHasta;
+        }
+
+        $myFechaDesde   = "2001-01-01";
+        $myFechaHasta   = "9999-12-31";
+        $horaDesde      = " 00:00:00";
+        $horaHasta      = " 23:59:00";
+
+        $myFechaDesde = $myFechaDesde . $horaDesde;
+        $myFechaHasta = $myFechaHasta . $horaHasta;
+      
+
+        $myQuery =
+        "
+            select
+                mtf.transactions.id                             as Id,
+                mtf.transactions.wallet_id                      as WalletId,
+                wallets.name                                    as WalletName,
+                mtf.transactions.group_id                       as GroupId,
+                lcase(mtf.groups.name)                          as GroupName,
+                mtf.transactions.type_transaction_id            as TypeTransactionId,
+                type_transactions.name                          as TypeTransactionName,
+                transaction_date                                as TransactionDate,
+                percentage                                      as Percentage,
+                percentage_base                                 as PercentageBase,
+                exchange_rate                                   as ExchangeRate,
+                exchange_rate_base                              as ExchangeRateBase,
+                mtf.transactions.amount_foreign_currency        as AmountForeignCurrency,
+                mtf.transactions.amount                         as Amount,
+                mtf.transactions.amount_total                   as AmountTotal,
+                mtf.transactions.amount_commission              as AmountCommission,
+                mtf.transactions.amount_base                    as AmountBase,
+                mtf.transactions.amount_total_base              as AmountTotalBase,
+                mtf.transactions.amount_commission_base         as AmountCommissionBase,
+                mtf.transactions.amount_commission_profit       as AmountCommissionProfit,
+                0                                                as Saldo
+            from
+                        mtf.transactions
+            left join   mtf.type_transactions   on mtf.transactions.type_transaction_id = mtf.type_transactions.id
+            left join   mtf.groups as wallets   on mtf.transactions.wallet_id           = wallets.id
+            left join   mtf.groups              on mtf.Transactions.group_id            = mtf.groups.id
+            where
+                    status = 'Activo'
+                and wallet_id           between $myWalletDesde              and     $myWalletHasta
+                and type_transaction_id between $myTransactionDesde         and     $myTransactionHasta
+                and transaction_date    between '$myFechaDesde'             and     '$myFechaHasta'
+            order by
+                Transactions.transaction_date ASC,
+                wallets.name ASC,
+                mtf.groups.name ASC
+
+        ";
+
+        // dd($myQuery);
+         // dd($Transacciones);
+        // \Log::info('leam My query *** -> ' . $myQuery);
+
+        $Transacciones  = DB::select($myQuery);
+       
+        $Transacciones2 = [];
+        $verLog         = 0;
+       
+        foreach($Transacciones as $key => $myTransaccion){
+
+            $cant = 0;
+            
+            $myTransaccion2             = clone $myTransaccion;
+
+            $myTransaccion2->Amount2    = $myTransaccion->Amount;
+
+            foreach($Recargas3 as $myRecarga){
+                //
+                // Busca solo las recargas que tengan saldo
+                //
+                
+                if ($myRecarga->Saldo <= 0) {
+                    continue;
+                }
+
+                // if ($cant > 100) { dd($Transacciones2); }
+
+                if ($verLog ==1){
+                    echo "<br>";
+                    echo "<br>";
+                    echo "<br> Transaccion2  ********************************************************************************************  " . $key;
+
+                    echo "<br>";
+                    echo "<br>";
+                    echo "<br> Transaccion2  ------ ";
+                    echo "<br>";
+                    echo "<br>";
+                    echo "<pre>";
+                    print_r($myTransaccion2);  
+                    echo "</pre>";
+                    echo "<br>";
+                    echo "<br>" . "recarga -------";
+                    echo "<br>";
+                    echo "<pre>";
+                    echo print_r($myRecarga,true);
+                    echo "</pre>";
+                                       
+                }
+
+                if($myTransaccion2->Amount2 <= $myRecarga->Saldo) {
+                    $myTransaccion2->RecargaSaldoAntes          = $myRecarga->Saldo;       
+                    $myTransaccion2->RecargaPercentageBase      = $myRecarga->PercentageBase;
+                    $myTransaccion2->RecargaId                  = $myRecarga->Id;
+                    $myTransaccion2->RecargaAmount              = $myRecarga->Amount;
+                    $myRecarga->Saldo                           -= $myTransaccion2->Amount2;
+                    $myTransaccion2->RecargaSaldo               = $myRecarga->Saldo;
+
+                    $myTransaccion2->key                        = $key;
+                    $myTransaccion2->PercentageBase             = $myRecarga->PercentageBase;
+                    $myTransaccion2->AmountCommissionBase       = ($myTransaccion2->Amount2 * $myRecarga->PercentageBase) / 100;
+                    $myTransaccion2->AmountBase                 = $myTransaccion2->Amount2;
+                    $myTransaccion2->AmountTotalBase            = $myTransaccion2->Amount2 + $myTransaccion2->AmountCommissionBase;
+                    $myTransaccion2->AmountCommissionProfit     = $myTransaccion2->AmountCommission - $myTransaccion2->AmountCommissionBase;
+
+                    $Transacciones2 [] = $myTransaccion2;
+
+                    if ($verLog ==1){
+                        echo "<br>";
+                        echo "<br>";
+                        echo "<br> Transaccion2 despues menor ------ ";
+                        echo "<br>";
+                        echo "<br>";
+                        echo "<pre>";
+                        print_r($myTransaccion2);  
+                        echo "</pre>";
+                        echo "<br>";
+                        echo "<br>" . "recarga despues menor -------";
+                        echo "<br>";
+                        echo "<pre>";
+                        echo print_r($myRecarga,true);
+                        echo "</pre>";
+                                           
+                    }
+
+                    break;
+                }else{
+
+                    if($myTransaccion2->Amount2 > $myRecarga->Saldo) {
+
+
+                        $myAmount22                                 = $myTransaccion2->Amount2  - $myRecarga->Saldo; 
+
+                        $myAmount2                                  = $myTransaccion2->Amount2 - ($myTransaccion2->Amount2  - $myRecarga->Saldo); 
+
+                        $myTransaccion2->Amount2                    = $myAmount2;
+                        $myTransaccion2->RecargaSaldoAntes          = $myRecarga->Saldo;
+                        $saldoRecarga2                              = $myRecarga->Saldo;
+                        $myTransaccion2->RecargaPercentageBase      = $myRecarga->PercentageBase;
+                        $myTransaccion2->RecargaId                  = $myRecarga->Id;
+                        $myTransaccion2->RecargaAmount              = $myRecarga->Amount;
+                        $myRecarga->Saldo                           = 0;
+                        $myTransaccion2->RecargaSaldo               = 0;
+                        $myTransaccion2->PercentageBase             = $myRecarga->PercentageBase;
+                        $myTransaccion2->AmountCommissionBase       = ($myTransaccion2->Amount2 * $myRecarga->PercentageBase) / 100;
+                        $myTransaccion2->AmountCommissionProfit     = $myTransaccion2->AmountCommission - $myTransaccion2->AmountCommissionBase;
+                        $myTransaccion2->AmountBase                 = $myAmount2;
+                        $myTransaccion2->AmountTotalBase            = $myAmount2 + $myTransaccion2->AmountCommissionBase;
+                        $myTransaccion2->key                        = $key;
+
+                       // $Transacciones2 []                          = $myTransaccion2;
+                        array_push($Transacciones2,$myTransaccion2);
+                        if ($verLog ==1){
+                            echo "<br>";
+                            echo "<br>";
+                            echo "<br> Transaccion2 despues mayor ------ ";
+                            echo "<br>";
+                            echo "<br>";
+                            echo "<pre>";
+                            print_r($myTransaccion2);  
+                            echo "</pre>";
+                            echo "<br>";
+                            echo "<br>" . "recarga despues mayor -------";
+                            echo "<br>";
+                            echo "<pre>";
+                            echo print_r($myRecarga,true);
+                            echo "</pre>";
+                                               
+                            
+                        }
+
+                        $myTransaccion3                         = clone $myTransaccion2;
+
+                        $myTransaccion3->Amount2                = $myAmount22;
+                        $myTransaccion3->RecargaSaldoAntes      = 0;
+                        // $myTransaccion2->Amount2                = $myTransaccion2->Amount - $saldoRecarga2;
+                        $myTransaccion3->key                    = $key;
+
+
+                        $myTransaccion2 = clone $myTransaccion3;
+
+                        /*
+                        if ($verLog ==1){
+                            echo "<br>";
+                            echo "<br>";
+                            echo "<br> Transaccion2 restante despues mayor ------ ";
+                            echo "<br>";
+                            echo "<br>";
+                            echo "<pre>";
+                            print_r($myTransaccion2);  
+                            echo "</pre>";
+                            echo "<br>";
+                            echo "<br>" . "recarga restante despues mayor -------";
+                            echo "<br>";
+                            echo "<pre>";
+                            echo print_r($myRecarga,true);
+                            echo "</pre>";
+                                               
+                            
+                        }
+                        */
+                        if ($myTransaccion3->Amount2  <= 0){
+                            break;
+                        }
+
+                        $cant++;
+                        // if ($key == 10) dd($Transacciones2);
+
+                        // dd($myTransaccion2);
+                        // dd($myRecarga);
+                        continue;
+                    }
+                }
+
+            }
+        
+            
+        };
+         
+        if ($verLog == 1){
+            die();
+        }
+        // dd($Transacciones2);
+
+        //
+        //
+        // transcacioens resumidas por wallet - grupo
+        //
+        //
+        $Transacciones3     = $Transacciones2;
+
+        $myGroup            = array_column($Transacciones3, 'GroupName');
+        $myTransactionDate  = array_column($Transacciones3, 'TransactionDate');
+
+        array_multisort($myGroup, SORT_ASC, $myGroup, $myTransactionDate, SORT_DESC, $Transacciones3);
+
+        $myWalletIdTemp                     = 0;
+        $myWalletNameTemp                   = "";                
+        $myGroupIdTemp                      = 0;
+        $myGroupNameTemp                    = "";
+        $myTypeTransactionIdTemp            = 0;
+        $myTypeTransactionName              = "";
+        $myTransactionDateTemp              = "";
+
+        $myAmountFecha                      = 0;
+        $myAmountTotalFecha                 = 0;
+        $myAmountCommissionFecha            = 0;
+        $myAmountBaseFecha                  = 0;
+        $myAmountTotalBaseFecha             = 0;
+        $myAmountCommissionBaseFecha        = 0;
+        $myAmountCommissionProfitFecha      = 0;   
+
+        $cant                               = 0;
+
+        $myFechaDesde = "2001-01-01";
+        $myFechaHasta = "9999-12-31";
+
+      
+
+        if ($request->fechaDesde){
+            $myFechaDesde = $request->fechaDesde;
+        }
+        if ($request->fechaHasta){
+            $myFechaHasta = $request->fechaHasta;
+        }
+
+        foreach($Transacciones3 as $key => $myTransaccion3){
+            
+
+            $myDate      = substr($myTransaccion3->TransactionDate,0,10);
+            \Log::info('leam - statisticsComntroller - commisionFProfit - myDate ->' . $myDate . ' -- myFechaDesde ->' . $myFechaDesde . ' -- myFechaHasta ->' . $myFechaHasta);
+
+            if ($myDate < $myFechaDesde || $myDate > $myFechaHasta){
+                \Log::info('leam - statisticsComntroller - commisionFProfit - myDate' . $myDate . ' -- myFechaDesde ->' . $myFechaDesde . ' -- myFechaHasta ->' . $myFechaHasta . ' -- continue');
+                continue;
+            }
+
+            if ($cant === 0){
+                // dd('el primero ->' . ' el key ->' . $key . ' -- ' . print_r($myTransaccion3, true));
+                $myWalletIdTemp             = $myTransaccion3->WalletId;
+                $myWalletNameTemp           = $myTransaccion3->WalletName;                
+                $myGroupIdTemp              = $myTransaccion3->GroupId;
+                $myGroupNameTemp            = $myTransaccion3->GroupName;
+                $myTypeTransactionIdTemp    = $myTransaccion3->TypeTransactionId;
+                $myTypeTransactionName      = $myTransaccion3->TypeTransactionName;
+                $myTransactionDateTemp      = substr($myTransaccion3->TransactionDate,0,10);
+
+            }
+
+            // if ($myGroupNameTemp != $myTransaccion3->GroupName || $myTransactionDateTemp != $myTransaccion3->TransactionDate){ 
+            if ($myGroupNameTemp != $myTransaccion3->GroupName){
+                // $genericObject = new stdClass();
+
+                $genericObject = new \stdClass();
+
+                $genericObject->WalletId                = $myWalletIdTemp;
+                $genericObject->WalletName              = $myWalletNameTemp;
+                $genericObject->GroupId                 = $myGroupIdTemp ;
+                $genericObject->GroupName               = $myGroupNameTemp;
+                $genericObject->TypeTransactionId       = $myTypeTransactionIdTemp;
+                $genericObject->TypeTransactionName     = $myTypeTransactionName;
+                $genericObject->TransactionDate         = $myTransactionDateTemp;
+
+                $genericObject->Amount                  = $myAmountFecha;
+                $genericObject->AmountBase              = $myAmountTotalFecha;
+                $genericObject->AmountCommission        = $myAmountCommissionFecha ;
+                $genericObject->AmountCommissionBase    = $myAmountCommissionBaseFecha ;
+                $genericObject->AmountTotal             = $myAmountTotalFecha;
+                $genericObject->AmountTotalBase         = $myAmountTotalBaseFecha ;
+                $genericObject->AmountCommissionProfit  = $myAmountCommissionProfitFecha;
+
+                $Transacciones4[] = $genericObject;
+
+                $myAmountFecha                      = 0;
+                $myAmountTotalFecha                 = 0;
+                $myAmountCommissionFecha            = 0;
+                $myAmountBaseFecha                  = 0;
+                $myAmountTotalBaseFecha             = 0;
+                $myAmountCommissionBaseFecha        = 0;
+                $myAmountCommissionProfitFecha      = 0;           
+
+                $myWalletIdTemp             = $myTransaccion3->WalletId;
+                $myWalletNameTemp           = $myTransaccion3->WalletName;                
+                $myGroupIdTemp              = $myTransaccion3->GroupId;
+                $myGroupNameTemp            = $myTransaccion3->GroupName;
+                $myTypeTransactionIdTemp    = $myTransaccion3->TypeTransactionId;
+                $myTypeTransactionName      = $myTransaccion3->TypeTransactionName;
+                $myTransactionDateTemp      = substr($myTransaccion3->TransactionDate,0,10);
+                //die();
+            }
+
+            $myAmountFecha                      += $myTransaccion3->Amount;
+            $myAmountTotalFecha                 += $myTransaccion3->AmountTotal;
+            $myAmountCommissionFecha            += $myTransaccion3->AmountCommission;
+            $myAmountBaseFecha                  += $myTransaccion3->AmountBase;
+            $myAmountTotalBaseFecha             += $myTransaccion3->AmountTotalBase;
+            $myAmountCommissionBaseFecha        += $myTransaccion3->AmountCommissionBase;
+            $myAmountCommissionProfitFecha      += $myTransaccion3->AmountCommissionProfit;
+
+            $cant++;
+
+        }
+
+        $genericObject = new \stdClass();
+
+        $genericObject->WalletId                = $myWalletIdTemp;
+        $genericObject->WalletName              = $myWalletNameTemp;
+        $genericObject->GroupId                 = $myGroupIdTemp ;
+        $genericObject->GroupName               = $myGroupNameTemp;
+        $genericObject->TypeTransactionId       = $myTypeTransactionIdTemp;
+        $genericObject->TypeTransactionName     = $myTypeTransactionName;
+        $genericObject->TransactionDate         = $myTransactionDateTemp;
+
+        $genericObject->Amount                  = $myAmountFecha;
+        $genericObject->AmountBase              = $myAmountTotalFecha;
+        $genericObject->AmountCommission        = $myAmountCommissionFecha ;
+        $genericObject->AmountCommissionBase    = $myAmountCommissionBaseFecha ;
+        $genericObject->AmountTotal             = $myAmountTotalFecha;
+        $genericObject->AmountTotalBase         = $myAmountTotalBaseFecha ;
+        $genericObject->AmountCommissionProfit  = $myAmountCommissionProfitFecha;
+
+        $Transacciones4[] = $genericObject;
+
+        $myAmountFecha                      = 0;
+        $myAmountTotalFecha                 = 0;
+        $myAmountCommissionFecha            = 0;
+        $myAmountBaseFecha                  = 0;
+        $myAmountTotalBaseFecha             = 0;
+        $myAmountCommissionBaseFecha        = 0;
+        $myAmountCommissionProfitFecha      = 0;      
+
+        // dd($Transacciones4);
+
+        return [$Recargas3, $Transacciones4];
+        // return $Transacciones2;
+
+    }        
     /*
     *
     *

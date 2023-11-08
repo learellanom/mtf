@@ -66,7 +66,7 @@ class TransactionController extends Controller
             }
 
          }
-         \Log::info('transferencia -> ' . $transferencia);
+        
 
         $myFechaDesde2 =  substr($myFechaDesde,8,2) . '-' . substr($myFechaDesde,5,2) . '-' . substr($myFechaDesde,0,4);
         $myFechaHasta2 =  substr($myFechaHasta,8,2) . '-' . substr($myFechaHasta,5,2) . '-' . substr($myFechaHasta,0,4);

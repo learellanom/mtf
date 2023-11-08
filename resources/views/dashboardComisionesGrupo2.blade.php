@@ -137,6 +137,23 @@ $totalComisionGanancia2General  = 0;
                     </x-adminlte-select2>
                 </div>
 
+                <div class="col-12 col-lg-3">
+                    <x-adminlte-select2 
+                        id="grupo"
+                        name="optionsGroups"
+                        label-class="text-lightblue"
+                        data-placeholder="Seleccione Grupo"
+                        :config="$config4"
+                    >
+                    <x-slot name="prependSlot">
+                        <div class="input-group-text bg-gradient-light">
+                            <i class="fas fa-box"></i>
+                        </div>
+                    </x-slot>
+                    <x-adminlte-options :options="$grupo" empty-option="Grupo.."/>
+                    </x-adminlte-select2>
+                </div>
+
                 {{--
                 <div class="col col-md-3">
                     <x-adminlte-select2 id="typeTransactions"
@@ -349,14 +366,13 @@ $totalComisionGanancia2General  = 0;
 <script>
     
     const miWallet          = {!! $myWallet !!};
-    
-                
+    const miGrupo           = {!! $myGrupo !!};
+
     BuscaWallet(miWallet);
-    
+    BuscaGrupo(miGrupo);
 
     @php
 
-        
         $myData                         = $myClass->filtrosLeeComisionesGrupo();
 
         $myocultarresumengeneral        = $myData['ocultarresumengeneral'];
@@ -365,8 +381,6 @@ $totalComisionGanancia2General  = 0;
         
         $myocultarresumengeneral        = (!$myocultarresumengeneral)       ? 0 : $myocultarresumengeneral;
         $myocultarresumentransaccion    = (!$myocultarresumentransaccion)   ? 0 : $myocultarresumentransaccion;
-
-
 
     @endphp
 
@@ -403,9 +417,33 @@ $totalComisionGanancia2General  = 0;
                             ($('#drCustomRanges').val()).substr(13,2)
                             ;
 
-            const wallet       = $('#wallet2').val() == "" ? 0 : $('#wallet2').val();
+            const wallet        = $('#wallet2').val()   == "" ? 0 : $('#wallet2').val();
+            const grupo         = $('#grupo').val()     == "" ? 0 : $('#grupo').val();
 
-             theRoute(wallet, myFechaDesde,myFechaHasta);
+             theRoute(wallet, grupo, myFechaDesde,myFechaHasta);
+
+        });
+
+        $('#grupo').on('change', function (){
+            let myFechaDesde, myFechaHasta;
+            myFechaDesde =  ($('#drCustomRanges').val()).substr(6,4) +
+                            '-' +
+                            ($('#drCustomRanges').val()).substr(3,2) +
+                            '-' +
+                            ($('#drCustomRanges').val()).substr(0,2)
+                            ;
+
+            myFechaHasta =  ($('#drCustomRanges').val()).substr(19,4) +
+                            '-' +
+                            ($('#drCustomRanges').val()).substr(16,2) +
+                            '-' +
+                            ($('#drCustomRanges').val()).substr(13,2)
+                            ;
+
+            const wallet        = $('#wallet2').val()   == "" ? 0 : $('#wallet2').val();
+            const grupo         = $('#grupo').val()     == "" ? 0 : $('#grupo').val();
+
+             theRoute(wallet, grupo, myFechaDesde,myFechaHasta);
 
         });
 
@@ -428,8 +466,9 @@ $totalComisionGanancia2General  = 0;
 
                 
                 const wallet       = $('#wallet2').val();
+                const grupo         = $('#grupo').val()     == "" ? 0 : $('#grupo').val();
                 const transaccion   = $('#typeTransactions').val();
-                theRoute(wallet, myFechaDesde,myFechaHasta);
+                theRoute(wallet, grupo, myFechaDesde,myFechaHasta);
 
         });
 
@@ -681,7 +720,7 @@ $totalComisionGanancia2General  = 0;
                                         }
                                     
                                     };
-                                    \Log::info('leam - Recarga filtra - Recarga ID -> ' . $wallet2->Id . ' myContinue ->' . $myContinue );
+                                   
 
                                 @endphp
                                 @if($myContinue == 0)
@@ -820,9 +859,19 @@ $totalComisionGanancia2General  = 0;
                                     $myContinue = 0;
                                     if ($myDate2 >= $myFechaDesdeDate && $myDate2 <= $myFechaHastaDate) {                                    
                                         $myContinue = 1;
-                                    }
+                                        
+                                        // \Log::info("leam - myDate -> " . print_r($myDate2, true) . " - myFechaDesdeDate -> " . print_r($myFechaDesdeDate,true) . " - myFechaHastaDate -> " . print_r($myFechaHastaDate,true) . " - continue ->" . $myContinue);
 
-                                    \Log::info('myDate -> ' . print_r($myDate2,true) . ' myFechaDesdeDate -> ' . print_r($myFechaDesdeDate,true) . ' myFechaHastaDate -> ' . print_r($myFechaHastaDate,true) . ' continue ->' . $myContinue);
+                                        if ($myGrupo == 0) {
+                                            $myContinue = 1;
+                                        }else{
+                                            if ($myGrupo == $wallet2->GroupId){
+                                                $myContinue = 1;
+                                            }else{
+                                                $myContinue = 0;
+                                            }
+                                        }
+                                    }                                    
                             @endphp
                             @if($myContinue == 0)
                                     @continue
@@ -838,9 +887,6 @@ $totalComisionGanancia2General  = 0;
 
                                     $cant                           += 1;
                                 @endphp
-                                
-                            
-
 
                                 <td class="myWidth22"   >{{ $wallet2->Id}}</td>   
                                 <td class="myWidth22"   >{{ $wallet2->WalletName}}</td>                               
@@ -929,15 +975,16 @@ $totalComisionGanancia2General  = 0;
 
     }
 
-    function theRoute(wallet = '', fechaDesde = '', fechaHasta = ''){
+    function theRoute(wallet = '', grupo = 0, fechaDesde = '', fechaHasta = ''){
 
         let myRoute = "";
 
-        myRoute = "{{ route('dashboardComisionesGrupo2', ['wallet' => 'wallet2' , 'fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2']) }}";
+        myRoute = "{{ route('dashboardComisionesGrupo2', ['wallet' => 'wallet2' , 'grupo' => 'grupo2' ,'fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2']) }}";
+        
         myRoute = myRoute.replace('wallet2',wallet);
+        myRoute = myRoute.replace('grupo2',grupo);
         myRoute = myRoute.replace('fechaDesde2',fechaDesde);
         myRoute = myRoute.replace('fechaHasta2',fechaHasta);
-            
         // alert(myRoute);
         location.href = myRoute;
 
@@ -995,10 +1042,14 @@ $totalComisionGanancia2General  = 0;
         myLocation  = window.location.toString();
 
         myArray     = myLocation.split("/");
-        
+
+        // alert(myArray);
+        console.log('myArray ->' + myArray + ' length ->' + myArray.length);
+        // alert('length ->' + myArray.length);
+
         if (myArray.length > 5){
-            FechaDesde = myArray[5];
-            FechaHasta = myArray[6];
+            FechaDesde = myArray[6];
+            FechaHasta = myArray[7];
         }else{
             FechaDesde = '2001-01-01';
             FechaHasta = '9999-12-31';
@@ -1236,6 +1287,19 @@ $totalComisionGanancia2General  = 0;
 
 
     }
+    function BuscaGrupo(miGrupo = ""){
+
+        if (miGrupo == "") return;
+
+        $('#grupo').each( function(index, element){
+            $(this).children("option").each(function(){
+                if ($(this).val() === miGrupo.toString()){   
+                    $("#grupo option[value="+ miGrupo +"]").attr("selected",true);
+                }
+            });
+        });
+    }
+
 </script>
 
 @endsection
