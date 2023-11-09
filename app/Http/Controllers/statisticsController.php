@@ -2882,6 +2882,9 @@ class statisticsController extends Controller
                     $myTransaccion2->RecargaSaldo               = $myRecarga->Saldo;
 
                     $myTransaccion2->key                        = $key;
+
+                    $myTransaccion2->AmountCommission           = ($myTransaccion2->Amount2 *  $myTransaccion2->Percentage) / 100; // nueva 09-11-2023
+
                     $myTransaccion2->PercentageBase             = $myRecarga->PercentageBase;
                     $myTransaccion2->AmountCommissionBase       = ($myTransaccion2->Amount2 * $myRecarga->PercentageBase) / 100;
                     $myTransaccion2->AmountBase                 = $myTransaccion2->Amount2;
@@ -2919,6 +2922,8 @@ class statisticsController extends Controller
                         $myAmount2                                  = $myTransaccion2->Amount2 - ($myTransaccion2->Amount2  - $myRecarga->Saldo); 
 
                         $myTransaccion2->Amount2                    = $myAmount2;
+                        $myTransaccion2->AmountCommission           = ($myAmount2 * $myTransaccion2->Percentage) / 100; // nueva 09-11-2023
+
                         $myTransaccion2->RecargaSaldoAntes          = $myRecarga->Saldo;
                         $saldoRecarga2                              = $myRecarga->Saldo;
                         $myTransaccion2->RecargaPercentageBase      = $myRecarga->PercentageBase;
@@ -3007,150 +3012,6 @@ class statisticsController extends Controller
         }
         // dd($Transacciones2);
 
-        //
-        //
-        // transcacioens resumidas por wallet - grupo
-        //
-        //
-        $Transacciones3     = $Transacciones2;
-
-        $myGroup            = array_column($Transacciones3, 'GroupName');
-        $myTransactionDate  = array_column($Transacciones3, 'TransactionDate');
-
-        array_multisort($myGroup, SORT_ASC, $myGroup, $myTransactionDate, SORT_DESC, $Transacciones3);
-
-        $myWalletIdTemp                     = 0;
-        $myWalletNameTemp                   = "";                
-        $myGroupIdTemp                      = 0;
-        $myGroupNameTemp                    = "";
-        $myTypeTransactionIdTemp            = 0;
-        $myTypeTransactionName              = "";
-        $myTransactionDateTemp              = "";
-
-        $myAmountFecha                      = 0;
-        $myAmountTotalFecha                 = 0;
-        $myAmountCommissionFecha            = 0;
-        $myAmountBaseFecha                  = 0;
-        $myAmountTotalBaseFecha             = 0;
-        $myAmountCommissionBaseFecha        = 0;
-        $myAmountCommissionProfitFecha      = 0;   
-
-        $cant                               = 0;
-
-        $myFechaDesde = "2001-01-01";
-        $myFechaHasta = "9999-12-31";
-
-        if ($request->fechaDesde){
-            $myFechaDesde = $request->fechaDesde;
-        }
-        if ($request->fechaHasta){
-            $myFechaHasta = $request->fechaHasta;
-        }
-
-        foreach($Transacciones3 as $key => $myTransaccion3){
-            
-
-            $myDate      = substr($myTransaccion3->TransactionDate,0,10);
-            // \Log::info('leam - statisticsComntroller - commisionFProfit - myDate ->' . $myDate . ' -- myFechaDesde ->' . $myFechaDesde . ' -- myFechaHasta ->' . $myFechaHasta);
-
-            if ($myDate < $myFechaDesde || $myDate > $myFechaHasta){
-                // \Log::info('leam - statisticsComntroller - commisionFProfit - myDate' . $myDate . ' -- myFechaDesde ->' . $myFechaDesde . ' -- myFechaHasta ->' . $myFechaHasta . ' -- continue');
-                continue;
-            }
-
-            if ($cant === 0){
-                // dd('el primero ->' . ' el key ->' . $key . ' -- ' . print_r($myTransaccion3, true));
-                $myWalletIdTemp             = $myTransaccion3->WalletId;
-                $myWalletNameTemp           = $myTransaccion3->WalletName;                
-                $myGroupIdTemp              = $myTransaccion3->GroupId;
-                $myGroupNameTemp            = $myTransaccion3->GroupName;
-                $myTypeTransactionIdTemp    = $myTransaccion3->TypeTransactionId;
-                $myTypeTransactionName      = $myTransaccion3->TypeTransactionName;
-                $myTransactionDateTemp      = substr($myTransaccion3->TransactionDate,0,10);
-
-            }
-
-            // if ($myGroupNameTemp != $myTransaccion3->GroupName || $myTransactionDateTemp != $myTransaccion3->TransactionDate){ 
-            if ($myGroupNameTemp != $myTransaccion3->GroupName){
-                // $genericObject = new stdClass();
-
-                $genericObject = new \stdClass();
-
-                $genericObject->WalletId                = $myWalletIdTemp;
-                $genericObject->WalletName              = $myWalletNameTemp;
-                $genericObject->GroupId                 = $myGroupIdTemp ;
-                $genericObject->GroupName               = $myGroupNameTemp;
-                $genericObject->TypeTransactionId       = $myTypeTransactionIdTemp;
-                $genericObject->TypeTransactionName     = $myTypeTransactionName;
-                $genericObject->TransactionDate         = $myTransactionDateTemp;
-
-                $genericObject->Amount                  = $myAmountFecha;
-                $genericObject->AmountBase              = $myAmountTotalFecha;
-                $genericObject->AmountCommission        = $myAmountCommissionFecha ;
-                $genericObject->AmountCommissionBase    = $myAmountCommissionBaseFecha ;
-                $genericObject->AmountTotal             = $myAmountTotalFecha;
-                $genericObject->AmountTotalBase         = $myAmountTotalBaseFecha ;
-                $genericObject->AmountCommissionProfit  = $myAmountCommissionProfitFecha;
-
-                $Transacciones4[] = $genericObject;
-
-                $myAmountFecha                      = 0;
-                $myAmountTotalFecha                 = 0;
-                $myAmountCommissionFecha            = 0;
-                $myAmountBaseFecha                  = 0;
-                $myAmountTotalBaseFecha             = 0;
-                $myAmountCommissionBaseFecha        = 0;
-                $myAmountCommissionProfitFecha      = 0;           
-
-                $myWalletIdTemp             = $myTransaccion3->WalletId;
-                $myWalletNameTemp           = $myTransaccion3->WalletName;                
-                $myGroupIdTemp              = $myTransaccion3->GroupId;
-                $myGroupNameTemp            = $myTransaccion3->GroupName;
-                $myTypeTransactionIdTemp    = $myTransaccion3->TypeTransactionId;
-                $myTypeTransactionName      = $myTransaccion3->TypeTransactionName;
-                $myTransactionDateTemp      = substr($myTransaccion3->TransactionDate,0,10);
-                //die();
-            }
-
-            $myAmountFecha                      += $myTransaccion3->Amount;
-            $myAmountTotalFecha                 += $myTransaccion3->AmountTotal;
-            $myAmountCommissionFecha            += $myTransaccion3->AmountCommission;
-            $myAmountBaseFecha                  += $myTransaccion3->AmountBase;
-            $myAmountTotalBaseFecha             += $myTransaccion3->AmountTotalBase;
-            $myAmountCommissionBaseFecha        += $myTransaccion3->AmountCommissionBase;
-            $myAmountCommissionProfitFecha      += $myTransaccion3->AmountCommissionProfit;
-
-            $cant++;
-
-        }
-
-        $genericObject = new \stdClass();
-
-        $genericObject->WalletId                = $myWalletIdTemp;
-        $genericObject->WalletName              = $myWalletNameTemp;
-        $genericObject->GroupId                 = $myGroupIdTemp ;
-        $genericObject->GroupName               = $myGroupNameTemp;
-        $genericObject->TypeTransactionId       = $myTypeTransactionIdTemp;
-        $genericObject->TypeTransactionName     = $myTypeTransactionName;
-        $genericObject->TransactionDate         = $myTransactionDateTemp;
-
-        $genericObject->Amount                  = $myAmountFecha;
-        $genericObject->AmountBase              = $myAmountTotalFecha;
-        $genericObject->AmountCommission        = $myAmountCommissionFecha ;
-        $genericObject->AmountCommissionBase    = $myAmountCommissionBaseFecha ;
-        $genericObject->AmountTotal             = $myAmountTotalFecha;
-        $genericObject->AmountTotalBase         = $myAmountTotalBaseFecha ;
-        $genericObject->AmountCommissionProfit  = $myAmountCommissionProfitFecha;
-
-        $Transacciones4[] = $genericObject;
-
-        $myAmountFecha                      = 0;
-        $myAmountTotalFecha                 = 0;
-        $myAmountCommissionFecha            = 0;
-        $myAmountBaseFecha                  = 0;
-        $myAmountTotalBaseFecha             = 0;
-        $myAmountCommissionBaseFecha        = 0;
-        $myAmountCommissionProfitFecha      = 0;      
 
         // dd($Transacciones4);
 
@@ -3456,6 +3317,9 @@ class statisticsController extends Controller
                     $myTransaccion2->RecargaSaldo               = $myRecarga->Saldo;
 
                     $myTransaccion2->key                        = $key;
+
+                    $myTransaccion2->AmountCommission           = ($myTransaccion2->Amount2 *  $myTransaccion2->Percentage) / 100; // nueva 09-11-2023
+
                     $myTransaccion2->PercentageBase             = $myRecarga->PercentageBase;
                     $myTransaccion2->AmountCommissionBase       = ($myTransaccion2->Amount2 * $myRecarga->PercentageBase) / 100;
                     $myTransaccion2->AmountBase                 = $myTransaccion2->Amount2;
@@ -3491,6 +3355,9 @@ class statisticsController extends Controller
                         $myAmount22                                 = $myTransaccion2->Amount2  - $myRecarga->Saldo; 
 
                         $myAmount2                                  = $myTransaccion2->Amount2 - ($myTransaccion2->Amount2  - $myRecarga->Saldo); 
+
+                        $myTransaccion2->Amount2                    = $myAmount2;
+                        $myTransaccion2->AmountCommission           = ($myAmount2 * $myTransaccion2->Percentage) / 100; // nueva 09-11-2023
 
                         $myTransaccion2->Amount2                    = $myAmount2;
                         $myTransaccion2->RecargaSaldoAntes          = $myRecarga->Saldo;
@@ -3593,6 +3460,7 @@ class statisticsController extends Controller
 
         array_multisort($myGroup, SORT_ASC, $myGroup, $myTransactionDate, SORT_DESC, $Transacciones3);
 
+        $myIdTemp                           = 0;
         $myWalletIdTemp                     = 0;
         $myWalletNameTemp                   = "";                
         $myGroupIdTemp                      = 0;
@@ -3608,6 +3476,11 @@ class statisticsController extends Controller
         $myAmountTotalBaseFecha             = 0;
         $myAmountCommissionBaseFecha        = 0;
         $myAmountCommissionProfitFecha      = 0;   
+
+        $myAmountFechaGrupo                      = 0;
+        $myAmountCommissionFechaGrupo            = 0;
+        $myAmountCommissionBaseFechaGrupo        = 0;
+        $myAmountCommissionProfitFechaGrupo      = 0;   
 
         $cant                               = 0;
 
@@ -3627,15 +3500,16 @@ class statisticsController extends Controller
             
 
             $myDate      = substr($myTransaccion3->TransactionDate,0,10);
-            \Log::info('leam - statisticsComntroller - commisionFProfit - myDate ->' . $myDate . ' -- myFechaDesde ->' . $myFechaDesde . ' -- myFechaHasta ->' . $myFechaHasta);
+            // \Log::info('leam - statisticsComntroller - commisionFProfit - myDate ->' . $myDate . ' -- myFechaDesde ->' . $myFechaDesde . ' -- myFechaHasta ->' . $myFechaHasta);
 
             if ($myDate < $myFechaDesde || $myDate > $myFechaHasta){
-                \Log::info('leam - statisticsComntroller - commisionFProfit - myDate' . $myDate . ' -- myFechaDesde ->' . $myFechaDesde . ' -- myFechaHasta ->' . $myFechaHasta . ' -- continue');
+                // \Log::info('leam - statisticsComntroller - commisionFProfit - myDate' . $myDate . ' -- myFechaDesde ->' . $myFechaDesde . ' -- myFechaHasta ->' . $myFechaHasta . ' -- continue');
                 continue;
             }
 
             if ($cant === 0){
                 // dd('el primero ->' . ' el key ->' . $key . ' -- ' . print_r($myTransaccion3, true));
+                $myIdTemp                   = $myTransaccion3->Id;
                 $myWalletIdTemp             = $myTransaccion3->WalletId;
                 $myWalletNameTemp           = $myTransaccion3->WalletName;                
                 $myGroupIdTemp              = $myTransaccion3->GroupId;
@@ -3643,7 +3517,21 @@ class statisticsController extends Controller
                 $myTypeTransactionIdTemp    = $myTransaccion3->TypeTransactionId;
                 $myTypeTransactionName      = $myTransaccion3->TypeTransactionName;
                 $myTransactionDateTemp      = substr($myTransaccion3->TransactionDate,0,10);
+            }
 
+            if ($myIdTemp != $myTransaccion3->Id){
+
+                $myAmountFechaGrupo                         += $myAmountFecha;
+                $myAmountCommissionFechaGrupo               += $myAmountCommissionFecha;
+                $myAmountCommissionBaseFechaGrupo           += $myAmountCommissionBaseFecha;
+                $myAmountCommissionProfitFechaGrupo         += $myAmountCommissionProfitFecha;
+
+                
+                $myAmountCommissionFecha                    = 0;
+                $myAmountCommissionBaseFecha                = 0;
+                $myAmountCommissionProfitFecha              = 0;
+
+                $myIdTemp                                   = $myTransaccion3->Id;
             }
 
             // if ($myGroupNameTemp != $myTransaccion3->GroupName || $myTransactionDateTemp != $myTransaccion3->TransactionDate){ 
@@ -3652,6 +3540,7 @@ class statisticsController extends Controller
 
                 $genericObject = new \stdClass();
 
+                $genericObject->Id                      = $myIdTemp;
                 $genericObject->WalletId                = $myWalletIdTemp;
                 $genericObject->WalletName              = $myWalletNameTemp;
                 $genericObject->GroupId                 = $myGroupIdTemp ;
@@ -3660,24 +3549,28 @@ class statisticsController extends Controller
                 $genericObject->TypeTransactionName     = $myTypeTransactionName;
                 $genericObject->TransactionDate         = $myTransactionDateTemp;
 
-                $genericObject->Amount                  = $myAmountFecha;
+                $genericObject->Amount                  = $myAmountFechaGrupo;
                 $genericObject->AmountBase              = $myAmountTotalFecha;
-                $genericObject->AmountCommission        = $myAmountCommissionFecha ;
-                $genericObject->AmountCommissionBase    = $myAmountCommissionBaseFecha ;
+
+                $genericObject->AmountCommission        = $myAmountCommissionFechaGrupo ;
+                $genericObject->AmountCommissionBase    = $myAmountCommissionBaseFechaGrupo ;
                 $genericObject->AmountTotal             = $myAmountTotalFecha;
                 $genericObject->AmountTotalBase         = $myAmountTotalBaseFecha ;
-                $genericObject->AmountCommissionProfit  = $myAmountCommissionProfitFecha;
+                $genericObject->AmountCommissionProfit  = $myAmountCommissionProfitFechaGrupo;
 
                 $Transacciones4[] = $genericObject;
 
-                $myAmountFecha                      = 0;
-                $myAmountTotalFecha                 = 0;
-                $myAmountCommissionFecha            = 0;
-                $myAmountBaseFecha                  = 0;
-                $myAmountTotalBaseFecha             = 0;
-                $myAmountCommissionBaseFecha        = 0;
-                $myAmountCommissionProfitFecha      = 0;           
+                $myAmountFecha                          = 0;
+                $myAmountTotalFecha                     = 0;
+                $myAmountBaseFecha                      = 0;
+                $myAmountTotalBaseFecha                 = 0;
 
+                $myAmountFechaGrupo                     = 0;
+                $myAmountCommissionFechaGrupo           = 0;
+                $myAmountCommissionBaseFechaGrupo       = 0;
+                $myAmountCommissionProfitFechaGrupo     = 0;
+
+                $myIdTemp                   = $myTransaccion3->Id;
                 $myWalletIdTemp             = $myTransaccion3->WalletId;
                 $myWalletNameTemp           = $myTransaccion3->WalletName;                
                 $myGroupIdTemp              = $myTransaccion3->GroupId;
@@ -3688,9 +3581,12 @@ class statisticsController extends Controller
                 //die();
             }
 
-            $myAmountFecha                      += $myTransaccion3->Amount;
-            $myAmountTotalFecha                 += $myTransaccion3->AmountTotal;
+
+
+            $myAmountFecha                      = $myTransaccion3->Amount;
+            $myAmountTotalFecha                 = $myTransaccion3->AmountTotal;
             $myAmountCommissionFecha            += $myTransaccion3->AmountCommission;
+
             $myAmountBaseFecha                  += $myTransaccion3->AmountBase;
             $myAmountTotalBaseFecha             += $myTransaccion3->AmountTotalBase;
             $myAmountCommissionBaseFecha        += $myTransaccion3->AmountCommissionBase;
@@ -3700,8 +3596,19 @@ class statisticsController extends Controller
 
         }
 
+        $myAmountFechaGrupo                         += $myAmountFecha;    
+        $myAmountCommissionFechaGrupo               += $myAmountCommissionFecha;
+        $myAmountCommissionBaseFechaGrupo           += $myAmountCommissionBaseFecha;
+        $myAmountCommissionProfitFechaGrupo         += $myAmountCommissionProfitFecha;
+
+        $myAmountFecha                              = 0;
+        $myAmountCommissionFecha                    = 0;
+        $myAmountCommissionBaseFecha                = 0;
+        $myAmountCommissionProfitFecha              = 0;
+
         $genericObject = new \stdClass();
 
+        $genericObject->Id                      = $myIdTemp;
         $genericObject->WalletId                = $myWalletIdTemp;
         $genericObject->WalletName              = $myWalletNameTemp;
         $genericObject->GroupId                 = $myGroupIdTemp ;
@@ -3710,13 +3617,14 @@ class statisticsController extends Controller
         $genericObject->TypeTransactionName     = $myTypeTransactionName;
         $genericObject->TransactionDate         = $myTransactionDateTemp;
 
-        $genericObject->Amount                  = $myAmountFecha;
+        $genericObject->Amount                  = $myAmountFechaGrupo;
         $genericObject->AmountBase              = $myAmountTotalFecha;
-        $genericObject->AmountCommission        = $myAmountCommissionFecha ;
-        $genericObject->AmountCommissionBase    = $myAmountCommissionBaseFecha ;
+
+        $genericObject->AmountCommission        = $myAmountCommissionFechaGrupo ;
+        $genericObject->AmountCommissionBase    = $myAmountCommissionBaseFechaGrupo ;
+        $genericObject->AmountCommissionProfit  = $myAmountCommissionProfitFechaGrupo;
         $genericObject->AmountTotal             = $myAmountTotalFecha;
         $genericObject->AmountTotalBase         = $myAmountTotalBaseFecha ;
-        $genericObject->AmountCommissionProfit  = $myAmountCommissionProfitFecha;
 
         $Transacciones4[] = $genericObject;
 
@@ -3730,7 +3638,7 @@ class statisticsController extends Controller
 
         // dd($Transacciones4);
 
-        return [$Recargas3, $Transacciones4];
+        return [$Recargas3, $Transacciones4, $Transacciones2];
         // return $Transacciones2;
 
     }        

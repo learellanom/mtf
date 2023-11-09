@@ -668,26 +668,59 @@ $totalComisionGanancia2General  = 0;
                                     // 
                                     // Filtra recargas de transacciones
                                     //
-                                    // foreach($Transacciones as $myTransaccion){
+                                     // dd($Transacciones2);
+                                     foreach($Transacciones2 as $myTransaccion){
 
-                                    //     $myDateTransaccion = Date(substr($myTransaccion->TransactionDate,0,10));
-                                    //     if ($myDateTransaccion >= $myFechaDesdeDate && $myDateTransaccion <= $myFechaHastaDate) {                            
-                                    //         // preguntar si la recarga esta en ese rango
-                                    //         if ($myTransaccion->RecargaId == $wallet2->Id) {
-                                    //             $myContinue = 1;
-                                    //             break;
-                                    //         }
-                                    //     }
+                                         $myDateTransaccion = Date(substr($myTransaccion->TransactionDate,0,10));
+                                         if ($myDateTransaccion >= $myFechaDesdeDate && $myDateTransaccion <= $myFechaHastaDate) {                            
+                                             // preguntar si la recarga esta en ese rango
+                                            //if ($myTransaccion->RecargaId == $wallet2->Id) {
+                                            //     $myContinue = 1;
+                                            //     break;
+                                            // }
+
+
+
+
+                                             if ($myGrupo == 0) {
+                                                // $myContinue = 1;
+                                                
+                                                if ($myTransaccion->RecargaId == $wallet2->Id) {
+                                                    $myContinue = 1;
+                                                    break;
+                                                }
+
+
+                                            }else{
+                                                if ($myGrupo == $myTransaccion->GroupId){
+                                                    // $myContinue = 1;
+
+                                                    
+                                                    if ($myTransaccion->RecargaId == $wallet2->Id) {
+                                                        $myContinue = 1;
+                                                        break;
+                                                    }
+
+
+                                                }else{
+                                                    $myContinue = 0;
+                                                }
+                                            }
+
+
+
+
+                                         }
                                     
-                                    // };
+                                     };
                                    
 
                                 @endphp
-                                {{--
+                                
                                 @if($myContinue == 0)
                                    @continue;
                                 @endif
-                                --}}
+                                
                                 <td>{{ $wallet2->WalletName}}</td>                               
                                 <td>{{ $wallet2->Id}}</td>       
                                 <td>{{ $wallet2->TypeTransactionName}}</td>

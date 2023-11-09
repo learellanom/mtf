@@ -616,10 +616,11 @@ class HomeController extends Controller
         $grupo                           = app(statisticsController::class)->getGroups();
         
         if ($myWallet != 0){
-            list($Recargas3, $Transacciones4) = app(statisticsController::class)->commissionsProfitRes($request);
+            list($Recargas3, $Transacciones4, $Transacciones2) = app(statisticsController::class)->commissionsProfitRes($request);
         }else{
-            $Recargas3 = [];
+            $Recargas3      = [];
             $Transacciones4 = [];
+            $Transacciones2 = [];
         }
 
         // dd('transacciones 2 ->' . print_r($Transacciones4,true));
@@ -639,7 +640,7 @@ class HomeController extends Controller
 
         $parametros['Recargas']                     = $Recargas3;
         $parametros['Transacciones']                = $Transacciones4;   //
-        
+        $parametros['Transacciones2']               = $Transacciones2;   //        
          // dd($Recargas3);
          
         // dd($parametros);
