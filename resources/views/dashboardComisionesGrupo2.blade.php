@@ -669,7 +669,6 @@ $totalComisionGanancia2General  = 0;
                             $totalComisionGanancia   = 0;
                             $totalComisionGanancia2  = 0;
 
-
                             $myFechaDesdeDate = Date($myFechaDesde);
                             $myFechaHastaDate = Date($myFechaHasta);
 
@@ -713,10 +712,38 @@ $totalComisionGanancia2General  = 0;
                                         
                                         if ($myDateTransaccion >= $myFechaDesdeDate && $myDateTransaccion <= $myFechaHastaDate) {                            
                                             // preguntar si la recarga esta en ese rango
-                                            if ($myTransaccion->RecargaId == $wallet2->Id) {
-                                                $myContinue = 1;
-                                                break;
+
+
+
+
+                                            if ($myGrupo == 0) {
+                                                
+                                                if ($myTransaccion->RecargaId == $wallet2->Id) {
+                                                    $myContinue = 1;
+                                                    break;
+                                                }
+
+
+                                            }else{
+                                                if ($myGrupo == $myTransaccion->GroupId){
+                                                    // $myContinue = 1;
+
+                                                    
+                                                    if ($myTransaccion->RecargaId == $wallet2->Id) {
+                                                        $myContinue = 1;
+                                                        break;
+                                                    }
+
+
+                                                }else{
+                                                    $myContinue = 0;
+                                                }
                                             }
+
+
+
+
+
                                         }
                                     
                                     };
@@ -829,12 +856,14 @@ $totalComisionGanancia2General  = 0;
                         </tr>
                     </thead>
                     @php
-                        $cant                    = 0;
+                        $cant                       = 0;
 
-                        $totalComision           = 0;
-                        $totalComisionBase       = 0;
-                        $totalComisionGanancia   = 0;
-            
+                        $totalComision              = 0;
+                        $totalComisionBase          = 0;
+                        $totalComisionGanancia      = 0;
+                        $myTotalCommission          = 0;
+                        $totalAmount                = 0;
+                        $myTotalAmount              = 0;
                         $myFechaDesdeDate = Date($myFechaDesde);
                         $myFechaHastaDate = Date($myFechaHasta);
 
@@ -879,11 +908,24 @@ $totalComisionGanancia2General  = 0;
                             <tr class="myTr">
                                 @php
 
+                                    if ($cant == 0){
+                                        $myId               =   $wallet2->Id;
+                                        
+                                    }
+                                    if ($myId != $wallet2->Id){
+                                        // $myTotalCommission  +=  $totalComision;
+                                        $myTotalAmount      +=  $totalAmount ;
+                                        $myId               =   $wallet2->Id;
+                                        // $totalComision      =   0;
+                                        $totalAmount        =   0;
+                                    }
+
                                     $my_total_commission_profit     =   0;
 
-                                    $totalComision                  +=  $wallet2->AmountCommission ;
-                                    $totalComisionBase              +=  $wallet2->AmountCommissionBase;
-                                    $totalComisionGanancia          +=  $wallet2->AmountCommissionProfit;   
+                                    $totalComision                  +=  $wallet2->AmountCommission;
+                                    $totalComisionBase              += $wallet2->AmountCommissionBase;
+                                    $totalComisionGanancia          += $wallet2->AmountCommissionProfit;   
+                                    $totalAmount                    =  $wallet2->Amount;
 
                                     $cant                           += 1;
                                 @endphp
@@ -922,14 +964,19 @@ $totalComisionGanancia2General  = 0;
                             
 
                         @endforeach
-
+                        @php
+                           // $myTotalCommission  +=  $totalComision;
+                            $myTotalAmount      +=  $totalAmount ;
+                            // $totalComision      =   0;               
+                            $totalAmount        =   0; 
+                        @endphp
                         <tr style="background-color: black; color:white;">
                             <td                     ></td>                    
                             <td                     ></td>
                             <td                     ></td>
                             <td                     ></td>
                             <td                     ></td>
-                            <td class="myTdColor2"  ></td>
+                            <td class="myTdColor2"  >{{ number_format($myTotalAmount,2) }}</td>
                             <td class="myTdColor2"  ></td>
                             <td class="myTdColor2"  ></td>
                             <td class="myTdColor2"  >{{ number_format($totalComision,2) }}</td>                            
