@@ -38,42 +38,73 @@ class TransactionController extends Controller
         //
         // $myFechaDesde = "2001-01-01";
         // $myFechaHasta = "9999-12-31";
+        $myUser         = 0;
+        $myUsuarioDesde = 0;
+        $myUsuarioHasta = 999999;
+        if ($request->user){
+            $myUser         = $request->user;
+            $myUsuarioDesde = $request->user;
+            $myUsuarioHasta = $request->user;
+        }
 
          if($request->fechaDesde){
             $myFechaDesde = $request->fechaDesde;
          };
          if($request->fechaHasta){
             $myFechaHasta = $request->fechaHasta;
-         };       
+         };
+         //   dd(auth()->user()->roles);
 
          foreach(auth()->user()->roles as $roles)
          {
             if($roles->name == 'Administrador' || $roles->name == 'Supervisor'){
                 // dd(' fecha desde -> ' . $myFechaDesde . ' fecha hasta -> ' .  $myFechaHasta );
-                // $transferencia = Transaction::whereNull(['transfer_number','pay_number'])->get();
+                /*
                 $transferencia = Transaction::whereNull(['transfer_number','pay_number'])
                 ->whereBetween('transaction_date',    [$myFechaDesde . " 00:00:00", $myFechaHasta . " 23:59:00"])
-                // ->limit(100)
+                 ->limit(100)
                 ->orderBy('transaction_date','desc')
                 ->get();
+                --}*/
+
+                $transferencia = Transaction::whereNull(['transfer_number','pay_number'])
+                ->whereBetween('created_at',    [$myFechaDesde . " 00:00:00", $myFechaHasta . " 23:59:00"])
+                ->whereBetween('user_id',    [$myUsuarioDesde , $myUsuarioHasta])
+                ->limit(500)
+                ->orderBy('created_at','desc')
+                ->get();
+                
+                
             }
             else{
-                
+                /*
                 $transferencia = Transaction::whereNull(['transfer_number','pay_number'])->where('user_id', '=', auth()->id())
                 ->whereBetween('transaction_date',    [$myFechaDesde . " 00:00:00", $myFechaHasta . " 23:59:00"])
                 ->orderBy('transaction_date','desc')
                 ->get();
+                */
+                $transferencia = Transaction::whereNull(['transfer_number','pay_number'])
+                ->where('user_id', '=', auth()->id())
+                ->whereBetween('created_at',    [$myFechaDesde . " 00:00:00", $myFechaHasta . " 23:59:00"])
+                ->whereBetween('user_id',    [$myUsuarioDesde , $myUsuarioHasta])
+                ->orderBy('created_at','desc')
+                ->limit(1000)
+                ->get();                
             }
 
          }
         
 
-        $myFechaDesde2 =  substr($myFechaDesde,8,2) . '-' . substr($myFechaDesde,5,2) . '-' . substr($myFechaDesde,0,4);
-        $myFechaHasta2 =  substr($myFechaHasta,8,2) . '-' . substr($myFechaHasta,5,2) . '-' . substr($myFechaHasta,0,4);
+        $myFechaDesde2  =  substr($myFechaDesde,8,2) . '-' . substr($myFechaDesde,5,2) . '-' . substr($myFechaDesde,0,4);
+        $myFechaHasta2  =  substr($myFechaHasta,8,2) . '-' . substr($myFechaHasta,5,2) . '-' . substr($myFechaHasta,0,4);
+
+        $user           = User::pluck('name', 'id')->toArray();
 
         $parametros['fechaDesde']       = $myFechaDesde2;
         $parametros['fechaHasta']       = $myFechaHasta2;
         $parametros['transferencia']    = $transferencia;
+        $parametros['myUser']           = $myUser;
+        $parametros['user']             = $user;
 
         return view('transactions.index', $parametros);
 
@@ -1085,5 +1116,15 @@ class TransactionController extends Controller
         $myFecha2 = date("Y-m-d", strtotime($myFecha1 . "-1 days"));
         return $myFecha2;
     }
+    function isAdministrator(){
 
+        foreach(auth()->user()->roles as $roles)
+        {
+           if($roles->name == 'Administrador' || $roles->name == 'Supervisor'){        
+                return true;
+           }
+        }
+        return false;
+
+    }
 }

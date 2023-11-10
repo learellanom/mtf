@@ -9,10 +9,20 @@
 
 @stop
 @php
+
+$config2 =
+[
+    "allowClear" => true,
+];
+
 $config3 = [
     "locale" => ["format" => "DD-MM-YYYY"],
     "allowClear" => true,
 ];
+
+$myClass	        = new app\Http\Controllers\TransactionController;
+$myAdministrator    = $myClass->isAdministrator();
+
 @endphp 
 
 
@@ -36,22 +46,45 @@ $config3 = [
         <div class="card mb-4">
             <div class="card-header">
                 <div class="row">
-                <h3 class="card-title text-uppercase font-weight-bold col-12 col-sm-6">{{ __('Transacciones') }} del {{ $fechaDesde}} al {{ $fechaHasta}}</h3>
+                    <h3 class="card-title text-uppercase font-weight-bold col-12 col-sm-6">{{ __('Transacciones') }} del {{ $fechaDesde}} al {{ $fechaHasta}}</h3>
 
-                <div class ="col-12 col-sm-2 float-right" >
-                    <x-adminlte-date-range
-                        id="drCustomRanges"
-                        name="drCustomRanges"
-                        enable-default-ranges="Last 30 Days"
-                        style="height: 30px;"
-                        :config="$config3">
-                        <x-slot name="prependSlot">
-                            <div class="input-group-text bg-gradient-dark">
-                                <i class="fas fa-calendar-alt"></i>
-                            </div>
-                        </x-slot>
-                    </x-adminlte-date-range>
-                </div>
+                    <div class ="col-12 col-sm-2 float-right" >
+                        <x-adminlte-date-range
+                            id="drCustomRanges"
+                            name="drCustomRanges"
+                            enable-default-ranges="Last 30 Days"
+                            style="height: 30px;"
+                            :config="$config3">
+                            <x-slot name="prependSlot">
+                                <div class="input-group-text bg-gradient-dark">
+                                    <i class="fas fa-calendar-alt"></i>
+                                </div>
+                            </x-slot>
+                        </x-adminlte-date-range>
+                    </div>
+
+
+                    @if($myAdministrator == true)
+                        <div class ="col-12 col-sm-2">
+                            <x-adminlte-select2 id="usuario"
+                                                name="optionsUsuario"
+                                                igroup-size="sm"
+                                                label-class="text-lightblue"
+                                                data-placeholder="Usuario ..."
+                                                :config="$config2"
+                                                >
+                                <x-slot name="prependSlot">
+                                    <div class="input-group-text bg-gradient-dark">
+                                        <!-- <i class="fas fa-car-side"></i> -->
+                                        <i class="fas fa-user-tie"></i>
+                                    </div>
+                                </x-slot>
+
+                                <x-adminlte-options :options="$user" empty-option="Selecciona un Usuario.."/>
+                            </x-adminlte-select2>
+                        </div>
+                    @endif
+
                 </div>
 
 
@@ -63,7 +96,8 @@ $config3 = [
                             <thead>
                                 <tr>
                                     <th style="width:1%;">Nro transacción</th>
-                                    <th style="width:1%;">Cliente|Caja</th>
+                                    <th style="width:1%;">Caja</th>
+                                    <th style="width:1%;">Cliente</th>
                                     <th style="display:none;">Token</th>
                                     <th>Fecha</th>
                                     <th>Descripción</th>
@@ -98,8 +132,12 @@ $config3 = [
                                 <tr>
                                     <td class="font-weight-bold">{{ $transferencias->id }}</td>
                                     <td class="font-weight-bold">
-                                            {{ $transferencias->group->name ?? $transferencias->wallet->name}}
+                                            {{ $transferencias->wallet->name}}
+                                    </td>                                    
+                                    <td class="font-weight-bold">
+                                            {{ $transferencias->group->name }}
                                     </td>
+
 
                                     <td class="font-weight-bold" style="display:none;">{!! $transferencias->token !!}</td>
 
@@ -158,7 +196,10 @@ $config3 = [
                                     @endif
                                     --}}
                                     <td>
-                                        <a href="{{ route('transactions.show', $transferencias->id) }}" class="btn btn-xl text-dark mx-1 shadow text-center"><i class="fa fa-lg fa-fw fas fa-search"></i></a>
+                                        <a  href="{{ route('transactions.show', $transferencias->id) }}" 
+                                            class="btn btn-xl text-dark mx-1 shadow text-center">
+                                            <i class="fa fa-lg fa-fw fas fa-search"
+                                        </a>
                                     </td>
 
                                 </tr>
@@ -353,40 +394,74 @@ $(document).ready(function () {
     ]
     });
 });
+    BuscaUsuario();
     $(() => {
-    $('#drCustomRanges').on('change', function () {
-        // alert('Fechas rnagos -> ' + $('#drCustomRanges').val());
-        let myFechaDesde, myFechaHasta, id;
+        
+        
 
-        myFechaDesde =  ($('#drCustomRanges').val()).substr(6,4) +
-                        '-' +
-                        ($('#drCustomRanges').val()).substr(3,2) +
-                        '-' +
-                        ($('#drCustomRanges').val()).substr(0,2)
-                        ;
+        $('#drCustomRanges').on('change', function () {
+            // alert('Fechas rnagos -> ' + $('#drCustomRanges').val());
+            let myFechaDesde, myFechaHasta, id;
 
-        myFechaHasta =  ($('#drCustomRanges').val()).substr(19,4) +
-                        '-' +
-                        ($('#drCustomRanges').val()).substr(16,2) +
-                        '-' +
-                        ($('#drCustomRanges').val()).substr(13,2)
-                        ;
+            myFechaDesde =  ($('#drCustomRanges').val()).substr(6,4) +
+                            '-' +
+                            ($('#drCustomRanges').val()).substr(3,2) +
+                            '-' +
+                            ($('#drCustomRanges').val()).substr(0,2)
+                            ;
 
-        myFechaDesde = $('#drCustomRanges').data('daterangepicker').startDate.format('YYYY-MM-DD');
-        myFechaHasta = $('#drCustomRanges').data('daterangepicker').endDate.format('YYYY-MM-DD');
+            myFechaHasta =  ($('#drCustomRanges').val()).substr(19,4) +
+                            '-' +
+                            ($('#drCustomRanges').val()).substr(16,2) +
+                            '-' +
+                            ($('#drCustomRanges').val()).substr(13,2)
+                            ;
 
+            myFechaDesde = $('#drCustomRanges').data('daterangepicker').startDate.format('YYYY-MM-DD');
+            myFechaHasta = $('#drCustomRanges').data('daterangepicker').endDate.format('YYYY-MM-DD');
 
-         theRoute(myFechaDesde,myFechaHasta);
+            const user = $('#usuario').val() == "" ? 0 : $('#usuario').val();
+
+            theRoute(user, myFechaDesde,myFechaHasta);
+
+        });
+
+        $('#usuario').on('change', function () {
+            let myFechaDesde, myFechaHasta, id;
+
+            myFechaDesde =  ($('#drCustomRanges').val()).substr(6,4) +
+                            '-' +
+                            ($('#drCustomRanges').val()).substr(3,2) +
+                            '-' +
+                            ($('#drCustomRanges').val()).substr(0,2)
+                            ;
+
+            myFechaHasta =  ($('#drCustomRanges').val()).substr(19,4) +
+                            '-' +
+                            ($('#drCustomRanges').val()).substr(16,2) +
+                            '-' +
+                            ($('#drCustomRanges').val()).substr(13,2)
+                            ;
+
+            myFechaDesde = $('#drCustomRanges').data('daterangepicker').startDate.format('YYYY-MM-DD');
+            myFechaHasta = $('#drCustomRanges').data('daterangepicker').endDate.format('YYYY-MM-DD');
+
+            const user = $('#usuario').val() == "" ? 0 : $('#usuario').val();
+
+            console.log($('#usuario').val() + ' -- ' + user);
+            
+            theRoute(user, myFechaDesde,myFechaHasta);      
+        });
 
     });
-    });
-    function theRoute(fechaDesde = 0, fechaHasta = 0){
-
+    function theRoute(user = 0, fechaDesde = 0, fechaHasta = 0){
+        // let user = "";
         let Route ="";
 
         myRoute = "";
-        myRoute = "{{ route('transactions.index', ['fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2']) }}"; 
-        
+        myRoute = "{{ route('transactions.index', ['user' => 'user2', 'fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2']) }}"; 
+        // console.log('myRoute ->' + myRoute);
+        myRoute = myRoute.replace('user2',user);
         myRoute = myRoute.replace('fechaDesde2',fechaDesde);
         myRoute = myRoute.replace('fechaHasta2',fechaHasta);
 
@@ -395,5 +470,30 @@ $(document).ready(function () {
 
     }
 
+    function BuscaUsuario(){
+
+
+
+        if ({{ $myUser }} == "") {
+            return;
+        }
+        if ({{ $myUser }} == 0) {
+            return;
+        }        
+        const miUsuario = {{ $myUser }};
+        
+        $('#usuario').each( function(index, element){ 
+            $(this).children("option").each(function(){
+                
+                if ($(this).val() === miUsuario.toString()){
+                
+                    $("#usuario option[value="+ miUsuario +"]").attr("selected",true);              
+                    
+                }
+            });
+        });
+    }
+
 </script>
 @endsection
+
