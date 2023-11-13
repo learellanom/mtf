@@ -173,35 +173,17 @@ Route::group(['middleware' => 'auth'], function () {
     Route::match(['put', 'patch'], 'movimientos/{movimiento}/estatus_cajas', [TransactionController::class, 'updatestatus_transfer'])->name('transactions.updatestatus_transfer');
 
     Route::resource('movimientos', TransactionController::class)->middleware('auth')->names('transactions');
-
     Route::get('movimientos2/{movimiento}', [TransactionController::class,'edit2'])->middleware('auth')->name('transactions.edit2');
+    
+    
 
     Route::match(['put', 'patch'], 'movimientos/{movimiento}/estatus', [TransactionController::class, 'update_status'])->name('transactions.update_status');
     Route::delete('movimientos/eliminar/{movimiento}', [TransactionController::class, 'destroyImg'])->name('transactions.destroyimg');
 
 });
 
-/* TRANSACCIONES A MASTER */
-Route::group(['middleware' => 'auth'], function () {
 
-    Route::get('movimientos_master/credito', [TransactionMasterController::class, 'credit'])->middleware('can:transactions_master.index')->name('transactions_master.credit');
-    Route::get('movimientos_master/editar_credito', [TransactionMasterController::class, 'credit_edit'])->middleware('can:transactions_master.index')->name('transactions_master.credit_edit');
-    Route::resource('movimientos_master', TransactionMasterController::class)->middleware('auth')->middleware('can:transactions_master.index')->names('transactions_master');
-    Route::match(['put', 'patch'], 'movimientos_master/{movimiento}/estatus', [TransactionMasterController::class, 'update_status'])->name('transactions_master.update_status');
-    Route::delete('movimientos_master/eliminar/{movimiento}', [TransactionMasterController::class, 'destroyImg'])->middleware('can:transactions_master.index')->name('transactions_master.destroyimg');
 
-});
-
-/* TRANSACCIONES A PROVEEDORES */
-Route::group(['middleware' => 'auth'], function () {
-
-    //Route::get('movimientos_proveedores/credito', [TransactionSupplierController::class, 'credit'])->middleware('can:transactions_supplier.index')->name('transactions_supplier.credit');
-    //Route::get('movimientos_proveedores/editar_credito', [TransactionSupplierController::class, 'credit_edit'])->middleware('can:transactions_supplier.index')->name('transactions_supplier.credit_edit');
-    Route::resource('movimientos_proveedores', TransactionSupplierController::class)->middleware('auth')->middleware('can:transactions_supplier.index')->names('transactions_supplier');
-    Route::match(['put', 'patch'], 'movimientos_proveedores/{movimiento}/estatus', [TransactionSupplierController::class, 'update_status'])->name('transactions_supplier.update_status');
-    Route::delete('movimientos_proveedores/eliminar/{movimiento}', [TransactionSupplierController::class, 'destroyImg'])->middleware('can:transactions_supplier.index')->name('transactions_supplier.destroyimg');
-
-});
 
 Route::pattern('usuarios', '[0-9]+');
 
@@ -219,11 +201,11 @@ Route::group(['middleware' => 'auth'], function () {
 
 });
 
-Route::resource('proveedores', SupplierController::class)->middleware('auth')->except('show')->middleware('can:suppliers.index')->names('suppliers');
-Route::resource('clientes', ClientController::class)->middleware('auth')->except('show')->middleware('can:clients.index')->names('clients');
+// Route::resource('proveedores', SupplierController::class)->middleware('auth')->except('show')->middleware('can:suppliers.index')->names('suppliers');
+// Route::resource('clientes', ClientController::class)->middleware('auth')->except('show')->middleware('can:clients.index')->names('clients');
 Route::resource('grupos', GroupController::class)->middleware('auth')->except('show')->middleware('can:groups.index')->names('groups');
 Route::resource('roles', RoleController::class)->middleware('auth')->except('show')->middleware('can:roles.index')->names('roles');
-Route::resource('cajas', WalletController::class)->middleware('auth')->except('show')->middleware('can:wallets.index')->names('wallets');
+// Route::resource('cajas', WalletController::class)->middleware('auth')->except('show')->middleware('can:wallets.index')->names('wallets');
 Route::resource('tipo_transaccion', Type_transactionController::class)->middleware('auth')->except('show')->middleware('can:type_transactions.index')->names('type_transactions');
 Route::resource('tipo_moneda', Type_coinController::class)->middleware('auth')->except('show')->middleware('can:type_coins.index')->names('type_coins');
 Route::resource('permisos', PermissionController::class)->middleware('auth')->except('show')->names('permissions');

@@ -24,12 +24,16 @@ class TransactionController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request, transaction $transaction)
+     public function index(Request $request, transaction $transaction)
     {
 
+        $parameters     = $request->query();
 
-        $myFechaHasta = date("Y-m-d");
-        $myFechaDesde = $this->get07DayBefore($myFechaHasta);
+        $user       = $request->query('user');        
+        $fechaDesde = $request->query('fechaDesde');
+        $fechaHasta = $request->query('fechaHasta');
+        // dd('leam - test ');
+
         // $myFechaDesde = $this->get03DayBefore($myFechaHasta);
         // $myFechaDesde = $this->get01DayBefore($myFechaHasta);
         // dd(' fechaDesde ->' . $myFechaDesde . ' fechaHasta ->' . $myFechaHasta);
@@ -41,20 +45,29 @@ class TransactionController extends Controller
         $myUser         = 0;
         $myUsuarioDesde = 0;
         $myUsuarioHasta = 999999;
-        if ($request->user){
+        if ($user){
             $myUser         = $request->user;
             $myUsuarioDesde = $request->user;
             $myUsuarioHasta = $request->user;
         }
 
-         if($request->fechaDesde){
+
+        $myFechaHasta = date("Y-m-d");
+        $myFechaDesde = $this->get07DayBefore($myFechaHasta);
+
+         if($fechaDesde){
             $myFechaDesde = $request->fechaDesde;
          };
-         if($request->fechaHasta){
+         if($fechaHasta){
             $myFechaHasta = $request->fechaHasta;
          };
          //   dd(auth()->user()->roles);
-
+         \Log::info('leam - transaction index - aqui');
+         \Log::info('leam - transaction index - fecha desde - ' . $myFechaDesde . ' -- myFecha Hasta ->' . $myFechaHasta);
+         \Log::info('leam - transaction index - request fecha desde - ' . $request->fechaDesde . ' -- request myFecha Hasta ->' . $request->fechaHasta);
+         \Log::info('leam - transaction index - user  - ' . $myUser );
+         \Log::info('leam - transaction index - request  - ' . $request );
+         // dd($request);
          foreach(auth()->user()->roles as $roles)
          {
             if($roles->name == 'Administrador' || $roles->name == 'Supervisor'){
@@ -847,6 +860,7 @@ class TransactionController extends Controller
      */
     public function show($transaction)
     {
+           //  dd('aqui ' . $transaction);
             $transactions = Transaction::find($transaction);
 
             return view('transactions.show', compact('transactions'));
