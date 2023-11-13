@@ -1,4 +1,4 @@
-@extends('adminlte::page')
+    @extends('adminlte::page')
 
 @section('title', 'Transacciones')
 
@@ -35,8 +35,6 @@ $myAdministrator    = $myClass->isAdministrator();
         <span class="d-none d-md-inline-block text-uppercase font-weight-bold">{{ __('Transacción') }}</span>
     </a>
 @endcan
-
-
 
 <br><br>
 {{-- Compressed with style options / fill data using the plugin config --}}
@@ -95,11 +93,12 @@ $myAdministrator    = $myClass->isAdministrator();
                         <table class="table table-bordered table-responsive-lg" id="table" style="width:100%;">
                             <thead>
                                 <tr>
-                                    <th style="width:1%;">Nro transacción</th>
+                                    <th style="width:1%;">Nro</th>
                                     <th style="width:1%;">Caja</th>
                                     <th style="width:1%;">Cliente</th>
                                     <th style="display:none;">Token</th>
                                     <th>Fecha</th>
+                                    <th>Fecha Creacion</th>
                                     <th>Descripción</th>
                                     <th style="width:1%;"><p style="display:none;"> %</p><i class="fas fa-percentage"></i></th>
                                     <th style="width:15%;">Monto <i class="fas fa-globe-europe"></i> <p style="display:none;">Moneda Extranjera</p></th>
@@ -142,7 +141,7 @@ $myAdministrator    = $myClass->isAdministrator();
                                     <td class="font-weight-bold" style="display:none;">{!! $transferencias->token !!}</td>
 
                                     <td class="font-weight-bold" style="min-width: 80px;">{!! $transferencias->transaction_date !!}</td>
-
+                                    <td class="font-weight-bold" style="min-width: 80px;">{!! $transferencias->created_at !!}</td>
                                     <td class="font-weight-bold"><div style='width:60px; height:60px; overflow:hidden;'>{!!  $transferencias->description !!}</div></td>
 
                                     <td class="font-weight-bold">{!! $transferencias->percentage ?? ''!!} </td>
@@ -394,9 +393,15 @@ $(document).ready(function () {
     ]
     });
 });
+
+
+    
     BuscaUsuario();
+
+
+
     $(() => {
-        
+        BuscaFechas();
         
 
         $('#drCustomRanges').on('change', function () {
@@ -466,9 +471,21 @@ $(document).ready(function () {
         myRoute = myRoute.replace('fechaHasta2',fechaHasta);
 
         // alert(myRoute);
+        myRoute = myRoute.replaceAll('&amp;','&');
+
+        // alert('la ruta ->' + myRoute);
         location.href = myRoute;
 
     }
+
+    function BuscaFechas(){
+        
+        console.log('fechaDesde ->' + '{{$fechaDesde}}');
+        console.log('fechaHasta ->' + '{{$fechaHasta}}');
+         $('#drCustomRanges').data('daterangepicker').setStartDate('{{$fechaDesde}}');
+         $('#drCustomRanges').data('daterangepicker').setEndDate('{{$fechaHasta}}');
+
+    };
 
     function BuscaUsuario(){
 
