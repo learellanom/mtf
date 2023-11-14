@@ -636,11 +636,20 @@
             let amount_commission       = $('#comision').val()          != "" ? parseFloat($('#comision').val())            : 0;
             let amount_commission_base  = $('#comision_base').val()     != "" ? parseFloat($('#comision_base').val())       : 0;
             let amount_commission_profit    = amount_commission - amount_commission_base;
+            
+            // $('#amount_commission_profit').val(amount_commission_profit);
+            // alert(amount_commission_profit);
+            //alert($('#amount_commission_profit').val());
+            // return false;
             if ({{auth()->id()}} == 99){
                 // alert('la comision profit es : ' + amount_commission_profit + ' el tipo ' + typeof amount_commission_profit);
                 // console.log('la comision profit es : ' + amount_commission_profit);
             }
              
+            if ($('#description').val() == "") {
+                const myVal = $('#typetrasnferencia option:selected').text();
+                $('#description').val(myVal);
+            }
 
         });
 
@@ -691,7 +700,7 @@
 
 
         $('.typecoin').on('change', function() {
-
+            
             $('#tasa').val("");             // LIMPIAR TASA DE CAMBIO
             $('#monto').val("");            // LIMPIAR MONTO DE MONEDA EXTRANJERA
 
@@ -705,7 +714,7 @@
             if ($(this).val() == 1) {
 
                 // cuando el tipo de  moneda es dorales
-
+                
                 $('#tasa').attr("readonly", true);
                 $('#monto').attr("readonly", true);
                 $('#monto_dolares').attr("readonly", false);
@@ -910,13 +919,14 @@
 
 
         $('#c_porcentaje').on('change', function() { //FUNCION DE PORCENTAJE
+            
             //$('.boton').show();
             //$('.esconder').show();
             //if(this.checked) {
             var dolares         = $('#monto_dolares').val();
             var exonerar        = document.getElementById("radio1");
             var exonerar_base   = document.getElementById("radio1_base");
-
+                
             $('.tasa').show();
             $('.base').hide();
             $('.comisionbase').show();
@@ -950,7 +960,7 @@
             var dolares         = $('#monto_dolares').val() == "" ? 0 : $('#monto_dolares').val();
             var exonerar        = document.getElementById("radio1");
             var exonerar_base   = document.getElementById("radio1_base");
-
+            
             $('#comision_base').prop('required', false);
             $('#percentage_base').prop('required', false);
             $('#percentage').prop('required', false);
@@ -1259,7 +1269,6 @@
         let monto_dolares   = parseFloat($('#monto_dolares').val());
         let comision        = $('#comision').val() == "" ? 0 : parseFloat($('#comision').val());
         
-
         if(porcentage_base > 0){
 
             comision_base = (monto_dolares * (porcentage_base / 100));
@@ -1295,7 +1304,7 @@
             
         }
 
-        // $('#amount_commission_profit').val( comision - comision_base);
+         $('#amount_commission_profit').val( comision - comision_base);
 
     }
     /*
@@ -1314,7 +1323,10 @@
 
         }
         // aqui graba la ganancia comision
-        $('#amount_commission_profit').val(parseFloat($('#monto_dolares').val()) - parseFloat($('#monto_extranjera_base').val()));
+        $('#amount_commission_profit').val(parseFloat($('#comision').val()) - parseFloat($('#comision_base').val()));
+        
+        
+
     }
     {{--
 

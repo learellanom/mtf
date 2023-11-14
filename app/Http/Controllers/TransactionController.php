@@ -29,19 +29,10 @@ class TransactionController extends Controller
 
         $parameters     = $request->query();
 
-        $user       = $request->query('user');        
-        $fechaDesde = $request->query('fechaDesde');
-        $fechaHasta = $request->query('fechaHasta');
-        // dd('leam - test ');
-
-        // $myFechaDesde = $this->get03DayBefore($myFechaHasta);
-        // $myFechaDesde = $this->get01DayBefore($myFechaHasta);
-        // dd(' fechaDesde ->' . $myFechaDesde . ' fechaHasta ->' . $myFechaHasta);
-        //
-        // trae transacciones del usuario
-        //
-        // $myFechaDesde = "2001-01-01";
-        // $myFechaHasta = "9999-12-31";
+        $user           = $request->query('user');        
+        $fechaDesde     = $request->query('fechaDesde');
+        $fechaHasta     = $request->query('fechaHasta');
+        
         $myUser         = 0;
         $myUsuarioDesde = 0;
         $myUsuarioHasta = 999999;
@@ -53,6 +44,8 @@ class TransactionController extends Controller
 
 
         $myFechaHasta = date("Y-m-d");
+        // $myFechaDesde = $this->get03DayBefore($myFechaHasta);
+        // $myFechaDesde = $this->get01DayBefore($myFechaHasta);        
         $myFechaDesde = $this->get07DayBefore($myFechaHasta);
 
          if($fechaDesde){
@@ -243,18 +236,18 @@ class TransactionController extends Controller
 
         $files = [];
         if($request->hasFile('file')){
-        foreach($request2->file('file') as $file)
-        {
+            foreach($request2->file('file') as $file)
+            {
 
-            $url = Storage::put('public/Transactions/'.$transaction->id, $file);
+                $url = Storage::put('public/Transactions/'.$transaction->id, $file);
 
-            $files= new Image();
-            $files->file = $files;
+                $files= new Image();
+                $files->file = $files;
 
 
-            $transaction->image()->create([
-                'url' => $url
-            ]);
+                $transaction->image()->create([
+                    'url' => $url
+                ]);
 
           }
         }

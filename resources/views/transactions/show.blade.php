@@ -25,20 +25,37 @@
 
     <!-- Main content -->
     <section class="content">
-        {{-- {{ dd($transactiones) }} --}}
+         
         <!-- Default box -->
         <div class="card">
             <div class="card-header">
-              <h3 class="card-title text-uppercase font-weight-bold">Transacción numero #{{ $transactions->id }}
-                @if($transactions->status == 'Activo') <span class="badge badge-success">{{ $transactions->status }}</span> @else <span class="badge badge-danger">{{ $transactions->status }}</span> @endif </h3>
+                <div class="row">
+                <div class="col-lg-4">
+                    <h3 class="card-title text-uppercase font-weight-bold">Transacción numero #{{ $transactions->id }}
+                    @if($transactions->status == 'Activo') <span class="badge badge-success">{{ $transactions->status }}</span> @else <span class="badge badge-danger">{{ $transactions->status }}</span> @endif </h3>
+                </div>  
 
+                <div class="col-lg-8 justify-content-end align-items-right text-right">
+                    {{--
+                    @if($transactions->status == 'Activo')
+                        <button class="btn btn-xl text-success mx-1 shadow text-center" title="Activo">
+                            <i class="fa fa-lg fa-fw fas fa-check"></i><p style="display: block;">Anular</p>
+                        </button>
+                    @else
+                        <button class="btn btn-xl text-success mx-1 shadow text-center disabled" title="Activo">
+                            <i class="fa fa-lg fa-fw fas fa-check"></i><p style="display: block;">Anular</p>
+                        </button>                
+                    @endif
+                    <button class="btn btn-xl text-success mx-1 shadow text-center " 
+                        title="Activo"
+                        onclick="window.location.href='{{route('transactions.edit2', $transactions->id)}}'"
+                        >
+                        <i class="fa fa-lg fa-fw fas fa-check"></i><p style="display: block;">Editar</p>
+                    </button>
+                    --}}
+                </div>
 
-              <div class="card-tools">
-                <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
-                  <i class="fas fa-minus"></i>
-                </button>
-              </div>
-
+                </div>
             </div>
             <div class="card-body">
                 <div class="row">
