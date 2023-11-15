@@ -178,6 +178,9 @@ Route::group(['middleware' => 'auth'], function () {
     
 
     Route::match(['put', 'patch'], 'movimientos/{movimiento}/estatus', [TransactionController::class, 'update_status'])->name('transactions.update_status');
+
+    Route::post('movimientos/{movimiento}/estatusUpdate', [TransactionController::class, 'update_status_api'])->name('transactions.update_status_api');
+    
     Route::delete('movimientos/eliminar/{movimiento}', [TransactionController::class, 'destroyImg'])->name('transactions.destroyimg');
 
 });

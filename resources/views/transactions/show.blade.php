@@ -32,27 +32,67 @@
                 <div class="row">
                 <div class="col-lg-4">
                     <h3 class="card-title text-uppercase font-weight-bold">Transacción numero #{{ $transactions->id }}
-                    @if($transactions->status == 'Activo') <span class="badge badge-success">{{ $transactions->status }}</span> @else <span class="badge badge-danger">{{ $transactions->status }}</span> @endif </h3>
-                </div>  
+                    @php
+                        if($transactions->status == 'Activo') {
+                            $myBadge = "badge badge-success";
+                        }else{
+                            $myBadge = "badge badge-danger";
+                        }
+                    @endphp
+                    <span class="{{$myBadge}}" id="myBadge">{{ $transactions->status }}</span>
 
+                    {{-- @if($transactions->status == 'Activo') <span class="badge badge-success" id="myBadge">{{ $transactions->status }}</span> @else <span class="badge badge-danger">{{ $transactions->status }}</span> @endif </h3> --}}
+                </div>  
+                
+                @php
+
+                @endphp
                 <div class="col-lg-8 justify-content-end align-items-right text-right">
+                    @can('transactions.update_status')                    
+                    @php
+                        if ($transactions->status == 'Activo') {
+                            $myColor = "btn btn-xl text-success mx-1 shadow text-center";
+                            $myIcon = "fa fa-lg fa-fw fas fa-check";   
+                            $myText = "Anular";                        
+                        }else{
+                            $myColor = "btn btn-xl text-danger mx-1 shadow text-center";
+                            $myIcon = "fa fa-lg fa-fw fas fa-times ";
+                            $myText = "Activar";
+                        }
+                    @endphp 
+
+                    <button class="{{ $myColor }}" 
+                        id="myBtnAnular"
+                        onclick="apiUpdateStatus();"
+                        title="Activo">
+                        <i id="myIcon" class="{{$myIcon}}"></i><p id="myText" style="display: block;">{{ $myText }}</p>
+                    </button>
+
                     {{--
                     @if($transactions->status == 'Activo')
-                        <button class="btn btn-xl text-success mx-1 shadow text-center" title="Activo">
+                        <button class="btn btn-xl text-success mx-1 shadow text-center" 
+                            id="myBtnAnular"
+                            onclick="apiUpdateStatus();"
+                            title="Activo">
                             <i class="fa fa-lg fa-fw fas fa-check"></i><p style="display: block;">Anular</p>
                         </button>
                     @else
-                        <button class="btn btn-xl text-success mx-1 shadow text-center disabled" title="Activo">
+                        <button 
+                            class="btn btn-xl text-success mx-1 shadow text-center " 
+                            onclick="apiUpdateStatus();"
+                            title="Activo">
                             <i class="fa fa-lg fa-fw fas fa-check"></i><p style="display: block;">Anular</p>
                         </button>                
                     @endif
+                    --}}
+
                     <button class="btn btn-xl text-success mx-1 shadow text-center " 
                         title="Activo"
                         onclick="window.location.href='{{route('transactions.edit2', $transactions->id)}}'"
                         >
                         <i class="fa fa-lg fa-fw fas fa-check"></i><p style="display: block;">Editar</p>
                     </button>
-                    --}}
+                    @endcan
                 </div>
 
                 </div>
@@ -442,5 +482,80 @@
       $(this).addClass('active');
     });
   })
+
+  function apiUpdateStatus(id){
+    //alert('apiUpdateStatus');
+    //return;
+    let data    = { id:  id };
+    let token   = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+    fetch("{{route('transactions.update_status_api', $transactions->id )}}",{
+        method:'POST',
+        headers:{
+            'Accept' : 'application/json',
+            'Content-Type' : 'application/json',
+            'X-CSRF-TOKEN': token
+        }
+    }).then(response => {
+        return response.json()
+    }).then(data =>{        
+        if(data.success){
+           // console.log('actualizo ->' + JSON.stringify(data));
+
+           // $('#myBtnAnular').attr('disabled',true);
+           if(data.result == "anulada"){
+
+                $myColor = "btn btn-xl text-danger mx-1 shadow text-center";
+
+                $('#myBtnAnular').removeClass("btn btn-xl text-success mx-1 shadow text-center");
+                $('#myBtnAnular').addClass("btn btn-xl text-danger mx-1 shadow text-center");
+
+                $('#myBadge').removeClass('badge badge-success');
+                $('#myBadge').addClass('badge badge-danger');
+                $('#myBadge').text('Anulada');
+
+                $('#myIcon').removeClass('fa fa-lg fa-fw fas fa-check');
+                $('#myIcon').addClass('fa fa-lg fa-fw fas fa-times');
+
+                $('#myText').text('Activar');
+
+                Swal.fire({
+                position: 'top-end',
+                title: 'Transaccion anulada satisfactoriamente',
+                showConfirmButton: false,
+                timer: 1500
+                });  
+                
+                
+           }else if(data.result == "activo"){
+
+                $('#myBtnAnular').removeClass("btn btn-xl text-danger mx-1 shadow text-center");
+                $('#myBtnAnular').addClass("btn btn-xl text-success mx-1 shadow text-center");
+
+                $('#myBadge').removeClass('badge badge-danger');
+                $('#myBadge').addClass('badge badge-success');
+                $('#myBadge').text('Activo');      
+              
+                $('#myIcon').removeClass('fa fa-lg fa-fw fas fa-times');
+                $('#myIcon').addClass('fa fa-lg fa-fw fas fa-check');
+
+                $('#myText').text('Anular');
+
+                Swal.fire({
+                position: 'top-end',
+                title: 'Transaccion Activada satisfactoriamente',
+                showConfirmButton: false,
+                timer: 1500
+                });                  
+           }
+
+         
+
+        }else{
+            // console.log('no actualizo ->');
+        }
+    }).catch(error => console.error( 'Error en Fetch -> ' + error));
+  }
+
   </script>
   @endsection

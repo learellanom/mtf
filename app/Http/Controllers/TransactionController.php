@@ -55,11 +55,11 @@ class TransactionController extends Controller
             $myFechaHasta = $request->fechaHasta;
          };
          //   dd(auth()->user()->roles);
-         \Log::info('leam - transaction index - aqui');
-         \Log::info('leam - transaction index - fecha desde - ' . $myFechaDesde . ' -- myFecha Hasta ->' . $myFechaHasta);
-         \Log::info('leam - transaction index - request fecha desde - ' . $request->fechaDesde . ' -- request myFecha Hasta ->' . $request->fechaHasta);
-         \Log::info('leam - transaction index - user  - ' . $myUser );
-         \Log::info('leam - transaction index - request  - ' . $request );
+        //  \Log::info('leam - transaction index - aqui');
+        //  \Log::info('leam - transaction index - fecha desde - ' . $myFechaDesde . ' -- myFecha Hasta ->' . $myFechaHasta);
+        //  \Log::info('leam - transaction index - request fecha desde - ' . $request->fechaDesde . ' -- request myFecha Hasta ->' . $request->fechaHasta);
+        //  \Log::info('leam - transaction index - user  - ' . $myUser );
+        //  \Log::info('leam - transaction index - request  - ' . $request );
          // dd($request);
          foreach(auth()->user()->roles as $roles)
          {
@@ -1064,9 +1064,27 @@ class TransactionController extends Controller
             ]);
             return Redirect::route('transactions.index')->with('success', 'Transacción activada  <strong># '. $transaction . '</strong>');
         }
-
+        // return response()->json(['success' => true, 'diets' => $diets], 200);
     }
 
+    public function update_status_api(Request $request, $transaction)
+    {
+        $transactions = Transaction::find($transaction);
+
+        if($transactions->status == 'Activo'){
+            Transaction::findOrFail($transaction)->update([
+                'status' => 'Anulado',
+            ]);
+            return response()->json(['success' => true, 'result' => 'anulada', 'message' => 'Transaccion anulada'], 200);
+        }
+        elseif($transactions->status == 'Anulado'){
+            Transaction::findOrFail($transaction)->update([
+                'status' => 'Activo',
+            ]);
+            return response()->json(['success' => true, 'result' => 'activo', 'message' => 'Transaccion anulada'], 200);
+        }
+        // return response()->json(['success' => true, 'result' => 'anulada', 'message' => 'Transaccion anulada'], 200);
+    }
 
     public function destroyImg($transaction){
 

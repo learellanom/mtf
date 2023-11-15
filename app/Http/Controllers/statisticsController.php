@@ -2591,7 +2591,7 @@ class statisticsController extends Controller
     *
     */
     function commissionsProfit(Request $request){
-        \Log::info('leam - statisticsController - commissionsProfit - el wallet es ->' . $request->wallet);
+        // \Log::info('leam - statisticsController - commissionsProfit - el wallet es ->' . $request->wallet);
         // $request->wallet        = 89;   // abu mahmud
         // $request->wallet        = 93;   // caja usdt
         // $request->wallet        = 139;  // caja principal usdt
@@ -3027,7 +3027,7 @@ class statisticsController extends Controller
     *
     */
     function commissionsProfitRes(Request $request){
-        \Log::info('leam - statisticsController - commissionsProfit - el wallet es ->' . $request->wallet);
+        // \Log::info('leam - statisticsController - commissionsProfit - el wallet es ->' . $request->wallet);
         // $request->wallet        = 89;   // abu mahmud
         // $request->wallet        = 93;   // caja usdt
         // $request->wallet        = 139;  // caja principal usdt
