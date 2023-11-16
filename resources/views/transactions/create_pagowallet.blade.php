@@ -5,11 +5,19 @@
 @section('title', 'Pagos del Proveedor')
 @section('content_header')
 
-    <h1 class="text-center text-dark font-weight-bold text-uppercase">{{ __('Pagos del Proveedor...') }}<i class="fas fa-donate"></i> </h1></a>
+    <h1 class="text-center text-dark font-weight-bold text-uppercase">{{ __('Pagos del Proveedor') }}<i class="fas fa-donate"></i> </h1></a>
 
 
 @stop
 
+@php
+    
+    $fecha = now();
+
+    //echo $fecha;
+    //die();
+
+@endphp 
 
 @section('content')
 
@@ -94,7 +102,7 @@
                                 {!! Form::Label('transaction_date', "Fecha:") !!}
                                 <div class="input-group-text">
                                     <i class="fa-fw fas fas fa-calendar-week mr-2"></i>
-                                {!! Form::datetimeLocal('transaction_date', $fecha, ['class' => 'form-control', 'required' => true, 'id' => 'fecha']) !!}
+                                    {!! Form::datetimeLocal('transaction_date', $fecha, ['class' => 'form-control', 'required' => true, 'id' => 'fecha']) !!}
                                 </div>
                             </div>
 
@@ -685,7 +693,48 @@
         $('#amount_commission_profit').val(amount_commission_profit);
 
     }
+    let myWallet = {{ $myWallet ?? 0 }};
+    if (myWallet > 0) {
+        alert('my Wallet ');
+    }
+    setInterval(function() {
+            let fecha;
+                fecha = new Date();
+            // alert(fecha);
+            // console.log(fecha);
+            // console.log(fecha.getDate());
+            // console.log(fecha.getMonth() + 1);
+            // console.log(fecha.getFullYear());
+            // console.log(fecha.getHours());
+            // console.log(fecha.getMinutes());
+            // console.log(fecha.getSeconds());
 
+            let mes = fecha.getMonth();
+                mes = mes < 10 ? "0" + mes : mes;
+
+            let dia = fecha.getDate();
+                dia = dia < 10 ? "0" + dia : dia;
+
+            let segundos
+                segundos    = fecha.getSeconds();
+                segundos    = segundos  < 10 ? "0" + segundos : segundos;
+            let hora;
+                hora = fecha.getHours();
+                hora = hora < 10 ? "0" + hora : hora;
+            let minutos;
+                minutos = fecha.getMinutes();
+                minutos = fecha.getMinutes() < 10 ? "0" + minutos : minutos;
+
+            let laFecha = 
+                fecha.getFullYear() + '-' +
+                mes + '-' +
+                dia + 'T' +
+                hora + ':' +
+                minutos
+                
+            console.log(laFecha);
+           $('#fecha').val(laFecha);
+    },3000)
 
 
 </script>
