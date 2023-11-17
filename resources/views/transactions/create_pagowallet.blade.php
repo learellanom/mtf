@@ -319,7 +319,6 @@
 
     $(document).ready(function() {
 
-
         $(".typecoin").select2({
             placeholder: "Seleccionar Moneda",
             theme: 'bootstrap4',
@@ -693,10 +692,16 @@
         $('#amount_commission_profit').val(amount_commission_profit);
 
     }
-    let myWallet = {{ $myWallet ?? 0 }};
-    if (myWallet > 0) {
-        alert('my Wallet ');
-    }
+
+    
+        let myWallet = {{ $myWallet ?? 0 }};
+    
+        if (myWallet > 0) {
+            
+            BuscaWallet(myWallet);
+            BuscaWallet2(myWallet);
+        }
+     
     setInterval(function() {
             let fecha;
                 fecha = new Date();
@@ -735,6 +740,42 @@
             console.log(laFecha);
            $('#fecha').val(laFecha);
     },3000)
+
+
+    function BuscaWallet(miWallet = ""){
+
+        if (miWallet == "") return;
+        
+        $('#wallet3 option').each( function(index, element){
+
+                
+                if ($(this).attr('val')  === miWallet.toString()){   
+
+                    $("#wallet3 option[val="+ miWallet +"]").prop('selected',true);
+                }
+
+            
+        });
+    }
+
+
+    function BuscaWallet2(miWallet){
+        if (miWallet===0){
+            return;
+        }
+
+        $('#wallet').each( function(index, element){
+
+            $(this).children("option").each(function(){
+                if ($(this).val() === miWallet.toString()){
+                    
+                    $("#wallet option[val="+ miWallet +"]").prop('selected',true);
+                    $("#wallet").change();
+                }
+
+            });
+        });
+    }
 
 
 </script>

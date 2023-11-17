@@ -399,8 +399,8 @@ class TransactionController extends Controller
         $type_coin          = Type_coin::pluck('name', 'id');
         $type_transaction   = Type_transaction::whereIn('name', ['Pago Efectivo', 'Pago en Transferencia', 'Pago Mercancia','Pago USDT','Swift'])->pluck('name','id');
         $type_transaction2  = Type_transaction::whereIn('name', ['Nota de Credito a Caja de efectivo', 'Nota de credito'])->pluck('name','id');
-        $wallet             = Group::whereIn('type_wallet', ['transacciones', 'efectivo'])->where('type','=','2')->pluck('name', 'id');
-        $wallet2            = Group::whereIn('type_wallet', ['transacciones', 'efectivo'])->where('type','=','2')->pluck('name', 'id');
+        $wallet             = Group::whereIn('type_wallet', ['transacciones', 'efectivo'])->where('type','=','2')->pluck('name', 'id')->toArray();
+        $wallet2            = Group::whereIn('type_wallet', ['transacciones', 'efectivo'])->where('type','=','2')->pluck('name', 'id')->toArray();
         $user               = User::pluck('name', 'id');
         $fecha              = Carbon::now();
 
@@ -457,7 +457,29 @@ class TransactionController extends Controller
          flash()->addSuccess('Movimiento guardado', 'Transacción', ['timeOut' => 3000]);
 
          // return Redirect::back()->withInput();
-         return Redirect::back();
+
+        $type_coin          = Type_coin::pluck('name', 'id');
+        $type_transaction   = Type_transaction::whereIn('name', ['Pago Efectivo', 'Pago en Transferencia', 'Pago Mercancia','Pago USDT','Swift'])->pluck('name','id');
+        $type_transaction2  = Type_transaction::whereIn('name', ['Nota de Credito a Caja de efectivo', 'Nota de credito'])->pluck('name','id');
+        $wallet             = Group::whereIn('type_wallet', ['transacciones', 'efectivo'])->where('type','=','2')->pluck('name', 'id')->toArray();
+        $wallet2            = Group::whereIn('type_wallet', ['transacciones', 'efectivo'])->where('type','=','2')->pluck('name', 'id')->toArray();
+        $user               = User::pluck('name', 'id');
+        $fecha              = Carbon::now();
+
+        $parameters['myWallet']             = $request->input('wallet_id');
+        $parameters['myWallet2']            = $request->input('wallet2_id');
+        $parameters['myTypeTransactionId']  = $request->input('type_transaction_id');
+
+        $parameters['type_coin']            = $type_coin;
+        $parameters['type_transaction']     = $type_transaction;
+        $parameters['type_transaction2']    = $type_transaction2;
+        $parameters['wallet']               = $wallet;
+        $parameters['wallet2']              = $wallet2;
+        $parameters['user']                 = $user;
+        $parameters['fecha']                = $fecha;
+
+        // return Redirect::back()-with($parameters);
+        return view('transactions.create_pagowallet',$parameters);
     }
 
     public function index_pagoclientes(transaction $transaction)
