@@ -33,6 +33,7 @@
                         <table class="table table-bordered table-responsive-lg" id="tipo">
                             <thead>
                                 <tr>
+                                    <th>Id</th>
                                     <th>Nombre</th>
                                     <th>Descripción</th>
                                     <th>Tipo Transaccion</th>            
@@ -47,7 +48,7 @@
                             
                             @foreach($transactions as $transaction)
                                 <tr>
-
+                                    <td>{!! $transaction->id !!}</td>
                                     <td>{!! $transaction->name !!}</td>
                                     <td>{!! $transaction->description !!}</td>
                                     <td>{!! $transaction->type_transaction !!}</td>

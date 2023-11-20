@@ -371,7 +371,7 @@ return [
                 [
                     'text' => 'Consolidado',
                     'url'  => 'dashboardComisiones',
-                    'classes'   =>  'ml-4',                             
+                    'classes'   =>  'ml-4',              
                     'can'  => 'dashboardComisiones',
                     'icon_color' => 'primary',                    
                 ],                 

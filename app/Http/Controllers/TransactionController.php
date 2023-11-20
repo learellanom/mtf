@@ -26,7 +26,14 @@ class TransactionController extends Controller
      */
      public function index(Request $request, transaction $transaction)
     {
-
+        /*
+        if (!$request->query('user')){
+            \Log::info('leam - transaction controller - no user');
+        }
+        if ($request->query('user')){
+            \Log::info('leam - con user');
+        }
+        */
         $parameters     = $request->query();
 
         $user           = $request->query('user');        
@@ -47,7 +54,7 @@ class TransactionController extends Controller
         // $myFechaDesde = $this->get03DayBefore($myFechaHasta);
         // $myFechaDesde = $this->get01DayBefore($myFechaHasta);        
         $myFechaDesde = $this->get07DayBefore($myFechaHasta);
-
+        
          if($fechaDesde){
             $myFechaDesde = $request->fechaDesde;
          };
@@ -80,7 +87,6 @@ class TransactionController extends Controller
                 ->orderBy('created_at','desc')
                 ->get();
                 
-                
             }
             else{
                 /*
@@ -111,6 +117,8 @@ class TransactionController extends Controller
         $parametros['transferencia']    = $transferencia;
         $parametros['myUser']           = $myUser;
         $parametros['user']             = $user;
+
+        // dd($transferencia);
 
         return view('transactions.index', $parametros);
 
@@ -291,36 +299,104 @@ class TransactionController extends Controller
 
     }
 
-    public function index_pagowallet(transaction $transaction)
+    public function index_pagowallet(request $request, transaction $transaction)
     {
-         foreach(auth()->user()->roles as $roles)
-         {
-                $transactiones = DB::select('select
-                mtf.transactions.id as TransactionId,
-                    pay_number as TransferNumber,
-                IF(type_transactions.name = "Nota de Credito a Caja de efectivo" or type_transactions.name = "Nota de credito", "Destino", "Origen") as TransferType,
-                    wallet_id as WalletIdOrigen,
-                    groups.name as WalletNameOrigen,
-                    amount_total as Amount,
-                    transaction_date as TransactionDate,
-                    users.name as Agente,
-                    status as estatus,
-                    type_transaction_id as TypeTransactionId,
-                    transactions.description as Description,
-                    type_transactions.name as TypeTransactionName,
-                    transactions.amount_commission_base as ComisionBase,
-                    transactions.percentage_base as PorcentageBase,
-                    transactions.exonerate_base as ExonerateBase,
-                    transactions.amount_total_base as TotalBase
-                    from mtf.transactions
-                    left join  mtf.groups on mtf.transactions.wallet_id = groups.id
-                    left join  mtf.type_transactions on mtf.transactions.type_transaction_id  = mtf.type_transactions.id
-                    left join  mtf.users on mtf.transactions.user_id  = mtf.users.id
-                    where pay_number LIKE "%P-G" != "" order by pay_number desc');
 
-         }
+        \Log::info('leam - auth()->id() - es -> ' . auth()->id() . ' -- isAdministrator -> ' . $this->isAdministrator());
 
-         return view('transactions.index_pagowallet', compact('transactiones'));
+
+
+        $user           = $request->query('user');        
+        $fechaDesde     = $request->query('fechaDesde');
+        $fechaHasta     = $request->query('fechaHasta');
+        \Log::info('leam - user ->' . $user);
+        $myUser         = 0;
+        $myUsuarioDesde = 0;
+        $myUsuarioHasta = 999999;
+        if ($user){
+            $myUser         = $request->user;
+            $myUsuarioDesde = $request->user;
+            $myUsuarioHasta = $request->user;
+        }
+
+
+        $myFechaHasta = date("Y-m-d");
+        // $myFechaDesde = $this->get03DayBefore($myFechaHasta);
+        // $myFechaDesde = $this->get01DayBefore($myFechaHasta);        
+        $myFechaDesde = $this->get07DayBefore($myFechaHasta);
+        if($fechaDesde){
+            $myFechaDesde = $request->fechaDesde;
+         };
+         if($fechaHasta){
+            $myFechaHasta = $request->fechaHasta;
+         };
+
+        // if ($this->isAdministrator()){
+
+        $myUserDesde    = 0;
+        $myUserHasta    = 9999;
+        $limit          = "";
+        switch($this->isAdministrator()){
+            case true:
+                $limit = "limit 200";
+                break;
+            case false:
+                $myUserDesde    = auth()->id();
+                $myUserHasta    = auth()->id();
+                break;
+        }
+
+            \Log::info('leam - myUserDesde -> ' . $myUserDesde . ' -- myUserHasta -> ' . $myUserHasta);
+
+            $query = 
+                "select
+                mtf.transactions.id                 as TransactionId,
+                pay_number                          as TransferNumber,
+                IF(
+                    type_transactions.name = 'Nota de Credito a Caja de efectivo' 
+                or  type_transactions.name = 'Nota de credito', 'Destino', 'Origen'
+                ) 
+                                                    as TransferType,
+                wallet_id                           as WalletIdOrigen,
+                groups.name                         as WalletNameOrigen,
+                amount_total                        as Amount,
+                transaction_date                    as TransactionDate,
+                users.name                          as Agente,
+                status                              as estatus,
+                type_transaction_id                 as TypeTransactionId,
+                transactions.description            as Description,
+                type_transactions.name              as TypeTransactionName,
+                transactions.amount_commission_base as ComisionBase,
+                transactions.percentage_base        as PorcentageBase,
+                transactions.exonerate_base         as ExonerateBase,
+                transactions.amount_total_base      as TotalBase
+                from mtf.transactions
+                left join  mtf.groups on mtf.transactions.wallet_id                         = groups.id
+                left join  mtf.type_transactions on mtf.transactions.type_transaction_id    = mtf.type_transactions.id
+                left join  mtf.users on mtf.transactions.user_id                            = mtf.users.id
+                where pay_number LIKE '%P-G' != ''
+                and user_id between $myUsuarioDesde and $myUsuarioHasta
+                and mtf.transactions.created_at between '$myFechaDesde 00:00:00' and '$myFechaHasta 23:59:59'
+                order by pay_number desc
+                $limit
+                ";
+
+        $transacciones = DB::select($query);
+        $user           = User::pluck('name', 'id')->toArray();
+
+        $myFechaDesde2  =  substr($myFechaDesde,8,2) . '-' . substr($myFechaDesde,5,2) . '-' . substr($myFechaDesde,0,4);
+        $myFechaHasta2  =  substr($myFechaHasta,8,2) . '-' . substr($myFechaHasta,5,2) . '-' . substr($myFechaHasta,0,4);
+
+         // dd($query
+         \Log::info('leam - query ->' . $query);
+
+        $parameters['fechaDesde']       = $myFechaDesde2;
+        $parameters['fechaHasta']       = $myFechaHasta2;
+        $parameters['myUser']           = $myUser;
+        $parameters['transacciones']    = $transacciones;
+        $parameters['user']             = $user;
+
+        return view('transactions.index_pagowallet', $parameters);
 
     }
 
@@ -397,8 +473,12 @@ class TransactionController extends Controller
     {
 
         $type_coin          = Type_coin::pluck('name', 'id');
-        $type_transaction   = Type_transaction::whereIn('name', ['Pago Efectivo', 'Pago en Transferencia', 'Pago Mercancia','Pago USDT','Swift'])->pluck('name','id');
+        // $type_transaction   = Type_transaction::whereIn('name', ['Pago Efectivo', 'Pago en Transferencia', 'Pago Mercancia','Pago USDT','Swift'])->pluck('name','id');
+        $type_transaction   = Type_transaction::whereIn('id', [1,3,5,9,11])->pluck('name','id');
+
         $type_transaction2  = Type_transaction::whereIn('name', ['Nota de Credito a Caja de efectivo', 'Nota de credito'])->pluck('name','id');
+        //$type_transaction2  = Type_transaction::whereIn('id', [6])->pluck('name','id');
+
         $wallet             = Group::whereIn('type_wallet', ['transacciones', 'efectivo'])->where('type','=','2')->pluck('name', 'id')->toArray();
         $wallet2            = Group::whereIn('type_wallet', ['transacciones', 'efectivo'])->where('type','=','2')->pluck('name', 'id')->toArray();
         $user               = User::pluck('name', 'id');
@@ -1026,6 +1106,7 @@ class TransactionController extends Controller
        //  dd($request->all());
 
         Transaction::find($transaction)->update($request->all());
+
         $movimientos = Transaction::findOrFail($transaction);
         $file = [];
 

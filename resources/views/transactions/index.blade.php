@@ -10,18 +10,18 @@
 @stop
 @php
 
-$config2 =
-[
-    "allowClear" => true,
-];
+    $config2 =
+    [
+        "allowClear" => true,
+    ];
 
-$config3 = [
-    "locale" => ["format" => "DD-MM-YYYY"],
-    "allowClear" => true,
-];
+    $config3 = [
+        "locale" => ["format" => "DD-MM-YYYY"],
+        "allowClear" => true,
+    ];
 
-$myClass	        = new app\Http\Controllers\TransactionController;
-$myAdministrator    = $myClass->isAdministrator();
+    $myClass	        = new app\Http\Controllers\TransactionController;
+    $myAdministrator    = $myClass->isAdministrator();
 
 @endphp 
 
@@ -131,10 +131,10 @@ $myAdministrator    = $myClass->isAdministrator();
                                 <tr>
                                     <td class="font-weight-bold">{{ $transferencias->id }}</td>
                                     <td class="font-weight-bold">
-                                            {{ $transferencias->wallet->name}}
+                                            {{ $transferencias->wallet->name ?? "" }}
                                     </td>                                    
                                     <td class="font-weight-bold">
-                                            {{ $transferencias->group->name }}
+                                            {{ $transferencias->group->name ?? "" }}
                                     </td>
 
 
