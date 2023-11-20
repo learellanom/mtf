@@ -202,33 +202,35 @@ class statisticsController extends Controller
     */
     public function index_all(Request $request)
     {
-
+        
         $myUser = 0;
         if ($request->usuario) {
             $myUser = $request->usuario;
         }
 
-        $myGroup = 0;
+        $myGroup        = 0;
+        $myGroupDesde   = 0;
+        $myGroupHasta   = 9999;        
         if ($request->grupo) {
-            $myGroup = $request->grupo;
+            $myGroup        = $request->grupo;
+            $myGroupDesde   = $request->grupo;
+            $myGroupHasta   = $request->grupo;
         }
 
         $myWallet       = 0;
         $myWalletDesde  = 0;
         $myWalletHasta  = 9999;
         if ($request->wallet) {
-            $myWallet = $request->wallet;
-        }
-        if ($myWallet != 0){
-            $myWalletDesde = $myWallet;
-            $myWalletHasta = $myWallet;
+            $myWallet       = $request->wallet;
+            $myWalletDesde  = $request->wallet;
+            $myWalletHasta  = $request->wallet;
         }
         // dd('myWalletDesde -> ' . $myWalletDesde . 'myWalletDesde ->  ' . $myWalletHasta);
-        $myHoraDesde = "00:00:00";
-        $myHoraHasta = "23:59:00";
+        $myHoraDesde    = "00:00:00";
+        $myHoraHasta    = "23:59:00";
 
-        $myFechaDesde = "2001-01-01";
-        $myFechaHasta = "9999-12-31";
+        $myFechaDesde   = "2001-01-01";
+        $myFechaHasta   = "9999-12-31";
         if ($request->fechaDesde){
             $myFechaDesde = $request->fechaDesde;
             $myFechaHasta = $request->fechaHasta;
@@ -251,9 +253,6 @@ class statisticsController extends Controller
             $myTypeTransactions         = $request->typeTransactions;
             $myTypeTransactionsDesde    = $request->typeTransactions;
             $myTypeTransactionsHasta    = $request->typeTransactions;
-        }else{
-            $myTypeTransactionsDesde    = 0;
-            $myTypeTransactionsHasta    = 9999;
         }
 
         // token
@@ -273,7 +272,6 @@ class statisticsController extends Controller
         $balanceBefore  = 0;
 
         if ($myGroup > 0){
-            // dd('mygroup -> ' . $myGroup);
 
             $balance            = $this->getBalance($myGroup);
             $balanceBefore      = $this->getBalanceBefore($myGroup,$myFechaDesde, $myFechaHasta);
@@ -292,19 +290,11 @@ class statisticsController extends Controller
         $myUserDesde = 0;
         $myUserHasta = 9999;
 
-        $myGroupDesde = 0;
-        $myGroupHasta = 9999;
-
-
-
         if ($myUser != 0){
             $myUserDesde = $myUser;
             $myUserHasta = $myUser;
         }
-        if ($myGroup != 0){
-            $myGroupDesde = $myGroup;
-            $myGroupHasta = $myGroup;
-        }
+
         /*
         \Log::info('leam usuario *** -> ' . $request->usuario);
         \Log::info('leam cliente *** -> ' . $request->cliente);
@@ -327,6 +317,8 @@ class statisticsController extends Controller
 
         //  print_r($myGroup);
          // dd($myGroup);
+         $Transacciones = [];
+
         if ($myGroup != 0){
             $Transacciones = Transaction::select(
                 'Transactions.id                        as Id',
@@ -383,7 +375,7 @@ class statisticsController extends Controller
             }
             // dd('aqui');
 
-        }else{
+        }else {
 
             $myQuery =
             "
@@ -428,13 +420,12 @@ class statisticsController extends Controller
                     $myTokenCondition
                 order by
                     Transactions.transaction_date ASC
-                limit 3000
+                limit 300
             ";
     
             // dd($myQuery);
             // \Log::info('leam My query *** -> ' . $myQuery);
             $Transacciones = DB::select($myQuery);
-    
 
         }
 
@@ -521,12 +512,12 @@ class statisticsController extends Controller
         // \Log::info('leam wallet *** -> ' . $request->wallet);
 
 
-        $myUserDesde = 0;
-        $myUserHasta = 9999;
+        $myUserDesde    = 0;
+        $myUserHasta    = 9999;
         $myClienteDesde = 0;
         $myClienteHasta = 9999;
-        $myWalletDesde = 0;
-        $myWalletHasta = 9999;
+        $myWalletDesde  = 0;
+        $myWalletHasta  = 9999;
 
         if ($myUser != 0){
             $myUserDesde = $myUser;
@@ -2395,6 +2386,7 @@ class statisticsController extends Controller
         $myTempCredits  = $this->getWalletCredits();
         $myTempDebits   = $this->getWalletDebits();
          // dd("wallet debits ->" . $myTempDebits . " wallet credits ->" . $myTempCredits ); // ajuax
+         
         //
         // 26-04-2023
         //

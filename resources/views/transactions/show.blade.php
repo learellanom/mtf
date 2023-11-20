@@ -10,6 +10,12 @@
 
 @stop
 
+@php
+
+$myClass	        = new app\Http\Controllers\TransactionController;
+$myAdministrator    = $myClass->isAdministrator();
+
+@endphp
 
 @section('content')
 
@@ -48,50 +54,57 @@
 
                     @endphp
                     <div class="col-lg-8 justify-content-end align-items-right text-right">
-                        @can('transactions.update_status')                    
-                        @php
-                            if ($transactions->status == 'Activo') {
-                                $myColor = "btn btn-xl text-success mx-1 shadow text-center";
-                                $myIcon = "fa fa-lg fa-fw fas fa-check";   
-                                $myText = "Anular";                        
-                            }else{
-                                $myColor = "btn btn-xl text-danger mx-1 shadow text-center";
-                                $myIcon = "fa fa-lg fa-fw fas fa-times ";
-                                $myText = "Activar";
-                            }
-                        @endphp 
-
-                        <button class="{{ $myColor }}" 
-                            id="myBtnAnular"
-                            onclick="apiUpdateStatus();"
-                            title="Activo">
-                            <i id="myIcon" class="{{$myIcon}}"></i><p id="myText" style="display: block;">{{ $myText }}</p>
-                        </button>
-
-                        {{--
-                        @if($transactions->status == 'Activo')
-                            <button class="btn btn-xl text-success mx-1 shadow text-center" 
-                                id="myBtnAnular"
-                                onclick="apiUpdateStatus();"
-                                title="Activo">
-                                <i class="fa fa-lg fa-fw fas fa-check"></i><p style="display: block;">Anular</p>
-                            </button>
-                        @else
-                            <button 
-                                class="btn btn-xl text-success mx-1 shadow text-center " 
-                                onclick="apiUpdateStatus();"
-                                title="Activo">
-                                <i class="fa fa-lg fa-fw fas fa-check"></i><p style="display: block;">Anular</p>
-                            </button>                
-                        @endif
-                        --}}
-
-                        <button class="btn btn-xl text-success mx-1 shadow text-center " 
-                            title="Activo"
-                            onclick="window.location.href='{{route('transactions.edit2', $transactions->id)}}'"
-                            >
-                            <i class="fas fa-lg fa-fw fa-coins"></i><p style="display: block;">Editar</p>
-                        </button>
+                        
+                        @can('transactions.update_status')            
+                            @php
+                                $indMuestra = 1;
+                                if ($myAdministrator == false){
+                                    if ($transactions->user_id != auth()->id()){
+                                        $indMuestra = 0;
+                                    }
+                                }
+                                if ($transactions->status == 'Activo') {
+                                    $myColor = "btn btn-xl text-success mx-1 shadow text-center";
+                                    $myIcon = "fa fa-lg fa-fw fas fa-check";
+                                    $myText = "Anular";                        
+                                }else{
+                                    $myColor = "btn btn-xl text-danger mx-1 shadow text-center";
+                                    $myIcon = "fa fa-lg fa-fw fas fa-times ";
+                                    $myText = "Activar";
+                                }
+                            @endphp 
+                            @if($indMuestra == 1)
+                                <button class="{{ $myColor }}" 
+                                    id="myBtnAnular"
+                                    onclick="apiUpdateStatus();"
+                                    title="Activo">
+                                    <i id="myIcon" class="{{$myIcon}}"></i><p id="myText" style="display: block;">{{ $myText }}</p>
+                                </button>
+                                <button class="btn btn-xl text-success mx-1 shadow text-center " 
+                                    title="Activo"
+                                    onclick="window.location.href='{{route('transactions.edit2', $transactions->id)}}'"
+                                    >
+                                    <i class="fas fa-lg fa-fw fa-coins"></i><p style="display: block;">Editar</p>
+                                </button>
+                            @else
+                                <button class="{{ $myColor }}" 
+                                    id="myBtnAnular"
+                                    onclick=""
+                                    title="Activo"
+                                    disabled
+                                    style="color: gray !important;"
+                                    >
+                                    <i id="myIcon" class="{{$myIcon}}"></i><p id="myText" style="display: block;">{{ $myText }}</p>
+                                </button>
+                                <button class="btn btn-xl text-success mx-1 shadow text-center " 
+                                    title="Activo"
+                                    onclick=""
+                                    disabled
+                                    style="color: gray !important;"
+                                    >
+                                    <i class="fas fa-lg fa-fw fa-coins"></i><p style="display: block;">Editar</p>
+                                </button>                            
+                            @endif
                         @endcan
                     </div>
                 </div>

@@ -106,7 +106,7 @@
                                 </div>
                             </div>
 
-
+                            
                             {!! Form::hidden('type_transaction2_id', null, ['class' => 'form-control transaccion','required' => true, 'id' => 'typetransaccion2']) !!}
                         </div>
                     </div>
@@ -330,10 +330,10 @@
         $("#typecoin").trigger("change");
 
         $("#typetransaccion").select2({
-        placeholder: "Selecciona tipo transferencia",
-        theme: 'bootstrap4',
-        search: false,
-        width: '100%'
+            placeholder: "Selecciona tipo transferencia",
+            theme: 'bootstrap4',
+            search: false,
+            width: '100%'
         });
 
         $("#typetransaccion").val("");
@@ -487,14 +487,16 @@
             // Capturar dato seleccionado
             var selectedValue = this.value;
             var option = $("#typetransaccion option:selected").text();
+            var optionId = $("#typetransaccion option:selected").val();
             // Realizar la acción deseada en función del valor seleccionado
-            if (option == 'Pago Efectivo')
+            // if (option == 'Pago Efectivo')
+            if (optionId == 3)            
             {
-                $('#typetransaccion2').val(6);
+                $('#typetransaccion2').val(6); // Nota de Credito a Caja de efectivo
             }
             else
             {
-                $('#typetransaccion2').val(7);
+                $('#typetransaccion2').val(7); // Nota de credito
             }
         });
 
@@ -701,7 +703,7 @@
             BuscaWallet(myWallet);
             BuscaWallet2(myWallet);
         }
-     
+     /*
     setInterval(function() {
             let fecha;
                 fecha = new Date();
@@ -740,7 +742,7 @@
             console.log(laFecha);
            $('#fecha').val(laFecha);
     },3000)
-
+    */
 
     function BuscaWallet(miWallet = ""){
 
