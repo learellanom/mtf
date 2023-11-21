@@ -153,6 +153,7 @@ $config4 = [
                                     <tr>
                                             <th style="width:1%; display: none;">Id</th>
                                             <th style="width:10%;">Cliente</th>
+                                            <th style="width:10%;">Cant</th>
                                             <th style="width:10%;">Monto Creditos</th>
                                             <th style="width:10%;">Monto Debitos</th>                                            
                                             <th style="width:10%;">Saldo Total</th>
@@ -164,6 +165,7 @@ $config4 = [
                                         <tr>
                                             <td style="display: none;">{!! $row->IdGrupo !!}</td>                                        
                                             <td>{!! $row->NombreGrupo !!}</td>
+                                            <td>{!! number_format($row->Cant,0,".") !!}</td>
                                             <td>{!! number_format($row->Creditos,2,".") !!}</td>
                                             <td>{!! number_format($row->Debitos,2,".") !!}</td>                                       
                                             <td>{!! number_format($row->Total,2,".") !!}</td>
@@ -248,7 +250,7 @@ $(document).ready(function () {
     $('.ms-container .ms-selection .ms-list').css("width","30rem");
     */
     @foreach($groups as $key => $group)
-        console.log('el grupo con key {!! $key !!} es {!! $group !!}');
+        // console.log('el grupo con key {!! $key !!} es {!! $group !!}');
         $('#my-select').multiSelect('addOption', { value: '{!! $key !!}', text: '{!! $group !!}' });        
     @endforeach
 
@@ -445,8 +447,8 @@ $(document).ready(function () {
         const myFechaDesde = {!! isset($myFechaDesde) ?? 0 !!};
         const myFechaHasta = {!! isset($myFechaHasta) ?? 0 !!};
         
-        BuscaFechas(myFechaDesde, myFechaHasta);
-
+        // BuscaFechas(myFechaDesde, myFechaHasta);
+        BuscaFechasBlade();
         
 
 
@@ -663,6 +665,35 @@ $(document).ready(function () {
 
         $('#drCustomRanges').data('daterangepicker').setStartDate(myFechaDesde);
         $('#drCustomRanges').data('daterangepicker').setEndDate(myFechaHasta);
+
+    }
+
+    function BuscaFechasBlade(){
+
+        let myFechaAnio  = {{ substr($myFechaDesde,0,4) }};
+        let myFechaMes   = {{ substr($myFechaDesde,5,2) }};
+        let myFechaDia   = {{ substr($myFechaDesde,8,2) }};
+
+        myFechaMes       = myFechaMes.toString().length == 1 ? '0' + myFechaMes.toString() : myFechaMes;
+        myFechaDia       = myFechaDia.toString().length == 1 ? '0' + myFechaDia.toString() : myFechaDia;
+
+        let myFechaDesde2 = myFechaDia.toString().concat('-', myFechaMes, '-', myFechaAnio)
+
+        myFechaAnio  = {{ substr($myFechaHasta,0,4) }};
+        myFechaMes   = {{ substr($myFechaHasta,5,2) }};
+        myFechaDia   = {{ substr($myFechaHasta,8,2) }};
+
+        myFechaMes       = myFechaMes.toString().length == 1 ? '0' + myFechaMes.toString() : myFechaMes;
+        myFechaDia       = myFechaDia.toString().length == 1 ? '0' + myFechaDia.toString() : myFechaDia;
+
+        let myFechaHasta2 = myFechaDia.toString().concat('-', myFechaMes, '-', myFechaAnio);
+
+
+        console.log('myFechaDesde2 ->' + myFechaDesde2);
+        console.log('myFechaHasta2 ->' + myFechaHasta2);
+
+        $('#drCustomRanges').data('daterangepicker').setStartDate(myFechaDesde2);
+        $('#drCustomRanges').data('daterangepicker').setEndDate(myFechaHasta2);
 
     }
 

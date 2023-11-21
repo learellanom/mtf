@@ -459,7 +459,9 @@ $config4 = [
         const myFechaDesde = {!! $myFechaDesde !!};
         const myFechaHasta = {!! $myFechaHasta !!};
 
-        BuscaFechas(myFechaDesde, myFechaHasta);
+        // BuscaFechas(myFechaDesde, myFechaHasta);
+        BuscaFechasBlade();
+
 
         $('#wallet').on('change', function (){
 
@@ -548,7 +550,7 @@ $config4 = [
             myRoute = myRoute.replace('fechaDesde2',fechaDesde);
             myRoute = myRoute.replace('fechaHasta2',fechaHasta);
         // console.log(myRoute);
-        // alert(myRoute);
+        //alert(myRoute);
         location.href = myRoute;
 
     }
@@ -588,8 +590,37 @@ $config4 = [
         });
     }
 
+    function BuscaFechasBlade(){
+
+        let myFechaAnio  = {{ substr($myFechaDesde,0,4) }};
+        let myFechaMes   = {{ substr($myFechaDesde,5,2) }};
+        let myFechaDia   = {{ substr($myFechaDesde,8,2) }};
+
+        myFechaMes       = myFechaMes.toString().length == 1 ? '0' + myFechaMes.toString() : myFechaMes;
+        myFechaDia       = myFechaDia.toString().length == 1 ? '0' + myFechaDia.toString() : myFechaDia;
+
+        let myFechaDesde2 = myFechaDia.toString().concat('-', myFechaMes, '-', myFechaAnio)
+   
+        myFechaAnio  = {{ substr($myFechaHasta,0,4) }};
+        myFechaMes   = {{ substr($myFechaHasta,5,2) }};
+        myFechaDia   = {{ substr($myFechaHasta,8,2) }};
+
+        myFechaMes       = myFechaMes.toString().length == 1 ? '0' + myFechaMes.toString() : myFechaMes;
+        myFechaDia       = myFechaDia.toString().length == 1 ? '0' + myFechaDia.toString() : myFechaDia;
+   
+        let myFechaHasta2 = myFechaDia.toString().concat('-', myFechaMes, '-', myFechaAnio);
+
+
+        console.log('myFechaDesde2 ->' + myFechaDesde2);
+        console.log('myFechaHasta2 ->' + myFechaHasta2);
+
+        $('#drCustomRanges').data('daterangepicker').setStartDate(myFechaDesde2);
+        $('#drCustomRanges').data('daterangepicker').setEndDate(myFechaHasta2);
+
+    }
 
     function BuscaFechas(FechaDesde = 0,FechaHasta = 0){
+
 
         myLocation  = window.location.toString();
 
