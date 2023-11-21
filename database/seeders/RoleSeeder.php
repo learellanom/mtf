@@ -113,5 +113,6 @@ class RoleSeeder extends Seeder
         Permission::create(['name' => 'dashboardComisiones', 'description' => 'Dashboard de Comisiones'])->assignRole($role1);
         Permission::create(['name' => 'dashboardComisionesGrupo', 'description' => 'Consolidado de Comisiones por Grupo'])->assignRole($role1);
         Permission::create(['name' => 'dashboardComisionesGrupo2', 'description' => 'Detalle de Comisiones USDT'])->assignRole($role1);
+        Permission::create(['name' => 'usdt.USDTResDiaMovimientos', 'description' => 'Diario de Movimientos'])->assignRole($role1);
     }
 }
