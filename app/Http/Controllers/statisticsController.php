@@ -3308,6 +3308,15 @@ class statisticsController extends Controller
             $myGroupHasta = $request->group;
         }
 
+        
+        $myGroupsDesde = 00000;
+        $myGroupsHasta = 99999;
+        if ($request->groups){
+            $myGroups = implode(",",$request->groups)
+            $myGroupDesde = $request->group;
+            $myGroupHasta = $request->group;
+        }
+
         $myTransactionDesde     = 0000;
         $myTransactionHasta     = 9999;
         if ($request->transaction){
