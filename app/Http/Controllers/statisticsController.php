@@ -3312,7 +3312,7 @@ class statisticsController extends Controller
         $myGroupsDesde = 00000;
         $myGroupsHasta = 99999;
         if ($request->groups){
-            $myGroups = implode(",",$request->groups)
+            $myGroups = implode(",",$request->groups);
             $myGroupDesde = $request->group;
             $myGroupHasta = $request->group;
         }
