@@ -558,7 +558,7 @@ class HomeController extends Controller
         // dd($request->fechaDesde . ' ' . $request->fechaHasta);
         
         // dd($wallet);
-        $typeTransactions           = app(statisticsController::class)->getTypeTransactions(); // *
+
         
         /* MANTENER VALOR BUSCADO EN EL URL */
         $myWalletDesde   = 0;
@@ -617,15 +617,18 @@ class HomeController extends Controller
         
         
 
-        $wallet                          = app(statisticsController::class)->getWallet();
-        $grupo                           = app(statisticsController::class)->getGroups();
-        
+        $wallet                         = app(statisticsController::class)->getWallet();
+        $grupo                          = app(statisticsController::class)->getGroups();
+        $typeTransactions               = app(statisticsController::class)->getTypeTransactions();
+
         if ($myWallet != 0){
             
-            list($Recargas, $Transacciones2) = app(statisticsController::class)->USDTResumen($request);
+            $RecargasWallet             = app(statisticsController::class)->USDTResumenWallet($request);
+            $transaccionesGrupoComision = app(statisticsController::class)->USDTResumenGrupoComision($request);
+
         }else{
-            $Recargas = [];
-            $Transacciones2 = [];
+            $RecargasWallet             = [];
+            $transaccionesGrupoComision = [];
         }
 
         // dd('transacciones 2 ->' . print_r($Transacciones2,true));
@@ -643,8 +646,8 @@ class HomeController extends Controller
 
         // die(urlencode($myFechaDesde));
 
-        $parametros['Recargas']                     = $Recargas;
-        $parametros['Transacciones']                = $Transacciones2;
+        $parametros['RecargasWallet']               = $RecargasWallet;
+        $parametros['transaccionesGrupoComision']   = $transaccionesGrupoComision;
         
         // dd($Recargas);
          
