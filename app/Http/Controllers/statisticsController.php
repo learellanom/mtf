@@ -3094,6 +3094,8 @@ class statisticsController extends Controller
                 wallets.name                                        as WalletName,
                 mtf.transactions.group_id                           as GroupId,
                 mtf.groups.name                                     as GroupName,
+                mtf.transactions.type_transaction_id                as TypeTransactionId,
+                type_transactions.name                              as TypeTransactionName,                
                 count(mtf.transactions.amount)                      as Cant,
                 sum(mtf.transactions.amount_foreign_currency)       as AmountForeignCurrency,
                 sum(mtf.transactions.amount)                        as Amount,
@@ -3118,7 +3120,9 @@ class statisticsController extends Controller
                 mtf.transactions.wallet_id,
                 wallets.name,
                 mtf.transactions.group_id,
-                mtf.groups.name
+                mtf.groups.name,
+                mtf.transactions.type_transaction_id,
+                type_transactions.name
             order by
                 wallets.name ASC,
                 mtf.groups.name ASC
@@ -3139,6 +3143,8 @@ class statisticsController extends Controller
                 wallets.name                                        as WalletName,
                 mtf.transactions.group_id                           as GroupId,
                 mtf.groups.name                                     as GroupName,
+                mtf.transactions.type_transaction_id                as TypeTransactionId,
+                type_transactions.name                              as TypeTransactionName,                    
                 count(mtf.transactions.amount)                      as Cant,
                 sum(mtf.transactions.amount_foreign_currency)       as AmountForeignCurrency,
                 sum(mtf.transactions.amount)                        as Amount,
@@ -3163,7 +3169,9 @@ class statisticsController extends Controller
                 mtf.transactions.wallet_id,
                 wallets.name,
                 mtf.transactions.group_id,
-                mtf.groups.name
+                mtf.groups.name,
+                mtf.transactions.type_transaction_id,
+                type_transactions.name                
             order by
                 wallets.name ASC,
                 mtf.groups.name ASC
@@ -3246,6 +3254,8 @@ class statisticsController extends Controller
                 wallets.name                                        as WalletName,
                 mtf.transactions.group_id                           as GroupId,
                 mtf.groups.name                                     as GroupName,
+                mtf.transactions.type_transaction_id                as TypeTransactionId,
+                type_transactions.name                              as TypeTransactionName,                                    
                 count(mtf.transactions.amount)                      as Cant,
                 sum(mtf.transactions.amount_foreign_currency)       as AmountForeignCurrency,
                 sum(mtf.transactions.amount)                        as Amount,
@@ -3270,7 +3280,9 @@ class statisticsController extends Controller
                 mtf.transactions.wallet_id,
                 wallets.name,
                 mtf.transactions.group_id,
-                mtf.groups.name
+                mtf.groups.name,
+                mtf.transactions.type_transaction_id,
+                type_transactions.name                    
             order by
                 wallets.name ASC,
                 mtf.groups.name ASC
@@ -3300,7 +3312,6 @@ class statisticsController extends Controller
             $myWalletHasta = $request->wallet;
         }
         
-        $request->group = 158; // comision usdt
         $myGroupDesde = 00000;
         $myGroupHasta = 99999;
         if ($request->group){
@@ -3316,6 +3327,7 @@ class statisticsController extends Controller
             $myGroupDesde = $request->group;
             $myGroupHasta = $request->group;
         }
+
 
         $myTransactionDesde     = 0000;
         $myTransactionHasta     = 9999;
@@ -3333,8 +3345,8 @@ class statisticsController extends Controller
             $myFechaHasta = $request->fechaHasta;
         }
 
-        $myFechaDesde = "2001-01-01";
-        $myFechaHasta = "9999-12-31";
+        //$myFechaDesde = "2001-01-01";
+        //$myFechaHasta = "9999-12-31";
 
         $horaDesde = " 00:00:00";
         $horaHasta = " 23:59:00";
@@ -3352,6 +3364,8 @@ class statisticsController extends Controller
                 wallets.name                                        as WalletName,
                 mtf.transactions.group_id                           as GroupId,
                 mtf.groups.name                                     as GroupName,
+                mtf.transactions.type_transaction_id                as TypeTransactionId,
+                type_transactions.name                              as TypeTransactionName,                   
                 count(mtf.transactions.amount)                      as Cant,
                 sum(mtf.transactions.amount_foreign_currency)       as AmountForeignCurrency,
                 sum(mtf.transactions.amount)                        as Amount,
@@ -3370,21 +3384,24 @@ class statisticsController extends Controller
             where
                     status = 'Activo'
                 and wallet_id               between $myWalletDesde              and     $myWalletHasta                    
-                and group_id                between $myGroupDesde               and     $myGroupHasta
-                and type_transaction_id     in (11,13)
+                and group_id                in($myGroups)
+                and type_transaction_id     in (11)
                 and transaction_date        between '$myFechaDesde'             and     '$myFechaHasta'
             group by
                 mtf.transactions.wallet_id,
                 wallets.name,
                 mtf.transactions.group_id,
-                mtf.groups.name
+                mtf.groups.name,
+                mtf.transactions.type_transaction_id,
+                type_transactions.name                    
             order by
                 wallets.name ASC,
-                mtf.groups.name ASC
+                mtf.groups.name ASC,
+                type_transactions.name ASC
         ";
 
         $transaccionGrupoComision = DB::select($myQuery);
-
+        // dd('leam - groups ->' . print_r($request->groups,true) . ' implode ->' . $myGroups . ' - myQuery ->' . $myQuery . '- trasaccionGrupoComision ->' . print_r($transaccionGrupoComision,true));
         return $transaccionGrupoComision;
 
     }

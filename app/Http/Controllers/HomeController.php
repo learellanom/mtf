@@ -626,6 +626,85 @@ class HomeController extends Controller
             $RecargasWallet             = app(statisticsController::class)->USDTResumenWallet($request);
             $transaccionesGrupoComision = app(statisticsController::class)->USDTResumenGrupoComision($request);
 
+            // salida yaguara
+            $temp [] = 44;
+            $temp [] = 43;
+            $temp [] = 63;
+            $temp [] = 78;
+            $temp [] = 145;
+            $temp [] = 35;
+            $temp [] = 166;
+            $temp [] = 11;
+            $temp [] = 14;
+            $temp [] = 239;
+            $temp [] = 273;
+            $temp [] = 350;
+            $temp [] = 351;
+            $temp [] = 60;
+            $temp [] = 30;
+            $temp [] = 139;
+            $request->groups = $temp;
+            $transaccionesGrupoSalida   = app(statisticsController::class)->USDTResumenGrupoSalida($request);
+
+            // salida por operaciones
+            unset($temp);
+            $temp [] = 168;
+            $temp [] = 194;
+            $temp [] = 195;
+            $temp [] = 185;
+            $temp [] = 182;
+            $temp [] = 183;
+            $temp [] = 174;
+            $temp [] = 186;
+            $temp [] = 173;
+            $temp [] = 171;
+            $temp [] = 169;
+            $temp [] = 178;
+            $temp [] = 356;
+            $temp [] = 190;
+            $temp [] = 184;
+            $temp [] = 189;
+            $temp [] = 179;
+            $temp [] = 170;
+            $temp [] = 172;
+            $temp [] = 180;
+            $temp [] = 187;
+            $temp [] = 181;
+            $temp [] = 196;
+            $temp [] = 33;
+
+            $request->groups = $temp;
+
+           // dd(print_r($request->groups,true));
+
+            $transaccionesGrupoSalida2   = app(statisticsController::class)->USDTResumenGrupoSalida($request);
+            
+            // gastos varios
+
+            unset($temp);
+            $temp [] = 219;
+            $temp [] = 188;
+            $temp [] = 205;
+            $temp [] = 174;
+            $temp [] = 228;
+            $temp [] = 204;
+            $temp [] = 208;
+            $temp [] = 225; // compra
+            $temp [] = 175; // cambio brasil
+            $temp [] = 267; // pendiente
+            $temp [] = 227; // otros gastos
+
+            $request->groups = $temp;
+
+           // dd(print_r($request->groups,true));
+
+            $transaccionesGrupoSalida3   = app(statisticsController::class)->USDTResumenGrupoSalida($request);
+
+            // salida gastos varios
+            //$request->groups =[44,43,63];
+            //$transaccionesGrupoSalida3   = app(statisticsController::class)->USDTResumenGrupoSalida($request);
+
+
         }else{
             $RecargasWallet             = [];
             $transaccionesGrupoComision = [];
@@ -648,7 +727,10 @@ class HomeController extends Controller
 
         $parametros['RecargasWallet']               = $RecargasWallet;
         $parametros['transaccionesGrupoComision']   = $transaccionesGrupoComision;
-        
+        $parametros['transaccionesGrupoSalida']     = $transaccionesGrupoSalida;
+        $parametros['transaccionesGrupoSalida2']     = $transaccionesGrupoSalida2;
+        $parametros['transaccionesGrupoSalida3']     = $transaccionesGrupoSalida3;
+
         // dd($Recargas);
          
         // dd($parametros);

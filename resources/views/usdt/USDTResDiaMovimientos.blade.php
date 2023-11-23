@@ -91,9 +91,9 @@ $totalComisionGanancia2General  = 0;
 <!-- <div class="container justify-content-center" style="display: contents;"> -->
 <div class="container justify-content-center">
     <div class="row col-12 col-md-12 justify-content-center text-center align-items-center" style="min-height: 5rem !important">
-        <h4>Detalle de comisiones USDT</h4>
+        <h4>Cuadro de Movimientos USDT</h4>
     </div>
-    
+
     <div class="card">
         <div class="card-header">
             <div class="row">
@@ -495,6 +495,10 @@ $totalComisionGanancia2General  = 0;
         if (miWallet !=0 ){
             calculoRecargas();
             calculoTransacciones();
+            calculoTransaccionesSalida();
+            calculoTransaccionesSalidaOperaciones();
+            calculoTransaccionesSalidaGastos();
+
             @if(count($transaccionesGrupoComision))
                 toggleBotones();
             @endif
@@ -578,7 +582,7 @@ $totalComisionGanancia2General  = 0;
 
             });
             
-             grabaFiltros();
+            grabaFiltros();
             
             Swal.fire({
                 position: 'top-end',
@@ -586,7 +590,7 @@ $totalComisionGanancia2General  = 0;
                 title: 'Filtro aplicado satisfactoriamente',
                 showConfirmButton: false,
                 timer: 1500
-                });             
+                });
             
         });
 
@@ -649,7 +653,10 @@ $totalComisionGanancia2General  = 0;
                         <thead class="thead-dark">
                             <tr>
                                 <th class=""          style="width: 25% !important;">Wallet</th>
+                                <th class="myWidth2"                                >Grupo ID</th>                                
                                 <th class="myWidth2"                                >Grupo</th>
+                                <th class="myWidth2"                                >Transaccion</th>                                
+                                <th class="myWidth2"                                >Cant</th>
                                 <th class="myWidth2"                                >Monto</th>
                                 <th></th>
                             </tr>
@@ -684,7 +691,10 @@ $totalComisionGanancia2General  = 0;
                                     @continue;
                                     @endif
                                     <td>{{ $wallet2->WalletName}}</td>
+                                    <td>{{ $wallet2->GroupId}}</td>
                                     <td>{{ $wallet2->GroupName}}</td>
+                                    <td>{{ $wallet2->TypeTransactionName}}</td>
+                                    <td>{{ number_format($wallet2->Cant) }}</td>                                    
                                     <td>{{ number_format($wallet2->Amount ,2) }}</td>
                                     <td>
                                     </td>                                
@@ -697,10 +707,13 @@ $totalComisionGanancia2General  = 0;
                                 <td                     ></td>
                                 <td                     ></td>
                                 <td                     ></td>
+                                <td                     ></td>
+                                <td                     ></td>
+                                <td                     ></td>
                             </tr>
                         @else
                             <tr class="myTr"">
-                                <td colspan="3">
+                                <td colspan="7">
                                     <div class="row  justify-content-center text-center align-items-center" style="margin-top: 5rem; margin-bottom: 5rem;">
                                         <h3>Sin transacciones registradas</h3>
                                     </div>
@@ -751,8 +764,11 @@ $totalComisionGanancia2General  = 0;
                     <thead class="thead-dark">
                         <tr>
                             <th class=""   style="width: 25% !important;"          >Wallet</th>
+                            <th class="myWidth22"             >Grupo ID</th>                            
                             <th class="myWidth22"             >Grupo</th>
-                            <th class="myTdColor2 myWidth22"  >Monto</th>
+                            <th class=" myWidth22"  >Transaccion</th>
+                            <th class=" myWidth22"  >Cant</th>
+                            <th class=" myWidth22"  >Monto</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -794,7 +810,10 @@ $totalComisionGanancia2General  = 0;
                                 @endphp
 
                                 <td class="myWidth22"   >{{ $wallet2->WalletName}}</td>                               
+                                <td class="myWidth22"   >{{ $wallet2->GroupId}}</td>
                                 <td class="myWidth22"   >{{ $wallet2->GroupName}}</td>
+                                <td class="myWidth22"   >{{ $wallet2->TypeTransactionName}}</td>
+                                <td class="myWidth22"   >{{ number_format($wallet2->Cant) }}</td>                                
                                 <td class="myWidth22"   >{{ number_format($wallet2->Amount,2) }}</td>
                                 <td></td>
                             </tr>
@@ -809,15 +828,18 @@ $totalComisionGanancia2General  = 0;
                         @endphp
                         <tr style="background-color: black; color:white;">
                             <td                     ></td>                    
+                            <td                     ></td>     
                             <td                     ></td>
-                            <td class="myTdColor2"  >{{ number_format($myTotalAmount,2) }}</td>
+                            <td class=""  ></td>
+                            <td class=""  ></td>
+                            <td class=""  >{{ number_format($myTotalAmount,2) }}</td>     
                             <td class=""  ></td>     
                         </tr>
 
                     
                         @if($cant == 0)
                             <tr class="myTr"">
-                                <td colspan="4">
+                                <td colspan="6">
                                     <div class="row  justify-content-center text-center align-items-center" style="margin-top: 5rem; margin-bottom: 5rem;">
                                         <h3>Sin transacciones registradas</h3>
                                     </div>
@@ -827,7 +849,433 @@ $totalComisionGanancia2General  = 0;
 
                     @else
                         <tr class="myTr"">
-                            <td colspan="4">
+                            <td colspan="6">
+                                <div class="row  justify-content-center text-center align-items-center" style="margin-top: 5rem; margin-bottom: 5rem;">
+                                    <h3>Sin transacciones registradas</h3>
+                                </div>
+                            </td>
+                        </tr>
+                    @endif
+
+                </table>
+            </div>
+            
+        </div>
+        `;
+
+        $("#myCanvasGeneral").append(myElement);
+
+    }
+
+     
+    /*
+    *
+    *
+    *  calculoTransaccionesSalida
+    *  resumen general por wallet
+    *
+    */
+    function calculoTransaccionesSalida(){
+
+
+    
+
+    myElement =
+        `
+        <style>
+            .myTr {
+                cursor: pointer;
+            }
+            .myTr:hover{
+                background-color: #D7DBDD  !important;
+            }
+            .myWidth22{
+                    width: 12%;
+                    min-width: 12%;
+                    max-width: 12%;
+                }            
+        </style>
+
+        {{-- dd($balanceDetail . ' ' . $myFechaDesdeBefore . ' ' . $myFechaHastaBefore) --}}
+                
+        <div class ="row mb-4" style="background-color: white;" data-wallet="">
+            <div class="col-12 text-center">
+                <h3>Salida la Yaguara</h3>
+            </div>
+            <div class="col-12 col-md-12">
+                <table class="table thead-light" style="background-color: white;">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th class=""   style="width: 25% !important;"          >Wallet</th>
+                            <th class="myWidth22"             >Grupo Id</th>
+                            <th class="myWidth22"             >Grupo</th>
+                            <th class=" myWidth22"  >Transaccion</th>
+                            <th class=" myWidth22"  >Cant</th>
+                            <th class=" myWidth22"  >Monto</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    @php
+                        $cant                       = 0;
+
+                        $totalAmount                = 0;
+                        $myTotalAmount              = 0;
+
+                        $myFechaDesdeDate = Date($myFechaDesde);
+                        $myFechaHastaDate = Date($myFechaHasta);
+
+                        // dd($myFechaDesdeDate);
+                        // dd($myFechaHastaDate);
+                        
+                    @endphp
+                    
+                    @if(count($transaccionesGrupoSalida)>0)
+                        @foreach($transaccionesGrupoSalida as $wallet2)
+                            @php 
+
+
+                                    // dd($myDate);
+
+                                    //
+                                    // filtra
+                                    //
+                                    $myContinue = 1;
+                            @endphp
+                            @if($myContinue == 0)
+                                    @continue
+                            @endif
+                            <tr class="myTr">
+                                @php
+
+                                    $totalAmount                    +=  $wallet2->Amount;
+
+                                    $cant                           += 1;
+                                @endphp
+
+                                <td class="myWidth22"   >{{ $wallet2->WalletName}}</td>                               
+                                <td class="myWidth22"   >{{ $wallet2->GroupId}}</td>                                
+                                <td class="myWidth22"   >{{ $wallet2->GroupName}}</td>
+                                <td class="myWidth22"   >{{ $wallet2->TypeTransactionName}}</td>
+                                <td class="myWidth22"   >{{ number_format($wallet2->Cant) }}</td>
+                                <td class="myWidth22"   >{{ number_format($wallet2->Amount,2) }}</td>
+                                <td></td>
+                            </tr>
+                            
+
+                        @endforeach
+                        @php
+                            // $myTotalCommission  +=  $totalComision;
+                            $myTotalAmount      +=  $totalAmount ;
+                            // $totalComision      =   0;               
+                            $totalAmount        =   0; 
+                        @endphp
+                        <tr style="background-color: black; color:white;">
+                            <td                     ></td>                    
+                            <td                     ></td>
+                            <td                     ></td>
+                            <td class=""  ></td>
+                            <td class=""  ></td>
+                            <td class=""  >{{ number_format($myTotalAmount,2) }}</td>     
+                            <td class=""  ></td>     
+                        </tr>
+
+                    
+                        @if($cant == 0)
+                            <tr class="myTr"">
+                                <td colspan="7">
+                                    <div class="row  justify-content-center text-center align-items-center" style="margin-top: 5rem; margin-bottom: 5rem;">
+                                        <h3>Sin transacciones registradas</h3>
+                                    </div>
+                                </td>
+                            </tr>                    
+                        @endif
+
+                    @else
+                        <tr class="myTr"">
+                            <td colspan="7">
+                                <div class="row  justify-content-center text-center align-items-center" style="margin-top: 5rem; margin-bottom: 5rem;">
+                                    <h3>Sin transacciones registradas</h3>
+                                </div>
+                            </td>
+                        </tr>
+                    @endif
+
+                </table>
+            </div>
+            
+        </div>
+        `;
+
+        $("#myCanvasGeneral").append(myElement);
+
+    }
+
+    
+    
+    /*
+    *
+    *
+    *   calculoTransaccionesSalidaOperaciones
+    *   resumen general por wallet
+    *   operaciones
+    * 
+    */
+    function calculoTransaccionesSalidaOperaciones(){
+
+    myElement =
+        `
+        <style>
+            .myTr {
+                cursor: pointer;
+            }
+            .myTr:hover{
+                background-color: #D7DBDD  !important;
+            }
+            .myWidth22{
+                    width: 12%; 
+                    min-width: 12%;
+                    max-width: 12%;
+                }            
+        </style>
+
+        {{-- dd($balanceDetail . ' ' . $myFechaDesdeBefore . ' ' . $myFechaHastaBefore) --}}
+                
+        <div class ="row mb-4" style="background-color: white;" data-wallet="">
+            <div class="col-12 text-center">
+                <h3>Salida por Operaciones</h3>
+            </div>
+            <div class="col-12 col-md-12">
+                <table class="table thead-light" style="background-color: white;">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th class=""   style="width: 25% !important;"          >Wallet</th>
+                            <th class="myWidth22"             >Grupo Id</th>
+                            <th class="myWidth22"             >Grupo</th>
+                            <th class=" myWidth22"  >Transaccion</th>
+                            <th class=" myWidth22"  >Cant</th>
+                            <th class=" myWidth22"  >Monto</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    @php
+                        $cant                       = 0;
+
+                        $totalAmount                = 0;
+                        $myTotalAmount              = 0;
+
+                        $myFechaDesdeDate = Date($myFechaDesde);
+                        $myFechaHastaDate = Date($myFechaHasta);
+
+                        // dd($myFechaDesdeDate);
+                        // dd($myFechaHastaDate);
+                        
+                    @endphp
+                    
+                    @if(count($transaccionesGrupoSalida2)>0)
+                        @foreach($transaccionesGrupoSalida2 as $wallet2)
+                            @php 
+
+
+                                    // dd($myDate);
+
+                                    //
+                                    // filtra
+                                    //
+                                    $myContinue = 1;
+                            @endphp
+                            @if($myContinue == 0)
+                                    @continue
+                            @endif
+                            <tr class="myTr">
+                                @php
+
+                                    $totalAmount                    +=  $wallet2->Amount;
+
+                                    $cant                           += 1;
+                                @endphp
+
+                                <td class="myWidth22"   >{{ $wallet2->WalletName}}</td>                               
+                                <td class="myWidth22"   >{{ $wallet2->GroupId}}</td>
+                                <td class="myWidth22"   >{{ $wallet2->GroupName}}</td>
+                                <td class="myWidth22"   >{{ $wallet2->TypeTransactionName}}</td>
+                                <td class="myWidth22"   >{{ number_format($wallet2->Cant) }}</td>
+                                <td class="myWidth22"   >{{ number_format($wallet2->Amount,2) }}</td>
+                                <td></td>
+                            </tr>
+                            
+
+                        @endforeach
+                        @php
+                            // $myTotalCommission  +=  $totalComision;
+                            $myTotalAmount      +=  $totalAmount ;
+                            // $totalComision      =   0;               
+                            $totalAmount        =   0; 
+                        @endphp
+                        <tr style="background-color: black; color:white;">
+                            <td                     ></td>                    
+                            <td                     ></td>   
+                            <td                     ></td>
+                            <td class=""  ></td>
+                            <td class=""  ></td>
+                            <td class=""  >{{ number_format($myTotalAmount,2) }}</td>     
+                            <td class=""  ></td>     
+                        </tr>
+
+                    
+                        @if($cant == 0)
+                            <tr class="myTr"">
+                                <td colspan="7">
+                                    <div class="row  justify-content-center text-center align-items-center" style="margin-top: 5rem; margin-bottom: 5rem;">
+                                        <h3>Sin transacciones registradas</h3>
+                                    </div>
+                                </td>
+                            </tr>                    
+                        @endif
+
+                    @else
+                        <tr class="myTr"">
+                            <td colspan="7">
+                                <div class="row  justify-content-center text-center align-items-center" style="margin-top: 5rem; margin-bottom: 5rem;">
+                                    <h3>Sin transacciones registradas</h3>
+                                </div>
+                            </td>
+                        </tr>
+                    @endif
+
+                </table>
+            </div>
+            
+        </div>
+        `;
+
+        $("#myCanvasGeneral").append(myElement);
+
+    }
+
+     
+    /*
+    *
+    *
+    *   calculoTransaccionesSalidaOperaciones
+    *   resumen general por wallet
+    *   operaciones
+    * 
+    */
+    function calculoTransaccionesSalidaGastos(){
+
+    myElement =
+        `
+        <style>
+            .myTr {
+                cursor: pointer;
+            }
+            .myTr:hover{
+                background-color: #D7DBDD  !important;
+            }
+            .myWidth22{
+                    width: 12%; 
+                    min-width: 12%;
+                    max-width: 12%;
+                }            
+        </style>
+
+        {{-- dd($balanceDetail . ' ' . $myFechaDesdeBefore . ' ' . $myFechaHastaBefore) --}}
+                
+        <div class ="row mb-4" style="background-color: white;" data-wallet="">
+            <div class="col-12 text-center">
+                <h3>Salida por Gastos Varios</h3>
+            </div>
+            <div class="col-12 col-md-12">
+                <table class="table thead-light" style="background-color: white;">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th class=""   style="width: 25% !important;"          >Wallet</th>
+                            <th class="myWidth22"             >Grupo Id</th>
+                            <th class="myWidth22"             >Grupo</th>
+                            <th class=" myWidth22"  >Transaccion</th>
+                            <th class=" myWidth22"  >Cant</th>
+                            <th class=" myWidth22"  >Monto</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    @php
+                        $cant                       = 0;
+
+                        $totalAmount                = 0;
+                        $myTotalAmount              = 0;
+
+                        $myFechaDesdeDate = Date($myFechaDesde);
+                        $myFechaHastaDate = Date($myFechaHasta);
+
+                        // dd($myFechaDesdeDate);
+                        // dd($myFechaHastaDate);
+                        
+                    @endphp
+                    
+                    @if(count($transaccionesGrupoSalida3)>0)
+                        @foreach($transaccionesGrupoSalida3 as $wallet2)
+                            @php 
+
+
+                                    // dd($myDate);
+
+                                    //
+                                    // filtra
+                                    //
+                                    $myContinue = 1;
+                            @endphp
+                            @if($myContinue == 0)
+                                    @continue
+                            @endif
+                            <tr class="myTr">
+                                @php
+
+                                    $totalAmount                    +=  $wallet2->Amount;
+
+                                    $cant                           += 1;
+                                @endphp
+
+                                <td class="myWidth22"   >{{ $wallet2->WalletName}}</td>                               
+                                <td class="myWidth22"   >{{ $wallet2->GroupId}}</td>
+                                <td class="myWidth22"   >{{ $wallet2->GroupName}}</td>
+                                <td class="myWidth22"   >{{ $wallet2->TypeTransactionName}}</td>
+                                <td class="myWidth22"   >{{ number_format($wallet2->Cant) }}</td>
+                                <td class="myWidth22"   >{{ number_format($wallet2->Amount,2) }}</td>
+                                <td></td>
+                            </tr>
+                            
+
+                        @endforeach
+                        @php
+                            // $myTotalCommission  +=  $totalComision;
+                            $myTotalAmount      +=  $totalAmount ;
+                            // $totalComision      =   0;               
+                            $totalAmount        =   0; 
+                        @endphp
+                        <tr style="background-color: black; color:white;">
+                            <td                     ></td>
+                            <td                     ></td>
+                            <td                     ></td>
+                            <td class=""  ></td>
+                            <td class=""  ></td>
+                            <td class=""  >{{ number_format($myTotalAmount,2) }}</td>
+                            <td class=""  ></td>
+                        </tr>
+
+                    
+                        @if($cant == 0)
+                            <tr class="myTr"">
+                                <td colspan="7">
+                                    <div class="row  justify-content-center text-center align-items-center" style="margin-top: 5rem; margin-bottom: 5rem;">
+                                        <h3>Sin transacciones registradas</h3>
+                                    </div>
+                                </td>
+                            </tr>           
+                        @endif
+
+                    @else
+                        <tr class="myTr"">
+                            <td colspan="7">
                                 <div class="row  justify-content-center text-center align-items-center" style="margin-top: 5rem; margin-bottom: 5rem;">
                                     <h3>Sin transacciones registradas</h3>
                                 </div>

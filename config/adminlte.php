@@ -401,13 +401,13 @@ return [
         ],
         [ 
             'text'      => 'USDT',
-            'icon'      => 'fas fa-dollar-sign',
+            'icon'      => 'fas fa-dollar-sign', 
             'icon_color' => 'primary',
             'submenu'   => [
                 [
-                    'text' => 'Diario de Movimientos',
+                    'text' => 'Cuadro de Movimientos',
                     'url'  => 'USDTResumenDiario',
-                    'classes'   =>  'ml-4',   
+                    'classes'   =>  'ml-4',              
                     'can'  => 'USDTResumenDiario',
                     'icon_color' => 'primary',                    
                 ],
