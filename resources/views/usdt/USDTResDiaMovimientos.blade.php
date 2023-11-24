@@ -40,6 +40,12 @@ $totalComisionExchangeGeneral   = 0;
 $totalComisionGananciaGeneral   = 0;
 $totalComisionGanancia2General  = 0;
 
+$entradaCant    = 0;
+$entradaMonto   = 0;
+
+$salidaCant     = 0;
+$salidaMonto    = 0;
+
 @endphp
 <style>
     .myTr {
@@ -382,6 +388,11 @@ $totalComisionGanancia2General  = 0;
         $myocultarresumengeneral        = (!$myocultarresumengeneral)       ? 0 : $myocultarresumengeneral;
         $myocultarresumentransaccion    = (!$myocultarresumentransaccion)   ? 0 : $myocultarresumentransaccion;
 
+
+
+
+
+
     @endphp
 
 
@@ -493,11 +504,20 @@ $totalComisionGanancia2General  = 0;
         // cargaTransacciones();
 
         if (miWallet !=0 ){
+
+            // calculoCuadroGeneral();
+
+            calculaEntradaHeader();
             calculoRecargas();
+            
             calculoTransacciones();
+            calculaEntradaFooter();
+            
+            calculaSalidaHeader();
             calculoTransaccionesSalida();
             calculoTransaccionesSalidaOperaciones();
             calculoTransaccionesSalidaGastos();
+            calculaSalidaFooter();
 
             @if(count($transaccionesGrupoComision))
                 toggleBotones();
@@ -595,11 +615,11 @@ $totalComisionGanancia2General  = 0;
         });
 
     });
-
+    
     $( document ).ready(function() {
 
     });
-
+    
 
     function pantallaInicial(){
         let myElement =`
@@ -613,7 +633,112 @@ $totalComisionGanancia2General  = 0;
         $("#myCanvasGeneral").append(myElement);
 
     }
+    
 
+    
+
+    function calculaEntradaHeader(){
+        myElement =
+        `
+
+        <div class ="row mb-4" style="background-color: white;" data-wallet="">
+            <div class="col-12 text-center" style="background-color: #2874A6; color: white">
+                <h3>Entradas USDT</h3>
+            </div>
+        </div>
+        `;
+
+        $("#myCanvasGeneral").append(myElement);
+    }
+
+    function calculaEntradaFooter(){
+        
+        @php
+            foreach($RecargasWallet as $wallet2){
+                $entradaCant    += $wallet2->Cant;
+                $entradaMonto   += $wallet2->Amount;
+            }
+            foreach($transaccionesGrupoComision as $wallet2){
+                $entradaCant    += $wallet2->Cant;
+                $entradaMonto   += $wallet2->Amount;
+            }            
+        @endphp
+
+        myElement =
+        `
+        <div class ="row mb-4">
+            <div class="col-12 text-center" style="background-color: #2874A6; color: white">
+                <table class="table">
+                    <tr style="background-color: #2874A6; color: white">
+                        <td style="width: 20% !important;"></td>
+                        <td class="myWidth2"></td>
+                        <td class="myWidth2"></td>
+                        <td class="myWidth2"></td>
+                        <td class="myWidth2 text-left">{{number_format($entradaCant)}}</td>                                    
+                        <td class="myWidth2 text-left" style="padding-left: 0;">{{number_format($entradaMonto)}}</td>
+                        <td class="myWidth2"></td>                                
+                    </tr>
+                </table>
+            </div>
+        </div>
+        `;
+
+
+
+        $("#myCanvasGeneral").append(myElement);
+    }
+
+    function calculaSalidaHeader(){
+        myElement =
+        `
+
+        <div class ="row mb-4" style="background-color: white;" data-wallet="">
+            <div class="col-12 text-center" style="background-color: #BB8FCE; color: white">
+                <h3>Salidas USDT</h3>
+            </div>
+        </div>
+        `;
+
+        $("#myCanvasGeneral").append(myElement);
+    }
+
+
+    function calculaSalidaFooter(){
+        
+        @php
+            foreach($RecargasWallet as $wallet2){
+                $entradaCant    += $wallet2->Cant;
+                $entradaMonto   += $wallet2->Amount;
+            }
+            foreach($transaccionesGrupoComision as $wallet2){
+                $entradaCant    += $wallet2->Cant;
+                $entradaMonto   += $wallet2->Amount;
+            }            
+        @endphp
+
+        myElement =
+        `
+        <div class ="row mb-4">
+            <div class="col-12 text-center" style="background-color: #BB8FCE; color: white">
+                <table class="table">
+                    <tr style="background-color: #BB8FCE; color: white">
+                        <td style="width: 20% !important;"></td>
+                        <td class="myWidth2"></td>
+                        <td class="myWidth2"></td>
+                        <td class="myWidth2"></td>
+                        <td class="myWidth2 text-left">{{number_format($entradaCant)}}</td>                                    
+                        <td class="myWidth2 text-left" style="padding-left: 0;">{{number_format($entradaMonto)}}</td>
+                        <td class="myWidth2"></td>                                
+                    </tr>
+                </table>
+            </div>
+        </div>
+        `;
+
+
+
+        $("#myCanvasGeneral").append(myElement);
+    }
     /*
     *
     *   calculoRecargas
@@ -648,6 +773,9 @@ $totalComisionGanancia2General  = 0;
             {{-- dd($balanceDetail . ' ' . $myFechaDesdeBefore . ' ' . $myFechaHastaBefore) --}}
   
             <div class ="row mb-4" style="background-color: white;" data-wallet="">
+                <div class="col-12 text-center">
+                    <h3>Entradas USDT</h3>
+                </div>            
                 <div class="col-12 col-md-12">
                     <table class="table thead-light" style="background-color: white;">
                         <thead class="thead-dark">
@@ -668,6 +796,9 @@ $totalComisionGanancia2General  = 0;
                             $myFechaDesdeDate = Date($myFechaDesde);
                             $myFechaHastaDate = Date($myFechaHasta);
 
+                            $entradaCant    = 0;
+                            $entradaMonto   = 0;
+
                         @endphp
                         @if(count($RecargasWallet)>0)
                             @foreach($RecargasWallet as $wallet2)
@@ -684,7 +815,8 @@ $totalComisionGanancia2General  = 0;
 
                                         $myContinue                     = 1;
     
-
+                                        $entradaCant    += $wallet2->Cant;
+                                        $entradaMonto   += $wallet2->Amount ;
 
                                     @endphp
                                     @if($myContinue == 0)
@@ -707,8 +839,8 @@ $totalComisionGanancia2General  = 0;
                                 <td                     ></td>
                                 <td                     ></td>
                                 <td                     ></td>
-                                <td                     ></td>
-                                <td                     ></td>
+                                <td                     >{{ number_format($entradaCant) }}</td>
+                                <td                     >{{ number_format($entradaMonto ,2) }}</td>
                                 <td                     ></td>
                             </tr>
                         @else
@@ -725,9 +857,11 @@ $totalComisionGanancia2General  = 0;
 
             </div>
         `;
+
+
         $("#myCanvasGeneral").append(myElement);
         // $("#myCanvasGeneralRecarga").append(myElement);
-
+        
     }
 
     
@@ -759,6 +893,9 @@ $totalComisionGanancia2General  = 0;
         {{-- dd($balanceDetail . ' ' . $myFechaDesdeBefore . ' ' . $myFechaHastaBefore) --}}
                 
         <div class ="row mb-4" style="background-color: white;" data-wallet="">
+            <div class="col-12 text-center">
+                <h3>Comisiones USDT</h3>
+            </div>
             <div class="col-12 col-md-12">
                 <table class="table thead-light" style="background-color: white;">
                     <thead class="thead-dark">
@@ -783,7 +920,8 @@ $totalComisionGanancia2General  = 0;
 
                          // dd($myFechaDesdeDate);
                          // dd($myFechaHastaDate);
-                         
+                        $entradaCant    = 0;
+                        $entradaMonto   = 0;
                     @endphp
                     
                     @if(count($transaccionesGrupoComision)>0)
@@ -792,7 +930,8 @@ $totalComisionGanancia2General  = 0;
 
 
                                     // dd($myDate);
-
+                                    $entradaCant    += $wallet2->Cant;
+                                    $entradaMonto   += $wallet2->Amount ;
                                     //
                                     // filtra
                                     //
@@ -831,8 +970,8 @@ $totalComisionGanancia2General  = 0;
                             <td                     ></td>     
                             <td                     ></td>
                             <td class=""  ></td>
-                            <td class=""  ></td>
-                            <td class=""  >{{ number_format($myTotalAmount,2) }}</td>     
+                            <td class=""  >{{ number_format($entradaCant) }}</td>
+                            <td class=""  >{{ number_format($entradaMonto,2) }}</td>     
                             <td class=""  ></td>     
                         </tr>
 
@@ -935,7 +1074,7 @@ $totalComisionGanancia2General  = 0;
 
 
                                     // dd($myDate);
-
+                                    $salidaCant += $wallet2->Cant;
                                     //
                                     // filtra
                                     //
