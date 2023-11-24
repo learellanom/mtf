@@ -3075,9 +3075,9 @@ class statisticsController extends Controller
         if ($request->fechaHasta){
             $myFechaHasta = $request->fechaHasta;
         }
-
-        $myFechaDesde = "2001-01-01";
-        $myFechaHasta = "9999-12-31";
+        // dd('statiscticController -> ' . $request->fechaDesde . ' -- ' . $request->fechaHasta);
+        //$myFechaDesde = "2001-01-01";
+        //$myFechaHasta = "9999-12-31";
 
         $horaDesde = " 00:00:00";
         $horaHasta = " 23:59:00";
@@ -3235,8 +3235,8 @@ class statisticsController extends Controller
             $myFechaHasta = $request->fechaHasta;
         }
 
-        $myFechaDesde = "2001-01-01";
-        $myFechaHasta = "9999-12-31";
+        //$myFechaDesde = "2001-01-01";
+        //$myFechaHasta = "9999-12-31";
 
         $horaDesde = " 00:00:00";
         $horaHasta = " 23:59:00";

@@ -609,7 +609,7 @@ class HomeController extends Controller
             $myFechaHasta2 = $myFechaHasta . " 12:59:00";
             /* MANTENER VALOR BUSCADO EN EL URL */
         }
-
+       // dd($request->fechaDesde . ' ' . $request->fechaHasta);
        // dd($myFechaDesde);
         
         $myFechaDesdeBefore = "2001-01-01";
