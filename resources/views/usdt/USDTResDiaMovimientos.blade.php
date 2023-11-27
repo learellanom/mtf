@@ -103,25 +103,6 @@ $salidaMonto    = 0;
     <div class="card">
         <div class="card-header">
             <div class="row">
-                {{--
-                <div class="col-12 col-lg-3">
-                    <x-adminlte-select2 id="wallet"
-                    name="optionsWallets"
-                    
-                    label-class="text-lightblue"
-                    data-placeholder="Seleccione una caja Proveedor"
-
-                    :config="$config4"
-                    >
-                    <x-slot name="prependSlot">
-                        <div class="input-group-text bg-gradient-light">
-                            <i class="fas fa-box"></i>
-                        </div>
-                    </x-slot>
-                    <x-adminlte-options :options="$wallet" empty-option="Wallet.."/>
-                    </x-adminlte-select2>
-                </div>
-                --}}
 
                 <div class="col-12 col-lg-3">
                     <x-adminlte-select2 id="wallet2"
@@ -142,7 +123,7 @@ $salidaMonto    = 0;
                     <x-adminlte-options :options="$wallet" empty-option="Wallet.."/>
                     </x-adminlte-select2>
                 </div>
-
+                {{--
                 <div class="col-12 col-lg-3">
                     <x-adminlte-select2 
                         id="grupo"
@@ -159,7 +140,7 @@ $salidaMonto    = 0;
                     <x-adminlte-options :options="$grupo" empty-option="Grupo.."/>
                     </x-adminlte-select2>
                 </div>
-
+                --}}
                 {{--
                 <div class="col col-md-3">
                     <x-adminlte-select2 id="typeTransactions"
@@ -388,11 +369,6 @@ $salidaMonto    = 0;
         $myocultarresumengeneral        = (!$myocultarresumengeneral)       ? 0 : $myocultarresumengeneral;
         $myocultarresumentransaccion    = (!$myocultarresumentransaccion)   ? 0 : $myocultarresumentransaccion;
 
-
-
-
-
-
     @endphp
 
 
@@ -412,7 +388,7 @@ $salidaMonto    = 0;
         BuscaFechas(myFechaDesde, myFechaHasta);
 
         $('#wallet2').on('change', function (){
-
+            
             let myFechaDesde, myFechaHasta;
             myFechaDesde =  ($('#drCustomRanges').val()).substr(6,4) +
                             '-' +
@@ -505,7 +481,7 @@ $salidaMonto    = 0;
 
         if (miWallet !=0 ){
 
-            // calculoCuadroGeneral();
+             calculoCuadroGeneral();
 
             calculaEntradaHeader();
             calculoRecargas();
@@ -635,7 +611,207 @@ $salidaMonto    = 0;
     }
     
 
-    
+
+
+    /*
+    *
+    *   calculoCuadroGeneral
+    *   resumen general por wallet
+    *   muestra recargas
+    * 
+    */
+   
+    function calculoCuadroGeneral(myFechaDesde = "", myFechaHasta =""){
+        
+        @php
+        
+        $entradasUSDTCant       = 0;
+        $entradasUSDTMonto      = 0;
+
+        $comisionUSDTCant       = 0;
+        $comisionUSDTMonto      = 0;
+
+        $totalEntradasUSDTCant  = 0;
+        $totalEntradasUSDTMonto = 0;
+
+        $salidasUSDTCant        = 0;
+        $salidasUSDTMonto       = 0;
+
+        $operacionesUSDTCant    = 0;
+        $operacionesUSDTMonto   = 0;
+
+        $variosUSDTCant         = 0;
+        $variosUSDTMonto        = 0;
+
+        $totalSalidasUSDTCant  = 0;
+        $totalSalidasUSDTMonto = 0;
+
+
+        
+        foreach($RecargasWallet as $wallet2){
+            $entradasUSDTCant       += $wallet2->Cant;
+            $entradasUSDTMonto      += $wallet2->Amount;
+
+            $totalEntradasUSDTCant  += $wallet2->Cant;
+            $totalEntradasUSDTMonto += $wallet2->Amount;            
+        }
+
+        foreach($transaccionesGrupoComision as $wallet2){
+            $comisionUSDTCant       += $wallet2->Cant;
+            $comisionUSDTMonto      += $wallet2->Amount;
+
+            $totalEntradasUSDTCant  += $wallet2->Cant;
+            $totalEntradasUSDTMonto += $wallet2->Amount;            
+        }
+
+
+        foreach($transaccionesGrupoSalida as $wallet2){
+            $salidasUSDTCant       += $wallet2->Cant;
+            $salidasUSDTMonto      += $wallet2->Amount;
+
+            $totalSalidasUSDTCant  += $wallet2->Cant;
+            $totalSalidasUSDTMonto += $wallet2->Amount;            
+        }
+
+        foreach($transaccionesGrupoSalida2 as $wallet2){
+            $operacionesUSDTCant       += $wallet2->Cant;
+            $operacionesUSDTMonto      += $wallet2->Amount;
+
+            $totalSalidasUSDTCant  += $wallet2->Cant;
+            $totalSalidasUSDTMonto += $wallet2->Amount;            
+        }
+
+        foreach($transaccionesGrupoSalida3 as $wallet2){
+            $variosUSDTCant       += $wallet2->Cant;
+            $variosUSDTMonto      += $wallet2->Amount;
+
+            $totalSalidasUSDTCant  += $wallet2->Cant;
+            $totalSalidasUSDTMonto += $wallet2->Amount;            
+        }
+
+        @endphp
+        myElement =
+        `
+            <style>
+                .myTr {
+                    cursor: pointer;
+                }
+                .myTr:hover{
+                    background-color: #D7DBDD  !important;
+                }
+                .myTable th {
+                    width: 20% !important;
+                    min-wdth: 20% !important;
+                    max-wdth: 20% !important;
+                    background-color: orange !important;
+                }
+                .myWidth2{
+                    width: 12%;
+                    min-width: 12%;
+                    max-width: 12%;
+                }
+            </style>
+
+            {{-- dd($balanceDetail . ' ' . $myFechaDesdeBefore . ' ' . $myFechaHastaBefore) --}}
+  
+            <div class ="row mb-4" style="background-color: white;" data-wallet="">
+                <div class="col-12 text-center">
+                    <h3>Cuadro Movimiento General  USDT</h3>
+                </div>            
+                <div class="col-12 col-md-12">
+                    <table class="table thead-light" style="background-color: white;">
+
+                        <tr style="height: 30px; background-color: black; color: white;">
+                            <td>Saldo Anterior</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+
+                        <tr style="height: 30px;">
+                        </tr>
+
+                        <tr class="myTr" style="background-color: silver; color: black;">
+                            <td>Entradas USDT</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+
+                        <tr class="myTr">
+                            <td>Entradas USDT  </td>
+                            <td>{{ number_format($entradasUSDTCant) }}</td>
+                            <td>{{ number_format($entradasUSDTMonto ,2) }}</td>
+                        </tr>
+
+                        <tr class="myTr">
+                            <td>Comision USDT  </td>
+                            <td>{{ number_format($comisionUSDTCant) }}</td>
+                            <td>{{ number_format($comisionUSDTMonto ,2) }}</td>
+                        </tr>
+
+                        <tr class="myTr" style="background-color: silver; color: black;">
+                            <td>Total Entradas USDT</td>
+                            <td>{{ number_format($totalEntradasUSDTCant) }}</td>
+                            <td>{{ number_format($totalEntradasUSDTMonto ,2) }}</td>
+                        </tr>
+
+
+
+
+                        <tr style="height: 30px;">
+                        </tr>
+
+                        <tr class="myTr" style="background-color: silver; color: black;">
+                            <td>Salidas USDT</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+
+                        <tr class="myTr">
+                            <td>Salida Yaguara</td>
+                            <td>{{ number_format($salidasUSDTCant) }}</td>
+                            <td>{{ number_format($salidasUSDTMonto ,2) }}</td>
+                        </tr>
+
+                        <tr class="myTr">
+                            <td>Operaciones USDT  </td>
+                            <td>{{ number_format($operacionesUSDTCant) }}</td>
+                            <td>{{ number_format($operacionesUSDTMonto ,2) }}</td>
+                        </tr>
+
+                        <tr class="myTr">
+                            <td>Gastos Varios USDT  </td>
+                            <td>{{ number_format($variosUSDTCant) }}</td>
+                            <td>{{ number_format($variosUSDTMonto ,2) }}</td>
+                        </tr>
+
+                        <tr class="myTr" style="background-color: silver; color: black;">
+                            <td>Total Salidas USDT</td>
+                            <td>{{ number_format($totalSalidasUSDTCant) }}</td>
+                            <td>{{ number_format($totalEntradasUSDTMonto ,2) }}</td>
+                        </tr>
+
+                        <tr style="height: 30px;">
+                        </tr>
+
+                        <tr style="height: 30px; background-color: black; color: white;">
+                            <td>Saldo Pendiente</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+
+                    </table>
+                </div>
+
+            </div>
+        `;
+
+
+        $("#myCanvasGeneral").append(myElement);
+        // $("#myCanvasGeneralRecarga").append(myElement);
+        
+    }
+	
+	    
 
     function calculaEntradaHeader(){
         myElement =
@@ -874,7 +1050,7 @@ $salidaMonto    = 0;
     */
     function calculoTransacciones(){
  
-    myElement =
+        myElement =
         `
         <style>
             .myTr {
@@ -1016,9 +1192,6 @@ $salidaMonto    = 0;
     */
     function calculoTransaccionesSalida(){
 
-
-    
-
     myElement =
         `
         <style>
@@ -1058,7 +1231,10 @@ $salidaMonto    = 0;
                         $cant                       = 0;
 
                         $totalAmount                = 0;
+                        $totalCant                  = 0;
+
                         $myTotalAmount              = 0;
+                        $myTotalCant                = 0;
 
                         $myFechaDesdeDate = Date($myFechaDesde);
                         $myFechaHastaDate = Date($myFechaHasta);
@@ -1074,7 +1250,6 @@ $salidaMonto    = 0;
 
 
                                     // dd($myDate);
-                                    $salidaCant += $wallet2->Cant;
                                     //
                                     // filtra
                                     //
@@ -1086,9 +1261,9 @@ $salidaMonto    = 0;
                             <tr class="myTr">
                                 @php
 
-                                    $totalAmount                    +=  $wallet2->Amount;
+                                    $totalAmount                    += $wallet2->Amount;
+                                    $totalCant                      += $wallet2->Cant;
 
-                                    $cant                           += 1;
                                 @endphp
 
                                 <td class="myWidth22"   >{{ $wallet2->WalletName}}</td>                               
@@ -1103,23 +1278,20 @@ $salidaMonto    = 0;
 
                         @endforeach
                         @php
-                            // $myTotalCommission  +=  $totalComision;
-                            $myTotalAmount      +=  $totalAmount ;
-                            // $totalComision      =   0;               
-                            $totalAmount        =   0; 
+
                         @endphp
                         <tr style="background-color: black; color:white;">
-                            <td                     ></td>                    
-                            <td                     ></td>
-                            <td                     ></td>
+                            <td           ></td>
+                            <td           ></td>
+                            <td           ></td>
                             <td class=""  ></td>
-                            <td class=""  ></td>
-                            <td class=""  >{{ number_format($myTotalAmount,2) }}</td>     
+                            <td class=""  >{{ number_format($totalCant) }}</td>
+                            <td class=""  >{{ number_format($totalAmount,2) }}</td>
                             <td class=""  ></td>     
                         </tr>
 
                     
-                        @if($cant == 0)
+                        @if($totalCant == 0)
                             <tr class="myTr"">
                                 <td colspan="7">
                                     <div class="row  justify-content-center text-center align-items-center" style="margin-top: 5rem; margin-bottom: 5rem;">
@@ -1187,20 +1359,18 @@ $salidaMonto    = 0;
                 <table class="table thead-light" style="background-color: white;">
                     <thead class="thead-dark">
                         <tr>
-                            <th class=""   style="width: 25% !important;"          >Wallet</th>
-                            <th class="myWidth22"             >Grupo Id</th>
-                            <th class="myWidth22"             >Grupo</th>
-                            <th class=" myWidth22"  >Transaccion</th>
-                            <th class=" myWidth22"  >Cant</th>
-                            <th class=" myWidth22"  >Monto</th>
+                            <th class=""   style="width: 25% !important;">Wallet</th>
+                            <th class="myWidth22">Grupo Id</th>
+                            <th class="myWidth22">Grupo</th>
+                            <th class="myWidth22">Transaccion</th>
+                            <th class="myWidth22">Cant</th>
+                            <th class="myWidth22">Monto</th>
                             <th></th>
                         </tr>
                     </thead>
                     @php
-                        $cant                       = 0;
-
+                        $totalCant                  = 0;
                         $totalAmount                = 0;
-                        $myTotalAmount              = 0;
 
                         $myFechaDesdeDate = Date($myFechaDesde);
                         $myFechaHastaDate = Date($myFechaHasta);
@@ -1228,9 +1398,8 @@ $salidaMonto    = 0;
                             <tr class="myTr">
                                 @php
 
-                                    $totalAmount                    +=  $wallet2->Amount;
-
-                                    $cant                           += 1;
+                                    $totalAmount                    += $wallet2->Amount;
+                                    $totalCant                      += $wallet2->Cant;
                                 @endphp
 
                                 <td class="myWidth22"   >{{ $wallet2->WalletName}}</td>                               
@@ -1255,13 +1424,13 @@ $salidaMonto    = 0;
                             <td                     ></td>   
                             <td                     ></td>
                             <td class=""  ></td>
-                            <td class=""  ></td>
-                            <td class=""  >{{ number_format($myTotalAmount,2) }}</td>     
+                            <td class=""  >{{ number_format($totalCant) }}</td>
+                            <td class=""  >{{ number_format($totalAmount,2) }}</td>     
                             <td class=""  ></td>     
                         </tr>
 
                     
-                        @if($cant == 0)
+                        @if($totalCant == 0)
                             <tr class="myTr"">
                                 <td colspan="7">
                                     <div class="row  justify-content-center text-center align-items-center" style="margin-top: 5rem; margin-bottom: 5rem;">
@@ -1338,10 +1507,8 @@ $salidaMonto    = 0;
                         </tr>
                     </thead>
                     @php
-                        $cant                       = 0;
-
+                        $totalCant                  = 0;
                         $totalAmount                = 0;
-                        $myTotalAmount              = 0;
 
                         $myFechaDesdeDate = Date($myFechaDesde);
                         $myFechaHastaDate = Date($myFechaHasta);
@@ -1368,10 +1535,8 @@ $salidaMonto    = 0;
                             @endif
                             <tr class="myTr">
                                 @php
-
-                                    $totalAmount                    +=  $wallet2->Amount;
-
-                                    $cant                           += 1;
+                                    $totalAmount    += $wallet2->Amount;
+                                    $totalCant      += $wallet2->Cant;
                                 @endphp
 
                                 <td class="myWidth22"   >{{ $wallet2->WalletName}}</td>                               
@@ -1386,23 +1551,21 @@ $salidaMonto    = 0;
 
                         @endforeach
                         @php
-                            // $myTotalCommission  +=  $totalComision;
-                            $myTotalAmount      +=  $totalAmount ;
-                            // $totalComision      =   0;               
-                            $totalAmount        =   0; 
+
+
                         @endphp
                         <tr style="background-color: black; color:white;">
                             <td                     ></td>
                             <td                     ></td>
                             <td                     ></td>
                             <td class=""  ></td>
-                            <td class=""  ></td>
-                            <td class=""  >{{ number_format($myTotalAmount,2) }}</td>
+                            <td class=""  >{{ number_format($totalCant) }}</td>
+                            <td class=""  >{{ number_format($totalAmount,2) }}</td>
                             <td class=""  ></td>
                         </tr>
 
                     
-                        @if($cant == 0)
+                        @if($totalCant == 0)
                             <tr class="myTr"">
                                 <td colspan="7">
                                     <div class="row  justify-content-center text-center align-items-center" style="margin-top: 5rem; margin-bottom: 5rem;">
@@ -1436,7 +1599,7 @@ $salidaMonto    = 0;
 
         let myRoute = "";
 
-        myRoute = "{{ route('USDTResumenDiario', ['wallet' => 'wallet2' , 'grupo' => 'grupo2' ,'fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2']) }}";
+        myRoute = "{{ route('USDTResumenDiario', ['wallet' => 'wallet2' , 'fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2']) }}";
         
         myRoute = myRoute.replace('wallet2',wallet);
         myRoute = myRoute.replace('grupo2',grupo);
@@ -1505,8 +1668,8 @@ $salidaMonto    = 0;
         // alert('length ->' + myArray.length);
 
         if (myArray.length > 5){
-            FechaDesde = myArray[6];
-            FechaHasta = myArray[7];
+            FechaDesde = myArray[5];
+            FechaHasta = myArray[6];
         }else{
             FechaDesde = '2001-01-01';
             FechaHasta = '9999-12-31';

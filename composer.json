@@ -18,7 +18,7 @@
         "laravel/ui": "^4.2",
         "laravelcollective/html": "^6.4",
         "maatwebsite/excel": "^3.1",
-        "owen-it/laravel-auditing": "^13.1",
+        "owen-it/laravel-auditing": "^13.5",
         "php-flasher/flasher-laravel": "^1.15",
         "php-flasher/flasher-toastr-laravel": "^1.13",
         "silviolleite/laravelpwa": "^2.0",

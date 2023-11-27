@@ -85,7 +85,7 @@ Route::get('dashboardComisionesGrupoRes/{wallet?}/{grupo?}', [App\Http\Controlle
 Route::get('dashboardComisionesGrupoRes/{wallet?}/{grupo?}/{fechaDesde?}/{fechaHasta?}', [App\Http\Controllers\HomeController::class, 'comisionesGrupoRes'])->name('dashboardComisionesGrupoRes');
 
 
-Route::get('USDTResumenDiario/{wallet?}/{grupo?}/{fechaDesde?}/{fechaHasta?}', [App\Http\Controllers\HomeController::class, 'USDTResumenDiario'])->name('USDTResumenDiario');
+Route::get('USDTResumenDiario/{wallet?}/{fechaDesde?}/{fechaHasta?}', [App\Http\Controllers\HomeController::class, 'USDTResumenDiario'])->name('USDTResumenDiario');
 
 
 Route::get('dashboard_est/export/', [App\Http\Controllers\HomeController::class, 'export'])->name('exports.excel'); //EXPORTACIÓN DE EXCEL
@@ -179,7 +179,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('movimientos', TransactionController::class)->middleware('auth')->names('transactions');
     Route::get('movimientos2/{movimiento}', [TransactionController::class,'edit2'])->middleware('auth')->name('transactions.edit2');
     
-    
+    Route::get('movimientosAudit/{movimiento}', [TransactionController::class,'indexAudit'])->middleware('auth')->name('transactions.audit');
 
     Route::match(['put', 'patch'], 'movimientos/{movimiento}/estatus', [TransactionController::class, 'update_status'])->name('transactions.update_status');
 
