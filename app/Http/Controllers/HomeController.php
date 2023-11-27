@@ -621,6 +621,10 @@ class HomeController extends Controller
         $grupo                          = app(statisticsController::class)->getGroups();
         $typeTransactions               = app(statisticsController::class)->getTypeTransactions();
 
+        $transaccionesGrupoSalida = [];
+        $transaccionesGrupoSalida2 = [];
+        $transaccionesGrupoSalida3 = [];
+
         if ($myWallet != 0){
             
             $RecargasWallet             = app(statisticsController::class)->USDTResumenWallet($request);
@@ -731,8 +735,11 @@ class HomeController extends Controller
         $parametros['transaccionesGrupoSalida2']     = $transaccionesGrupoSalida2;
         $parametros['transaccionesGrupoSalida3']     = $transaccionesGrupoSalida3;
 
-        // dd($Recargas);
-         
+         // dd($RecargasWallet);
+        // dd($transaccionesGrupoComision);
+         // dd($transaccionesGrupoSalida);
+        // dd($transaccionesGrupoSalida2);
+        // dd($transaccionesGrupoSalida3);
         // dd($parametros);
         // dd('leam aqui 3');
                      

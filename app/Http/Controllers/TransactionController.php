@@ -1256,4 +1256,20 @@ class TransactionController extends Controller
         return false;
 
     }
+
+    public function indexAudit(Request $request, transaction $transaction)
+    {
+        $myTransaction = Transaction::find(359);
+        // $audit = $myTransaction->audits()->latest()->first();
+        $audit = $myTransaction->audits()->get();
+         // dd('leam - indexAudit ' . print_r($audit,true));
+        // dd('leam - indexAudit ' . print_r($audit->getMetadata(),true));
+        // dd('leam - indexAudit ' . print_r($audit->getModified(),true));
+        
+        // Transaction::audits;
+
+    }
+
+
+
 }

@@ -108,12 +108,15 @@
                                     <th class="no-exportar">Agente</th>
                                     <th>Tipo de Movimiento</th>
                                     <th style="width:1%; display:none;">Caja <i class="fas fa-search"></i></th>
+
                                     @can('transactions.update_status')
                                         <th style="width:1%;">Activo/Anulado</th>
                                     @endcan
+                                    
                                     @can('transactions.edit')
-                                    <th style="width:1%;" class="no-exportar">Tasa/Comisión</th>
+                                        <th style="width:1%;" class="no-exportar">Tasa/Comisión</th>
                                     @endcan
+
                                     {{--
                                     @if((auth()->id())==2)
                                         @can('transactions.edit')
@@ -121,8 +124,14 @@
                                         @endcan
                                     @endif
                                     --}}
+                                    
                                     <th style="width:1%;" class="no-exportar">Ver <i class="fas fa-search"></i></th>
 
+                                    @if((auth()->id())==2)
+                                        
+                                        <th style="width:1%;" class="no-exportar">Historico</th>
+                                        
+                                    @endif
                                 </tr>
                             </thead>
                             
@@ -197,10 +206,18 @@
                                     <td>
                                         <a  href="{{ route('transactions.show', $transferencias->id) }}" 
                                             class="btn btn-xl text-dark mx-1 shadow text-center">
-                                            <i class="fa fa-lg fa-fw fas fa-search"
+                                            <i class="fa fa-lg fa-fw fas fa-search"></i>
                                         </a>
                                     </td>
-
+                                    @if((auth()->id())==2)
+                                        <td>
+                                            <a  href="{{ route('transactions.audit', $transferencias->id) }}" 
+                                                class="btn btn-xl text-dark mx-1 shadow text-center">
+                                                <i class="fa fa-lg fa-fw fas fa-solid fa-list"></i>
+                                                
+                                            </a>
+                                        </td>
+                                    @endif
                                 </tr>
 
                             @endforeach
