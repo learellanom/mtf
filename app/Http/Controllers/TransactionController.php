@@ -1257,17 +1257,44 @@ class TransactionController extends Controller
 
     }
 
-    public function indexAudit(Request $request, transaction $transaction)
+    public function indexAudit(Request $request)
     {
-        $myTransaction = Transaction::find(359);
-        // $audit = $myTransaction->audits()->latest()->first();
-        $audit = $myTransaction->audits()->get();
-         // dd('leam - indexAudit ' . print_r($audit,true));
-        // dd('leam - indexAudit ' . print_r($audit->getMetadata(),true));
-        // dd('leam - indexAudit ' . print_r($audit->getModified(),true));
-        
-        // Transaction::audits;
 
+       // dd($request->movimiento);
+        
+        $myTransaction = Transaction::find(22833);
+       // dd($myTransaction);
+        // $audit = $myTransaction->audits()->latest()->first();
+        
+        $myAudit = $myTransaction->audits()->get();
+         // dd($myAudit);
+
+         // echo "<br>" . $myTransaction->user->name;
+         echo "<br>";
+         echo "<br>";
+         echo "<br>";
+         echo "<br>";
+         echo "<br>";
+         echo "<br>";
+        foreach($myAudit as $value){
+            echo "<br>  auditable_id -> "   . $value->auditable_id . "<br>";
+            echo "<br>  user->name->"       . $value->user->name . "<br>";
+            echo "<br>  event -> " . $value->event . "<br>";
+            echo "<br>  created_at -> " . $value->created_at . "<br>";
+            // echo "<br>  con new value -> " . print_r($value->new_values);
+            foreach($value->new_values as $key => $theValues){
+                echo "<br> the key ->" . $key . " theValues ->" . $theValues;
+            }
+        }
+        die();
+        
+            // $audit = $myTransaction->audits()->first();
+            // dd('leam - indexAudit ' . print_r($audit,true));
+            // dd('leam - indexAudit ' . print_r($audit->getMetadata(),true));
+            // dd('leam - indexAudit ' . print_r($audit->getModified(),true));
+          //  dd('leam - indexAudit ' . print_r($myAudit->getModified(),true));
+            // Transaction::audits;
+        
     }
 
 

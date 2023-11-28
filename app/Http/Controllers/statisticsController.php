@@ -3044,7 +3044,7 @@ class statisticsController extends Controller
         // $request->wallet        = 93;   // caja usdt
         // $request->wallet        = 139;  // caja principal usdt
 
-        $request->transaction   = 11; // 11 pago usdt y 13 cobro usdt
+        $request->transaction   = 11; // 11 pago usdt 
 
         $myWalletDesde = 00000;
         $myWalletHasta = 99999;

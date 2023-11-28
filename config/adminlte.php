@@ -364,9 +364,10 @@ return [
             'can'  => 'estadisticasDetalle.index',
         ],
         [
-            'text'      => 'Comisiones',
-            'icon'      => 'fas fa-fw fa-share',
-            'icon_color' => 'primary',
+            'text'          => 'Comisiones',
+            'icon'          => 'fas fa-fw fa-share',
+            'icon_color'    => 'primary',
+            'can'           => ['dashboardComisiones','dashboardComisionesGrupo', 'dashboardComisionesGrupo2'. 'dashboardComisionesGrupoRes'],
             'submenu'   => [
                 [
                     'text' => 'Consolidado',
@@ -395,14 +396,16 @@ return [
                     'url'       => 'dashboardComisionesGrupoRes',
                     'active'    => ['dashboardComisionesGrupoRes'],
                     'classes'   =>  'ml-4',
+                    'can'       => 'dashboardComisionesGrupoRes',
                     'icon_color' => 'primary',
                 ],
             ]
         ],
         [ 
-            'text'      => 'USDT',
-            'icon'      => 'fas fa-dollar-sign', 
-            'icon_color' => 'primary',
+            'text'          => 'USDT',
+            'icon'          => 'fas fa-dollar-sign', 
+            'icon_color'    => 'primary',
+            'can'           =>  ['USDTResumenDiario'],
             'submenu'   => [
                 [
                     'text' => 'Cuadro de Movimientos',
