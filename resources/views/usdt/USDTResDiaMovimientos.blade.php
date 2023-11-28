@@ -1415,9 +1415,9 @@ $salidaMonto    = 0;
                         @endforeach
                         @php
                             // $myTotalCommission  +=  $totalComision;
-                            $myTotalAmount      +=  $totalAmount ;
+                            // $myTotalAmount      +=  $totalAmount ;
                             // $totalComision      =   0;               
-                            $totalAmount        =   0; 
+                            // $totalAmount            +=   $wallet2->Amount; 
                         @endphp
                         <tr style="background-color: black; color:white;">
                             <td                     ></td>                    
