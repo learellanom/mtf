@@ -1261,40 +1261,57 @@ class TransactionController extends Controller
     {
 
        // dd($request->movimiento);
+        $myMovimiento   = $request->movimiento ? $request->movimiento : 0;
+        //$myMovimiento   = 22833;
+        //$myMovimiento   = 0;
+        $transaction  = Transaction::find($myMovimiento);
         
-        $myTransaction = Transaction::find(22833);
-       // dd($myTransaction);
-        // $audit = $myTransaction->audits()->latest()->first();
-        
-        $myAudit = $myTransaction->audits()->get();
-         // dd($myAudit);
-
-         // echo "<br>" . $myTransaction->user->name;
-         echo "<br>";
-         echo "<br>";
-         echo "<br>";
-         echo "<br>";
-         echo "<br>";
-         echo "<br>";
-        foreach($myAudit as $value){
-            echo "<br>  auditable_id -> "   . $value->auditable_id . "<br>";
-            echo "<br>  user->name->"       . $value->user->name . "<br>";
-            echo "<br>  event -> " . $value->event . "<br>";
-            echo "<br>  created_at -> " . $value->created_at . "<br>";
-            // echo "<br>  con new value -> " . print_r($value->new_values);
-            foreach($value->new_values as $key => $theValues){
-                echo "<br> the key ->" . $key . " theValues ->" . $theValues;
-            }
+         // if (!$transaction) {
+        //     dd('nulo');
+        // }
+        // dd($transaction);
+        $audits= [];
+        if ($transaction) {
+            $audits = $transaction->audits()->get();
         }
-        die();
+        // dd($myAudit);
+
         
-            // $audit = $myTransaction->audits()->first();
-            // dd('leam - indexAudit ' . print_r($audit,true));
-            // dd('leam - indexAudit ' . print_r($audit->getMetadata(),true));
-            // dd('leam - indexAudit ' . print_r($audit->getModified(),true));
-          //  dd('leam - indexAudit ' . print_r($myAudit->getModified(),true));
-            // Transaction::audits;
+        // echo "<br>" . $myTransaction->type_transaction->name;
+        // echo "<br>" . $myTransaction->wallet->name;
+        // echo "<br>" . $myTransaction->group->name;
+        // echo "<br>" . $myTransaction->type_coin->name;
+        // echo "<br>";
+        // echo "<br>";
+        // echo "<br>";
+        // echo "<br>";
+        // echo "<br>";
+        // echo "<br>";
+        // foreach($audits as $value){
+        //     echo "<br>  auditable_id -> "   . $value->auditable_id . "<br>";
+        //     echo "<br>  user->name->"       . $value->user->name . "<br>";
+        //     echo "<br>  user->name->"       . $value->type_transactions . "<br>";
+        //     echo "<br>  event -> " . $value->event . "<br>";
+        //     echo "<br>  created_at -> " . $value->created_at . "<br>";
+        //     // echo "<br>  con new value -> " . print_r($value->new_values);
+        //     foreach($value->new_values as $key => $theValues){
+        //         echo "<br> the key ->" . $key . " theValues ->" . $theValues;
+        //     }
+        // }
+        // die();
         
+        // $audit = $myTransaction->audits()->first();
+        // dd('leam - indexAudit ' . print_r($audit,true));
+        // dd('leam - indexAudit ' . print_r($audit->getMetadata(),true));
+        // dd('leam - indexAudit ' . print_r($audit->getModified(),true));
+        //  dd('leam - indexAudit ' . print_r($myAudit->getModified(),true));
+        // Transaction::audits;
+        $parametros['transaccion'] = $transaction;
+        $parametros['audits'] = $audits;
+        $parametros['myMovimiento'] = $myMovimiento;
+        return view('transactions.transactionAudit', $parametros);
+
+
     }
 
 
