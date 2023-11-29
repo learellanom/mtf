@@ -209,7 +209,7 @@
                                             <i class="fa fa-lg fa-fw fas fa-search"></i>
                                         </a>
                                     </td>
-                                    @if((auth()->id())==2)
+                                    {{-- @if((auth()->id())==2) --}}
                                         <td>
                                             <a  href="{{ route('transactions.audit', $transferencias->id) }}" 
                                                 class="btn btn-xl text-dark mx-1 shadow text-center">
@@ -217,7 +217,7 @@
                                                 
                                             </a>
                                         </td>
-                                    @endif
+                                    {{-- @endif --}}
                                 </tr>
 
                             @endforeach
