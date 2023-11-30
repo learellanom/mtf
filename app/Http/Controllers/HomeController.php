@@ -558,6 +558,8 @@ class HomeController extends Controller
         // dd($request->fechaDesde . ' ' . $request->fechaHasta);
         
         // dd($wallet);
+        // if ($request->query('wallet')){
+        // };
 
         
         /* MANTENER VALOR BUSCADO EN EL URL */
@@ -567,7 +569,7 @@ class HomeController extends Controller
         if ($request->wallet){
             $myWalletDesde   = $request->wallet;
             $myWalletHasta   = $request->wallet;
-            $myWallet        = $request->wallet;
+            $myWallet        = $request->wallet;    
         }
 
         $myGrupoDesde   = 0;
@@ -617,9 +619,19 @@ class HomeController extends Controller
         
         
 
-        $wallet                         = app(statisticsController::class)->getWallet();
+        $wallet                         = app(statisticsController::class)->getWalletUSDT();
         $grupo                          = app(statisticsController::class)->getGroups();
         $typeTransactions               = app(statisticsController::class)->getTypeTransactions();
+
+        $balance                        = 0;
+        $balanceBefore                  = 0;
+        
+        if ($myWallet > 0){
+            
+            $balance        = app(statisticsController::class)->getBalanceWallet($myWallet);
+            $balanceBefore  = app(statisticsController::class)->getBalanceWalletBefore($myWallet,$myFechaDesde, $myFechaHasta);
+             
+        }
 
         $transaccionesGrupoSalida = [];
         $transaccionesGrupoSalida2 = [];
@@ -676,6 +688,8 @@ class HomeController extends Controller
             $temp [] = 181;
             $temp [] = 196;
             $temp [] = 33;
+            $temp [] = 203;
+            $temp [] = 330;
 
             $request->groups = $temp;
 
@@ -729,11 +743,14 @@ class HomeController extends Controller
 
         // die(urlencode($myFechaDesde));
 
+        $parametros['balance']                      = $balance;
+        $parametros['balanceBefore']                = $balanceBefore;
+
         $parametros['RecargasWallet']               = $RecargasWallet;
         $parametros['transaccionesGrupoComision']   = $transaccionesGrupoComision;
         $parametros['transaccionesGrupoSalida']     = $transaccionesGrupoSalida;
-        $parametros['transaccionesGrupoSalida2']     = $transaccionesGrupoSalida2;
-        $parametros['transaccionesGrupoSalida3']     = $transaccionesGrupoSalida3;
+        $parametros['transaccionesGrupoSalida2']    = $transaccionesGrupoSalida2;
+        $parametros['transaccionesGrupoSalida3']    = $transaccionesGrupoSalida3;
 
         // dd($RecargasWallet);
         // dd($transaccionesGrupoComision);

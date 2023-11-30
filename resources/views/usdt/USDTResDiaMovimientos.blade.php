@@ -481,7 +481,7 @@ $salidaMonto    = 0;
 
         if (miWallet !=0 ){
 
-             calculoCuadroGeneral();
+            calculoCuadroGeneral();
 
             calculaEntradaHeader();
             calculoRecargas();
@@ -502,7 +502,8 @@ $salidaMonto    = 0;
             pantallaInicial();
         }
         leeFiltros();  
-        aplicaFiltros();      
+        grabaFiltros();
+        // aplicaFiltros();      
 
 
         $('#myDrClearButton').on('click', function (){
@@ -689,6 +690,9 @@ $salidaMonto    = 0;
             $totalSalidasUSDTMonto += $wallet2->Amount;            
         }
 
+        // $totalSalidasUSDTCant  += $wallet2->Cant;
+        $totalPendienteUSDTMonto  = ($balanceBefore + $totalEntradasUSDTMonto) - $totalSalidasUSDTMonto;
+
         @endphp
         myElement =
         `
@@ -714,7 +718,7 @@ $salidaMonto    = 0;
 
             {{-- dd($balanceDetail . ' ' . $myFechaDesdeBefore . ' ' . $myFechaHastaBefore) --}}
   
-            <div class ="row mb-4" style="background-color: white;" data-wallet="">
+            <div class ="row" style="background-color: white; margin-bottom: 6.5rem !important" data-wallet="">
                 <div class="col-12 text-center">
                     <h3>Cuadro Movimiento General  USDT</h3>
                 </div>            
@@ -724,7 +728,7 @@ $salidaMonto    = 0;
                         <tr style="height: 30px; background-color: black; color: white;">
                             <td>Saldo Anterior</td>
                             <td></td>
-                            <td></td>
+                            <td>{{ number_format($balanceBefore ,2) }}</td>
                         </tr>
 
                         <tr style="height: 30px;">
@@ -766,6 +770,8 @@ $salidaMonto    = 0;
                             <td></td>
                         </tr>
 
+
+
                         <tr class="myTr">
                             <td>Salida Yaguara</td>
                             <td>{{ number_format($salidasUSDTCant) }}</td>
@@ -787,7 +793,7 @@ $salidaMonto    = 0;
                         <tr class="myTr" style="background-color: silver; color: black;">
                             <td>Total Salidas USDT</td>
                             <td>{{ number_format($totalSalidasUSDTCant) }}</td>
-                            <td>{{ number_format($totalEntradasUSDTMonto ,2) }}</td>
+                            <td>{{ number_format($totalSalidasUSDTMonto ,2) }}</td>
                         </tr>
 
                         <tr style="height: 30px;">
@@ -796,7 +802,7 @@ $salidaMonto    = 0;
                         <tr style="height: 30px; background-color: black; color: white;">
                             <td>Saldo Pendiente</td>
                             <td></td>
-                            <td></td>
+                            <td>{{ number_format($totalPendienteUSDTMonto ,2) }}</td>
                         </tr>
 
                     </table>
@@ -842,7 +848,7 @@ $salidaMonto    = 0;
 
         myElement =
         `
-        <div class ="row mb-4">
+        <div class ="row" style="margin-bottom: 6.5rem !important;">
             <div class="col-12 text-center" style="background-color: #2874A6; color: white">
                 <table class="table">
                     <tr style="background-color: #2874A6; color: white">
@@ -1729,18 +1735,37 @@ $salidaMonto    = 0;
         let ocultarresumengeneral       = $('#ResumenGeneral').prop("checked");
         let ocultarresumentransaccion   = $('#ResumenTransaccion').prop("checked");
         
+        let entrada1        = "Comision";
+        let gruposEntrada1  = [1,2,3];
+
+        let salida1         = "Comision";
+        let gruposSalida1  = [4,5,6];
+        
+        let salida2         = "Comision";
+        let gruposSalida2  = [6,7,8];
+        
+        let salida3         = "Comision";
+        let gruposSalida3  = [9,1,3];
+
         // alert('grabaFiltros : ocultarresumengeneral -> ' + ocultarresumengeneral + '  ocultarresumentransaccion -> ' + ocultarresumentransaccion + ' myDataTransactions -> ' + myDataTransactions);
 
         $.ajax(
             {
                 headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
                 method: "POST",
-                url: "{{route('filtrosGrabaComisionesGrupo')}}",
+                url: "{{route('filtroUSDTResDiaMovimientosGraba')}}",
                 async: false,
-                data: { 
-                    ocultarresumengeneral: ocultarresumengeneral,
-                    ocultarresumentransaccion: ocultarresumentransaccion,
-                    transactions: myDataTransactions,      
+                data: {
+                        data: { 
+                            entrada1: entrada1,
+                            gruposEntrada1: gruposEntrada1,
+                            salida1: salida1,
+                            gruposSalida1: gruposEntrada1,
+                            salida2: salida2,
+                            gruposSalida2: gruposSalida2,
+                            salida3: salida3,
+                            gruposSalida3: gruposSalida3,
+                    }
                 },
             }
         ).done (function(myData) {
@@ -1770,39 +1795,23 @@ $salidaMonto    = 0;
 
     function leeFiltros(){
 
-        let myocultarresumengeneral     = "{{ ($myocultarresumengeneral) ? true : false  }}" ? true : false;
-        let myocultarresumentransaccion = "{{ ($myocultarresumentransaccion) ? true : false  }}" ? true : false;
+        $.ajax(
+            {
+                url: "{{route('filtroUSDTResDiaMovimientosLee')}}",
+                async: false,
+            }
+        ).done (function(myData) {
+            
+            myData2 = myData.data;
 
-        if (myocultarresumengeneral){
-            $('#ResumenGeneral').prop("checked",true);
-        }else{
-            $('#ResumenGeneral').prop("checked",false);
-        }
+        });
 
-        if (myocultarresumentransaccion){
-            $('#ResumenTransaccion').prop("checked",true);
-        }else{
-            $('#ResumenTransaccion').prop("checked",false);
-        }
-
-        let myData2 = [];
-
-        @foreach($mytransactions as $value)
-            myData2.push({{$value}});
-        @endforeach
-
-        // alert(myData2);
-
-        myData2.map( function (valor) {
-
-            $("#my-select option").each(function(){
-                if (valor == $(this).attr('value')){
-                    $('#my-select').multiSelect('select', valor.toString());
-
-                }
-            });
-
-        });          
+        console.log('leam - leefiltros ->' + JSON.stringify(myData2));
+        console.log('leam - leefiltros ->' + myData2.entrada1);
+        console.log('leam - leefiltros ->' + myData2.groupsEntrada1);
+        myData2.groupsEntrada1.map( (x) => {
+            console.log('leam - x ->' + x)
+        })
     }
 
 
