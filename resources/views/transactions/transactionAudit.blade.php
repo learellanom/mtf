@@ -138,25 +138,26 @@ $salidaMonto    = 0;
                                 <h3 class="mt-5">Sin registro en Historico de cambios</td>
                             </div>
                         @else
-                        <table class="table thead-light" style="background-color: white;">
+                            <table class="table thead-light" style="background-color: white;">
 
                                 @foreach($audits as $myAudit)
 
-                                <thead class="thead-dark">
-                                    <tr>
-                                        <th class="myWidth2" style="width: 1% !important;">ID</th>
-                                        <th class="" style="width: 20% !important;">Fecha</th>                                
-                                        <th class="myWidth2"                       >Usuario</th>
-                                        <th class="myWidth2"                       >Accion</th>
-                                        <th class=""  style="width: 5rem;"         >Datos</th>
-                                    </tr>
-                                </thead>
+                                    <thead class="thead-dark">
+                                        <tr>
+                                            <th class="myWidth2" style="width: 1% !important;">ID</th>
+                                            <th class="" style="width: 20% !important;">Fecha</th>                                
+                                            <th class="myWidth2"                       >Usuario</th>
+                                            <th class="myWidth2"                       >Accion</th>
+                                            <th class=""  style="width: 5rem;"         >Datos</th>
+                                        </tr>
+                                    </thead>
                                     <tr class="myTr">
                                         <td>{{ $myAudit->auditable_id}}</td>
                                         <td>{{ $myAudit->created_at }}</td>                                
                                         <td>{{ $myAudit->user->name}}</td>
                                         <td>{{ campoDescripcion($myAudit->event) }}</td>
                                         <td>
+                                                {{--
                                             <table>
                                                 @foreach($myAudit->new_values as  $key => $theValues)
                                                     <tr>
@@ -169,6 +170,39 @@ $salidaMonto    = 0;
                                                     </tr>
                                                 @endforeach
                                             </table>
+                                            --}}
+
+                                            <!-- aqui -->
+
+                                            <p>
+                                            <a class="btn btn-primary" 
+                                                data-toggle="collapse"
+                                                href="#collapseExample{{$myAudit->id}}"
+                                                role="button" 
+                                                aria-expanded="false" 
+                                                aria-controls="collapseExample">
+                                                mas...
+                                            </a>
+
+                                            </p>
+                                            <div class="collapse" id="collapseExample{{$myAudit->id}}">
+                                                <div class="card card-body">
+                                                    <table>
+                                                        @foreach($myAudit->new_values as  $key => $theValues)
+                                                            <tr>
+                                                                <td>
+                                                                    {{ campoDescripcion($key)}}
+                                                                </td>
+                                                                <td>
+                                                                    {{ campoMascara($key, $theValues, $transaccion) }}
+                                                                </td>
+                                                            </tr>
+                                                        @endforeach
+                                                    </table>
+                                                </div>
+                                            </div>
+  
+
                                         </td>
                                     </tr>
                                 @endforeach
@@ -181,7 +215,7 @@ $salidaMonto    = 0;
                                     <td                     ></td>
                                 </tr>
 
-                        </table>
+                            </table>
                         @endif
                 </div>
 
@@ -318,18 +352,18 @@ $salidaMonto    = 0;
                         break;
                 }
                 break;
-            case "amount_total":                return number_format($valor,2);                   break;
-            case "percentage_base":             return number_format($valor,2);               break;
-            case "exchange_rate_base":          return number_format($valor,2);               break;
-            case "amount_base":                 return number_format($valor,2);                    break;
-            case "exonerate_base":              return number_format($valor,2);                break;
+            case "amount_total":                return number_format($valor,2);           break;
+            case "percentage_base":             return number_format($valor,2);           break;
+            case "exchange_rate_base":          return number_format($valor,2);           break;
+            case "amount_base":                 return number_format($valor,2);           break;
+            case "exonerate_base":              return number_format($valor,2);           break;
             case "amount_commission_base":      return number_format($valor,2);           break;
-            case "amount_total_base":           return number_format($valor,2);              break;
-            case "status":                      return $valor;                        break;
-            case "amount_commission_profit":    return number_format($valor,2);       break;
-            case "description":                 return $valor;                   break;
-            case "id":                          return $valor;                   break;
-            default:                            return $valor;                           break;
+            case "amount_total_base":           return number_format($valor,2);           break;
+            case "status":                      return $valor;                            break;
+            case "amount_commission_profit":    return number_format($valor,2);           break;
+            case "description":                 return $valor;                            break;
+            case "id":                          return $valor;                            break;
+            default:                            return $valor;                            break;
         }        
     }
 

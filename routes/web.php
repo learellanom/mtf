@@ -126,6 +126,9 @@ Route::get('dashboard_saldos/exportSaldosPDF/', [App\Http\Controllers\HomeContro
 Route::get('dashboard_saldos/exportSaldosPDF/{fechaDesde?}/{fechaHasta?}/{filtroWallet?}/{filtroGroup?}/{filtroWalletB?}/{filtroGroupB?}/{resumen?}', [App\Http\Controllers\HomeController::class, 'exportSaldosPDF'])->name('exports.SaldosPDF'); //EXPORTACIÓN DE EXCEL
 
 
+Route::get('filtroUSDTResDiaMovimientosLee', [App\Http\Controllers\statisticsController::class, 'filtroUSDTResDiaMovimientosLee'])->name('filtroUSDTResDiaMovimientosLee');
+Route::post('filtroUSDTResDiaMovimientosGraba', [App\Http\Controllers\statisticsController::class, 'filtroUSDTResDiaMovimientosGraba'])->name('filtroUSDTResDiaMovimientosGraba');
+
 Route::get('filtrosLeeWallet', [App\Http\Controllers\statisticsController::class, 'filtrosLeeWallet'])->name('filtrosLeeWallet'); // Lee filtros
 Route::get('filtrosLeeGroup', [App\Http\Controllers\statisticsController::class, 'filtrosLeeGroup'])->name('filtrosLeeGroup'); // Lee filtros
 

@@ -2160,6 +2160,28 @@ class statisticsController extends Controller
     /*
     *
     *
+    *   getWalletUSDT
+    *
+    *
+    */
+    function getWalletUSDT(){
+        $wallet = Group::select('groups.id', 'groups.name')
+            ->where('type','=','2')
+            ->where('type','=','2')
+            ->where('name','like','%USDT%')
+            ->where('name','like','%usdt%')
+            ->orderBy('groups.name')
+        ->get();
+        // dd($wallet);
+        foreach($wallet as $wallet){
+           $wallet2 [$wallet->id] =  $wallet->name;
+        }
+        return $wallet2;
+
+    }    
+    /*
+    *
+    *
     *    getClient
     *
     *
@@ -4168,11 +4190,52 @@ class statisticsController extends Controller
         return response()->json($myResponse);
     }
 
+    
+    public function filtroUSDTResDiaMovimientosLee(){
+
+        $myJson         = file_get_contents("filtros\myUSDTResDiaMovimientosFiltro");
+        $myJsonData     = json_decode($myJson,true); 
+
+        \Log::info('leam - lee USDT filtro -> ' . print_r($myJsonData,true));
+
+
+        $myResponse = 
+        [
+            'success' => true,
+            'data' => $myJsonData,
+            'message' => 'mi mensaje de leer'
+        ];
+
+        return response()->json($myResponse);
+    }
+
+
+    public function filtroUSDTResDiaMovimientosGraba(Request $request){
+
+        // dd($request);
+
+        \Log::info('leam - Graba USDT filtro -  filtroUSDTResDiaMovimientosGraba ->' . json_encode($request->data));
+
+        $json = $request->data;
+        // file_put_contents("filtros\myUSDTResDiaMovimientosFiltro", $json);
+
+
+        // dd($request);
+
+        $myResponse = 
+        [
+            'success' => true,
+            'data' => '',
+            'message' => 'filtros guardados exitosamente'
+        ];
+
+        return response()->json($myResponse);
+    }   
+
     public function filtrosLeeWallet(){
 
         $myfile = fopen("myFiltros", "r") or die("Unable to open file!");
 
-        
         $myWallets = fgets($myfile);
         
         $myGroups  = fgets($myfile);

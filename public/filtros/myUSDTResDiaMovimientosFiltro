@@ -1,0 +1,6 @@
+{
+    "entrada1" : "Comision",           "groupsEntrada1" : [0,89,91,114,99,155,101,103,100,102,97,90],
+    "salida1"  : "Comision",           "groupsSalida1"  : [0,89,91,114,99,155,101,103,100,102,97,90],
+    "salida2"  : "Comision",           "groupsSalida2"  : [0,89,91,114,99,155,101,103,100,102,97,90],
+    "salida3"  : "Comision",           "groupsSalida3"  : [0,89,91,114,99,155,101,103,100,102,97,90]
+}
