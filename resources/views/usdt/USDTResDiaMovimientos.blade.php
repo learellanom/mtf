@@ -217,7 +217,7 @@ $salidaMonto    = 0;
                 aria-selected="true">
                 Estadistica
             </button>
-
+            {{--
             <button 
                 class="nav-link" 
                 id="nav-recarga-tab" 
@@ -229,7 +229,7 @@ $salidaMonto    = 0;
                 aria-selected="true">
                 Recarga
             </button>
-                {{--
+            --}}
             <button 
                 class="nav-link" 
                 id="nav-profile-tab" 
@@ -241,7 +241,7 @@ $salidaMonto    = 0;
                 aria-selected="false">
                 Filtros
             </button>
-                    --}}
+                    
         </div>
     </nav>
 
@@ -262,7 +262,7 @@ $salidaMonto    = 0;
         </div>
 
         {{-- Recargas --}}
-
+                
         <div class="tab-pane fade"              id="nav-recarga" role="tabpanel"    aria-labelledby="nav-recarga-tab">
 
             <div id="myCanvasGeneralRecarga"></div>
@@ -271,58 +271,24 @@ $salidaMonto    = 0;
 
         </div>
         {{-- Filtros --}}
-                    {{--
+                    
         <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">Filtros
 
-            <div class="card mb-4">
-                <div class="card-header">
-                    <h3 class="card-title text-uppercase font-weight-bold">Filtros  Generales</h3>
+
+        <div class="card mb-4">
+                <div class="card-header" style="background-color: #2874A6; color: white">
+                    <h3 class="card-title text-uppercase font-weight-bold">Filtros Entradas USDT</h3>
                 </div>
                 <div class="card-body">    
-                    <div class="row justify-content-center text-center align-items-center">
-
-                        <div class="col-12 col-md-6 col-lg-6 col-xl-4 justify-content-center text-center align-items-center">
-                            <label for="ResumenGeneral">Ocultar resumen general caja primaria:</label>
-                            <input type="checkbox" id="ResumenGeneral" name="ResumenGeneral"><br><br>
-                        </div>  
-
-                    </div>     
-
 
                     <div class="row justify-content-center text-center align-items-center">
 
                         <div class="col-12 col-md-6 col-lg-6 col-xl-4 justify-content-center text-center align-items-center">
-                            <label for="ResumenTransaccion">Ocultar resumen por caja secundaria:</label>
-                            <input type="checkbox" id="ResumenTransaccion" name="ResumenTransaccion"><br><br>
-                        </div>  
-
-                    </div>   
-
-
-                    <br>
-                    <br>
-                    <div class="row justify-content-center text-center align-items-center">
-                        <div class="col-12 col-sm-2 mt-2">
-                            <button id="myButtonAplicar2" type="button" class="btn btn-outline-primary btn-sm ">Aplicar</button>
-
-                        </div>
-
-                        <div class="col-12 col-sm-2 mt-2">
-                            <button id="myButtonLimpiar2" type="button" class="btn btn-outline-primary btn-sm ">Limpiar</button>
-                        </div>                    
-                    </div>
-                </div>
-            </div>
-
-            <div class="card mb-4">
-                <div class="card-header">
-                    <h3 class="card-title text-uppercase font-weight-bold">Filtros Transacciones</h3>
-                </div>
-                <div class="card-body">    
-                    <div class="row justify-content-center text-center align-items-center">
-
-                        <div class="col-12 col-md-6 col-lg-6 col-xl-4 justify-content-center text-center align-items-center">
-                            <select multiple="multiple" id="my-select" name="my-select[]">
+                            <div class="mt-4 mb-4">
+                                <label>Nombre Grupo</label>
+                                <input type="text" id="entrada1" size=20/>
+                            </div>
+                            <select multiple="multiple" id="my-select1" name="my-select[]">
                             </select>   
                         </div>  
 
@@ -340,9 +306,106 @@ $salidaMonto    = 0;
                         </div>                    
                     </div>
                 </div>
+
             </div>
+
+
+            <div class="card mb-4">
+                <div class="card-header" style="background-color: #BB8FCE; color: white">
+                    <h3 class="card-title text-uppercase font-weight-bold">Filtros Salidas USDT Grupo A </h3>
+                </div>
+                <div class="card-body">    
+                    <div class="row justify-content-center text-center align-items-center">
+                        <div class="col-12 col-md-6 col-lg-6 col-xl-4 justify-content-center text-center align-items-center">
+                            <div class="mt-4 mb-4">
+                                <label>Nombre Grupo</label>
+                                <input type="text" id="salida1" size=20/>
+                            </div>                            
+                            <select multiple="multiple" id="my-select2" name="my-select[]">
+                            </select>   
+                        </div>  
+
+                    </div>     
+                    <br>
+                    <br>
+                    <div class="row justify-content-center text-center align-items-center">
+                        <div class="col-12 col-sm-2 mt-2">
+                            <button id="myButtonAplicar2" type="button" class="btn btn-outline-primary btn-sm ">Aplicar</button>
+
+                        </div>
+
+                        <div class="col-12 col-sm-2 mt-2">
+                            <button id="myButtonLimpiar2" type="button" class="btn btn-outline-primary btn-sm ">Limpiar</button>
+                        </div>                    
+                    </div>
+                </div>
+            </div>
+
+            <div class="card mb-4">
+                <div class="card-header" style="background-color: #BB8FCE; color: white">
+                    <h3 class="card-title text-uppercase font-weight-bold">Filtros Salidas USDT Grupo B </h3>
+                </div>
+                <div class="card-body">    
+                    <div class="row justify-content-center text-center align-items-center">
+
+                        <div class="col-12 col-md-6 col-lg-6 col-xl-4 justify-content-center text-center align-items-center">
+                            <div class="mt-4 mb-4">
+                                <label>Nombre Grupo</label>
+                                <input type="text" id="salida2" size=20/>
+                            </div>                            
+                            <select multiple="multiple" id="my-select3" name="my-select[]">
+                            </select>   
+                        </div>  
+
+                    </div>     
+                    <br>
+                    <br>
+                    <div class="row justify-content-center text-center align-items-center">
+                        <div class="col-12 col-sm-2 mt-2">
+                            <button id="myButtonAplicar3" type="button" class="btn btn-outline-primary btn-sm ">Aplicar</button>
+
+                        </div>
+
+                        <div class="col-12 col-sm-2 mt-2">
+                            <button id="myButtonLimpiar3" type="button" class="btn btn-outline-primary btn-sm ">Limpiar</button>
+                        </div>                    
+                    </div>
+                </div>
+            </div>
+
+            <div class="card mb-4">
+                <div class="card-header" style="background-color: #BB8FCE; color: white">
+                    <h3 class="card-title text-uppercase font-weight-bold">Filtros Salidas USDT Grupo C </h3>
+                </div>
+                <div class="card-body">    
+                    <div class="row justify-content-center text-center align-items-center">
+                        <div class="col-12 col-md-6 col-lg-6 col-xl-4 justify-content-center text-center align-items-center">
+                            <div class="mt-4 mb-4">
+                                <label>Nombre Grupo</label>
+                                <input type="text" id="salida3" size=20/>
+                            </div>                            
+                            <select multiple="multiple" id="my-select4" name="my-select[]">
+                            </select>   
+                        </div>  
+
+                    </div>     
+                    <br>
+                    <br>
+                    <div class="row justify-content-center text-center align-items-center">
+                        <div class="col-12 col-sm-2 mt-2">
+                            <button id="myButtonAplicar4" type="button" class="btn btn-outline-primary btn-sm ">Aplicar</button>
+
+                        </div>
+
+                        <div class="col-12 col-sm-2 mt-2">
+                            <button id="myButtonLimpiar4" type="button" class="btn btn-outline-primary btn-sm ">Limpiar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
-        --}}
+        
     </div>
 </div>
 
@@ -459,23 +522,8 @@ $salidaMonto    = 0;
 
         });
 
-        $('#my-select').multiSelect({
-            selectableHeader: `<div class='custom-header' style='background-color: black; color:white'>
-                                    Visibles    
-                                    <br><br> 
-                                    <div>
-                                        <i class='fas fa-circle' style='color: green;'></i>
-                                    </div>
-                                </div>`,
-            selectionHeader:  `<div class='custom-header' style='background-color: black; color:white'>
-                                    No Visibles 
-                                    <br>
-                                    <br> 
-                                    <div>
-                                        <i class='fas fa-circle' style='color: red;'>  </i>
-                                    </div>
-                                </div>`
-        });
+        InicializaMultiselects();
+
 
         // cargaTransacciones();
 
@@ -501,6 +549,7 @@ $salidaMonto    = 0;
         }else{
             pantallaInicial();
         }
+
         leeFiltros();  
         grabaFiltros();
         // aplicaFiltros();      
@@ -511,53 +560,36 @@ $salidaMonto    = 0;
             theRoute(wallet);       
         });
 
-        $('#myButtonLimpiar2').on('click', function (){
 
-            // alert('El canvas general ->' + $('#ResumenGeneral').prop('checked'));
-            // alert('El canvas general ->' + $('#ResumenGeneral').attr('checked'));
-            // alert('El canvas general ->' + $('#ResumenGeneral').is(':checked'));
-
-            $('#ResumenGeneral').prop("checked",false);
-            $('#ResumenTransaccion').prop("checked",false);
-
-        });
-
-        $('#myButtonAplicar2').on('click', function (){
-            
-            $('#myCanvasGeneral').attr("hidden",false);
-            $('#myCanvas').attr("hidden",false);
-
-            if( $('#ResumenGeneral').is(':checked') ) {
-                $('#myCanvasGeneral').attr("hidden",true);
-                
-            }
-
-            if( $('#ResumenTransaccion').is(':checked') ) {
-                $('#myCanvas').attr("hidden",true);
-            }
-
-            grabaFiltros();
-
-            Swal.fire({
-                position: 'top-end',
-                icon: 'success',
-                title: 'Filtro aplicado satisfactoriamente',
-                showConfirmButton: false,
-                timer: 1500
-                });             
-
-        });
 
 
 
         $('#myButtonLimpiar').on('click', function (){
-
-            $('#my-select').multiSelect('deselect_all');
+            
+            $('#my-select1').multiSelect('deselect_all');
 
         });
 
-        $('#myButtonAplicar').on('click', function (){
-            // alert('aqui');
+        $('#myButtonLimpiar2').on('click', function (){
+
+            $('#my-select2').multiSelect('deselect_all');
+
+        });
+
+        $('#myButtonLimpiar3').on('click', function (){
+
+            $('#my-select3').multiSelect('deselect_all');
+
+        });
+
+        $('#myButtonLimpiar4').on('click', function (){
+
+            $('#my-select4').multiSelect('deselect_all');
+
+        });
+
+        $('#myButtonAplicar, #myButtonAplicar2, #myButtonAplicar3, #myButtonAplicar4').on('click', function (){
+            
             $("#myCanvas div").each(function(){
                 $(this).removeAttr("hidden");
             });
@@ -597,6 +629,92 @@ $salidaMonto    = 0;
 
     });
     
+
+
+    
+    function InicializaMultiselects(){
+        $('#my-select1').multiSelect({
+            selectableHeader: `<div class='custom-header' style='background-color: black; color:white'>
+                                    No Visibles    
+                                    <br><br> 
+                                    <div>
+                                        <i class='fas fa-circle' style='color: red;'></i>
+                                    </div>
+                                </div>`,
+            selectionHeader:  `<div class='custom-header' style='background-color: black; color:white'>
+                                    Visibles 
+                                    <br>
+                                    <br> 
+                                    <div>
+                                        <i class='fas fa-circle' style='color: green;'>  </i>
+                                    </div>
+                                </div>`
+        });
+
+        $('#my-select2').multiSelect({
+            selectableHeader:  `<div class='custom-header' style='background-color: black; color:white'>
+                                    No Visibles
+                                    <br>
+                                    <br> 
+                                    <div>
+                                        <i class='fas fa-circle' style='color: red;'>  </i>
+                                    </div>                                    
+                                </div>`,
+            selectionHeader:   `<div class='custom-header' style='background-color: black; color:white'>
+                                    Visibles
+                                    <br><br> 
+                                    <div>
+                                        <i class='fas fa-circle' style='color: green;'></i>
+                                    </div>                                    
+                                </div>`
+        });
+        $('#my-select3').multiSelect({
+            selectableHeader: `<div class='custom-header' style='background-color: black; color:white'>
+                                    No Visibles    
+                                    <br><br> 
+                                    <div>
+                                        <i class='fas fa-circle' style='color: red;'></i>
+                                    </div>
+                                </div>`,
+            selectionHeader:  `<div class='custom-header' style='background-color: black; color:white'>
+                                    Visibles 
+                                    <br>
+                                    <br> 
+                                    <div>
+                                        <i class='fas fa-circle' style='color: green;'>  </i>
+                                    </div>
+                                </div>`
+        });
+
+        $('#my-select4').multiSelect({
+            selectableHeader:  `<div class='custom-header' style='background-color: black; color:white'>
+                                    No Visibles
+                                    <br>
+                                    <br> 
+                                    <div>
+                                        <i class='fas fa-circle' style='color: red;'>  </i>
+                                    </div>                                    
+                                </div>`,
+            selectionHeader:   `<div class='custom-header' style='background-color: black; color:white'>
+                                    Visibles
+                                    <br><br> 
+                                    <div>
+                                        <i class='fas fa-circle' style='color: green;'></i>
+                                    </div>                                    
+                                </div>`
+        });      
+
+        @foreach($grupo as $key => $group2)
+            // console.log('el grupo con key {!! $key !!} es {!! $group2 !!}');
+            $('#my-select1').multiSelect('addOption', { value: '{!! $key !!}', text: '{!! $group2 !!}' });
+            $('#my-select2').multiSelect('addOption', { value: '{!! $key !!}', text: '{!! $group2 !!}' });
+            $('#my-select3').multiSelect('addOption', { value: '{!! $key !!}', text: '{!! $group2 !!}' });
+            $('#my-select4').multiSelect('addOption', { value: '{!! $key !!}', text: '{!! $group2 !!}' });
+
+        @endforeach
+
+    }
+
 
     function pantallaInicial(){
         let myElement =`
@@ -1611,7 +1729,7 @@ $salidaMonto    = 0;
         myRoute = myRoute.replace('grupo2',grupo);
         myRoute = myRoute.replace('fechaDesde2',fechaDesde);
         myRoute = myRoute.replace('fechaHasta2',fechaHasta);
-        // alert(myRoute);
+        
         location.href = myRoute;
 
     }
@@ -1636,7 +1754,7 @@ $salidaMonto    = 0;
             myRoute = myRoute.replace('fechaDesde2',fechaDesde);
             myRoute = myRoute.replace('fechaHasta2',fechaHasta);
         // console.log(myRoute);
-        // alert(myRoute);
+        
         location.href = myRoute;
 
     }
@@ -1669,9 +1787,9 @@ $salidaMonto    = 0;
 
         myArray     = myLocation.split("/");
 
-        // alert(myArray);
+        
         console.log('myArray ->' + myArray + ' length ->' + myArray.length);
-        // alert('length ->' + myArray.length);
+        
 
         if (myArray.length > 5){
             FechaDesde = myArray[5];
@@ -1731,24 +1849,23 @@ $salidaMonto    = 0;
     */
     function grabaFiltros(){
 
-        let myDataTransactions          = buscaFiltros("my-select");
+        let myDataTransactions          = buscaFiltros("my-select1");
         let ocultarresumengeneral       = $('#ResumenGeneral').prop("checked");
         let ocultarresumentransaccion   = $('#ResumenTransaccion').prop("checked");
         
-        let entrada1        = "Comision";
-        let gruposEntrada1  = [1,2,3];
+        let entrada1        = $('#entrada1').val();
+        let gruposEntrada1  = buscaFiltros("my-select1");
 
-        let salida1         = "Comision";
-        let gruposSalida1  = [4,5,6];
+        let salida1         = $('#salida1').val();
+        let gruposSalida1   = buscaFiltros("my-select2");
         
-        let salida2         = "Comision";
-        let gruposSalida2  = [6,7,8];
+        let salida2         = $('#salida2').val();
+        let gruposSalida2   = buscaFiltros("my-select3");
         
-        let salida3         = "Comision";
-        let gruposSalida3  = [9,1,3];
+        let salida3         = $('#salida3').val();
+        let gruposSalida3   = buscaFiltros("my-select4");
 
-        // alert('grabaFiltros : ocultarresumengeneral -> ' + ocultarresumengeneral + '  ocultarresumentransaccion -> ' + ocultarresumentransaccion + ' myDataTransactions -> ' + myDataTransactions);
-
+        
         $.ajax(
             {
                 headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
@@ -1760,7 +1877,7 @@ $salidaMonto    = 0;
                             entrada1: entrada1,
                             gruposEntrada1: gruposEntrada1,
                             salida1: salida1,
-                            gruposSalida1: gruposEntrada1,
+                            gruposSalida1: gruposSalida1,
                             salida2: salida2,
                             gruposSalida2: gruposSalida2,
                             salida3: salida3,
@@ -1788,7 +1905,7 @@ $salidaMonto    = 0;
         $("#" + myFilter + " option:selected").each(function(){
             filtrosSeleccionado.push($(this).attr('value'));
         });  
-        // alert ("filtros de grupos ->" + filtrosSeleccionado.toString());
+        
         return  filtrosSeleccionado;
     }
 
@@ -1812,6 +1929,44 @@ $salidaMonto    = 0;
         myData2.groupsEntrada1.map( (x) => {
             console.log('leam - x ->' + x)
         })
+        $('#entrada1').val(myData2.entrada1);
+        $('#salida1').val(myData2.salida1);
+        $('#salida2').val(myData2.salida2);
+        $('#salida3').val(myData2.salida3);
+
+        myData2.groupsEntrada1.map( function (valor) {
+            $("#my-select1 option").each(function(){
+                
+                if (valor == $(this).attr('value')){
+                    $('#my-select1').multiSelect('select', valor.toString());
+                }
+            });
+        });
+
+        myData2.groupsSalida1.map( function (valor) {
+            $("#my-select2 option").each(function(){
+                if (valor == $(this).attr('value')){
+                    $('#my-select2').multiSelect('select', valor.toString());
+                }
+            });
+        });
+
+        myData2.groupsSalida2.map( function (valor) {
+            $("#my-select3 option").each(function(){
+                if (valor == $(this).attr('value')){
+                    $('#my-select3').multiSelect('select', valor.toString());
+                }
+            });
+        });
+
+        myData2.groupsSalida3.map( function (valor) {
+            $("#my-select4 option").each(function(){
+                if (valor == $(this).attr('value')){
+                    $('#my-select4').multiSelect('select', valor.toString());
+                }
+            });
+        });
+
     }
 
 
@@ -1830,7 +1985,7 @@ $salidaMonto    = 0;
         }
 
             
-        // alert('aqui');
+        
         $("#myCanvas div").each(function(){
             $(this).removeAttr("hidden");
         });
@@ -1874,7 +2029,7 @@ $salidaMonto    = 0;
         myRoute = myRoute.replace('ocultarresumentransaccion2',     ocultarresumentransaccion);
         myRoute = myRoute.replace('transactions2',                  transactions);
 
-        // alert(' myRoute ->' + myRoute);
+        
 
         location.href = myRoute;
     }
@@ -1903,7 +2058,7 @@ $salidaMonto    = 0;
         myRoute = myRoute.replace('ocultarresumentransaccion2',     ocultarresumentransaccion);
         myRoute = myRoute.replace('transactions2',                  transactions);
 
-        // alert(' myRoute vvv->' + myRoute);
+        
 
         location.href = myRoute;
     }

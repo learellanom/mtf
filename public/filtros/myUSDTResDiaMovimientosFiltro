@@ -1,6 +1,6 @@
 {
-    "entrada1" : "Comision",           "groupsEntrada1" : [0,89,91,114,99,155,101,103,100,102,97,90],
-    "salida1"  : "Comision",           "groupsSalida1"  : [0,89,91,114,99,155,101,103,100,102,97,90],
-    "salida2"  : "Comision",           "groupsSalida2"  : [0,89,91,114,99,155,101,103,100,102,97,90],
-    "salida3"  : "Comision",           "groupsSalida3"  : [0,89,91,114,99,155,101,103,100,102,97,90]
+    "entrada1" : "Comision",           "groupsEntrada1" : [0,158],
+    "salida1"  : "Salida la Yaguara",  "groupsSalida1"  : [0,11,14,30,35,43,44,60,63,78,139,145,166,239,273,350,351],
+    "salida2"  : "Operaciones",        "groupsSalida2"  : [0,33,168,169,170,171,172,173,174,178,179,180,181,182,183,184,185,186,187,189,190,194,195,196,203,330,356],
+    "salida3"  : "Gastos Varios",      "groupsSalida3"  : [0,219,188,205,174,228,204,208,227,175,267]
 }

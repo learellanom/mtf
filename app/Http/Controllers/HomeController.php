@@ -639,83 +639,92 @@ class HomeController extends Controller
 
         if ($myWallet != 0){
             
+            $myJson         = file_get_contents("filtros\myUSDTResDiaMovimientosFiltro");
+            $myJsonData     = json_decode($myJson,true); 
+            // dd($myJsonData['groupsEntrada1']);
+            // dd($myJsonData);
             $RecargasWallet             = app(statisticsController::class)->USDTResumenWallet($request);
+
+            //$temp [] = 158;
+            //$request->groups = $temp;
+
+            $request->groups = $myJsonData['groupsEntrada1'];
             $transaccionesGrupoComision = app(statisticsController::class)->USDTResumenGrupoComision($request);
 
             // salida yaguara
-            $temp [] = 44;
-            $temp [] = 43;
-            $temp [] = 63;
-            $temp [] = 78;
-            $temp [] = 145;
-            $temp [] = 35;
-            $temp [] = 166;
-            $temp [] = 11;
-            $temp [] = 14;
-            $temp [] = 239;
-            $temp [] = 273;
-            $temp [] = 350;
-            $temp [] = 351;
-            $temp [] = 60;
-            $temp [] = 30;
-            $temp [] = 139;
-            $request->groups = $temp;
+            // $temp [] = 44;
+            // $temp [] = 43;
+            // $temp [] = 63;
+            // $temp [] = 78;
+            // $temp [] = 145;
+            // $temp [] = 35;
+            // $temp [] = 166;
+            // $temp [] = 11;
+            // $temp [] = 14;
+            // $temp [] = 239;
+            // $temp [] = 273;
+            // $temp [] = 350;
+            // $temp [] = 351;
+            // $temp [] = 60;
+            // $temp [] = 30;
+            // $temp [] = 139;
+            // $request->groups = $temp;
+
+
+            $request->groups = $myJsonData['groupsSalida1'];
             $transaccionesGrupoSalida   = app(statisticsController::class)->USDTResumenGrupoSalida($request);
 
             // salida por operaciones
-            unset($temp);
-            $temp [] = 168;
-            $temp [] = 194;
-            $temp [] = 195;
-            $temp [] = 185;
-            $temp [] = 182;
-            $temp [] = 183;
-            $temp [] = 174;
-            $temp [] = 186;
-            $temp [] = 173;
-            $temp [] = 171;
-            $temp [] = 169;
-            $temp [] = 178;
-            $temp [] = 356;
-            $temp [] = 190;
-            $temp [] = 184;
-            $temp [] = 189;
-            $temp [] = 179;
-            $temp [] = 170;
-            $temp [] = 172;
-            $temp [] = 180;
-            $temp [] = 187;
-            $temp [] = 181;
-            $temp [] = 196;
-            $temp [] = 33;
-            $temp [] = 203;
-            $temp [] = 330;
+            // unset($temp);
+            // $temp [] = 168;
+            // $temp [] = 194;
+            // $temp [] = 195;
+            // $temp [] = 185;
+            // $temp [] = 182;
+            // $temp [] = 183;
+            // $temp [] = 174;
+            // $temp [] = 186;
+            // $temp [] = 173;
+            // $temp [] = 171;
+            // $temp [] = 169;
+            // $temp [] = 178;
+            // $temp [] = 356;
+            // $temp [] = 190;
+            // $temp [] = 184;
+            // $temp [] = 189;
+            // $temp [] = 179;
+            // $temp [] = 170;
+            // $temp [] = 172;
+            // $temp [] = 180;
+            // $temp [] = 187;
+            // $temp [] = 181;
+            // $temp [] = 196;
+            // $temp [] = 33;
+            // $temp [] = 203;
+            // $temp [] = 330;
+            // $request->groups = $temp;
 
-            $request->groups = $temp;
-
-           // dd(print_r($request->groups,true));
-
+            $request->groups = $myJsonData['groupsSalida2'];
             $transaccionesGrupoSalida2   = app(statisticsController::class)->USDTResumenGrupoSalida($request);
             
             // gastos varios
 
-            unset($temp);
-            $temp [] = 219;
-            $temp [] = 188;
-            $temp [] = 205;
-            $temp [] = 174;
-            $temp [] = 228;
-            $temp [] = 204;
-            $temp [] = 208;
-            $temp [] = 225; // compra
-            $temp [] = 175; // cambio brasil
-            $temp [] = 267; // pendiente
-            $temp [] = 227; // otros gastos
+            // unset($temp);
+            // $temp [] = 219;
+            // $temp [] = 188;
+            // $temp [] = 205;
+            // $temp [] = 174;
+            // $temp [] = 228;
+            // $temp [] = 204;
+            // $temp [] = 208;
+            // $temp [] = 225; // compra
+            // $temp [] = 175; // cambio brasil
+            // $temp [] = 267; // pendiente
+            // $temp [] = 227; // otros gastos
+            // $request->groups = $temp;
 
-            $request->groups = $temp;
-
-           // dd(print_r($request->groups,true));
-
+            // dd(print_r($request->groups,true));
+            $request->groups = $myJsonData['groupsSalida3'];
             $transaccionesGrupoSalida3   = app(statisticsController::class)->USDTResumenGrupoSalida($request);
 
             // salida gastos varios
