@@ -3233,10 +3233,11 @@ class statisticsController extends Controller
             $myWalletHasta = $request->wallet;
         }
 
-        $request->group = 158; // comision usdt
+        // $request->group = 158; // comision usdt
         $myGroupDesde = 00000;
         $myGroupHasta = 99999;
-        if ($request->group){
+        if ($request->groups){
+            $myGroups = implode(",",$request->groups);
             $myGroupDesde = $request->group;
             $myGroupHasta = $request->group;
         }
@@ -3295,7 +3296,7 @@ class statisticsController extends Controller
             left join   mtf.groups              on mtf.Transactions.group_id            = mtf.groups.id
             where
                     status = 'Activo'
-                and group_id                between $myGroupDesde               and     $myGroupHasta
+                and group_id                in($myGroups)
                 and type_transaction_id     in (11,13)
                 and transaction_date        between '$myFechaDesde'             and     '$myFechaHasta'
             group by
@@ -3309,7 +3310,7 @@ class statisticsController extends Controller
                 wallets.name ASC,
                 mtf.groups.name ASC
         ";
-
+        // dd($myQuery);
         $transaccionGrupoComision = DB::select($myQuery);
 
         return $transaccionGrupoComision;
