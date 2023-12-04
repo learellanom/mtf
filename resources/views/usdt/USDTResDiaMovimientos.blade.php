@@ -523,7 +523,8 @@ $salidaMonto    = 0;
         });
 
         InicializaMultiselects();
-
+        leeFiltros();  
+        // grabaFiltros();
 
         // cargaTransacciones();
 
@@ -550,8 +551,7 @@ $salidaMonto    = 0;
             pantallaInicial();
         }
 
-        leeFiltros();  
-        grabaFiltros();
+
         // aplicaFiltros();      
 
 
@@ -618,8 +618,33 @@ $salidaMonto    = 0;
                 icon: 'success',
                 title: 'Filtro aplicado satisfactoriamente',
                 showConfirmButton: false,
-                timer: 1500
+                timerProgressBar: true,
+                timer: 3000
                 });
+
+            let myFechaDesde, myFechaHasta;
+            myFechaDesde =  ($('#drCustomRanges').val()).substr(6,4) +
+                            '-' +
+                            ($('#drCustomRanges').val()).substr(3,2) +
+                            '-' +
+                            ($('#drCustomRanges').val()).substr(0,2)
+                            ;
+
+            myFechaHasta =  ($('#drCustomRanges').val()).substr(19,4) +
+                            '-' +
+                            ($('#drCustomRanges').val()).substr(16,2) +
+                            '-' +
+                            ($('#drCustomRanges').val()).substr(13,2)
+                            ;
+
+                
+            const wallet       = $('#wallet2').val();
+            const grupo         = $('#grupo').val()     == "" ? 0 : $('#grupo').val();
+            const transaccion   = $('#typeTransactions').val();
+            theRoute(wallet, grupo, myFechaDesde,myFechaHasta);
+
+
+
             
         });
 
@@ -812,6 +837,12 @@ $salidaMonto    = 0;
         $totalPendienteUSDTMonto  = ($balanceBefore + $totalEntradasUSDTMonto) - $totalSalidasUSDTMonto;
 
         @endphp
+
+        let myTitleEntrada = $('#entrada1').val();
+        let myTitleSalida1 = $('#salida1').val();
+        let myTitleSalida2 = $('#salida2').val();
+        let myTitleSalida3 = $('#salida3').val();
+
         myElement =
         `
             <style>
@@ -865,7 +896,7 @@ $salidaMonto    = 0;
                         </tr>
 
                         <tr class="myTr">
-                            <td>Comision USDT  </td>
+                            <td>${myTitleEntrada}</td>
                             <td>{{ number_format($comisionUSDTCant) }}</td>
                             <td>{{ number_format($comisionUSDTMonto ,2) }}</td>
                         </tr>
@@ -891,19 +922,19 @@ $salidaMonto    = 0;
 
 
                         <tr class="myTr">
-                            <td>Salida Yaguara</td>
+                            <td>${myTitleSalida1}</td>
                             <td>{{ number_format($salidasUSDTCant) }}</td>
                             <td>{{ number_format($salidasUSDTMonto ,2) }}</td>
                         </tr>
 
                         <tr class="myTr">
-                            <td>Operaciones USDT  </td>
+                            <td>${myTitleSalida2}</td>
                             <td>{{ number_format($operacionesUSDTCant) }}</td>
                             <td>{{ number_format($operacionesUSDTMonto ,2) }}</td>
                         </tr>
 
                         <tr class="myTr">
-                            <td>Gastos Varios USDT  </td>
+                            <td>${myTitleSalida3}</td>
                             <td>{{ number_format($variosUSDTCant) }}</td>
                             <td>{{ number_format($variosUSDTMonto ,2) }}</td>
                         </tr>
@@ -938,6 +969,8 @@ $salidaMonto    = 0;
 	    
 
     function calculaEntradaHeader(){
+
+
         myElement =
         `
 
@@ -1047,7 +1080,9 @@ $salidaMonto    = 0;
     * 
     */
     function calculoRecargas(myFechaDesde = "", myFechaHasta =""){
-        
+
+
+
         myElement =
         `
             <style>
@@ -1174,6 +1209,11 @@ $salidaMonto    = 0;
     */
     function calculoTransacciones(){
  
+        let myTitleEntrada = $('#entrada1').val();
+        let myTitleSalida1 = $('#salida1').val();
+        let myTitleSalida2 = $('#salida2').val();
+        let myTitleSalida3 = $('#salida3').val();
+
         myElement =
         `
         <style>
@@ -1194,7 +1234,7 @@ $salidaMonto    = 0;
                 
         <div class ="row mb-4" style="background-color: white;" data-wallet="">
             <div class="col-12 text-center">
-                <h3>Comisiones USDT</h3>
+                <h3>${myTitleEntrada}</h3>
             </div>
             <div class="col-12 col-md-12">
                 <table class="table thead-light" style="background-color: white;">
@@ -1316,6 +1356,11 @@ $salidaMonto    = 0;
     */
     function calculoTransaccionesSalida(){
 
+        let myTitleEntrada = $('#entrada1').val();
+        let myTitleSalida1 = $('#salida1').val();
+        let myTitleSalida2 = $('#salida2').val();
+        let myTitleSalida3 = $('#salida3').val();
+
     myElement =
         `
         <style>
@@ -1336,7 +1381,7 @@ $salidaMonto    = 0;
                 
         <div class ="row mb-4" style="background-color: white;" data-wallet="">
             <div class="col-12 text-center">
-                <h3>Salida la Yaguara</h3>
+                <h3>${myTitleSalida1}</h3>
             </div>
             <div class="col-12 col-md-12">
                 <table class="table thead-light" style="background-color: white;">
@@ -1457,6 +1502,11 @@ $salidaMonto    = 0;
     */
     function calculoTransaccionesSalidaOperaciones(){
 
+        let myTitleEntrada = $('#entrada1').val();
+        let myTitleSalida1 = $('#salida1').val();
+        let myTitleSalida2 = $('#salida2').val();
+        let myTitleSalida3 = $('#salida3').val();
+
     myElement =
         `
         <style>
@@ -1477,7 +1527,7 @@ $salidaMonto    = 0;
                 
         <div class ="row mb-4" style="background-color: white;" data-wallet="">
             <div class="col-12 text-center">
-                <h3>Salida por Operaciones</h3>
+                <h3>${myTitleSalida2}</h3>
             </div>
             <div class="col-12 col-md-12">
                 <table class="table thead-light" style="background-color: white;">
@@ -1595,6 +1645,11 @@ $salidaMonto    = 0;
     */
     function calculoTransaccionesSalidaGastos(){
 
+        let myTitleEntrada = $('#entrada1').val();
+        let myTitleSalida1 = $('#salida1').val();
+        let myTitleSalida2 = $('#salida2').val();
+        let myTitleSalida3 = $('#salida3').val();
+
     myElement =
         `
         <style>
@@ -1615,7 +1670,7 @@ $salidaMonto    = 0;
                 
         <div class ="row mb-4" style="background-color: white;" data-wallet="">
             <div class="col-12 text-center">
-                <h3>Salida por Gastos Varios</h3>
+                <h3>${myTitleSalida3}</h3>
             </div>
             <div class="col-12 col-md-12">
                 <table class="table thead-light" style="background-color: white;">
@@ -1865,7 +1920,6 @@ $salidaMonto    = 0;
         let salida3         = $('#salida3').val();
         let gruposSalida3   = buscaFiltros("my-select4");
 
-        
         $.ajax(
             {
                 headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
@@ -1875,13 +1929,13 @@ $salidaMonto    = 0;
                 data: {
                         data: { 
                             entrada1: entrada1,
-                            gruposEntrada1: gruposEntrada1,
+                            groupsEntrada1: gruposEntrada1,
                             salida1: salida1,
-                            gruposSalida1: gruposSalida1,
+                            groupsSalida1: gruposSalida1,
                             salida2: salida2,
-                            gruposSalida2: gruposSalida2,
+                            groupsSalida2: gruposSalida2,
                             salida3: salida3,
-                            gruposSalida3: gruposSalida3,
+                            groupsSalida3: gruposSalida3,
                     }
                 },
             }
@@ -1923,12 +1977,10 @@ $salidaMonto    = 0;
 
         });
 
-        console.log('leam - leefiltros ->' + JSON.stringify(myData2));
-        console.log('leam - leefiltros ->' + myData2.entrada1);
-        console.log('leam - leefiltros ->' + myData2.groupsEntrada1);
-        myData2.groupsEntrada1.map( (x) => {
-            console.log('leam - x ->' + x)
-        })
+        // console.log('leam - leefiltros ->' + JSON.stringify(myData2));
+        // console.log('leam - leefiltros ->' + myData2.entrada1);
+        // console.log('leam - leefiltros ->' + myData2.groupsEntrada1);
+
         $('#entrada1').val(myData2.entrada1);
         $('#salida1').val(myData2.salida1);
         $('#salida2').val(myData2.salida2);

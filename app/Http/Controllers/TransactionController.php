@@ -302,14 +302,15 @@ class TransactionController extends Controller
     public function index_pagowallet(request $request, transaction $transaction)
     {
 
-        \Log::info('leam - auth()->id() - es -> ' . auth()->id() . ' -- isAdministrator -> ' . $this->isAdministrator());
-
-
+        // \Log::info('leam - auth()->id() - es -> ' . auth()->id() . ' -- isAdministrator -> ' . $this->isAdministrator());
 
         $user           = $request->query('user');        
         $fechaDesde     = $request->query('fechaDesde');
         $fechaHasta     = $request->query('fechaHasta');
-        \Log::info('leam - user ->' . $user);
+
+        // \Log::info('leam - user con $user ->' . $user);
+        // \Log::info('leam - user con auth->user()->id ->' . auth()->user()->id );
+
         $myUser         = 0;
         $myUsuarioDesde = 0;
         $myUsuarioHasta = 999999;
@@ -346,7 +347,7 @@ class TransactionController extends Controller
                 break;
         }
 
-            \Log::info('leam - myUserDesde -> ' . $myUserDesde . ' -- myUserHasta -> ' . $myUserHasta);
+        //    \Log::info('leam - myUserDesde -> ' . $myUserDesde . ' -- myUserHasta -> ' . $myUserHasta);
 
             $query = 
                 "select
@@ -388,7 +389,7 @@ class TransactionController extends Controller
         $myFechaHasta2  =  substr($myFechaHasta,8,2) . '-' . substr($myFechaHasta,5,2) . '-' . substr($myFechaHasta,0,4);
 
          // dd($query
-         \Log::info('leam - query ->' . $query);
+         // \Log::info('leam - query ->' . $query);
 
         $parameters['fechaDesde']       = $myFechaDesde2;
         $parameters['fechaHasta']       = $myFechaHasta2;
@@ -1175,17 +1176,40 @@ class TransactionController extends Controller
     {
         $transactions = Transaction::find($transaction);
 
-        if($transactions->status == 'Activo'){
-            Transaction::findOrFail($transaction)->update([
-                'status' => 'Anulado',
-            ]);
-            return response()->json(['success' => true, 'result' => 'anulada', 'message' => 'Transaccion anulada'], 200);
-        }
-        elseif($transactions->status == 'Anulado'){
-            Transaction::findOrFail($transaction)->update([
-                'status' => 'Activo',
-            ]);
-            return response()->json(['success' => true, 'result' => 'activo', 'message' => 'Transaccion anulada'], 200);
+        
+
+        if(is_null($transactions->pay_number)){
+
+            // anula normal si no es un pago entre proveedor
+
+            if($transactions->status == 'Activo'){
+                Transaction::findOrFail($transaction)->update([
+                    'status' => 'Anulado',
+                ]);
+                return response()->json(['success' => true, 'result' => 'anulada', 'message' => 'Transaccion anulada'], 200);
+            }
+            elseif($transactions->status == 'Anulado'){
+                Transaction::findOrFail($transaction)->update([
+                    'status' => 'Activo',
+                ]);
+                return response()->json(['success' => true, 'result' => 'activo', 'message' => 'Transaccion anulada'], 200);
+            }
+        }else{
+
+            // anula si es un pago de proveedor para poder anular el par
+
+            if($transactions->status == 'Activo'){
+                
+                Transaction::where('pay_number', $transactions->pay_number)->update(['status' => 'Anulado']);
+
+                return response()->json(['success' => true, 'result' => 'anulada', 'message' => 'Transaccion anulada'], 200);
+            }
+            elseif($transactions->status == 'Anulado'){
+                
+                Transaction::where('pay_number', $transactions->pay_number)->update(['status' => 'Activo']);
+
+                return response()->json(['success' => true, 'result' => 'activo', 'message' => 'Transaccion anulada'], 200);
+            }          
         }
         // return response()->json(['success' => true, 'result' => 'anulada', 'message' => 'Transaccion anulada'], 200);
     }

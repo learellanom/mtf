@@ -94,13 +94,14 @@ $myAdministrator    = $myClass->isAdministrator();
                         <table class="table table-bordered table-responsive-lg" id="table" style="width:100%;">
                             <thead>
                                 <tr>
-                                    <th style="width:1%;">Nro transferencia</th>
-                                    <th>Fecha</th>
+                                    <th style="width:1%;">Id</th>                                    
+                                    <th style="width:11%;">Nro transferencia</th>
+                                    <th style="width:10%;">Fecha</th>
                                     <th>Descripción</th>
                                     <th style="width:10%;">Monto Total</th>
-                                    <th style="width:10%;">Porcentaje Base</th>
-                                    <th style="width:10%;">Comisión Base</th>
-                                    <th style="width:10%;">Monto Total Base</th>
+                                    <th style="width:1%;">Por. Base</th>
+                                    <th style="width:8%;">Comisión Base</th>
+                                    <th style="width:8%;">Monto Total Base</th>
                                     <th class="no-exportar">Agente</th>
                                     <th>Tipo de Movimiento</th>
                                     <th style="width:10%;">Caja <i class="fas fa-box"></i></th>
@@ -114,14 +115,18 @@ $myAdministrator    = $myClass->isAdministrator();
                             </thead>
 
                             @foreach($transacciones as $transferencias)
-
+                            
                                 <tr>
+                                    <td class="font-weight-bold">{{ $transferencias->TransactionId }}</td>
                                     <td class="font-weight-bold">{{ $transferencias->TransferNumber }}</td>
-
 
                                     <td class="font-weight-bold" style="min-width: 80px;">{!! $transferencias->TransactionDate !!}</td>
 
-                                    <td class="font-weight-bold"><div style='width:60px; height:60px; overflow:hidden;'>{!!  $transferencias->Description !!}</div></td>
+                                    <td class="font-weight-bold">
+                                        <div style='width:60px; height:60px; overflow:hidden;'>
+                                            {!!  $transferencias->Description !!}
+                                        </div>
+                                    </td>
 
                                     <td class="font-weight-bold">{!! number_format($transferencias->Amount) !!} <i class="fas fa-dollar-sign"></i></td>
 

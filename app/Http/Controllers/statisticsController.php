@@ -4215,10 +4215,12 @@ class statisticsController extends Controller
 
         // dd($request);
 
-        \Log::info('leam - Graba USDT filtro -  filtroUSDTResDiaMovimientosGraba ->' . json_encode($request->data));
 
-        $json = $request->data;
-        // file_put_contents("filtros\myUSDTResDiaMovimientosFiltro", $json);
+        $json = json_encode($request->data);
+        
+        \Log::info('leam - Graba USDT filtro -  filtroUSDTResDiaMovimientosGraba ->' . $json);
+
+        file_put_contents("filtros\myUSDTResDiaMovimientosFiltro", $json);
 
 
         // dd($request);
