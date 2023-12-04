@@ -1,19 +1,17 @@
 @extends('adminlte::page')
 
-
-
 @section('title', 'Transacciones')
 @section('content_header')
 
     <h1 class="text-center text-dark font-weight-bold">VER MAS DE TRANSACCIÓN <i class="fas fa-exchange-alt"></i> </h1></a>
-<hr>
+    <hr>
 
 @stop
 
 @php
 
-$myClass	        = new app\Http\Controllers\TransactionController;
-$myAdministrator    = $myClass->isAdministrator();
+    $myClass	        = new app\Http\Controllers\TransactionController;
+    $myAdministrator    = $myClass->isAdministrator();
 
 @endphp
 

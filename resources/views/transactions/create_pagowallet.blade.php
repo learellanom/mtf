@@ -22,15 +22,15 @@
 @section('content')
 
 <div class="d-flex justify-content-center">
-  <div class="card col-md-5" style="min-height:500px !important; max-height:100%; height:100%; widht:100%;">
-    <div class="card-body">
+    <div class="card col-md-5" style="min-height:500px !important; max-height:100%; height:100%; widht:100%;">
+        <div class="card-body">
 
-      {!! Form::open(['route' => 'transactions.store_pagowallet', 'autocomplete' => 'off', 'files' => true, 'enctype' =>'multipart/form-data', 'id' => 'entre']) !!}
+            {!! Form::open(['route' => 'transactions.store_pagowallet', 'autocomplete' => 'off', 'files' => true, 'enctype' =>'multipart/form-data', 'id' => 'entre']) !!}
 
 
-              <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+            <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
                 <li class="nav-item" role="presentation">
-                  <button
+                    <button
                       class="nav-link active text-uppercase font-weight-bold"
                       id="pills-home-tab"
                       data-toggle="pill"
@@ -41,13 +41,11 @@
                       aria-selected="true">{{ __('Pagos') }}</button>
                 </li>
 
-              </ul>
+            </ul>
 
-              <div class="tab-content" id="pills-tabContent">
+            <div class="tab-content" id="pills-tabContent">
                 <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
-
                     <div class="form-row">
-
                         <div class="form-group col-md-6" >
                             {!! Form::Label('wallet_id', "Caja de origen (Proveedor):") !!}
                             <div class="input-group-text col-md-12">
@@ -66,23 +64,23 @@
                     </div>
 
                     <div class="form-row">
-                      <div class="form-group col-md-6">
-                          {!! Form::Label('amount', "Monto en dolares:") !!}
-                          <div class="input-group-text">
-                              <i class="fa-fw fas fas fa-funnel-dollar mr-2"></i>
-                          {!! Form::text('amount', null, ['class' => 'form-control general', 'required' => true, 'id' => 'monto_dolares']) !!}
-                          </div>
-                      </div>
-
-                      <div class="form-group col-md-6">
-                        {!! Form::Label('token', "Token:") !!}
-                        <div class="input-group-text">
-                            <i class="fa-fw fas fa-lock mr-2"></i>
-                        {!! Form::text('token',null, ['class' => 'form-control', 'placeholder' => 'Numero del Token']) !!}
+                        <div class="form-group col-md-6">
+                            {!! Form::Label('amount', "Monto en dolares:") !!}
+                            <div class="input-group-text">
+                                <i class="fa-fw fas fas fa-funnel-dollar mr-2"></i>
+                                {!! Form::text('amount', null, ['class' => 'form-control general', 'required' => true, 'id' => 'monto_dolares']) !!}
+                            </div>
                         </div>
-                        <small class="form-text text-muted mr-4 text-right">Token no es obligatorio.</small>
 
-                    </div>
+                        <div class="form-group col-md-6">
+                            {!! Form::Label('token', "Token:") !!}
+                            <div class="input-group-text">
+                                <i class="fa-fw fas fa-lock mr-2"></i>
+                                {!! Form::text('token',null, ['class' => 'form-control', 'placeholder' => 'Numero del Token']) !!}
+                            </div>
+                            <small class="form-text text-muted mr-4 text-right">Token no es obligatorio.</small>
+
+                        </div>
 
                     </div>
 
@@ -113,99 +111,89 @@
 
                     </div>
 
-                <div class="form-group">
+                    <div class="form-group">
 
-                       {{--  {!! Form::hidden('pay_number', $number,['class' => 'form-control', 'required' => true, 'readonly' => true]) !!} --}}
+                        {{--  {!! Form::hidden('pay_number', $number,['class' => 'form-control', 'required' => true, 'readonly' => true]) !!} --}}
 
-                </div>
-                <hr class="bg-dark esconder comi" style="height:1px;">
-                <h4 class="text-uppercase font-weight-bold text-center esconder comi">Comisión Base  </h4>
-                <div class="form-row esconder comi">
+                    </div>
+                    <hr class="bg-dark esconder comi" style="height:1px;">
+                    <h4 class="text-uppercase font-weight-bold text-center esconder comi">Comisión Base  </h4>
+                    <div class="form-row esconder comi">
 
-                    <div class="form-group col-md-6">
-                        {!! Form::Label('percentage_base', "Porcentaje Base:") !!}
-                        <div class="input-group-text">
-                            <i class="fa-fw fas fa-percentage mr-2"></i>
-                        {!! Form::text('percentage_base',null, ['class' => 'form-control percentage_base rateMasks',  'min' => 0, 'id' => 'percentage_base']) !!}
+                        <div class="form-group col-md-6">
+                            {!! Form::Label('percentage_base', "Porcentaje Base:") !!}
+                            <div class="input-group-text">
+                                <i class="fa-fw fas fa-percentage mr-2"></i>
+                                {!! Form::text('percentage_base',null, ['class' => 'form-control percentage_base rateMasks',  'min' => 0, 'id' => 'percentage_base']) !!}
+                            </div>
+                        </div>
+
+                        <div class="form-group col-md-6">
+
+                            {!! Form::Label('amount_commission_base', "Monto Comisión Base:") !!}
+                            <div class="input-group-text">
+                                <i class="fa-fw fas fa-coins mr-2"></i>
+                                {!! Form::text('amount_commission_base',null, ['class' => 'form-control comision_base general', 'readonly' => true, 'id' => 'comision_base']) !!}
+                            </div>
                         </div>
                     </div>
 
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-md-12 d-flex justify-content-center">
 
-                        {!! Form::Label('amount_commission_base', "Monto Comisión Base:") !!}
+                        <label class="form-check-label mx-auto esconder comi" for="radio1_base">
+                            {!! Form::radio('exonerate_base',2, null, ['id' => 'radio1_base', 'required' => true, 'class' => 'exonerar_base']) !!}
+                            Exonerar comisión base
+                        </label>
+
+                        <label class="form-check-label mx-auto esconder comi" for="radio3_base">
+                            {!! Form::radio('exonerate_base',1, null, ['id' => 'radio3_base', 'required' => true, 'class' => 'incluir_base']) !!}
+                            Incluir comisión base
+                        </label>
+
+
+                        <label class="form-check-label mx-auto esconder comi" for="radio2_base">
+                            Descontar comisión base
+                            {!! Form::radio('exonerate_base',3, null, ['id' => 'radio2_base', 'required' => true, 'class' => 'descontar_base']) !!}
+                        </label>
+
+                    </div>
+
+                    <div class="form-group col-md">
+                        {!! Form::Label('monto_base', "Monto total Base:") !!}
                         <div class="input-group-text">
-                            <i class="fa-fw fas fa-coins mr-2"></i>
-                        {!! Form::text('amount_commission_base',null, ['class' => 'form-control comision_base general', 'readonly' => true, 'id' => 'comision_base']) !!}
+                            <i class="fa-fw fas fas fa-coins mr-2"></i>
+                            {!! Form::text('amount_total_base', null, ['class' => 'form-control general', 'id' => 'monto_base', 'readonly' => true]) !!}
                         </div>
-
                     </div>
-                </div>
 
-                <div class="form-group col-md-12 d-flex justify-content-center">
+                    <hr class="bg-dark esconder comi" style="height:1px;">
 
-                    <label class="form-check-label mx-auto esconder comi" for="radio1_base">
-                        {!! Form::radio('exonerate_base',2, null, ['id' => 'radio1_base', 'required' => true, 'class' => 'exonerar_base']) !!}
-                        Exonerar comisión base
-                    </label>
+                    {{-- {!! Form::text('amount', null, ['class' => 'form-control general', 'required' => true, 'id' => 'monto_dolares']) !!} --}}
 
-                    <label class="form-check-label mx-auto esconder comi" for="radio3_base">
-                        {!! Form::radio('exonerate_base',1, null, ['id' => 'radio3_base', 'required' => true, 'class' => 'incluir_base']) !!}
-                        Incluir comisión base
-                    </label>
+                    {!! Form::hidden('amount_commission_profit', null, ['class' => 'form-control', 'required' => true, 'id' => 'amount_commission_profit','readonly']) !!}
 
 
-                    <label class="form-check-label mx-auto esconder comi" for="radio2_base">
-                        Descontar comisión base
-                        {!! Form::radio('exonerate_base',3, null, ['id' => 'radio2_base', 'required' => true, 'class' => 'descontar_base']) !!}
-                    </label>
-
-                </div>
-                <div class="form-group col-md">
-                    {!! Form::Label('monto_base', "Monto total Base:") !!}
-                    <div class="input-group-text">
-                        <i class="fa-fw fas fas fa-coins mr-2"></i>
-                    {!! Form::text('amount_total_base', null, ['class' => 'form-control general', 'id' => 'monto_base', 'readonly' => true]) !!}
-                    </div>
-                </div>
-
-
-
-
-
-
-                <hr class="bg-dark esconder comi" style="height:1px;">
-
-                {{-- {!! Form::text('amount', null, ['class' => 'form-control general', 'required' => true, 'id' => 'monto_dolares']) !!} --}}
-
-                {!! Form::hidden('amount_commission_profit', null, ['class' => 'form-control', 'required' => true, 'id' => 'amount_commission_profit','readonly']) !!}
-
-
-                <div class="form-group">
-                    {!! Form::Label('description', "Descripción origen:") !!}
+                    <div class="form-group">
+                        {!! Form::Label('description', "Descripción origen:") !!}
                         <div class="input-group-text">
                             <i class="fa-fw fas fa-text-width mr-2"></i>
-                        {!! Form::text('description','Entregado a caja', ['id' => 'descripcion', 'class' => 'form-control', 'readonly' => false, 'required' => true, 'value' => 'Recibido de cliente']) !!}
+                            {!! Form::text('description','Entregado a caja', ['id' => 'descripcion', 'class' => 'form-control', 'readonly' => false, 'required' => true, 'value' => 'Recibido de cliente']) !!}
                         </div>
-                </div>
-                <div class="form-group">
-                    {!! Form::Label('description2', "Descripción destino:") !!}
+                    </div>
+                    
+                    <div class="form-group">
+                        {!! Form::Label('description2', "Descripción destino:") !!}
                         <div class="input-group-text">
                             <i class="fa-fw fas fa-text-width mr-2"></i>
-                        {!! Form::text('description2','Recibido de la caja', ['id' => 'descripcion2', 'class' => 'form-control', 'readonly' => false, 'required' => true]) !!}
+                            {!! Form::text('description2','Recibido de la caja', ['id' => 'descripcion2', 'class' => 'form-control', 'readonly' => false, 'required' => true]) !!}
                         </div>
+                    </div>
+                    {!! Form::Submit('GUARDAR', ['class' => 'btn btn-primary btn-block font-weight-bold', 'style' => "max-height: 400px;" , 'id' => 'publish']) !!}
                 </div>
-
-
-                {!! Form::Submit('GUARDAR', ['class' => 'btn btn-primary btn-block font-weight-bold', 'style' => "max-height: 400px;" , 'id' => 'publish']) !!}
-
-                </div>
-
-
-
+            </div>
+            {!! Form::close() !!}
         </div>
-      {!! Form::close() !!}
     </div>
-  </div>
 </div>
 
 @endsection
