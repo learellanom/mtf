@@ -285,7 +285,7 @@ $salidaMonto    = 0;
 
                         <div class="col-12 col-md-6 col-lg-6 col-xl-4 justify-content-center text-center align-items-center">
                             <div class="mt-4 mb-4">
-                                <label>Nombre Grupo</label>
+                                <label>Nombre Seccion</label>
                                 <input type="text" id="entrada1" size=20/>
                             </div>
                             <select multiple="multiple" id="my-select1" name="my-select[]">
@@ -318,7 +318,7 @@ $salidaMonto    = 0;
                     <div class="row justify-content-center text-center align-items-center">
                         <div class="col-12 col-md-6 col-lg-6 col-xl-4 justify-content-center text-center align-items-center">
                             <div class="mt-4 mb-4">
-                                <label>Nombre Grupo</label>
+                                <label>Nombre Seccion</label>
                                 <input type="text" id="salida1" size=20/>
                             </div>                            
                             <select multiple="multiple" id="my-select2" name="my-select[]">
@@ -350,7 +350,7 @@ $salidaMonto    = 0;
 
                         <div class="col-12 col-md-6 col-lg-6 col-xl-4 justify-content-center text-center align-items-center">
                             <div class="mt-4 mb-4">
-                                <label>Nombre Grupo</label>
+                                <label>Nombre Seccion</label>
                                 <input type="text" id="salida2" size=20/>
                             </div>                            
                             <select multiple="multiple" id="my-select3" name="my-select[]">
@@ -378,19 +378,34 @@ $salidaMonto    = 0;
                     <h3 class="card-title text-uppercase font-weight-bold">Filtros Salidas USDT Grupo C </h3>
                 </div>
                 <div class="card-body">    
+
                     <div class="row justify-content-center text-center align-items-center">
                         <div class="col-12 col-md-6 col-lg-6 col-xl-4 justify-content-center text-center align-items-center">
                             <div class="mt-4 mb-4">
-                                <label>Nombre Grupo</label>
+                                <label>Nombre Seccion</label>
                                 <input type="text" id="salida3" size=20/>
-                            </div>                            
+                            </div>           
+                            <label>Grupos de la seccion</label>                 
                             <select multiple="multiple" id="my-select4" name="my-select[]">
                             </select>   
                         </div>  
 
                     </div>     
+
                     <br>
                     <br>
+                    <div class="row justify-content-center text-center align-items-center">
+                        <div class="col-12 col-md-6 col-lg-6 col-xl-4 justify-content-center text-center align-items-center">
+                            <div class="mt-4 mb-4">
+                                <label>Wallets de la seccion</label>
+                            </div>                            
+                            <select multiple="multiple" id="my-select5" name="my-select[]">
+                            </select>   
+                        </div>  
+
+                    </div>  
+                    <br>
+                    <br>                  
                     <div class="row justify-content-center text-center align-items-center">
                         <div class="col-12 col-sm-2 mt-2">
                             <button id="myButtonAplicar4" type="button" class="btn btn-outline-primary btn-sm ">Aplicar</button>
@@ -729,15 +744,35 @@ $salidaMonto    = 0;
                                 </div>`
         });      
 
+        $('#my-select5').multiSelect({
+            selectableHeader:  `<div class='custom-header' style='background-color: black; color:white'>
+                                    No Visibles
+                                    <br>
+                                    <br> 
+                                    <div>
+                                        <i class='fas fa-circle' style='color: red;'>  </i>
+                                    </div>                                    
+                                </div>`,
+            selectionHeader:   `<div class='custom-header' style='background-color: black; color:white'>
+                                    Visibles
+                                    <br><br> 
+                                    <div>
+                                        <i class='fas fa-circle' style='color: green;'></i>
+                                    </div>                                    
+                                </div>`
+        }); 
         @foreach($grupo as $key => $group2)
             // console.log('el grupo con key {!! $key !!} es {!! $group2 !!}');
             $('#my-select1').multiSelect('addOption', { value: '{!! $key !!}', text: '{!! $group2 !!}' });
             $('#my-select2').multiSelect('addOption', { value: '{!! $key !!}', text: '{!! $group2 !!}' });
             $('#my-select3').multiSelect('addOption', { value: '{!! $key !!}', text: '{!! $group2 !!}' });
             $('#my-select4').multiSelect('addOption', { value: '{!! $key !!}', text: '{!! $group2 !!}' });
-
         @endforeach
 
+
+        @foreach($wallet2 as $key => $wallet22)
+            $('#my-select5').multiSelect('addOption', { value: '{!! $key !!}', text: '{!! $wallet22 !!}' });
+        @endforeach
     }
 
 
@@ -1919,6 +1954,7 @@ $salidaMonto    = 0;
         
         let salida3         = $('#salida3').val();
         let gruposSalida3   = buscaFiltros("my-select4");
+        let walletsSalida3  = buscaFiltros("my-select5");
 
         $.ajax(
             {
@@ -1936,6 +1972,7 @@ $salidaMonto    = 0;
                             groupsSalida2: gruposSalida2,
                             salida3: salida3,
                             groupsSalida3: gruposSalida3,
+                            walletsSalida3: walletsSalida3,
                     }
                 },
             }
@@ -2018,6 +2055,15 @@ $salidaMonto    = 0;
                 }
             });
         });
+        if (myData2.walletsSalida3){
+            myData2.walletsSalida3.map( function (valor) {
+                $("#my-select5 option").each(function(){
+                    if (valor == $(this).attr('value')){
+                        $('#my-select5').multiSelect('select', valor.toString());
+                    }
+                });
+            });
+        }
 
     }
 

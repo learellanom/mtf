@@ -78,12 +78,14 @@
                                     title="Activo">
                                     <i id="myIcon" class="{{$myIcon}}"></i><p id="myText" style="display: block;">{{ $myText }}</p>
                                 </button>
+                                {{-- onclick="window.location.href='{{route('transactions.edit2', $transactions->id)}}'"                                 --}}
                                 <button class="btn btn-xl text-success mx-1 shadow text-center " 
                                     title="Activo"
-                                    onclick="window.location.href='{{route('transactions.edit2', $transactions->id)}}'"
+                                    onclick="editTransaction();"
                                     >
                                     <i class="fas fa-lg fa-fw fa-coins"></i><p style="display: block;">Editar</p>
                                 </button>
+
                             @else
                                 <button class="{{ $myColor }}" 
                                     id="myBtnAnular"
@@ -553,6 +555,65 @@
         }
     }).catch(error => console.error( 'Error en Fetch -> ' + error));
   }
+
+
+    function editTransaction(){
+        
+        let myVar               = "{{ $transactions->pay_number }}";
+        let myStatus            = "{{$transactions->status}}";
+        let myTransferNumber    = "{{$transactions->transfer_number}}";
+
+        if (myStatus == "Anulado"){
+            Swal.fire({
+                position: 'center', 
+                title: 'No se puede editar una transaccion Anulada',
+                type: 'error',                
+                showConfirmButton: true
+            });            
+            return;
+        }
+
+        if (myVar != ""){
+            
+            Swal.fire({
+                position: 'center',
+                type: 'error',
+                title: 'No se puede editar un Pago del proveedor , debe anularse',
+                showConfirmButton: true
+            });             
+            return;    
+        }
+
+        if (myTransferNumber != ""){
+            Swal.fire({
+                position: 'center',
+                type: 'error',
+                title: 'No se puede editar una Transferencia o Cobros entre Cajas, debe anularse',
+                showConfirmButton: true
+            });             
+            return;    
+        }
+
+
+
+
+        /*
+        Swal.fire({
+            position: 'top-end',
+            icon: 'success',
+            title: 'Filtro aplicado satisfactoriamente',
+            showConfirmButton: false,
+            timer: 1500
+        });          
+
+        let myRoute = "";
+
+        myRoute = "{{route('transactions.edit2', $transactions->id)}}";
+        location.href = myRoute;
+        */
+    }
+
+
 
   </script>
   @endsection

@@ -20,7 +20,7 @@
       {!! Form::open(['route' => 'transactions.transfer_wallet', 'autocomplete' => 'off', 'files' => true, 'enctype' =>'multipart/form-data', 'id'=>'entre']) !!}
 
 
-              <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+            <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
                 <li class="nav-item" role="presentation">
                   <button class="nav-link active" id="pills-home-tab" data-toggle="pill" data-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">{{ __('Movimiento') }}</button>
                 </li>
@@ -80,7 +80,7 @@
 
 
                          @foreach($type_transaction2 as $type2)
-                        {!! Form::hidden('type_transaction2_id', $type2, null, ['class' => 'form-control transaccion']) !!}
+                            {!! Form::hidden('type_transaction2_id', $type2, null, ['class' => 'form-control transaccion']) !!}
                          @endforeach
 
 

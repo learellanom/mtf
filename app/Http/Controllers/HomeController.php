@@ -620,6 +620,7 @@ class HomeController extends Controller
         
 
         $wallet                         = app(statisticsController::class)->getWalletUSDT();
+        $wallet2                        = app(statisticsController::class)->getWallet();
         $grupo                          = app(statisticsController::class)->getGroups();
         $typeTransactions               = app(statisticsController::class)->getTypeTransactions();
 
@@ -727,6 +728,8 @@ class HomeController extends Controller
             $request->groups = $myJsonData['groupsSalida3'];
             $transaccionesGrupoSalida3   = app(statisticsController::class)->USDTResumenGrupoSalida($request);
 
+            $request->groups = $myJsonData['walletsSalida3'];
+            $transaccionesWalletsSalida3   = app(statisticsController::class)->USDTResumenGrupoSalida($request);
             // salida gastos varios
             //$request->groups =[44,43,63];
             //$transaccionesGrupoSalida3   = app(statisticsController::class)->USDTResumenGrupoSalida($request);
@@ -740,6 +743,7 @@ class HomeController extends Controller
         // dd('transacciones 2 ->' . print_r($Transacciones2,true));
 
         $parametros['wallet']                       = $wallet;
+        $parametros['wallet2']                       = $wallet2;
         $parametros['grupo']                        = $grupo;
         $parametros['typeTransactions']             = $typeTransactions;
         $parametros['myWallet']                     = $myWallet;
@@ -760,12 +764,14 @@ class HomeController extends Controller
         $parametros['transaccionesGrupoSalida']     = $transaccionesGrupoSalida;
         $parametros['transaccionesGrupoSalida2']    = $transaccionesGrupoSalida2;
         $parametros['transaccionesGrupoSalida3']    = $transaccionesGrupoSalida3;
+        $parametros['transaccionesWalletsSalida3']    = $transaccionesWalletsSalida3;
 
         // dd($RecargasWallet);
         // dd($transaccionesGrupoComision);
          // dd($transaccionesGrupoSalida);
         // dd($transaccionesGrupoSalida2);
         // dd($transaccionesGrupoSalida3);
+        // dd($transaccionesWalletsSalida3);
         // dd($parametros);
         // dd('leam aqui 3');
                      
