@@ -637,6 +637,7 @@ class HomeController extends Controller
         $transaccionesGrupoSalida = [];
         $transaccionesGrupoSalida2 = [];
         $transaccionesGrupoSalida3 = [];
+        $transaccionesWalletsSalida3 = [];
 
         if ($myWallet != 0){
             
@@ -764,7 +765,7 @@ class HomeController extends Controller
         $parametros['transaccionesGrupoSalida']     = $transaccionesGrupoSalida;
         $parametros['transaccionesGrupoSalida2']    = $transaccionesGrupoSalida2;
         $parametros['transaccionesGrupoSalida3']    = $transaccionesGrupoSalida3;
-        $parametros['transaccionesWalletsSalida3']    = $transaccionesWalletsSalida3;
+        $parametros['transaccionesWalletsSalida3']  = $transaccionesWalletsSalida3;
 
         // dd($RecargasWallet);
         // dd($transaccionesGrupoComision);
