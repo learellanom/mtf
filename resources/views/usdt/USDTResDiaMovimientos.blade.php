@@ -230,20 +230,21 @@ $salidaMonto    = 0;
                 Recarga
             </button>
             --}}
-            <button 
-                class="nav-link" 
-                id="nav-profile-tab" 
-                data-toggle="tab" 
-                data-target="#nav-profile" 
-                type="button" 
-                role="tab" 
-                aria-controls="nav-profile"             
-                aria-selected="false">
-                Filtros
-            </button>
-                    
+            @can('USDTResumenDiarioFiltro')     
+                <button 
+                    class="nav-link" 
+                    id="nav-profile-tab" 
+                    data-toggle="tab" 
+                    data-target="#nav-profile" 
+                    type="button" 
+                    role="tab" 
+                    aria-controls="nav-profile"             
+                    aria-selected="false">
+                    Filtros
+                </button>
+            @endcan
         </div>
-    </nav>
+    </nav>  
 
     <br>
     <br>
@@ -271,11 +272,11 @@ $salidaMonto    = 0;
 
         </div>
         {{-- Filtros --}}
-                    
+        @can('USDTResumenDiarioFiltro')     
         <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">Filtros
 
 
-        <div class="card mb-4">
+            <div class="card mb-4">
                 <div class="card-header" style="background-color: #2874A6; color: white">
                     <h3 class="card-title text-uppercase font-weight-bold">Filtros Entradas USDT</h3>
                 </div>
@@ -420,7 +421,7 @@ $salidaMonto    = 0;
             </div>
 
         </div>
-        
+        @endcan
     </div>
 </div>
 
@@ -867,6 +868,13 @@ $salidaMonto    = 0;
             $totalSalidasUSDTCant  += $wallet2->Cant;
             $totalSalidasUSDTMonto += $wallet2->Amount;            
         }
+        foreach($transaccionesWalletsSalida3 as $wallet2){
+            $variosUSDTCant       += $wallet2->Cant;
+            $variosUSDTMonto      += $wallet2->Amount;
+
+            $totalSalidasUSDTCant  += $wallet2->Cant;
+            $totalSalidasUSDTMonto += $wallet2->Amount;              
+        }
 
         // $totalSalidasUSDTCant  += $wallet2->Cant;
         $totalPendienteUSDTMonto  = ($balanceBefore + $totalEntradasUSDTMonto) - $totalSalidasUSDTMonto;
@@ -924,13 +932,13 @@ $salidaMonto    = 0;
                             <td></td>
                         </tr>
 
-                        <tr class="myTr">
+                        <tr class="myTr" onclick="javascript:window.location.href='#laEntrada1'">
                             <td>Entradas USDT  </td>
                             <td>{{ number_format($entradasUSDTCant) }}</td>
                             <td>{{ number_format($entradasUSDTMonto ,2) }}</td>
                         </tr>
 
-                        <tr class="myTr">
+                        <tr class="myTr" onclick="javascript:window.location.href='#laEntrada2'">
                             <td>${myTitleEntrada}</td>
                             <td>{{ number_format($comisionUSDTCant) }}</td>
                             <td>{{ number_format($comisionUSDTMonto ,2) }}</td>
@@ -956,19 +964,19 @@ $salidaMonto    = 0;
 
 
 
-                        <tr class="myTr">
+                        <tr class="myTr" onclick="javascript:window.location.href='#laSalida1'">
                             <td>${myTitleSalida1}</td>
                             <td>{{ number_format($salidasUSDTCant) }}</td>
                             <td>{{ number_format($salidasUSDTMonto ,2) }}</td>
                         </tr>
 
-                        <tr class="myTr">
+                        <tr class="myTr" onclick="javascript:window.location.href='#laSalida2'">
                             <td>${myTitleSalida2}</td>
                             <td>{{ number_format($operacionesUSDTCant) }}</td>
                             <td>{{ number_format($operacionesUSDTMonto ,2) }}</td>
                         </tr>
 
-                        <tr class="myTr">
+                        <tr class="myTr" onclick="javascript:window.location.href='#laSalida3'">
                             <td>${myTitleSalida3}</td>
                             <td>{{ number_format($variosUSDTCant) }}</td>
                             <td>{{ number_format($variosUSDTMonto ,2) }}</td>
@@ -1074,14 +1082,27 @@ $salidaMonto    = 0;
     function calculaSalidaFooter(){
         
         @php
-            foreach($RecargasWallet as $wallet2){
+            $entradaCant    = 0;
+            $entradaMonto   = 0;
+            foreach($transaccionesGrupoSalida as $wallet2){
                 $entradaCant    += $wallet2->Cant;
                 $entradaMonto   += $wallet2->Amount;
             }
-            foreach($transaccionesGrupoComision as $wallet2){
+            
+            foreach($transaccionesGrupoSalida2 as $wallet2){
                 $entradaCant    += $wallet2->Cant;
                 $entradaMonto   += $wallet2->Amount;
-            }            
+            }
+
+            foreach($transaccionesGrupoSalida3 as $wallet2){
+                $entradaCant    += $wallet2->Cant;
+                $entradaMonto   += $wallet2->Amount;
+            }    
+            // dd($entradaCant);            
+            foreach($transaccionesWalletsSalida3 as $wallet2){
+                $entradaCant    += $wallet2->Cant;
+                $entradaMonto   += $wallet2->Amount;
+            }                              
         @endphp
 
         myElement =
@@ -1102,8 +1123,6 @@ $salidaMonto    = 0;
             </div>
         </div>
         `;
-
-
 
         $("#myCanvasGeneral").append(myElement);
     }
@@ -1141,8 +1160,9 @@ $salidaMonto    = 0;
             </style>
 
             {{-- dd($balanceDetail . ' ' . $myFechaDesdeBefore . ' ' . $myFechaHastaBefore) --}}
-  
-            <div class ="row mb-4" style="background-color: white;" data-wallet="">
+            <div id="laEntrada1">
+            </div>
+            <div class ="row mb-4" style="background-color: white;" data-wallet=""  >
                 <div class="col-12 text-center">
                     <h3>Entradas USDT</h3>
                 </div>            
@@ -1170,10 +1190,11 @@ $salidaMonto    = 0;
                             $entradaMonto   = 0;
 
                         @endphp
+                        
                         @if(count($RecargasWallet)>0)
                             @foreach($RecargasWallet as $wallet2)
                                 
-                                <tr class="myTr">
+                                <tr class="myTr" onClick="theRoute2({{0}}, {{ $wallet2->GroupId}}, {{$wallet2->WalletId}}, {{$wallet2->TypeTransactionId}})">
 
                                     @php
                                         
@@ -1269,7 +1290,7 @@ $salidaMonto    = 0;
                 
         <div class ="row mb-4" style="background-color: white;" data-wallet="">
             <div class="col-12 text-center">
-                <h3>${myTitleEntrada}</h3>
+                <h3 id='laEntrada2'>${myTitleEntrada}</h3>
             </div>
             <div class="col-12 col-md-12">
                 <table class="table thead-light" style="background-color: white;">
@@ -1315,7 +1336,7 @@ $salidaMonto    = 0;
                             @if($myContinue == 0)
                                     @continue
                             @endif
-                            <tr class="myTr">
+                            <tr class="myTr" onClick="theRoute2({{0}}, {{ $wallet2->GroupId}}, {{$wallet2->WalletId}}, {{$wallet2->TypeTransactionId}})">
                                 @php
 
                                     $totalAmount                    =  $wallet2->Amount;
@@ -1363,7 +1384,7 @@ $salidaMonto    = 0;
 
                     @else
                         <tr class="myTr"">
-                            <td colspan="6">
+                            <td colspan="7">
                                 <div class="row  justify-content-center text-center align-items-center" style="margin-top: 5rem; margin-bottom: 5rem;">
                                     <h3>Sin transacciones registradas</h3>
                                 </div>
@@ -1396,7 +1417,7 @@ $salidaMonto    = 0;
         let myTitleSalida2 = $('#salida2').val();
         let myTitleSalida3 = $('#salida3').val();
 
-    myElement =
+        myElement =
         `
         <style>
             .myTr {
@@ -1416,7 +1437,7 @@ $salidaMonto    = 0;
                 
         <div class ="row mb-4" style="background-color: white;" data-wallet="">
             <div class="col-12 text-center">
-                <h3>${myTitleSalida1}</h3>
+                <h3 id='laSalida1'>${myTitleSalida1}</h3>
             </div>
             <div class="col-12 col-md-12">
                 <table class="table thead-light" style="background-color: white;">
@@ -1451,18 +1472,16 @@ $salidaMonto    = 0;
                     @if(count($transaccionesGrupoSalida)>0)
                         @foreach($transaccionesGrupoSalida as $wallet2)
                             @php 
-
-
-                                    // dd($myDate);
-                                    //
-                                    // filtra
-                                    //
-                                    $myContinue = 1;
+                                // dd($myDate);
+                                //
+                                // filtra
+                                //
+                                $myContinue = 1;
                             @endphp
                             @if($myContinue == 0)
                                     @continue
                             @endif
-                            <tr class="myTr">
+                            <tr class="myTr" onClick="theRoute2({{0}}, {{ $wallet2->GroupId}}, {{$wallet2->WalletId}}, {{$wallet2->TypeTransactionId}})">
                                 @php
 
                                     $totalAmount                    += $wallet2->Amount;
@@ -1562,7 +1581,7 @@ $salidaMonto    = 0;
                 
         <div class ="row mb-4" style="background-color: white;" data-wallet="">
             <div class="col-12 text-center">
-                <h3>${myTitleSalida2}</h3>
+                <h3 id='laSalida2'>${myTitleSalida2}</h3>
             </div>
             <div class="col-12 col-md-12">
                 <table class="table thead-light" style="background-color: white;">
@@ -1604,9 +1623,9 @@ $salidaMonto    = 0;
                             @if($myContinue == 0)
                                     @continue
                             @endif
-                            <tr class="myTr">
+                            
+                            <tr class="myTr" onClick="theRoute2({{0}}, {{ $wallet2->GroupId}}, {{$wallet2->WalletId}}, {{$wallet2->TypeTransactionId}})">
                                 @php
-
                                     $totalAmount                    += $wallet2->Amount;
                                     $totalCant                      += $wallet2->Cant;
                                 @endphp
@@ -1684,6 +1703,7 @@ $salidaMonto    = 0;
         let myTitleSalida1 = $('#salida1').val();
         let myTitleSalida2 = $('#salida2').val();
         let myTitleSalida3 = $('#salida3').val();
+        {{-- dd($transaccionesWalletsSalida3) --}}
 
     myElement =
         `
@@ -1705,8 +1725,9 @@ $salidaMonto    = 0;
                 
         <div class ="row mb-4" style="background-color: white;" data-wallet="">
             <div class="col-12 text-center">
-                <h3>${myTitleSalida3}</h3>
+                <h3 id='laSalida3'>${myTitleSalida3}</h3>
             </div>
+
             <div class="col-12 col-md-12">
                 <table class="table thead-light" style="background-color: white;">
                     <thead class="thead-dark">
@@ -1747,7 +1768,7 @@ $salidaMonto    = 0;
                             @if($myContinue == 0)
                                     @continue
                             @endif
-                            <tr class="myTr">
+                            <tr class="myTr" onClick="theRoute2({{0}}, {{ $wallet2->GroupId}}, {{$wallet2->WalletId}}, {{$wallet2->TypeTransactionId}})">
                                 @php
                                     $totalAmount    += $wallet2->Amount;
                                     $totalCant      += $wallet2->Cant;
@@ -1802,10 +1823,137 @@ $salidaMonto    = 0;
                 </table>
             </div>
             
+
+
         </div>
         `;
 
         $("#myCanvasGeneral").append(myElement);
+
+
+        myElement =
+        `
+        <style>
+            .myTr {
+                cursor: pointer;
+            }
+            .myTr:hover{
+                background-color: #D7DBDD  !important;
+            }
+            .myWidth22{
+                    width: 12%; 
+                    min-width: 12%;
+                    max-width: 12%;
+                }            
+        </style>
+
+        {{-- dd($balanceDetail . ' ' . $myFechaDesdeBefore . ' ' . $myFechaHastaBefore) --}}
+                
+        <div class ="row mb-4" style="background-color: white;" data-wallet="">
+
+
+            <div class="col-12 col-md-12" style="margin-top: 2rem;">
+                <table class="table thead-light" style="background-color: white;">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th class=""   style="width: 25% !important;"          >Wallet</th>
+                            <th class="myWidth22"             >Grupo Id</th>
+                            <th class="myWidth22"             >Grupo</th>
+                            <th class=" myWidth22"  >Transaccion</th>
+                            <th class=" myWidth22"  >Cant</th>
+                            <th class=" myWidth22"  >Monto</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    @php
+                        $totalCant                  = 0;
+                        $totalAmount                = 0;
+
+                        $myFechaDesdeDate = Date($myFechaDesde);
+                        $myFechaHastaDate = Date($myFechaHasta);
+
+                        // dd($myFechaDesdeDate);
+                        // dd($myFechaHastaDate);
+                        
+                    @endphp
+                    
+                    @if(count($transaccionesWalletsSalida3)>0)
+                        @foreach($transaccionesWalletsSalida3 as $wallet2)
+                            @php 
+
+
+                                    // dd($myDate);
+
+                                    //
+                                    // filtra
+                                    //
+                                    $myContinue = 1;
+                            @endphp
+                            @if($myContinue == 0)
+                                    @continue
+                            @endif
+                            <tr class="myTr" onClick="theRoute2({{0}}, {{ $wallet2->GroupId}}, {{$wallet2->WalletId}}, {{$wallet2->TypeTransactionId}})">
+                                @php
+                                    $totalAmount    += $wallet2->Amount;
+                                    $totalCant      += $wallet2->Cant;
+                                @endphp
+
+                                <td class="myWidth22"   >{{ $wallet2->WalletName}}</td>                               
+                                <td class="myWidth22"   >{{ $wallet2->GroupId}}</td>
+                                <td class="myWidth22"   >{{ $wallet2->GroupName}}</td>
+                                <td class="myWidth22"   >{{ $wallet2->TypeTransactionName}}</td>
+                                <td class="myWidth22"   >{{ number_format($wallet2->Cant) }}</td>
+                                <td class="myWidth22"   >{{ number_format($wallet2->Amount,2) }}</td>
+                                <td></td>
+                            </tr>
+                            
+
+                        @endforeach
+                        @php
+
+
+                        @endphp
+                        <tr style="background-color: black; color:white;">
+                            <td                     ></td>
+                            <td                     ></td>
+                            <td                     ></td>
+                            <td class=""  ></td>
+                            <td class=""  >{{ number_format($totalCant) }}</td>
+                            <td class=""  >{{ number_format($totalAmount,2) }}</td>
+                            <td class=""  ></td>
+                        </tr>
+
+                    
+                        @if($totalCant == 0)
+                            <tr class="myTr"">
+                                <td colspan="7">
+                                    <div class="row  justify-content-center text-center align-items-center" style="margin-top: 5rem; margin-bottom: 5rem;">
+                                        <h3>Sin transacciones registradas</h3>
+                                    </div>
+                                </td>
+                            </tr>           
+                        @endif
+
+                    @else
+                        <tr class="myTr"">
+                            <td colspan="7">
+                                <div class="row  justify-content-center text-center align-items-center" style="margin-top: 5rem; margin-bottom: 5rem;">
+                                    <h3>Sin transacciones registradas</h3>
+                                </div>
+                            </td>
+                        </tr>
+                    @endif
+
+                </table>
+            </div>
+            
+
+
+        </div>
+        `;
+
+        $("#myCanvasGeneral").append(myElement);
+
 
     }
 
