@@ -6,7 +6,6 @@
 
     <h1 class="text-center text-dark font-weight-bold">{{ __('LISTA DE TRANSACCIONES') }} <i class="fas fa-people-arrows"></i> </h1></a>
 
-
 @stop
 @php
 
@@ -127,101 +126,117 @@
                                     
                                     <th style="width:1%;" class="no-exportar">Ver <i class="fas fa-search"></i></th>
 
-                                    @if((auth()->id())==2)
+                                    
                                         
                                         <th style="width:1%;" class="no-exportar">Historico</th>
                                         
-                                    @endif
+                                    
                                 </tr>
                             </thead>
-                            
-                            @foreach($transferencia as $transferencias)
-                            
-                                <tr>
-                                    <td class="font-weight-bold">{{ $transferencias->id }}</td>
-                                    <td class="font-weight-bold">
-                                            {{ $transferencias->wallet->name ?? "" }}
-                                    </td>                                    
-                                    <td class="font-weight-bold">
-                                            {{ $transferencias->group->name ?? "" }}
-                                    </td>
-
-
-                                    <td class="font-weight-bold" style="display:none;">{!! $transferencias->token !!}</td>
-
-                                    <td class="font-weight-bold" style="min-width: 80px;">{!! $transferencias->transaction_date !!}</td>
-                                    <td class="font-weight-bold" style="min-width: 80px;">{!! $transferencias->created_at !!}</td>
-                                    <td class="font-weight-bold"><div style='width:60px; height:60px; overflow:hidden;'>{!!  $transferencias->description !!}</div></td>
-
-                                    <td class="font-weight-bold">{!! $transferencias->percentage ?? ''!!} </td>
-
-                                    <td>{!! number_format(abs($transferencias->amount_foreign_currency),2,".") ?? '' !!}</td>
-
-                                    <td>{!! number_format(abs($transferencias->amount_commission),2,".") ?? '' !!} </td>
-
-                                    <td class="font-weight-bold">{!!  number_format(abs($transferencias->amount),2,".") !!} <i class="fas fa-dollar-sign"></i></td>
-                                    <td class="font-weight-bold">{!! number_format(abs($transferencias->amount_total),2,".") !!} <i class="fas fa-dollar-sign"></i></td>
-
-
-                                    <td class="font-weight-bold">{!! $transferencias->user->name ?? '' !!}</td>
-                                    <td>{!! $transferencias->type_transaction->name !!}</td>
-                                    <td style="display: none;">{!! $transferencias->wallet->name ?? '' !!}</td>
-                                    @can('transactions.update_status')
-                                        <td class="text-center">
-                                            {!! Form::model($transferencias->id, ['route' => ['transactions.update_status', $transferencias->id],'method' => 'put']) !!}
-
-                                                @if($transferencias->status == 'Activo')
-                                                <button class="btn btn-xl text-success mx-1 shadow text-center" title="Activo">
-                                                    <i class="fa fa-lg fa-fw fas fa-check"></i><p style="display: none;">Activo</p>
-                                                </button>
-
-                                                @elseif($transferencias->status == 'Anulado')
-                                                {{--
-                                                <button class="btn btn-xl text-danger mx-1 shadow text-center" title="Anulado">
-                                                    <i class="fa fa-lg fa-fw fas fa-times"></i><p style="display: none;">Anulado</p>
-                                                </button>
-                                                --}}
-                                                <div class="btn btn-xl text-danger mx-1 shadow text-center">
-                                                    <i class="fa fa-lg fa-fw fas fa-times"></i><p style="display: none;">Anulado</p>
-                                                </div>
-                                                @endif
-                                            {!! Form::close() !!}
+                            {{-- @if(count($transferencia) > 0) --}}
+                                @foreach($transferencia as $transferencias)
+                                
+                                    <tr>
+                                        <td class="font-weight-bold">{{ $transferencias->id }}</td>
+                                        <td class="font-weight-bold">
+                                                {{ $transferencias->wallet->name ?? "" }}
+                                        </td>                                    
+                                        <td class="font-weight-bold">
+                                                {{ $transferencias->group->name ?? "" }}
                                         </td>
-                                    @endcan
-                                    @can('transactions.edit')
-                                        <td class="text-center">
-                                            <a href="{{route('transactions.edit2', $transferencias->id)}}" class="btn btn-xl text-dark mx-1 shadow text-center"><i class="fas fa-lg fa-fw fa-coins"></i></a>
+
+
+                                        <td class="font-weight-bold" style="display:none;">{!! $transferencias->token !!}</td>
+
+                                        <td class="font-weight-bold" style="min-width: 80px;">{!! $transferencias->transaction_date !!}</td>
+                                        <td class="font-weight-bold" style="min-width: 80px;">{!! $transferencias->created_at !!}</td>
+                                        <td class="font-weight-bold">
+                                            <div style='width:60px; height:60px; overflow:hidden;'>{!!  $transferencias->description !!}</div>
                                         </td>
-                                    @endcan
-                                    {{--
-                                    @if((auth()->id())==2)
+
+                                        <td class="font-weight-bold">{!! $transferencias->percentage ?? ''!!} </td>
+
+                                        <td>{!! number_format(abs($transferencias->amount_foreign_currency),2,".") ?? '' !!}</td>
+
+                                        <td>{!! number_format(abs($transferencias->amount_commission),2,".") ?? '' !!} </td>
+
+                                        <td class="font-weight-bold">{!!  number_format(abs($transferencias->amount),2,".") !!} 
+                                            <i class="fas fa-dollar-sign"></i>
+                                        </td>
+                                        <td class="font-weight-bold">{!! number_format(abs($transferencias->amount_total),2,".") !!} 
+                                            <i class="fas fa-dollar-sign"></i>
+                                        </td>
+
+                                        <td class="font-weight-bold">{!! $transferencias->user->name ?? '' !!}</td>
+                                        <td>{!! $transferencias->type_transaction->name !!}</td>
+                                        <td style="display: none;">{!! $transferencias->wallet->name ?? '' !!}</td>
+                                        @can('transactions.update_status')
+                                            <td class="text-center">
+                                                {!! Form::model($transferencias->id, ['route' => ['transactions.update_status', $transferencias->id],'method' => 'put']) !!}
+
+                                                    @if($transferencias->status == 'Activo')
+                                                    <button class="btn btn-xl text-success mx-1 shadow text-center" title="Activo">
+                                                        <i class="fa fa-lg fa-fw fas fa-check"></i><p style="display: none;">Activo</p>
+                                                    </button>
+
+                                                    @elseif($transferencias->status == 'Anulado')
+                                                    {{--
+                                                    <button class="btn btn-xl text-danger mx-1 shadow text-center" title="Anulado">
+                                                        <i class="fa fa-lg fa-fw fas fa-times"></i><p style="display: none;">Anulado</p>
+                                                    </button>
+                                                    --}}
+                                                    <div class="btn btn-xl text-danger mx-1 shadow text-center">
+                                                        <i class="fa fa-lg fa-fw fas fa-times"></i><p style="display: none;">Anulado</p>
+                                                    </div>
+                                                    @endif
+                                                {!! Form::close() !!}
+                                            </td>
+                                        @endcan
                                         @can('transactions.edit')
-
                                             <td class="text-center">
                                                 <a href="{{route('transactions.edit2', $transferencias->id)}}" class="btn btn-xl text-dark mx-1 shadow text-center"><i class="fas fa-lg fa-fw fa-coins"></i></a>
                                             </td>
                                         @endcan
-                                    @endif
-                                    --}}
-                                    <td>
-                                        <a  href="{{ route('transactions.show', $transferencias->id) }}" 
-                                            class="btn btn-xl text-dark mx-1 shadow text-center">
-                                            <i class="fa fa-lg fa-fw fas fa-search"></i>
-                                        </a>
-                                    </td>
-                                    {{-- @if((auth()->id())==2) --}}
+                                        {{--
+                                        @if((auth()->id())==2)
+                                            @can('transactions.edit')
+
+                                                <td class="text-center">
+                                                    <a href="{{route('transactions.edit2', $transferencias->id)}}" class="btn btn-xl text-dark mx-1 shadow text-center"><i class="fas fa-lg fa-fw fa-coins"></i></a>
+                                                </td>
+                                            @endcan
+                                        @endif
+                                        --}}
                                         <td>
-                                            <a  href="{{ route('transactions.audit', $transferencias->id) }}" 
+                                            <a  href="{{ route('transactions.show', $transferencias->id) }}" 
                                                 class="btn btn-xl text-dark mx-1 shadow text-center">
-                                                <i class="fa fa-lg fa-fw fas fa-solid fa-list"></i>
-                                                
+                                                <i class="fa fa-lg fa-fw fas fa-search"></i>
                                             </a>
                                         </td>
-                                    {{-- @endif --}}
+                                        
+                                        
+                                            <td>
+                                                <a  href="{{ route('transactions.audit', $transferencias->id) }}" 
+                                                    class="btn btn-xl text-dark mx-1 shadow text-center">
+                                                    <i class="fa fa-lg fa-fw fas fa-solid fa-list"></i>
+                                                    
+                                                </a>
+                                            </td>
+                                        
+                                    </tr>
+
+                                @endforeach
+                            {{--
+                                @else
+                                <tr>
+                                    <td colspan=17 class="font-weight-bold text-center mt-4 mb-4">
+                                        <div class="text-center" style="margin-top: 2rem; margin-bottom: 2rem;">
+                                            Sin trasansacciones registradas, seleccione un criterio de busqueda
+                                        </div>
+                                    </td>
                                 </tr>
-
-                            @endforeach
-
+                            @endif
+                            --}}
                         </table>
                     </div>
                 </div>
@@ -240,7 +255,7 @@ $(document).ready(function () {
 
         language: {
         "decimal": "",
-        "emptyTable": "No hay transacciones.",
+        "emptyTable": "Sin transacciones registradas, seleccione un criterio de busqueda.",
         "info": "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
         "infoEmpty": "Mostrando 0 to 0 de 0 Entradas",
         "infoFiltered": "(Filtrado de _MAX_ total entradas)",
@@ -410,12 +425,8 @@ $(document).ready(function () {
     ]
     });
 });
-
-
     
     BuscaUsuario();
-
-
 
     $(() => {
         BuscaFechas();
