@@ -55,12 +55,14 @@
                         
                         @can('transactions.update_status')            
                             @php
+                                
                                 $indMuestra = 1;
                                 if ($myAdministrator == false){
                                     if ($transactions->user_id != auth()->id()){
                                         $indMuestra = 0;
                                     }
                                 }
+                                 
                                 if ($transactions->status == 'Activo') {
                                     $myColor = "btn btn-xl text-success mx-1 shadow text-center";
                                     $myIcon = "fa fa-lg fa-fw fas fa-check";
@@ -78,14 +80,14 @@
                                     title="Activo">
                                     <i id="myIcon" class="{{$myIcon}}"></i><p id="myText" style="display: block;">{{ $myText }}</p>
                                 </button>
-                                {{-- onclick="window.location.href='{{route('transactions.edit2', $transactions->id)}}'"                                 --}}
+                                
                                 <button class="btn btn-xl text-success mx-1 shadow text-center " 
                                     title="Activo"
                                     onclick="editTransaction();"
                                     >
                                     <i class="fas fa-lg fa-fw fa-coins"></i><p style="display: block;">Editar</p>
                                 </button>
-
+                                
                             @else
                                 <button class="{{ $myColor }}" 
                                     id="myBtnAnular"
@@ -102,7 +104,7 @@
                                     disabled
                                     style="color: gray !important;"
                                     >
-                                    <i class="fas fa-lg fa-fw fa-coins"></i><p style="display: block;">Editar</p>
+                                    <i class="fas fa-lg fa-fw fa-coins"></i><p style="display: block;">Editarr</p>
                                 </button>                            
                             @endif
                         @endcan
@@ -467,6 +469,7 @@
 
   @section('js')
   <script>
+    /*
     $(function () {
         $(document).on('click', '[data-toggle="lightbox"]', function(event) {
             event.preventDefault();
@@ -480,8 +483,8 @@
             $('.btn[data-filter]').removeClass('active');
             $(this).addClass('active');
         });
-    })
-
+    });
+*/
   function apiUpdateStatus(id){
     //alert('apiUpdateStatus');
     //return;
@@ -605,12 +608,12 @@
             showConfirmButton: false,
             timer: 1500
         });          
-
+        */
         let myRoute = "";
 
         myRoute = "{{route('transactions.edit2', $transactions->id)}}";
         location.href = myRoute;
-        */
+        
     }
 
 

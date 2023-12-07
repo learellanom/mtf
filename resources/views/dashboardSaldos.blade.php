@@ -79,19 +79,19 @@
                 aria-selected="true">
                 Consolidado en Resumen
             </button>
-
-            <button 
-                class="nav-link" 
-                id="nav-profile-tab" 
-                data-toggle="tab" 
-                data-target="#nav-profile" 
-                type="button" 
-                role="tab" 
-                aria-controls="nav-profile"             
-                aria-selected="false">
-                Filtros
-            </button>
-
+            @can('dashboardSaldosFiltros')
+                <button 
+                    class="nav-link" 
+                    id="nav-profile-tab" 
+                    data-toggle="tab" 
+                    data-target="#nav-profile" 
+                    type="button" 
+                    role="tab" 
+                    aria-controls="nav-profile"             
+                    aria-selected="false">
+                    Filtros
+                </button>
+            @endcan
         </div>
     </nav>
 
@@ -214,9 +214,9 @@
                             :config="$config2"
                             >
                             <x-slot name="prependSlot">
-                            <div class="input-group-text bg-gradient-light">
-                            <i class="fas fa-exchange-alt"></i>
-                            </div>
+                                <div class="input-group-text bg-gradient-light">
+                                    <i class="fas fa-exchange-alt"></i>
+                                </div>
                             </x-slot>
 
                             <x-adminlte-options :options="$typeTransactions" empty-option="Selecciona Transaccion.."/>
@@ -232,115 +232,116 @@
             <div id="myCanvas2"></div>
 
         </div>
+        @can('dashboardSaldosFiltros')
+            <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">Filtros
 
-        <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">Filtros
+                <div class="row card-deck">
+                    <div class="card mb-4 col-12 col-sm-6">
+                        <div class="card-header">
+                            <h3 class="card-title text-uppercase font-weight-bold">Filtros Wallet</h3>
+                        </div>
+                        <div class="card-body">    
+                            <div class="row justify-content-center text-center align-items-center">
+                                <select multiple="multiple" id="my-select" name="my-select[]">
+                                </select>
+                            </div>     
+                            <br>
+                            <br>
+                            <div class="row justify-content-center text-center align-items-center">
+                                <div class="col-12 col-sm-3 mt-2">
+                                    <button id="myButtonAplicar" type="button" class="btn btn-outline-primary btn-sm ">Aplicar</button>
 
-            <div class="row card-deck">
-                <div class="card mb-4 col-12 col-sm-6">
-                    <div class="card-header">
-                        <h3 class="card-title text-uppercase font-weight-bold">Filtros Wallet</h3>
+                                </div>
+
+                                <div class="col-12 col-sm-3 mt-2">
+                                    <button id="myButtonLimpiar" type="button" class="btn btn-outline-primary btn-sm ">Limpiar</button>
+                                </div>                    
+                            </div>
+                        </div>
                     </div>
-                    <div class="card-body">    
-                        <div class="row justify-content-center text-center align-items-center">
-                            <select multiple="multiple" id="my-select" name="my-select[]">
-                            </select>
-                        </div>     
-                        <br>
-                        <br>
-                        <div class="row justify-content-center text-center align-items-center">
-                            <div class="col-12 col-sm-3 mt-2">
-                                <button id="myButtonAplicar" type="button" class="btn btn-outline-primary btn-sm ">Aplicar</button>
 
+                    <div class="card mb-4 col-12 col-sm-6 lm-2">
+                        <div class="card-header">
+                            <h3 class="card-title text-uppercase font-weight-bold">Filtros Grupos</h3>
+                        </div>
+                        <div class="card-body">    
+                            <div class="row justify-content-center text-center align-items-center">
+                                <select multiple="multiple" id="my-select2" name="my-select2[]">
+                                </select>   
+                            </div>     
+                            <br>
+                            <br>
+                            <div class="row justify-content-center text-center align-items-center">
+                                <div class="col-12 col-sm-3 mt-2">
+                                    <button id="myButtonAplicar2" type="button" class="btn btn-outline-primary btn-sm ">Aplicar</button>
+                                </div>
+                                <div class="col-12 col-sm-3 mt-2">
+                                    <button id="myButtonLimpiar2" type="button" class="btn btn-outline-primary btn-sm ">Limpiar</button>                        
+                                </div>                
                             </div>
 
-                            <div class="col-12 col-sm-3 mt-2">
-                                <button id="myButtonLimpiar" type="button" class="btn btn-outline-primary btn-sm ">Limpiar</button>
-                            </div>                    
                         </div>
                     </div>
                 </div>
 
-                <div class="card mb-4 col-12 col-sm-6 lm-2">
-                    <div class="card-header">
-                        <h3 class="card-title text-uppercase font-weight-bold">Filtros Grupos</h3>
-                    </div>
-                    <div class="card-body">    
-                        <div class="row justify-content-center text-center align-items-center">
-                            <select multiple="multiple" id="my-select2" name="my-select2[]">
-                            </select>   
-                        </div>     
-                        <br>
-                        <br>
-                        <div class="row justify-content-center text-center align-items-center">
-                            <div class="col-12 col-sm-3 mt-2">
-                                <button id="myButtonAplicar2" type="button" class="btn btn-outline-primary btn-sm ">Aplicar</button>
-                            </div>
-                            <div class="col-12 col-sm-3 mt-2">
-                                <button id="myButtonLimpiar2" type="button" class="btn btn-outline-primary btn-sm ">Limpiar</button>                        
-                            </div>                
-                        </div>
+                <div class="row justify-content-center text-center align-items-center">
+                    <h4>Filtros Seccion B</h4>
+                </div>
 
+                <div class="row card-deck">
+                    <div class="card mb-4 col-12 col-sm-6">
+                        <div class="card-header">
+                            <h3 class="card-title text-uppercase font-weight-bold">Filtros Wallet</h3>
+                        </div>
+                        <div class="card-body">    
+                            <div class="row justify-content-center text-center align-items-center">
+                                <select multiple="multiple" id="my-select3" name="my-select3[]">
+                                </select>
+                            </div>     
+                            <br>
+                            <br>
+                            <div class="row justify-content-center text-center align-items-center">
+                                <div class="col-12 col-sm-3 mt-2">
+                                    <button id="myButtonAplicar3" type="button" class="btn btn-outline-primary btn-sm ">Aplicar</button>
+
+                                </div>
+
+                                <div class="col-12 col-sm-3 mt-2">
+                                    <button id="myButtonLimpiar3" type="button" class="btn btn-outline-primary btn-sm ">Limpiar</button>
+                                </div>                    
+                            </div>
+                        </div>
+                    </div>
+
+            
+
+                    <div class="card mb-4 col-12 col-sm-6 lm-2">
+                        <div class="card-header">
+                            <h3 class="card-title text-uppercase font-weight-bold">Filtros Grupos</h3>
+                        </div>
+                        <div class="card-body">    
+                            <div class="row justify-content-center text-center align-items-center">
+                                <select multiple="multiple" id="my-select4" name="my-select4[]">
+                                </select>   
+                            </div>     
+                            <br>
+                            <br>
+                            <div class="row justify-content-center text-center align-items-center">
+                                <div class="col-12 col-sm-3 mt-2">
+                                    <button id="myButtonAplicar4" type="button" class="btn btn-outline-primary btn-sm ">Aplicar</button>
+                                </div>
+                                <div class="col-12 col-sm-3 mt-2">
+                                    <button id="myButtonLimpiar4" type="button" class="btn btn-outline-primary btn-sm ">Limpiar</button>                        
+                                </div>                
+                            </div>
+
+                        </div>
                     </div>
                 </div>
+
+
             </div>
-
-            <div class="row justify-content-center text-center align-items-center">
-                <h4>Filtros Seccion B</h4>
-            </div>
-
-            <div class="row card-deck">
-                <div class="card mb-4 col-12 col-sm-6">
-                    <div class="card-header">
-                        <h3 class="card-title text-uppercase font-weight-bold">Filtros Wallet</h3>
-                    </div>
-                    <div class="card-body">    
-                        <div class="row justify-content-center text-center align-items-center">
-                            <select multiple="multiple" id="my-select3" name="my-select3[]">
-                            </select>
-                        </div>     
-                        <br>
-                        <br>
-                        <div class="row justify-content-center text-center align-items-center">
-                            <div class="col-12 col-sm-3 mt-2">
-                                <button id="myButtonAplicar3" type="button" class="btn btn-outline-primary btn-sm ">Aplicar</button>
-
-                            </div>
-
-                            <div class="col-12 col-sm-3 mt-2">
-                                <button id="myButtonLimpiar3" type="button" class="btn btn-outline-primary btn-sm ">Limpiar</button>
-                            </div>                    
-                        </div>
-                    </div>
-                </div>
-
-        
-
-                <div class="card mb-4 col-12 col-sm-6 lm-2">
-                    <div class="card-header">
-                        <h3 class="card-title text-uppercase font-weight-bold">Filtros Grupos</h3>
-                    </div>
-                    <div class="card-body">    
-                        <div class="row justify-content-center text-center align-items-center">
-                            <select multiple="multiple" id="my-select4" name="my-select4[]">
-                            </select>   
-                        </div>     
-                        <br>
-                        <br>
-                        <div class="row justify-content-center text-center align-items-center">
-                            <div class="col-12 col-sm-3 mt-2">
-                                <button id="myButtonAplicar4" type="button" class="btn btn-outline-primary btn-sm ">Aplicar</button>
-                            </div>
-                            <div class="col-12 col-sm-3 mt-2">
-                                <button id="myButtonLimpiar4" type="button" class="btn btn-outline-primary btn-sm ">Limpiar</button>                        
-                            </div>                
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-
-
-        </div>
+        @endcan
 
     </div>
 </div>
