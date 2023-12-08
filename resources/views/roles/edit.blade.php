@@ -56,20 +56,46 @@
                         <h4 class="font-weight-bold">PERMISOS:</h4>
                         <hr>
                         <div class="row">
-                        @foreach($permisos as $permission)
-                            <div class="list-group col-md-6 col-lg-4 cpl-xl-3">
+                            @foreach($permisos as $permission)
+                                <div class="list-group col-md-6 col-lg-4 cpl-xl-3">
 
-                                <label class="list-group-item list-group-item-action">
+                                    <label class="list-group-item list-group-item-action">
 
-                                    {!! Form::checkbox('permissions[]', $permission->id, null, ['class'=> '', 'id' => $permission->id ]) !!}
-                                    {{$permission->description}}
+                                        {!! Form::checkbox('permissions[]', $permission->id, null, ['class'=> '', 'id' => $permission->id ]) !!}
+                                        {{$permission->description}}
 
-                                </label>
-                                <hr>
-                            </div>
-                        @endforeach
+                                    </label>
+                                    <hr>
+                                </div>
+                            @endforeach
                         </div>
+
+                        {{--
+                        <ul class="list-group">
+                            <li class="list-group-item">Estadisticas
+                                <ul class="list-group-item">
+                                    <input class="form-check-input me-1" type="checkbox" value="" id="firstCheckboxStretched">
+                                    <label class="form-check-label stretched-link" for="firstCheckboxStretched">Estadisticas</label> 
+                                    
+
+                                </ul>
+                                <ul>
+                                    <input class="form-check-input me-1" type="checkbox" value="" id="firstCheckboxStretched2">
+                                    <label class="form-check-label stretched-link" for="firstCheckboxStretched2">Consolidado de Saldos</label> 
+
+                                </ul>
+                            </li>
+                            <li class="list-group-item">Operaciones
+                                <ul></ul>
+                                <ul></ul>
+                            </li>
+                        </ul>
+                        --}}
+
+
+
                     </div>
+
 
                 </div>
 
