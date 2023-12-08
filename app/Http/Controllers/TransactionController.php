@@ -1140,6 +1140,7 @@ class TransactionController extends Controller
 
     public function update_status(Request $request, $transaction)
     {
+        
         $transactions = Transaction::find($transaction);
 
         if($transactions->status == 'Activo'){
@@ -1149,6 +1150,7 @@ class TransactionController extends Controller
            return Redirect::route('transactions.index')->with('info', 'Transacción anulada  <strong># '. $transaction . '</strong>');
         }
         elseif($transactions->status == 'Anulado'){
+            
             Transaction::findOrFail($transaction)->update([
                 'status' => 'Activo',
             ]);

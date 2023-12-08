@@ -155,19 +155,19 @@ $config4 = [
                 aria-selected="true">
                 Estadistica
             </button>
-
-            <button 
-                class="nav-link" 
-                id="nav-profile-tab" 
-                data-toggle="tab" 
-                data-target="#nav-profile" 
-                type="button" 
-                role="tab" 
-                aria-controls="nav-profile"             
-                aria-selected="false">
-                Filtros
-            </button>
-
+            @can('dashboardComisionesFiltro')
+                <button 
+                    class="nav-link" 
+                    id="nav-profile-tab" 
+                    data-toggle="tab" 
+                    data-target="#nav-profile" 
+                    type="button" 
+                    role="tab" 
+                    aria-controls="nav-profile"             
+                    aria-selected="false">
+                    Filtros
+                </button>
+            @endcan
         </div>
     </nav>
 
@@ -230,7 +230,7 @@ $config4 = [
                     </div>
                 </div>
             </div>
-
+            @can('dashboardComisionesFiltro')
             <div class="card mb-4">
                 <div class="card-header">
                     <h3 class="card-title text-uppercase font-weight-bold">Filtros Transacciones</h3>
@@ -258,6 +258,7 @@ $config4 = [
                     </div>
                 </div>
             </div>
+            @endcan
         </div>
     </div>
 </div>
