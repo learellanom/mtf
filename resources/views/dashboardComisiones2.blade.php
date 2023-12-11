@@ -231,33 +231,33 @@ $config4 = [
                 </div>
             </div>
             @can('dashboardComisionesFiltro')
-            <div class="card mb-4">
-                <div class="card-header">
-                    <h3 class="card-title text-uppercase font-weight-bold">Filtros Transacciones</h3>
-                </div>
-                <div class="card-body">    
-                    <div class="row justify-content-center text-center align-items-center">
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h3 class="card-title text-uppercase font-weight-bold">Filtros Transacciones</h3>
+                    </div>
+                    <div class="card-body">    
+                        <div class="row justify-content-center text-center align-items-center">
 
-                        <div class="col-12 col-md-6 col-lg-6 col-xl-4 justify-content-center text-center align-items-center">
-                            <select multiple="multiple" id="my-select" name="my-select[]">
-                            </select>   
-                        </div>  
+                            <div class="col-12 col-md-6 col-lg-6 col-xl-4 justify-content-center text-center align-items-center">
+                                <select multiple="multiple" id="my-select" name="my-select[]">
+                                </select>   
+                            </div>  
 
-                    </div>     
-                    <br>
-                    <br>
-                    <div class="row justify-content-center text-center align-items-center">
-                        <div class="col-12 col-sm-2 mt-2">
-                            <button id="myButtonAplicar" type="button" class="btn btn-outline-primary btn-sm ">Aplicar</button>
+                        </div>     
+                        <br>
+                        <br>
+                        <div class="row justify-content-center text-center align-items-center">
+                            <div class="col-12 col-sm-2 mt-2">
+                                <button id="myButtonAplicar" type="button" class="btn btn-outline-primary btn-sm ">Aplicar</button>
 
+                            </div>
+
+                            <div class="col-12 col-sm-2 mt-2">
+                                <button id="myButtonLimpiar" type="button" class="btn btn-outline-primary btn-sm ">Limpiar</button>
+                            </div>                    
                         </div>
-
-                        <div class="col-12 col-sm-2 mt-2">
-                            <button id="myButtonLimpiar" type="button" class="btn btn-outline-primary btn-sm ">Limpiar</button>
-                        </div>                    
                     </div>
                 </div>
-            </div>
             @endcan
         </div>
     </div>
