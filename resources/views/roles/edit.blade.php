@@ -30,80 +30,54 @@
                         <button class="btn btn-primary font-weight-bold btn-block" type="submit">Guardar</button>
                     </div>
                 </div>
-                <!-- Tab panes -->
-                <div class="tab-content">
-                    <div class="tab-pane container active" id="home">
-                        <br>
-                        <div class="form-group">
-                            <label for=""> </label>
-                            {!! Form::Label('name', 'Nombre del Role/Perfil: ') !!}
-                            {!! Form::text('name', null, ['class' => 'form-control', 'required']) !!}
+                <br>
+                <div class="form-group">
+                    <label for=""> </label>
+                    {!! Form::Label('name', 'Nombre del Role/Perfil: ') !!}
+                    {!! Form::text('name', null, ['class' => 'form-control', 'required']) !!}
 
 
-                            @error('name')
+                    @error('name')
 
-                            <span class="text-danger">{{$message}}</span>
+                    <span class="text-danger">{{$message}}</span>
 
-                            @enderror
+                    @enderror
 
-                        </div>
-                    </div>
+                </div>      
 
+                <br>
+                <h4 class="font-weight-bold">{{ __('PERMISOS:') }}</h4>
+                <hr>
 
-                    <div class="tab-pane container fade" id="menu1">
-
-                        <br>
-                        <h4 class="font-weight-bold">PERMISOS:</h4>
-                        <hr>
-                        <div class="row">
-                            @foreach($permisos as $permission)
-                                <div class="list-group col-md-6 col-lg-4 cpl-xl-3">
-
-                                    <label class="list-group-item list-group-item-action">
-
-                                        {!! Form::checkbox('permissions[]', $permission->id, null, ['class'=> '', 'id' => $permission->id ]) !!}
-                                        {{$permission->description}}
-
-                                    </label>
-                                    <hr>
-                                </div>
-                            @endforeach
-                        </div>
-
-                        {{--
-                        <ul class="list-group">
-                            <li class="list-group-item">Estadisticas
-                                <ul class="list-group-item">
-                                    <input class="form-check-input me-1" type="checkbox" value="" id="firstCheckboxStretched">
-                                    <label class="form-check-label stretched-link" for="firstCheckboxStretched">Estadisticas</label> 
-                                    
-
-                                </ul>
-                                <ul>
-                                    <input class="form-check-input me-1" type="checkbox" value="" id="firstCheckboxStretched2">
-                                    <label class="form-check-label stretched-link" for="firstCheckboxStretched2">Consolidado de Saldos</label> 
-
-                                </ul>
-                            </li>
-                            <li class="list-group-item">Operaciones
-                                <ul></ul>
-                                <ul></ul>
-                            </li>
-                        </ul>
-                        --}}
-
-
-
-                    </div>
-
-
-                </div>
-
-                
-
+                <table id="myTable" class="table table-bordered table-responsive-lg">   
+                    <thead>
+                        <tr>
+                            <th style="width: 80%;">Nombre</th>
+                            <th>Accion</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($permisos as $permission)
+                            <tr>
+                                <td>{{$permission->description}}</td>
+                                <td>{!! Form::checkbox('permissions[]', $permission->id, null, ['class'=> '', 'id' => $permission->id ]) !!}</td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
             </form>
         </div>
     </div>
 </div>
+@endsection
+@section('js')
+<script>
+    
+     $(document).ready(function () {
+         $('#myTable').DataTable({
+            "pageLength": 100
+         }); 
+     });
 
+</script>
 @endsection
