@@ -88,7 +88,7 @@
 <script>
     
      $(document).ready(function () {
-         $('#myTable').DataTable({
+         $('#myTable2').DataTable({
             "pageLength": 100
          }); 
      });

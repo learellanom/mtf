@@ -66,6 +66,9 @@ class RoleController extends Controller
      */
     public function update(Request $request, $role)
     {
+
+        // dd($request->permissions);
+
         Role::findOrFail($role)->update($request->all());
 
         $roles = Role::find($role);
