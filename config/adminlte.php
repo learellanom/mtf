@@ -472,13 +472,26 @@ return [
             'label_color' =>'success',
         ],
         [
-            'text'        => 'Transferencias entre cajas',
-            'url'         => 'movimientos/cajas',
-            'active'      => ['movimientos/cajas', 'movimientos/entre_cajas'],
-            'can'         => 'transactions.index_transfer_wallet',
-            'icon'        => 'fas fa-fw fas fa-undo',
-            'label'       => 'OP',
-            'label_color' =>'success'
+            'text'          => 'Transferencias entre cajas',
+            'icon'          => 'fas fa-fw fa-share',
+            'icon_color'    => 'primary',
+            'can'           => ['transactions.index_transfer_wallet',],
+            'submenu'   => [
+                    [
+                        'text'        => 'Efectivo',
+                        'classes'   =>  'ml-4',     
+                        'url'         => 'movimientos/cajas',
+                        'can'         => 'transactions.index_transfer_wallet',
+                        'label_color' =>'success'
+                    ],
+                    [
+                        'text'        => 'Otras Operaciones',
+                        'classes'   =>  'ml-4',     
+                        'url'         => 'movimientos/cajasop',
+                        'can'         => 'transactions.index_transfer_walletop',
+                        'label_color' =>'success'
+                    ],                    
+            ],
         ],
         [
             'text'        => 'Pagos del proveedor',
@@ -517,88 +530,6 @@ return [
             'label'       => 'C-D',
             'label_color' => 'secondary',
         ],
-        //
-        // Master
-        //
-        // ['header' => 'Master',
-        // 'classes' =>'text-uppercase font-weight-bold text-light',],
-        // [
-        //     'text'        => 'Transacciónes Master',
-        //     'url'         => 'movimientos_master',
-        //     'active'      => ['movimientos_master', 'regex:@^movimientos_master/[0-9]+/edit+$@', 'movimientos_master/create'],
-        //     'can'         => 'transactions_master.index',
-        //     'icon'        => 'fas fa-fw fas fa-handshake',
-        //     'label'       => 'M',
-        //     'label_color' =>'danger',
-        // ],
-        // [
-        //     'text'      => 'Detalles de movimiento',
-        //     'url'       => 'estadisticasDetalleMaster',
-        //     'active'    => ['estadisticasDetalleMaster','regex:@^estadisticasDetalleMaster/[0-9]+/*@'],
-        //     'icon'      => 'fas fa-fw fas fa-chart-bar',
-        //     'can'       => 'estadisticasDetalle.estadisticasDetalleMaster',
-        //     'label'       => 'M',
-        //     'label_color' =>'danger',
-        // ],
-        // [
-        //     'text'      => 'Resumen por Caja',
-        //     'url'       => 'estadisticasResumenWalletMaster',
-        //     'active'    => ['estadisticasResumenWalletMaster','regex:@^estadisticasResumenWalletMaster/[0-9]+/*@' ],
-        //     'icon'      => 'fas fa-fw fas fa-chart-bar',
-        //     'label'       => 'M',
-        //     'label_color' =>'danger',
-        //     'can'       => 'estadisticasDetalle.estadisticasResumenWalletMaster',
-        // ],
-        //
-        // Proveedores
-        //
-        // ['header' => 'Proveedores',
-        // 'classes' =>'text-uppercase font-weight-bold text-light',],
-        // [
-        //     'text' => 'Detalles de movimiento',
-        //     'url'  => 'estadisticasDetalleProveedor',
-        //     'active' => ['estadisticasDetalleProveedor'],
-        //     'icon' => 'fas fa-fw fas fa-chart-area',
-        //     'can'  => 'estadisticasDetalle.estadisticasResumenProveedor',
-        //     'label'       => 'P',
-        //     'label_color' =>'warning',
-        // ],
-        // [
-        //     'text'        => 'Transacciónes Proveedores',
-        //     'url'         => 'movimientos_proveedores',
-        //     'active'      => ['movimientos_proveedores', 'regex:@^movimientos_proveedores/[0-9]+/edit+$@', 'movimientos_proveedores/create'],
-        //     'can'         => 'transactions_supplier.index',
-        //     'icon'        => 'fas fa-fw fas fa-share',
-        //     'label'       => 'P',
-        //     'label_color' =>'warning',
-        // ],
-        // [
-        //     'text' => 'Resumen por Proveedor',
-        //     'url'  => 'estadisticasResumenProveedor',
-        //     'active' => ['estadisticasResumenProveedor'],
-        //     'icon' => 'fas fa-fw fas fa-chart-area',
-        //     'can'  => 'estadisticasDetalle.estadisticasResumenProveedor',
-        //     'label'       => 'P',
-        //     'label_color' =>'warning',
-        // ],
-        // [
-        //     'text'          => 'Resumen por transaccion',
-        //     'url'           => 'estadisticasResumenProveedorTransaccion',
-        //     'active'        => ['estadisticasResumenProveedorTransaccion'],
-        //     'icon'          => 'fas fa-fw fas fa-chart-area',
-        //     'can'           => 'estadisticasDetalle.estadisticasResumenProveedorTransaccion',
-        //     'label'         => 'P',
-        //     'label_color'   =>'warning',
-        // ],
-        // [
-        //     'text'          => 'Conciliacion por Proveedor',
-        //     'url'           => 'estadisticasResumenConciliacionProveedor',
-        //     'active'        => ['estadisticasResumenConciliacionProveedor'],
-        //     'icon'          => 'fas fa-fw fas fa-chart-area',
-        //     'can'           => 'estadisticasDetalle.estadisticasResumenConciliacionProveedor',
-        //     'label'         => 'P',
-        //     'label_color'   =>'warning',
-        // ],
         //
         // Configuracion
         //

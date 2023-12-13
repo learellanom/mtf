@@ -258,29 +258,72 @@ class TransactionController extends Controller
     {
          foreach(auth()->user()->roles as $roles)
          {
-                $transactiones = DB::select('select
-                mtf.transactions.id as TransactionId,
-                    transfer_number as TransferNumber,
-                IF(type_transactions.name = "Nota de Credito a Caja de efectivo", "Destino", "Origen") as TransferType,
-                    wallet_id as WalletIdOrigen,
-                    groups.name as WalletNameOrigen,
-                    amount_total as Amount,
-                    transaction_date as TransactionDate,
-                    users.name as Agente,
-                    status as estatus,
-                    type_transaction_id as TypeTransactionId,
-                    transactions.description as Description,
-                    type_transactions.name as TypeTransactionName
+                $transactiones = DB::select("
+                    select
+                        mtf.transactions.id as TransactionId,
+                        transfer_number as TransferNumber,
+                        IF(type_transactions.name = 'Nota de Credito a Caja de efectivo', 'Destino', 'Origen') as TransferType,
+                        wallet_id as WalletIdOrigen,
+                        groups.name as WalletNameOrigen,
+                        amount_total as Amount,
+                        transaction_date as TransactionDate,
+                        users.name as Agente,
+                        status as estatus,
+                        type_transaction_id as TypeTransactionId,
+                        transactions.description as Description,
+                        type_transactions.name as TypeTransactionName
                     from mtf.transactions
                     left join  mtf.groups on mtf.transactions.wallet_id = groups.id
                     left join  mtf.type_transactions on mtf.transactions.type_transaction_id  = mtf.type_transactions.id
                     left join  mtf.users on mtf.transactions.user_id  = mtf.users.id
-                    where transfer_number != "" order by transfer_number, TransferType desc');
+                    where transfer_number between '00000000000000000' and '99999999999999999'
+                    order by transfer_number, TransferType desc");
 
          }
 
 
          return view('transactions.index_transferwallet', compact('transactiones'));
+
+    }
+
+    
+    public function index_transferwalletop(transaction $transaction)
+    {
+
+        if(auth()->user()->id != 2){
+            return Redirect::route('home');
+        }
+
+        foreach(auth()->user()->roles as $roles)
+        {
+            $transactiones = DB::select("
+                select
+                    mtf.transactions.id as TransactionId,
+                    transfer_number             as TransferNumber,
+                    IF(
+                        type_transactions.name = 'Nota de Credito a Caja de efectivo' 
+                    or  type_transactions.name = 'Nota de credito', 'Destino', 'Origen'
+                    ) as TransferType,                        
+                    wallet_id                   as WalletIdOrigen,
+                    groups.name                 as WalletNameOrigen,
+                    amount_total                as Amount,
+                    transaction_date            as TransactionDate,
+                    users.name                  as Agente,
+                    status                      as estatus,
+                    type_transaction_id         as TypeTransactionId,
+                    transactions.description    as Description,
+                    type_transactions.name      as TypeTransactionName
+                from mtf.transactions
+                    left join  mtf.groups on mtf.transactions.wallet_id                         = groups.id
+                    left join  mtf.type_transactions on mtf.transactions.type_transaction_id    = mtf.type_transactions.id
+                    left join  mtf.users on mtf.transactions.user_id                            = mtf.users.id
+                where transfer_number like '%-OP'
+                order by transfer_number, TransferType desc");
+
+        }
+
+
+         return view('transactions.index_transferwalletop', compact('transactiones'));
 
     }
 
@@ -367,7 +410,7 @@ class TransactionController extends Controller
                 $limit
                 ";
 
-        $transacciones = DB::select($query);
+        $transacciones  = DB::select($query);
         $user           = User::pluck('name', 'id')->toArray();
 
         $myFechaDesde2  =  substr($myFechaDesde,8,2) . '-' . substr($myFechaDesde,5,2) . '-' . substr($myFechaDesde,0,4);
@@ -476,6 +519,23 @@ class TransactionController extends Controller
         return view('transactions.create_pagowallet', compact('type_coin', 'type_transaction', 'type_transaction2', 'wallet', 'wallet2', 'user', 'transaction', 'fecha'));
     }
 
+    public function create_transferwalletop(transaction $transaction)
+    {
+
+        $type_coin          = Type_coin::pluck('name', 'id');
+        // $type_transaction   = Type_transaction::whereIn('name', ['Pago Efectivo', 'Pago en Transferencia', 'Pago Mercancia','Pago USDT','Swift'])->pluck('name','id');
+        $type_transaction   = Type_transaction::whereIn('id', [1,3,5,9,11])->pluck('name','id');
+
+        $type_transaction2  = Type_transaction::whereIn('name', ['Nota de Credito a Caja de efectivo', 'Nota de credito'])->pluck('name','id');
+        //$type_transaction2  = Type_transaction::whereIn('id', [6])->pluck('name','id');
+
+        $wallet             = Group::whereIn('type_wallet', ['transacciones', 'efectivo'])->where('type','=','2')->pluck('name', 'id')->toArray();
+        $wallet2            = Group::whereIn('type_wallet', ['transacciones', 'efectivo'])->where('type','=','2')->pluck('name', 'id')->toArray();
+        $user               = User::pluck('name', 'id');
+        $fecha              = Carbon::now();
+
+        return view('transactions.create_transferwalletop', compact('type_coin', 'type_transaction', 'type_transaction2', 'wallet', 'wallet2', 'user', 'transaction', 'fecha'));
+    }
     public function store_pagowallet(Request $request)
     {
         $user = Auth::id();
@@ -518,6 +578,7 @@ class TransactionController extends Controller
         $transactions2->amount_total_base       = $request->input('amount');
 
         $transactions2->user_id                 = $user;
+        
         $transactions2->save();
 
          flash()->addSuccess('Movimiento guardado', 'Transacción', ['timeOut' => 3000]);
@@ -546,6 +607,80 @@ class TransactionController extends Controller
 
         // return Redirect::back()-with($parameters);
         return view('transactions.create_pagowallet',$parameters);
+    }
+
+    public function transfer_walletop(Request $request)
+    {
+        $user = Auth::id();
+        $transactions = new Transaction;
+
+        
+        $number_referencia = date('YmdHis'). rand(100,200) . '-OP';
+        // dd($number_referencia);
+        $transactions->type_transaction_id      = $request->input('type_transaction_id');
+        $transactions->wallet_id                = $request->input('wallet_id');
+        $transactions->group_id                 = $request->input('wallet2_id');
+        $transactions->amount                   = $request->input('amount');
+        $transactions->amount_total             = $request->input('amount_total');
+        $transactions->transaction_date         = $request->input('transaction_date');
+        $transactions->description              = $request->input('description');   
+        $transactions->token                    = $request->input('token');
+        $transactions->amount_commission_base   = $request->input('amount_commission_base');
+        $transactions->percentage_base          = $request->input('percentage_base');
+        $transactions->exonerate_base           = $request->input('exonerate_base');
+        $transactions->amount_base              = $request->input('amount');
+        $transactions->amount_total_base        = $request->input('amount_total_base');
+        $transactions->user_id                  = $user;
+        $transactions->transfer_number           = $number_referencia;
+        $transactions->save();
+
+
+
+        $transactions2 = new Transaction;
+
+        $transactions2->type_transaction_id     = $request->input('type_transaction2_id');
+        $transactions2->wallet_id               = $request->input('wallet2_id');
+        $transactions2->group_id                = $request->input('wallet_id');
+        $transactions2->amount                  = $request->input('amount');
+        $transactions2->amount_total            = $request->input('amount_total');
+        $transactions2->transaction_date        = $request->input('transaction_date');
+        $transactions2->description             = $request->input('description2');
+
+        $transactions2->token                   = $request->input('token');
+        $transactions2->amount_base             = $request->input('amount');
+        $transactions2->amount_total_base       = $request->input('amount');
+        $transactions2->user_id                 = $user;
+        $transactions2->transfer_number       = $number_referencia;
+        $transactions2->save();
+
+         flash()->addSuccess('Movimiento guardado', 'Transacción', ['timeOut' => 3000]);
+
+         return Redirect::back()->withInput();
+
+         // return Redirect::back()->withInput();
+
+        $type_coin          = Type_coin::pluck('name', 'id');
+        $type_transaction   = Type_transaction::whereIn('name', ['Pago Efectivo', 'Pago en Transferencia', 'Pago Mercancia','Pago USDT','Swift'])->pluck('name','id');
+        $type_transaction2  = Type_transaction::whereIn('name', ['Nota de Credito a Caja de efectivo', 'Nota de credito'])->pluck('name','id');
+        $wallet             = Group::whereIn('type_wallet', ['transacciones', 'efectivo'])->where('type','=','2')->pluck('name', 'id')->toArray();
+        $wallet2            = Group::whereIn('type_wallet', ['transacciones', 'efectivo'])->where('type','=','2')->pluck('name', 'id')->toArray();
+        $user               = User::pluck('name', 'id');
+        $fecha              = Carbon::now();
+
+        $parameters['myWallet']             = $request->input('wallet_id');
+        $parameters['myWallet2']            = $request->input('wallet2_id');
+        $parameters['myTypeTransactionId']  = $request->input('type_transaction_id');
+
+        $parameters['type_coin']            = $type_coin;
+        $parameters['type_transaction']     = $type_transaction;
+        $parameters['type_transaction2']    = $type_transaction2;
+        $parameters['wallet']               = $wallet;
+        $parameters['wallet2']              = $wallet2;
+        $parameters['user']                 = $user;
+        $parameters['fecha']                = $fecha;
+
+        // return Redirect::back()-with($parameters);
+        return view('transactions.create_transferwalletop',$parameters);
     }
 
     public function index_pagoclientes(transaction $transaction)
