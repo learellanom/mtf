@@ -153,8 +153,8 @@
                             <i class="fa-fw fas fa-coins mr-2"></i>
                         {!! Form::text('amount_commission',null, ['class' => 'form-control comision general', 'required' => true, 'readonly' => true, 'id' => 'comision']) !!}
                         </div>
-
                     </div>
+
                 </div>
 
                 <div class="form-group col-md-12 d-flex justify-content-center">
