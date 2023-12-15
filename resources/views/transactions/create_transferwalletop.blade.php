@@ -389,23 +389,30 @@
         $(".typecoin").select2({
             placeholder: "Seleccionar Moneda",
             theme: 'bootstrap4',
-            allowClear: true,
-            width:'100%'
+            allowClear: true   
         });
 
         $("#typecoin").val("");
         $("#typecoin").trigger("change");
+        $('#typecoin').on('select2:open', () => {
+             document.querySelector('.select2-search__field').focus();
+         });
+
 
         $("#typetransaccion").select2({
-            placeholder: "Selecciona tipo transferencia",
+            placeholder: "Selecciona..",
             theme: 'bootstrap4',
-            search: false,
-            width: '100%'
+            allowClear: true               
         });
-
+         $('#typetransaccion').on('select2:open', () => {
+             document.querySelector('.select2-search__field').focus();
+         });
         $("#typetransaccion").val("");
         $("#typetransaccion").trigger("change");
 
+
+
+        
         $('.general').inputmask({
             alias: 'decimal',
             allowMinus: true,
@@ -448,6 +455,8 @@
         //     $('#montototal').val(dolar);
         // });
 
+
+
         /* OCULTAR LA CAJA SELECCIONADA */
         $('.muestra').select2({
             'theme':'bootstrap4',
@@ -458,15 +467,23 @@
         });
         $(".muestra").val("")
         $(".muestra").trigger("change");
+        $('.muestra').on('select2:open', () => {
+             document.querySelector('.select2-search__field').focus();
+         });
+
+
+
         $('.oculta').select2({
             'theme':'bootstrap4',
-            search: false,
             allowClear: true,
             placeholder: "Seleccionar cliente",
-            width:'100%'
         });
         $(".oculta").val("")
         $(".oculta").trigger("change");
+        $('.oculta').on('select2:open', () => {
+             document.querySelector('.select2-search__field').focus();
+         });
+
 
         $('#entre').on('submit', function() {
 

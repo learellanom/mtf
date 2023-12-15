@@ -33,22 +33,23 @@
                         <table class="table table-bordered table-responsive-lg" id="table" style="width:100%;">
                             <thead>
                                 <tr>
-                                    <th style="width:1%;">Nro transferencia</th>
+                                    <th style="width:10%;">Nro transferencia</th>
                                     <th>Fecha</th>
+                                    <th>Tranccion</th>
                                     <th>Descripción</th>
                                     <th style="width:10%;">Monto Total</th>
                                     <th class="no-exportar">Agente</th>
                                     <th>Tipo de Movimiento</th>
                                     <th style="width:10%;">Cajas <i class="fas fa-box"></i></th>
                                     @can('transactions.update_status')
-                                    <th style="width:1%;">Activo/Anulado</th>
+                                        <th style="width:1%;">Activo/Anulado</th>
                                     @endcan
 
                                     <th style="width:1%;" class="no-exportar">Ver <i class="fas fa-search"></i></th>
 
                                 </tr>
                             </thead>
-
+                            
                             @foreach($transactiones as $transferencias)
 
                                 <tr>
@@ -56,8 +57,13 @@
 
 
                                     <td class="font-weight-bold" style="min-width: 80px;">{!! $transferencias->TransactionDate !!}</td>
+                                    <td class="font-weight-bold" style="min-width: 80px;">{!! $transferencias->TypeTransactionName !!}</td>
 
-                                    <td class="font-weight-bold"><div style='width:60px; height:60px; overflow:hidden;'>{!!  $transferencias->Description !!}</div></td>
+                                    <td class="font-weight-bold">
+                                        <div style='height:60px; overflow:hidden;'>
+                                            {!!  $transferencias->Description !!}
+                                        </div>
+                                    </td>
 
                                     <td class="font-weight-bold">{!! number_format($transferencias->Amount) !!} <i class="fas fa-dollar-sign"></i></td>
 
@@ -66,7 +72,7 @@
                                     <td>{!! $transferencias->WalletNameOrigen !!}</td>
                                     @can('transactions.update_status')
                                         <td class="text-center">
-                                            {!! Form::model($transferencias->TransactionId, ['route' => ['transactions.updatestatus_transfer', $transferencias->TransactionId], 'method' => 'put']) !!}
+                                            {!! Form::model($transferencias->TransactionId, ['route' => ['transactions.update_statusop', $transferencias->TransactionId], 'method' => 'put']) !!}
 
                                                 @if($transferencias->estatus == 'Activo')
                                                 <button class="btn btn-xl text-success mx-1 shadow text-center" title="Activo">
@@ -125,7 +131,7 @@
                 "previous": "Anterior"
             }
         },
-        "order": [[ 2, 'desc' ]],
+        "order": [[ 1, 'desc' ]],
         'dom' : 'Bfrtip',
         'buttons':[
             {

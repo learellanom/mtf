@@ -165,8 +165,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('movimientos/cajasop',       [TransactionController::class, 'index_transferwalletop'])->middleware('can:transactions.index_transfer_walletop')->name('transactions.index_transferwalletop');
     Route::get('movimientos/entre_cajasop', [TransactionController::class, 'create_transferwalletop'])->middleware('can:transactions.transfer_walletop')->name('transactions.create_transferwalletop');
     Route::post('movimientos/cajasop',      [TransactionController::class, 'transfer_walletop'])->name('transactions.transfer_walletop');
-
-
+    Route::match(['put', 'patch'], 'movimientos/{movimiento}/estatusop', [TransactionController::class, 'update_statusop'])->name('transactions.update_statusop');
+                                                                                                                                   
     Route::get('movimientos/indice_pagos', [TransactionController::class, 'index_pagowallet'])->middleware('can:transactions.index_pagowallet')->name('transactions.index_pagowallet');
     Route::get('movimientos/pago_cajas', [TransactionController::class, 'create_pagowallet'])->middleware('can:transactions.create_pagowallet')->name('transactions.create_pagowallet');
     Route::post('movimientos/pago', [TransactionController::class, 'store_pagowallet'])->name('transactions.store_pagowallet');
