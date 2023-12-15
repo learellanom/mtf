@@ -442,8 +442,8 @@ class TransactionController extends Controller
         // $type_transaction   = Type_transaction::whereIn('name', ['Nota de Debito a Caja de Efectivo'])->pluck('id');  // 12
         // $type_transaction2  = Type_transaction::whereIn('name', ['Nota de Credito a Caja de efectivo'])->pluck('id'); // 6
 
-        $type_transaction   = Type_transaction::whereIn('id', [12])->pluck('id');  // 12
-        $type_transaction2  = Type_transaction::whereIn('id', [6])->pluck('id'); // 6
+        $type_transaction   = Type_transaction::whereIn('id', [12])->pluck('id');   // 12 Salida de efectivo
+        $type_transaction2  = Type_transaction::whereIn('id', [6])->pluck('id');    // 6 ENtrada de efectivo o nota de credito
 
         $wallet             = Group::whereIn('type_wallet', ['Efectivo'])->where('type','=','2')->pluck('name', 'id');
         $user               = User::pluck('name', 'id');
@@ -522,11 +522,27 @@ class TransactionController extends Controller
     public function create_transferwalletop(transaction $transaction)
     {
 
+        $myTransactions [] = 1;
+        $myTransactions [] = 5;
+        $myTransactions [] = 9;
+        $myTransactions [] = 11;
+        $myTransactions [] = 14;
+        $myTransactions [] = 15;
+        $myTransactions [] = 16;
+        $myTransactions [] = 17;
+        $myTransactions [] = 18;
+        $myTransactions [] = 25;
+        $myTransactions [] = 30;
+        $myTransactions [] = 31;
+        $myTransactions [] = 34;
+        $myTransactions [] = 36;
+        $myTransactions [] = 37;
+
         $type_coin          = Type_coin::pluck('name', 'id');
         // $type_transaction   = Type_transaction::whereIn('name', ['Pago Efectivo', 'Pago en Transferencia', 'Pago Mercancia','Pago USDT','Swift'])->pluck('name','id');
-        $type_transaction   = Type_transaction::whereIn('id', [1,3,5,9,11])->pluck('name','id');
+        $type_transaction   = Type_transaction::whereIn('id', $myTransactions)->pluck('name','id');
 
-        $type_transaction2  = Type_transaction::whereIn('name', ['Nota de Credito a Caja de efectivo', 'Nota de credito'])->pluck('name','id');
+        $type_transaction2  = Type_transaction::whereIn('id', [7])->pluck('name','id');
         //$type_transaction2  = Type_transaction::whereIn('id', [6])->pluck('name','id');
 
         $wallet             = Group::whereIn('type_wallet', ['transacciones', 'efectivo'])->where('type','=','2')->pluck('name', 'id')->toArray();
@@ -1290,6 +1306,27 @@ class TransactionController extends Controller
                 'status' => 'Activo',
             ]);
             return Redirect::route('transactions.index')->with('success', 'Transacción activada  <strong># '. $transaction . '</strong>');
+        }
+        // return response()->json(['success' => true, 'diets' => $diets], 200);
+    }
+
+    
+    public function update_statusop(Request $request, $transaction)
+    {
+        
+        $transactions = Transaction::find($transaction);
+
+        if($transactions->status == 'Activo'){
+             Transaction::where('transfer_number', $transactions->transfer_number)->update(['status' => 'Anulado']);
+            // Transaction::findOrFail($transaction)->update(['status' => 'Anulado',]);
+
+           return Redirect::route('transactions.index_transferwalletop')->with('info', 'Transacción anulada  <strong># '. $transaction . '</strong>');
+        }
+        elseif($transactions->status == 'Anulado'){
+             Transaction::where('transfer_number', $transactions->transfer_number)->update(['status' => 'Anulado']);
+            // Transaction::findOrFail($transaction)->update(['status' => 'Activo',]);
+
+            return Redirect::route('transactions.index_transferwalletop')->with('success', 'Transacción activada  <strong># '. $transaction . '</strong>');
         }
         // return response()->json(['success' => true, 'diets' => $diets], 200);
     }
