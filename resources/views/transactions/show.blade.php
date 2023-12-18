@@ -521,15 +521,15 @@
 
                 $('#myText').text('Activar');
 
-                Swal.fire({
-                    position: 'center',
-                    type: 'success',
-                    title: 'Transaccion anulada satisfactoriamente',
-                    showConfirmButton: true
-                }).then( function () {
-                        window.location.href = "{{redirect()->getUrlGenerator()->previous()}}";
-                    }
-                );  
+                    Swal.fire({
+                        position: 'center',
+                        type: 'success',
+                        title: 'Transaccion anulada satisfactoriamente',
+                        showConfirmButton: true
+                    }).then( function () {
+                            window.location.href = "{{redirect()->getUrlGenerator()->previous()}}";
+                        }
+                    );  
                 
 
         

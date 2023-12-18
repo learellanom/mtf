@@ -97,7 +97,7 @@
                                     <th style="width:1%;">Cliente</th>
                                     <th style="display:none;">Token</th>
                                     <th>Fecha</th>
-                                    <th>Fecha Creacion</th>
+                                    {{-- <th>Fecha Creacion</th> --}}
                                     <th>Descripción</th>
                                     <th style="width:1%;"><p style="display:none;"> %</p><i class="fas fa-percentage"></i></th>
                                     <th style="width:15%;">Monto <i class="fas fa-globe-europe"></i> <p style="display:none;">Moneda Extranjera</p></th>
@@ -125,11 +125,7 @@
                                     --}}
                                     
                                     <th style="width:1%;" class="no-exportar">Ver <i class="fas fa-search"></i></th>
-
-                                    
-                                        
-                                        <th style="width:1%;" class="no-exportar">Historico</th>
-                                        
+                                    <th style="width:1%;" class="no-exportar">Historico</th>
                                     
                                 </tr>
                             </thead>
@@ -149,7 +145,7 @@
                                         <td class="font-weight-bold" style="display:none;">{!! $transferencias->token !!}</td>
 
                                         <td class="font-weight-bold" style="min-width: 80px;">{!! $transferencias->transaction_date !!}</td>
-                                        <td class="font-weight-bold" style="min-width: 80px;">{!! $transferencias->created_at !!}</td>
+                                        {{-- <td class="font-weight-bold" style="min-width: 80px;">{!! $transferencias->created_at !!}</td> --}}
                                         <td class="font-weight-bold">
                                             <div style='width:60px; height:60px; overflow:hidden;'>{!!  $transferencias->description !!}</div>
                                         </td>
@@ -180,12 +176,7 @@
                                                         </button>
 
                                                     @elseif($transferencias->status == 'Anulado')
-                                                        {{--
-                                                        <button class="btn btn-xl text-danger mx-1 shadow text-center" title="Anulado">
-                                                            <i class="fa fa-lg fa-fw fas fa-times"></i><p style="display: none;">Anulado</p>
-                                                        </button>
-                                                        --}}
-                                                        <div class="btn btn-xl text-danger mx-1 shadow text-center">
+                                                        <div class="btn btn-xl text-danger mx-1 shadow text-center"">
                                                             <i class="fa fa-lg fa-fw fas fa-times"></i><p style="display: none;">Anulado</p>
                                                         </div>
                                                     @endif
@@ -204,7 +195,7 @@
                                                 </td>
                                             @elseif($transferencias->status == 'Anulado')
                                                 <td class="text-center">
-                                                    <p class="btn btn-xl text-dark mx-1 shadow text-center" disabled>
+                                                    <p class="btn btn-xl text-dark mx-1 shadow text-center" disabled  onclick="noEditar()">
                                                         <i class="fas fa-lg fa-fw fa-coins"  style="color: gray;"></i>
                                                     </p>
                                                 </td>                                            
@@ -218,12 +209,10 @@
                                             </a>
                                         </td>
                                         
-                                        
                                         <td>
                                             <a  href="{{ route('transactions.audit', $transferencias->id) }}" 
                                                 class="btn btn-xl text-dark mx-1 shadow text-center">
-                                                <i class="fa fa-lg fa-fw fas fa-solid fa-list"></i>
-                                                
+                                                <i class="fa fa-lg fa-fw fas fa-solid fa-list"></i>        
                                             </a>
                                         </td>
                                         
@@ -532,7 +521,16 @@
             });
         });
     }
-
+    function noEditar(){
+        
+            Swal.fire({
+                    position: 'center',
+                    type: 'error',
+                    title: 'No se puede editar transacción anulada',
+                    showConfirmButton: true
+            }
+            );          
+    }
 </script>
 @endsection
 

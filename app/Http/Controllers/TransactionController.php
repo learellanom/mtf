@@ -290,9 +290,9 @@ class TransactionController extends Controller
     public function index_transferwalletop(transaction $transaction)
     {
 
-        if(auth()->user()->id != 2){
-            return Redirect::route('home');
-        }
+        // if(auth()->user()->id != 2){
+        //     return Redirect::route('home');
+        // }
 
         foreach(auth()->user()->roles as $roles)
         {

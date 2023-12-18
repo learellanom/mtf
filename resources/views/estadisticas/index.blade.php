@@ -272,12 +272,14 @@ if (isset($balance->Total)){
                                     <th style="width:1%;">Caja</th>
 
                                     <th style="width:1%;">Ver <i class="fas fa-search"></i></th>
+                                    <th style="width:1%;" class="no-exportar">Historico</th>
                                 </tr>
                             </thead>
                             @php
                                 $myTotal = 0;
                                 $myTotal = $balanceBefore; // asigna el saldo al corte para que calcule desde ahi
                             @endphp
+
                             @foreach($config['data'] as $row)
 
                                 @php
@@ -419,6 +421,13 @@ if (isset($balance->Total)){
 
                                     {{-- aqui va anular/activar --}}
                                     {{-- dd($myTotal2) --}}
+
+                                    <td>
+                                        <a  href="{{ route('transactions.audit', $row->Id) }}" 
+                                            class="btn btn-xl text-dark mx-1 shadow text-center">
+                                            <i class="fa fa-lg fa-fw fas fa-solid fa-list"></i>
+                                        </a>
+                                    </td>
                                 </tr>
                             @endforeach
                             {{--
@@ -439,7 +448,8 @@ if (isset($balance->Total)){
                                     <td></td>
                                     <td></td>
                                     <td></td>
-                                    <td></td>                                    
+                                    <td></td>
+                                    <td></td> 
                             </tfoot>
                             --}}
                         </table>
