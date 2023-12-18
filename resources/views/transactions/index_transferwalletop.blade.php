@@ -33,6 +33,7 @@
                         <table class="table table-bordered table-responsive-lg" id="table" style="width:100%;">
                             <thead>
                                 <tr>
+                                    <th >Id</th>
                                     <th style="width:10%;">Nro transferencia</th>
                                     <th>Fecha</th>
                                     <th>Tranccion</th>
@@ -53,12 +54,10 @@
                             @foreach($transactiones as $transferencias)
 
                                 <tr>
+                                    <td class="font-weight-bold">{{ $transferencias->TransactionId }}</td>
                                     <td class="font-weight-bold">{{ $transferencias->TransferNumber }}</td>
-
-
                                     <td class="font-weight-bold" style="min-width: 80px;">{!! $transferencias->TransactionDate !!}</td>
                                     <td class="font-weight-bold" style="min-width: 80px;">{!! $transferencias->TypeTransactionName !!}</td>
-
                                     <td class="font-weight-bold">
                                         <div style='height:60px; overflow:hidden;'>
                                             {!!  $transferencias->Description !!}
@@ -74,15 +73,15 @@
                                         <td class="text-center">
                                             {!! Form::model($transferencias->TransactionId, ['route' => ['transactions.update_statusop', $transferencias->TransactionId], 'method' => 'put']) !!}
 
-                                                @if($transferencias->estatus == 'Activo')
-                                                <button class="btn btn-xl text-success mx-1 shadow text-center" title="Activo">
-                                                    <i class="fa fa-lg fa-fw fas fa-check"></i><p style="display: none;">Activo</p>
-                                                </button>
+                                                    @if($transferencias->estatus == 'Activo')
+                                                    <button class="btn btn-xl text-success mx-1 shadow text-center" title="Activo">
+                                                        <i class="fa fa-lg fa-fw fas fa-check"></i><p style="display: none;">Activo</p>
+                                                    </button>
 
                                                 @elseif($transferencias->estatus == 'Anulado')
-                                                <button class="btn btn-xl text-danger mx-1 shadow text-center" title="Anulado">
-                                                    <i class="fa fa-lg fa-fw fas fa-times"></i><p style="display: none;">Anulado</p>
-                                                </button>
+                                                    <button class="btn btn-xl text-danger mx-1 shadow text-center" title="Anulado">
+                                                        <i class="fa fa-lg fa-fw fas fa-times"></i><p style="display: none;">Anulado</p>
+                                                    </button>
                                                 @endif
                                             {!! Form::close() !!}
                                         </td>

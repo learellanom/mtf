@@ -522,13 +522,17 @@
                 $('#myText').text('Activar');
 
                 Swal.fire({
-                position: 'top-end',
-                title: 'Transaccion anulada satisfactoriamente',
-                showConfirmButton: false,
-                timer: 1500
-                });  
+                    position: 'center',
+                    type: 'success',
+                    title: 'Transaccion anulada satisfactoriamente',
+                    showConfirmButton: true
+                }).then( function () {
+                        window.location.href = "{{redirect()->getUrlGenerator()->previous()}}";
+                    }
+                );  
                 
-                
+
+        
            }else if(data.result == "activo"){
 
                 $('#myBtnAnular').removeClass("btn btn-xl text-danger mx-1 shadow text-center");
@@ -544,18 +548,19 @@
                 $('#myText').text('Anular');
 
                 Swal.fire({
-                position: 'top-end',
-                title: 'Transaccion Activada satisfactoriamente',
-                showConfirmButton: false,
-                timer: 1500
-                });                  
+                    position: 'center',
+                    title: 'Transaccion Activada satisfactoriamente',
+                    type: 'success',
+                    showConfirmButton: true
+                }).then( function (){
+                        window.location.href = "{{redirect()->getUrlGenerator()->previous()}}";
+                    }
+                );
            }
-
-         
-
         }else{
             // console.log('no actualizo ->');
         }
+
     }).catch(error => console.error( 'Error en Fetch -> ' + error));
   }
 
@@ -598,17 +603,6 @@
         }
 
 
-
-
-        /*
-        Swal.fire({
-            position: 'top-end',
-            icon: 'success',
-            title: 'Filtro aplicado satisfactoriamente',
-            showConfirmButton: false,
-            timer: 1500
-        });          
-        */
         let myRoute = "";
 
         myRoute = "{{route('transactions.edit2', $transactions->id)}}";
