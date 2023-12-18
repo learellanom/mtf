@@ -2,7 +2,7 @@
 @section('title', 'Transacciones')
 @section('content_header')
 
-<h1 class="text-center text-dark font-weight-bold">MODIFICAR TASA|COMISIÓN<i class="fas fa-coins"></i> </h1></a>
+<h1 class="text-center text-dark font-weight-bold">MODIFICAR TASA|COMISIÓN222<i class="fas fa-coins"></i> </h1></a>
 
 @stop
 
@@ -194,6 +194,11 @@
 
 
                         @if($transactions->exchange_rate_base == NULL)
+
+                            <br>
+                            <hr class="bg-dark esconder" style="height:1px;">
+                            <h4 class="text-uppercase font-weight-bold text-center esconder comi">Comisión</h4>
+
                             <br>
                             <div class="form-row">
 
@@ -202,7 +207,7 @@
 
                                 
                                 <div class="form-group col-md-6">
-                                     {!! Form::Label('', "Porcentaje:") !!} 
+                                    {!! Form::Label('', "Porcentaje:") !!} 
                                     {{-- <label>uno</label> --}}
                                     <div class="input-group-text">
                                         <i class="fa-fw fas fa-percentage mr-2"></i>
@@ -233,6 +238,13 @@
                         @endif
 
                         @if($transactions->exchange_rate_base == NULL)
+
+                            <br>
+                            <hr class="bg-dark esconder" style="height:1px;">
+                            <h4 class="text-uppercase font-weight-bold text-center esconder comi">Comision Base</h4>
+
+
+
                           <div class="form-group col-md-12 d-flex justify-content-center">
 
                               <label class="form-check-label mx-auto" for="radio1">
@@ -510,19 +522,19 @@
     $(".rateMasks").attr("minlength","8");
     $(".rateMasks").attr("maxlength","8");
     $(".rateMasks").inputmask({
-                alias: 'decimal',
-                repeat: 4,
-                allowMinus: false,
-                utoUnmask: true,
-                removeMaskOnSubmit:true,
-                rightAlign: true,
-                autoClear: true,
-                groupSeparator:".",
-                undoOnEscape:true,
-                insertMode: false,
-                clearIncomplete:true,
-                digits: 7,
-                insertMode:true,
+        alias: 'decimal',
+        repeat: 4,
+        allowMinus: false,
+        utoUnmask: true,
+        removeMaskOnSubmit:true,
+        rightAlign: true,
+        autoClear: true,
+        groupSeparator:".",
+        undoOnEscape:true,
+        insertMode: false,
+        clearIncomplete:true,
+        digits: 7,
+        insertMode:true,
     });
 
 
@@ -546,7 +558,19 @@
             // alert('cambio');
             calcula();
         });        
-    
+
+        $('#myForm').on('submit', function() {
+            if ($('#description').val() == ""){
+                Swal.fire({
+                        position: 'center',
+                        type: 'error',
+                        title: 'Descripción no puede estar en blanco',
+                        showConfirmButton: true
+                    }
+                );  
+                return false;
+            }
+        });
     });
 
     $("#file").fileinput({
