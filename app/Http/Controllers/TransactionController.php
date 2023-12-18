@@ -1315,16 +1315,17 @@ class TransactionController extends Controller
     {
         
         $transactions = Transaction::find($transaction);
-
+        
         if($transactions->status == 'Activo'){
              Transaction::where('transfer_number', $transactions->transfer_number)->update(['status' => 'Anulado']);
-            // Transaction::findOrFail($transaction)->update(['status' => 'Anulado',]);
+            
 
            return Redirect::route('transactions.index_transferwalletop')->with('info', 'Transacción anulada  <strong># '. $transaction . '</strong>');
         }
         elseif($transactions->status == 'Anulado'){
-             Transaction::where('transfer_number', $transactions->transfer_number)->update(['status' => 'Anulado']);
-            // Transaction::findOrFail($transaction)->update(['status' => 'Activo',]);
+            
+             Transaction::where('transfer_number', $transactions->transfer_number)->update(['status' => 'Activo']);
+            
 
             return Redirect::route('transactions.index_transferwalletop')->with('success', 'Transacción activada  <strong># '. $transaction . '</strong>');
         }
@@ -1338,20 +1339,36 @@ class TransactionController extends Controller
         
 
         if(is_null($transactions->pay_number)){
+            if(is_null($transactions->transfer_number)){
+                // anula normal si no es un pago entre proveedor
 
-            // anula normal si no es un pago entre proveedor
+                if($transactions->status == 'Activo'){
+                    
+                    Transaction::findOrFail($transaction)->update([
+                        'status' => 'Anulado',
+                    ]);
+                    return response()->json(['success' => true, 'result' => 'anulada', 'message' => 'Transaccion anulada'], 200);
+                }
+                elseif($transactions->status == 'Anulado'){
+                    Transaction::findOrFail($transaction)->update([
+                        'status' => 'Activo',
+                    ]);
+                    return response()->json(['success' => true, 'result' => 'activo', 'message' => 'Transaccion anulada'], 200);
+                }
+            }else{
 
-            if($transactions->status == 'Activo'){
-                Transaction::findOrFail($transaction)->update([
-                    'status' => 'Anulado',
-                ]);
-                return response()->json(['success' => true, 'result' => 'anulada', 'message' => 'Transaccion anulada'], 200);
-            }
-            elseif($transactions->status == 'Anulado'){
-                Transaction::findOrFail($transaction)->update([
-                    'status' => 'Activo',
-                ]);
-                return response()->json(['success' => true, 'result' => 'activo', 'message' => 'Transaccion anulada'], 200);
+                if($transactions->status == 'Activo'){
+                
+                    Transaction::where('transfer_number', $transactions->transfer_number)->update(['status' => 'Anulado']);
+    
+                    return response()->json(['success' => true, 'result' => 'anulada', 'message' => 'Transaccion anulada'], 200);
+                }
+                elseif($transactions->status == 'Anulado'){
+                    
+                    Transaction::where('transfer_number', $transactions->transfer_number)->update(['status' => 'Activo']);
+    
+                    return response()->json(['success' => true, 'result' => 'activo', 'message' => 'Transaccion anulada'], 200);
+                }                
             }
         }else{
 

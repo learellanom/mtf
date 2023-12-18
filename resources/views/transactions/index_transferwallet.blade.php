@@ -4,7 +4,7 @@
 
 @section('content_header')
 
-    <h1 class="text-center text-dark font-weight-bold">{{ __('LISTA DE TRANSFERENCIAS CAJA A CAJA') }} <i class="fas fa-box"></i> </h1></a>
+    <h1 class="text-center text-dark font-weight-bold">{{ __('TRANSFERENCIAS ENTRE CAJAS EN EFECTIVO') }} <i class="fas fa-box"></i> </h1></a>
 
 
 @stop
@@ -25,7 +25,7 @@
     <div class="col-md-12">
         <div class="card mb-4">
             <div class="card-header">
-                <h3 class="card-title text-uppercase font-weight-bold">{{ __('Transferencias entre cajas') }}</h3>
+                <h3 class="card-title text-uppercase font-weight-bold">{{ __('Transferencias entre cajas en efectivo') }}</h3>
             </div>
             <div class="card-body">
                 <div class="row">
@@ -33,7 +33,8 @@
                         <table class="table table-bordered table-responsive-lg" id="table" style="width:100%;">
                             <thead>
                                 <tr>
-                                    <th style="width:1%;">Nro transferencia</th>
+                                    <th >Id</th>
+                                    <th style="width:10%;">Nro transferencia</th>
                                     <th>Fecha</th>
                                     <th>Descripción</th>
                                     <th style="width:10%;">Monto Total</th>
@@ -52,12 +53,14 @@
                             @foreach($transactiones as $transferencias)
 
                                 <tr>
+                                    <td class="font-weight-bold">{{ $transferencias->TransactionId }}</td>                                    
                                     <td class="font-weight-bold">{{ $transferencias->TransferNumber }}</td>
-
-
                                     <td class="font-weight-bold" style="min-width: 80px;">{!! $transferencias->TransactionDate !!}</td>
-
-                                    <td class="font-weight-bold"><div style='width:60px; height:60px; overflow:hidden;'>{!!  $transferencias->Description !!}</div></td>
+                                    <td class="font-weight-bold">
+                                        <div style='height:60px; overflow:hidden;'>
+                                            {!!  $transferencias->Description !!}
+                                        </div>
+                                    </td>
 
                                     <td class="font-weight-bold">{!! number_format($transferencias->Amount) !!} <i class="fas fa-dollar-sign"></i></td>
 
