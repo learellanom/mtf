@@ -279,9 +279,9 @@ if (isset($balance->Total)){
                                 $myTotal = 0;
                                 $myTotal = $balanceBefore; // asigna el saldo al corte para que calcule desde ahi
                             @endphp
-
+                          
                             @foreach($config['data'] as $row)
-
+                            
                                 @php
                                     if ($myWallet != 0){
                                   
@@ -741,6 +741,19 @@ if (isset($balance->Total)){
         BuscaFechas(myFechaDesde, myFechaHasta);
 
         
+        $('#wallet').on('select2:open', () => {
+             document.querySelector('.select2-search__field').focus();
+        });
+        $('#group').on('select2:open', () => {
+            document.querySelector('.select2-search__field').focus();
+        });
+        $('#typeTransactions').on('select2:open', () => {
+            document.querySelector('.select2-search__field').focus();
+        });
+        $('#userole').on('select2:open', () => {
+            document.querySelector('.select2-search__field').focus();
+        });
+
 
         $('#userole').on('change', function (){
 
