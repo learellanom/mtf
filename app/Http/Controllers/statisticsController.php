@@ -200,7 +200,7 @@ class statisticsController extends Controller
     *
     *
     */
-    public function index_all(Request $request)
+    public function index_allNew(Request $request)
     {
         
 
@@ -495,7 +495,7 @@ class statisticsController extends Controller
     *
     *
     */
-    public function index_allOld(Request $request)
+    public function index_all(Request $request)
     {
         
 
