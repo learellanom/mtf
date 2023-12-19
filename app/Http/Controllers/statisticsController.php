@@ -200,13 +200,305 @@ class statisticsController extends Controller
     *
     *
     */
-    public function index_all(Request $request)
+    public function index_allNew(Request $request)
     {
         
+
+
+        $myGroup        = 0;
+        $myGroupDesde   = 0;
+        $myGroupHasta   = 9999;        
+        if ($request->grupo) {
+            $myGroup        = $request->grupo;
+            $myGroupDesde   = $request->grupo;
+            $myGroupHasta   = $request->grupo;
+        }
+
+        $myWallet       = 0;
+        $myWalletDesde  = 0;
+        $myWalletHasta  = 9999;
+        if ($request->wallet) {
+            $myWallet       = $request->wallet;
+            $myWalletDesde  = $request->wallet;
+            $myWalletHasta  = $request->wallet;
+        }
+        // dd('myWalletDesde -> ' . $myWalletDesde . 'myWalletDesde ->  ' . $myWalletHasta);
+        $myHoraDesde    = "00:00:00";
+        $myHoraHasta    = "23:59:00";
+
+        $myFechaDesde   = "2001-01-01";
+        $myFechaHasta   = "9999-12-31";
+        if ($request->fechaDesde){
+            $myFechaDesde = $request->fechaDesde;
+            $myFechaHasta = $request->fechaHasta;
+
+            $myFechaDesde = $myFechaDesde;
+            $myFechaHasta = $myFechaHasta;
+
+
+        }
+
+        if ($request->fechaHasta){
+            $myFechaHasta = $request->fechaHasta;
+            $myFechaHasta = $myFechaHasta;           
+        }
+
+        $myTypeTransactions         = 0;
+        $myTypeTransactionsDesde    = 0;
+        $myTypeTransactionsHasta    = 9999;
+        if ($request->typeTransactions) {
+            $myTypeTransactions         = $request->typeTransactions;
+            $myTypeTransactionsDesde    = $request->typeTransactions;
+            $myTypeTransactionsHasta    = $request->typeTransactions;
+        }
+
+        // token
+
+        $myToken            = 0;
+        $myTokenDesde       = "";
+        $myTokenHasta       = "ZZZZZZZZZZZZZZZZZZZZZZZZZZZZ";
+        $myTokenCondition   = "";
+
+        if ($request->token){
+            if($request->token == 1){
+                $myTokenDesde       = "0";
+                $myTokenHasta       = "ZZZZZZZZZZZZZZZZZZZZZZZZZZZZ";        
+            }
+        }
+
+        $balance        = "";
+        $balanceBefore  = 0;
+
+        if ($myGroup > 0){
+
+            $balance            = $this->getBalance($myGroup);
+            $balanceBefore      = $this->getBalanceBefore($myGroup,$myFechaDesde, $myFechaHasta);
+           // $balance = $this->getBalanceGroup($myGroup, $myFechaDesde, $myFechaHasta);
+           
+        }
+        else
+        {
+            if ($myWallet > 0){
+                $balance        = $this->getBalanceWallet($myWallet);
+                $balanceBefore  = $this->getBalanceWalletBefore($myWallet,$myFechaDesde, $myFechaHasta);
+            }
+        };
+        // dd($balance);
+
         $myUser = 0;
         if ($request->usuario) {
             $myUser = $request->usuario;
         }
+        $myUserDesde = 0;
+        $myUserHasta = 9999;
+
+        if ($myUser != 0){
+            $myUserDesde = $myUser;
+            $myUserHasta = $myUser;
+        }
+
+
+        //  print_r($myGroup);
+         // dd($myGroup);
+         $Transacciones = [];
+        $myLimit        = 0;
+        $myLimitDesde   = 0;
+        $myLimitHasta   = 5000;
+        if ($myWallet == 0 and $myGroup == 0) {
+            $myLimit        = 300;
+            $myLimitDesde   = 300;
+            $myLimitHasta   = 300;
+        }
+
+        
+        \Log::info('leam usuario desde       ***    -> ' . $myUserDesde);
+        \Log::info('leam usuario hasta       ***    -> ' . $myUserHasta);
+
+        \Log::info('leam wallet desde        ***    -> ' . $myWalletDesde);
+        \Log::info('leam wallet hasta        ***    -> ' . $myWalletHasta);        
+
+        \Log::info('leam myGroup             ***    -> ' . $myGroup);        
+        \Log::info('leam group  desde        ***    -> ' . $myGroupDesde);
+        \Log::info('leam group  Hasta        ***    -> ' . $myGroupHasta);     
+
+        \Log::info('leam transaction         ***    -> ' . $myTypeTransactions);
+        \Log::info('leam transaction  desde  ***    -> ' . $myTypeTransactionsDesde);
+        \Log::info('leam transaction  Hasta  ***    -> ' . $myTypeTransactionsHasta);              
+        
+
+        \Log::info('leam token desde         ***    -> ' . $myTokenDesde);
+        \Log::info('leam token hasta         ***    -> ' . $myTokenHasta);
+        
+        \Log::info('leam fecha desde         ***    -> ' . $myFechaDesde);
+        \Log::info('leam fecha hasta         ***    -> ' . $myFechaHasta);
+        
+        \Log::info('leam fecha desde request ***    -> ' . $request->fechaDesde);
+        \Log::info('leam fecha hasta request ***    -> ' . $request->fechaHasta);
+        
+        \Log::info('leam Lmit                ***    -> ' . $myLimit);
+
+
+         if ($myGroup != 0 or $myWallet != 0){
+            
+
+            \Log::info('leam - pasa con grupo');
+
+            $Transacciones = Transaction::select(
+                'Transactions.id                        as Id',
+                'Transactions.amount_foreign_currency   as MontoMoneda',
+                'Transactions.exchange_rate             as TasaCambio',
+                'Transactions.exchange_rate_base        as TasaCambioBase',
+                'Transactions.type_coin_id              as TipoMonedaId',
+                'type_coins.name                        as TipoMoneda',
+                'users.name                             as AgenteName',
+                'Transactions.amount                    as Monto',
+                'Transactions.amount_total              as MontoTotal',
+                'Transactions.percentage                as PorcentajeComision',
+                'Transactions.amount_commission         as MontoComision',
+                'Transactions.amount_total_base         as MontoTotalBase',
+                'Transactions.amount_base               as MontoBase',
+                'Transactions.percentage_base           as PorcentajeComisionBase',
+                'Transactions.amount_commission_base    as MontoComisionBase',
+                'Transactions.type_transaction_id       as TransactionId',
+                'type_transactions.name                 as TipoTransaccion',
+                'transactions.wallet_id                 as WalletId',
+                'wallets.name                           as WalletName',              
+                'transactions.description               as Descripcion',
+                'transactions.transaction_date          as FechaTransaccion',
+                'transactions.group_id                  as ClienteId',
+                DB::raw('IFNULL(transactions.group_id, 0) as ClienteId2'),
+                'groups.name                            as ClientName',
+                DB::raw('IFNULL(transactions.token, "") as token')            
+            )->leftJoin(
+                'users','users.id', '=', 'transactions.user_id'
+            )->leftJoin(
+                'type_transactions', 'type_transactions.id', '=', 'transactions.type_transaction_id'
+            )->leftJoin(
+                'groups as wallets', 'wallets.id', '=', 'transactions.wallet_id'
+            )->leftJoin(
+                'groups', 'groups.id', '=', 'transactions.group_id'
+            )->leftJoin(
+                'type_coins', 'type_coins.id', '=', 'transactions.type_coin_id'                  
+            )->whereBetween('Transactions.user_id',             [$myUserDesde, $myUserHasta]
+            )->whereBetween('Transactions.wallet_id',           [$myWalletDesde, $myWalletHasta]
+            )->whereBetween('Transactions.type_transaction_id', [$myTypeTransactionsDesde, $myTypeTransactionsHasta]
+            )->whereBetween('Transactions.transaction_date',    [$myFechaDesde . " 00:00:00", $myFechaHasta . " 23:59:00"]
+            )->where('Transactions.status', '=', 'Activo'
+            )->havingBetween('ClienteId2',      [$myGroupDesde, $myGroupHasta]
+            )->havingBetween('token',           [$myTokenDesde, $myTokenHasta]
+            )->orderBy('Transactions.transaction_date','ASC')
+            ->get();
+
+            // $Transacciones2 = array();
+            // foreach($Transacciones as $tran){
+            //     $value1 = json_decode($tran);
+    
+            //     $value2 = array_values(json_decode(json_encode($tran), true));
+    
+            //     array_push($Transacciones2, $value2);
+            // }
+            // dd('aqui');
+            
+        }else {
+
+            \Log::info('leam - pasa sin  grupo');
+
+            $Transacciones = Transaction::select(
+                'Transactions.id                        as Id',
+                'Transactions.amount_foreign_currency   as MontoMoneda',
+                'Transactions.exchange_rate             as TasaCambio',
+                'Transactions.exchange_rate_base        as TasaCambioBase',
+                'Transactions.type_coin_id              as TipoMonedaId',
+                'type_coins.name                        as TipoMoneda',
+                'users.name                             as AgenteName',
+                'Transactions.amount                    as Monto',
+                'Transactions.amount_total              as MontoTotal',
+                'Transactions.percentage                as PorcentajeComision',
+                'Transactions.amount_commission         as MontoComision',
+                'Transactions.amount_total_base         as MontoTotalBase',
+                'Transactions.amount_base               as MontoBase',
+                'Transactions.percentage_base           as PorcentajeComisionBase',
+                'Transactions.amount_commission_base    as MontoComisionBase',
+                'Transactions.type_transaction_id       as TransactionId',
+                'type_transactions.name                 as TipoTransaccion',
+                'transactions.wallet_id                 as WalletId',
+                'wallets.name                           as WalletName',              
+                'transactions.description               as Descripcion',
+                'transactions.transaction_date          as FechaTransaccion',
+                'transactions.group_id                  as ClienteId',
+                DB::raw('IFNULL(transactions.group_id, 0) as ClienteId2'),
+                'groups.name                            as ClientName',
+                DB::raw('IFNULL(transactions.token, "") as token')            
+            )->leftJoin(
+                'users','users.id', '=', 'transactions.user_id'
+            )->leftJoin(
+                'type_transactions', 'type_transactions.id', '=', 'transactions.type_transaction_id'
+            )->leftJoin(
+                'groups as wallets', 'wallets.id', '=', 'transactions.wallet_id'
+            )->leftJoin(
+                'groups', 'groups.id', '=', 'transactions.group_id'
+            )->leftJoin(
+                'type_coins', 'type_coins.id', '=', 'transactions.type_coin_id'                  
+            )->whereBetween('Transactions.user_id',             [$myUserDesde, $myUserHasta]
+            )->whereBetween('Transactions.wallet_id',           [$myWalletDesde, $myWalletHasta]
+            )->whereBetween('Transactions.type_transaction_id', [$myTypeTransactionsDesde, $myTypeTransactionsHasta]
+            )->whereBetween('Transactions.transaction_date',    [$myFechaDesde . " 00:00:00", $myFechaHasta . " 23:59:00"]
+            )->where('Transactions.status', '=', 'Activo'
+            )->havingBetween('ClienteId2',      [$myGroupDesde, $myGroupHasta]
+            )->havingBetween('token',           [$myTokenDesde, $myTokenHasta]
+            )->orderBy('Transactions.transaction_date','ASC')
+            ->limit(300)
+            ->get();
+
+       }
+
+        //  dd($Transacciones);
+        // \Log::info('index transacciones -> ' . print_r($Transacciones,true));
+        // die();
+
+        $userole            = $this->getUser();
+        $wallet             = $this->getWallet();
+        $group              = $this->getGroups();
+        $typeTransactions   = $this->getTypeTransactions();
+
+        if ($myFechaDesde === "2001-01-01"){
+            $myFechadesdeInvertida = "";
+        }else{
+            $myFechaDesdeBefore     = $this->getDayBefore($myFechaDesde);
+            $myFechadesdeInvertida  = substr($myFechaDesdeBefore,8,2) . "-" . substr($myFechaDesdeBefore,5,2) . "-" . substr($myFechaDesdeBefore,0,4);
+        }
+
+        $parametros['userole']                  = $userole;
+        $parametros['wallet']                   = $wallet;
+        $parametros['group']                    = $group;
+        $parametros['typeTransactions']         = $typeTransactions;
+        $parametros['Transacciones']            = $Transacciones;
+        $parametros['myUser']                   = $myUser;
+        $parametros['myGroup']                  = $myGroup;
+        $parametros['myWallet']                 = $myWallet;
+        $parametros['balance']                  = $balance;
+        $parametros['myTypeTransactions']       = $myTypeTransactions;
+        $parametros['myFechaDesde']             = $myFechaDesde;
+        $parametros['myFechaHasta']             = $myFechaHasta;
+        $parametros['balanceBefore']            = $balanceBefore;
+        $parametros['myFechadesdeInvertida']    = $myFechadesdeInvertida;
+
+        // dd($myFechadesdeInvertida);
+        // \Log::info('leam ----> ' .  json_encode($Transacciones, JSON_PRETTY_PRINT));
+        return view('estadisticas.index', $parametros);
+
+    }    
+    /*
+    *
+    *
+    *   index_allOld
+    *
+    *
+    */
+    public function index_all(Request $request)
+    {
+        
+
 
         $myGroup        = 0;
         $myGroupDesde   = 0;
@@ -284,9 +576,13 @@ class statisticsController extends Controller
                 $balance        = $this->getBalanceWallet($myWallet);
                 $balanceBefore  = $this->getBalanceWalletBefore($myWallet,$myFechaDesde, $myFechaHasta);
             }
-        }
-        ;
+        };
         // dd($balance);
+
+        $myUser = 0;
+        if ($request->usuario) {
+            $myUser = $request->usuario;
+        }
         $myUserDesde = 0;
         $myUserHasta = 9999;
 
@@ -342,7 +638,8 @@ class statisticsController extends Controller
                 'wallets.name                           as WalletName',              
                 'transactions.description               as Descripcion',
                 'transactions.transaction_date          as FechaTransaccion',
-                'Transactions.group_id                  as ClienteId',                
+                'transactions.group_id                  as ClienteId',
+                DB::raw('IFNULL(transactions.group_id, 0) as ClienteId2'),
                 'groups.name                            as ClientName',
                 'transactions.token                     as token'
             )->leftJoin(
@@ -356,23 +653,23 @@ class statisticsController extends Controller
             )->leftJoin(
                 'type_coins', 'type_coins.id', '=', 'transactions.type_coin_id'                  
             )->whereBetween('Transactions.user_id',             [$myUserDesde, $myUserHasta]
-            )->whereBetween('Transactions.group_id',            [$myGroupDesde, $myGroupHasta]
+            // )->whereBetween('Transactions.group_id',            [$myGroupDesde, $myGroupHasta]
             )->whereBetween('Transactions.wallet_id',           [$myWalletDesde, $myWalletHasta]
             )->whereBetween('Transactions.type_transaction_id', [$myTypeTransactionsDesde, $myTypeTransactionsHasta]
             )->whereBetween('Transactions.transaction_date',    [$myFechaDesde . " 00:00:00", $myFechaHasta . " 23:59:00"]
             )->where('Transactions.status', '=', 'Activo'
-            )->orderBy('Transactions.transaction_date','ASC'
-            )->limit(300)
+            )->havingBetween('ClienteId2',[$myGroupDesde, $myGroupHasta]
+            )->orderBy('Transactions.transaction_date','ASC')
             ->get();
 
-            $Transacciones2 = array();
-            foreach($Transacciones as $tran){
-                $value1 = json_decode($tran);
+            // $Transacciones2 = array();
+            // foreach($Transacciones as $tran){
+            //     $value1 = json_decode($tran);
     
-                $value2 = array_values(json_decode(json_encode($tran), true));
+            //     $value2 = array_values(json_decode(json_encode($tran), true));
     
-                array_push($Transacciones2, $value2);
-            }
+            //     array_push($Transacciones2, $value2);
+            // }
             // dd('aqui');
 
         }else {
@@ -401,7 +698,7 @@ class statisticsController extends Controller
                     wallets.name                           as WalletName,
                     transactions.description               as Descripcion,
                     transactions.transaction_date          as FechaTransaccion,
-                    transactions.group_id                  as ClienteId,
+                    IFNULL(transactions.group_id,0)          as ClienteId,
                     mtf.groups.name                        as ClientName,
                     transactions.token                     as token
                 from
@@ -434,14 +731,9 @@ class statisticsController extends Controller
         // die();
 
         $userole            = $this->getUser();
-
         $wallet             = $this->getWallet();
-
         $group              = $this->getGroups();
-
         $typeTransactions   = $this->getTypeTransactions();
-
-
 
         if ($myFechaDesde === "2001-01-01"){
             $myFechadesdeInvertida = "";
