@@ -5,7 +5,7 @@
 @section('title', 'Transacciones')
 @section('content_header')
 
-<h1 class="text-center text-dark font-weight-bold">MODIFICAR TASA|COMISIÓN<i class="fas fa-coins"></i> </h1></a>
+<h1 class="text-center text-dark font-weight-bold">MODIFICAR TASA|COMISIÓN222<i class="fas fa-coins"></i> </h1></a>
 
 
 @stop

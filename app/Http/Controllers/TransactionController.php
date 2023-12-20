@@ -70,19 +70,15 @@ class TransactionController extends Controller
          // dd($request);
         $myLimit = 0;
         if($this->isAdministrator()){
-
             if (!$user){
                 $myUsuarioDesde = auth()->user()->id;
                 $myUsuarioHasta = auth()->user()->id;
             }
             $myLimit = 500;
-            
         }else{
-
             $myUsuarioDesde = auth()->user()->id;
             $myUsuarioHasta = auth()->user()->id;
             $myLimit = 1000;
-    
         }
 
         $transferencia = Transaction::whereNull(['transfer_number','pay_number'])
