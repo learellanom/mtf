@@ -117,11 +117,11 @@
                                     @endcan
 
                                     {{--
-                                    @if((auth()->id())==2)
-                                        @can('transactions.edit')
-                                        <th style="width:1%;" class="no-exportar">Tasa/Comisión</th>
-                                        @endcan
-                                    @endif
+                                        @if((auth()->id())==2)
+                                            @can('transactions.edit')
+                                            <th style="width:1%;" class="no-exportar">Tasa/Comisión</th>
+                                            @endcan
+                                        @endif
                                     --}}
                                     
                                     <th style="width:1%;" class="no-exportar">Ver <i class="fas fa-search"></i></th>

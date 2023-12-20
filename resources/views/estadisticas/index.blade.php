@@ -174,6 +174,7 @@ if (isset($balance->Total)){
     </div>
 </div>
 
+
 <div class="row">
     <div class="col-md-12">
         <div class="card mb-4">
@@ -233,9 +234,9 @@ if (isset($balance->Total)){
                                 </div>
                                 <div class="col-3">
 
-                                <p class="font-weight-bold">Saldo al Corte <span id="myFecha"> {{ $myFechadesdeInvertida }}</span> : {{ number_format($balanceBefore,2,",",".") }} $</p>
+                                    <p class="font-weight-bold">Saldo al Corte <span id="myFecha"> {{ $myFechadesdeInvertida }}</span> : {{ number_format($balanceBefore,2,",",".") }} $</p>
 
-                            </div>
+                                </div>
                             @endif
                             
                             
@@ -493,18 +494,18 @@ if (isset($balance->Total)){
     $('#table').DataTable( {
 
         language: {
-            "decimal": "",
-            "emptyTable": "No hay transacciones.",
-            "info": "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
-            "infoEmpty": "Mostrando 0 to 0 de 0 Entradas",
-            "infoFiltered": "(Filtrado de _MAX_ total entradas)",
-            "infoPostFix": "",
-            "thousands": ",",
-            "lengthMenu": "Mostrar _MENU_ Entradas",
+            "decimal"       : "",
+            "emptyTable"    : "No hay transacciones.",
+            "info"          : "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
+            "infoEmpty"     : "Mostrando 0 to 0 de 0 Entradas",
+            "infoFiltered"  : "(Filtrado de _MAX_ total entradas)",
+            "infoPostFix"   : "",
+            "thousands"     : ",",
+            "lengthMenu"    : "Mostrar _MENU_ Entradas",
             "loadingRecords": "Cargando...",
-            "processing": "Procesando...",
-            "search": "Buscar:",
-            "zeroRecords": "Sin resultados encontrados",
+            "processing"    : "Procesando...",
+            "search"        : "Buscar:",
+            "zeroRecords"   : "Sin resultados encontrados",
             "paginate": {
                 "first": "Primero",
                 "last": "Ultimo",
@@ -512,7 +513,7 @@ if (isset($balance->Total)){
                 "previous": "Anterior"
             }
         },
-         "order": [[ 1, 'asc' ]],
+         "order": [[ 1, 'desc' ]],
         'dom' : 'Bfrtilp',
         'pageLength' : 7, 
         'buttons':[
@@ -737,7 +738,7 @@ if (isset($balance->Total)){
 
         const myFechaDesde = {!! isset($myFechaDesde) ?? 0 !!};
         const myFechaHasta = {!! isset($myFechaHasta) ?? 0 !!};
-        
+               // $('#drCustomRanges').daterangepicker({}); 
         BuscaFechas(myFechaDesde, myFechaHasta);
 
         
@@ -793,6 +794,7 @@ if (isset($balance->Total)){
                 theRoute(usuario,grupo,wallet, typeTransactions);
 
         });
+
 
         $('#drCustomRanges').on('change', function () {
             // alert('Fechas rnagos -> ' + $('#drCustomRanges').val());

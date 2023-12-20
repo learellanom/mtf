@@ -200,7 +200,7 @@ class statisticsController extends Controller
     *
     *
     */
-    public function index_allNew(Request $request)
+    public function index_all(Request $request)
     {
         
 
@@ -261,6 +261,7 @@ class statisticsController extends Controller
 
         if ($request->token){
             if($request->token == 1){
+                $myTokenCondition = " and token    between '$myTokenDesde'             and '$myTokenHasta'";
                 $myTokenDesde       = "0";
                 $myTokenHasta       = "ZZZZZZZZZZZZZZZZZZZZZZZZZZZZ";        
             }
@@ -297,17 +298,31 @@ class statisticsController extends Controller
             $myUserHasta = $myUser;
         }
 
+        if (!$request->usuario){
+            if($this->isAdministrator()){
+                if (!$request->usuario){
+                    $myUserDesde = auth()->user()->id;
+                    $myUserHasta = auth()->user()->id;
+                }
+            }else{
+                $myUserDesde = auth()->user()->id;
+                $myUserHasta = auth()->user()->id;
+            }
+        }
+
 
         //  print_r($myGroup);
          // dd($myGroup);
-         $Transacciones = [];
+        $Transacciones = [];
         $myLimit        = 0;
         $myLimitDesde   = 0;
         $myLimitHasta   = 5000;
+        $myLimitCondition   = "";
         if ($myWallet == 0 and $myGroup == 0) {
-            $myLimit        = 300;
-            $myLimitDesde   = 300;
-            $myLimitHasta   = 300;
+            $myLimit            = 1000;
+            $myLimitDesde       = 1000;
+            $myLimitHasta       = 1000;
+            $myLimitCondition   = "limit 1000";
         }
 
         
@@ -337,7 +352,7 @@ class statisticsController extends Controller
         
         \Log::info('leam Lmit                ***    -> ' . $myLimit);
 
-
+        /*
          if ($myGroup != 0 or $myWallet != 0){
             
 
@@ -389,68 +404,61 @@ class statisticsController extends Controller
             )->orderBy('Transactions.transaction_date','ASC')
             ->get();
 
-            // $Transacciones2 = array();
-            // foreach($Transacciones as $tran){
-            //     $value1 = json_decode($tran);
-    
-            //     $value2 = array_values(json_decode(json_encode($tran), true));
-    
-            //     array_push($Transacciones2, $value2);
-            // }
-            // dd('aqui');
-            
         }else {
-
+            */
             \Log::info('leam - pasa sin  grupo');
 
-            $Transacciones = Transaction::select(
-                'Transactions.id                        as Id',
-                'Transactions.amount_foreign_currency   as MontoMoneda',
-                'Transactions.exchange_rate             as TasaCambio',
-                'Transactions.exchange_rate_base        as TasaCambioBase',
-                'Transactions.type_coin_id              as TipoMonedaId',
-                'type_coins.name                        as TipoMoneda',
-                'users.name                             as AgenteName',
-                'Transactions.amount                    as Monto',
-                'Transactions.amount_total              as MontoTotal',
-                'Transactions.percentage                as PorcentajeComision',
-                'Transactions.amount_commission         as MontoComision',
-                'Transactions.amount_total_base         as MontoTotalBase',
-                'Transactions.amount_base               as MontoBase',
-                'Transactions.percentage_base           as PorcentajeComisionBase',
-                'Transactions.amount_commission_base    as MontoComisionBase',
-                'Transactions.type_transaction_id       as TransactionId',
-                'type_transactions.name                 as TipoTransaccion',
-                'transactions.wallet_id                 as WalletId',
-                'wallets.name                           as WalletName',              
-                'transactions.description               as Descripcion',
-                'transactions.transaction_date          as FechaTransaccion',
-                'transactions.group_id                  as ClienteId',
-                DB::raw('IFNULL(transactions.group_id, 0) as ClienteId2'),
-                'groups.name                            as ClientName',
-                DB::raw('IFNULL(transactions.token, "") as token')            
-            )->leftJoin(
-                'users','users.id', '=', 'transactions.user_id'
-            )->leftJoin(
-                'type_transactions', 'type_transactions.id', '=', 'transactions.type_transaction_id'
-            )->leftJoin(
-                'groups as wallets', 'wallets.id', '=', 'transactions.wallet_id'
-            )->leftJoin(
-                'groups', 'groups.id', '=', 'transactions.group_id'
-            )->leftJoin(
-                'type_coins', 'type_coins.id', '=', 'transactions.type_coin_id'                  
-            )->whereBetween('Transactions.user_id',             [$myUserDesde, $myUserHasta]
-            )->whereBetween('Transactions.wallet_id',           [$myWalletDesde, $myWalletHasta]
-            )->whereBetween('Transactions.type_transaction_id', [$myTypeTransactionsDesde, $myTypeTransactionsHasta]
-            )->whereBetween('Transactions.transaction_date',    [$myFechaDesde . " 00:00:00", $myFechaHasta . " 23:59:00"]
-            )->where('Transactions.status', '=', 'Activo'
-            )->havingBetween('ClienteId2',      [$myGroupDesde, $myGroupHasta]
-            )->havingBetween('token',           [$myTokenDesde, $myTokenHasta]
-            )->orderBy('Transactions.transaction_date','ASC')
-            ->limit(300)
-            ->get();
-
-       }
+            $myQuery =
+            "
+                select
+                    Transactions.id                        as Id,
+                    Transactions.amount_foreign_currency   as MontoMoneda,
+                    Transactions.exchange_rate             as TasaCambio,
+                    Transactions.exchange_rate_base        as TasaCambioBase,
+                    Transactions.type_coin_id              as TipoMonedaId,
+                    type_coins.name                        as TipoMoneda,
+                    users.name                             as AgenteName,
+                    Transactions.amount                    as Monto,            
+                    Transactions.amount_total              as MontoTotal,
+                    Transactions.percentage                as PorcentajeComision,
+                    Transactions.amount_commission         as MontoComision,
+                    Transactions.amount_base               as MontoBase,              
+                    Transactions.amount_total_base         as MontoTotalBase,
+                    Transactions.percentage_base           as PorcentajeComisionBase,
+                    Transactions.amount_commission_base    as MontoComisionBase,
+                    Transactions.type_transaction_id       as TransactionId,
+                    type_transactions.name                 as TipoTransaccion,
+                    transactions.wallet_id                 as WalletId,
+                    wallets.name                           as WalletName,
+                    transactions.description               as Descripcion,
+                    transactions.transaction_date          as FechaTransaccion,
+                    transactions.group_id                  as ClienteId,                    
+                    IFNULL(transactions.group_id,0)        as ClienteId2,
+                    mtf.groups.name                        as ClientName,
+                    IFNULL(transactions.token, '')          as token                    
+                from
+                    mtf.transactions
+                left join mtf.type_transactions   on mtf.transactions.type_transaction_id = mtf.type_transactions.id
+                left join mtf.groups as wallets   on mtf.transactions.wallet_id           = wallets.id
+                left join mtf.users               on mtf.transactions.user_id             = mtf.users.id
+                left join mtf.type_coins          on mtf.transactions.type_coin_id        = mtf.type_coins.id
+                left join mtf.groups              on mtf.Transactions.group_id            = mtf.groups.id
+                where
+                        status = 'Activo'
+                    and user_id             between $myUserDesde                and $myUserHasta                        
+                    and wallet_id           between $myWalletDesde              and $myWalletHasta
+                    and type_transaction_id between $myTypeTransactionsDesde    and $myTypeTransactionsHasta
+                    and transaction_date    between '$myFechaDesde  00:00:00'   and '$myFechaHasta 23:59:00' 
+                having
+                    ClienteId2 between $myGroupDesde and $myGroupHasta
+                and
+                    token between '$myTokenDesde' and '$myTokenHasta'
+                order by
+                    Transactions.transaction_date desc
+                $myLimitCondition
+            ";
+            $Transacciones = DB::select($myQuery);
+       // }
 
         //  dd($Transacciones);
         // \Log::info('index transacciones -> ' . print_r($Transacciones,true));
@@ -495,11 +503,9 @@ class statisticsController extends Controller
     *
     *
     */
-    public function index_all(Request $request)
+    public function index_allOld(Request $request)
     {
         
-
-
         $myGroup        = 0;
         $myGroupDesde   = 0;
         $myGroupHasta   = 9999;        
@@ -4996,7 +5002,17 @@ class statisticsController extends Controller
 
     }
 
+    function isAdministrator(){
 
+        foreach(auth()->user()->roles as $roles)
+        {
+           if($roles->name == 'Administrador' || $roles->name == 'Supervisor'){        
+                return true;
+           }
+        }
+        return false;
+
+    }
 
 }
 
