@@ -506,13 +506,11 @@ class HomeController extends Controller
             /* MANTENER VALOR BUSCADO EN EL URL */
         }
 
-       // dd($myFechaDesde);
+        // dd($myFechaDesde);
         
         $myFechaDesdeBefore = "2001-01-01";
         $myFechaHastaBefore = "9999-12-31";
         
-        
-
         $wallet                          = app(statisticsController::class)->getWallet();
         $grupo                           = app(statisticsController::class)->getGroups();
         
