@@ -399,6 +399,13 @@ return [
                     'can'       => 'dashboardComisionesGrupoRes',
                     'icon_color' => 'primary',
                 ],
+                [
+                    'text'      => 'Genera comisiones USDT',
+                    'url'       => 'dashboardComisionesUSDTGenera',
+                    'active'    => ['dashboardComisionesUSDTGenera'],
+                    'classes'   =>  'ml-4',
+                    'icon_color' => 'primary',
+                ],                
             ]
         ],
         [ 

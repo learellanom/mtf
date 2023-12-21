@@ -11,7 +11,8 @@ use App\Models\Group;
 use App\Models\Supplier;
 use App\Models\Transaction_master;
 use App\Models\Transaction_supplier;
-
+use App\Models\Commission_usdt;
+               
 use Spatie\Permission\Models\Role;
 use App\Http\Controllers\Controller;
 
@@ -200,7 +201,7 @@ class statisticsController extends Controller
     *
     *
     */
-    public function index_all(Request $request)
+    public function index_allNew(Request $request)
     {
         
 
@@ -503,7 +504,7 @@ class statisticsController extends Controller
     *
     *
     */
-    public function index_allOld(Request $request)
+    public function index_all(Request $request)
     {
         
         $myGroup        = 0;
@@ -2915,6 +2916,77 @@ class statisticsController extends Controller
             return $Transacciones;
         }
     }
+
+    function commissionProfitProcess(){
+        // buscar cajasd que realizan pagos usdt
+        return;
+        $myTransaction = 11;
+        $myQuery =
+        "
+            select
+                mtf.transactions.wallet_id                      as WalletId,
+                wallets.name                                    as WalletName
+            from
+                        mtf.transactions
+            left join   mtf.groups as wallets   on mtf.transactions.wallet_id           = wallets.id                        
+            where
+                    status              = 'Activo'
+                and type_transaction_id = $myTransaction
+            group by
+                wallet_id,
+                wallets.name
+        ";
+
+        // dd($myQuery);
+        
+        $cajasUSDT = DB::select($myQuery);
+        // dd($cajasUSDT);
+
+        $myRequest = new Request();
+        
+        $transacciones = [];
+        foreach($cajasUSDT as $pos => $myCaja){
+            
+            $myRequest->wallet = $myCaja->WalletId;
+
+                list($Recargas, $Transacciones2) = $this->commissionsProfit($myRequest);
+                $transacciones [] = $Transacciones2;
+               // echo "<br>";
+                // echo "paso con -> " . $pos . " con el count ->" . count($Transacciones2);
+                if ($pos == 2){
+                    dd($Transacciones2);
+                }
+            
+        }
+        echo "leam - aqui -> " . auth()->id() . "-----";
+        die();
+        dd("leam - aqui -> " . auth()->id() . "-----");
+
+        // $CommissionUsdt = new Commission_usdt;
+
+        // $CommissionUsdt->amount                     = $request->input('amount');
+        // $CommissionUsdt->amount2                    = $request->input('amount');
+        // $CommissionUsdt->amount_commission          = $request->input('amount');
+        // $CommissionUsdt->percentage                 = $request->input('amount');
+        // $CommissionUsdt->type_transaction_id        = $request->input('type_transaction_id');
+        // $CommissionUsdt->user_id                    = $user;
+        // $CommissionUsdt->group_id                   = $request->input('wallet2_id');
+        // $CommissionUsdt->wallet_id                  = $request->input('wallet_id');
+        // $CommissionUsdt->transaction_date           = $request->input('wallet2_id');
+        // $CommissionUsdt->percentage_base            = $request->input('wallet2_id');
+        // $CommissionUsdt->amount_commission_base     = $request->input('wallet2_id');
+        // $CommissionUsdt->amount_commission_profit   = $request->input('wallet2_id');
+        // $CommissionUsdt->reload_id                  = $request->input('wallet2_id');
+        // $CommissionUsdt->reload_amount              = $request->input('wallet2_id');
+        // $CommissionUsdt->reload_percentage_base     = $request->input('wallet2_id');
+        // $CommissionUsdt->reload_balance             = $request->input('wallet2_id');
+
+        // $CommissionUsdt->save();
+
+
+    }
+
+
     /*
     *
     *
@@ -2927,8 +2999,8 @@ class statisticsController extends Controller
         // $request->wallet        = 89;   // abu mahmud
         // $request->wallet        = 93;   // caja usdt
         // $request->wallet        = 139;  // caja principal usdt
-
-        $request->transaction   = 11; // pago usdt y 13 cobro usdt
+        
+        $request->transaction   = 11; // 11 pago usdt y 13 cobro usdt
 
         $myWalletDesde = 00000;
         $myWalletHasta = 99999;
@@ -3015,7 +3087,7 @@ class statisticsController extends Controller
         $Recargas = DB::select($myQuery);
         // dd($Recargas);
 
-        $myTransactionDesde     = 13; // 13 corbos usdt
+        $myTransactionDesde     = 13; // 13 cobros usdt
         $myTransactionHasta     = 13;
 
         $myQuery =
@@ -3030,7 +3102,7 @@ class statisticsController extends Controller
                  type_transactions.name                          as TypeTransactionName,
                  transaction_date                                as TransactionDate,
                  percentage                                      as Percentage,
-                 1.5                                 as PercentageBase,
+                 1.5                                             as PercentageBase,
                  exchange_rate                                   as ExchangeRate,
                  exchange_rate_base                              as ExchangeRateBase,
                  mtf.transactions.amount_foreign_currency        as AmountForeignCurrency,
@@ -3066,7 +3138,7 @@ class statisticsController extends Controller
         
         usort($Recargas3, function($a, $b) {return strcmp($a->TransactionDate, $b->TransactionDate);});
 
-       // dd($Recargas3);
+        // dd($Recargas3);
         //
         //
         // Busca transacciones de pagos
@@ -3136,7 +3208,7 @@ class statisticsController extends Controller
                 mtf.transactions.amount_total_base              as AmountTotalBase,
                 mtf.transactions.amount_commission_base         as AmountCommissionBase,
                 mtf.transactions.amount_commission_profit       as AmountCommissionProfit,
-                0                                                as Saldo
+                0                                               as Saldo
             from
                         mtf.transactions
             left join   mtf.type_transactions   on mtf.transactions.type_transaction_id = mtf.type_transactions.id
