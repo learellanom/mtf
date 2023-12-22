@@ -81,6 +81,11 @@ Route::get('dashboardComisionesGrupo2/{wallet?}/{grupo?}', [App\Http\Controllers
 Route::get('dashboardComisionesGrupo2/{wallet?}/{grupo?}/{fechaDesde?}/{fechaHasta?}', [App\Http\Controllers\HomeController::class, 'comisionesGrupo2'])->name('dashboardComisionesGrupo2');
 
 
+Route::get('dashboardComisionesGrupo3', [App\Http\Controllers\HomeController::class, 'comisionesGrupo3'])->name('dashboardComisionesGrupo3');
+Route::get('dashboardComisionesGrupo3/{wallet?}/{grupo?}', [App\Http\Controllers\HomeController::class, 'comisionesGrupo3'])->name('dashboardComisionesGrupo3');
+Route::get('dashboardComisionesGrupo3/{wallet?}/{grupo?}/{fechaDesde?}/{fechaHasta?}', [App\Http\Controllers\HomeController::class, 'comisionesGrupo3'])->name('dashboardComisionesGrupo3');
+
+
 Route::get('dashboardComisionesUSDTGenera', [App\Http\Controllers\statisticsController::class, 'commissionProfitProcess'])->name('dashboardComisionesUSDTGenera');
 
 Route::get('dashboardComisionesGrupoRes', [App\Http\Controllers\HomeController::class, 'comisionesGrupoRes'])->name('dashboardComisionesGrupoRes');

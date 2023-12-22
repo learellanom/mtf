@@ -11,7 +11,7 @@ use App\Models\Group;
 use App\Models\Supplier;
 use App\Models\Transaction_master;
 use App\Models\Transaction_supplier;
-use App\Models\Commission_usdt;
+use App\Models\Commissions_usdt;
                
 use Spatie\Permission\Models\Role;
 use App\Http\Controllers\Controller;
@@ -2918,8 +2918,9 @@ class statisticsController extends Controller
     }
 
     function commissionProfitProcess(){
-        // buscar cajasd que realizan pagos usdt
-        return;
+
+        // buscar cajas que realizan pagos usdt
+        
         $myTransaction = 11;
         $myQuery =
         "
@@ -2949,42 +2950,326 @@ class statisticsController extends Controller
             
             $myRequest->wallet = $myCaja->WalletId;
 
-                list($Recargas, $Transacciones2) = $this->commissionsProfit($myRequest);
-                $transacciones [] = $Transacciones2;
-               // echo "<br>";
-                // echo "paso con -> " . $pos . " con el count ->" . count($Transacciones2);
-                if ($pos == 2){
-                    dd($Transacciones2);
+            list($Recargas, $Transacciones2) = $this->commissionsProfit($myRequest);
+            $transacciones [] = $Transacciones2;
+            // echo "<br>";
+            // echo "paso con -> " . $pos . " con el count ->" . count($Transacciones2);
+            if ($pos == 2){
+                // dd($Transacciones2);
+
+
+                foreach($Transacciones2 as $key => $transaccion){
+
+                    $CommissionUsdt = new Commissions_usdt;
+
+                    $CommissionUsdt->transaction_id             = $transaccion->Id;
+                    $CommissionUsdt->amount                     = $transaccion->Amount;
+                    $CommissionUsdt->amount2                    = $transaccion->Amount2;
+                    $CommissionUsdt->amount_commission          = $transaccion->AmountCommission;
+                    $CommissionUsdt->percentage                 = $transaccion->Percentage;
+                    $CommissionUsdt->type_transaction_id        = $transaccion->TypeTransactionId;
+                    $CommissionUsdt->user_id                    = auth()->user()->id;
+                    $CommissionUsdt->group_id                   = $transaccion->GroupId;
+                    $CommissionUsdt->wallet_id                  = $transaccion->WalletId;
+                    $CommissionUsdt->transaction_date           = $transaccion->TransactionDate;
+                    $CommissionUsdt->percentage_base            = $transaccion->PercentageBase;
+                    $CommissionUsdt->amount_commission_base     = $transaccion->AmountCommissionBase;
+                    $CommissionUsdt->amount_commission_profit   = $transaccion->AmountCommissionProfit;
+            
+                    $CommissionUsdt->reload_id                  = $transaccion->RecargaId;
+                    $CommissionUsdt->reload_amount              = $transaccion->RecargaAmount;
+                    $CommissionUsdt->reload_percentage_base     = $transaccion->RecargaPercentageBase;
+                    $CommissionUsdt->reload_balance             = $transaccion->RecargaSaldo;
+            
+                    $CommissionUsdt->save();
+
                 }
+
+            }
             
         }
         echo "leam - aqui -> " . auth()->id() . "-----";
         die();
         dd("leam - aqui -> " . auth()->id() . "-----");
-
+        //foreach($transaccioness as $key => $transaccion){
         // $CommissionUsdt = new Commission_usdt;
 
-        // $CommissionUsdt->amount                     = $request->input('amount');
-        // $CommissionUsdt->amount2                    = $request->input('amount');
-        // $CommissionUsdt->amount_commission          = $request->input('amount');
-        // $CommissionUsdt->percentage                 = $request->input('amount');
-        // $CommissionUsdt->type_transaction_id        = $request->input('type_transaction_id');
-        // $CommissionUsdt->user_id                    = $user;
-        // $CommissionUsdt->group_id                   = $request->input('wallet2_id');
-        // $CommissionUsdt->wallet_id                  = $request->input('wallet_id');
-        // $CommissionUsdt->transaction_date           = $request->input('wallet2_id');
-        // $CommissionUsdt->percentage_base            = $request->input('wallet2_id');
-        // $CommissionUsdt->amount_commission_base     = $request->input('wallet2_id');
-        // $CommissionUsdt->amount_commission_profit   = $request->input('wallet2_id');
-        // $CommissionUsdt->reload_id                  = $request->input('wallet2_id');
-        // $CommissionUsdt->reload_amount              = $request->input('wallet2_id');
-        // $CommissionUsdt->reload_percentage_base     = $request->input('wallet2_id');
-        // $CommissionUsdt->reload_balance             = $request->input('wallet2_id');
+        // $CommissionUsdt->amount                     = $transaccion->Amount;
+        // $CommissionUsdt->amount2                    = $transaccion->Amount2;
+        // $CommissionUsdt->amount_commission          = $transaccion->AmountCommission;
+        // $CommissionUsdt->percentage                 = $transaccion->Percentage;
+        // $CommissionUsdt->type_transaction_id        = $transaccion->TypeTransactionId;
+        // $CommissionUsdt->user_id                    = $user
+        // $CommissionUsdt->group_id                   = $transaccion->GroupId;
+        // $CommissionUsdt->wallet_id                  = $transaccion->WalletId;
+        // $CommissionUsdt->transaction_date           = $transaccion->TransactionDate;
+        // $CommissionUsdt->percentage_base            = $transaccion->PercentageBase;
+        // $CommissionUsdt->amount_commission_base     = $transaccion->AmountCommissionBase;
+        // $CommissionUsdt->amount_commission_profit   = $transaccion->AmountCommissionProfit;
+
+        // $CommissionUsdt->reload_id                  = $transaccion->RecargaId;
+        // $CommissionUsdt->reload_amount              = $transaccion->RecargaAmount;
+        // $CommissionUsdt->reload_percentage_base     = $transaccion->RecargaPercentageBase;
+        // $CommissionUsdt->reload_balance             = $transaccion->RecargaSaldo;
 
         // $CommissionUsdt->save();
-
+        //}
 
     }
+
+
+
+    /*
+    *
+    *
+    *       getComissions3
+    *       lee comisiones usdt de la tabla commissions_usdt
+    *
+    */
+    function commissionsProfit3(Request $request){
+        // \Log::info('leam - statisticsController - commissionsProfit - el wallet es ->' . $request->wallet);
+        // $request->wallet        = 89;   // abu mahmud
+        // $request->wallet        = 93;   // caja usdt
+        // $request->wallet        = 139;  // caja principal usdt
+        
+        $request->transaction   = 11; // 11 pago usdt y 13 cobro usdt
+
+        $myWalletDesde = 00000;
+        $myWalletHasta = 99999;
+        if ($request->wallet){
+            $myWalletDesde = $request->wallet;
+            $myWalletHasta = $request->wallet;
+        }
+
+        $myGroupDesde = 00000;
+        $myGroupHasta = 99999;
+        if ($request->group){
+            $myGroupDesde = $request->group;
+            $myGroupHasta = $request->group;
+        }
+
+        $myTransactionDesde     = 0000;
+        $myTransactionHasta     = 9999;
+        if ($request->transaction){
+            $myTransactionDesde     = $request->transaction;
+            $myTransactionHasta     = $request->transaction;
+        }
+
+        $myFechaDesde = "2001-01-01";
+        $myFechaHasta = "9999-12-31";
+        if ($request->fechaDesde){
+            $myFechaDesde = $request->fechaDesde;
+        }
+        if ($request->fechaHasta){
+            $myFechaHasta = $request->fechaHasta;
+        }
+
+        $myFechaDesde = "2001-01-01";
+        $myFechaHasta = "9999-12-31";
+
+        $horaDesde = " 00:00:00";
+        $horaHasta = " 23:59:00";
+
+        $myFechaDesde = $myFechaDesde . $horaDesde;
+        $myFechaHasta = $myFechaHasta . $horaHasta;
+        /*
+        $myTable = "mtf.transactions";
+        
+        $myQuery =
+        "
+            select
+                mtf.transactions.id                             as Id,
+                mtf.transactions.wallet_id                      as WalletId,
+                wallets.name                                    as WalletName,
+                mtf.transactions.group_id                       as GroupId,
+                mtf.groups.name                                 as GroupName,
+                mtf.transactions.type_transaction_id            as TypeTransactionId,
+                type_transactions.name                          as TypeTransactionName,
+                transaction_date                                as TransactionDate,
+                percentage                                      as Percentage,
+                percentage_base                                 as PercentageBase,
+                exchange_rate                                   as ExchangeRate,
+                exchange_rate_base                              as ExchangeRateBase,
+                mtf.transactions.amount_foreign_currency        as AmountForeignCurrency,
+                mtf.transactions.amount                         as Amount,
+                mtf.transactions.amount_total                   as AmountTotal,
+                mtf.transactions.amount_commission              as AmountCommission,
+                mtf.transactions.amount_base                    as AmountBase,
+                mtf.transactions.amount_total_base              as AmountTotalBase,
+                mtf.transactions.amount_commission_base         as AmountCommissionBase,
+                mtf.transactions.amount_commission_profit       as AmountCommissionProfit,
+                mtf.transactions.amount                         as Saldo
+            from
+                        mtf.transactions
+            left join   mtf.type_transactions   on mtf.transactions.type_transaction_id = mtf.type_transactions.id
+            left join   mtf.groups as wallets   on mtf.transactions.wallet_id           = wallets.id
+            left join   mtf.groups              on mtf.Transactions.group_id            = mtf.groups.id
+            where
+                    status = 'Activo'
+                and group_id            between $myWalletDesde              and     $myWalletHasta
+                and type_transaction_id between $myTransactionDesde         and     $myTransactionHasta
+                and transaction_date    between '$myFechaDesde'             and     '$myFechaHasta'
+            order by
+                Transactions.transaction_date ASC,
+                id ASC
+        ";
+
+        // dd($myQuery);
+        
+        $Recargas = DB::select($myQuery);
+        // dd($Recargas);
+
+        $myTransactionDesde     = 13; // 13 cobros usdt
+        $myTransactionHasta     = 13;
+
+        $myQuery =
+         "
+             select
+                 mtf.transactions.id                             as Id,
+                 mtf.transactions.wallet_id                      as WalletId,
+                 wallets.name                                    as WalletName,
+                 mtf.transactions.group_id                       as GroupId,
+                 mtf.groups.name                                 as GroupName,
+                 mtf.transactions.type_transaction_id            as TypeTransactionId,
+                 type_transactions.name                          as TypeTransactionName,
+                 transaction_date                                as TransactionDate,
+                 percentage                                      as Percentage,
+                 1.5                                             as PercentageBase,
+                 exchange_rate                                   as ExchangeRate,
+                 exchange_rate_base                              as ExchangeRateBase,
+                 mtf.transactions.amount_foreign_currency        as AmountForeignCurrency,
+                 mtf.transactions.amount                         as Amount,
+                 mtf.transactions.amount_total                   as AmountTotal,
+                 mtf.transactions.amount_commission              as AmountCommission,
+                 mtf.transactions.amount_base                    as AmountBase,
+                 mtf.transactions.amount_total_base              as AmountTotalBase,
+                 mtf.transactions.amount_commission_base         as AmountCommissionBase,
+                 mtf.transactions.amount_commission_profit       as AmountCommissionProfit,
+                 mtf.transactions.amount                         as Saldo
+             from
+                         mtf.transactions
+             left join   mtf.type_transactions   on mtf.transactions.type_transaction_id = mtf.type_transactions.id
+             left join   mtf.groups as wallets   on mtf.transactions.wallet_id           = wallets.id
+             left join   mtf.groups              on mtf.Transactions.group_id            = mtf.groups.id
+             where
+                     status = 'Activo'
+                 and wallet_id           between $myWalletDesde              and     $myWalletHasta
+                 and type_transaction_id between $myTransactionDesde         and     $myTransactionHasta
+                 and transaction_date    between '$myFechaDesde'             and     '$myFechaHasta'
+             order by
+                 Transactions.transaction_date ASC,
+                 id ASC
+ 
+         ";
+ 
+        //dd($myQuery);
+         $Recargas2 = DB::select($myQuery);
+        // dd($Recargas2);
+
+        $Recargas3 = array_merge($Recargas, $Recargas2);
+        
+        usort($Recargas3, function($a, $b) {return strcmp($a->TransactionDate, $b->TransactionDate);});
+        */
+        $Recargas3 = [];
+        // dd($Recargas3);
+        //
+        //
+        // Busca transacciones de pagos
+        //
+        //
+        $request->transaction   = 11; // pago usdt
+
+        $myWalletDesde = 00000;
+        $myWalletHasta = 99999;
+        if ($request->wallet){
+            $myWalletDesde = $request->wallet;
+            $myWalletHasta = $request->wallet;
+        }
+
+        $myGroupDesde = 00000;
+        $myGroupHasta = 99999;
+        if ($request->group){
+            $myGroupDesde = $request->group;
+            $myGroupHasta = $request->group;
+        }
+
+        $myTransactionDesde = 00000;
+        $myTransactionHasta = 99999;
+        if ($request->transaction){
+            $myTransactionDesde     = $request->transaction;
+            $myTransactionHasta     = $request->transaction;
+        }
+
+        $myFechaDesde = "2001-01-01";
+        $myFechaHasta = "9999-12-31";
+        if ($request->fechaDesde){
+            $myFechaDesde = $request->fechaDesde;
+        }
+        if ($request->fechaHasta){
+            $myFechaHasta = $request->fechaHasta;
+        }
+
+        $myFechaDesde   = "2001-01-01";
+        $myFechaHasta   = "9999-12-31";
+        $horaDesde      = " 00:00:00";
+        $horaHasta      = " 23:59:00";
+
+        $myFechaDesde = $myFechaDesde . $horaDesde;
+        $myFechaHasta = $myFechaHasta . $horaHasta;
+      
+
+        $myQuery =
+        "
+            select
+                mtf.commissions_usdt.id                                 as Id,
+                mtf.commissions_usdt.transaction_id                     as TransactionId,
+                mtf.commissions_usdt.wallet_id                          as WalletId,
+                wallets.name                                            as WalletName,
+                mtf.commissions_usdt.group_id                           as GroupId,
+                lcase(mtf.groups.name)                                  as GroupName,
+                mtf.commissions_usdt.type_transaction_id                as TypeTransactionId,
+                type_transactions.name                                  as TypeTransactionName,
+                transaction_date                                        as TransactionDate,
+                percentage                                              as Percentage,
+                percentage_base                                         as PercentageBase,
+                mtf.commissions_usdt.amount                             as Amount,
+                mtf.commissions_usdt.amount2                            as Amount2,
+                mtf.commissions_usdt.amount_commission                  as AmountCommission,
+                mtf.commissions_usdt.amount_commission_base             as AmountCommissionBase,
+                mtf.commissions_usdt.amount_commission_profit           as AmountCommissionProfit,
+                mtf.commissions_usdt.reload_id                          as RecargaId,
+                mtf.commissions_usdt.reload_amount                      as RecargaAmount,
+                mtf.commissions_usdt.reload_percentage_base             as RecargaPercentageBase,
+                mtf.commissions_usdt.reload_balance                     as RecargaSaldo
+            from
+                        mtf.commissions_usdt
+            left join   mtf.type_transactions   on mtf.commissions_usdt.type_transaction_id = mtf.type_transactions.id
+            left join   mtf.groups as wallets   on mtf.commissions_usdt.wallet_id           = wallets.id
+            left join   mtf.groups              on mtf.commissions_usdt.group_id            = mtf.groups.id
+            where
+                    wallet_id           between $myWalletDesde              and     $myWalletHasta
+                and type_transaction_id between $myTransactionDesde         and     $myTransactionHasta
+                and transaction_date    between '$myFechaDesde'             and     '$myFechaHasta'
+        ";
+        
+        // $Transacciones = [];
+        $Transacciones = DB::select($myQuery);
+        // dd($myQuery);
+
+        
+        // dd($Transacciones);
+        // \Log::info('leam My query *** -> ' . $myQuery);
+         
+
+        // dd($Transacciones2);
+
+
+        // dd($Transacciones4);
+
+        return [$Recargas3, $Transacciones];
+        
+
+    }    
 
 
     /*
