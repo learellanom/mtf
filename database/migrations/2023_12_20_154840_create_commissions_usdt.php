@@ -14,6 +14,9 @@ return new class extends Migration
         Schema::create('commissions_usdt', function (Blueprint $table) {
 
             $table->id();
+            
+            $table->bigInteger('transaction_id');
+
             $table->double('amount');                               //MONTO EN DOLARES
             $table->double('amount2');                               //MONTO EN DOLARES
             $table->double('amount_commission')->nullable();        //MONTO COMISION

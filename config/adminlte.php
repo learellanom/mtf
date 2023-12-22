@@ -392,6 +392,13 @@ return [
                     'icon_color' => 'primary',
                 ],
                 [
+                    'text'      => 'Detalle  USDT 3',
+                    'url'       => 'dashboardComisionesGrupo3',
+                    'active'    => ['dashboardComisionesGrupo3'],
+                    'classes'   =>  'ml-4',
+                    'icon_color' => 'primary',
+                ],
+                [
                     'text'      => 'Resumen Grupo USDT',
                     'url'       => 'dashboardComisionesGrupoRes',
                     'active'    => ['dashboardComisionesGrupoRes'],

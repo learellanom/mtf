@@ -550,6 +550,107 @@ class HomeController extends Controller
     }
 
     
+    public function comisionesGrupo3(request $request)
+    {
+        
+        // dd($request->fechaDesde . ' ' . $request->fechaHasta);
+        
+        // dd($wallet);
+        $typeTransactions           = app(statisticsController::class)->getTypeTransactions(); // *
+        
+        /* MANTENER VALOR BUSCADO EN EL URL */
+        $myWalletDesde   = 0;
+        $myWalletHasta   = 9999;
+        $myWallet        = 0;
+        if ($request->wallet){
+            $myWalletDesde   = $request->wallet;
+            $myWalletHasta   = $request->wallet;
+            $myWallet        = $request->wallet;
+        }
+
+        $myGrupoDesde   = 0;
+        $myGrupoHasta   = 9999;
+        $myGrupo        = 0;
+        if ($request->grupo){
+            $myGrupoDesde   = $request->grupo;
+            $myGrupoHasta   = $request->grupo;
+            $myGrupo        = $request->grupo;
+        }
+
+
+        $myTypeTransaction      = 0;
+        $myTypeTransactionDesde = 0;
+        $myTypeTransactionHasta = 9999;
+        if ($request->transaction) {
+            $myTypeTransaction      = $request->transaction;
+            $myTypeTransactionDesde = $request->transaction;
+            $myTypeTransactionHasta = $request->transaction;
+
+        }
+
+        $myFechaDesde = "2001-01-01";
+        $myFechaHasta = "9999-12-31";
+
+        $myFechaDesde2 = "2001-01-01";
+        $myFechaHasta2 = "9999-12-31";
+
+        if ($request->fechaDesde){
+            $myFechaDesde = $request->fechaDesde;
+            $myFechaHasta = $request->fechaHasta;
+
+            $myFechaDesde2 = $myFechaDesde . " 00:00:00";
+            $myFechaHasta2 = $myFechaHasta . " 12:59:00";
+        }
+
+        if ($request->fechaHasta){
+            $myFechaHasta = $request->fechaHasta;
+            $myFechaHasta2 = $myFechaHasta . " 12:59:00";
+            /* MANTENER VALOR BUSCADO EN EL URL */
+        }
+
+        // dd($myFechaDesde);
+        
+        $myFechaDesdeBefore = "2001-01-01";
+        $myFechaHastaBefore = "9999-12-31";
+        
+        $wallet                          = app(statisticsController::class)->getWallet();
+        $grupo                           = app(statisticsController::class)->getGroups();
+        
+        if ($myWallet != 0){
+            
+            list($Recargas, $Transacciones2) = app(statisticsController::class)->commissionsProfit3($request);
+        }else{
+            $Recargas = [];
+            $Transacciones2 = [];
+        }
+
+        // dd('transacciones 2 ->' . print_r($Transacciones2,true));
+
+        $parametros['wallet']                       = $wallet;
+        $parametros['grupo']                        = $grupo;
+        $parametros['typeTransactions']             = $typeTransactions;
+        $parametros['myWallet']                     = $myWallet;
+        $parametros['myGrupo']                      = $myGrupo;
+        $parametros['myTypeTransaction']            = $myTypeTransaction;
+        $parametros['myFechaDesde']                 = urlencode($myFechaDesde);
+        $parametros['myFechaHasta']                 = $myFechaHasta;
+        $parametros['myFechaDesdeBefore']           = $myFechaDesdeBefore;
+        $parametros['myFechaHastaBefore']           = $myFechaHastaBefore;
+
+        // die(urlencode($myFechaDesde));
+
+        $parametros['Recargas']                     = $Recargas;
+        $parametros['Transacciones']                = $Transacciones2;
+        
+        // dd($Recargas);
+         
+        // dd($parametros);
+        // dd('leam aqui 3');
+                     
+        return view('dashboardComisionesGrupo3', $parametros);
+
+    }
+
     public function USDTResumenDiario(request $request)
     {
         
