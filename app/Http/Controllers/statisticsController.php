@@ -2916,7 +2916,11 @@ class statisticsController extends Controller
             return $Transacciones;
         }
     }
-
+    function commissionProfitGenera(){
+        return redirect()->route("home");
+        $parametros =[];
+        return view('dashboardComisionesUSDTGenera', $parametros);
+    }
     function commissionProfitProcess(){
 
         // buscar cajas que realizan pagos usdt
