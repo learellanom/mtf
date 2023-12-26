@@ -401,7 +401,7 @@ $totalComisionGanancia2General  = 0;
         BuscaFechas(myFechaDesde, myFechaHasta);
 
         $('#wallet2').on('change', function (){
-
+            /*
             let myFechaDesde, myFechaHasta;
             myFechaDesde =  ($('#drCustomRanges').val()).substr(6,4) +
                             '-' +
@@ -421,7 +421,7 @@ $totalComisionGanancia2General  = 0;
             const grupo         = $('#grupo').val()     == "" ? 0 : $('#grupo').val();
 
              theRoute(wallet, grupo, myFechaDesde,myFechaHasta);
-
+            */
         });
 
         $('#grupo').on('change', function (){

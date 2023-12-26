@@ -309,9 +309,6 @@ $(document).ready(function () {
                         }
                         doc.styles.tableBodyOdd.alignment = 'center';
                         doc.styles.tableBodyEven.alignment = 'center';
-
-
-
                   },
 
         },
