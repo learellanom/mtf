@@ -6,39 +6,32 @@
 @php
 
 
-$myClass = new app\Http\Controllers\statisticsController;
+    $myClass = new app\Http\Controllers\statisticsController;
 
-$config1 =
-[
-    "allowClear" => true,
-];
-
-
-$config2 =
-[
-    "allowClear" => true,
-];
-
-$config3 = [
-    "locale" => ["format" => "DD-MM-YYYY"],
-    "allowClear" => true,
-    "showDropdowns:" => "true",
-];
-
-$config4 = [
-    "placeHolder" => "selecciona...",
-    "allowClear" => true,
-];
-
-// dd($wallet);
+    $config1 =
+    [
+        "allowClear" => true,
+    ];
 
 
-$myCantGeneral                  = 0;
-$totalComisionGeneral           = 0;
-$totalComisionBaseGeneral       = 0;
-$totalComisionExchangeGeneral   = 0;
-$totalComisionGananciaGeneral   = 0;
-$totalComisionGanancia2General  = 0;
+    $config2 =
+    [
+        "allowClear" => true,
+    ];
+
+    $config3 = [
+        "locale" => ["format" => "DD-MM-YYYY"],
+        "allowClear" => true,
+        "showDropdowns:" => "true",
+    ];
+
+    $config4 = [
+        "placeHolder" => "selecciona...",
+        "allowClear" => true,
+    ];
+
+    // dd($wallet);
+
 
 @endphp
 <style>
@@ -95,18 +88,118 @@ $totalComisionGanancia2General  = 0;
     </div>
     
     <div class="card">
-        <div class="card-header">
-            <div class="row">
-                    <label>Generado por</label>
-                    <label>Luis Arellano</label>
-                    <label>Fecha de Generacion</label>
-                    <label>22-12-2023 12:00</label>
+                              
+        <div class="card-body">
+
+
+            <div class="form-row  justify-content-center align-item-center mt-5">
+                <div class="form-group col-md-4">
+                    <label class="">Generado por</label>
+                    
+                    <div class="input-group-text">
+                    <label class="col-md-3 col-12">Luis Arellano</label>
+                    </div>
+                </div>
             </div>
+
+            <div class="form-row  justify-content-center align-item-center">
+                <div class="form-group col-md-4">
+                    <label class="">Fecha de Generacion</label>
+                    
+                    <div class="input-group-text">
+                        <label class="col-md-3 col-12">22-12-2023 12:00</label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row  justify-content-center align-item-center mt-5">
+                <div class="form-group col-md-1 col-3">
+                    <button class="btn btn-xl text-primary mx-1 shadow text-center " 
+                        title="Activo"
+                        onclick="generaComision();"
+                        >
+                        <i class="fas fa-lg fa-fw fa-coins"></i><p style="display: block;">Generar</p>
+                    </button>
+                </div>
+            </div>
+
         </div>
     </div>
 
 
 </div>
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document" style="margin-top: 10rem">
+    <div class="modal-content mx-auto" style="width: 90%">
+
+        <!--
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button> 
+        </div>
+        -->
+        <div class="modal-body">
+            <h5 class="modal-title text-center" id="myModalLabel">
+                <br>
+                <p>Procesando transacciones</p>
+                <br>
+            </h5>
+            <div class="row justify-content-center">
+                <img class="img-fluid" src="{{asset('/img/Counterrotation.gif')}}">
+                <!-- <img class="img-fluid" src="{{asset('/img/purplecircles.gif')}}"> -->
+            </div>
+        </div>
+        <!--
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary">Save changes</button>
+        </div>
+        -->
+    </div>
+  </div>
+</div>
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document" style="margin-top: 10rem">
+    <div class="modal-content mx-auto" style="width: 90%">
+
+        <!--
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button> 
+        </div>
+        -->
+        <div class="modal-body">
+            <h5 class="modal-title text-center" id="myModalLabel2">
+                <br>
+                <p>Procesando transacciones</p>
+                <br>
+            </h5>
+            <div class="row justify-content-center">
+                <h5 class="modal-title text-center" id="myModalLabel2">
+                    <br>
+                    <p>Comisiones Procesadas Exitosamente</p>
+                    <br>
+                </h5>
+                <!-- <img class="img-fluid" src="{{asset('/img/purplecircles.gif')}}"> -->
+            </div>
+        </div>
+        
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Aceptar</button>
+            <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+        </div>
+        
+    </div>
+  </div>
+</div>
+
 
 @endsection
 @section('js')
@@ -261,195 +354,7 @@ $totalComisionGanancia2General  = 0;
         document.body.style.background = color;
     }
 
-    function cargaTransacciones(){
-        @foreach($typeTransactions as $key => $value)
-            // console.log('el grupo con key {!! $key !!} es {!! $value !!}');
-            $('#my-select').multiSelect('addOption', { value: '{!! $key !!}', text: '{!! $value !!}' });
-        @endforeach
-    }
-    /*
-    *
-    *
-    * grabaFiltros
-    * graba los filtros generales
-    * 
-    * 
-    */
-    function grabaFiltros(){
 
-        let myDataTransactions          = buscaFiltros("my-select");
-        let ocultarresumengeneral       = $('#ResumenGeneral').prop("checked");
-        let ocultarresumentransaccion   = $('#ResumenTransaccion').prop("checked");
-        
-        // alert('grabaFiltros : ocultarresumengeneral -> ' + ocultarresumengeneral + '  ocultarresumentransaccion -> ' + ocultarresumentransaccion + ' myDataTransactions -> ' + myDataTransactions);
-
-        $.ajax(
-            {
-                headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
-                method: "POST",
-                url: "{{route('filtrosGrabaComisionesGrupo')}}",
-                async: false,
-                data: { 
-                    ocultarresumengeneral: ocultarresumengeneral,
-                    ocultarresumentransaccion: ocultarresumentransaccion,
-                    transactions: myDataTransactions,      
-                },
-            }
-        ).done (function(myData) {
-
-         // alert('vino');
-
-        });
-
-        return;
-    }
-    
-
-
-    function buscaFiltros(myFilter = ""){
-        
-        if (myFilter=="") return "";
-
-        let filtrosSeleccionado = [];
-        filtrosSeleccionado.push(0);
-        $("#" + myFilter + " option:selected").each(function(){
-            filtrosSeleccionado.push($(this).attr('value'));
-        });  
-        // alert ("filtros de grupos ->" + filtrosSeleccionado.toString());
-        return  filtrosSeleccionado;
-    }
-
-
-    function leeFiltros(){
-
-        let myocultarresumengeneral     = "{{ ($myocultarresumengeneral) ? true : false  }}" ? true : false;
-        let myocultarresumentransaccion = "{{ ($myocultarresumentransaccion) ? true : false  }}" ? true : false;
-
-        if (myocultarresumengeneral){
-            $('#ResumenGeneral').prop("checked",true);
-        }else{
-            $('#ResumenGeneral').prop("checked",false);
-        }
-
-        if (myocultarresumentransaccion){
-            $('#ResumenTransaccion').prop("checked",true);
-        }else{
-            $('#ResumenTransaccion').prop("checked",false);
-        }
-
-        let myData2 = [];
-
-        @foreach($mytransactions as $value)
-            myData2.push({{$value}});
-        @endforeach
-
-        // alert(myData2);
-
-        myData2.map( function (valor) {
-
-            $("#my-select option").each(function(){
-                if (valor == $(this).attr('value')){
-                    $('#my-select').multiSelect('select', valor.toString());
-
-                }
-            });
-
-        });          
-    }
-
-
-    function aplicaFiltros(){
-
-        $('#myCanvasGeneral').attr("hidden",false);
-        $('#myCanvas').attr("hidden",false);
-
-        if( $('#ResumenGeneral').is(':checked') ) {
-            $('#myCanvasGeneral').attr("hidden",true);
-            
-        }
-
-        if( $('#ResumenTransaccion').is(':checked') ) {
-            $('#myCanvas').attr("hidden",true);
-        }
-
-            
-        // alert('aqui');
-        $("#myCanvas div").each(function(){
-            $(this).removeAttr("hidden");
-        });
-
-        $("#my-select option:selected").each(function(){
-            
-            seleccionado = $(this).attr('value');
-
-            $("#myCanvas div").each(function(){
-                if($(this).data("id")){
-                                            
-                    if ($(this).data("id") == seleccionado){
-                        
-                        $(this).attr("hidden",true);
-                    }
-                }
-            });
-        });
-    }
-
-
-    function exportaEstadisticas(myResumen = 0){
-        
-        let transactions                = buscaFiltros("my-select");
-        let ocultarresumengeneral       = $('#ResumenGeneral').prop("checked");
-        let ocultarresumentransaccion   = $('#ResumenTransaccion').prop("checked");
-
-        let fechaDesde                  = "{{$myFechaDesde}}";
-        let fechaHasta                  = "{{$myFechaHasta}}";
-        let wallet                      = "{{$myWallet}}";
-        
-        let transaction                 = "{{$myTypeTransaction ?? 0}}"; 
-
-        myRoute = "{{route('exportsComisiones.excel', ['wallet' => 'wallet2', 'transaction' => 'transaction2', 'fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2', 'ocultarresumengeneral' => 'ocultarresumengeneral2', 'ocultarresumentransaccion' => 'ocultarresumentransaccion2', 'transactions' => 'transactions2'])}}"
-
-        myRoute = myRoute.replace('wallet2',                        wallet);
-        myRoute = myRoute.replace('transaction2',                   transaction);        
-        myRoute = myRoute.replace('fechaDesde2',                    fechaDesde);
-        myRoute = myRoute.replace('fechaHasta2',                    fechaHasta);
-        myRoute = myRoute.replace('ocultarresumengeneral2',         ocultarresumengeneral);
-        myRoute = myRoute.replace('ocultarresumentransaccion2',     ocultarresumentransaccion);
-        myRoute = myRoute.replace('transactions2',                  transactions);
-
-        // alert(' myRoute ->' + myRoute);
-
-        location.href = myRoute;
-    }
-
-    function exportaEstadisticasPDF(myResumen = 0){
-        
-        let transactions                = buscaFiltros("my-select");
-        let ocultarresumengeneral       = $('#ResumenGeneral').prop("checked");
-        let ocultarresumentransaccion   = $('#ResumenTransaccion').prop("checked");
-
-        let fechaDesde                  = "{{$myFechaDesde}}";
-        let fechaHasta                  = "{{$myFechaHasta}}";
-        let wallet                      = "{{$myWallet}}";
-
-        let transaction                 = "{{$myTypeTransaction}}"; 
-
-        // href={{route('exports.excel', [$myWallet, $myFechaDesde, $myFechaHasta])}}
-
-        myRoute = "{{route('exports.EstadisticaComisionesPDF', ['wallet' => 'wallet2', 'transaction' => 'transaction2', 'fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2', 'ocultarresumengeneral' => 'ocultarresumengeneral2', 'ocultarresumentransaccion' => 'ocultarresumentransaccion2', 'transactions' => 'transactions2'])}}"
-                            
-        myRoute = myRoute.replace('wallet2',                        wallet);
-        myRoute = myRoute.replace('transaction2',                   transaction);
-        myRoute = myRoute.replace('fechaDesde2',                    fechaDesde);
-        myRoute = myRoute.replace('fechaHasta2',                    fechaHasta);
-        myRoute = myRoute.replace('ocultarresumengeneral2',         ocultarresumengeneral);
-        myRoute = myRoute.replace('ocultarresumentransaccion2',     ocultarresumentransaccion);
-        myRoute = myRoute.replace('transactions2',                  transactions);
-
-        // alert(' myRoute vvv->' + myRoute);
-
-        location.href = myRoute;
-    }
 
     function toggleBotones(){
         
@@ -459,17 +364,36 @@ $totalComisionGanancia2General  = 0;
 
 
     }
-    function BuscaGrupo(miGrupo = ""){
 
-        if (miGrupo == "") return;
+    function generaComision(){
 
-        $('#grupo').each( function(index, element){
-            $(this).children("option").each(function(){
-                if ($(this).val() === miGrupo.toString()){   
-                    $("#grupo option[value="+ miGrupo +"]").attr("selected",true);
+        $('#myModal').modal('show');
+        
+        //alert('apiUpdateStatus');
+        //return;
+        // let data    = { id:  id };
+        // let token   = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+        fetch("{{route('dashboardComisionesUSDTProcess')}}")
+        .then(response => {
+            return response.json()
+        }).then(data =>{        
+
+            // {"success":true,"result":"Processed","message":"Procesado con extito"}
+            console.log('Genero ->' + JSON.stringify(data));
+
+            if(data.success){
+                if(data.result == "Procesadas"){
+                    $('#myModal').modal('hide');
+                    $('#myModal2').modal('show');
+                    location.href = "{{route('dashboardComisionesUSDTGenera')}}";
                 }
-            });
-        });
+            // $('#myBtnAnular').attr('disabled',true);
+            }else{
+              console.log('no genero comisiones ->');
+            }
+
+        }).catch(error => console.error( 'Error en Fetch -> ' + error));
     }
 
 </script>

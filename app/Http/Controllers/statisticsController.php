@@ -2917,13 +2917,14 @@ class statisticsController extends Controller
         }
     }
     function commissionProfitGenera(){
-        return redirect()->route("home");
+        // return redirect()->route("home");
         $parametros =[];
         return view('dashboardComisionesUSDTGenera', $parametros);
     }
     function commissionProfitProcess(){
 
         // buscar cajas que realizan pagos usdt
+        
         
         $myTransaction = 11;
         $myQuery =
@@ -2992,6 +2993,10 @@ class statisticsController extends Controller
             }
             
         }
+
+        return response()->json(['success' => true, 'result' => 'Procesadas', 'message' => 'Comisiones procesadas con exito'], 200);
+
+
         echo "leam - aqui -> " . auth()->id() . "-----";
         die();
         dd("leam - aqui -> " . auth()->id() . "-----");
