@@ -97,7 +97,7 @@
                     <label class="">Generado por</label>
                     
                     <div class="input-group-text">
-                    <label class="col-md-3 col-12">Luis Arellano</label>
+                    <label class="col-md-3 col-12">{{ $comisionesUSDT->name ?? ""}}</label>
                     </div>
                 </div>
             </div>
@@ -107,7 +107,7 @@
                     <label class="">Fecha de Generacion</label>
                     
                     <div class="input-group-text">
-                        <label class="col-md-3 col-12">22-12-2023 12:00</label>
+                        <label class="col-md-3 col-12">{{ $comisionesUSDT-> created_at2}}</label>
                     </div>
                 </div>
             </div>
@@ -209,6 +209,7 @@
    
 
     @php
+     // dd($comisionesUSDT);
     @endphp
 
 
