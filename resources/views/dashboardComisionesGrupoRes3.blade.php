@@ -97,7 +97,7 @@ $totalComisionGanancia2General  = 0;
 <div class="container justify-content-center" style="display: contents;">
 
     <div class="row col-12 col-md-12 justify-content-center text-center align-items-center" style="min-height: 5rem !important">
-        <h4>Detalle de comisiones USDT 3</h4>
+        <h4>Resumen de comisiones Grupo USDT 3</h4>
     </div>
     
     <div class="card">
@@ -409,7 +409,7 @@ $totalComisionGanancia2General  = 0;
         BuscaFechas(myFechaDesde, myFechaHasta);
 
         $('#wallet2').on('change', function (){
-            /*
+            
 
             let myFechaDesde, myFechaHasta;
             myFechaDesde =  ($('#drCustomRanges').val()).substr(6,4) +
@@ -425,15 +425,13 @@ $totalComisionGanancia2General  = 0;
                             '-' +
                             ($('#drCustomRanges').val()).substr(13,2)
                             ;
-            */
+            
             const wallet        = $('#wallet2').val()   == "" ? 0 : $('#wallet2').val();
             const grupo         = $('#grupo').val()     == "" ? 0 : $('#grupo').val();
             if (!wallet){
                 return;
             }
-            if (!grupo){
-                return;
-            }            
+         
              theRoute(wallet, grupo, myFechaDesde,myFechaHasta);
 
             
@@ -895,51 +893,7 @@ $totalComisionGanancia2General  = 0;
 
                                     $myDate2 = Date(substr($wallet2->TransactionDate,0,10));
                                     $myContinue = 0;
-                                    // 
-                                    // Filtra transacciones
-                                    //
-                                    foreach($Transacciones as $myTransaccion){
 
-                                        $myDateTransaccion = Date(substr($myTransaccion->TransactionDate,0,10));
-                                        
-                                        
-                                        if ($myDateTransaccion >= $myFechaDesdeDate && $myDateTransaccion <= $myFechaHastaDate) {                            
-                                            // preguntar si la recarga esta en ese rango
-
-
-
-
-                                            if ($myGrupo == 0) {
-                                                
-                                                if ($myTransaccion->RecargaId == $wallet2->Id) {
-                                                    $myContinue = 1;
-                                                    break;
-                                                }
-
-
-                                            }else{
-                                                if ($myGrupo == $myTransaccion->GroupId){
-                                                    // $myContinue = 1;
-
-                                                    
-                                                    if ($myTransaccion->RecargaId == $wallet2->Id) {
-                                                        $myContinue = 1;
-                                                        break;
-                                                    }
-
-
-                                                }else{
-                                                    $myContinue = 0;
-                                                }
-                                            }
-
-
-
-
-
-                                        }
-                                    
-                                    };
                                    
 
                                 @endphp
@@ -1030,14 +984,14 @@ $totalComisionGanancia2General  = 0;
                         <tr>
                             <th class="" style="width: 100px;">Id</th>
                             <th class="myWidth22"             >Wallet</th>
+                            <th class="myWidth22"             >Id Transaccion</th>
                             <th class="myWidth22"             >Transacción</th>
+                            <th class="myWidth22"             >Id Grupo</th>                            
                             <th class="myWidth22"             >Grupo</th>
                             <th class="myTdColor2 myWidth22"  >Monto</th>
                             <th class="myTdColor2 myWidth22"  >Mto Comision</th>
                             <th class="myTdColor3 myWidth22"  >Mto Comision Base</th>
                             <th class="myTdColor3 myWidth22"  >Comision Ganancia</th>
-                            <th></th>
-                            <th></th>
                         </tr>
                     </thead>
                     @php
@@ -1061,49 +1015,21 @@ $totalComisionGanancia2General  = 0;
                     @if(count($Transacciones)>0)
                         @foreach($Transacciones as $key => $wallet2)
                             @php 
-                                    $myDate = new DateTime($wallet2->TransactionDate);
-
-                                    $myDate2 = Date(substr($wallet2->TransactionDate,0,10));~
 
                                     // dd($myDate);
 
                                     //
                                     // filtra
                                     //
-                                    $myContinue = 0;
-                                    if ($myDate2 >= $myFechaDesdeDate && $myDate2 <= $myFechaHastaDate) {                                    
-                                        $myContinue = 1;
-                                        
-                                        // \Log::info("leam - myDate -> " . print_r($myDate2, true) . " - myFechaDesdeDate -> " . print_r($myFechaDesdeDate,true) . " - myFechaHastaDate -> " . print_r($myFechaHastaDate,true) . " - continue ->" . $myContinue);
-
-                                        if ($myGrupo == 0) {
-                                            $myContinue = 1;
-                                        }else{
-                                            if ($myGrupo == $wallet2->GroupId){
-                                                $myContinue = 1;
-                                            }else{
-                                                $myContinue = 0;
-                                            }
-                                        }
-                                    }                                    
+                                    $myContinue = 1;
+                              
                             @endphp
                             @if($myContinue == 0)
                                     @continue
                             @endif
-                            <tr class="myTr">
+                            <tr class="myTr" onclick="theRoute2({{ $wallet2->WalletId}}, {{ $wallet2->GroupId}})">
                                 @php
 
-                                    if ($cant == 0){
-                                        $myId               =   $wallet2->Id;
-                                        
-                                    }
-                                    if ($myId != $wallet2->Id){
-                                        // $myTotalCommission  +=  $totalComision;
-                                        $myTotalAmount      +=  $totalAmount ;
-                                        $myId               =   $wallet2->Id;
-                                        // $totalComision      =   0;
-                                        $totalAmount        =   0;
-                                    }
 
                                     $my_total_commission_profit     =   0;
 
@@ -1115,7 +1041,7 @@ $totalComisionGanancia2General  = 0;
                                     $cant                           += 1;
                                 @endphp
 
-                                <td class="myWidth22"   >{{ $wallet2->Id}}</td>   
+                                <td class="myWidth22"   >{{ $wallet2->WalletId}}</td>   
                                 <td class="myWidth22"   >{{ $wallet2->WalletName}}</td>
                                 <td class="myWidth22"   >{{ $wallet2->TypeTransactionId}}</td>                                
                                 <td class="myWidth22"   >{{ $wallet2->TypeTransactionName}}</td>
@@ -1138,21 +1064,19 @@ $totalComisionGanancia2General  = 0;
                         @endphp
                         
                         <tfoot>
-                        <tr style="background-color: black; color:white;">
-                            <td                     ></td>                    
-                            <td                     ></td>
-                            <td                     ></td>
-                            <td                     ></td>
-                            <td                     ></td>
-                            <td                     ></td>
-                            <td class="myTdColor2"  >{{ number_format($myTotalAmount,2) }}</td>
-                            <td class="myTdColor2"  >{{ number_format($totalComision,2) }}</td>
-                            <td class="myTdColor3"  >{{ number_format($totalComisionBase,2) }}</td>
-                            <td class="myTdColor3"  >{{ number_format($totalComisionGanancia,2) }}</td>
-                        </tr>
+                            <tr style="background-color: black; color:white;">
+                                <td                     ></td>                    
+                                <td                     ></td>
+                                <td                     ></td>
+                                <td                     ></td>
+                                <td                     ></td>
+                                <td                     ></td>
+                                <td class="myTdColor2"  >{{ number_format($myTotalAmount,2) }}</td>
+                                <td class="myTdColor2"  >{{ number_format($totalComision,2) }}</td>
+                                <td class="myTdColor3"  >{{ number_format($totalComisionBase,2) }}</td>
+                                <td class="myTdColor3"  >{{ number_format($totalComisionGanancia,2) }}</td>
+                            </tr>
                         </tfoot>
-                                
-                    
                         @if($cant == 0)
                             <tr class="myTr"">
                                 <td colspan="16">
@@ -1162,7 +1086,6 @@ $totalComisionGanancia2General  = 0;
                                 </td>
                             </tr>                    
                         @endif
-
                     @else
                         <tr class="myTr"">
                             <td colspan="16">
@@ -1190,7 +1113,7 @@ $totalComisionGanancia2General  = 0;
     function theRoute(wallet = '', grupo = 0, fechaDesde = '', fechaHasta = ''){
 
         let myRoute = "";
-
+                            
         myRoute = "{{ route('dashboardComisionesGrupoRes3', ['wallet' => 'wallet2' , 'grupo' => 'grupo2' ,'fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2']) }}";
         
         myRoute = myRoute.replace('wallet2',wallet);
@@ -1203,22 +1126,21 @@ $totalComisionGanancia2General  = 0;
     }
 
 
-    function theRoute2(usuario = 0, grupo = 0, wallet = 0, typeTransactions = 0, fechaDesde = 0, fechaHasta = 0){
+    function theRoute2(wallet = 0, grupo = 0, fechaDesde = 0, fechaHasta = 0){
+        
 
-        if (usuario  === "") usuario  = 0;
         if (grupo  === "") grupo  = 0;
         if (wallet  === "") wallet  = 0;
-        if (typeTransactions  === "") typeTransactions  = 0;
         
         fechaDesde = $('#drCustomRanges').data('daterangepicker').startDate.format('YYYY-MM-DD')
         fechaHasta = $('#drCustomRanges').data('daterangepicker').endDate.format('YYYY-MM-DD')
 
         let myRoute = "";
-            myRoute = "{{ route('estadisticasDetalle', ['usuario' => 'usuario2', 'grupo' => 'grupo2', 'wallet' => 'wallet2', 'typeTransactions' => 'typeTransactions2','fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2']) }}";
+            myRoute = "{{ route('dashboardComisionesGrupo3', ['wallet' => 'wallet2', 'grupo' => 'grupo2', 'fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2']) }}";
             myRoute = myRoute.replace('grupo2',grupo);
-            myRoute = myRoute.replace('usuario2',usuario);
+
             myRoute = myRoute.replace('wallet2',wallet);
-            myRoute = myRoute.replace('typeTransactions2',typeTransactions);
+            
             myRoute = myRoute.replace('fechaDesde2',fechaDesde);
             myRoute = myRoute.replace('fechaHasta2',fechaHasta);
         // console.log(myRoute);

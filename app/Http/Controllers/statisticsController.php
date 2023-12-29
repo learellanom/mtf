@@ -4861,7 +4861,7 @@ class statisticsController extends Controller
                  type_transactions.name                          as TypeTransactionName,
                  transaction_date                                as TransactionDate,
                  percentage                                      as Percentage,
-                 1.5                                 as PercentageBase,
+                 1.5                                             as PercentageBase,
                  exchange_rate                                   as ExchangeRate,
                  exchange_rate_base                              as ExchangeRateBase,
                  mtf.transactions.amount_foreign_currency        as AmountForeignCurrency,
@@ -4897,7 +4897,7 @@ class statisticsController extends Controller
         
         usort($Recargas3, function($a, $b) {return strcmp($a->TransactionDate, $b->TransactionDate);});
 
-       // dd($Recargas3);
+        // dd($Recargas3);
         //
         //
         // Busca transacciones de pagos
@@ -4947,39 +4947,44 @@ class statisticsController extends Controller
         $myQuery =
         "
         SELECT
-            wallet_id,
-            wallets.name,
-            type_transaction_id,
-            type_transactions.name,
-            group_id,
-            grupos.name,
-            sum(amount),
-            sum(amount2),
-            sum(amount_commission),
-            sum(amount_commission_base),
-            sum(amount_commission_profit)
+            wallet_id                       as WalletId,
+            wallets.name                    as WalletName,
+            type_transaction_id             as TypeTransactionId,
+            type_transactions.name          as TypeTransactionName,
+            group_id                        as GroupId,
+            grupos.name                     as GroupName,
+            sum(amount)                     as Amount,
+            sum(amount2)                    as Amount2,
+            sum(amount_commission)          as AmountCommission,
+            sum(amount_commission_base)     as AmountCommissionBase,
+            sum(amount_commission_profit)   as AmountCommissionProfit
         FROM mtf.commissions_usdt
             left join mtf.groups as wallets on mtf.commissions_usdt.wallet_id   = wallets.id
             left join mtf.groups as grupos on mtf.commissions_usdt.group_id 	= grupos.id
             left join mtf.type_transactions type_transactions on mtf.commissions_usdt.type_transaction_id = type_transactions.id
         where 
                 wallet_id 	        between $myWalletDesde      and $myWalletHasta
-            and group_id 	        between $myGroupDesde       and $myGroupDesde
+            and group_id 	        between $myGroupDesde       and $myGroupHasta
             and transaction_date    between '$myFechaDesde'     and '$myFechaHasta'
         group by
             wallet_id,
-            grupos.name
+            WalletName,
+            GroupId,
+            grupos.name,
+            TypeTransactionId,
+            TypeTransactionName
         order by
             wallet_id,
             grupos.name
         ";
 
         // dd($myQuery);
-         // dd($Transacciones);
+        
         // \Log::info('leam My query *** -> ' . $myQuery);
 
         $Transacciones  = DB::select($myQuery);
-
+        // dd($Transacciones);
+        // dd($Recargas3);
         return [$Recargas3, $Transacciones];
 
     }

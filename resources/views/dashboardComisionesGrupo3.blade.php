@@ -940,7 +940,7 @@ $totalComisionGanancia2General  = 0;
                                 @if($myContinue == 0)
                                    @continue;
                                 @endif
-                                <td>{{ $wallet2->WalletName}}</td>                               
+                                <td>{{ $wallet2->WalletName}}</d>                               
                                 <td>{{ $wallet2->Id}}</td>       
                                 <td>{{ $wallet2->TypeTransactionName}}</td>
                                 <td>{{ $wallet2->GroupName}}</td>
@@ -1022,7 +1022,7 @@ $totalComisionGanancia2General  = 0;
                 <table class="table thead-light" style="background-color: white;" id="myTable">
                     <thead class="thead-dark">
                         <tr>
-                            <th class="" style="width: 100px;">Id</th>                        
+                            <th class="" style="width: 100px;">Wallet Id</th>                        
                             <th class="myWidth22"             >Wallet</th>
                             <th class="myWidth22"             >Transacción</th>
                             <th class="myWidth22"             >Grupo</th>                                
@@ -1117,7 +1117,7 @@ $totalComisionGanancia2General  = 0;
                                     $cant                           += 1;
                                 @endphp
 
-                                <td class="myWidth22"   >{{ $wallet2->Id}}</td>   
+                                <td class="myWidth22"   >{{ $wallet2->TransactionId}}</td>   
                                 <td class="myWidth22"   >{{ $wallet2->WalletName}}</td>                               
                                 <td class="myWidth22"   >{{ $wallet2->TypeTransactionName}}</td>
                                 <td class="myWidth22"   >{{ $wallet2->GroupName}}</td>
@@ -1135,7 +1135,7 @@ $totalComisionGanancia2General  = 0;
                                 <td class="myWidth22"   >{{ number_format($wallet2->RecargaSaldo,2) }}</td>    
                                 <td>
                                     <a 
-                                        href="{{ route('transactions.show', $wallet2->Id) }}" 
+                                        href="{{ route('transactions.show', $wallet2->TransactionId) }}" 
                                         class="btn btn-xs text-dark shadow text-center">
                                         <i class="fas fa-eye" style="color: blue;"></i>
                                     </a>
