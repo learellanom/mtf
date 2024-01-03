@@ -92,6 +92,10 @@ Route::get('dashboardComisionesGrupoRes', [App\Http\Controllers\HomeController::
 Route::get('dashboardComisionesGrupoRes/{wallet?}/{grupo?}', [App\Http\Controllers\HomeController::class, 'comisionesGrupoRes'])->name('dashboardComisionesGrupoRes');
 Route::get('dashboardComisionesGrupoRes/{wallet?}/{grupo?}/{fechaDesde?}/{fechaHasta?}', [App\Http\Controllers\HomeController::class, 'comisionesGrupoRes'])->name('dashboardComisionesGrupoRes');
 
+Route::get('dashboardComisionesGrupoRes3',                                                  [App\Http\Controllers\HomeController::class, 'comisionesGrupoRes3'])->name('dashboardComisionesGrupoRes3');
+Route::get('dashboardComisionesGrupoRes3/{wallet?}/{grupo?}',                               [App\Http\Controllers\HomeController::class, 'comisionesGrupoRes3'])->name('dashboardComisionesGrupoRes3');
+Route::get('dashboardComisionesGrupoRes3/{wallet?}/{grupo?}/{fechaDesde?}/{fechaHasta?}',   [App\Http\Controllers\HomeController::class, 'comisionesGrupoRes3'])->name('dashboardComisionesGrupoRes3');
+
 
 Route::get('USDTResumenDiario/{wallet?}/{fechaDesde?}/{fechaHasta?}', [App\Http\Controllers\HomeController::class, 'USDTResumenDiario'])->name('USDTResumenDiario');
 

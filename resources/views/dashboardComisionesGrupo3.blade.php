@@ -620,101 +620,96 @@ $totalComisionGanancia2General  = 0;
             'buttons':[
                 {
                     extend:  'excelHtml5',
-                    exportOptions: { columns: [ 1, 2, 3,4,5,6,8,9,10 ] },
+                    exportOptions: { columns: [ 1, 2, 3,4,5,6,7,8,9,10, 11, 12,13,14,15,16 ] },
                     text:    '<i class="fas fa-file-excel"></i>',
                     titleAttr: 'Exportar Excel',
                     className: 'btn btn-success',
                     "excelStyles": [
-                    {
-                        "template": ["title_medium", "gold_medium"]
-                    },
+                        {
+                            "template": ["title_medium", "gold_medium"]
+                        },
+                        {
+                            "cells": "2",
+                            "style": {
+                                "font": {
+                                    "size": "18",
+                                    "color": "FFFFFF"
+                                },
+                                "fill": {
+                                    "pattern": {
+                                        "type": "solid",
+                                        "color": "002B5B"
+                                    }
+                                },
 
-                    {
-                        "cells": "2",
-                        "style": {
-                            "font": {
-                                "size": "18",
-                                "color": "FFFFFF"
-                            },
-                            "fill": {
-                                "pattern": {
-                                    "type": "solid",
-                                    "color": "002B5B"
-                                }
-                            },
-
-                        }
-                    },
-                    {
-                        "cells": "1",
-                        "style": {
-                            "font": {
-                                "size": "20",
-                                "color": "FFFFFF"
-                            },
-                            "fill": {
-                                "pattern": {
-                                    "size": "25",
-                                    "type": "solid",
-                                    "color": "0B2447",
+                            }
+                        },
+                        {
+                            "cells": "1",
+                            "style": {
+                                "font": {
+                                    "size": "20",
+                                    "color": "FFFFFF"
+                                },
+                                "fill": {
+                                    "pattern": {
+                                        "size": "25",
+                                        "type": "solid",
+                                        "color": "0B2447",
+                                    }
                                 }
                             }
-                        }
-                    },
-
+                        },
                         {
                             'cells': "sB",
                             'template': "date_long",
                         },
                         {
-                                "cells": "A",
-                                "width": "19",
-                            },
-                            {
-                                "cells": "B",
-                                "width": "50",
-                            },
-                            {
-                                "cells": "C",
-                                "width": "20",
-                            },
-                            {
-                                "cells": "D",
-                                "width": "23.43",
-                            },
-                            {
-                                "cells": "E",
-                                "width": "22.14",
-                            },
-                            {
+                            "cells": "A",
+                            "width": "19",
+                        },
+                        {
+                            "cells": "B",
+                            "width": "50",
+                        },
+                        {
+                            "cells": "C",
+                            "width": "20",
+                        },
+                        {
+                            "cells": "D",
+                            "width": "23.43",
+                        },
+                        {
+                            "cells": "E",
+                            "width": "22.14",
+                        },
+                        {
                             "cells": "F",
                             "width": "25.86",
                             "style": {
                                 "numFmt": "#,##0;(#,##0)"
                             }
                         },
-                            {
-                                "cells": "G",
-                                "width": "30",
-                            },
-                            {
-                                "cells": "H",
-                                "width": "20",
-                            },
-                            {
-                                "cells": "I",
-                                "width": "12",
-                                "style": {
-                                    "font": {                 // Style the font
-                                            "b": true,
-                                            "size" : "14"
-                                            },
+                        {
+                            "cells": "G",
+                            "width": "30",
+                        },
+                        {
+                            "cells": "H",
+                            "width": "20",
+                        },
+                        {
+                            "cells": "I",
+                            "width": "12",
+                            "style": {
+                                "font": {                 // Style the font
+                                    "b": true,
+                                    "size" : "14"
                                 },
-
                             },
-
-                ]
-
+                        },
+                    ]
                 },
                 {
                     extend:  'pdfHtml5',
@@ -940,7 +935,7 @@ $totalComisionGanancia2General  = 0;
                                 @if($myContinue == 0)
                                    @continue;
                                 @endif
-                                <td>{{ $wallet2->WalletName}}</td>                               
+                                <td>{{ $wallet2->WalletName}}</d>                               
                                 <td>{{ $wallet2->Id}}</td>       
                                 <td>{{ $wallet2->TypeTransactionName}}</td>
                                 <td>{{ $wallet2->GroupName}}</td>
@@ -1022,7 +1017,7 @@ $totalComisionGanancia2General  = 0;
                 <table class="table thead-light" style="background-color: white;" id="myTable">
                     <thead class="thead-dark">
                         <tr>
-                            <th class="" style="width: 100px;">Id</th>                        
+                            <th class="" style="width: 100px;">Wallet Id</th>                        
                             <th class="myWidth22"             >Wallet</th>
                             <th class="myWidth22"             >Transacción</th>
                             <th class="myWidth22"             >Grupo</th>                                
@@ -1117,7 +1112,7 @@ $totalComisionGanancia2General  = 0;
                                     $cant                           += 1;
                                 @endphp
 
-                                <td class="myWidth22"   >{{ $wallet2->Id}}</td>   
+                                <td class="myWidth22"   >{{ $wallet2->TransactionId}}</td>   
                                 <td class="myWidth22"   >{{ $wallet2->WalletName}}</td>                               
                                 <td class="myWidth22"   >{{ $wallet2->TypeTransactionName}}</td>
                                 <td class="myWidth22"   >{{ $wallet2->GroupName}}</td>
@@ -1135,7 +1130,7 @@ $totalComisionGanancia2General  = 0;
                                 <td class="myWidth22"   >{{ number_format($wallet2->RecargaSaldo,2) }}</td>    
                                 <td>
                                     <a 
-                                        href="{{ route('transactions.show', $wallet2->Id) }}" 
+                                        href="{{ route('transactions.show', $wallet2->TransactionId) }}" 
                                         class="btn btn-xs text-dark shadow text-center">
                                         <i class="fas fa-eye" style="color: blue;"></i>
                                     </a>

@@ -599,6 +599,21 @@
             let myDate      = new Date($('#fecha').val());
             let myDateNow   = new Date();
 
+            // valida cuantos dias hacia atras se permite cargar una transaccion
+            
+            let myDays;
+            myDays = 4;
+            myDays = 7;
+
+            let myDateBefore = new Date();
+                myDateBefore.setDate(myDateBefore.getDate() - myDays);
+
+            if (myDate <= myDateBefore){
+                Swal.fire(`Error: Fecha de transacción no puede ser menor a ${myDays} dias anteriores a la fecha`);
+                return false;
+            }
+
+
             if (myDate > myDateNow){
                 Swal.fire('Error: Fecha de transacción no puede ser mayor a la fecha');
                 return false;
