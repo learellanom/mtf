@@ -1036,7 +1036,7 @@ $totalComisionGanancia2General  = 0;
                                     $totalComision                  +=  $wallet2->AmountCommission;
                                     $totalComisionBase              += $wallet2->AmountCommissionBase;
                                     $totalComisionGanancia          += $wallet2->AmountCommissionProfit;   
-                                    $totalAmount                    =  $wallet2->Amount;
+                                    $totalAmount                    +=  $wallet2->Amount;
 
                                     $cant                           += 1;
                                 @endphp

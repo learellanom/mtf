@@ -1,4 +1,4 @@
-    @extends('adminlte::page')
+@extends('adminlte::page')
 
 @section('title', 'Transacciones')
 
@@ -97,7 +97,7 @@
                                     <th style="width:1%;">Cliente</th>
                                     <th style="display:none;">Token</th>
                                     <th>Fecha</th>
-                                    {{-- <th>Fecha Creacion</th> --}}
+                                    <th>Fecha Creacion</th>
                                     <th>Descripción</th>
                                     <th style="width:1%;"><p style="display:none;"> %</p><i class="fas fa-percentage"></i></th>
                                     <th style="width:15%;">Monto <i class="fas fa-globe-europe"></i> <p style="display:none;">Moneda Extranjera</p></th>
@@ -145,7 +145,7 @@
                                         <td class="font-weight-bold" style="display:none;">{!! $transferencias->token !!}</td>
 
                                         <td class="font-weight-bold" style="min-width: 80px;">{!! $transferencias->transaction_date !!}</td>
-                                        {{-- <td class="font-weight-bold" style="min-width: 80px;">{!! $transferencias->created_at !!}</td> --}}
+                                        <td class="font-weight-bold" style="min-width: 80px;">{!! $transferencias->created_at !!}</td>
                                         <td class="font-weight-bold">
                                             <div style='width:60px; height:60px; overflow:hidden;'>{!!  $transferencias->description !!}</div>
                                         </td>

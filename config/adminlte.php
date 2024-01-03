@@ -420,6 +420,7 @@ return [
                     'url'       => 'dashboardComisionesUSDTGenera',
                     'active'    => ['dashboardComisionesUSDTGenera'],
                     'classes'   =>  'ml-4',
+                    'can'       => 'dashboardComisionesUSDTGenera',
                     'icon_color' => 'primary',
                 ],                
             ]
