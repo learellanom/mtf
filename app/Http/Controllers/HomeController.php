@@ -1005,7 +1005,7 @@ class HomeController extends Controller
             $myGrupoHasta   = $request->grupo;
             $myGrupo        = $request->grupo;
         }
-
+        // dd($request->grupo);
         $myTypeTransaction      = 0;
         $myTypeTransactionDesde = 0;
         $myTypeTransactionHasta = 9999;

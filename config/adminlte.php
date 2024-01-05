@@ -475,6 +475,12 @@ return [
             'icon' => 'fas fa-fw fas fa-chart-bar',
             'can'  => 'estadisticasDetalle.estadisticasFechaTokens',
         ],
+        [
+            'text'      => 'Consolidado de Movimientos',
+            'url'       => 'consolidadoMovimientosGrupo',
+            'active'    => ['consolidadoMovimientosGrupo' ],
+            'icon'      => 'fas fa-fw fas fa-chart-bar',
+        ],        
         ['header' => 'Operaciones',
         'classes' =>'text-uppercase font-weight-bold text-light',],
         [

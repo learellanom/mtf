@@ -430,10 +430,9 @@ $totalComisionGanancia2General  = 0;
             }            
              theRoute(wallet, grupo, myFechaDesde,myFechaHasta);
 
-            
         }).on('select2:open', () => {
              document.querySelector('.select2-search__field').focus();
-         });
+        });
 
         $('#grupo').on('change', function (){
 
@@ -457,6 +456,7 @@ $totalComisionGanancia2General  = 0;
             if (!grupo){
                 return;
             }
+            // alert('leam - aqui');
              theRoute(wallet, grupo, myFechaDesde,myFechaHasta);
 
         }).on('select2:open', () => {
@@ -1221,7 +1221,7 @@ $totalComisionGanancia2General  = 0;
         myRoute = myRoute.replace('grupo2',grupo);
         myRoute = myRoute.replace('fechaDesde2',fechaDesde);
         myRoute = myRoute.replace('fechaHasta2',fechaHasta);
-         // alert(myRoute);
+        // alert(myRoute);
         location.href = myRoute;
 
     }

@@ -433,7 +433,6 @@ $totalComisionGanancia2General  = 0;
             }
          
              theRoute(wallet, grupo, myFechaDesde,myFechaHasta);
-
             
         }).on('select2:open', () => {
              document.querySelector('.select2-search__field').focus();
@@ -458,9 +457,9 @@ $totalComisionGanancia2General  = 0;
 
             const wallet        = $('#wallet2').val()   == "" ? 0 : $('#wallet2').val();
             const grupo         = $('#grupo').val()     == "" ? 0 : $('#grupo').val();
-            if (!grupo){
-                return;
-            }
+            // if (!grupo){
+            //     return;
+            // }
              theRoute(wallet, grupo, myFechaDesde,myFechaHasta);
 
         }).on('select2:open', () => {
