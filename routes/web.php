@@ -99,6 +99,9 @@ Route::get('dashboardComisionesGrupoRes3/{wallet?}/{grupo?}/{fechaDesde?}/{fecha
 
 Route::get('USDTResumenDiario/{wallet?}/{fechaDesde?}/{fechaHasta?}', [App\Http\Controllers\HomeController::class, 'USDTResumenDiario'])->name('USDTResumenDiario');
 
+Route::get('consolidadoMovimientosGrupo',                                       [App\Http\Controllers\statisticsController::class, 'consolidadoMovimientosGrupo'])->name('consolidadoMovimientosGrupo');
+Route::get('consolidadoMovimientosGrupo/{grupo?}',                              [App\Http\Controllers\statisticsController::class, 'consolidadoMovimientosGrupo'])->name('consolidadoMovimientosGrupo');
+Route::get('consolidadoMovimientosGrupo/{grupo?}/{fechaDesde?}/{fechaHasta?}',  [App\Http\Controllers\statisticsController::class, 'consolidadoMovimientosGrupo'])->name('consolidadoMovimientosGrupo');
 
 Route::get('dashboard_est/export/', [App\Http\Controllers\HomeController::class, 'export'])->name('exports.excel'); //EXPORTACIÓN DE EXCEL
 Route::get('dashboard_est/export/{wallet}', [App\Http\Controllers\HomeController::class, 'export'])->name('exports.excel'); //EXPORTACIÓN DE EXCEL
