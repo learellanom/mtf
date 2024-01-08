@@ -145,13 +145,15 @@ $totalComisionGanancia2General  = 0;
 
                 <div class ="col-12 col-lg-3">
                     <div class="row">
+
                         <button 
                             class="btn btn-primary"             
                             type="buttom"          
                             onclick="theRoute();" >
                             <i class="fas fa-broom"></i>
                         </button>
-                        <button class="btn btn-primary imprimir"  id="myBtnImprimir"    type="buttom" disabled                                  ><i class="fas fa-print"></i></button>
+
+                        <button class="btn btn-primary imprimir"  id="myBtnImprimir"    type="buttom" disabled><i class="fas fa-print"></i></button>
                     </div>
                 </div>
 
@@ -258,6 +260,7 @@ $totalComisionGanancia2General  = 0;
 
         if (miGrupo !=0 ){
             transacciones();
+            toggleBotones();
         }else{
             pantallaInicial();
         }
@@ -552,7 +555,10 @@ $totalComisionGanancia2General  = 0;
 
                                     </tr>
                                 @endforeach
-
+                                <tr>
+                                    <td colspan="6">
+                                    </td>
+                                </tr>
                                 <tr style="background-color: black; color:white;">
                                     <td                     ></td>
                                     <td                     >{{ number_format($cant) }}</td>
@@ -609,6 +615,7 @@ $totalComisionGanancia2General  = 0;
                 <div class ="row mb-4" style="background-color: white;" data-wallet="">
                     <div class="col-12 col-md-12">
                         <table class="table thead-light" style="background-color: white;">
+                        <!--
                             <thead class="thead-dark">
                                 <tr>
                                     <th class="myWidth2"                        >Transacción</th>
@@ -620,6 +627,19 @@ $totalComisionGanancia2General  = 0;
 
                                 </tr>
                             </thead>
+                            -->
+                            <thead>
+                                <tr>
+                                    <th class="myWidth2"             ></th>
+                                    <th class="myWidth2"             ></th>                                
+                                    <th class="myWidth2"             ></th>
+                                    <th class="myWidth2"             ></th>
+                                    <th class="myWidth2"             ></th>
+                                    <th class="myWidth2"             ></th>
+
+                                </tr>
+
+                            </thead>                            
                             @php
 
                                 $cant                           = 0;
@@ -674,7 +694,10 @@ $totalComisionGanancia2General  = 0;
 
                                     </tr>
                                 @endforeach
-
+                                <tr>
+                                    <td colspan="6">
+                                    </td>
+                                </tr>
                                 <tr style="background-color: black; color:white;">
                                     <td                     ></td>
                                     <td                     >{{ number_format($cant) }}</td>
@@ -703,7 +726,7 @@ $totalComisionGanancia2General  = 0;
 
     }
 
-    function theRoute(grupo = 0, fechaDesde = '', fechaHasta = ''){
+    function theRoute(grupo = "", fechaDesde = '', fechaHasta = ''){
 
         let myRoute = "";
                             
@@ -796,6 +819,12 @@ $totalComisionGanancia2General  = 0;
                 }
             });
         });
+    }
+
+    function toggleBotones(){
+        $('#myBtnImprimir').prop('disabled') ? $('#myBtnImprimir').prop('disabled',false) : $('#myBtnImprimir').prop('disabled',true)
+        // $('#myBtnExcel').prop('disabled') ? $('#myBtnImprimir').prop('disabled',false) : $('#myBtnImprimir').prop('disabled',true)
+        // $('#myBtnPDF').prop('disabled') ? $('#myBtnImprimir').prop('disabled',false) : $('#myBtnImprimir').prop('disabled',true)
     }
 
 </script>

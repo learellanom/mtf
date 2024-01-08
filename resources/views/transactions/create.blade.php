@@ -600,10 +600,10 @@
             let myDateNow   = new Date();
 
             // valida cuantos dias hacia atras se permite cargar una transaccion
-            
+
             let myDays;
             myDays = 4;
-            myDays = 7;
+            myDays = 30;
 
             let myDateBefore = new Date();
                 myDateBefore.setDate(myDateBefore.getDate() - myDays);
