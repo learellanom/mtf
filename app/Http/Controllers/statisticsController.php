@@ -4801,7 +4801,7 @@ class statisticsController extends Controller
 
         $myFechaDesde = $myFechaDesde . $horaDesde;
         $myFechaHasta = $myFechaHasta . $horaHasta;
-
+        if ($request->grupo){
         $myQuery =
         "
             select
@@ -4856,9 +4856,11 @@ class statisticsController extends Controller
             $myWalletHasta = $request->wallet;
         }
 
+        $myGroup       = 0;
         $myGroupDesde = 00000;
         $myGroupHasta = 99999;
         if ($request->grupo){
+            $myGroup      = $request->grupo;
             $myGroupDesde = $request->grupo;
             $myGroupHasta = $request->grupo;
         }
@@ -4895,7 +4897,7 @@ class statisticsController extends Controller
             type_transaction_id             as TypeTransactionId,
             type_transactions.name          as TypeTransactionName,            
             0                               as TransactionCount,
-            sum(amount)                     as Amount,
+            amount                          as Amount,
             sum(amount_commission)          as AmountCommission,
             sum(amount_commission_base)     as AmountCommissionBase,
             sum(amount_commission_profit)   as AmountCommissionProfit
@@ -4910,9 +4912,9 @@ class statisticsController extends Controller
             GroupId,
             grupos.name,
             TypeTransactionId,
-            TypeTransactionName
+            TypeTransactionName,
+            Amount
         order by
-            wallet_id,
             grupos.name
         ";
 
@@ -4921,11 +4923,37 @@ class statisticsController extends Controller
         // \Log::info('leam My query *** -> ' . $myQuery);
 
         $TransaccionesUSDT  = DB::select($myQuery);
+        //  $TransaccionesUSDT = [];
         // dd($Transacciones);
-         // dd($TransaccionesUSDT);
+         //     dd($TransaccionesUSDT);
         //return;
         //return [$Transacciones, $TransaccionesUSDT];
+        $myMonto                    = 0;
+        $myAmountCommission         = 0;
+        $myAmountCommissionBase     = 0;
+        $myAmountCommissionProfit   = 0;
+        foreach($TransaccionesUSDT as $MyTransaccionesUSDT){
+            $myAmountCommission         += $MyTransaccionesUSDT->AmountCommission;
+            $myAmountCommissionBase     += $MyTransaccionesUSDT->AmountCommissionBase;
+            $myAmountCommissionProfit   += $MyTransaccionesUSDT->AmountCommissionProfit;
+        }
+        foreach($Transacciones as $MyTransacciones){
+            if ($MyTransacciones->GroupId == $myGroup){
+                if ($MyTransacciones->TypeTransactionId == 11){
+                    $MyTransacciones->AmountCommission          = $myAmountCommission;
+                    $MyTransacciones->AmountCommissionBase      = $myAmountCommissionBase;
+                    $MyTransacciones->AmountCommissionProfit    = $myAmountCommissionProfit;
+                }
+            }
+        }
 
+        // dd($myMonto);
+
+    }else{
+
+            $Transacciones = [];
+            $TransaccionesUSDT = [];
+        }
         $grupo                           = app(statisticsController::class)->getGroups();
 
         $parametros['myFechaDesde']         = $myFechaDesde;
