@@ -2951,10 +2951,12 @@ class statisticsController extends Controller
 
     }
     function commissionProfitProcess(){
-
+        
         // buscar cajas que realizan pagos usdt
         
         Commissions_usdt::truncate();
+
+        
 
         $myTransaction = 11;
         $myQuery =
@@ -2977,7 +2979,7 @@ class statisticsController extends Controller
         
         $cajasUSDT = DB::select($myQuery);
         // dd($cajasUSDT);
-
+        
         $myRequest = new Request();
         
         $transacciones = [];
@@ -3003,7 +3005,8 @@ class statisticsController extends Controller
                     $CommissionUsdt->amount_commission          = $transaccion->AmountCommission;
                     $CommissionUsdt->percentage                 = $transaccion->Percentage;
                     $CommissionUsdt->type_transaction_id        = $transaccion->TypeTransactionId;
-                    $CommissionUsdt->user_id                    = auth()->user()->id;
+                    // $CommissionUsdt->user_id                    = auth()->user()->id;
+                    $CommissionUsdt->user_id                    = 2;
                     $CommissionUsdt->group_id                   = $transaccion->GroupId;
                     $CommissionUsdt->wallet_id                  = $transaccion->WalletId;
                     $CommissionUsdt->transaction_date           = $transaccion->TransactionDate;
@@ -3023,7 +3026,7 @@ class statisticsController extends Controller
             }
             
         }
-
+        
         return response()->json(['success' => true, 'result' => 'Procesadas', 'message' => 'Comisiones procesadas con exito'], 200);
 
 
