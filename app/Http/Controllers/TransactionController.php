@@ -1236,9 +1236,16 @@ class TransactionController extends Controller
     public function update(Request $request, $transaction)
     {
 
-       //  dd($request->all());
+        // dd($request->percentage);
 
         Transaction::find($transaction)->update($request->all());
+
+        $myTransaccion = Transaction::find($transaction);
+        $myTransaccion->percentage = $request->percentage;
+        $myTransaccion->save();
+        // dd($myTransaccion);
+
+
 
         $movimientos = Transaction::findOrFail($transaction);
         $file = [];

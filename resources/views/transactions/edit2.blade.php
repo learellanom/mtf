@@ -50,24 +50,27 @@
                     </span>
                 </div>
             </div>
-            <div class="tab-content" id="pills-tabContent">
-                <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
-                    {!! Form::hidden('user_id',auth()->id(), null, ['class' => 'form-control', 'required' => true]) !!}
 
+            <div class="tab-content" id="pills-tabContent">
+                
+                <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+
+                    {!! Form::hidden('user_id',auth()->id(), null, ['class' => 'form-control', 'required' => true]) !!}
 
                     {{--
                     <div class="d-flex justify-content-end">
                         <span class="badge badge-dark "><h6 class="font-weight-bold text-uppercase">Moneda| {{ $transactions->type_coin->name }} </h6></span>
                     </div>
                     --}}
+
                     @if($transactions->type_transaction->name == 'Nota de debito' || $transactions->type_transaction->name == 'Nota de credito')
 
                         <br>
                         <h2 class="text-center font-weight-bold">NO SE PUEDEN MODIFICAR NOTAS DE DEBITO NI NOTAS DE CREDITO</h2>
 
                         <button class="btn btn-danger font-weight-bold" onclick="history.back()" type="button">
-                          REGRESAR 
-                          <i class="fas fa-history"></i>
+                            REGRESAR 
+                            <i class="fas fa-history"></i>
                         </button>
 
                     @else
@@ -160,7 +163,7 @@
                             @if(!$myReadOnlyAmount) 
                                 
                                 <div class="form-group col-md-4">
-                                    {!! Form::Label('', "Monto en dolares:") !!} 
+                                    {!! Form::Label('', "Monto en dolare:") !!} 
                                     <div class="input-group-text">
                                         <i class="fa-fw fas fa-coins mr-2"></i>
                                        
@@ -190,13 +193,13 @@
                         </div>   
 
 
-                        
+                        {{-- Comision --}}
 
 
                         @if($transactions->exchange_rate_base == NULL)
 
                             <br>
-                            <hr class="bg-dark esconder" style="height:1px;">
+                            <hr class="bg-dark" style="height:1px;">
                             <h4 class="text-uppercase font-weight-bold text-center esconder comi">Comisión</h4>
 
                             <br>
@@ -208,11 +211,11 @@
                                 
                                 <div class="form-group col-md-6">
                                     {!! Form::Label('', "Porcentaje:") !!} 
-                                    {{-- <label>uno</label> --}}
+                                    
                                     <div class="input-group-text">
                                         <i class="fa-fw fas fa-percentage mr-2"></i>
                                         <!-- aqui -->
-                                        {!! Form::text('percentage',null, ['id' => 'percentage', 'class' => 'form-control percentage rateMasks', 'min' => 0, 'inputmode' => 'decimal']) !!}
+                                        {!! Form::text('percentage',null, ['id' => 'percentage', 'class' => 'form-control rateMasks', 'min' => 0, 'inputmode' => 'decimal']) !!}
                                          
                                         {{-- <input id="percentage" class="form-control  rateMasks" min="0" name="percentage" type="text" value="0"  minlength="8" inputmode="decimal" style="text-align: right;"> --}}
                                     </div>
@@ -239,10 +242,6 @@
 
                         @if($transactions->exchange_rate_base == NULL)
 
-                            <br>
-                            <hr class="bg-dark esconder" style="height:1px;">
-                            <h4 class="text-uppercase font-weight-bold text-center esconder comi">Comision Base</h4>
-
 
 
                           <div class="form-group col-md-12 d-flex justify-content-center">
@@ -268,6 +267,10 @@
                         @else
 
                         @endif
+
+                        <br>
+                        <hr class="bg-dark esconder" style="height:1px;">
+                        <h4 class="text-uppercase font-weight-bold text-center esconder comi">Comision Base</h4>
 
                         <div class="form-row esconder comi">
 
@@ -560,6 +563,25 @@
         });        
 
         $('#myForm').on('submit', function() {
+            // alert($('#percentage').val());
+
+            // Valida
+            if ($('#radio3').is(':checked') || $('#radio2').is(':checked')){
+                if ($('#percentage').val() == ""){
+
+                    Swal.fire({
+                            position: 'center',
+                            type: 'error',
+                            title: 'Porcentaje de Comision en Blanco',
+                            showConfirmButton: true
+                        }
+                    );  
+                    $('#percentage').focus();
+                    return false;
+                    
+                }
+            }
+
             if ($('#description').val() == ""){
                 Swal.fire({
                         position: 'center',
@@ -571,6 +593,54 @@
                 return false;
             }
         });
+
+    
+        leeTipoComision(({{ $transactions->exonerate }}).toString());
+
+    });
+    
+
+    function leeTipoComision(myCommission = '0'){
+        
+         myCommission = myCommission ? myCommission : '0';
+         
+        switch(myCommission){
+            case '1': // incluida
+                $('#percentage').removeAttr('disabled');
+                $('#percentage').prop('disabled', false);
+                $('#percentage').focus();         
+                break;
+            case '2': // exonerado
+                $('#percentage').val('');
+                $('#comision').val('');
+                console.log('pasaaaaa');
+                $('#percentage').prop('disabled', true);               
+                break;
+            case '3': // descontada
+                $('#percentage').prop('disabled', false);
+                $('#percentage').focus();            
+                break;
+            default:
+                // $('#percentage').val('');
+                // $('#comision').val('');
+
+                // $('#percentage').prop('disabled', true);              
+                break;
+        }
+
+    }
+
+
+
+    $('#radio1, #radio2, #radio3').on('click', function () {
+        leeTipoComision( $(this).val() );
+    });
+
+
+
+    $('#radio1_base').on('click', function () {
+        $('#percentage_base').val('');
+        $('#comision_base').val('');
     });
 
     $("#file").fileinput({
@@ -749,7 +819,7 @@
 
     function calcula(){
         // alert('calcula ----');
-
+        
         let type_coin_id                = {{ $transactions->type_coin_id}} ;
         let exchange_rate               = $('#tasa').val()              != "" ? parseFloat($('#tasa').val())                : 0;
         let amount_foreign_currency     = $('#monto').val()             != "" ? parseFloat($('#monto').val())               : 0;  // amount_foreign_currency - monto moneda extranjera
@@ -757,9 +827,8 @@
 
         let percentage                  = $('#percentage').val()        != "" ? parseFloat($('#percentage').val())          : 0;
         let percentage_base             = $('#percentage_base').val()   != "" ? parseFloat($('#percentage_base').val())     : 0;
-        console.log('Porcentaje base : ' + percentage_base);
+        
         let exchange_rate_base          = $('#tasa_base').val()         != "" ? parseFloat($('#tasa_base').val())           : 0;
-        console.log('Porcentaje base : ' + exchange_rate_base);
 
         let exonerar                    = $('#radio1').is(':checked');
         let descontar                   = $('#radio2').is(':checked');
@@ -806,7 +875,7 @@
                 myTypeCommission = 2;
             }
         }
-        console.log('myTypeCommission ' + myTypeCommission);
+        
         //
         //
         //
@@ -814,7 +883,7 @@
             //
             // Comision por porcentaje
             //
-            console.log('porcentaje por comision');
+            
             if (percentage > 0){
                 amount_commission           = (amount * percentage ) / 100;
                 amount_total                = amount + amount_commission;
@@ -846,19 +915,26 @@
             }
 
             
-                switch(myCommission){
-                    case 1: // incluir
-                        amount_total = amount + amount_commission;
-                        break;
-                    case 2: // exonerar
-                        amount_total = amount;
-                        break;
-                    case 3: // descontar
-                        amount_total = amount - amount_commission;
-                        break;
-                    default:
-                        break;
-                }
+            switch(myCommission){
+                case 1: // incluir
+                    amount_total = amount + amount_commission;
+                    break;
+                case 2: // exonerar
+
+                    percentage          = 0;
+                    amount_total        = amount;
+                    amount_comission    = 0;
+
+                    $('#percentage').val("");
+                    $('#comision').val("");
+                    // alert('exonera comision');
+                    break;
+                case 3: // descontar
+                    amount_total = amount - amount_commission;
+                    break;
+                default:
+                    break;
+            }
 
             if (percentage_base > 0){
                 amount_base                 = amount;
