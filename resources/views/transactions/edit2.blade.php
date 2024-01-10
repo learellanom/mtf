@@ -542,6 +542,7 @@
 
 
     $(document).ready(function() {
+
         // alert(" " + {{ $transactions->type_transaction_id}});
         if ({{ $transactions->type_coin_id}} == 1) {
             
@@ -596,6 +597,7 @@
 
     
         leeTipoComision(({{ $transactions->exonerate }}).toString());
+        leeTipoComisionBase(({{ $transactions->exonerate_base }}).toString());
 
     });
     
@@ -613,7 +615,7 @@
             case '2': // exonerado
                 $('#percentage').val('');
                 $('#comision').val('');
-                console.log('pasaaaaa');
+
                 $('#percentage').prop('disabled', true);               
                 break;
             case '3': // descontada
@@ -631,17 +633,45 @@
     }
 
 
+    function leeTipoComisionBase(myCommissionBase = '0'){
+        
+        myCommissionBase = myCommissionBase ? myCommissionBase : '0';
+        
+       switch(myCommissionBase){
+           case '1': // incluida
+               $('#percentage_base').removeAttr('disabled');
+               $('#percentage_base').prop('disabled', false);
+               $('#percentage_base').focus();         
+               break;
+           case '2': // exonerado
+               $('#percentage_base').val('');
+               $('#comision_base').val('');
+               
+               $('#percentage_base').prop('disabled', true);               
+               break;
+           case '3': // descontada
+               $('#percentage_base').prop('disabled', false);
+               $('#percentage_base').focus();            
+               break;
+           default:
+               // $('#percentage_base').val('');
+               // $('#comision_base').val('');
+
+               // $('#percentage_base').prop('disabled', true);              
+               break;
+       }
+
+   }
 
     $('#radio1, #radio2, #radio3').on('click', function () {
         leeTipoComision( $(this).val() );
     });
 
-
-
-    $('#radio1_base').on('click', function () {
-        $('#percentage_base').val('');
-        $('#comision_base').val('');
+    $('#radio1_base, #radio2_base, #radio3_base').on('click', function () {
+        leeTipoComisionBase( $(this).val() );
     });
+
+
 
     $("#file").fileinput({
 
