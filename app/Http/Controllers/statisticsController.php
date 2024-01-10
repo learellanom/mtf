@@ -1661,13 +1661,13 @@ class statisticsController extends Controller
             $myFechaDesde = $request->fechaDesde;
             $myFechaHasta = $request->fechaHasta;
 
-            $myFechaDesde2 = $myFechaDesde . " 00:00:00";
-            $myFechaHasta2 = $myFechaHasta . " 23:59:00";
+            $myFechaDesde2 = $myFechaDesde;
+            $myFechaHasta2 = $myFechaHasta;
         }
 
         if ($request->fechaHasta){
             $myFechaHasta = $request->fechaHasta;
-            $myFechaHasta2 = $myFechaHasta . " 23:59:00";            
+            $myFechaHasta2 = $myFechaHasta;
         }
         // var_dump($myFechaDesde);
         // dd('Fecha desde -> ' . $myFechaDesde . ' Fecha Hasta -> ' . $myFechaHasta);
