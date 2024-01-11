@@ -2598,12 +2598,12 @@ class statisticsController extends Controller
         ";
 
         // dd($myQuery);
-
+        
         $Transacciones = DB::select($myQuery);
-
-        // \Log::info('leam grupo query  *** -> ' . print_r($myQuery,true));
-        // \Log::info('leam grupo transacciones *** -> ' . print_r($Transacciones,true));
-
+        if($grupo == 316){
+            // \Log::info('leam grupo query  *** -> ' . print_r($myQuery,true));
+            \Log::info('leam grupo transacciones *** -> ' . print_r($Transacciones,true));
+        }
         if (empty($Transacciones)) {
             // \Log::info('leam vacio *** -> ' . print_r($Transacciones,true));
             return $Transacciones;
