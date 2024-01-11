@@ -210,10 +210,8 @@ if (isset($balance->Total)){
                                     @endif
                                 </div>
                                 <div class="col-3">
-
-                                <p class="font-weight-bold">Saldo al Corte <span id="myFecha"> {{$myFechadesdeInvertida}} </span> : {{ number_format($balanceBefore,2,",",".") }} $</p>
-
-                            </div>
+                                    <p class="font-weight-bold">Saldo al Corte <span id="myFecha"> {{$myFechadesdeInvertida}} </span> : {{ number_format($balanceBefore,2,",",".") }} $</p>
+                                </div>
                             @else
                                 <div class="col-md-3">
 
@@ -238,9 +236,6 @@ if (isset($balance->Total)){
 
                                 </div>
                             @endif
-                            
-                            
-
                         </div>
                     </div>
                 </div>
