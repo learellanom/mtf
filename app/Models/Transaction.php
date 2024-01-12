@@ -20,7 +20,13 @@ class Transaction extends Model implements Auditable
     public function type_coin(){
         return $this->belongsTo(Type_coin::class);
     }
-       //Relación uno a muchos
+
+    //Relación uno a muchos
+    public function type_coin_balance(){
+        return $this->belongsTo(Type_coin::class,'type_coin_balance_id');
+    }
+
+    //Relación uno a muchos
     public function type_transaction(){
         return $this->belongsTo(Type_transaction::class);
     }

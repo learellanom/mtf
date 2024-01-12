@@ -12,10 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('transactions', function (Blueprint $table) {
-            $table->bigIncrements('id');                            // IDENTIFICADOR DE LA TABLA
-            $table->string('transfer_number')->nullable();          //NUMERO DE REFEENCIA PARA TRANSFERENCIAS ENTRE CAJAS
-            $table->string('pay_number')->nullable();               //NUMERO DE REFEENCIA PARA PAGOS ENTRE CAJAS
-            $table->double('amount');                               //MONTO EN DOLARES
+            $table->bigIncrements('id');                            //-> Identificador de la tabla
+            $table->string('transfer_number')->nullable();          //-> Numero de referencia para transferencias entre cajas
+            $table->string('pay_number')->nullable();               //-> Numero de Referencia para pagos entre cajas
+            $table->double('amount');                               //-> Monto en Dorales
             $table->double('amount_foreign_currency')->nullable();  //MONTO MONEDA EXTRANJERA
             $table->double('amount_total');                         //MONTO TOTAL
             $table->double('amount_commission')->nullable();        //MONTO COMISION
@@ -40,8 +40,11 @@ return new class extends Migration
             $table->double('amount_commission_profit')->nullable();         //GANANCIA DE LA COMOSION
 
             $table->timestamps();            
+
+            $table->foreignId('type_coin_balance_id')->default(1)->references('id')->on('type_coins');  //-> tipo de moneda en el que se llevara el balance de la transaccion
+            $table->enum('exchange_rate_orientation', [1, 2])->nullable()->default(1); 					//-> orientacion del cambio 1 de derecha a izquierda / divide -- 2 de izquierda a derecha * se multiplica
             
-            $table->index('transaction_date');                              // crea indeice en transaction_date
+            $table->index('transaction_date');                                                          // crea indeice en transaction_date
 
         });
     }
