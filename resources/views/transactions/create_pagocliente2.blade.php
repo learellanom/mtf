@@ -218,18 +218,18 @@
 
                     <div class="form-group col-md-12 d-flex justify-content-center">
 
-                        <label class="form-check-label mx-auto esconder comi" for="radio1_base">
+                        <label class="form-check-label mx-auto esconder comi" for="radio1_base2">
                             {!! Form::radio('exonerate2',2, null, ['id' => 'radio1_base2', 'class' => 'exonerar_base2']) !!}
                             Exonerar comisión origen
                         </label>
 
-                        <label class="form-check-label mx-auto esconder comi" for="radio3_base">
+                        <label class="form-check-label mx-auto esconder comi" for="radio3_base2">
                             {!! Form::radio('exonerate2',1, null, ['id' => 'radio3_base2', 'class' => 'incluir_base2']) !!}
                             Incluir comisión origen
                         </label>
 
 
-                        <label class="form-check-label mx-auto esconder comi" for="radio2_base">
+                        <label class="form-check-label mx-auto esconder comi" for="radio2_base2">
                             Descontar comisión origen
                             {!! Form::radio('exonerate2',3, null, ['id' => 'radio2_base2', 'class' => 'descontar_base']) !!}
                         </label>
@@ -523,6 +523,25 @@
             }
         }
 
+        let exonerar_base     = $('#radio1_base').is(':checked');
+        let descontar_base    = $('#radio2_base').is(':checked');
+        let incluir_base      = $('#radio3_base').is(':checked');
+
+        if(!exonerar_base && !descontar_base && !incluir_base){
+            Swal.fire('Error: Marcar si comision origen esta exonerada, incluida o descontada');
+            return false;            
+        }
+
+        let exonerar_base2     = $('#radio1_base2').is(':checked');
+        let descontar_base2    = $('#radio2_base2').is(':checked');
+        let incluir_base2      = $('#radio3_base2').is(':checked');
+
+
+        if(!exonerar_base2 && !descontar_base2 && !incluir_base2){
+            Swal.fire('Error: Marcar si comision origen esta exonerada, incluida o descontada');
+            return false;            
+        }
+
         console.log('typetrasnferencia2Debit -> '  + $('#typetrasnferencia2Debit').val());
         console.log($('#wallet').val());
         console.log($('#wallet_id').val());
@@ -552,7 +571,7 @@
     });
 
     //
-
+    
     $('#radio1_base').on('click', function() {
         $('#percentage_base').val("");
         $('#comision_base').val("");
@@ -567,18 +586,9 @@
     });
 
     $('#radio3_base').on('click', function() {
-
         $('#percentage_base').attr("readonly", false);
     });
 
-
-
-
-    //
-
-
-
-    
     $('#radio1_base2').on('click', function() {
         $('#percentage_base2').val("");
         $('#comision_base2').val("");
