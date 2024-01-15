@@ -12,7 +12,8 @@ use App\Models\Supplier;
 use App\Models\Transaction_master;
 use App\Models\Transaction_supplier;
 use App\Models\Commissions_usdt;
-               
+use App\Models\Type_coin;
+
 use Spatie\Permission\Models\Role;
 use App\Http\Controllers\Controller;
 
@@ -2057,7 +2058,8 @@ class statisticsController extends Controller
     */
     public function groupSummary(Request $request)
     {
-        
+        // echo "aqui" . $request->fullUrl();
+        // die();
 
         $myGroup = 0;
         if ($request->grupo) {
@@ -2083,9 +2085,14 @@ class statisticsController extends Controller
 
         if ($request->fechaHasta){
             $myFechaHasta = $request->fechaHasta;
-            $myFechaHasta = $myFechaHasta;           
+            // $myFechaHasta = $myFechaHasta;        
         }
-        
+       
+        $myCoin = 1;
+        if ($request->coin){
+            $myCoin = $request->coin;
+        }
+
        /* 
         $Transacciones      = $this->getBalance($myGroup, $myFechaDesde, $myFechaHasta);
 
@@ -2097,13 +2104,17 @@ class statisticsController extends Controller
         }
         */
 
-        $Transacciones = $this->getGroupSummary($request);
-
-
+        $Transacciones      = $this->getGroupSummary($request);
+        $myTypeCoinBalance  = 1; // dorales siempre por ahora
+        $Type_coin_balance  = Type_coin::pluck('name', 'id')->toArray();
         $Type_transactions  = $this->getTypeTransactions();
         $groups             = $this->getGroups();
 
+        // dd($Transacciones);
+        // dd($Type_coin_balance);
 
+        $parametros['myTypeCoinBalance']        = $myTypeCoinBalance;
+        $parametros['Type_coin_balance']        = $Type_coin_balance;
         $parametros['myGroup']                  = $myGroup;
         $parametros['groups']                   = $groups;
         $parametros['Type_transactions']        = $Type_transactions;
@@ -2143,8 +2154,13 @@ class statisticsController extends Controller
             $myFechaHasta = $myFechaHasta;           
         }
         
-        
-        $Transacciones      = $this->getBalance($myGroup, $myFechaDesde, $myFechaHasta);
+        $myCoin = 1;
+        if($request->coin){
+            $myCoin = $request->coin;
+        }
+        // leam
+        // dd($request->coin);
+        $Transacciones      = $this->getBalance($myGroup, $myFechaDesde, $myFechaHasta, $myCoin);
 
         //
         // si es un solo grupo devuelve un objeto y debe convertirse a array de 1
@@ -2518,7 +2534,7 @@ class statisticsController extends Controller
     *
     *
     */
-    function getBalance($grupo = 0, $myFechaDesde = "2001-01-01", $myFechaHasta = "9999-12-31"){
+    function getBalance($grupo = 0, $myFechaDesde = "2001-01-01", $myFechaHasta = "9999-12-31", $typeCoin = 1){
 
         if ($grupo === 0){
             $grupoDesde = 00000;
@@ -2562,8 +2578,9 @@ class statisticsController extends Controller
                 transaction_date between '$myFechaDesde 00:00:00' and '$myFechaHasta 23:59:00'
                 and
                 group_id between $grupoDesde and $grupoHasta
-                and status <> 'Anulado'
-                and mtf.groups.type = 1
+                and status                  <> 'Anulado'
+                and mtf.groups.type         = 1
+                and type_coin_balance_id    = $typeCoin
             group by
                 IdGrupo,
                 NombreGrupo
@@ -2583,7 +2600,8 @@ class statisticsController extends Controller
                 and
                 group_id between $grupoDesde and $grupoHasta
                 and status <> 'Anulado'
-                and mtf.groups.type = 1            
+                and mtf.groups.type = 1   
+                and type_coin_balance_id    = $typeCoin         
             group by
                 IdGrupo,
                 NombreGrupo
@@ -2597,9 +2615,10 @@ class statisticsController extends Controller
             NombreGrupo
         ";
 
-        // dd($myQuery);
+        //  dd($myQuery);
         
         $Transacciones = DB::select($myQuery);
+
         if($grupo == 316){
             // \Log::info('leam grupo query  *** -> ' . print_r($myQuery,true));
             \Log::info('leam grupo transacciones *** -> ' . print_r($Transacciones,true));
