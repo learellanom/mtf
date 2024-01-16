@@ -735,7 +735,7 @@ class statisticsController extends Controller
         }
 
         //  dd($Transacciones);
-        // \Log::info('index transacciones -> ' . print_r($Transacciones,true));
+        // \Log::info('leam - index transacciones -> ' . print_r($Transacciones,true));
         // die();
 
         $userole            = $this->getUser();
@@ -2105,7 +2105,8 @@ class statisticsController extends Controller
         */
 
         $Transacciones      = $this->getGroupSummary($request);
-        $myTypeCoinBalance  = 1; // dorales siempre por ahora
+
+        $myTypeCoinBalance  = $myCoin; // dorales siempre por ahora
         $Type_coin_balance  = Type_coin::pluck('name', 'id')->toArray();
         $Type_transactions  = $this->getTypeTransactions();
         $groups             = $this->getGroups();
@@ -2126,6 +2127,74 @@ class statisticsController extends Controller
         return view('estadisticas.statisticsResumenGrupo', $parametros);
     }
 
+    /*
+    *
+    *
+    *       groupSummary2
+    *       resumen por grupo
+    *
+    */
+    public function groupSummary2(Request $request)
+    {
+        // echo "aqui" . $request->fullUrl();
+        // die();
+
+        $myGroup = 0;
+        if ($request->grupo) {
+            $myGroup = $request->grupo;
+        }
+
+        $myHoraDesde = "00:00:00";
+        $myHoraHasta = "23:59:00";
+
+        $myFechaDesde = "2001-01-01";
+        $myFechaHasta = "9999-12-31";
+        $myFechaHasta = date('Y-m-d');
+        
+        if ($request->fechaDesde){
+            $myFechaDesde = $request->fechaDesde;
+            $myFechaHasta = $request->fechaHasta;
+
+            $myFechaDesde = $myFechaDesde;
+            $myFechaHasta = $myFechaHasta;
+        }
+
+        if ($request->fechaHasta){
+            $myFechaHasta = $request->fechaHasta;
+            // $myFechaHasta = $myFechaHasta;        
+        }
+       
+        $myCoin = 1;
+        if ($request->coin){
+            $myCoin = $request->coin;
+        }
+        $Transacciones      = $this->getBalance2($myGroup, $myFechaDesde, $myFechaHasta, $myCoin);
+        if (gettype($Transacciones) == "object"){
+            $Transacciones = [$Transacciones];
+        }        
+
+        // $Transacciones      = $this->getGroupSummary($request);
+
+        $myTypeCoinBalance  = $myCoin; // dorales siempre por ahora
+        $Type_coin_balance  = Type_coin::pluck('name', 'id')->toArray();
+        $Type_transactions  = $this->getTypeTransactions();
+        $groups             = $this->getGroups();
+
+        // dd($Transacciones);
+        // dd($Type_coin_balance);
+
+        $parametros['myTypeCoinBalance']        = $myTypeCoinBalance;
+        $parametros['Type_coin_balance']        = $Type_coin_balance;
+        $parametros['myGroup']                  = $myGroup;
+        $parametros['groups']                   = $groups;
+        $parametros['Type_transactions']        = $Type_transactions;
+        $parametros['Transacciones']            = $Transacciones;
+        $parametros['myFechaDesde']             = $myFechaDesde;
+        $parametros['myFechaHasta']             = $myFechaHasta;
+        // return view('estadisticas.statisticsResumenGrupo', compact('myGroup','groups','Type_transactions','Transacciones'));
+
+        return view('estadisticas.statisticsResumenGrupo', $parametros);
+    }
 
     function getGroupSummary(Request $request){
 
@@ -2159,7 +2228,7 @@ class statisticsController extends Controller
             $myCoin = $request->coin;
         }
         // leam
-        // dd($request->coin);
+        // dd('leam - aqui -> ' . $request->query('coin'));
         $Transacciones      = $this->getBalance($myGroup, $myFechaDesde, $myFechaHasta, $myCoin);
 
         //
@@ -2619,6 +2688,8 @@ class statisticsController extends Controller
         
         $Transacciones = DB::select($myQuery);
 
+        // dd($Transacciones);
+
         if($grupo == 316){
             // \Log::info('leam grupo query  *** -> ' . print_r($myQuery,true));
             \Log::info('leam grupo transacciones *** -> ' . print_r($Transacciones,true));
@@ -2634,6 +2705,140 @@ class statisticsController extends Controller
             return $Transacciones;
         }
     }
+    /*
+    *
+    *
+    *       getBalance2
+    *
+    *
+    */
+    function getBalance2($grupo = 0, $myFechaDesde = "2001-01-01", $myFechaHasta = "9999-12-31", $typeCoin = 1){
+
+        if ($grupo === 0){
+            $grupoDesde = 00000;
+            $grupoHasta = 99999;
+
+        }else{
+            $grupoDesde = $grupo;
+            $grupoHasta = $grupo;
+        }
+        //\Log::info('leam getBalance grupo        *** -> ' . $grupo);
+        //\Log::info('leam getBalance grupoDesde   *** -> ' . $grupoDesde);
+        //\Log::info('leam getBalance grupoHasta   *** -> ' . $grupoHasta);
+        //\Log::info('leam getBalance myFechaDesde *** -> ' . $myFechaDesde);
+        //\Log::info('leam getBalance myFechaHasta *** -> ' . $myFechaHasta);
+
+            echo $myFechaDesde;
+            // die();
+
+        $myTempCredits  = $this->getCredits();
+        $myTempDebits   = $this->getDebits();
+
+        $myQuery =
+        "
+        select
+            IdGrupo             as IdGrupo,
+            NombreGrupo         as NombreGrupo,
+            sum(Cant)   as Cant,
+            sum(MontoCreditos)  as Creditos,
+            sum(MontoDebitos)   as Debitos,
+            (sum(MontoCreditos) - sum(MontoDebitos) ) as Total
+        from(
+            SELECT
+                group_id                as IdGrupo,
+                mtf.groups.name         as NombreGrupo,
+                count(amount_total)     as Cant,
+                0 				        as MontoCreditos,
+                sum(amount_total)       as MontoDebitos
+            FROM mtf.transactions
+            left join  mtf.groups on mtf.transactions.group_id  = mtf.groups.id
+            where
+                type_transaction_id in ($myTempDebits)
+                and
+                transaction_date between '$myFechaDesde 00:00:00' and '$myFechaHasta 23:59:00'
+                and
+                group_id between $grupoDesde and $grupoHasta
+                and status                  <> 'Anulado'
+                and mtf.groups.type         = 1
+                and type_coin_balance_id    = $typeCoin
+            group by
+                IdGrupo,
+                NombreGrupo
+        union
+            SELECT
+                group_id            as IdGrupo,
+                mtf.groups.name     as NombreGrupo,
+                count(amount_total)     as Cant,
+                sum(amount_total)   as MontoCreditos,
+                0                   as MontoDebitos
+            FROM mtf.transactions
+            left join  mtf.groups on mtf.transactions.group_id  = mtf.groups.id
+            where
+                type_transaction_id in($myTempCredits)
+                and
+                transaction_date between '$myFechaDesde 00:00:00' and '$myFechaHasta 23:59:00'
+                and
+                group_id between $grupoDesde and $grupoHasta
+                and status <> 'Anulado'
+                and mtf.groups.type = 1   
+                and type_coin_balance_id    = $typeCoin         
+            group by
+                IdGrupo,
+                NombreGrupo
+
+        )
+        as t
+        group by
+            IdGrupo,
+            NombreGrupo
+        order by 
+            NombreGrupo
+        ";
+
+        $myQuery =
+        "
+        SELECT 
+            group_id                                                            as IdGrupo,
+            mtf.groups.name                                                     as NombreGrupo,
+            count(group_id)                                                     as Cant,
+            sum(amount)                                                         as TotalAmount,
+            sum(if(type_transaction_id in ($myTempDebits), amount,0))           as Debitos,
+            sum(if(type_transaction_id in ($myTempCredits), amount, 0))         as Creditos,
+            sum(if(type_transaction_id in ($myTempCredits), amount, -amount))   as Total
+        FROM mtf.transactions
+            left join mtf.groups on mtf.transactions.group_id                       = mtf.groups.id
+            left join mtf.type_transactions on mtf.transactions.type_transaction_id = mtf.type_transactions.id
+        where 
+            group_id                between $grupoDesde                 and $grupoHasta
+        and transaction_date        between '$myFechaDesde 00:00:00'    and '$myFechaHasta 23:59:00'
+        and status                  <> 'Anulado'
+        and type_coin_balance_id    = $typeCoin
+        and mtf.groups.type = 1   
+        group by
+            IdGrupo,
+            NombreGrupo   
+        ";
+        //  dd($myQuery);
+        
+        $Transacciones = DB::select($myQuery);
+
+        // dd($Transacciones);
+
+        if($grupo == 316){
+            // \Log::info('leam grupo query  *** -> ' . print_r($myQuery,true));
+            \Log::info('leam grupo transacciones *** -> ' . print_r($Transacciones,true));
+        }
+        if (empty($Transacciones)) {
+            // \Log::info('leam vacio *** -> ' . print_r($Transacciones,true));
+            return $Transacciones;
+        }else {
+            // \Log::info('*** leam gettype -> ' . gettype($Transacciones));
+            if ($grupoDesde === $grupoHasta){
+                return $Transacciones[0];
+            };
+            return $Transacciones;
+        }
+    }    
     /*
     *
     *
