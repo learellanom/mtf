@@ -294,12 +294,13 @@ $(document).ready(function () {
                 "previous": "Anterior"
             }
         },
-        "order": [[ 2, 'desc' ]],
+        "order": [[ 1, 'asc' ]],
         'dom' : 'Bfrtilp',
         'buttons':[
             {
                 extend:  'excelHtml5',
-                exportOptions: { columns: [ 0, 1 ] },
+                exportOptions: { columns: [ 0, 1, 2, 3, 4, 5 ] },
+                title: "Resumen de Movimiento por Grupo",
                 text:    '<i class="fas fa-file-excel"></i>',
                 titleAttr: 'Exportar Excel',
                 className: 'btn btn-success',
@@ -341,14 +342,29 @@ $(document).ready(function () {
                     }
                 },
                 {
-                        "cells": "A",
-                        "width": "35",
-                    },
-                    {
-                        "cells": "B",
-                        "width": "32",
-                    },
-
+                    "cells": "A",
+                    "width": "10",
+                },
+                {
+                    "cells": "B",
+                    "width": "32",
+                },
+                {
+                    "cells": "C",
+                    "width": "10",
+                },
+                {
+                    "cells": "D",
+                    "width": "25",
+                },         
+                {
+                    "cells": "E",
+                    "width": "25",
+                }, 
+                {
+                    "cells": "F",
+                    "width": "25",
+                },                                        
             ]
 
             },
@@ -550,7 +566,7 @@ $(document).ready(function () {
                             ($('#drCustomRanges').val()).substr(13,2)
                             ;
 
-            //alert('Fecha Desde ' + myFechaDesde + 'Fecha Hasta ' + myFechaHasta);
+            // alert('Fecha Desde ' + myFechaDesde + ' Fecha Hasta ' + myFechaHasta);
             const usuario   = $('#userole').val();
             const cliente   = $('#cliente').val();
             const wallet    = $('#wallet').val();
@@ -589,13 +605,14 @@ $(document).ready(function () {
 
         let myRoute = "";
 
-            myRoute = "{{ route('estadisticasResumenGrupo', ['grupo' => 'grupo2', 'fechaDesde' => 'fechaDesde22', 'fechaHasta' => 'fechaHasta2', 'coin' => 'coin2']) }}";
-            myRoute = myRoute.replace('grupo2',grupo);
-            myRoute = myRoute.replace('fechaDesde2',fechaDesde);
-            myRoute = myRoute.replace('fechaHasta2',fechaHasta);
-            myRoute = myRoute.replace('coin2',coin);
+        myRoute = "{{ route('estadisticasResumenGrupo', ['grupo' => 'grupo2', 'fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2', 'coin' => 'coin2']) }}";
+        myRoute = myRoute.replace('grupo2',grupo);
+        myRoute = myRoute.replace('fechaDesde2',fechaDesde);
+        myRoute = myRoute.replace('fechaHasta2',fechaHasta);
+        myRoute = myRoute.replace('coin2',coin);
+        myRoute = myRoute.replaceAll('amp;','');
         // console.log(myRoute);
-         alert(myRoute);
+        // alert(myRoute);
         location.href = myRoute;
 
     }
@@ -624,6 +641,7 @@ $(document).ready(function () {
                         ($('#drCustomRanges').val()).substr(13,2)
                         ;
 
+        
         let myRoute = "";
             myRoute = "{{ route('estadisticasDetalle', ['usuario' => 'usuario2', 'grupo' => 'grupo2', 'wallet' => 'wallet2', 'typeTransactions' => 'typeTransactions2','fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2']) }}";
             myRoute = myRoute.replace('grupo2',grupo);
