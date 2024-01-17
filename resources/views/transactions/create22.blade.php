@@ -630,7 +630,7 @@
         */
         $('#entre').on('input', function (){
             // alert('cambio');
-            alert('amount con jquery ->' + $('#mymonto_dorales').val());
+            //alert('amount con jquery ->' + $('#mymonto_dorales').val());
             
             calcula();
         }); 

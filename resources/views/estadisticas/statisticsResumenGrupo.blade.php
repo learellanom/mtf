@@ -599,7 +599,7 @@ $(document).ready(function () {
 
     function theRoute(grupo = 0, fechaDesde = 0, fechaHasta = 0, coin = 0){
 
-         alert('Grupo -> ' + grupo + ' Fecha desde -> ' + fechaDesde + ' Fecha Hasta -> ' + fechaHasta);
+        // alert('Grupo -> ' + grupo + ' Fecha desde -> ' + fechaDesde + ' Fecha Hasta -> ' + fechaHasta);
 
         if (grupo   === "") grupo  = 0;
 
@@ -612,7 +612,7 @@ $(document).ready(function () {
         myRoute = myRoute.replace('coin2',coin);
         myRoute = myRoute.replaceAll('amp;','');
         // console.log(myRoute);
-         alert(myRoute);
+        // alert(myRoute);
         location.href = myRoute;
 
     }
