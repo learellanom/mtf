@@ -437,7 +437,7 @@ class statisticsController extends Controller
                     transactions.group_id                  as ClienteId,                    
                     IFNULL(transactions.group_id,0)        as ClienteId2,
                     mtf.groups.name                        as ClientName,
-                    IFNULL(transactions.token, '')          as token                    
+                    IFNULL(transactions.token, '')         as token                    
                 from
                     mtf.transactions
                 left join mtf.type_transactions   on mtf.transactions.type_transaction_id = mtf.type_transactions.id
@@ -2798,13 +2798,13 @@ class statisticsController extends Controller
         $myQuery =
         "
         SELECT 
-            group_id                                                            as IdGrupo,
-            mtf.groups.name                                                     as NombreGrupo,
-            count(group_id)                                                     as Cant,
-            sum(amount)                                                         as TotalAmount,
-            sum(if(type_transaction_id in ($myTempDebits), amount,0))           as Debitos,
-            sum(if(type_transaction_id in ($myTempCredits), amount, 0))         as Creditos,
-            sum(if(type_transaction_id in ($myTempCredits), amount, -amount))   as Total
+            group_id                                                                        as IdGrupo,
+            mtf.groups.name                                                                 as NombreGrupo,
+            count(group_id)                                                                 as Cant,
+            sum(amount_total)                                                               as TotalAmount,
+            sum(if(type_transaction_id in ($myTempDebits),  amount_total,0))                 as Debitos,
+            sum(if(type_transaction_id in ($myTempCredits), amount_total, 0))               as Creditos,
+            sum(if(type_transaction_id in ($myTempCredits), amount_total, -amount_total))   as Total
         FROM mtf.transactions
             left join mtf.groups on mtf.transactions.group_id                       = mtf.groups.id
             left join mtf.type_transactions on mtf.transactions.type_transaction_id = mtf.type_transactions.id
