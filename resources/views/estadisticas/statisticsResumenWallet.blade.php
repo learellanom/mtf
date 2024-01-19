@@ -102,10 +102,30 @@ $config4 = [
             </x-adminlte-date-range>
         </div>
 
+        <div class ="col-sm-3">
+            <x-adminlte-select2 id="coin"
+                                name="optionsCoin"
+                                igroup-size="sm"
+                                label-class="text-lightblue"
+                                data-placeholder="MonedaGrupo ..."
+                                :config="$config1"
+                                >
+                <x-slot name="prependSlot">
+                    <div class="input-group-text bg-gradient-dark">
+                        <!-- <i class="fas fa-car-side"></i> -->
+                        <!-- <i class="fas fa-user-tie"></i> -->
+                        <i class="fas fa-solid fa-dollar-sign"></i>                        
+                    </div>
+                    
+                </x-slot>
 
+                <x-adminlte-options :options="$Type_coin_balance" empty-option="Selecciona una moneda.."/>
 
-        <div class ="col-12 col-sm-2">
+            </x-adminlte-select2>
         </div>
+
+<!--         <div class ="col-12 col-sm-2">
+        </div> -->
 
     </div>
 
@@ -172,8 +192,10 @@ $config4 = [
 
 
     const miWallet = {!! $myWallet !!};
+    const myTypeCoinBalance = {!! $myTypeCoinBalance !!};
 
     BuscaWallet(miWallet);
+    BuscaMoneda(myTypeCoinBalance);
 
     $(() => {
 
@@ -183,6 +205,7 @@ $config4 = [
         $('#wallet').on('change', function (){
 
             const wallet = $('#wallet').val();
+            const coin      = $('#coin').val();
 
             let myFechaDesde, myFechaHasta;
             
@@ -200,12 +223,18 @@ $config4 = [
                             ($('#drCustomRanges').val()).substr(13,2)
                             ;
 
-            theRoute(wallet,myFechaDesde,myFechaHasta);
+            theRoute(wallet,myFechaDesde,myFechaHasta,coin);
 
-
-        });
+        }).on('select2:open', () => {
+             document.querySelector('.select2-search__field').focus();
+        });        
+        
 
         $('#drCustomRanges').on('change', function () {
+
+            const wallet = $('#wallet').val();
+            const coin      = $('#coin').val();
+
             // alert('ggggg ' + $('#drCustomRanges').val());
             let myFechaDesde, myFechaHasta;
 
@@ -224,23 +253,55 @@ $config4 = [
                             ;
 
             //alert('Fecha Desde ' + myFechaDesde + 'Fecha Hasta ' + myFechaHasta);
-            const wallet = $('#wallet').val();
-            theRoute(wallet,myFechaDesde,myFechaHasta);
+
+            
+            theRoute(wallet,myFechaDesde,myFechaHasta,coin);
+        });
+
+
+        $('#coin').on('change', function (){
+
+            const wallet    = $('#wallet').val();
+            const coin      = ($('#coin').val()) ? $('#coin').val() : 1;
+
+            let myFechaDesde, myFechaHasta;
+
+            myFechaDesde =  ($('#drCustomRanges').val()).substr(6,4) +
+                            '-' +
+                            ($('#drCustomRanges').val()).substr(3,2) +
+                            '-' +
+                            ($('#drCustomRanges').val()).substr(0,2)
+                            ;
+
+            myFechaHasta =  ($('#drCustomRanges').val()).substr(19,4) +
+                            '-' +
+                            ($('#drCustomRanges').val()).substr(16,2) +
+                            '-' +
+                            ($('#drCustomRanges').val()).substr(13,2)
+                            ;
+
+            theRoute(wallet,myFechaDesde,myFechaHasta,coin);
+
+        }
+        ).on('select2:open', () => {
+             document.querySelector('.select2-search__field').focus();
         });
 
     })
 
-    function theRoute(wallet = 0, fechaDesde = 0, fechaHasta = 0){
+    function theRoute(wallet = 0, fechaDesde = 0, fechaHasta = 0, coin = 1){
 
         if (wallet  === "") wallet  = 0;
 
         let myRoute = "";
-            myRoute = "{{ route('estadisticasResumenWallet', ['wallet' => 'wallet2', 'fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2']) }}";
+            myRoute = "{{ route('estadisticasResumenWallet', ['wallet' => 'wallet2', 'fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2', 'coin' => 'coin2']) }}";
             myRoute = myRoute.replace('wallet2',wallet);
             myRoute = myRoute.replace('fechaDesde2',fechaDesde);
             myRoute = myRoute.replace('fechaHasta2',fechaHasta);
+            myRoute = myRoute.replace('coin2',coin);
+            myRoute = myRoute.replaceAll('amp;','');
         // console.log(myRoute);
-        // alert(myRoute);
+         // alert(myRoute);
         location.href = myRoute;
 
     }
@@ -330,6 +391,22 @@ $config4 = [
         $('#drCustomRanges').data('daterangepicker').setStartDate(myFechaDesde);
         $('#drCustomRanges').data('daterangepicker').setEndDate(myFechaHasta);
 
+    }
+
+
+    function BuscaMoneda(myTypeCoinBalance){
+        //alert("BuscaGrupo - miGrupo -> " + miGrupo);
+        $('#coin').each( function(index, element){
+            //alert ("Buscagrupo -> " + $(this).val() + " text -> " + $(this).text()+ " y con index -> " + $(this).prop('selectedIndex'));
+            $(this).children("option").each(function(){
+                if ($(this).val() === myTypeCoinBalance.toString()){
+                    //alert('Buscagrupo - encontro');
+                    $("#coin option[value="+ myTypeCoinBalance +"]").attr("selected",true);
+                }
+                //alert("BuscaGrupoaqui ->  the val " + $(this).val() + " text -> " + $(this).text());
+            });
+        });
+        //
     }
 
     function InicializaFechas(){
