@@ -243,11 +243,11 @@ Route::resource('permisos', PermissionController::class)->middleware('auth')->ex
 // Estadisticas Detalle
 //
 //
-Route::get('estadisticasDetalle',[App\Http\Controllers\statisticsController::class, 'index_all'])
+Route::get('estadisticasDetalle',[App\Http\Controllers\statisticsController::class, 'index_all2'])
             ->middleware('can:estadisticasDetalle.index')
             ->name('estadisticasDetalle');
 
-Route::get('estadisticasDetalle/{usuario}/{grupo?}/{wallet?}/{typeTransactions?}/{fechaDesde?}/{fechaHasta?}/{token?}',[App\Http\Controllers\statisticsController::class, 'index_all'])
+Route::get('estadisticasDetalle/{usuario}/{grupo?}/{wallet?}/{typeTransactions?}/{fechaDesde?}/{fechaHasta?}/{token?}',[App\Http\Controllers\statisticsController::class, 'index_all2'])
             ->middleware('can:estadisticasDetalle.index')
             ->name('estadisticasDetalle');
 //
@@ -287,17 +287,7 @@ Route::get('estadisticasFechaTokens/{fechaDesde?}/{fechaHasta?}',[App\Http\Contr
 //
 //
 Route::get('estadisticasResumenWallet',[App\Http\Controllers\statisticsController::class, 'walletSummary'])->middleware('can:estadisticasDetalle.statisticsResumenWallet')->name('estadisticasResumenWallet');
-Route::get('estadisticasResumenWallet/{wallet}/{fechaDesde?}/{fechaHasta?}',[App\Http\Controllers\statisticsController::class, 'walletSummary'])->name('estadisticasResumenWallet');
 
-//
-
-Route::get('estadisticasResumenWalletMaster',[App\Http\Controllers\statisticsController::class, 'walletSummary'])
-    ->middleware('can:estadisticasDetalle.estadisticasResumenWalletMaster')
-    ->name('estadisticasResumenWalletMaster');
-
-Route::get('estadisticasResumenWalletMaster/{wallet}/{fechaDesde?}/{fechaHasta?}/{master?}',
-    [App\Http\Controllers\statisticsController::class, 'walletSummary'])
-    ->name('estadisticasResumenWalletMaster');
 //
 
 Route::get('estadisticasResumenTransaccion',[App\Http\Controllers\statisticsController::class, 'transactionSummary'])->name('estadisticasResumenTransaccion');
