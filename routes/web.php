@@ -243,11 +243,13 @@ Route::resource('permisos', PermissionController::class)->middleware('auth')->ex
 // Estadisticas Detalle
 //
 //
-Route::get('estadisticasDetalle',[App\Http\Controllers\statisticsController::class, 'index_all2'])
+Route::get('estadisticasDetalle',
+            [App\Http\Controllers\statisticsController::class, 'index_all2'])
             ->middleware('can:estadisticasDetalle.index')
             ->name('estadisticasDetalle');
 
-Route::get('estadisticasDetalle/{usuario}/{grupo?}/{wallet?}/{typeTransactions?}/{fechaDesde?}/{fechaHasta?}/{token?}',[App\Http\Controllers\statisticsController::class, 'index_all2'])
+Route::get('estadisticasDetalle/{usuario}/{grupo?}/{wallet?}/{typeTransactions?}/{fechaDesde?}/{fechaHasta?}/{token?}',
+            [App\Http\Controllers\statisticsController::class, 'index_all2'])
             ->middleware('can:estadisticasDetalle.index')
             ->name('estadisticasDetalle');
 //
@@ -277,7 +279,6 @@ Route::get('estadisticasResumenWalletTran/{wallet?}/{transaction?}/{fechaDesde?}
 // Resumen Wallet Transaccion grupo
 //
 Route::get('estadisticasResumenWalletTranGroup',[App\Http\Controllers\statisticsController::class, 'walletTransactionGroupSummary'])->name('estadisticasResumenWalletTranGroup');
-Route::get('estadisticasResumenWalletTranGroup/{wallet?}/{transaction?}/{group?}/{fechaDesde?}/{fechaHasta?}',[App\Http\Controllers\statisticsController::class, 'walletTransactionGroupSummary'])->name('estadisticasResumenWalletTranGroup');
 //
 // Resumen Fecha Tokens
 //

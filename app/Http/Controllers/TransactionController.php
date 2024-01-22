@@ -623,6 +623,7 @@ class TransactionController extends Controller
 
     public function transfer_walletop(Request $request)
     {
+        //    dd('leam - aqui');
         $user = Auth::id();
         $transactions = new Transaction;
 
@@ -632,14 +633,22 @@ class TransactionController extends Controller
         $transactions->type_transaction_id      = $request->input('type_transaction_id');
         $transactions->wallet_id                = $request->input('wallet_id');
         $transactions->group_id                 = $request->input('wallet2_id');
+
         $transactions->amount                   = $request->input('amount');
         $transactions->amount_total             = $request->input('amount_total');
+
         $transactions->transaction_date         = $request->input('transaction_date');
         $transactions->description              = $request->input('description');   
         $transactions->token                    = $request->input('token');
-        $transactions->amount_commission_base   = $request->input('amount_commission_base');
+
+        $transactions->percentage               = $request->input('percentage');
+        $transactions->exonerate                = $request->input('exonerate');
+        $transactions->amount_commission        = $request->input('amount_commission');
+
         $transactions->percentage_base          = $request->input('percentage_base');
         $transactions->exonerate_base           = $request->input('exonerate_base');
+        $transactions->amount_commission_base   = $request->input('amount_commission_base');
+
         $transactions->amount_base              = $request->input('amount');
         $transactions->amount_total_base        = $request->input('amount_total_base');
         $transactions->user_id                  = $user;
@@ -653,16 +662,20 @@ class TransactionController extends Controller
         $transactions2->type_transaction_id     = $request->input('type_transaction2_id');
         $transactions2->wallet_id               = $request->input('wallet2_id');
         $transactions2->group_id                = $request->input('wallet_id');
-        $transactions2->amount                  = $request->input('amount');
+        
+        $transactions2->amount                  = $request->input('amount_total');
         $transactions2->amount_total            = $request->input('amount_total');
+
         $transactions2->transaction_date        = $request->input('transaction_date');
         $transactions2->description             = $request->input('description2');
 
         $transactions2->token                   = $request->input('token');
-        $transactions2->amount_base             = $request->input('amount');
-        $transactions2->amount_total_base       = $request->input('amount');
+
+        $transactions2->amount_base             = $request->input('amount_total');
+        $transactions2->amount_total_base       = $request->input('amount_total');
+        
         $transactions2->user_id                 = $user;
-        $transactions2->transfer_number       = $number_referencia;
+        $transactions2->transfer_number         = $number_referencia;
         $transactions2->save();
 
          flash()->addSuccess('Movimiento guardado', 'Transacción', ['timeOut' => 3000]);

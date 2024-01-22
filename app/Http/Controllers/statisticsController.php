@@ -327,7 +327,7 @@ class statisticsController extends Controller
             $myLimitCondition   = "limit 1000";
         }
 
-
+        /*
         \Log::info('leam usuario desde       ***    -> ' . $myUserDesde);
         \Log::info('leam usuario hasta       ***    -> ' . $myUserHasta);
 
@@ -355,7 +355,7 @@ class statisticsController extends Controller
         \Log::info('leam Lmit                ***    -> ' . $myLimit);
 
         \Log::info('leam - pasa sin  grupo');
-        
+        */
         $busquedaGroup  = "";
         $busquedaWallet = "";
         
@@ -369,7 +369,8 @@ class statisticsController extends Controller
             $busquedaWallet  = " and wallet_id between $myWalletDesde and $myWalletHasta ";
         }
         if ($myGroup != 0 && $myWallet != 0){
-            $busquedaGroup = " and group_id between 0 and 999999 ";
+            $busquedaGroup = " and group_id between $myGroupDesde and $myGroupHasta ";
+            $busquedaWallet  = " and wallet_id between $myWalletDesde and $myWalletHasta ";
         }
 
         
@@ -422,7 +423,7 @@ class statisticsController extends Controller
         ";
         
         // return $myQuery;
-
+        // \Log::info('leam - myQuery ->' . $myQuery);
 
         $Transacciones = DB::select($myQuery);
         
@@ -1350,6 +1351,11 @@ class statisticsController extends Controller
             $myGroup        = $request->group;
         }
 
+		$myCoin = ($request->coin) ? $request->coin : 1;
+
+        $myTypeCoinBalance  = $myCoin; // dorales siempre por ahora
+        $Type_coin_balance  = Type_coin::pluck('name', 'id')->toArray();
+        
         // $Transacciones1         = $this->getWalletTransactionSummary($request);
         $Transacciones2         = $this->getWalletTransactionGroupSummary($request);
         $groups                 = $this->getGroups();
@@ -1394,7 +1400,32 @@ class statisticsController extends Controller
         // dd($Transacciones2); 
         // dd($Transacciones2);
 
-        return view('estadisticas.statisticsResumenWalletTransaccionGroup', compact('myWallet','wallet','myTypeTransaction', 'Type_transactions', 'Transacciones','myFechaDesde','myFechaHasta','balance','groups', 'myGroup','balanceDetail','myFechaDesdeBefore', 'myFechaDesdeBefore'));
+        $parametros['myTypeCoinBalance']    = $myTypeCoinBalance;
+        $parametros['Type_coin_balance']    = $Type_coin_balance;
+        
+        $parametros['myWallet']             = $myWallet;
+        $parametros['wallet']               = $wallet;
+        
+        $parametros['myTypeTransaction']    = $myTypeTransaction;
+        $parametros['Type_transactions']    = $Type_transactions;
+
+        $parametros['Transacciones']        = $Transacciones;
+
+        $parametros['myFechaDesde']         = $myFechaDesde;
+        $parametros['myFechaHasta']         = $myFechaHasta;
+
+        $parametros['balance']              = $balance;
+        $parametros['groups']               = $groups;
+
+        $parametros['myGroup']              = $myGroup;
+        $parametros['balanceDetail']        = $balanceDetail;
+        $parametros['myFechaDesdeBefore']   = $myFechaDesdeBefore;
+        $parametros['myFechaHastaBefore']   = $myFechaHastaBefore;
+
+
+        return view('estadisticas.statisticsResumenWalletTransaccionGroup', $parametros);
+
+        // return view('estadisticas.statisticsResumenWalletTransaccionGroup', compact('myWallet','wallet','myTypeTransaction', 'Type_transactions', 'Transacciones','myFechaDesde','myFechaHasta','balance','groups', 'myGroup','balanceDetail','myFechaDesdeBefore', 'myFechaDesdeBefore'));
 
     }    
     /*
@@ -1675,7 +1706,8 @@ class statisticsController extends Controller
            $condicionGroup = " and     Transactions.group_id        between  $myGroupDesde    and     $myGroupHasta";
        }
 
-       
+       $myCoin = ($request->coin) ? $request->coin : 1;
+
         $myQuery =
         "
         select
@@ -1708,6 +1740,7 @@ class statisticsController extends Controller
         and     mtf.Transactions.wallet_id             between  $myWalletDesde              and     $myWalletHasta
         and     mtf.Transactions.type_transaction_id   between  $myTypeTransactionDesde     and     $myTypeTransactionHasta      
         and     mtf.Transactions.transaction_date      between  '$myFechaDesde2 00:00:00'   and     '$myFechaHasta2 23:59:00'
+        and     type_coin_balance_id  = $myCoin
         $condicionGroup                  
         group by
             WalletId,
@@ -1731,7 +1764,7 @@ class statisticsController extends Controller
 
         $Transacciones = DB::select($myQuery);
        // dd($Transacciones);
-       //  \Log::info('leam *** $myQUery -> ' . $myQuery);       
+       //  \Log::info('leam *** $myQuery -> ' . $myQuery);       
        //  \Log::info('leam *** $Transacciones3 -> ' . print_r($Transacciones3,true));
        
        return $Transacciones;
@@ -2955,6 +2988,8 @@ class statisticsController extends Controller
         select
             IdWallet                                        as IdWallet,
             NombreWallet                                    as NombreWallet,
+            sum(Cant)                                       as Cant,
+            sum(Monto)                                      as Monto,        
             sum(MontoCreditos)                              as Creditos,
             sum(MontoDebitos)                               as Debitos,
             sum(MontoComision)                              as Comision,
@@ -2965,11 +3000,13 @@ class statisticsController extends Controller
             SELECT
                 wallet_id                       as IdWallet,
                 mtf.groups.name                 as NombreWallet,
+                count(*)                        as Cant,
+                sum(amount)                     as Monto,
                 0 				                as MontoCreditos,
                 sum(amount_total_base)          as MontoDebitos,
                 sum(amount_commission)          as MontoComision,
                 sum(amount_commission_base)     as MontoComisionBase,
-                sum(amount_commission_profit)  as MontoComisionProfit
+                sum(amount_commission_profit)   as MontoComisionProfit
             FROM $myTable
             left join  mtf.groups on mtf.transactions.wallet_id  = mtf.groups.id
             where
@@ -2987,6 +3024,8 @@ class statisticsController extends Controller
             SELECT
                 wallet_id                       as IdWallet,
                 mtf.groups.name                 as NombreWallet,
+                count(*)                        as Cant,   
+                sum(amount)                     as Monto,                        
                 sum(amount_total_base)          as MontoCreditos,
                 0                               as MontoDebitos,
                 sum(amount_commission)          as MontoComision,
