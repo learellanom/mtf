@@ -7,6 +7,8 @@
 
 $heads = [
     'Wallet',
+    'Cant',    
+    'Monto',    
     'Comision',
     'Comision Base',
     'Ganancia comision',
@@ -150,7 +152,8 @@ $config4 = [
                             @foreach($Transacciones as $row)
                                 <tr>
                                     <td>{!! $row->NombreWallet !!}</td>
-                                    
+                                    <td>{!! number_format($row->Cant) !!}</td>
+                                    <td>{!! number_format($row->Monto,2) !!}</td>
                                     <td class="text-right">{!! number_format($row->Comision,2,",",".") !!}</td>
                                     <td class="text-right">{!! number_format($row->ComisionBase,2,",",".") !!}</td>
                                     <td class="text-right">{!! number_format($row->ComisionGanancia,2,",",".") !!}</td>
@@ -410,7 +413,7 @@ $config4 = [
     }
 
     function InicializaFechas(){
-       // $('#drCustomRanges').data('daterangepicker').setStartDate('01-01-2001');
+        $('#drCustomRanges').data('daterangepicker').setStartDate('01-01-2001');
 
     }
 
