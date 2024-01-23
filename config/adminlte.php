@@ -487,41 +487,6 @@ return [
                 ],                                         
             ]
         ],        
-        // [
-        //     'text' => 'Resumen por Grupo',
-        //     'url'  => 'estadisticasResumenGrupo',
-        //     'active' => ['estadisticasResumenGrupo*'],
-        //     'icon' => 'fas fa-fw fas fa-chart-bar',
-        //     'can'  => 'estadisticasDetalle.statisticsResumenUsuario',
-        // ],
-        // [
-        //     'text' => 'Resumen por Caja',
-        //     'url'  => 'estadisticasResumenWallet',
-        //     'active' => ['estadisticasResumenWallet','regex:@^estadisticasResumenWallet/[0-9]+/*@' ],
-        //     'icon' => 'fas fa-fw fas fa-chart-bar',
-        //     'can'  => 'estadisticasDetalle.statisticsResumenWallet',
-        // ],
-        // [
-        //     'text' => 'Resumen por Caja Transaccion',
-        //     'url'  => 'estadisticasResumenWalletTran',
-        //     'active' => ['estadisticasResumenWalletTran','regex:@^estadisticasResumenWalletTran/[0-9]+/*@' ],
-        //     'icon' => 'fas fa-fw fas fa-chart-bar',
-        //     'can'  => 'estadisticasDetalle.estadisticasResumenWalletTran',
-        // ],
-        // [
-        //     'text' => 'Resumen por Caja Tran Grupo',
-        //     'url'  => 'estadisticasResumenWalletTranGroup',
-        //     'active' => ['estadisticasResumenWalletTranGroup','regex:@^estadisticasResumenWalletTranGroup/[0-9]+/*@' ],
-        //     'icon' => 'fas fa-fw fas fa-chart-bar',
-        //     'can'  => 'estadisticasDetalle.estadisticasResumenWalletTranGroup',
-        // ],
-        // [
-        //     'text' => 'Resumen por Fecha y Tokens',
-        //     'url'  => 'estadisticasFechaTokens',
-        //     'active' => ['estadisticasFechaTokes','regex:@^estadisticasFechaTokens/[0-9]+/*@' ],
-        //     'icon' => 'fas fa-fw fas fa-chart-bar',
-        //     'can'  => 'estadisticasDetalle.estadisticasFechaTokens',
-        // ],
         [
             'text'      => 'Consolidado de Movimientos',
             'url'       => 'consolidadoMovimientosGrupo',

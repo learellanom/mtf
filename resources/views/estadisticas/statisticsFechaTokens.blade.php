@@ -81,6 +81,28 @@ $config4 = [
             </x-adminlte-date-range>
         </div>
 
+        <div class ="col-sm-3">
+            <x-adminlte-select2 id="coin"
+                                name="optionsCoin"
+                                igroup-size="sm"
+                                label-class="text-lightblue"
+                                data-placeholder="MonedaGrupo ..."
+                                :config="$config1"
+                                >
+                <x-slot name="prependSlot">
+                    <div class="input-group-text bg-gradient-dark">
+                        <!-- <i class="fas fa-car-side"></i> -->
+                        <!-- <i class="fas fa-user-tie"></i> -->
+                        <i class="fas fa-solid fa-dollar-sign"></i>                        
+                    </div>
+                    
+                </x-slot>
+
+                <x-adminlte-options :options="$Type_coin_balance" empty-option="Selecciona una moneda.."/>
+
+            </x-adminlte-select2>
+        </div>
+
     </div>
 
 </div>
@@ -314,8 +336,8 @@ $config4 = [
 
     });
 
-
-
+    const myTypeCoinBalance = {!! $myTypeCoinBalance !!};
+    BuscaMoneda(myTypeCoinBalance);
 
     $(() => {
 
@@ -326,11 +348,8 @@ $config4 = [
 
         $('#drCustomRanges').on('change', function () {
 
-            // alert('ggggg ' + $('#drCustomRanges').val());\
 
-            // obtener fecha inicio
-            // alert('ggggg ' + $('#drCustomRanges').data('daterangepicker').startDate.format('YYYY-MM-DD'));
-
+            const coin      = ($('#coin').val()) ? $('#coin').val() : 1;
             let myFechaDesde, myFechaHasta;
 
             myFechaDesde =  ($('#drCustomRanges').val()).substr(6,4) +
@@ -347,21 +366,49 @@ $config4 = [
                             ($('#drCustomRanges').val()).substr(13,2)
                             ;
 
-            theRoute(myFechaDesde,myFechaHasta);
+            theRoute(myFechaDesde,myFechaHasta,coin);
 
         });
 
+
+        $('#coin').on('change', function (){
+
+            const coin      = ($('#coin').val()) ? $('#coin').val() : 1;
+
+            let myFechaDesde, myFechaHasta;
+
+            myFechaDesde =  ($('#drCustomRanges').val()).substr(6,4) +
+                            '-' +
+                            ($('#drCustomRanges').val()).substr(3,2) +
+                            '-' +
+                            ($('#drCustomRanges').val()).substr(0,2)
+                            ;
+
+            myFechaHasta =  ($('#drCustomRanges').val()).substr(19,4) +
+                            '-' +
+                            ($('#drCustomRanges').val()).substr(16,2) +
+                            '-' +
+                            ($('#drCustomRanges').val()).substr(13,2)
+                            ;
+            theRoute(myFechaDesde,myFechaHasta, coin);
+        
+        }
+        ).on('select2:open', () => {
+            document.querySelector('.select2-search__field').focus();
+        });
+
+
     })
 
-    function theRoute( fechaDesde = 0, fechaHasta = 0){
-
-
+    function theRoute( fechaDesde = 0, fechaHasta = 0, coin = 1){
 
         let myRoute = "";
 
-        myRoute = "{{ route('estadisticasFechaTokens', ['fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2']) }}";
+        myRoute = "{{ route('estadisticasFechaTokens', ['fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2', 'coin' => 'coin2']) }}";
         myRoute = myRoute.replace('fechaDesde2',fechaDesde);
         myRoute = myRoute.replace('fechaHasta2',fechaHasta);
+        myRoute = myRoute.replace('coin2',coin);
+        myRoute = myRoute.replaceAll('amp;','');
         // console.log(myRoute);
         // alert(myRoute);
         location.href = myRoute;
@@ -473,6 +520,21 @@ $config4 = [
         //
         $('#drCustomRanges').data('daterangepicker').setStartDate(myFechaDesde);
         $('#drCustomRanges').data('daterangepicker').setEndDate(myFechaHasta);
+    }
+
+    function BuscaMoneda(myTypeCoinBalance){
+        //alert("BuscaGrupo - miGrupo -> " + miGrupo);
+        $('#coin').each( function(index, element){
+            //alert ("Buscagrupo -> " + $(this).val() + " text -> " + $(this).text()+ " y con index -> " + $(this).prop('selectedIndex'));
+            $(this).children("option").each(function(){
+                if ($(this).val() === myTypeCoinBalance.toString()){
+                    //alert('Buscagrupo - encontro');
+                    $("#coin option[value="+ myTypeCoinBalance +"]").attr("selected",true);
+                }
+                //alert("BuscaGrupoaqui ->  the val " + $(this).val() + " text -> " + $(this).text());
+            });
+        });
+        //
     }
 
 </script>

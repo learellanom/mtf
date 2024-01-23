@@ -31,6 +31,9 @@ class Commissions_usdt extends Model
         return $this->belongsTo(group::class, 'wallet_id');
     }
 
-
+    //Relación uno a muchos
+    public function type_coin_balance(){
+        return $this->belongsTo(Type_coin::class,'type_coin_balance_id');
+    }
 
 }
