@@ -99,8 +99,8 @@ Route::get('dashboardComisionesGrupoRes3/{wallet?}/{grupo?}/{fechaDesde?}/{fecha
 
 Route::get('USDTResumenDiario/{wallet?}/{fechaDesde?}/{fechaHasta?}', [App\Http\Controllers\HomeController::class, 'USDTResumenDiario'])->name('USDTResumenDiario');
 
-Route::get('consolidadoMovimientosGrupo',                                       [App\Http\Controllers\statisticsController::class, 'consolidadoMovimientosGrupo'])->name('consolidadoMovimientosGrupo');
-Route::get('consolidadoMovimientosGrupo/{grupo?}',                              [App\Http\Controllers\statisticsController::class, 'consolidadoMovimientosGrupo'])->name('consolidadoMovimientosGrupo');
+//Route::get('consolidadoMovimientosGrupo',                                       [App\Http\Controllers\statisticsController::class, 'consolidadoMovimientosGrupo'])->name('consolidadoMovimientosGrupo');
+//Route::get('consolidadoMovimientosGrupo/{grupo?}',                              [App\Http\Controllers\statisticsController::class, 'consolidadoMovimientosGrupo'])->name('consolidadoMovimientosGrupo');
 Route::get('consolidadoMovimientosGrupo/{grupo?}/{fechaDesde?}/{fechaHasta?}',  [App\Http\Controllers\statisticsController::class, 'consolidadoMovimientosGrupo'])->name('consolidadoMovimientosGrupo');
 
 Route::get('dashboard_est/export/', [App\Http\Controllers\HomeController::class, 'export'])->name('exports.excel'); //EXPORTACIÓN DE EXCEL
@@ -273,7 +273,6 @@ Route::get('estadisticasResumenGrupo',[App\Http\Controllers\statisticsController
 // Resumen Wallet Transaccion
 //
 Route::get('estadisticasResumenWalletTran',[App\Http\Controllers\statisticsController::class, 'walletTransactionSummary'])->name('estadisticasResumenWalletTran');
-Route::get('estadisticasResumenWalletTran/{wallet?}/{transaction?}/{fechaDesde?}/{fechaHasta?}',[App\Http\Controllers\statisticsController::class, 'walletTransactionSummary'])->name('estadisticasResumenWalletTran');
 
 //
 // Resumen Wallet Transaccion grupo
@@ -289,20 +288,5 @@ Route::get('estadisticasFechaTokens/{fechaDesde?}/{fechaHasta?}',[App\Http\Contr
 //
 Route::get('estadisticasResumenWallet',[App\Http\Controllers\statisticsController::class, 'walletSummary'])->middleware('can:estadisticasDetalle.statisticsResumenWallet')->name('estadisticasResumenWallet');
 
-//
-
-Route::get('estadisticasResumenTransaccion',[App\Http\Controllers\statisticsController::class, 'transactionSummary'])->name('estadisticasResumenTransaccion');
-Route::get('estadisticasResumenTransaccion/{type_transaction?}/{fechaDesde?}/{fechaHasta?}',[App\Http\Controllers\statisticsController::class, 'transactionSummary'])->name('estadisticasResumenTransaccion');
-
-//
-Route::get('estadisticasResumenGrupoWallet',[App\Http\Controllers\statisticsController::class, 'groupSummaryWallet'])->name('estadisticasResumenGrupoWallet');
-Route::get('estadisticasResumenGrupoWallet/{grupo}/{fechaDesde?}/{fechaHasta?}',[App\Http\Controllers\statisticsController::class, 'groupSummaryWallet'])->name('estadisticasResumenGrupoWallet');
-
-
-Route::get('estadisticasConciliacionGrupo',[App\Http\Controllers\statisticsController::class, 'conciliationSummaryDateGroup'])->name('estadisticasConciliacionGrupo');
-Route::get('estadisticasConciliacionGrupo/{grupo}/{fechaDesde?}/{fechaHasta?}',[App\Http\Controllers\statisticsController::class, 'conciliationSummaryDateGroup'])->name('estadisticasConciliacionGrupo');
-
-Route::get('estadisticasConciliacionFecha',[App\Http\Controllers\statisticsController::class, 'conciliationSummaryDate'])->name('estadisticasConciliacionFecha');
-Route::get('estadisticasConciliacionFecha/{fechaDesde?}/{fechaHasta?}',[App\Http\Controllers\statisticsController::class, 'conciliationSummaryDate'])->name('estadisticasConciliacionFecha');
 
 ?>

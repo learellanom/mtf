@@ -39,8 +39,10 @@ return new class extends Migration
         
             $table->index('transaction_date');                                      // crea indice en transaction_date
 
-
             $table->timestamps();
+            
+            $table->foreignId('type_coin_balance_id')->default(1)->references('id')->on('type_coins');  //-> tipo de moneda en el que se llevara el balance de la transaccion
+
         });
     }
 

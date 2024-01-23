@@ -677,11 +677,11 @@
         * 
         */
         $('#myForm').on('input', function (){
-            // alert('cambio');
             calcula();
         }); 
-
-
+        $('#myForm').on('change', function (){
+            console.log('pasa por change');
+        }); 
         $('#radio1').on('click', function() {
             $('#percentage').val("");
             $('#comision').val("");
@@ -1233,7 +1233,7 @@
     * 
     */
     function updateMontoreal(exonerar, descontar, incluir, comision, porcentage, montoreal) {
-
+        console.log('pasa updateMontoreal');
         let monto_dolares           = parseFloat($('#monto_dolares').val());
         let amount_commission_base  =  $('#comision_base').val() == "" ? 0 : parseFloat($('#comision_base').val());
         
@@ -1281,7 +1281,7 @@
     * 
     */
     function updateMontorealBase(exonerar_base, descontar_base, incluir_base, comision_base = 0, porcentage_base, montoreal_base) {
-
+        console.log('pasa updateMontorealBase');
         let monto_dolares   = parseFloat($('#monto_dolares').val());
         let comision        = $('#comision').val() == "" ? 0 : parseFloat($('#comision').val());
         
@@ -1331,6 +1331,7 @@
     * 
     */
     function updateTasaBase(comision_base, tasa_base, montoreal_base) {
+        console.log('pasa updateTasaBase');
         let monto_dolares = parseFloat($('#monto_dolares').val());
 
         if(tasa_base > 0){
@@ -1474,7 +1475,7 @@
                 default:
                     break;
             }
-
+            alert(amount_total);
             if (percentage_base > 0){
                 amount_base                 = amount;
                 amount_commission_base      = (amount * percentage_base ) / 100;

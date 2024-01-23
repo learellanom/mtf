@@ -143,6 +143,29 @@ $totalComisionGanancia2General  = 0;
 
                 </div>
 
+
+                <div class ="col-sm-3">
+                    <x-adminlte-select2 id="coin"
+                                        name="optionsCoin"
+                                        igroup-size="sm"
+                                        label-class="text-lightblue"
+                                        data-placeholder="MonedaGrupo ..."
+                                        :config="$config1"
+                                        >
+                        <x-slot name="prependSlot">
+                            <div class="input-group-text bg-gradient-dark">
+                                <!-- <i class="fas fa-car-side"></i> -->
+                                <!-- <i class="fas fa-user-tie"></i> -->
+                                <i class="fas fa-solid fa-dollar-sign"></i>                        
+                            </div>
+                            
+                        </x-slot>
+
+                        <x-adminlte-options :options="$Type_coin_balance" empty-option="Selecciona una moneda.."/>
+
+                    </x-adminlte-select2>
+                </div>
+
                 <div class ="col-12 col-lg-3">
                     <div class="row">
 
@@ -184,6 +207,10 @@ $totalComisionGanancia2General  = 0;
                 
     BuscaGrupo(miGrupo);
 
+    const myTypeCoinBalance = {!! $myTypeCoinBalance !!};
+    
+    BuscaMoneda(myTypeCoinBalance);
+
     @php
 
 
@@ -197,9 +224,9 @@ $totalComisionGanancia2General  = 0;
 
         //
         
-        console.log('myFechaDesde ->  {{ $myFechaDesde }}'); 
-        console.log('myFechaDesde -> ' + myFechaDesde);
-        console.log('myFechaHasta -> ' + myFechaHasta);
+        // console.log('myFechaDesde ->  {{ $myFechaDesde }}'); 
+        // console.log('myFechaDesde -> ' + myFechaDesde);
+        // console.log('myFechaHasta -> ' + myFechaHasta);
 
         InicializaFechas();
 
@@ -255,6 +282,35 @@ $totalComisionGanancia2General  = 0;
             const grupo         = $('#grupo').val()     == "" ? 0 : $('#grupo').val();
             theRoute(grupo, myFechaDesde,myFechaHasta);
 
+        });
+
+        $('#coin').on('change', function (){
+
+            const grupo     = ($('#grupo').val())   ? $('#grupo').val() : 0;
+            const coin      = ($('#coin').val())    ? $('#coin').val()  : 1;
+
+            let myFechaDesde, myFechaHasta;
+
+            myFechaDesde =  ($('#drCustomRanges').val()).substr(6,4) +
+                            '-' +
+                            ($('#drCustomRanges').val()).substr(3,2) +
+                            '-' +
+                            ($('#drCustomRanges').val()).substr(0,2)
+                            ;
+
+            myFechaHasta =  ($('#drCustomRanges').val()).substr(19,4) +
+                            '-' +
+                            ($('#drCustomRanges').val()).substr(16,2) +
+                            '-' +
+                            ($('#drCustomRanges').val()).substr(13,2)
+                            ;
+            if (grupo != 0){
+             theRoute(grupo,myFechaDesde,myFechaHasta,coin);
+            }
+
+        }
+        ).on('select2:open', () => {
+            document.querySelector('.select2-search__field').focus();
         });
 
 
@@ -726,16 +782,22 @@ $totalComisionGanancia2General  = 0;
 
     }
 
-    function theRoute(grupo = "", fechaDesde = '', fechaHasta = ''){
+    function theRoute(grupo = "", fechaDesde = '', fechaHasta = '', coin = 1){
 
         let myRoute = "";
                             
-        myRoute = "{{ route('consolidadoMovimientosGrupo', ['grupo' => 'grupo2' ,'fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2']) }}";
+        myRoute = "{{ route('consolidadoMovimientosGrupo', ['grupo' => 'grupo2' ,'fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2', 'coin' => 'coin2']) }}";
         
         myRoute = myRoute.replace('grupo2',grupo);
         myRoute = myRoute.replace('fechaDesde2',fechaDesde);
         myRoute = myRoute.replace('fechaHasta2',fechaHasta);
+        myRoute = myRoute.replace('coin2',coin);
+        myRoute = myRoute.replaceAll('amp;','');
          // alert(myRoute);
+
+         if (grupo == 0) {
+            myRoute = "{{ route('consolidadoMovimientosGrupo') }}";
+         }
         location.href = myRoute;
 
     }
@@ -776,7 +838,7 @@ $totalComisionGanancia2General  = 0;
         myArray     = myLocation.split("/");
 
         // alert(myArray);
-        console.log('myArray ->' + myArray + ' length ->' + myArray.length);
+        // console.log('myArray ->' + myArray + ' length ->' + myArray.length);
         // alert('length ->' + myArray.length);
 
         if (myArray.length > 4){
@@ -825,6 +887,21 @@ $totalComisionGanancia2General  = 0;
         $('#myBtnImprimir').prop('disabled') ? $('#myBtnImprimir').prop('disabled',false) : $('#myBtnImprimir').prop('disabled',true)
         // $('#myBtnExcel').prop('disabled') ? $('#myBtnImprimir').prop('disabled',false) : $('#myBtnImprimir').prop('disabled',true)
         // $('#myBtnPDF').prop('disabled') ? $('#myBtnImprimir').prop('disabled',false) : $('#myBtnImprimir').prop('disabled',true)
+    }
+
+    function BuscaMoneda(myTypeCoinBalance){
+        //alert("BuscaGrupo - miGrupo -> " + miGrupo);
+        $('#coin').each( function(index, element){
+            //alert ("Buscagrupo -> " + $(this).val() + " text -> " + $(this).text()+ " y con index -> " + $(this).prop('selectedIndex'));
+            $(this).children("option").each(function(){
+                if ($(this).val() === myTypeCoinBalance.toString()){
+                    //alert('Buscagrupo - encontro');
+                    $("#coin option[value="+ myTypeCoinBalance +"]").attr("selected",true);
+                }
+                //alert("BuscaGrupoaqui ->  the val " + $(this).val() + " text -> " + $(this).text());
+            });
+        });
+        //
     }
 
 </script>
