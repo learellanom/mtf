@@ -520,6 +520,13 @@ $config4 = [
         //
         $('#drCustomRanges').data('daterangepicker').setStartDate(myFechaDesde);
         $('#drCustomRanges').data('daterangepicker').setEndDate(myFechaHasta);
+
+        
+        const searchParams = new URLSearchParams(window.location.search);
+        console.log(searchParams.has('sort')); // true
+        console.log(searchParams.get('sort')); // price_descending
+
+        // https://sentry.io/answers/how-to-get-values-from-urls-in-javascript/
     }
 
     function BuscaMoneda(myTypeCoinBalance){
