@@ -1111,6 +1111,8 @@ class statisticsController extends Controller
         $parametros['myFechaDesde']         = $myFechaDesde;
         $parametros['myFechaHasta']         = $myFechaHasta;
 
+        \Log::info('leam - myFechaDesde ->' . $myFechaDesde);
+
         return view('estadisticas.statisticsFechaTokens', $parametros);
         return $myUsers2;
     }
@@ -1834,6 +1836,9 @@ class statisticsController extends Controller
             $myFechaHasta2 = $myFechaHasta . " 23:59:00";            
         }
 
+
+        $myCoin         = ($request->coin) ? $request->coin : 1;
+
         $myQuery =
         "
         select
@@ -1860,7 +1865,8 @@ class statisticsController extends Controller
         where        
                 mtf.Transactions.status                 <> 'Anulado'
         and     mtf.Transactions.type_transaction_id   between  $myTypeTransactionDesde     and     $myTypeTransactionHasta      
-        and     mtf.Transactions.transaction_date      between  '$myFechaDesde2 00:00:00'   and     '$myFechaHasta2 23:59:00'         
+        and     mtf.Transactions.transaction_date      between  '$myFechaDesde2 00:00:00'   and     '$myFechaHasta2 23:59:00'       
+        and     mtf.Transactions.type_coin_balance_id  = $myCoin 
         group by
             WalletId,
             WalletName,
@@ -1921,7 +1927,7 @@ class statisticsController extends Controller
         }
 
 
-
+        $myCoin         = ($request->coin)          ? $request->coin        : 1;
         
         $myQuery =
         "
@@ -1952,7 +1958,8 @@ class statisticsController extends Controller
         where        
                 mtf.Transactions.status                 <> 'Anulado'
         and     mtf.Transactions.type_transaction_id   between  $myTypeTransactionDesde     and     $myTypeTransactionHasta      
-        and     mtf.Transactions.transaction_date      between  '$myFechaDesde2 00:00:00'   and     '$myFechaHasta2 23:59:00'         
+        and     mtf.Transactions.transaction_date      between  '$myFechaDesde2 00:00:00'   and     '$myFechaHasta2 23:59:00'     
+        and     type_coin_balance_id  = $myCoin    
         group by
             TypeTransactionId,
             TypeTransaccionName,
@@ -2727,7 +2734,7 @@ class statisticsController extends Controller
     *
     *
     */
-    function getBalanceBefore($myGroup = 0, $myFechaDesde = "2001-01-01", $myFechaHasta = "9999-12-31"){
+    function getBalanceBefore($myGroup = 0, $myFechaDesde = "2001-01-01", $myFechaHasta = "9999-12-31", $myCoin = 1){
 
 
 
@@ -2753,7 +2760,7 @@ class statisticsController extends Controller
             
         
 
-            $balance3           = $this->getBalance($myGroup, $myFechaDesdeBefore, $myFechaHastaBefore);
+            $balance3           = $this->getBalance($myGroup, $myFechaDesdeBefore, $myFechaHastaBefore, $myCoin);
             // dd('las fechas - ' . $balance3->Total . ' grupo ' . $myGroup . 'fecha desde -> ' . $myFechaDesdeBefore . ' fecha hasta -> ' . $myFechaHastaBefore);
             if(isset($balance3->Total)){
                 $balanceDetail  = $balance3->Total;
@@ -2879,11 +2886,11 @@ class statisticsController extends Controller
             where
                 type_transaction_id in ($myTempDebits)
                 and
-                transaction_date    between '$myFechaDesde' and '$myFechaHasta'
+                transaction_date            between '$myFechaDesde' and '$myFechaHasta'
                 and
-                wallet_id           between $walletDesde and $walletHasta
-                and status <> 'Anulado'
-                and type_coin_balance_id = $myCoin
+                wallet_id                   between $walletDesde and $walletHasta
+                and status                  <> 'Anulado'
+                and type_coin_balance_id    = $myCoin
             group by
                 IdWallet,
                 NombreWallet

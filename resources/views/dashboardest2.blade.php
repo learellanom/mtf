@@ -38,24 +38,26 @@ $config4 = [
     <div class="card">
         <div class="card-header">
             <div class="row">
-                <div class="col col-md-3">
-                    <x-adminlte-select2 id="wallet"
-                    name="optionsWallets"
-                    
-                    label-class="text-lightblue"
-                    data-placeholder="Seleccione una caja"
 
-                    :config="$config4"
-                    >
-                    <x-slot name="prependSlot">
-                        <div class="input-group-text bg-gradient-light">
-                            <i class="fas fa-box"></i>
-                        </div>
-                    </x-slot>
-                    <x-adminlte-options :options="$wallet" empty-option="Wallet.."/>
+                <div class="col-12 col-md-3">
+                    <x-adminlte-select2 id="wallet"
+                        name="optionsWallets"
+                        
+                        label-class="text-lightblue"
+                        data-placeholder="Seleccione una caja"
+
+                        :config="$config4"
+                        >
+                        <x-slot name="prependSlot">
+                            <div class="input-group-text bg-gradient-light">
+                                <i class="fas fa-box"></i>
+                            </div>
+                        </x-slot>
+                        <x-adminlte-options :options="$wallet" empty-option="Wallet.."/>
                     </x-adminlte-select2>
                 </div>
-                <div class="col col-md-3">
+
+                <div class="col-12 col-md-3">
                     <x-adminlte-select2 id="typeTransactions"
                     name="optionstypeTransactions"
                     
@@ -63,11 +65,11 @@ $config4 = [
                     data-placeholder="Tipo de transacción"
 
                     :config="$config2"
-                    >
+                >
                     <x-slot name="prependSlot">
-                    <div class="input-group-text bg-gradient-light">
-                    <i class="fas fa-exchange-alt"></i>
-                    </div>
+                        <div class="input-group-text bg-gradient-light">
+                        <i class="fas fa-exchange-alt"></i>
+                        </div>
                     </x-slot>
 
                     <x-adminlte-options :options="$typeTransactions" empty-option="Selecciona Transaccion.."/>
@@ -86,17 +88,43 @@ $config4 = [
                             </div>
                         </x-slot>
                     </x-adminlte-date-range>
-
-
                 </div>
+                <!--
                 <div class ="col-12 col-md-3">
+                    <x-adminlte-select2 id="coin"
+                                        name="optionsCoin"
+                                        
+                                        label-class="text-lightblue"
+                                        data-placeholder="MonedaGrupo ..."
+                                        :config="$config1"
+                                        >
+                        <x-slot name="prependSlot">
+                            <div class="input-group-text bg-gradient-dark">
+
+                                <i class="fas fa-solid fa-dollar-sign"></i>                        
+                            </div>
+                            
+                        </x-slot>
+
+                        <x-adminlte-options :options="$Type_coin_balance" empty-option="Selecciona una moneda.."/>
+
+                    </x-adminlte-select2>
+                </div>
+-->
+
+
+
+            </div>
+
+            <div class="row">
+                <div class ="col-12">
                     <a class="btn btn-primary imprimir"><i class="fas fa-print"></i></a>
                     <a class="btn btn-success"  onclick="exportaEstadisticas();"><i class="fas fa-file-excel"></i></a>
                     <a class="btn btn-danger"   onclick="exportaEstadisticasPDF();"><i class="fas fa-file-pdf"></i></a>
                     {{-- <a class="btn btn-success" href={{route('exports.excel', [$myWallet, $myFechaDesde, $myFechaHasta])}}><i class="fas fa-file-excel"></i></a> --}}
                 </div>
-
             </div>
+
         </div>
     </div>
 
@@ -229,6 +257,10 @@ $config4 = [
     const miTypeTransaction= {!! $myTypeTransaction !!};
 
     BuscaTransaccion(miTypeTransaction);
+
+    const myTypeCoinBalance = {!! $myTypeCoinBalance !!};
+    
+    BuscaMoneda(myTypeCoinBalance);
 
     @php
 
@@ -440,6 +472,41 @@ $config4 = [
                 });             
             
         });
+
+        $('#coin').on('change', function (){
+
+            const grupo     = ($('#grupo').val())   ? $('#grupo').val() : 0;
+            const coin      = ($('#coin').val())    ? $('#coin').val()  : 1;
+
+            let myFechaDesde, myFechaHasta;
+
+            myFechaDesde =  ($('#drCustomRanges').val()).substr(6,4) +
+                            '-' +
+                            ($('#drCustomRanges').val()).substr(3,2) +
+                            '-' +
+                            ($('#drCustomRanges').val()).substr(0,2)
+                            ;
+
+            myFechaHasta =  ($('#drCustomRanges').val()).substr(19,4) +
+                            '-' +
+                            ($('#drCustomRanges').val()).substr(16,2) +
+                            '-' +
+                            ($('#drCustomRanges').val()).substr(13,2)
+                            ;
+
+
+            const wallet        = $('#wallet').val();
+            const transaccion   = $('#typeTransactions').val();
+            
+            theRoute(wallet, transaccion, myFechaDesde,myFechaHasta, coin);
+                
+
+
+        }
+        ).on('select2:open', () => {
+            document.querySelector('.select2-search__field').focus();
+        });
+
 
     });
 
@@ -1180,12 +1247,119 @@ $config4 = [
 
             </div>
         `;
+
+
+        myElement2 =
+        `
+            <style>
+                .myTr {
+                    cursor: pointer;
+                }
+                .myTr:hover{
+                    background-color: #D7DBDD  !important;
+                }
+            </style>
+            <div class ="row mb-4" style="background-color: white;">
+                <div class="col-12 col-md-12">
+                    <table class="table thead-light" style="background-color: white;">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th style="width:1%;">Transacción</th>
+                                <th style="width:1%;">Cant transacción</th>
+                                <th style="width:1%;">Entradas</th>
+                                <th style="width:1%;">Salidas</th>
+                            </tr>
+                        </thead>
+                        @php
+                            $cantCreditos  = 0;
+                            $cantDebitos   = 0;
+
+                            $totalCreditos  = 0;
+                            $totalDebitos   = 0;
+
+                            $totalComision  = 0;
+                        @endphp
+                        
+                        @foreach($transaction_summary as $wallet2)
+                            <tr class="myTr" onClick="theRoute2({{0}}, {{0}}, {{0}}, {{$wallet2->TypeTransactionId}})">
+
+                                @php
+                                    $myTransaction  = $myClass->getCreditDebitWallet($wallet2->TypeTransactionId);
+                                    $totalComision      +=  $wallet2->total_amount_commission_base;
+                                @endphp
+
+                                @switch($myTransaction)
+                                    //
+                                    // debito
+                                    // resta
+                                    //
+                                    @case("Debito")
+                                        
+                                        @if($wallet2->TypeTransactionId == $myTypeTransaction )
+                                            <td class="font-weight-bold" style="color: green;">{{ $wallet2->TypeTransaccionName}}</td>
+                                            <td class="font-weight-bold" style="color: green;">{{ number_format($wallet2->cant_transactions) }}</td>
+                                            <td class="font-weight-bold" style="color: green;">{{  ' ' }}</td>
+                                            <td class="font-weight-bold" style="color: green;">{{ number_format($wallet2->total_amount,2)}}</td>
+                                            
+                                            
+                                        @else
+                                            <td                                                 >{{ $wallet2->TypeTransaccionName}}</td>
+                                            <td                                                 >{{ number_format($wallet2->cant_transactions) }}</td>
+                                            <td                                                 >{{  ' ' }}</td>
+                                            <td class="font-weight-bold" style="color: green;"  >{{ number_format($wallet2->total_amount,2)}}</td>
+                                            
+                                        @endif
+                                        @php
+                                            $cantDebitos ++;
+                                            $totalDebitos += $wallet2->total_amount;
+                                        @endphp
+                                        @break
+                                    
+                                    @case("Credito")
+                                        @if($wallet2->TypeTransactionId == $myTypeTransaction )
+                                            <td class="font-weight-bold" style="color: green;">{{ $wallet2->TypeTransaccionName}}</td>
+                                            <td class="font-weight-bold" style="color: green;">{{ number_format($wallet2->cant_transactions) }}</td>
+                                            <td class="font-weight-bold" style="color: green;">{{ number_format($wallet2->total_amount,2)}}</td>
+                                            <td class="font-weight-bold" style="color: green;">{{ ' ' }}</td>
+
+                                        @else
+                                            <td                                                 >{{ $wallet2->TypeTransaccionName}}</td>
+                                            <td                                                 >{{ number_format($wallet2->cant_transactions) }}</td>
+                                            <td                                                 >{{ number_format($wallet2->total_amount,2)}}</td>
+                                            <td class="font-weight-bold" style="color: green;"  >{{ ' ' }}</td>
+
+                                        @endif
+                                        @php
+                                            $cantCreditos ++;
+                                            $totalCreditos += $wallet2->total_amount;
+                                        @endphp
+                                        @break
+                                @endswitch
+
+
+                            </tr>
+                        @endforeach
+                        <tr style="background-color: black; color:white;">
+                            <td >{{ ' ' }}</td>
+                            <td >{{ ' ' }}</td>
+                            <td >{{ number_format($totalCreditos ,2) }}</td>
+                            <td >{{ number_format($totalDebitos  ,2) }}</td>
+                        </tr>
+                    </table>
+                </div>
+
+
+            </div>
+        `;
+
+
+
         $("#myCanvasGeneral").append(myElement);
 
     }
 
 
-    function theRoute(wallet = 0, transaction = 0, fechaDesde = 0, fechaHasta = 0){
+    function theRoute(wallet = 0, transaction = 0, fechaDesde = 0, fechaHasta = 0, coin = 1){
 
 
         if (wallet   === "") wallet  = 0;
@@ -1193,12 +1367,13 @@ $config4 = [
 
         let myRoute = "";
 
-        myRoute = "{{ route('dashboardest', ['wallet' => 'wallet2' , 'transaction' => 'transaction2', 'fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2']) }}";
+        myRoute = "{{ route('dashboardest', ['wallet' => 'wallet2' , 'transaction' => 'transaction2', 'fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2', 'coin' => 'coin2']) }}";
         myRoute = myRoute.replace('wallet2',wallet);
         myRoute = myRoute.replace('transaction2',transaction);
         myRoute = myRoute.replace('fechaDesde2',fechaDesde);
         myRoute = myRoute.replace('fechaHasta2',fechaHasta);
-
+        myRoute = myRoute.replace('coin2',coin);
+        myRoute = myRoute.replaceAll('amp;','');
         location.href = myRoute;
 
     }
@@ -1506,6 +1681,20 @@ $config4 = [
         location.href = myRoute;
     }
 
+    function BuscaMoneda(myTypeCoinBalance){
+       // alert("BuscaMoneda - myTypeCoinBalance -> " + myTypeCoinBalance);
+        $('#coin').each( function(index, element){
+            //alert ("Buscagrupo -> " + $(this).val() + " text -> " + $(this).text()+ " y con index -> " + $(this).prop('selectedIndex'));
+            $(this).children("option").each(function(){
+                if ($(this).val() === myTypeCoinBalance.toString()){
+                    //alert('Buscagrupo - encontro');
+                    $("#coin option[value="+ myTypeCoinBalance +"]").attr("selected",true);
+                }
+                //alert("BuscaGrupoaqui ->  the val " + $(this).val() + " text -> " + $(this).text());
+            });
+        });
+        //
+    }
             
 </script>
 

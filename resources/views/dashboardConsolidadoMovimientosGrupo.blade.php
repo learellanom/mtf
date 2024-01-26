@@ -518,6 +518,66 @@ $totalComisionGanancia2General  = 0;
     */
     function transacciones(){
 
+        if({{count($Transacciones)}} == 0){
+            myElement =
+            `
+                <style>
+                    .myTr {
+                        cursor: pointer;
+                    }
+                    .myTr:hover{
+                        background-color: #D7DBDD  !important;
+                    }
+                    .myTable th {
+                        width: 20% !important;
+                        min-wdth: 20% !important;
+                        max-wdth: 20% !important;
+                        background-color: orange !important;
+                    }
+                    .myWidth2{
+                        width: 12%;
+                        min-width: 12%;
+                        max-width: 12%;
+                    }
+                </style>
+
+                {{-- dd($balanceDetail . ' ' . $myFechaDesdeBefore . ' ' . $myFechaHastaBefore) --}}
+    
+                <div class ="row mb-4" style="background-color: white;" data-wallet="">
+                    <div class="col-12 col-md-12">
+                        <table class="table thead-light" style="background-color: white;">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th class="myWidth2"                        >Transacción</th>
+                                    <th class="myWidth2"                        >Cant</th>                                
+                                    <th class="myWidth2"                        >Monto</th>
+                                    <th class="myTdColor3 myWidth2"             >Monto comision</th>
+                                    <th class="myTdColor3 myWidth2"             >Monto comision base</th>
+                                    <th class="myTdColor6 myWidth2"             >Monto Ganancia</th>
+
+                                </tr>
+                            </thead>
+
+                            
+                                <tr class="myTr"">
+                                    <td colspan="6">
+                                        <div class="row  justify-content-center text-center align-items-center" style="margin-top: 5rem; margin-bottom: 5rem;">
+                                            <h3>Sin transacciones registradas</h3>
+                                        </div>
+                                    </td>
+                                </tr>  
+
+                        </table>
+                    </div>
+
+                </div>
+            `;
+
+            
+
+            $("#myCanvas").append(myElement);
+            return;
+        }
 
             myElement =
             `
@@ -890,7 +950,7 @@ $totalComisionGanancia2General  = 0;
     }
 
     function BuscaMoneda(myTypeCoinBalance){
-        //alert("BuscaGrupo - miGrupo -> " + miGrupo);
+       // alert("BuscaMoneda - myTypeCoinBalance -> " + myTypeCoinBalance);
         $('#coin').each( function(index, element){
             //alert ("Buscagrupo -> " + $(this).val() + " text -> " + $(this).text()+ " y con index -> " + $(this).prop('selectedIndex'));
             $(this).children("option").each(function(){

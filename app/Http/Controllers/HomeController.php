@@ -11,6 +11,7 @@ use App\Exports\DashboardestExport;
 use App\Exports\DashboardExportComisiones;
 use App\Exports\DashboardSaldosExport;
 use Maatwebsite\Excel\Facades\Excel;
+use App\Models\Type_coin;
 
 class HomeController extends Controller
 {
@@ -111,6 +112,10 @@ class HomeController extends Controller
         }
 
 
+        $myCoin             = ($request->coin) ? $request->coin : 1;
+
+        $myTypeCoinBalance  = $myCoin; // dorales siempre por ahora
+		$Type_coin_balance  = Type_coin::pluck('name', 'id')->toArray();
 
         $balance = 0;
 
@@ -153,7 +158,41 @@ class HomeController extends Controller
 
         };
 
-        return view('dashboardest2', compact('transaction_group_summary','transaction_summary','wallet_summary', 'wallet_groupsummary', 'wallet', 'typeTransactions', 'myWallet', 'myTypeTransaction', 'myFechaDesde', 'myFechaHasta','balanceDetail','myFechaDesdeBefore','myFechaHastaBefore','balance'));
+
+        $parametros['transaction_group_summary']    = $transaction_group_summary;
+        $parametros['transaction_summary']          = $transaction_summary;
+        $parametros['wallet_summary']               = $wallet_summary;
+        $parametros['wallet_groupsummary']          = $wallet_groupsummary;
+        $parametros['wallet']                       = $wallet;
+        $parametros['typeTransactions']             = $typeTransactions;
+        $parametros['myWallet']                     = $myWallet;
+        $parametros['myTypeTransaction']            = $myTypeTransaction;
+        $parametros['myFechaDesde']                 = $myFechaDesde;
+        $parametros['myFechaHasta']                 = $myFechaHasta;
+        $parametros['balanceDetail']                = $balanceDetail;
+        $parametros['myFechaDesdeBefore']           = $myFechaDesdeBefore;
+        $parametros['myFechaHastaBefore']           = $myFechaHastaBefore;
+        $parametros['balance']                      = $balance;
+        $parametros['myTypeCoinBalance']            = $myTypeCoinBalance;
+        $parametros['Type_coin_balance']            = $Type_coin_balance;
+
+        return view('dashboardest2', $parametros);
+
+        return view('dashboardest2', compact(
+        'transaction_group_summary',
+        'transaction_summary',
+        'wallet_summary', 
+        'wallet_groupsummary', 
+        'wallet', 
+        'typeTransactions', 
+        'myWallet', 
+        'myTypeTransaction', 
+        'myFechaDesde', 
+        'myFechaHasta',
+        'balanceDetail',
+        'myFechaDesdeBefore',
+        'myFechaHastaBefore',
+        'balance'));
 
     }
 

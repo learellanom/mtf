@@ -341,9 +341,9 @@ $config4 = [
 
     $(() => {
 
-        const myFechaDesde = {!! $myFechaDesde !!};
-        const myFechaHasta = {!! $myFechaHasta !!};
-
+        const myFechaDesde = '{!! $myFechaDesde !!}';
+        const myFechaHasta = '{!! $myFechaHasta !!}';
+        // alert('leam - myFechaDesde ->' + myFechaDesde);
         BuscaFechas(myFechaDesde, myFechaHasta);
 
         $('#drCustomRanges').on('change', function () {
@@ -368,7 +368,10 @@ $config4 = [
 
             theRoute(myFechaDesde,myFechaHasta,coin);
 
+        }).on('cancel.daterangepicker', function(ev, picker) {
+            //do something, like clearing an input
         });
+        
 
 
         $('#coin').on('change', function (){
@@ -483,33 +486,53 @@ $config4 = [
     }
 
 
-    function BuscaFechas(FechaDesde = 0,FechaHasta = 0){
-
+    function BuscaFechas(FechaDesde = "2001-01-01",FechaHasta = "9999-12-31", test = 1){
+        
+        // if (FechaDesde == '2001-01-01') {
+        //     FechasHasta = "9999-12-31";
+        // };
+        
         myLocation  = window.location.toString();
 
-        // alert('myLocation -> ' + myLocation);
-        // obtener fecha inicio
-        // alert('ggggg ' + $('#drCustomRanges').data('daterangepicker').startDate.format('YYYY-MM-DD'));
+        //myArray     = myLocation.split("/");
+        //if (myArray.length > 4){
+        //    FechaDesde = myArray[4];
+        //    FechaHasta = myArray[5];
+        //}else{
+        //    FechaDesde = 0;
+        //    FechaHasta = 0;
+        //}
 
-        myArray     = myLocation.split("/");
-        if (myArray.length > 4){
-            FechaDesde = myArray[4];
-            FechaHasta = myArray[5];
-        }else{
-            FechaDesde = 0;
-            FechaHasta = 0;
+
+        const urlParametros = new URLSearchParams(window.location.search);
+
+        conin               = urlParametros.get('coin')
+        FechaDesdeQuery     = urlParametros.get('fechaDesde');
+        FechaHastaQuery     = urlParametros.get('fechaHasta');
+
+        if (FechaDesdeQuery){
+            FechaDesde  = FechaDesdeQuery;
+        }
+        if (FechaHastaQuery){
+            FechaHasta  = FechaHastaQuery;
         }
 
-        if (FechaDesde == 0) return;
+        // alert('leam - fecha desde ->' + FechaDesde);
+        
 
+        // obtiene url y parametros
 
         let myFechaDesde, myFechaHasta, myFecha;
 
-        myFechaDesde = FechaDesde.toString().substr(8,2)  + '-' + FechaDesde.toString().substr(5,2) + '-' + FechaDesde.toString().substr(0,4);
-        myFechaHasta = FechaHasta.toString().substr(8,2)  + '-' + FechaHasta.toString().substr(5,2) + '-' + FechaHasta.toString().substr(0,4);
+        //myFechaDesde = FechaDesde.toString().substr(8,2)  + '-' + FechaDesde.toString().substr(5,2) + '-' + FechaDesde.toString().substr(0,4);
+        //myFechaHasta = FechaHasta.toString().substr(8,2)  + '-' + FechaHasta.toString().substr(5,2) + '-' + FechaHasta.toString().substr(0,4);
+        
+        myFechaDesde = FechaDesde.substr(8,2)  + '-' + FechaDesde.substr(5,2) + '-' + FechaDesde.substr(0,4);
+        myFechaHasta = FechaHasta.substr(8,2)  + '-' + FechaHasta.substr(5,2) + '-' + FechaHasta.substr(0,4);
+
 
         myFecha = myFechaDesde.toString()  + ' - ' + myFechaHasta.toString();
-
+        
         // alert('myFecha -> ' + myFecha );
 
         // $('#drCustomRanges').val(myFecha);
@@ -521,12 +544,6 @@ $config4 = [
         $('#drCustomRanges').data('daterangepicker').setStartDate(myFechaDesde);
         $('#drCustomRanges').data('daterangepicker').setEndDate(myFechaHasta);
 
-        
-        const searchParams = new URLSearchParams(window.location.search);
-        console.log(searchParams.has('sort')); // true
-        console.log(searchParams.get('sort')); // price_descending
-
-        // https://sentry.io/answers/how-to-get-values-from-urls-in-javascript/
     }
 
     function BuscaMoneda(myTypeCoinBalance){
