@@ -126,9 +126,6 @@ $config4 = [
             </x-adminlte-select2>
         </div>
 
-<!--         <div class ="col-12 col-sm-2">
-        </div> -->
-
     </div>
 
 </div>
