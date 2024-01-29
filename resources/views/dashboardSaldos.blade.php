@@ -28,6 +28,8 @@
         "allowClear" => true,
     ];
 
+    $myMessage = "Sin Transaciones Registradas para el Criterio";
+    
 @endphp
 
 
@@ -49,6 +51,28 @@
                     </div>
                 </x-slot>
             </x-adminlte-date-range>
+        </div>
+
+        <div class ="col-sm-3">
+            <x-adminlte-select2 id="coin"
+                                name="optionsCoin"
+                                igroup-size="sm"
+                                label-class="text-lightblue"
+                                data-placeholder="Moneda ..."
+                                :config="$config1"
+                                >
+                <x-slot name="prependSlot">
+                    <div class="input-group-text bg-gradient-dark">
+                        <!-- <i class="fas fa-car-side"></i> -->
+                        <!-- <i class="fas fa-user-tie"></i> -->
+                        <i class="fas fa-solid fa-dollar-sign"></i>                        
+                    </div>
+                    
+                </x-slot>
+
+                <x-adminlte-options :options="$Type_coin_balance" empty-option="Selecciona una moneda.."/>
+
+            </x-adminlte-select2>
         </div>
 
     </div>
@@ -181,6 +205,11 @@
                             <a class="btn btn-success" href={{route('exports.saldos', [$myFechaDesde, $myFechaHasta])}}><i class="fas fa-file-excel"></i></a>
                             --}}
                         </div>
+
+
+
+
+
                         {{--
                         <!-- Seelect de Caja -->
                         
@@ -237,7 +266,7 @@
 
                 <div class="row card-deck">
                     <div class="card mb-4 col-12 col-sm-6">
-                        <div class="card-header">
+                        <div class="card-header">   
                             <h3 class="card-title text-uppercase font-weight-bold">Filtros Wallet</h3>
                         </div>
                         <div class="card-body">    
@@ -352,13 +381,18 @@
 
 <script>
 
-    const miWallet = {!! $myWallet !!};
+    // const miWallet = {!! $myWallet !!};
 
-    BuscaWallet(miWallet);
+    // BuscaWallet(miWallet);
 
-    const miTypeTransaction= {!! $myTypeTransaction !!};
+    //const miTypeTransaction= {!! $myTypeTransaction !!};
 
-    BuscaTransaccion(miTypeTransaction);
+    //BuscaTransaccion(miTypeTransaction);
+
+    const myTypeCoinBalance = {!! $myTypeCoinBalance !!} ? {!! $myTypeCoinBalance !!} : 1;
+    
+    BuscaMoneda(myTypeCoinBalance);
+
 
     @php
 
@@ -402,24 +436,8 @@
         cargaWallets();
         leeFiltros();
 
-        $('#wallet').on('change', function (){
-
-            const wallet        = $('#wallet').val();
-            const transaccion   = $('#typeTransactions').val();
-            theRoute(wallet, transaccion);
-
-        });
-
-        $('#typeTransactions').on('change', function (){
-
-            const wallet        = $('#wallet').val();
-            const transaccion   = $('#typeTransactions').val();
-
-            theRoute(wallet, transaccion);
-
-        });
-
         $('#drCustomRanges').on('change', function () {
+
 
             let myFechaDesde, myFechaHasta;
             myFechaDesde =  ($('#drCustomRanges').val()).substr(6,4) +
@@ -436,13 +454,43 @@
                             ($('#drCustomRanges').val()).substr(13,2)
                             ;
 
-                const wallet        = $('#wallet').val();
-                const transaccion   = $('#typeTransactions').val();
-                theRoute(wallet, transaccion, myFechaDesde,myFechaHasta);
+            const wallet        = $('#wallet').val();
+            const transaccion   = $('#typeTransactions').val();
+            const coin          = ($('#coin').val()) ? $('#coin').val() : 1;
+
+            theRoute(wallet, transaccion, myFechaDesde,myFechaHasta, coin);
 
         });
 
+		$('#coin').on('change', function (){
+            
+            const wallet    = $('#wallet').val();
+            const coin      = ($('#coin').val()) ? $('#coin').val() : 1;
+            const transaccion   = $('#typeTransactions').val();
 
+            let myFechaDesde, myFechaHasta;
+
+            myFechaDesde =  ($('#drCustomRanges').val()).substr(6,4) +
+                            '-' +
+                            ($('#drCustomRanges').val()).substr(3,2) +
+                            '-' +
+                            ($('#drCustomRanges').val()).substr(0,2)
+                            ;
+
+            myFechaHasta =  ($('#drCustomRanges').val()).substr(19,4) +
+                            '-' +
+                            ($('#drCustomRanges').val()).substr(16,2) +
+                            '-' +
+                            ($('#drCustomRanges').val()).substr(13,2)
+                            ;
+            
+            theRoute(wallet, transaccion, myFechaDesde,myFechaHasta, coin);
+            
+
+        }
+        ).on('select2:open', () => {
+            document.querySelector('.select2-search__field').focus();
+        });
 
         $('#myButtonLimpiar').on('click', function (){
             $('#my-select').multiSelect('deselect_all');
@@ -705,6 +753,54 @@
     function calculos3(){
 
         let myElement;
+
+        const myCount = {{ count($group_summary) }} ? {{ count($group_summary) }} : 0;
+        if (myCount ==0){
+            myElement = `
+                <style>
+                    .myTr {
+                        cursor: pointer;
+                    }
+                    .myTr:hover{
+                        background-color: #D7DBDD  !important;
+                    }
+                </style>
+                <div class ="row mb-4" style="background-color: white;">
+
+                    <div class="col-12 col-md-12 justify-content-center text-center align-items-center mb-4 mt-4">
+                        <h4>Resumen por Grupo</h4>
+                    </div>
+                    @php
+                        $totalBalanceAnterior   = 0;
+                        $totalCreditos          = 0;
+                        $totalDebitos           = 0;
+                        $totalTotal             = 0 ;       
+                        $myTotal = 0;         
+                    @endphp
+                    <div class="col-12 col-md-12">
+                        <table class="table thead-light" style="background-color: white;" id="myTableGroup">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th style="width:1%;">Grupo</th>
+                                    <th style="width:1%;">Saldo Anterior</th>                                
+                                    <th style="width:1%;">Creditos</th>
+                                    <th style="width:1%;">Debitos</th>
+                                    <th style="width:1%;">Total</th>                                        
+                                </tr>
+                            </thead>
+
+                        </table>
+                    </div>
+                    <div class="col-12 col-md-12 justify-content-center text-center align-items-center mb-4 mt-4">
+                        <h3>{{ $myMessage }}</h3>
+                    </div>
+                </div>
+            `
+            $("#myCanvas").append(myElement);      
+            return;      
+        }
+
+
         {{-- dd($group_summary) --}}
 
         myElement = `
@@ -803,6 +899,48 @@
         let myElement;
         {{-- dd($group_summary) --}}
 
+        const myCount = {{ count($group_summary) }} ? {{ count($group_summary) }} : 0;
+        if (myCount == 0){
+
+            myElement = `
+                <style>
+                    .myTr {
+                        cursor: pointer;
+                    }
+                    .myTr:hover{
+                        background-color: #D7DBDD  !important;
+                    }
+                </style>
+                <div class ="row mb-4" style="background-color: white;">
+
+                    <div class="col-12 col-md-12 justify-content-center text-center align-items-center mb-4 mt-4">
+                        <h4>Resumen por Grupo</h4>
+                    </div>
+
+
+                    <div class="col-12 col-md-12">
+                        <table class="table thead-light" style="background-color: white;" id="myTableGroup">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th style="width:1%;">Grupo</th>
+                            
+                                    <th style="width:1%;">Total</th>                                        
+                                </tr>
+                            </thead>                 
+                        </table>
+                    </div>
+
+                    <div class="col-12 col-md-12 justify-content-center text-center align-items-center mb-4 mt-4">
+                        <h4>{{ $myMessage }}</h4>
+                    </div>
+
+
+                </div>
+            `
+            $("#myCanvas2").append(myElement);            
+            return;
+		}
+
         myElement = `
             <style>
                 .myTr {
@@ -886,6 +1024,88 @@
         
         let myElement;
         {{-- dd($group_summary) --}}
+
+
+		const myCount = {{ count($group_summary) }} ? {{ count($group_summary) }} : 0;
+        if (myCount ==0){
+            myElement = `
+                <style>
+                    .myTr {
+                        cursor: pointer;
+                    }
+                    .myTr:hover{
+                        background-color: #D7DBDD  !important;
+                    }
+                </style>
+                <div class ="row mb-4" style="background-color: white;">
+
+                    <div class="col-12 col-md-12 justify-content-center text-center align-items-center mb-4 mt-4">
+                        <h4>Resumen por Grupo</h4>
+                    </div>
+
+                    <div class="col-12 col-md-12">
+                        <table class="table thead-light" style="background-color: white;" id="myTableGroupB">
+                            <thead class="" style="background-color: #5DADE2 !important; color:white">
+                                <tr>
+                                    <th style="width:1%;">Grupo</th>
+                                    <th style="width:1%;">Saldo Anterior</th>                                
+                                    <th style="width:1%;">Creditos</th>
+                                    <th style="width:1%;">Debitos</th>
+                                    <th style="width:1%;">Total</th>                                        
+                                </tr>
+                            </thead>
+
+                        </table>
+                    </div>
+                    <div class="col-12 col-md-12 justify-content-center text-center align-items-center mb-4 mt-4">
+                        <h4>{{ $myMessage }}</h4>
+                    </div>
+
+                </div>
+            `
+            $("#myCanvas").append(myElement);    
+            
+            
+
+            myElement = `
+                <style>
+                    .myTr {
+                        cursor: pointer;
+                    }
+                    .myTr:hover{
+                        background-color: #D7DBDD  !important;
+                    }
+                </style>
+                <div class ="row mb-4" style="background-color: white;">
+
+                    <div class="col-12 col-md-12 justify-content-center text-center align-items-center mb-4 mt-4">
+                        <h4>Resumen por Grupo</h4>
+                    </div>
+
+
+                    <div class="col-12 col-md-12">
+                        <table class="table thead-light" style="background-color: white;" id="myTableGroupB">
+                            <thead class="" style="background-color: #5DADE2 !important; color:white">
+                                <tr>
+                                    <th style="width:1%;">Grupo</th>
+                            
+                                    <th style="width:1%;">Total</th>                                        
+                                </tr>
+                            </thead>
+                    
+                        </table>
+                    </div>
+
+                    <div class="col-12 col-md-12 justify-content-center text-center align-items-center mb-4 mt-4">
+                        <h4>{{ $myMessage }}</h4>
+                    </div>
+
+                </div>
+            `
+            $("#myCanvas2").append(myElement);
+        
+            return;
+		}
 
         myElement = `
             <style>
@@ -1068,6 +1288,59 @@
 
         let myElement;
 
+        const myCount = {{ count($wallet_summary) }} ? {{ count($wallet_summary) }} : 0;
+        if (myCount ==0){
+            myElement =
+            `
+                <style>
+                    .myTr {
+                        cursor: pointer;
+                    }
+                    .myTr:hover{
+                        background-color: #D7DBDD  !important;
+                    }
+                </style>
+                <div class ="row mb-4" style="background-color: white;">
+
+
+                    <div class="col-12 col-md-12 justify-content-center text-center align-items-center mb-4 mt-4">
+                        <h4>Resumen por Wallet</h4>
+                    </div>
+
+                    <div class="col-12 col-md-12">
+                        <table id="myTableWallet" class="table thead-light" style="background-color: white;">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th style="width:1%; display: none;">Id</th>                            
+                                    <th style="width:1%;"               >Wallet</th>
+                                    <th style="width:1%;"               >Saldo Anterior</th>                                
+                                    <th style="width:1%;"               >Entrada</th>
+                                    <th style="width:1%;"               >Salidas</th>
+                                    <th style="width:1%;"               >Saldo</th>
+                                </tr>
+                            </thead>
+
+
+                        </table>
+                    </div>
+
+                    <div class="col-12 col-md-12 justify-content-center text-center align-items-center mb-4 mt-4">
+                        <h3>{{ $myMessage }}</h3>
+                    </div>
+
+                </div>
+            `;
+
+            // alert(myElement);
+            
+            // console.log(myElement);
+
+            $("#myCanvas").append(myElement);
+
+            return;
+        }
+
+
          {{-- dd($wallet_summary) --}}
 
         myElement =
@@ -1178,7 +1451,104 @@
         let myElement;
 
         {{-- dd($wallet_summary) --}}
+        const myCount = {{ count($wallet_summary) }} ? {{ count($wallet_summary) }} : 0;
+        if (myCount ==0){
+            myElement =
+            `
+                <h4>Resumen por Wallet B</h4>
+                <style>
+                    .myTr {
+                        cursor: pointer;
+                    }
+                    .myTr:hover{
+                        background-color: #D7DBDD  !important;
+                    }
+                </style>
+                <div class ="row mb-4" style="background-color: white;">
 
+
+                    <div class="col-12 col-md-12 justify-content-center text-center align-items-center mb-4 mt-4">
+                        <h4>Resumen por Wallet</h4>
+                    </div>
+
+                    <div class="col-12 col-md-12">
+                        <table id="myTableWalletB" class="table " style="background-color: white;">
+                            <thead class="" style="background-color: #5DADE2 !important; color:white">
+                                <tr>
+                                    <th style="width:1%; display: none;">Id</th>                            
+                                    <th style="width:1%;"               >Wallet</th>
+                                    <th style="width:1%;"               >Saldo Anterior</th>                                
+                                    <th style="width:1%;"               >Entrada</th>
+                                    <th style="width:1%;"               >Salidas</th>
+                                    <th style="width:1%;"               >Saldo</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+
+                    <div class="col-12 col-md-12 justify-content-center text-center align-items-center mb-4 mt-4">
+                        <h4>{{ $myMessage }}</h4>
+                    </div>
+
+                </div>
+            `;
+
+            // alert(myElement);
+
+            // console.log(myElement);
+
+            $("#myCanvas").append(myElement); 
+
+            
+
+            myElement =
+            `
+                <style>
+                    .myTr {
+                        cursor: pointer;
+                    }
+                    .myTr:hover{
+                        background-color: #D7DBDD  !important;
+                    }
+                </style>
+                <h4>Resumen por Wallet B</h4>            
+                <div class ="row mb-4" style="background-color: white;">
+
+
+                    <div class="col-12 col-md-12 justify-content-center text-center align-items-center mb-4 mt-4">
+                        <h4>Resumen por Wallet</h4>
+                    </div>
+
+                    <div class="col-12 col-md-12">
+                        <table id="myTableWallet" class="table thead-light" style="background-color: white;">
+                            <thead class="" style="background-color: #5DADE2 !important; color:white">
+                                <tr>
+                                    <th style="width:1%; display: none;">Id</th>                            
+                                    <th style="width:1%;"               >Wallet</th>
+                            
+                                    <th style="width:1%;"               >Saldo</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+
+                    <div class="col-12 col-md-12 justify-content-center text-center align-items-center mb-4 mt-4">
+                        <h4>{{ $myMessage }}</h4>
+                    </div>
+
+                </div>
+            `;
+
+            // alert(myElement);
+
+            // console.log(myElement);
+
+            $("#myCanvas2").append(myElement);
+
+
+            return;
+
+        }
         myElement =
         `
             <h4>Resumen por Wallet B</h4>
@@ -1386,7 +1756,52 @@
 
         let myElement;
 
+
+
         {{-- dd($wallet_summary) --}}
+
+        const myCount = {{ count($wallet_summary) }} ? {{ count($wallet_summary) }} : 0;
+        if (myCount ==0){
+
+            myElement =
+            `
+                <style>
+                    .myTr {
+                        cursor: pointer;
+                    }
+                    .myTr:hover{
+                        background-color: #D7DBDD  !important;
+                    }
+                </style>
+                <div class ="row mb-4" style="background-color: white;">
+
+
+                    <div class="col-12 col-md-12 justify-content-center text-center align-items-center mb-4 mt-4">
+                        <h4>Resumen por Wallet</h4>
+                    </div>
+
+                    <div class="col-12 col-md-12">
+                        <table id="myTableWallet" class="table thead-light" style="background-color: white;">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th style="width:1%; display: none;">Id</th>                            
+                                    <th style="width:1%;"               >Wallet</th>
+                            
+                                    <th style="width:1%;"               >Saldo</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                    <div class="col-12 col-md-12 justify-content-center text-center align-items-center mb-4 mt-4">
+                        <h4>{{ $myMessage }}</h4>
+                    </div>
+
+                </div>
+            `;
+
+            $("#myCanvas2").append(myElement);
+            return;
+        }
 
         myElement =
         `
@@ -1484,15 +1899,16 @@
 
 
 
-    function theRoute(wallet = 0, transaction = 0, fechaDesde = 0, fechaHasta = 0){
+    function theRoute(wallet = 0, transaction = 0, fechaDesde = 0, fechaHasta = 0, coin = 1){
 
         let myRoute = "";
 
-        myRoute = "{{ route('dashboardSaldos', ['fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2']) }}";
+        myRoute = "{{ route('dashboardSaldos', ['fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2', 'coin' => 'coin2']) }}";
         
         myRoute = myRoute.replace('fechaDesde2',fechaDesde);
         myRoute = myRoute.replace('fechaHasta2',fechaHasta);
-
+        myRoute = myRoute.replace('coin2',coin);
+        myRoute = myRoute.replaceAll('amp;','');
         location.href = myRoute;
 
     }
@@ -1521,7 +1937,7 @@
         location.href = myRoute;
 
     }
-
+    /*
     function BuscaWallet(miWallet){
         if (miWallet===0){
             return;
@@ -1538,7 +1954,8 @@
             });
         });
     }
-
+    */
+   /*
     function BuscaTransaccion(miTypeTransaction){
         if (miTypeTransaction===0){
             return;
@@ -1555,7 +1972,7 @@
             });
         });
     }
-
+    */
     function InicializaFechas(){
         // $('#drCustomRanges').data('daterangepicker').setStartDate('01-01-2001');
     }
@@ -1842,6 +2259,23 @@
 
         location.href = myRoute;
     }
+
+    function BuscaMoneda(myTypeCoinBalance){
+        //alert("BuscaGrupo - miGrupo -> " + miGrupo);
+        $('#coin').each( function(index, element){
+            //alert ("Buscagrupo -> " + $(this).val() + " text -> " + $(this).text()+ " y con index -> " + $(this).prop('selectedIndex'));
+            $(this).children("option").each(function(){
+                if ($(this).val() === myTypeCoinBalance.toString()){
+                    //alert('Buscagrupo - encontro');
+                    $("#coin option[value="+ myTypeCoinBalance +"]").attr("selected",true);
+                }
+                //alert("BuscaGrupoaqui ->  the val " + $(this).val() + " text -> " + $(this).text());
+            });
+        });
+        //
+    }
+
+
 </script>
 
 @endsection

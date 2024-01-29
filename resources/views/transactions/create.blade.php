@@ -986,7 +986,7 @@
     }); //CIERRE DEL READY
 
     
-    $("#typetrasnferencia2").on("change", function() {
+    $("#typetrasnferencia").on("change", function() {
         console.log('leam - typetransferencia pasa');
         // Capturar dato seleccionado
         var selectedValue   = this.value;

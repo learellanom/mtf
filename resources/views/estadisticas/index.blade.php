@@ -164,13 +164,36 @@ if (isset($balance->Total)){
                 </x-slot>
             </x-adminlte-date-range>
         </div>
+        {{--
+        <div class ="col-sm-2">
+			<x-adminlte-select2 id="coin"
+								name="optionsCoin"
+								igroup-size="sm"
+								label-class="text-lightblue"
+								data-placeholder="MonedaGrupo ..."
+								:config="$config1"
+								>
+				<x-slot name="prependSlot">
+					<div class="input-group-text bg-gradient-dark">
+						<!-- <i class="fas fa-car-side"></i> -->
+						<!-- <i class="fas fa-user-tie"></i> -->
+						<i class="fas fa-solid fa-dollar-sign"></i>                        
+					</div>
+					
+				</x-slot>
 
+				<x-adminlte-options :options="$Type_coin_balance" empty-option="Selecciona una moneda.."/>
+
+			</x-adminlte-select2>
+		</div>
+        --}}
+        <!--
         <div class ="col-12 col-sm-2">
         </div>
 
         <div class ="col-12 col-sm-2">
         </div>
-
+        -->
     </div>
 </div>
 
@@ -486,6 +509,9 @@ if (isset($balance->Total)){
     BuscaWallet(miWallet);
     BuscaTypeTransactions(miTypeTransactions); 
     
+    const myTypeCoinBalance = {!! $myTypeCoinBalance !!};
+    BuscaMoneda(myTypeCoinBalance);    
+
     $('#table').DataTable( {
 
         language: {
@@ -837,7 +863,7 @@ if (isset($balance->Total)){
         });
 
 
-        function theRoute(usuario = 0, grupo = 0, wallet = 0, typeTransactions = 0, fechaDesde = 0, fechaHasta = 0){
+        function theRoute(usuario = 0, grupo = 0, wallet = 0, typeTransactions = 0, fechaDesde = 0, fechaHasta = 0, coin = 1){
 
             if (usuario === "") usuario = 0;
             if (grupo   === "") grupo = 0;
@@ -852,7 +878,8 @@ if (isset($balance->Total)){
                 myRoute = myRoute.replace('typeTransactions2',typeTransactions);                
                 myRoute = myRoute.replace('fechaDesde2',fechaDesde);
                 myRoute = myRoute.replace('fechaHasta2',fechaHasta);
-
+                myRoute = myRoute.replace('coin2',coin);
+                myRoute = myRoute.replaceAll('amp;','');
             // alert(myRoute);
             location.href = myRoute;
 
@@ -969,6 +996,21 @@ if (isset($balance->Total)){
             }
 
         }
+
+		function BuscaMoneda(myTypeCoinBalance){
+			//alert("BuscaGrupo - miGrupo -> " + miGrupo);
+			$('#coin').each( function(index, element){
+				//alert ("Buscagrupo -> " + $(this).val() + " text -> " + $(this).text()+ " y con index -> " + $(this).prop('selectedIndex'));
+				$(this).children("option").each(function(){
+					if ($(this).val() === myTypeCoinBalance.toString()){
+						//alert('Buscagrupo - encontro');
+						$("#coin option[value="+ myTypeCoinBalance +"]").attr("selected",true);
+					}
+					//alert("BuscaGrupoaqui ->  the val " + $(this).val() + " text -> " + $(this).text());
+				});
+			});
+			//
+		}
 
     </script>
 @endsection

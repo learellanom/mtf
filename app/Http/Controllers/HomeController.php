@@ -177,7 +177,7 @@ class HomeController extends Controller
         $parametros['Type_coin_balance']            = $Type_coin_balance;
 
         return view('dashboardest2', $parametros);
-
+        /*
         return view('dashboardest2', compact(
         'transaction_group_summary',
         'transaction_summary',
@@ -193,6 +193,7 @@ class HomeController extends Controller
         'myFechaDesdeBefore',
         'myFechaHastaBefore',
         'balance'));
+        */
 
     }
 
@@ -1136,7 +1137,9 @@ class HomeController extends Controller
         $typeTransactions           = app(statisticsController::class)->getTypeTransactions();
 
         // dd($transaction_summary);
-
+        $myCoin                     = ($request->coin) ? $request->coin : 1;
+        $myTypeCoinBalance          = $myCoin; // dorales siempre por ahora
+		$Type_coin_balance          = Type_coin::pluck('name', 'id')->toArray();
 
         /* MANTENER VALOR BUSCADO EN EL URL */
         $myWalletDesde   = 0;
@@ -1243,7 +1246,10 @@ class HomeController extends Controller
             // \Log::info("leam 2-> ");
 
         };
-        
+
+        $myParameters['myTypeCoinBalance']  = $myTypeCoinBalance;
+        $myParameters['Type_coin_balance']  = $Type_coin_balance;
+
         $myParameters['wallet_summary']     = $wallet_summary;
         $myParameters['group_summary']      = $group_summary;
         $myParameters['wallet']             = $wallet;

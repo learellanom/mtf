@@ -299,32 +299,40 @@ class statisticsController extends Controller
             $myUserDesde = $myUser;
             $myUserHasta = $myUser;
         }
-        /*
-        if (!$request->usuario){
-            if($this->isAdministrator()){
-                if (!$request->usuario){
-                    $myUserDesde = auth()->user()->id;
-                    $myUserHasta = auth()->user()->id;
-                }
-            }else{
-                $myUserDesde = auth()->user()->id;
-                $myUserHasta = auth()->user()->id;
-            }
-        }
-        */
+        
+
+        
 
         //  print_r($myGroup);
          // dd($myGroup);
-        $Transacciones = [];
-        $myLimit        = 0;
-        $myLimitDesde   = 0;
-        $myLimitHasta   = 5000;
-        $myLimitCondition   = "";
+        $Transacciones      = [];
+        $myLimit            = 0;
+        $myLimitDesde       = 0;
+        $myLimitHasta       = 5000;
+        $myLimitCondition   = "limit 1000";
+
         if ($myWallet == 0 and $myGroup == 0) {
             $myLimit            = 1000;
-            $myLimitDesde       = 1000;
+            $myLimitDesde       = 0;
             $myLimitHasta       = 1000;
             $myLimitCondition   = "limit 1000";
+        }
+
+        if (!$request->usuario){
+            if($this->isAdministrator()){
+                    $myUserDesde = auth()->user()->id;
+                    $myUserHasta = auth()->user()->id;
+
+                    $myUserDesde = 0;
+                    $myUserHasta = 9999;
+
+                    //$myLimitCondition   = "limit 1000";
+            }
+            else{
+                $myUserDesde = auth()->user()->id;
+                $myUserHasta = auth()->user()->id;
+               //  $myLimitCondition   = "limit 1000";
+            }
         }
 
         /*
@@ -373,7 +381,11 @@ class statisticsController extends Controller
             $busquedaWallet  = " and wallet_id between $myWalletDesde and $myWalletHasta ";
         }
 
-        
+        $myCoin = ($request->coin) ? $request->coin : 1;
+     
+        $myTypeCoinBalance  = $myCoin; // dorales siempre por ahora
+        $Type_coin_balance  = Type_coin::pluck('name', 'id')->toArray();        
+
         $myQuery =
         "
             select
@@ -445,6 +457,9 @@ class statisticsController extends Controller
             $myFechadesdeInvertida  = substr($myFechaDesdeBefore,8,2) . "-" . substr($myFechaDesdeBefore,5,2) . "-" . substr($myFechaDesdeBefore,0,4);
         }
 
+        $parametros['myTypeCoinBalance']        = $myTypeCoinBalance;
+        $parametros['Type_coin_balance']        = $Type_coin_balance;
+        
         $parametros['userole']                  = $userole;
         $parametros['wallet']                   = $wallet;
         $parametros['group']                    = $group;
@@ -1165,12 +1180,13 @@ class statisticsController extends Controller
     */
      function getWalletSummary(Request $request) {
 
-        $myWallet       = ($request->wallet)        ? $request->wallet : 0;
-        $fechaDesde     = ($request->fechaDesde)    ? $request->fechaDesde : '2001-01-01';  
-        $fechaHasta     = ($request->fechaHasta)    ? $request->fechaHasta : '9999-12-31';
+        $myWallet       = ($request->wallet)        ? $request->wallet      : 0;
+        $fechaDesde     = ($request->fechaDesde)    ? $request->fechaDesde  : '2001-01-01';  
+        $fechaHasta     = ($request->fechaHasta)    ? $request->fechaHasta  : '9999-12-31';
+        $myCoin         = ($request->coin)          ? $request->coin        : 1;
 
         // dd($fechaDesde . " - " . $fechaHasta);
-        $Transacciones  = $this->getBalanceWallet($myWallet, $fechaDesde, $fechaHasta);
+        $Transacciones  = $this->getBalanceWallet($myWallet, $fechaDesde, $fechaHasta, $myCoin);
         // dd($Transacciones);
 
         //

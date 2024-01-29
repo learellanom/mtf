@@ -59,13 +59,10 @@ require __DIR__.'/auth.php';
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->middleware('can:home')->name('home');
+
 Route::get('dashboardest', [App\Http\Controllers\HomeController::class, 'graphics'])->name('dashboardest');
-Route::get('dashboardest/{wallet}', [App\Http\Controllers\HomeController::class, 'graphics'])->name('dashboardest');
-Route::get('dashboardest/{wallet}/{transaction?}/', [App\Http\Controllers\HomeController::class, 'graphics'])->name('dashboardest');
-Route::get('dashboardest/{wallet}/{transaction?}/{fechaDesde?}/{fechaHasta?}', [App\Http\Controllers\HomeController::class, 'graphics'])->name('dashboardest');
 
 Route::get('dashboardSaldos', [App\Http\Controllers\HomeController::class, 'saldos'])->name('dashboardSaldos');
-Route::get('dashboardSaldos/{fechaDesde?}/{fechaHasta?}', [App\Http\Controllers\HomeController::class, 'saldos'])->name('dashboardSaldos');
 
 Route::get('dashboardComisiones', [App\Http\Controllers\HomeController::class, 'comisiones'])->name('dashboardComisiones');
 Route::get('dashboardComisiones/{wallet}/{transaction?}', [App\Http\Controllers\HomeController::class, 'comisiones'])->name('dashboardComisiones');
