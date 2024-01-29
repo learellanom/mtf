@@ -89,7 +89,7 @@ $config4 = [
                         </x-slot>
                     </x-adminlte-date-range>
                 </div>
-                <!--
+                
                 <div class ="col-12 col-md-3">
                     <x-adminlte-select2 id="coin"
                                         name="optionsCoin"
@@ -110,8 +110,7 @@ $config4 = [
 
                     </x-adminlte-select2>
                 </div>
--->
-
+                
 
 
             </div>
@@ -308,22 +307,40 @@ $config4 = [
         }
 
 
-        let  myFechaDesde = {!! $myFechaDesde !!};
+        let  myFechaDesde   = '{!! $myFechaDesde !!}';
         // console.log({!! $myFechaDesde !!});
-        const myFechaHasta = {!! $myFechaHasta !!};
+        const myFechaHasta  = '{!! $myFechaHasta !!}';
 
-        // alert('Fechas -> desde -> ' + myFechaDesde);
+        // alert('Fechas -> desde -> ' + myFechaDesde + ' ');
 
         InicializaFechas();
 
-        BuscaFechas(myFechaDesde, myFechaHasta);
+        // BuscaFechas(myFechaDesde, myFechaHasta);
+        BuscaFechasBlade(myFechaDesde, myFechaHasta);
 
         $('#wallet').on('change', function (){
 
             const wallet        = $('#wallet').val();
             const transaccion   = $('#typeTransactions').val();
-            
-            theRoute(wallet, transaccion);
+            const coin          = ($('#coin').val())    ? $('#coin').val()  : 1;
+
+            let myFechaDesde, myFechaHasta;
+
+            myFechaDesde =  ($('#drCustomRanges').val()).substr(6,4) +
+                            '-' +
+                            ($('#drCustomRanges').val()).substr(3,2) +
+                            '-' +
+                            ($('#drCustomRanges').val()).substr(0,2)
+                            ;
+
+            myFechaHasta =  ($('#drCustomRanges').val()).substr(19,4) +
+                            '-' +
+                            ($('#drCustomRanges').val()).substr(16,2) +
+                            '-' +
+                            ($('#drCustomRanges').val()).substr(13,2)
+                            ;
+            theRoute(wallet, transaccion, myFechaDesde, myFechaHasta, coin);            
+
 
         });
 
@@ -331,8 +348,24 @@ $config4 = [
 
             const wallet        = $('#wallet').val();
             const transaccion   = $('#typeTransactions').val();
+            const coin          = ($('#coin').val())    ? $('#coin').val()  : 1;
 
-            theRoute(wallet, transaccion);
+            let myFechaDesde, myFechaHasta;
+
+            myFechaDesde =  ($('#drCustomRanges').val()).substr(6,4) +
+                            '-' +
+                            ($('#drCustomRanges').val()).substr(3,2) +
+                            '-' +
+                            ($('#drCustomRanges').val()).substr(0,2)
+                            ;
+
+            myFechaHasta =  ($('#drCustomRanges').val()).substr(19,4) +
+                            '-' +
+                            ($('#drCustomRanges').val()).substr(16,2) +
+                            '-' +
+                            ($('#drCustomRanges').val()).substr(13,2)
+                            ;
+            theRoute(wallet, transaccion, myFechaDesde, myFechaHasta, coin);
 
         });
 
@@ -355,7 +388,8 @@ $config4 = [
 
                 const wallet        = $('#wallet').val();
                 const transaccion   = $('#typeTransactions').val();
-                theRoute(wallet, transaccion, myFechaDesde,myFechaHasta);
+                const coin          = ($('#coin').val())    ? $('#coin').val()  : 1;
+                theRoute(wallet, transaccion, myFechaDesde,myFechaHasta, coin);
 
         });
 
@@ -474,8 +508,7 @@ $config4 = [
         });
 
         $('#coin').on('change', function (){
-
-            const grupo     = ($('#grupo').val())   ? $('#grupo').val() : 0;
+            
             const coin      = ($('#coin').val())    ? $('#coin').val()  : 1;
 
             let myFechaDesde, myFechaHasta;
@@ -900,8 +933,34 @@ $config4 = [
     */
     function calculoGeneral2(){
 
+        let myCount = {{ count($wallet_summary) }};
+        console.log('leam - myCount ->' + myCount);
+
+        if (myCount == 0){
+
+            myElement = `
+            <div class="row" data-wallet="">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <h3 class="text-center text-uppercase font-weight-bold">Transacciones por caja</h3>
+                            <h4 class = "text-center" style="margin-top:5rem; margin-bottom: 5rem;">
+                                Sin transacciones Registradas para el Criterio de seleccion
+                            </h4>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            `;
+            $("#myCanvasGeneral").append(myElement);
+
+            return;
+        }
+
+        {{--            <div class="row" data-wallet="{{$wallet2->WalletId}}"> --}}
          myElement = `
-            <div class="row" data-wallet="{{$wallet2->WalletId}}">
+            <div class="row" data-wallet="">
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-body">
@@ -952,6 +1011,7 @@ $config4 = [
 
         });
 
+        {{--             <div class ="row mb-4" style="background-color: white;" data-wallet="{{$wallet2->WalletId}}"> --}}
         myElement =
         `
             <style>
@@ -965,7 +1025,7 @@ $config4 = [
 
             {{-- dd($balanceDetail . ' ' . $myFechaDesdeBefore . ' ' . $myFechaHastaBefore) --}}
 
-            <div class ="row mb-4" style="background-color: white;" data-wallet="{{$wallet2->WalletId}}">
+            <div class ="row mb-4" style="background-color: white;" data-wallet="">
                 <div class="col-12 col-md-12">
                     <table class="table thead-light" style="background-color: white;">
                         <thead class="thead-dark">
@@ -1093,6 +1153,31 @@ $config4 = [
     function calculoGeneral3(){
 
         let myElement;
+
+        let myCount = {{ count($transaction_summary) }} ? {{ count($transaction_summary) }}  : 0;
+
+        if (myCount == 0){
+
+            myElement = `
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h3 class="text-center text-uppercase font-weight-bold">Transacciones por caja</h3>
+                                <h4 class = "text-center" style="margin-top:5rem; margin-bottom: 5rem;">
+                                    Sin transacciones Registradas para el Criterio de seleccion
+                                </h4>                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            $("#myCanvasGeneral").append(myElement);
+
+            return;
+        }
+
+
 
         myElement = `
             <div class="row">
@@ -1362,8 +1447,8 @@ $config4 = [
     function theRoute(wallet = 0, transaction = 0, fechaDesde = 0, fechaHasta = 0, coin = 1){
 
 
-        if (wallet   === "") wallet  = 0;
-        if (transaction   === "") transaction  = 0;
+        if (wallet   === "")        wallet          = 0;
+        if (transaction   === "")   transaction     = 0;
 
         let myRoute = "";
 
@@ -1404,20 +1489,20 @@ $config4 = [
     }
 
     function BuscaWallet(miWallet){
-            if (miWallet===0){
-                return;
-            }
+        if (miWallet===0){
+            return;
+        }
 
-            $('#wallet').each( function(index, element){
+        $('#wallet').each( function(index, element){
 
-                $(this).children("option").each(function(){
-                    if ($(this).val() === miWallet.toString()){
+            $(this).children("option").each(function(){
+                if ($(this).val() === miWallet.toString()){
 
-                        $("#wallet option[value="+ miWallet +"]").attr("selected",true);
-                    }
+                    $("#wallet option[value="+ miWallet +"]").attr("selected",true);
+                }
 
-                });
             });
+        });
     }
 
     function BuscaTransaccion(miTypeTransaction){
@@ -1436,10 +1521,12 @@ $config4 = [
             });
         });
     }
+
     function InicializaFechas(){
-        // $('#drCustomRanges').data('daterangepicker').setStartDate('01-01-2001');
+         $('#drCustomRanges').data('daterangepicker').setStartDate('01-01-2001');
 
     }
+
     function BuscaFechas(FechaDesde = 0,FechaHasta = 0){
 
         myLocation  = window.location.toString();
@@ -1647,7 +1734,7 @@ $config4 = [
         myRoute = myRoute.replace('ocultarresumentransaccion2',     ocultarresumentransaccion);
         myRoute = myRoute.replace('transactions2',                  transactions);
 
-         alert(' myRoute ->' + myRoute);
+         
 
         location.href = myRoute;
     }
@@ -1695,7 +1782,36 @@ $config4 = [
         });
         //
     }
-            
+
+    function BuscaFechasBlade(){
+
+        let myFechaAnio  = {{ substr($myFechaDesde,0,4) }};
+        let myFechaMes   = {{ substr($myFechaDesde,5,2) }};
+        let myFechaDia   = {{ substr($myFechaDesde,8,2) }};
+
+        myFechaMes       = myFechaMes.toString().length == 1 ? '0' + myFechaMes.toString() : myFechaMes;
+        myFechaDia       = myFechaDia.toString().length == 1 ? '0' + myFechaDia.toString() : myFechaDia;
+
+        let myFechaDesde2 = myFechaDia.toString().concat('-', myFechaMes, '-', myFechaAnio)
+
+        myFechaAnio  = {{ substr($myFechaHasta,0,4) }};
+        myFechaMes   = {{ substr($myFechaHasta,5,2) }};
+        myFechaDia   = {{ substr($myFechaHasta,8,2) }};
+
+        myFechaMes       = myFechaMes.toString().length == 1 ? '0' + myFechaMes.toString() : myFechaMes;
+        myFechaDia       = myFechaDia.toString().length == 1 ? '0' + myFechaDia.toString() : myFechaDia;
+
+        let myFechaHasta2 = myFechaDia.toString().concat('-', myFechaMes, '-', myFechaAnio);
+
+
+        console.log('myFechaDesde2 ->' + myFechaDesde2);
+        console.log('myFechaHasta2 ->' + myFechaHasta2);
+
+        $('#drCustomRanges').data('daterangepicker').setStartDate(myFechaDesde2);
+        $('#drCustomRanges').data('daterangepicker').setEndDate(myFechaHasta2);
+
+    }
+
 </script>
 
 @endsection
