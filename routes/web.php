@@ -176,7 +176,15 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('movimientos/entre_cajasop', [TransactionController::class, 'create_transferwalletop'])->middleware('can:transactions.transfer_walletop')->name('transactions.create_transferwalletop');
     Route::post('movimientos/cajasop',      [TransactionController::class, 'transfer_walletop'])->name('transactions.transfer_walletop');
     Route::match(['put', 'patch'], 'movimientos/{movimiento}/estatusop', [TransactionController::class, 'update_statusop'])->name('transactions.update_statusop');
-                                                                                                                                   
+              
+    
+    Route::get('movimientos/cajasop2',       [TransactionController::class, 'index_transferwalletop2'])->middleware('can:transactions.index_transfer_walletop2')->name('transactions.index_transferwalletop2');
+    Route::get('movimientos/entre_cajasop2', [TransactionController::class, 'create_transferwalletop2'])->middleware('can:transactions.transfer_walletop2')->name('transactions.create_transferwalletop2');
+    Route::post('movimientos/cajasop2',      [TransactionController::class, 'transfer_walletop2'])->name('transactions.transfer_walletop2');
+    Route::match(['put', 'patch'], 'movimientos/{movimiento}/estatusop2', [TransactionController::class, 'update_statusop2'])->name('transactions.update_statusop2');
+
+
+
     Route::get('movimientos/indice_pagos', [TransactionController::class, 'index_pagowallet'])->middleware('can:transactions.index_pagowallet')->name('transactions.index_pagowallet');
     Route::get('movimientos/pago_cajas', [TransactionController::class, 'create_pagowallet'])->middleware('can:transactions.create_pagowallet')->name('transactions.create_pagowallet');
     Route::post('movimientos/pago', [TransactionController::class, 'store_pagowallet'])->name('transactions.store_pagowallet');
@@ -243,22 +251,15 @@ Route::get('estadisticasDetalle',
             ->middleware('can:estadisticasDetalle.index')
             ->name('estadisticasDetalle');
 
-Route::get('estadisticasDetalle/{usuario}/{grupo?}/{wallet?}/{typeTransactions?}/{fechaDesde?}/{fechaHasta?}/{token?}',
-            [App\Http\Controllers\statisticsController::class, 'index_all2'])
-            ->middleware('can:estadisticasDetalle.index')
-            ->name('estadisticasDetalle');
-//
-//
-//
 // Route::get('estadisticasDetalleUsuario',[App\Http\Controllers\statisticsController::class, 'userDetail'])->name('estadisticasDetalleUsuario');
 // Route::get('estadisticasDetalleUsuario/{usuario}/{fechaDesde?}/{fechaHasta?}',[App\Http\Controllers\statisticsController::class, 'userDetail'])->name('estadisticasDetalleUsuario');
 
 
-Route::get('estadisticasResumenUsuario',[App\Http\Controllers\statisticsController::class, 'userSummary'])->middleware('can:estadisticasDetalle.statisticsResumenUsuario')->name('estadisticasResumenUsuario');
-Route::get('estadisticasResumenUsuario/{usuario}/{fechaDesde?}/{fechaHasta?}',[App\Http\Controllers\statisticsController::class, 'userSummary'])->name('estadisticasResumenUsuario');
+// Route::get('estadisticasResumenUsuario',[App\Http\Controllers\statisticsController::class, 'userSummary'])->middleware('can:estadisticasDetalle.statisticsResumenUsuario')->name('estadisticasResumenUsuario');
+// Route::get('estadisticasResumenUsuario/{usuario}/{fechaDesde?}/{fechaHasta?}',[App\Http\Controllers\statisticsController::class, 'userSummary'])->name('estadisticasResumenUsuario');
 
-Route::get('estadisticasResumenCliente',[App\Http\Controllers\statisticsController::class, 'clientSummary'])->middleware('can:estadisticasDetalle.statisticsResumenCliente')->name('estadisticasResumenCliente');
-Route::get('estadisticasResumenCliente/{cliente}/{fechaDesde?}/{fechaHasta?}',[App\Http\Controllers\statisticsController::class, 'clientSummary'])->name('estadisticasResumenCliente');
+// Route::get('estadisticasResumenCliente',[App\Http\Controllers\statisticsController::class, 'clientSummary'])->middleware('can:estadisticasDetalle.statisticsResumenCliente')->name('estadisticasResumenCliente');
+// Route::get('estadisticasResumenCliente/{cliente}/{fechaDesde?}/{fechaHasta?}',[App\Http\Controllers\statisticsController::class, 'clientSummary'])->name('estadisticasResumenCliente');
 
 
 // moneda
@@ -268,7 +269,6 @@ Route::get('estadisticasResumenGrupo',[App\Http\Controllers\statisticsController
 // Resumen Wallet Transaccion
 //
 Route::get('estadisticasResumenWalletTran',[App\Http\Controllers\statisticsController::class, 'walletTransactionSummary'])->name('estadisticasResumenWalletTran');
-
 //
 // Resumen Wallet Transaccion grupo
 //
