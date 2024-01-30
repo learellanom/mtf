@@ -533,7 +533,14 @@ return [
                         'url'         => 'movimientos/cajasop',
                         'can'         => 'transactions.index_transfer_walletop',
                         'label_color' =>'success'
-                    ],                    
+                    ],         
+                    [
+                        'text'        => 'Otras Operaciones V2',
+                        'classes'   =>  'ml-4',     
+                        'url'         => 'movimientos/cajasop2',
+                        'can'         => 'transactions.index_transfer_walletop2',                        
+                        'label_color' =>'success'
+                    ],              
             ],
         ],
         [

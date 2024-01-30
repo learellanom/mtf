@@ -164,7 +164,7 @@ if (isset($balance->Total)){
                 </x-slot>
             </x-adminlte-date-range>
         </div>
-        {{--
+        
         <div class ="col-sm-2">
 			<x-adminlte-select2 id="coin"
 								name="optionsCoin"
@@ -186,7 +186,7 @@ if (isset($balance->Total)){
 
 			</x-adminlte-select2>
 		</div>
-        --}}
+        
         <!--
         <div class ="col-12 col-sm-2">
         </div>
@@ -268,13 +268,13 @@ if (isset($balance->Total)){
                 <div class="row">
                     <div class="col-md-12">
                         <table
-                            class="table table-bordered table-responsive-lg"
+                            class="table table-bordered table-responsive"
                             id="table"
                             style="width:100%;">
                             <thead>
                                 <tr>
                                     <th style="width:10%; display: none">Id</th>
-                                    <th style="width:10%;">Fecha</th>
+                                    <th style="width:7%;">Fecha</th>
                                     <th style="width:1%;">Transacción</th>
                                     <th style="width:10%;">Descripción</th>
                                     <th style="width:7%;">Token</th>
@@ -286,7 +286,7 @@ if (isset($balance->Total)){
                                     <th style="width:1%;">Comisión</th>
                                     <th style="width:1%;">Monto total</th>
                                     <th style="width:1%;">Saldo <i class="fas fa-dolar"></i></th>
-                                    <th style="width:1%;">Cliente</th>
+                                    <th style="width:1%;">Grupo</th>
                                     <th style="width:1%;">Agente</th>
                                     <th style="width:1%;">Caja</th>
 
@@ -485,8 +485,8 @@ if (isset($balance->Total)){
 @endsection
 
 @section('js')
-    @routes
-    <script>
+@routes
+<script>
     
 
     const miGrupo               = {!! $myGroup !!};
@@ -760,22 +760,104 @@ if (isset($balance->Total)){
         const myFechaDesde = {!! isset($myFechaDesde) ?? 0 !!};
         const myFechaHasta = {!! isset($myFechaHasta) ?? 0 !!};
                // $('#drCustomRanges').daterangepicker({}); 
-        BuscaFechas(myFechaDesde, myFechaHasta);
+        //BuscaFechas(myFechaDesde, myFechaHasta);
+        BuscaFechasBlade(myFechaDesde, myFechaHasta);
 
-        
-        $('#wallet').on('select2:open', () => {
-             document.querySelector('.select2-search__field').focus();
-        });
-        $('#group').on('select2:open', () => {
-            document.querySelector('.select2-search__field').focus();
-        });
-        $('#typeTransactions').on('select2:open', () => {
-            document.querySelector('.select2-search__field').focus();
-        });
-        $('#userole').on('select2:open', () => {
-            document.querySelector('.select2-search__field').focus();
-        });
+        $('#wallet').on('change', function (){
 
+            const usuario           = $('#userole').val();
+            const grupo             = $('#group').val();
+            const wallet            = $('#wallet').val();
+            const typeTransactions  = $('#typeTransactions').val();
+            const coin              = ($('#coin').val()) ? $('#coin').val() : 1;          
+            let myFechaDesde, myFechaHasta;
+
+            myFechaDesde =  ($('#drCustomRanges').val()).substr(6,4) +
+                            '-' +
+                            ($('#drCustomRanges').val()).substr(3,2) +
+                            '-' +
+                            ($('#drCustomRanges').val()).substr(0,2)
+                            ;
+
+            myFechaHasta =  ($('#drCustomRanges').val()).substr(19,4) +
+                            '-' +
+                            ($('#drCustomRanges').val()).substr(16,2) +
+                            '-' +
+                            ($('#drCustomRanges').val()).substr(13,2)
+                            ;
+            theRoute(usuario, grupo, wallet, typeTransactions, myFechaDesde, myFechaHasta, coin);
+
+        })
+        .on('select2:open', () => {
+            document.querySelector('.select2-search__field').focus();
+        });  
+
+        $('#group').on('change', function (){
+
+            const usuario           = $('#userole').val();
+            const grupo             = $('#group').val();
+            const wallet            = $('#wallet').val();
+            const seleccionado      = $('#group').prop('selectedIndex');
+            const typeTransactions  = $('#typeTransactions').val();
+            const coin              = ($('#coin').val()) ? $('#coin').val() : 1;          
+
+            let myFechaDesde, myFechaHasta;
+
+            myFechaDesde =  ($('#drCustomRanges').val()).substr(6,4) +
+                            '-' +
+                            ($('#drCustomRanges').val()).substr(3,2) +
+                            '-' +
+                            ($('#drCustomRanges').val()).substr(0,2)
+                            ;
+
+            myFechaHasta =  ($('#drCustomRanges').val()).substr(19,4) +
+                            '-' +
+                            ($('#drCustomRanges').val()).substr(16,2) +
+                            '-' +
+                            ($('#drCustomRanges').val()).substr(13,2)
+                            ;
+
+            theRoute(usuario, grupo, wallet, typeTransactions, myFechaDesde, myFechaHasta, coin);
+            
+
+        })
+            .on('select2:open', () => {
+            document.querySelector('.select2-search__field').focus();
+        }); 
+
+        $('#typeTransactions').on('change', function (){
+
+            const usuario           = $('#userole').val();
+            const grupo             = $('#group').val();
+            const wallet            = $('#wallet').val();
+            const typeTransactions  = $('#typeTransactions').val();
+            const coin              = ($('#coin').val()) ? $('#coin').val() : 1;            
+            let myFechaDesde, myFechaHasta;
+
+            myFechaDesde =  ($('#drCustomRanges').val()).substr(6,4) +
+                            '-' +
+                            ($('#drCustomRanges').val()).substr(3,2) +
+                            '-' +
+                            ($('#drCustomRanges').val()).substr(0,2)
+                            ;
+
+            myFechaHasta =  ($('#drCustomRanges').val()).substr(19,4) +
+                            '-' +
+                            ($('#drCustomRanges').val()).substr(16,2) +
+                            '-' +
+                            ($('#drCustomRanges').val()).substr(13,2)
+                            ;
+
+            myFechaDesde = $('#drCustomRanges').data('daterangepicker').startDate.format('YYYY-MM-DD');
+            myFechaHasta = $('#drCustomRanges').data('daterangepicker').endDate.format('YYYY-MM-DD');
+            // alert('aqui -> ' + typeTransactions + ` fechaDesde ${myFechaDesde}`);
+            // theRoute(usuario, grupo, wallet,typeTransactions,myFechaDesde,myFechaHasta);
+            theRoute(usuario, grupo, wallet, typeTransactions, myFechaDesde, myFechaHasta, coin);
+
+        })
+            .on('select2:open', () => {
+            document.querySelector('.select2-search__field').focus();
+        });
 
         $('#userole').on('change', function (){
 
@@ -783,39 +865,31 @@ if (isset($balance->Total)){
             const grupo             = $('#group').val();
             const wallet            = $('#wallet').val();
             const typeTransactions  = $('#typeTransactions').val();
-            theRoute(usuario,grupo,wallet, typeTransactions);
+            const coin              = ($('#coin').val()) ? $('#coin').val() : 1;          
+            let myFechaDesde, myFechaHasta;
 
-        });
+            myFechaDesde =  ($('#drCustomRanges').val()).substr(6,4) +
+                            '-' +
+                            ($('#drCustomRanges').val()).substr(3,2) +
+                            '-' +
+                            ($('#drCustomRanges').val()).substr(0,2)
+                            ;
 
-        $('#group').on('change', function (){
+            myFechaHasta =  ($('#drCustomRanges').val()).substr(19,4) +
+                            '-' +
+                            ($('#drCustomRanges').val()).substr(16,2) +
+                            '-' +
+                            ($('#drCustomRanges').val()).substr(13,2)
+                            ;
 
-            const usuario = $('#userole').val();
+            theRoute(usuario, grupo, wallet, typeTransactions, myFechaDesde, myFechaHasta, coin);
 
-            const grupo   = $('#group').val();
-            const wallet = $('#wallet').val();
-            const seleccionado = $('#group').prop('selectedIndex');
-            const typeTransactions  = $('#typeTransactions').val();
-            // alert('***** cliente ' +  cliente + " --- selected index --- " + seleccionado);
-
-            var URLactual = window.location;
-            // alert(URLactual);
-
-            theRoute(usuario,grupo,wallet, typeTransactions);
-
-
-        });
-
-        $('#wallet').on('change', function (){
-
-            const usuario = $('#userole').val();
-            const grupo   = $('#group').val();
-            const wallet = $('#wallet').val();
-            const typeTransactions  = $('#typeTransactions').val();
-            // alert('***** wallet ' +  wallet);
-                theRoute(usuario,grupo,wallet, typeTransactions);
-
-        });
-
+        })
+        .on('select2:open', () => {
+            document.querySelector('.select2-search__field').focus();
+        });        
+        
+       
 
         $('#drCustomRanges').on('change', function () {
             // alert('Fechas rnagos -> ' + $('#drCustomRanges').val());
@@ -843,176 +917,226 @@ if (isset($balance->Total)){
             const grupo             = $('#group').val();
             const wallet            = $('#wallet').val();
             const typeTransactions  = $('#typeTransactions').val();
-            theRoute(usuario,grupo,wallet,typeTransactions, myFechaDesde,myFechaHasta);
+            const coin              = ($('#coin').val()) ? $('#coin').val() : 1;          
+            theRoute(usuario,grupo,wallet,typeTransactions, myFechaDesde,myFechaHasta, coin);
         });
 
 
-        $('#typeTransactions').on('change', function (){
+		$('#coin').on('change', function (){
 
             const usuario           = $('#userole').val();
             const grupo             = $('#group').val();
             const wallet            = $('#wallet').val();
             const typeTransactions  = $('#typeTransactions').val();
-            let myFechaDesde = 0, myFechaHasta;
-            // alert('aqui -> ' + typeTransactions + ` fechaDesde ${myFechaDesde}`);
-            // theRoute(usuario, grupo, wallet,typeTransactions,myFechaDesde,myFechaHasta);
-            theRoute(usuario, grupo, wallet, typeTransactions, myFechaDesde, myFechaHasta);
+            const coin              = ($('#coin').val()) ? $('#coin').val() : 1;          
 
-            });
+            let myFechaDesde, myFechaHasta;
 
+            myFechaDesde =  ($('#drCustomRanges').val()).substr(6,4) +
+                            '-' +
+                            ($('#drCustomRanges').val()).substr(3,2) +
+                            '-' +
+                            ($('#drCustomRanges').val()).substr(0,2)
+                            ;
+
+            myFechaHasta =  ($('#drCustomRanges').val()).substr(19,4) +
+                            '-' +
+                            ($('#drCustomRanges').val()).substr(16,2) +
+                            '-' +
+                            ($('#drCustomRanges').val()).substr(13,2)
+                            ;
+
+            theRoute(usuario,grupo,wallet,typeTransactions, myFechaDesde,myFechaHasta, coin);
+
+        })
+        .on('select2:open', () => {
+            document.querySelector('.select2-search__field').focus();
         });
 
+    });
 
-        function theRoute(usuario = 0, grupo = 0, wallet = 0, typeTransactions = 0, fechaDesde = 0, fechaHasta = 0, coin = 1){
 
-            if (usuario === "") usuario = 0;
-            if (grupo   === "") grupo = 0;
-            if (wallet  === "") wallet  = 0;
-            if (typeTransactions  === "") typeTransactions  = 0;
+    function theRoute(usuario = 0, grupo = 0, wallet = 0, typeTransactions = 0, fechaDesde = 0, fechaHasta = 0, coin = 1){
 
-            let myRoute = "";
-                myRoute = "{{ route('estadisticasDetalle', ['usuario' => 'usuario2', 'grupo' => 'grupo2', 'wallet' => 'wallet2' , 'typeTransactions' => 'typeTransactions2', 'fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2']) }}";
-                myRoute = myRoute.replace('grupo2',grupo);
-                myRoute = myRoute.replace('usuario2',usuario);
-                myRoute = myRoute.replace('wallet2',wallet);
-                myRoute = myRoute.replace('typeTransactions2',typeTransactions);                
-                myRoute = myRoute.replace('fechaDesde2',fechaDesde);
-                myRoute = myRoute.replace('fechaHasta2',fechaHasta);
-                myRoute = myRoute.replace('coin2',coin);
-                myRoute = myRoute.replaceAll('amp;','');
-            // alert(myRoute);
-            location.href = myRoute;
+        if (usuario === "") usuario = 0;
+        if (grupo   === "") grupo = 0;
+        if (wallet  === "") wallet  = 0;
+        if (typeTransactions  === "") typeTransactions  = 0;
 
-        }
+        let myRoute = "";
 
-        function BuscaGrupo(miGrupo){
-            $('#group').each( function(index, element){
-                $(this).children("option").each(function(){
-                    if ($(this).val() === miGrupo.toString()){
-                        $("#group option[value="+ miGrupo +"]").attr("selected",true);
-                        
-                    }
-                });
+        myRoute = "{{ route('estadisticasDetalle', ['usuario' => 'usuario2', 'grupo' => 'grupo2', 'wallet' => 'wallet2' , 'typeTransactions' => 'typeTransactions2', 'fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2', 'coin' => 'coin2']) }}";
+        myRoute = myRoute.replace('grupo2',grupo);
+        myRoute = myRoute.replace('usuario2',usuario);
+        myRoute = myRoute.replace('wallet2',wallet);
+        myRoute = myRoute.replace('typeTransactions2',typeTransactions);                
+        myRoute = myRoute.replace('fechaDesde2',fechaDesde);
+        myRoute = myRoute.replace('fechaHasta2',fechaHasta);
+        myRoute = myRoute.replace('coin2',coin);
+        myRoute = myRoute.replaceAll('amp;','');
+
+        // alert(myRoute);
+        location.href = myRoute;
+
+    }
+
+    function BuscaGrupo(miGrupo){
+        $('#group').each( function(index, element){
+            $(this).children("option").each(function(){
+                if ($(this).val() === miGrupo.toString()){
+                    $("#group option[value="+ miGrupo +"]").attr("selected",true);
+                    
+                }
             });
-            return  $("#group option:selected").text().trim();
-        }
+        });
+        return  $("#group option:selected").text().trim();
+    }
 
-        function BuscaCliente(miCliente){
-            $('#cliente').each( function(index, element){
-                $(this).children("option").each(function(){
-                    if ($(this).val() === miCliente.toString()){
-                        $("#cliente option[value="+ miCliente +"]").attr("selected",true);
-                    }
+    function BuscaCliente(miCliente){
+        $('#cliente').each( function(index, element){
+            $(this).children("option").each(function(){
+                if ($(this).val() === miCliente.toString()){
+                    $("#cliente option[value="+ miCliente +"]").attr("selected",true);
+                }
 
-                });
             });
-        }
+        });
+    }
 
-        function BuscaUsuario(miUsuario){
-            if (miUsuario===0){
-                return;
-            }
-            $('#userole').each( function(index, element){
-                $(this).children("option").each(function(){
-                    if ($(this).val() === miUsuario.toString()){
-                        $("#userole option[value="+ miUsuario +"]").attr("selected",true);
-                    }
-                });
+    function BuscaUsuario(miUsuario){
+        if (miUsuario===0){
+            return;
+        }
+        $('#userole').each( function(index, element){
+            $(this).children("option").each(function(){
+                if ($(this).val() === miUsuario.toString()){
+                    $("#userole option[value="+ miUsuario +"]").attr("selected",true);
+                }
             });
+        });
+    }
+
+    function BuscaWallet(miWallet){
+        if (miWallet===0){
+            return;
         }
 
-        function BuscaWallet(miWallet){
-            if (miWallet===0){
-                return;
-            }
-
-            $('#wallet').each( function(index, element){
-                $(this).children("option").each(function(){
-                    if ($(this).val() === miWallet.toString()){
-                        $("#wallet option[value="+ miWallet +"]").attr("selected",true);
-                    }
-                });
+        $('#wallet').each( function(index, element){
+            $(this).children("option").each(function(){
+                if ($(this).val() === miWallet.toString()){
+                    $("#wallet option[value="+ miWallet +"]").attr("selected",true);
+                }
             });
-            //
+        });
+        //
+    }
+
+
+    function BuscaTypeTransactions(miTypeTransactions){
+        if (miTypeTransactions===0){
+            return;
         }
 
-
-        function BuscaTypeTransactions(miTypeTransactions){
-            if (miTypeTransactions===0){
-                return;
-            }
-
-            $('#typeTransactions').each( function(index, element){
-                $(this).children("option").each(function(){
-                    if ($(this).val() === miTypeTransactions.toString()){
-                        $("#typeTransactions option[value="+ miTypeTransactions +"]").attr("selected",true);
-                    }
-                });
+        $('#typeTransactions').each( function(index, element){
+            $(this).children("option").each(function(){
+                if ($(this).val() === miTypeTransactions.toString()){
+                    $("#typeTransactions option[value="+ miTypeTransactions +"]").attr("selected",true);
+                }
             });
-            //
+        });
+        //
+    }
+
+    function BuscaFechas(FechaDesde = 0,FechaHasta = 0){
+
+        myLocation  = window.location.toString();
+
+        myArray     = myLocation.split("/");
+        if (myArray.length > 4){
+            FechaDesde = myArray[8];
+            FechaHasta = myArray[9];
+        }else{
+            FechaDesde = 0;
+            FechaHasta = 0;       
         }
 
-        function BuscaFechas(FechaDesde = 0,FechaHasta = 0){
-
-            myLocation  = window.location.toString();
-
-            myArray     = myLocation.split("/");
-            if (myArray.length > 4){
-                FechaDesde = myArray[8];
-                FechaHasta = myArray[9];
-            }else{
-                FechaDesde = 0;
-                FechaHasta = 0;       
-            }
-
-            if (FechaDesde == 0) return;
+        if (FechaDesde == 0) return;
 
 
-            let myFechaDesde, myFechaHasta, myFecha;
+        let myFechaDesde, myFechaHasta, myFecha;
 
-            myFechaDesde = FechaDesde.toString().substr(8,2)  + '-' + FechaDesde.toString().substr(5,2) + '-' + FechaDesde.toString().substr(0,4);
-            myFechaHasta = FechaHasta.toString().substr(8,2)  + '-' + FechaHasta.toString().substr(5,2) + '-' + FechaHasta.toString().substr(0,4);
+        myFechaDesde = FechaDesde.toString().substr(8,2)  + '-' + FechaDesde.toString().substr(5,2) + '-' + FechaDesde.toString().substr(0,4);
+        myFechaHasta = FechaHasta.toString().substr(8,2)  + '-' + FechaHasta.toString().substr(5,2) + '-' + FechaHasta.toString().substr(0,4);
 
-            myFecha = myFechaDesde.toString()  + ' - ' + myFechaHasta.toString();
+        myFecha = myFechaDesde.toString()  + ' - ' + myFechaHasta.toString();
 
-            $('#drCustomRanges').data('daterangepicker').setStartDate(myFechaDesde);
-            $('#drCustomRanges').data('daterangepicker').setEndDate(myFechaHasta);
+        $('#drCustomRanges').data('daterangepicker').setStartDate(myFechaDesde);
+        $('#drCustomRanges').data('daterangepicker').setEndDate(myFechaHasta);
 
+    }
+
+    function invierteFecha(myFecha = "2001-01-01"){
+        myDay   = myFecha.substr(8,2);
+        myMonth = myFecha.substr(5,2);
+        myYear  = myFecha.substr(0,4);
+
+        if (myFecha == 0){
+            myFecha = "2001-01-01";
         }
 
-        function invierteFecha(myFecha = "2001-01-01"){
-            myDay   = myFecha.substr(8,2);
-            myMonth = myFecha.substr(5,2);
-            myYear  = myFecha.substr(0,4);
-
-            if (myFecha == 0){
-                myFecha = "2001-01-01";
-            }
-
-            if (myFecha == "2001-01-01"){
-                $("#myFecha").html('');
-            }else{
-                $("#myFecha").html(`${myDay}-${myMonth}-${myYear}`);
-            }
-
+        if (myFecha == "2001-01-01"){
+            $("#myFecha").html('');
+        }else{
+            $("#myFecha").html(`${myDay}-${myMonth}-${myYear}`);
         }
 
-		function BuscaMoneda(myTypeCoinBalance){
-			//alert("BuscaGrupo - miGrupo -> " + miGrupo);
-			$('#coin').each( function(index, element){
-				//alert ("Buscagrupo -> " + $(this).val() + " text -> " + $(this).text()+ " y con index -> " + $(this).prop('selectedIndex'));
-				$(this).children("option").each(function(){
-					if ($(this).val() === myTypeCoinBalance.toString()){
-						//alert('Buscagrupo - encontro');
-						$("#coin option[value="+ myTypeCoinBalance +"]").attr("selected",true);
-					}
-					//alert("BuscaGrupoaqui ->  the val " + $(this).val() + " text -> " + $(this).text());
-				});
-			});
-			//
-		}
+    }
 
-    </script>
+    function BuscaMoneda(myTypeCoinBalance){
+        //alert("BuscaGrupo - miGrupo -> " + miGrupo);
+        $('#coin').each( function(index, element){
+            //alert ("Buscagrupo -> " + $(this).val() + " text -> " + $(this).text()+ " y con index -> " + $(this).prop('selectedIndex'));
+            $(this).children("option").each(function(){
+                if ($(this).val() === myTypeCoinBalance.toString()){
+                    //alert('Buscagrupo - encontro');
+                    $("#coin option[value="+ myTypeCoinBalance +"]").attr("selected",true);
+                }
+                //alert("BuscaGrupoaqui ->  the val " + $(this).val() + " text -> " + $(this).text());
+            });
+        });
+        //
+    }
+
+    function BuscaFechasBlade(){
+
+        let myFechaAnio  = {{ substr($myFechaDesde,0,4) }};
+        let myFechaMes   = {{ substr($myFechaDesde,5,2) }};
+        let myFechaDia   = {{ substr($myFechaDesde,8,2) }};
+
+        myFechaMes       = myFechaMes.toString().length == 1 ? '0' + myFechaMes.toString() : myFechaMes;
+        myFechaDia       = myFechaDia.toString().length == 1 ? '0' + myFechaDia.toString() : myFechaDia;
+
+        let myFechaDesde2 = myFechaDia.toString().concat('-', myFechaMes, '-', myFechaAnio)
+
+        myFechaAnio  = {{ substr($myFechaHasta,0,4) }};
+        myFechaMes   = {{ substr($myFechaHasta,5,2) }};
+        myFechaDia   = {{ substr($myFechaHasta,8,2) }};
+
+        myFechaMes       = myFechaMes.toString().length == 1 ? '0' + myFechaMes.toString() : myFechaMes;
+        myFechaDia       = myFechaDia.toString().length == 1 ? '0' + myFechaDia.toString() : myFechaDia;
+
+        let myFechaHasta2 = myFechaDia.toString().concat('-', myFechaMes, '-', myFechaAnio);
+
+
+        console.log('myFechaDesde2 ->' + myFechaDesde2);
+        console.log('myFechaHasta2 ->' + myFechaHasta2);
+
+        $('#drCustomRanges').data('daterangepicker').setStartDate(myFechaDesde2);
+        $('#drCustomRanges').data('daterangepicker').setEndDate(myFechaHasta2);
+
+    }
+
+</script>
 @endsection
 @php
     function show(){

@@ -285,56 +285,57 @@ class statisticsController extends Controller
             }
         };
         // dd($balance);
-        \Log::info('leam - usuario en nuevo es ' . $request->usuario);
-        \Log::info('leam - usuario en nuevo es ' . (!$request->usuario));
-        \Log::info('leam - usuario en nuevo es ' . ($request->usuario));
-        $myUser = 0;
+
+
+        $myUser         = 0;
+        $myUserDesde    = 0;
+        $myUserHasta    = 9999;
+
         if ($request->usuario) {
             $myUser = $request->usuario;
-        }
-        $myUserDesde = 0;
-        $myUserHasta = 9999;
-
-        if ($myUser != 0){
             $myUserDesde = $myUser;
-            $myUserHasta = $myUser;
+            $myUserHasta = $myUser;            
         }
-        
-
-        
+        \Log::info('leam - usuario    ->' . $request->usuario);
+        \Log::info('leam - user desde ->' . $myUserDesde);
+        \Log::info('leam - user hasta ->' . $myUserHasta);
 
         //  print_r($myGroup);
          // dd($myGroup);
         $Transacciones      = [];
+
         $myLimit            = 0;
         $myLimitDesde       = 0;
         $myLimitHasta       = 5000;
+
+  
+        
         $myLimitCondition   = "limit 1000";
 
-        if ($myWallet == 0 and $myGroup == 0) {
-            $myLimit            = 1000;
-            $myLimitDesde       = 0;
-            $myLimitHasta       = 1000;
-            $myLimitCondition   = "limit 1000";
-        }
-
+        //if ($myWallet == 0 and $myGroup == 0) {
+        //    $myLimit            = 1000;
+        //    $myLimitDesde       = 0;
+        //   $myLimitHasta       = 1000;
+        //}
+        /*
+        // Permite asignar que 
+        // si es administrador vea todos los usuarios
+        // si es usuario solo ve sus rtansacciones
+        //
         if (!$request->usuario){
             if($this->isAdministrator()){
-                    $myUserDesde = auth()->user()->id;
-                    $myUserHasta = auth()->user()->id;
+                $myUserDesde = auth()->user()->id;
+                $myUserHasta = auth()->user()->id;
 
-                    $myUserDesde = 0;
-                    $myUserHasta = 9999;
-
-                    //$myLimitCondition   = "limit 1000";
+                $myUserDesde = 0;
+                $myUserHasta = 9999;
             }
             else{
                 $myUserDesde = auth()->user()->id;
                 $myUserHasta = auth()->user()->id;
-               //  $myLimitCondition   = "limit 1000";
             }
         }
-
+        */
         /*
         \Log::info('leam usuario desde       ***    -> ' . $myUserDesde);
         \Log::info('leam usuario hasta       ***    -> ' . $myUserHasta);
@@ -426,6 +427,7 @@ class statisticsController extends Controller
                 and user_id             between $myUserDesde                and $myUserHasta 
                 and type_transaction_id between $myTypeTransactionsDesde    and $myTypeTransactionsHasta 
                 and transaction_date    between '$myFechaDesde  00:00:00'   and '$myFechaHasta 23:59:00' 
+                and     type_coin_balance_id  = $myCoin
                 $busquedaWallet 
                 $busquedaGroup 
                 $myTokenCondition
@@ -435,7 +437,7 @@ class statisticsController extends Controller
         ";
         
         // return $myQuery;
-        // \Log::info('leam - myQuery ->' . $myQuery);
+         \Log::info('leam - myQuery ->' . $myQuery);
 
         $Transacciones = DB::select($myQuery);
         
@@ -459,7 +461,7 @@ class statisticsController extends Controller
 
         $parametros['myTypeCoinBalance']        = $myTypeCoinBalance;
         $parametros['Type_coin_balance']        = $Type_coin_balance;
-        
+
         $parametros['userole']                  = $userole;
         $parametros['wallet']                   = $wallet;
         $parametros['group']                    = $group;
@@ -763,6 +765,7 @@ class statisticsController extends Controller
     *
     *
     */
+    /*
     public function userDetail(Request $request)
     {
 
@@ -894,6 +897,7 @@ class statisticsController extends Controller
         return view('estadisticas.index', compact('myUser','userole','Transacciones','cliente','wallet','myCliente','myUser','myWallet'));
 
     }
+    */
     /*
     *
     *
@@ -901,6 +905,7 @@ class statisticsController extends Controller
     *
     *
     */
+    /*
     public function userSummary(Request $request)
     {
 
@@ -973,6 +978,7 @@ class statisticsController extends Controller
         return view('estadisticas.statisticsResumenUsuario', compact('myUser','userole','Transacciones'));
         return $myUsers2;
     }
+    */
     /*
     *
     *
@@ -980,6 +986,8 @@ class statisticsController extends Controller
     *
     *
     */
+
+    /*
     public function clientSummary(Request $request)
     {
 
@@ -1053,11 +1061,13 @@ class statisticsController extends Controller
         return view('estadisticas.statisticsResumenCliente', compact('myCliente','cliente','Transacciones'));
         return $myUsers2;
     }
+    */
+
     /*
     *
     *
-    *       clientSummary
-    *
+    *       fechaTokensSummary
+    * 
     *
     */
     public function fechaTokensSummary(Request $request)
