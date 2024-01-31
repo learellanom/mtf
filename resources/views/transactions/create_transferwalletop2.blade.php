@@ -73,6 +73,13 @@
                         </div>
 
                     </div>
+
+
+
+                    {{-- Transacion Origen --}}
+
+
+
                     <hr class="bg-dark esconder comi" style="height:1px;">
                     <h4 class="text-uppercase font-weight-bold text-center esconder comi">Transaccion Origen</h4>
 
@@ -81,14 +88,14 @@
                             {!! Form::Label('type_coin_id', "Tipo de moneda:") !!}
                             <div class="input-group-text">
                                 <i class="fa-fw fas fa-dollar-sign mr-2"></i>
-                                {!! Form::select('type_coin_id',$type_coin, null, ['class' => 'form-control', 'required' => true, 'id' => 'type_coin_id', 'readonly' => false]) !!}
+                                {!! Form::select('type_coin_id',$type_coin, null, ['class' => 'form-control entrada', 'required' => true, 'id' => 'type_coin_id', 'readonly' => false]) !!}
                             </div>
                         </div>
                         <div class="form-group col-xl-4">
-                            {!! Form::Label('tasa', "Tasa:") !!}
+                            {!! Form::Label('exchange_rate', "Tasa:") !!}
                             <div class="input-group-text">
                                 <i class="fa-fw fas fa-random mr-2"></i>
-                                {!! Form::text('exchange_rate',null, ['class' => 'form-control percentage rateMasks', 'required' => true, 'id' => 'tasa', 'readonly' => true, 'minlength' => 9]) !!}
+                                {!! Form::text('exchange_rate',null, ['class' => 'form-control percentage rateMasks entrada', 'required' => true, 'id' => 'exchange_rate', 'readonly' => true, 'minlength' => 9]) !!}
                             
                             </div>
                         </div>
@@ -96,10 +103,10 @@
 
                         <div class="form-group col-xl-4">
 
-                            {!! Form::Label('monto', "Monto en moneda extranjera:") !!}
+                            {!! Form::Label('amount_foreign_currency', "Monto en moneda extranjera:") !!}
                             <div class="input-group-text">
                                 <i class="fa-fw fas fa-coins mr-2"></i>
-                            {!! Form::text('amount_foreign_currency',null, ['class' => 'form-control general', 'required' => true, 'id' => 'monto', 'readonly' => true]) !!}
+                            {!! Form::text('amount_foreign_currency',null, ['class' => 'form-control general entrada', 'required' => true, 'id' => 'amount_foreign_currency', 'readonly' => true]) !!}
                             </div>
 
                         </div>
@@ -115,11 +122,11 @@
                         </label>
 
                         <label class="form-check-label mx-auto esconder comi col-md-3" for="exchange_rate_orientation_radio1">
-                            {!! Form::radio('exchange_rate_orientation',1, null, ['id' => 'exchange_rate_orientation_radio1', 'class' => 'incluir','required' => true,]) !!}
-                            De tipo Moneda Balance -> Tipo de Moneda
+                            {!! Form::radio('exchange_rate_orientation',1, 1, ['id' => 'exchange_rate_orientation_radio1', 'class' => 'entrada','required' => true, ]) !!}
+                            De tipo Moneda Balance -> Tipo de Monedaaaa
                         </label>
                         <label class="form-check-label mx-auto esconder comi col-md-3" for="exchange_rate_orientation_radio2">
-                            {!! Form::radio('exchange_rate_orientation',2, null, ['id' => 'exchange_rate_orientation_radio2', 'class' => 'exonerar', 'required' => true,]) !!}
+                            {!! Form::radio('exchange_rate_orientation',2, null, ['id' => 'exchange_rate_orientation_radio2', 'class' => 'entrada', 'required' => true,]) !!}
                             De tipo Moneda  -> Tipo de Moneda Balance
                         </label>
                         <label class="form-check-label mx-auto esconder comi col-md-2">
@@ -128,20 +135,25 @@
 
                     <div class="form-row">
                         <div class="form-group col-xl-4">
-                            {!! Form::Label('typecoin', "Tipo de moneda Balance:") !!}
+                            {!! Form::Label('type_coin_balance_id', "Tipo de moneda Balance:") !!}
                             <div class="input-group-text">
                                 <i class="fa-fw fas fa-dollar-sign mr-2"></i>
-                            {!! Form::select('type_coin_balance_id',$type_coin, null, ['class' => 'form-control', 'required' => true, 'id' => 'typecoinbalance', 'readonly' => false]) !!}
+                            {!! Form::select('type_coin_balance_id',$type_coin, null, ['class' => 'form-control entrada', 'required' => true, 'id' => 'type_coin_balance_id', 'readonly' => false]) !!}
                             </div>
                         </div>
                         <div class="form-group col-xl-8">
-                            {!! Form::Label('amount', "Monto en monda Balance:") !!}
+                            {!! Form::Label('amount', "Monto en moneda Balance:") !!}
                             <div class="input-group-text">
                                 <i class="fa-fw fas fas fa-funnel-dollar mr-2"></i>
-                                {!! Form::text('amount', null, ['class' => 'form-control general', 'required' => true, 'id' => 'monto_dolares']) !!}
+                                {!! Form::text('amount', null, ['class' => 'form-control general entrada', 'required' => true, 'id' => 'amount']) !!}
                             </div>
                         </div>
                     </div>
+
+
+
+                    {{-- Transaccion Destino --}}
+
 
                     <hr class="bg-dark esconder comi" style="height:1px;">
                     <h4 class="text-uppercase font-weight-bold text-center ">Transaccion Destino</h4>
@@ -152,14 +164,14 @@
                             {!! Form::Label('type_coin_id2', "Tipo de moneda:") !!}
                             <div class="input-group-text">
                                 <i class="fa-fw fas fa-dollar-sign mr-2"></i>
-                                {!! Form::select('type_coin_id2',$type_coin, null, ['class' => 'form-control', 'required' => true, 'id' => 'type_coin_id2', 'readonly' => false]) !!}
+                                {!! Form::select('type_coin_id2',$type_coin, null, ['class' => 'form-control entrada',  'id' => 'type_coin_id2', 'disabled' => true]) !!}
                             </div>
                         </div>
                         <div class="form-group col-xl-4">
                             {!! Form::Label('exchange_rate2', "Tasa:") !!}
                             <div class="input-group-text">
                                 <i class="fa-fw fas fa-random mr-2"></i>
-                            {!! Form::text('exchange_rate2',null, ['class' => 'form-control percentage rateMasks', 'required' => true, 'id' => 'exchange_rate2', 'readonly' => true, 'minlength' => 9]) !!}
+                            {!! Form::text('exchange_rate2',null, ['class' => 'form-control percentage rateMasks entrada', 'required' => true, 'id' => 'exchange_rate2', 'disabled' => true, 'minlength' => 9]) !!}
                             
                             </div>
                         </div>
@@ -167,10 +179,10 @@
 
                         <div class="form-group col-xl-4">
 
-                            {!! Form::Label('monto', "Monto en moneda extranjera:") !!}
+                            {!! Form::Label('amount_foreign_currency2', "Monto en moneda extranjera:") !!}
                             <div class="input-group-text">
                                 <i class="fa-fw fas fa-coins mr-2"></i>
-                            {!! Form::text('amount_foreign_currency',null, ['class' => 'form-control general', 'required' => true, 'id' => 'monto', 'readonly' => true]) !!}
+                            {!! Form::text('amount_foreign_currency2',null, ['class' => 'form-control general entrada', 'required' => true, 'id' => 'amount_foreign_currency2', 'readonly' => true]) !!}
                             </div>
 
                         </div>
@@ -184,11 +196,11 @@
                         </label>
 
                         <label class="form-check-label mx-auto esconder comi col-md-3" for="exchange_rate_orientation2_radio1">
-                            {!! Form::radio('exchange_rate_orientation2',1, null, ['id' => 'exchange_rate_orientation2_radio1', 'class' => 'incluir','required' => true,]) !!}
+                            {!! Form::radio('exchange_rate_orientation2',1, 1, ['id' => 'exchange_rate_orientation2_radio1', 'class' => 'entrada','required' => true,]) !!}
                             De tipo Moneda Balance -> Tipo de Moneda
                         </label>
                         <label class="form-check-label mx-auto esconder comi col-md-3" for="exchange_rate_orientation2_radio2">
-                            {!! Form::radio('exchange_rate_orientation2',2, null, ['id' => 'exchange_rate_orientation2_radio2', 'class' => 'exonerar', 'required' => true,]) !!}
+                            {!! Form::radio('exchange_rate_orientation2',2, null, ['id' => 'exchange_rate_orientation2_radio2', 'class' => 'entrada', 'required' => true,]) !!}
                             De tipo Moneda  -> Tipo de Moneda Balance
                         </label>
                         <label class="form-check-label mx-auto esconder comi col-md-2">
@@ -198,17 +210,17 @@
                     <div class="form-row">
 
                         <div class="form-group col-xl-4">
-                            {!! Form::Label('typecoin', "Tipo de moneda Balance:") !!}
+                            {!! Form::Label('type_coin_balance_id2', "Tipo de moneda Balance:") !!}
                             <div class="input-group-text">
                                 <i class="fa-fw fas fa-dollar-sign mr-2"></i>
-                            {!! Form::select('type_coin_balance_id',$type_coin, null, ['class' => 'form-control', 'required' => true, 'id' => 'typecoinbalance', 'readonly' => false]) !!}
+                            {!! Form::select('type_coin_balance_id2',$type_coin, null, ['class' => 'form-control entrada', 'required' => true, 'id' => 'type_coin_balance_id2', 'readonly' => false]) !!}
                             </div>
                         </div>
                         <div class="form-group col-xl-8">
-                            {!! Form::Label('amount', "Monto en monda Balance:") !!}
+                            {!! Form::Label('amount2', "Monto en monda Balance:") !!}
                             <div class="input-group-text">
                                 <i class="fa-fw fas fas fa-funnel-dollar mr-2"></i>
-                                {!! Form::text('amount', null, ['class' => 'form-control general', 'required' => true, 'id' => 'monto_dolares']) !!}
+                                {!! Form::text('amount2', null, ['class' => 'form-control general entrada', 'required' => true, 'id' => 'amount2', 'readonly' => 'true']) !!}
                             </div>
                         </div>
 
@@ -519,31 +531,66 @@
 
 @section('js')
 <script>
+    
+    {{-- dd($type_coin); --}}
 
+    BuscaMoneda(1); 
+    InicializaComision();
 
     $(document).ready(function() {
-
-        $(".typecoin").select2({
+ 
+        $(".type_coin_id").select2({
             placeholder: "Seleccionar Moneda",
             theme: 'bootstrap4',
             allowClear: true   
         });
 
-        $("#typecoin").val("");
-        $("#typecoin").trigger("change");
-        $('#typecoin').on('select2:open', () => {
+        $("#type_coin_id").on("change", function() {
+
+            if ($(this).val() == 1) {
+                
+                $('#exchange_rate').attr('readonly','true');
+                $('#amount_foreign_currency').attr('readonly','true');
+
+                $('#amount').removeAttr('readonly');
+
+            }else{
+                
+                $('#exchange_rate').removeAttr('readonly');
+                $('#amount_foreign_currency').removeAttr('readonly');
+                
+                $('#exchange_rate2').removeAttr('disabled');
+                
+                $('#amount').attr('readonly','true');
+            }
+
+            BuscaMonedaDestino($(this).val());
+            
+            updateMontorealBase();
+
+        })
+        .on('select2:open', () => {
              document.querySelector('.select2-search__field').focus();
          });
 
+
+        // $('#exchange_rate, #amount_foreign_currency, #exchange_rate_orientation_radio1, #exchange_rate_orientation_radio2, #exchange_rate_orientation2_radio1, #exchange_rate_orientation2_radio2').on('input', function () {
+        $('.entrada').on('input', function () {
+            // alert('leam - cambio llll ');
+            $('#exchange_rate2').val( $('#exchange_rate').val() );
+            
+            updateMontorealBase();
+
+         });
 
         $("#typetransaccion").select2({
             placeholder: "Selecciona..",
             theme: 'bootstrap4',
             allowClear: true               
         });
-         $('#typetransaccion').on('select2:open', () => {
-             document.querySelector('.select2-search__field').focus();
-         });
+        $('#typetransaccion').on('select2:open', () => {
+            document.querySelector('.select2-search__field').focus();
+        });
         $("#typetransaccion").val("");
         $("#typetransaccion").trigger("change");
 
@@ -692,21 +739,23 @@
 
             updateMontorealBase(exonerar_base, descontar_base, incluir_base, comision_base, porcentage_base, montoreal_base);
 
-            $('#radio1_base, #radio2_base, #radio3_base').on('click', function() {
-                
-                let comision_base       = parseFloat($('#comision_base').val());
-                let porcentage_base     = parseFloat($('#percentage_base').val());
-                let montoreal_base      = parseFloat($('#monto_base').val());
 
-                let exonerar_base       = $('#radio1_base').is(':checked');
-                let descontar_base      = $('#radio2_base').is(':checked');
-                let incluir_base        = $('#radio3_base').is(':checked');
-
-                updateMontorealBase(exonerar_base, descontar_base, incluir_base, comision_base, porcentage_base, montoreal_base);
-            });
 
         });
-        
+
+        $('#radio1_base, #radio2_base, #radio3_base').on('click', function() {
+                
+            let comision_base       = parseFloat($('#comision_base').val());
+            let porcentage_base     = parseFloat($('#percentage_base').val());
+            let montoreal_base      = parseFloat($('#monto_base').val());
+
+            let exonerar_base       = $('#radio1_base').is(':checked');
+            let descontar_base      = $('#radio2_base').is(':checked');
+            let incluir_base        = $('#radio3_base').is(':checked');
+
+            updateMontorealBase(exonerar_base, descontar_base, incluir_base, comision_base, porcentage_base, montoreal_base);
+        });        
+
         $("#typetransaccion").on("change", function() {
             // Capturar dato seleccionado
             var selectedValue = this.value;
@@ -880,17 +929,79 @@
     function updateMontorealBase(exonerar_base, descontar_base, incluir_base, comision_base, porcentage_base, montoreal_base) {
         
 
+        let exchange_rate               = ($('#exchange_rate').val()) ? $('#exchange_rate').val() : 0;
+        let amount_foreign_currency     = ($('#amount_foreign_currency').val()) ? $('#amount_foreign_currency').val() : 0;
 
-        let monto_dolares               = parseFloat($('#monto_dolares').val());
-            
+        let exchange_rate2               = ($('#exchange_rate2').val()) ? $('#exchange_rate').val() : 0;
+        let amount_foreign_currency2     = ($('#amount_foreign_currency2').val()) ? $('#amount_foreign_currency').val() : 0;
+
+        if (exchange_rate == 0){
+          //  alert('leam - sin valor');
+        }
+
+        let exonerar_rate_orientation;
+        let amount;
+
+        let exonerar_rate_orientation1                    = $('#exchange_rate_orientation_radio1').is(':checked');
+        let exonerar_rate_orientation2                    = $('#exchange_rate_orientation_radio2').is(':checked');
         
+        if (exonerar_rate_orientation1){
+            exonerar_rate_orientation = 1;
+        }else if(exonerar_rate_orientation2){
+            exonerar_rate_orientation = 2;
+        } else {
+            exonerar_rate_orientation = 1;
+        }
+        switch(exonerar_rate_orientation){
+            case 1:
+                console.log('leam - divide');
+                amount = amount_foreign_currency / exchange_rate;                
+                break;
+            case 2:
+                console.log('leam - multiplicar');
+                amount = amount_foreign_currency * exchange_rate;
+                break;
+        }
+
+        
+        let exonerar_rate_orientation21                    = $('#exchange_rate_orientation2_radio1').is(':checked');
+        let exonerar_rate_orientation22                    = $('#exchange_rate_orientation2_radio2').is(':checked');
+        
+        if (exonerar_rate_orientation21){
+            exonerar_rate_orientation = 1;
+        }else if(exonerar_rate_orientation22){
+            exonerar_rate_orientation = 2;
+        } else {
+            exonerar_rate_orientation = 1;
+        }
+        switch(exonerar_rate_orientation){
+            case 1:
+                console.log('leam - divide2 -> ' + amount_foreign_currency2 + ' / ' + exchange_rate2);
+                amount2 = amount_foreign_currency2 / exchange_rate2;                
+                break;
+            case 2:
+                console.log('leam - multiplicar2');
+                amount2 = amount_foreign_currency2 * exchange_rate2;
+                break;
+        }
+
+        
+        $('#amount').val(amount);
+        $('#amount_foreign_currency2').val(amount_foreign_currency);
+
+        $('#amount2').val(amount2);
+
+
+
+        //  ***
+
+        let monto_dolares               = parseFloat($('#monto_dolares').val());        
         let percentage                  = $('#percentage').val() == "" ? 0 : parseFloat($('#percentage').val());
         let exonerar                    = $('#radio1').is(':checked');
         let descontar                   = $('#radio2').is(':checked');
         let incluir                     = $('#radio3').is(':checked');
         let amount_commission_profit    = 0;
 
-        
 
         let amount_commission           = 0;
         if (percentage > 0) {
@@ -988,7 +1099,62 @@
         });
     }
 
+    function BuscaMoneda(myCoin){
+        let mySelect = "#" + "type_coin_id";
+        //console.log("Busca -> " + myCoin + " en ->" + mySelect);
 
+        $(mySelect).each( function (index, element) {
+            $(this).children("option").each(function(){
+                $(mySelect + " option[value="+ myCoin +"]").removeAttr("selected");
+            });
+        });
+
+        $(mySelect).each( function(index, element){
+            
+            $(this).children("option").each(function(){
+                //console.log ("Busca -> " + $(this).val() + " text -> " + $(this).text()+ " y con myCoin -> " + myCoin);                
+                if ($(this).val() == myCoin){
+                    //console.log('Busca - encontro');
+                    $(mySelect + " option[value="+ myCoin +"]").attr("selected",true);
+                }
+                //alert("Busca ->  the val " + $(this).val() + " text -> " + $(this).text());
+            });
+        });
+        //
+    }
+
+    function BuscaMonedaDestino(myCoin){
+
+        
+        let mySelect = "#" + "type_coin_id2";
+        //console.log("Busca -> " + myCoin + " en ->" + mySelect);
+
+        $(mySelect).each( function (index, element) {
+            $(this).children("option").each(function(){
+                $(mySelect + " option[value="+ myCoin +"]").removeAttr("selected");
+            });
+        });
+
+        $(mySelect).each( function(index, element){
+            
+            $(this).children("option").each(function(){
+                //console.log ("Busca -> " + $(this).val() + " text -> " + $(this).text()+ " y con myCoin -> " + myCoin);                
+                if ($(this).val() == myCoin){
+                    //console.log('Busca - encontro');
+                    $(mySelect + " option[value="+ myCoin +"]").attr("selected",true);
+                }
+                //alert("Busca ->  the val " + $(this).val() + " text -> " + $(this).text());
+            });
+        });
+        //
+    }
+
+
+    function InicializaComision(){
+        $('#radio1').attr('checked','checked');
+        $('#radio1_base').attr('checked','checked');
+        
+    }
 </script>
 
 

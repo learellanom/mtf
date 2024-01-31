@@ -607,7 +607,7 @@ class TransactionController extends Controller
         $myTransactions [] = 36;
         $myTransactions [] = 37;
 
-        $type_coin          = Type_coin::pluck('name', 'id');
+        $type_coin          = Type_coin::pluck('name', 'id')->toArray();
         // $type_transaction   = Type_transaction::whereIn('name', ['Pago Efectivo', 'Pago en Transferencia', 'Pago Mercancia','Pago USDT','Swift'])->pluck('name','id');
         $type_transaction   = Type_transaction::whereIn('id', $myTransactions)->pluck('name','id');
 
