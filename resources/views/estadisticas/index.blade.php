@@ -757,10 +757,12 @@ if (isset($balance->Total)){
 
     $(() => {
 
-        const myFechaDesde = {!! isset($myFechaDesde) ?? 0 !!};
-        const myFechaHasta = {!! isset($myFechaHasta) ?? 0 !!};
+       // const myFechaDesde = '{!! isset($myFechaDesde) ?? 0 !!}';
+        const myFechaDesde = '{{ $myFechaDesde }}';
+        const myFechaHasta = '{{ $myFechaHasta }}';
                // $('#drCustomRanges').daterangepicker({}); 
         //BuscaFechas(myFechaDesde, myFechaHasta);
+
         BuscaFechasBlade(myFechaDesde, myFechaHasta);
 
         $('#wallet').on('change', function (){
@@ -1108,6 +1110,12 @@ if (isset($balance->Total)){
     }
 
     function BuscaFechasBlade(){
+
+        let myFechaDesdeInicial = "{{ $myFechaDesde }}";
+        // console.log('leam - aqui ' + "{{ $myFechaDesde }}");
+        if (myFechaDesdeInicial == "2001-01-01"){
+            return;
+        }
 
         let myFechaAnio  = {{ substr($myFechaDesde,0,4) }};
         let myFechaMes   = {{ substr($myFechaDesde,5,2) }};

@@ -551,7 +551,7 @@ $config4 = [
                             ;
 
             theRoute(wallet, transaccion, myFechaDesde,myFechaHasta, coin);
-            
+
         });
 
 
@@ -668,6 +668,11 @@ $config4 = [
     }
 
     function BuscaFechasBlade(){
+
+        let myFechaDesdeCompara =  "{{ $myFechaDesde }}";
+        if (myFechaDesdeCompara == "2001-01-01"){
+            return;
+        }
 
         let myFechaAnio  = {{ substr($myFechaDesde,0,4) }};
         let myFechaMes   = {{ substr($myFechaDesde,5,2) }};

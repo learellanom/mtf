@@ -31,14 +31,15 @@
             <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
                 <li class="nav-item" role="presentation">
                     <button
-                      class="nav-link active text-uppercase font-weight-bold"
-                      id="pills-home-tab"
-                      data-toggle="pill"
-                      data-target="#pills-home"
-                      type="button"
-                      role="tab"
-                      aria-controls="pills-home"
-                      aria-selected="true">{{ __('Pagos') }}</button>
+                        class="nav-link active text-uppercase font-weight-bold"
+                        id="pills-home-tab"
+                        data-toggle="pill"
+                        data-target="#pills-home"
+                        type="button"
+                        role="tab"
+                        aria-controls="pills-home"
+                        aria-selected="true">{{ __('Pagos') }}
+                    </button>
                 </li>
 
             </ul>
@@ -52,7 +53,7 @@
                             {!! Form::Label('type_transaction_id', "Tipo de transacción:") !!}
                             <div class="input-group-text col-md-12">
                                 <i class="fa-fw fa fas fa-exchange-alt mr-2"></i>
-                                {!! Form::select('type_transaction_id', $type_transaction, null, ['class' => 'form-control transaccion', 'required' => true, 'id' => 'typetransaccion']) !!}
+                                {!! Form::select('type_transaction_id', $type_transaction, null, ['class' => 'form-control', 'required' => true, 'id' => 'typetransaccion']) !!}
                             </div>
                         </div>
 
@@ -60,7 +61,7 @@
                             {!! Form::Label('wallet_id', "Caja de origen (Proveedor):") !!}
                             <div class="input-group-text col-md-12">
                                 <i class="fa-fw fas fa-random mr-2"></i>
-                            {!! Form::select('wallet_id', $wallet, null, ['class' => 'form-control wallet muestra', 'required' => true, 'id'=>'wallet', 'readonly' => false]) !!}
+                                {!! Form::select('wallet_id', $wallet, null, ['class' => 'form-control wallet', 'required' => true, 'id'=>'wallet', 'readonly' => false]) !!}
                             </div>
                         </div>
 
@@ -68,7 +69,7 @@
                             {!! Form::Label('wallet2_id', "Caja destino:") !!}
                             <div class="input-group-text col-md-12">
                                 <i class="fa-fw fas fa-random mr-2"></i>
-                                {!! Form::select('wallet2_id', $wallet2, null, ['class' => 'form-control wallet2 oculta', 'required' => true, 'id'=>'wallet2', 'readonly' => false]) !!}
+                                {!! Form::select('wallet2_id', $wallet2, null, ['class' => 'form-control wallet2', 'required' => true, 'id'=>'wallet2', 'readonly' => false]) !!}
                             </div>
                         </div>
 
@@ -171,7 +172,7 @@
                             {!! Form::Label('exchange_rate2', "Tasa:") !!}
                             <div class="input-group-text">
                                 <i class="fa-fw fas fa-random mr-2"></i>
-                            {!! Form::text('exchange_rate2',null, ['class' => 'form-control percentage rateMasks entrada', 'required' => true, 'id' => 'exchange_rate2', 'disabled' => true, 'minlength' => 9]) !!}
+                            {!! Form::text('exchange_rate2',null, ['class' => 'form-control rateMasks entrada', 'required' => true, 'id' => 'exchange_rate2', 'disabled' => true, 'minlength' => 9]) !!}
                             
                             </div>
                         </div>
@@ -213,7 +214,7 @@
                             {!! Form::Label('type_coin_balance_id2', "Tipo de moneda Balance:") !!}
                             <div class="input-group-text">
                                 <i class="fa-fw fas fa-dollar-sign mr-2"></i>
-                            {!! Form::select('type_coin_balance_id2',$type_coin, null, ['class' => 'form-control entrada', 'required' => true, 'id' => 'type_coin_balance_id2', 'readonly' => false]) !!}
+                                {!! Form::select('type_coin_balance_id2',$type_coin, null, ['class' => 'form-control entrada', 'required' => true, 'id' => 'type_coin_balance_id2', 'readonly' => false]) !!}
                             </div>
                         </div>
                         <div class="form-group col-xl-8">
@@ -245,16 +246,17 @@
                         </div>
 
 
-                            <div class="form-group col-md-6">
-                                {!! Form::Label('transaction_date', "Fecha:") !!}
-                                <div class="input-group-text col-md-12 ">
-                                    <i class="fa-fw fas fas fa-calendar-week mr-2"></i>
-                                    {!! Form::datetimeLocal('transaction_date', $fecha, ['class' => 'form-control', 'required' => true, 'id' => 'fecha']) !!}
-                                </div>
+                        <div class="form-group col-md-6">
+                            {!! Form::Label('transaction_date', "Fecha:") !!}
+                            <div class="input-group-text col-md-12 ">
+                                <i class="fa-fw fas fas fa-calendar-week mr-2"></i>
+                                {!! Form::datetimeLocal('transaction_date', $fecha, ['class' => 'form-control', 'required' => true, 'id' => 'fecha']) !!}
                             </div>
-                            {!! Form::hidden('type_transaction2_id', null, ['class' => 'form-control transaccion','required' => true, 'id' => 'typetransaccion2']) !!}
                         </div>
-                    </div>
+
+                        {!! Form::hidden('type_transaction2_id', null, ['class' => 'form-control','required' => true, 'id' => 'typetransaccion2']) !!}
+                        
+                        </div>
 
                     </div>
 
@@ -282,7 +284,7 @@
                             {!! Form::Label('percentage', "Porcentaje:") !!}
                             <div class="input-group-text">
                                 <i class="fa-fw fas fa-percentage mr-2"></i>
-                            {!! Form::text('percentage',null, ['class' => 'form-control percentage rateMasks', 'required' => true, 'id' => 'percentage']) !!}
+                                {!! Form::text('percentage',null, ['class' => 'form-control rateMasks entrada', 'required' => true, 'id' => 'percentage']) !!}
                             </div>
                         </div>
 
@@ -295,7 +297,7 @@
                             {!! Form::Label('comision', "Monto Comisión:") !!}
                             <div class="input-group-text">
                                 <i class="fa-fw fas fa-coins mr-2"></i>
-                            {!! Form::text('amount_commission',null, ['class' => 'form-control comision general', 'required' => true, 'readonly' => true, 'id' => 'comision']) !!}
+                                {!! Form::text('amount_commission',null, ['class' => 'form-control comision general', 'required' => true, 'readonly' => true, 'id' => 'comision']) !!}
                             </div>
                         </div>
 
@@ -304,28 +306,28 @@
                     <div class="form-group row d-flex justify-content-center">
 
                         <label class="form-check-label mx-auto esconder comi col-md-4" for="radio1">
-                            {!! Form::radio('exonerate',2, null, ['id' => 'radio1', 'class' => 'exonerar', 'required' => true,]) !!}
+                            {!! Form::radio('exonerate',2, null, ['id' => 'radio1', 'class' => 'exonerar entrada', 'required' => true,]) !!}
                             Exonerar comisión
                         </label>
 
                         <label class="form-check-label mx-auto esconder comi col-md-4" for="radio3">
-                            {!! Form::radio('exonerate',1, null, ['id' => 'radio3', 'class' => 'incluir','required' => true,]) !!}
+                            {!! Form::radio('exonerate',1, null, ['id' => 'radio3', 'class' => 'incluir entrada','required' => true,]) !!}
                             Incluir comisión
                         </label>
 
 
                         <label class="form-check-label mx-auto esconder comi col-md-4" for="radio2">
-                            {!! Form::radio('exonerate',3, null, ['id' => 'radio2', 'class' => 'descontar', 'required' => true,]) !!}
+                            {!! Form::radio('exonerate',3, null, ['id' => 'radio2', 'class' => 'descontar entrada', 'required' => true,]) !!}
                             Descontar comisión
                         </label>
 
                     </div>
 
                     <div class="form-group col-md esconder">
-                        {!! Form::Label('montototal', "Monto Total:") !!}
+                        {!! Form::Label('amount_total', "Monto Total:") !!}
                         <div class="input-group-text">
                             <i class="fa-fw fas fa-coins mr-2"></i>
-                        {!! Form::text('amount_total',null, ['class' => 'form-control montototal general', 'required' => true, "minlength" => "3", 'id' => 'montototal', 'readonly' => true]) !!}
+                            {!! Form::text('amount_total',null, ['class' => 'form-control  general', 'required' => true, "minlength" => "3", 'id' => 'amount_total', 'readonly' => true]) !!}
                         </div>
                     </div>
 
@@ -343,7 +345,7 @@
                             {!! Form::Label('percentage_base', "Porcentaje Base:") !!}
                             <div class="input-group-text">
                                 <i class="fa-fw fas fa-percentage mr-2"></i>
-                                {!! Form::text('percentage_base',null, ['class' => 'form-control percentage_base rateMasks',  'min' => 0, 'id' => 'percentage_base']) !!}
+                                {!! Form::text('percentage_base',null, ['class' => 'form-control percentage_base rateMasks entrada',  'min' => 0, 'id' => 'percentage_base']) !!}
                             </div>
                         </div>
 
@@ -360,18 +362,18 @@
                     <div class="form-group row d-flex justify-content-center">
                         
                         <label class="form-check-label mx-auto esconder comi col-md-4" for="radio1_base">
-                            {!! Form::radio('exonerate_base',2, null, ['id' => 'radio1_base', 'required' => true, 'class' => 'exonerar_base']) !!}
+                            {!! Form::radio('exonerate_base',2, null, ['id' => 'radio1_base', 'required' => true, 'class' => 'exonerar_base entrada']) !!}
                             Exonerar comisión base
                         </label>
                         
                         <label class="form-check-label mx-auto esconder comi col-md-4" for="radio3_base">
-                            {!! Form::radio('exonerate_base',1, null, ['id' => 'radio3_base', 'required' => true, 'class' => 'incluir_base']) !!}
+                            {!! Form::radio('exonerate_base',1, null, ['id' => 'radio3_base', 'required' => true, 'class' => 'incluir_base entrada']) !!}
                             Incluir comisión base
                         </label>
 
 
                         <label class="form-check-label mx-auto esconder comi col-md-4" for="radio2_base">
-                            {!! Form::radio('exonerate_base',3, null, ['id' => 'radio2_base', 'required' => true, 'class' => 'descontar_base']) !!}
+                            {!! Form::radio('exonerate_base',3, null, ['id' => 'radio2_base', 'required' => true, 'class' => 'descontar_base entrada']) !!}
                             Descontar comisión base
                         </label>
 
@@ -380,10 +382,10 @@
                     {{-- Monto total base --}}
 
                     <div class="form-group col-md">
-                        {!! Form::Label('monto_base', "Monto total Base:") !!}
+                        {!! Form::Label('amount_total_base', "Monto total Base:") !!}
                         <div class="input-group-text">
                             <i class="fa-fw fas fas fa-coins mr-2"></i>
-                            {!! Form::text('amount_total_base', null, ['class' => 'form-control general', 'id' => 'monto_base', 'readonly' => true]) !!}
+                            {!! Form::text('amount_total_base', null, ['class' => 'form-control general', 'id' => 'amount_total_base', 'readonly' => true]) !!}
                         </div>
                     </div>
 
@@ -430,9 +432,8 @@
 
 
 @section('css')
+
 <meta name="csrf-token" content="{{ csrf_token() }}">
-
-
 
 <style>
 .file-preview-thumbnails{
@@ -535,7 +536,8 @@
     {{-- dd($type_coin); --}}
 
     BuscaMoneda(1); 
-    InicializaComision();
+    // InicializaComision();
+    inicializaComisionPorcentaje();
 
     $(document).ready(function() {
  
@@ -543,8 +545,22 @@
             placeholder: "Seleccionar Moneda",
             theme: 'bootstrap4',
             allowClear: true   
+        })
+        .on('select2:open', () => {
+             document.querySelector('.select2-search__field').focus();
+         });
+
+         $("#typetransaccion").select2({
+            placeholder: "Selecciona..",
+            theme: 'bootstrap4',
+            allowClear: true               
+        }).on('select2:open', () => {
+            document.querySelector('.select2-search__field').focus();
         });
 
+
+
+        
         $("#type_coin_id").on("change", function() {
 
             if ($(this).val() == 1) {
@@ -568,35 +584,27 @@
             
             updateMontorealBase();
 
-        })
-        .on('select2:open', () => {
-             document.querySelector('.select2-search__field').focus();
-         });
+        });
 
-
-        // $('#exchange_rate, #amount_foreign_currency, #exchange_rate_orientation_radio1, #exchange_rate_orientation_radio2, #exchange_rate_orientation2_radio1, #exchange_rate_orientation2_radio2').on('input', function () {
+         /*
+        // $('
+            #exchange_rate, 
+            #exchange_rate2, 
+            #amount_foreign_currency, 
+            #exchange_rate_orientation_radio1, 
+            #exchange_rate_orientation_radio2, 
+            #exchange_rate_orientation2_radio1, 
+            #exchange_rate_orientation2_radio2'
+            ).on('input', function () {
+        */
         $('.entrada').on('input', function () {
-            // alert('leam - cambio llll ');
-            $('#exchange_rate2').val( $('#exchange_rate').val() );
             
             updateMontorealBase();
 
          });
 
-        $("#typetransaccion").select2({
-            placeholder: "Selecciona..",
-            theme: 'bootstrap4',
-            allowClear: true               
-        });
-        $('#typetransaccion').on('select2:open', () => {
-            document.querySelector('.select2-search__field').focus();
-        });
-        $("#typetransaccion").val("");
-        $("#typetransaccion").trigger("change");
 
-
-
-        
+       
         $('.general').inputmask({
             alias: 'decimal',
             allowMinus: true,
@@ -611,7 +619,6 @@
             autoClear: true,
             insertMode:true, 
         });
-
 
         $(".rateMasks").attr("minlength","8");
         $(".rateMasks").attr("maxlength","8");
@@ -630,44 +637,6 @@
             digits: 7,
             insertMode:true,
         });
-
-
-        // $('#monto_dolares').on('input', function() {
-        //     var dolar = $('#monto_dolares').val();
-        //     $('#montototal_base').val(dolar);
-
-        //     $('#montototal').val(dolar);
-        // });
-
-
-
-        /* OCULTAR LA CAJA SELECCIONADA */
-        $('.muestra').select2({
-            'theme':'bootstrap4',
-            search: false,
-            allowClear: true,
-            placeholder: "Seleccionar cliente",
-            width:'100%'
-        });
-        $(".muestra").val("")
-        $(".muestra").trigger("change");
-        $('.muestra').on('select2:open', () => {
-             document.querySelector('.select2-search__field').focus();
-         });
-
-
-
-        $('.oculta').select2({
-            'theme':'bootstrap4',
-            allowClear: true,
-            placeholder: "Seleccionar cliente",
-        });
-        $(".oculta").val("")
-        $(".oculta").trigger("change");
-        $('.oculta').on('select2:open', () => {
-             document.querySelector('.select2-search__field').focus();
-         });
-
 
         $('#entre').on('submit', function() {
 
@@ -722,45 +691,14 @@
         /* OCULTAR LA CAJA SELECCIONADA */
 
 
-        tasa = document.getElementById("tasa");
-        monto = document.getElementById("monto");
-        // monto_dolares = document.getElementById("monto_dolares");
-        //const log = document.getElementById("montototal");
-
-        $('#monto_dolares, #percentage_base, #percentage, #radio1, #radio2, #radio3').on('input', function() {
-            
-            let comision_base   = parseFloat($('#comision_base').val());
-            let porcentage_base = parseFloat($('#percentage_base').val());
-            let montoreal_base  = parseFloat($('#monto_base').val());
-
-            let exonerar_base   = $('#radio1_base').is(':checked');
-            let descontar_base  = $('#radio2_base').is(':checked');
-            let incluir_base    = $('#radio3_base').is(':checked');
-
-            updateMontorealBase(exonerar_base, descontar_base, incluir_base, comision_base, porcentage_base, montoreal_base);
-
-
-
-        });
-
-        $('#radio1_base, #radio2_base, #radio3_base').on('click', function() {
-                
-            let comision_base       = parseFloat($('#comision_base').val());
-            let porcentage_base     = parseFloat($('#percentage_base').val());
-            let montoreal_base      = parseFloat($('#monto_base').val());
-
-            let exonerar_base       = $('#radio1_base').is(':checked');
-            let descontar_base      = $('#radio2_base').is(':checked');
-            let incluir_base        = $('#radio3_base').is(':checked');
-
-            updateMontorealBase(exonerar_base, descontar_base, incluir_base, comision_base, porcentage_base, montoreal_base);
-        });        
+        //tasa = document.getElementById("tasa");
+        //monto = document.getElementById("monto");    
 
         $("#typetransaccion").on("change", function() {
             // Capturar dato seleccionado
-            var selectedValue = this.value;
-            var option = $("#typetransaccion option:selected").text();
-            var optionId = $("#typetransaccion option:selected").val();
+            var selectedValue   = this.value;
+            var option          = $("#typetransaccion option:selected").text();
+            var optionId        = $("#typetransaccion option:selected").val();
             // Realizar la acción deseada en función del valor seleccionado
             // if (option == 'Pago Efectivo')
             if (optionId == 3)            
@@ -914,8 +852,6 @@
 
         /* REFERENCIAS PARA RESPALDO DE MOVIMIENTO */
 
-
-
     });
 
     
@@ -926,17 +862,29 @@
         BuscaWallet2(myWallet);
     }
     
-    function updateMontorealBase(exonerar_base, descontar_base, incluir_base, comision_base, porcentage_base, montoreal_base) {
+    function updateMontorealBase() {
         
 
-        let exchange_rate               = ($('#exchange_rate').val()) ? $('#exchange_rate').val() : 0;
-        let amount_foreign_currency     = ($('#amount_foreign_currency').val()) ? $('#amount_foreign_currency').val() : 0;
+        let comision_base               = parseFloat($('#comision_base').val());
+        let porcentage_base             = parseFloat($('#percentage_base').val());
+        let montoreal_base              = parseFloat($('#amount_total_base').val());
 
-        let exchange_rate2               = ($('#exchange_rate2').val()) ? $('#exchange_rate').val() : 0;
-        let amount_foreign_currency2     = ($('#amount_foreign_currency2').val()) ? $('#amount_foreign_currency').val() : 0;
+        let exonerar_base               = $('#radio1_base').is(':checked');
+        let descontar_base              = $('#radio2_base').is(':checked');
+        let incluir_base                = $('#radio3_base').is(':checked');
 
-        if (exchange_rate == 0){
+        let exchange_rate               = ($('#exchange_rate').val())               ? $('#exchange_rate').val()             : 0;
+        let amount_foreign_currency     = ($('#amount_foreign_currency').val())     ? $('#amount_foreign_currency').val()   : 0;
+
+        let exchange_rate2              = ($('#exchange_rate2').val())             ? $('#exchange_rate2').val()             : 0;
+        let amount_foreign_currency2    = ($('#amount_foreign_currency2').val())   ? $('#amount_foreign_currency').val()   : 0;
+        
+
+        if (exchange_rate > 0){
           //  alert('leam - sin valor');
+          if (exchange_rate2 == 0 ){
+                $('#exchange_rate2').val( $('#exchange_rate').val() );
+          }
         }
 
         let exonerar_rate_orientation;
@@ -995,7 +943,7 @@
 
         //  ***
 
-        let monto_dolares               = parseFloat($('#monto_dolares').val());        
+        let monto_dolares               = parseFloat($('#amount').val());        
         let percentage                  = $('#percentage').val() == "" ? 0 : parseFloat($('#percentage').val());
         let exonerar                    = $('#radio1').is(':checked');
         let descontar                   = $('#radio2').is(':checked');
@@ -1038,28 +986,34 @@
             comision_base = (monto_dolares * (porcentage_base / 100));
 
         }
-        
+   
+         exonerar_base       = $('#radio1_base').is(':checked');
+         descontar_base      = $('#radio2_base').is(':checked');
+         incluir_base        = $('#radio3_base').is(':checked');
+
         if(!exonerar_base) {
             if(incluir_base) {
                 montoreal_base = (monto_dolares + comision_base).toFixed(2);
-                $('#monto_base').val((monto_dolares + comision_base));
+                $('#amount_total_base').val((monto_dolares + comision_base));
                 //alert(montoreal);
 
             } else if(descontar_base) {
                 montoreal_base = (monto_dolares - comision_base).toFixed(2);
-                $('#monto_base').val((monto_dolares - comision_base));
+                $('#amount_total_base').val((monto_dolares - comision_base));
             }
         }
         else {
+            
             $('#percentage_base').val('');
             $('#comision_base').val('');
             montoreal_base = monto_dolares.toFixed(2);   
-            $('#monto_base').val(monto_dolares);
+            $('#amount_total_base').val(montoreal_base);
         }
 
         amount_commission_profit = amount_commission - comision_base;
         
-        $('#montototal').val(amount_total.toFixed(2));
+        $('#amount_total').val(amount_total.toFixed(2));
+
         $('#comision').val(amount_commission.toFixed(2));
         $('#amount_commission_profit').val(amount_commission_profit);
 
@@ -1151,10 +1105,45 @@
 
 
     function InicializaComision(){
+        
         $('#radio1').attr('checked','checked');
         $('#radio1_base').attr('checked','checked');
         
     }
+
+
+    function inicializaComisionPorcentaje(){
+        
+        let monto_balance = $('#amount').val();
+        
+        console.log('leam - ammonto_balanceount Porcentaje ->' + monto_balance);
+        console.log('leam - amount              $val ->' + $('#amount').val());
+
+        $('#radio1'         ).attr('checked', 'checked');
+        $('#radio1_base'    ).attr('checked', 'checked');
+
+        $('#percentage').val("");
+        $('#percentage'     ).attr("disabled",'disabled');
+        $('#amount_commission').val("");
+        $('#amount_commission').attr("readonly", true);
+        $('#amount_total').val(monto_balance);
+        
+
+        $('#percentage_base').val("");
+        $('#percentage_base').attr("disbled",'disabled');
+        $('#percentage_base').attr("readonly", true);
+
+        $('#amount_commission_base').val("");
+        $('#amount_commission_base').attr("readonly", true);
+        $('#amount_total_base').val(monto_balance);
+
+        $('#amount_commission_profit').val("");
+        
+
+    }
+
+
+
 </script>
 
 

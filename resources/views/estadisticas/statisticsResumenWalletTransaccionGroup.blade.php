@@ -748,7 +748,7 @@ $config4 = [
     }
 
     function InicializaFechas(){
-        $('#drCustomRanges').data('daterangepicker').setStartDate('01-01-2001');
+     //   $('#drCustomRanges').data('daterangepicker').setStartDate('01-01-2001');
     }
 
 </script>

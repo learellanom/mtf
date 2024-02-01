@@ -794,25 +794,35 @@ class TransactionController extends Controller
         $transactions->wallet_id                = $request->input('wallet_id');
         $transactions->group_id                 = $request->input('wallet2_id');
 
-        $transactions->amount                   = $request->input('amount');
-        $transactions->amount_total             = $request->input('amount_total');
+        $transactions->type_coin_id             = $request->input('type_coin_id');
+        $transactions->exchange_rate            = $request->input('exchange_rate');
+        $transactions->amount_foreign_currency  = $request->input('amount_foreign_currency');
 
-        $transactions->transaction_date         = $request->input('transaction_date');
-        $transactions->description              = $request->input('description');   
+        $transactions->exchange_rate_orientation = $request->input('exchange_rate_orientation');
+
+        $transactions->type_coin_balance_id     = $request->input('type_coin_balance_id');
+        $transactions->amount                   = $request->input('amount');
+
         $transactions->token                    = $request->input('token');
+        $transactions->transaction_date         = $request->input('transaction_date');
 
         $transactions->percentage               = $request->input('percentage');
+        $transactions->amount_commission        = $request->input('amount_commission');        
         $transactions->exonerate                = $request->input('exonerate');
-        $transactions->amount_commission        = $request->input('amount_commission');
+        $transactions->amount_total             = $request->input('amount_total');
+
 
         $transactions->percentage_base          = $request->input('percentage_base');
-        $transactions->exonerate_base           = $request->input('exonerate_base');
         $transactions->amount_commission_base   = $request->input('amount_commission_base');
-
+        $transactions->exonerate_base           = $request->input('exonerate_base');
         $transactions->amount_base              = $request->input('amount');
         $transactions->amount_total_base        = $request->input('amount_total_base');
+
         $transactions->user_id                  = $user;
         $transactions->transfer_number           = $number_referencia;
+
+        $transactions->description              = $request->input('description');   
+
         $transactions->save();
 
 
@@ -821,9 +831,16 @@ class TransactionController extends Controller
 
         $transactions2->type_transaction_id     = $request->input('type_transaction2_id');
         $transactions2->wallet_id               = $request->input('wallet2_id');
-        $transactions2->group_id                = $request->input('wallet_id');
         
-        $transactions2->amount                  = $request->input('amount_total');
+        $transactions->type_coin_id             = $request->input('type_coin_id2');
+        $transactions->exchange_rate            = $request->input('exchange_rate2');
+        $transactions->amount_foreign_currency  = $request->input('amount_foreign_currency2');
+
+        $transactions->exchange_rate_orientation = $request->input('exchange_rate_orientation2');
+
+        $transactions->type_coin_balance_id     = $request->input('type_coin_balance_id2');
+        $transactions->amount                   = $request->input('amount2');
+
         $transactions2->amount_total            = $request->input('amount_total');
 
         $transactions2->transaction_date        = $request->input('transaction_date');
@@ -831,8 +848,8 @@ class TransactionController extends Controller
 
         $transactions2->token                   = $request->input('token');
 
-        $transactions2->amount_base             = $request->input('amount_total');
-        $transactions2->amount_total_base       = $request->input('amount_total');
+        $transactions2->amount_base             = $request->input('amount2');
+        $transactions2->amount_total_base       = $request->input('amount_total_base'); // revisar si es asi
         
         $transactions2->user_id                 = $user;
         $transactions2->transfer_number         = $number_referencia;

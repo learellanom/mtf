@@ -488,9 +488,9 @@ $config4 = [
 
     function BuscaFechas(FechaDesde = "2001-01-01",FechaHasta = "9999-12-31", test = 1){
         
-        // if (FechaDesde == '2001-01-01') {
-        //     FechasHasta = "9999-12-31";
-        // };
+         if (FechaDesde == '2001-01-01') {
+             return;
+         };
         
         myLocation  = window.location.toString();
 
