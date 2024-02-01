@@ -342,7 +342,7 @@ class statisticsController extends Controller
             }
         }
         */
-        
+        /*
         \Log::info('leam usuario desde       ***    -> ' . $myUserDesde);
         \Log::info('leam usuario hasta       ***    -> ' . $myUserHasta);
 
@@ -370,7 +370,7 @@ class statisticsController extends Controller
         \Log::info('leam Lmit                ***    -> ' . $myLimit);
 
         \Log::info('leam - pasa sin  grupo');
-        
+        */
         $busquedaGroup  = "";
         $busquedaWallet = "";
         
@@ -443,7 +443,7 @@ class statisticsController extends Controller
         ";
         
         // return $myQuery;
-         \Log::info('leam - myQuery ->' . $myQuery);
+       //  \Log::info('leam - myQuery indexall2 ->' . $myQuery);
 
         $Transacciones = DB::select($myQuery);
         
@@ -1825,7 +1825,7 @@ class statisticsController extends Controller
 
         $Transacciones = DB::select($myQuery);
        // dd($Transacciones);
-         \Log::info('leam *** $myQuery -> ' . $myQuery);       
+         \Log::info('leam *** $myQuery getWalletTransactionGroupSummary -> ' . $myQuery);       
        //  \Log::info('leam *** $Transacciones3 -> ' . print_r($Transacciones3,true));
        
        return $Transacciones;

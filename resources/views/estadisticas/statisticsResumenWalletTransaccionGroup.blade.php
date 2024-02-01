@@ -497,8 +497,8 @@ $config4 = [
         const myFechaDesde = {!! $myFechaDesde !!};
         const myFechaHasta = {!! $myFechaHasta !!};
         InicializaFechas();
-        BuscaFechas(myFechaDesde, myFechaHasta);
-
+        // BuscaFechas(myFechaDesde, myFechaHasta);
+        BuscaFechasBlade(myFechaDesde, myFechaHasta);
 
         $('#wallet').on('change', function (){
 
@@ -731,6 +731,41 @@ $config4 = [
 
         $('#drCustomRanges').data('daterangepicker').setStartDate(myFechaDesde);
         $('#drCustomRanges').data('daterangepicker').setEndDate(myFechaHasta);
+    }
+
+    
+    function BuscaFechasBlade(){
+
+        let myFechaDesdeCompara =  "{{ $myFechaDesde }}";
+        if (myFechaDesdeCompara == "2001-01-01"){
+            return;
+        }
+
+        let myFechaAnio  = {{ substr($myFechaDesde,0,4) }};
+        let myFechaMes   = {{ substr($myFechaDesde,5,2) }};
+        let myFechaDia   = {{ substr($myFechaDesde,8,2) }};
+
+        myFechaMes       = myFechaMes.toString().length == 1 ? '0' + myFechaMes.toString() : myFechaMes;
+        myFechaDia       = myFechaDia.toString().length == 1 ? '0' + myFechaDia.toString() : myFechaDia;
+
+        let myFechaDesde2 = myFechaDia.toString().concat('-', myFechaMes, '-', myFechaAnio)
+
+        myFechaAnio  = {{ substr($myFechaHasta,0,4) }};
+        myFechaMes   = {{ substr($myFechaHasta,5,2) }};
+        myFechaDia   = {{ substr($myFechaHasta,8,2) }};
+
+        myFechaMes       = myFechaMes.toString().length == 1 ? '0' + myFechaMes.toString() : myFechaMes;
+        myFechaDia       = myFechaDia.toString().length == 1 ? '0' + myFechaDia.toString() : myFechaDia;
+
+        let myFechaHasta2 = myFechaDia.toString().concat('-', myFechaMes, '-', myFechaAnio);
+
+
+        console.log('myFechaDesde2 ->' + myFechaDesde2);
+        console.log('myFechaHasta2 ->' + myFechaHasta2);
+
+        $('#drCustomRanges').data('daterangepicker').setStartDate(myFechaDesde2);
+        $('#drCustomRanges').data('daterangepicker').setEndDate(myFechaHasta2);
+
     }
 
     function BuscaMoneda(myTypeCoinBalance){

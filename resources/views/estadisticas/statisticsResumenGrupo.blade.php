@@ -650,6 +650,7 @@ $(document).ready(function () {
             myRoute = myRoute.replace('typeTransactions2',typeTransactions);
             myRoute = myRoute.replace('fechaDesde2',myFechaDesde);
             myRoute = myRoute.replace('fechaHasta2',myFechaHasta);
+            myRoute = myRoute.replaceAll('amp;','');
         console.log(myRoute);
         // alert(myRoute);
         location.href = myRoute;
@@ -721,7 +722,7 @@ $(document).ready(function () {
         
         let myFechaDesdeCompara = "{{ $myFechaDesde }}";
         if (myFechaDesdeCompara = "2001-01-01"){
-            return;
+        //    return;
         }
 
         let myFechaAnio  = {{ substr($myFechaDesde,0,4) }};
