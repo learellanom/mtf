@@ -212,6 +212,12 @@ class statisticsController extends Controller
             $myGroup        = $request->grupo;
             $myGroupDesde   = $request->grupo;
             $myGroupHasta   = $request->grupo;
+        }else{
+        if ($request->group) {
+            $myGroup        = $request->group;
+            $myGroupDesde   = $request->group;
+            $myGroupHasta   = $request->group;
+        }
         }
 
         $myWallet       = 0;
@@ -336,7 +342,7 @@ class statisticsController extends Controller
             }
         }
         */
-        /*
+        
         \Log::info('leam usuario desde       ***    -> ' . $myUserDesde);
         \Log::info('leam usuario hasta       ***    -> ' . $myUserHasta);
 
@@ -364,7 +370,7 @@ class statisticsController extends Controller
         \Log::info('leam Lmit                ***    -> ' . $myLimit);
 
         \Log::info('leam - pasa sin  grupo');
-        */
+        
         $busquedaGroup  = "";
         $busquedaWallet = "";
         
@@ -1819,7 +1825,7 @@ class statisticsController extends Controller
 
         $Transacciones = DB::select($myQuery);
        // dd($Transacciones);
-       //  \Log::info('leam *** $myQuery -> ' . $myQuery);       
+         \Log::info('leam *** $myQuery -> ' . $myQuery);       
        //  \Log::info('leam *** $Transacciones3 -> ' . print_r($Transacciones3,true));
        
        return $Transacciones;
