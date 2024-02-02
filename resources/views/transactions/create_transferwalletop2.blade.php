@@ -413,11 +413,11 @@
                         </div>
                     </div>
 
-                    
+                    {{--
                     <div class="row justify-content-center">
                         {!! Form::Submit('GUARDAR', ['class' => 'btn btn-primary btn-block font-weight-bold', 'style' => "max-height: 400px; max-width: 130px;" , 'id' => 'publish']) !!}
                     </div>
-                    
+                    --}}
 
                 </div>
             </div>
