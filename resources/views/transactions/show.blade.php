@@ -162,7 +162,7 @@
                         <hr>
 
                         <div class="row">
-                            <div class="col-12 col-sm-2">
+                            <div class="col-12 col-sm-3">
                                 <div class="info-box bg-light">
                                     <div class="info-box-content">
                                         <span class="info-box-text text-center text-muted">Tipo de moneda <i class="fas fa-funnel-dollar"></i></span>
@@ -240,6 +240,17 @@
                                 </div>
                             </div>                            
                         </div>
+
+
+                        <div class="col-12 col-sm-6">
+                                <div class="info-box bg-light">
+                                    <div class="info-box-content">
+                                        <span class="info-box-text text-center text-muted">Monto en dolar <i class="fas fa-dollar-sign"></i></span>
+                                        <span class="info-box-number text-center text-muted mb-0">{{ number_format(abs($transactions->amount),2,",",".") }}$</span>
+                                    </div>
+                                </div>
+                        </div>
+
                     </div>
                       <hr>
 
