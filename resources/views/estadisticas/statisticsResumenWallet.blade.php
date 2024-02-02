@@ -200,7 +200,8 @@ $config4 = [
     $(() => {
 
         InicializaFechas();
-        BuscaFechas();
+        // BuscaFechas();
+        BuscaFechasBlade();
 
         $('#wallet').on('change', function (){
 
@@ -314,19 +315,16 @@ $config4 = [
 
         let myFechaDesde, myFechaHasta;
 
-        myFechaDesde =  ($('#drCustomRanges').val()).substr(6,4) +
-                        '-' +
-                        ($('#drCustomRanges').val()).substr(3,2) +
-                        '-' +
-                        ($('#drCustomRanges').val()).substr(0,2)
-                        ;
-
-        myFechaHasta =  ($('#drCustomRanges').val()).substr(19,4) +
-                        '-' +
-                        ($('#drCustomRanges').val()).substr(16,2) +
-                        '-' +
-                        ($('#drCustomRanges').val()).substr(13,2)
-                        ;
+        
+        let myFechaDesdeCompara =  "{{ $myFechaDesde }}";
+        if (myFechaDesdeCompara == "2001-01-01"){
+            myFechaDesde = "{{ $myFechaDesde }}";
+            myFechaHasta = "{{ $myFechaHasta }}";
+        }else{
+            myFechaDesde = $('#drCustomRanges').data('daterangepicker').startDate.format('YYYY-MM-DD');
+            myFechaHasta = $('#drCustomRanges').data('daterangepicker').endDate.format('YYYY-MM-DD');
+        }
+        //  alert('leam - fecha desde -> ' + myFechaDesde + ' fecha hasta ->' + myFechaHasta);
 
         let myRoute = "";
             myRoute = "{{ route('estadisticasDetalle', ['usuario' => 'usuario2', 'grupo' => 'grupo2', 'wallet' => 'wallet2', 'typeTransactions' => 'typeTransactions2','fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2']) }}";
@@ -336,6 +334,7 @@ $config4 = [
             myRoute = myRoute.replace('typeTransactions2',typeTransactions);            
             myRoute = myRoute.replace('fechaDesde2',myFechaDesde);
             myRoute = myRoute.replace('fechaHasta2',myFechaHasta);
+            myRoute = myRoute.replaceAll('amp;','');
         // console.log(myRoute);
         // alert(myRoute);
         location.href = myRoute;
@@ -406,11 +405,50 @@ $config4 = [
                 //alert("BuscaGrupoaqui ->  the val " + $(this).val() + " text -> " + $(this).text());
             });
         });
-        //
+
     }
 
     function InicializaFechas(){
         // $('#drCustomRanges').data('daterangepicker').setStartDate('01-01-2001');
+
+    }
+
+
+    function BuscaFechasBlade(){
+
+        //console.log('leam - myFechaDesde ->' + "{{ $myFechaDesde }}");
+        //console.log('leam - myFechaHasta ->' + "{{ $myFechaHasta }}");
+        // alert();
+        let myFechaDesdeCompara = "{{ $myFechaDesde }}";
+        if (myFechaDesdeCompara == "2001-01-01"){
+            //console.log('leam - salio por aqui');
+            return;
+        }
+
+        let myFechaAnio  = {{ substr($myFechaDesde,0,4) }};
+        let myFechaMes   = {{ substr($myFechaDesde,5,2) }};
+        let myFechaDia   = {{ substr($myFechaDesde,8,2) }};
+
+        myFechaMes       = myFechaMes.toString().length == 1 ? '0' + myFechaMes.toString() : myFechaMes;
+        myFechaDia       = myFechaDia.toString().length == 1 ? '0' + myFechaDia.toString() : myFechaDia;
+
+        let myFechaDesde2 = myFechaDia.toString().concat('-', myFechaMes, '-', myFechaAnio)
+
+        myFechaAnio  = {{ substr($myFechaHasta,0,4) }};
+        myFechaMes   = {{ substr($myFechaHasta,5,2) }};
+        myFechaDia   = {{ substr($myFechaHasta,8,2) }};
+
+        myFechaMes       = myFechaMes.toString().length == 1 ? '0' + myFechaMes.toString() : myFechaMes;
+        myFechaDia       = myFechaDia.toString().length == 1 ? '0' + myFechaDia.toString() : myFechaDia;
+
+        let myFechaHasta2 = myFechaDia.toString().concat('-', myFechaMes, '-', myFechaAnio);
+
+
+        //console.log('myFechaDesde2 ->' + myFechaDesde2);
+        //console.log('myFechaHasta2 ->' + myFechaHasta2);
+
+        $('#drCustomRanges').data('daterangepicker').setStartDate(myFechaDesde2);
+        $('#drCustomRanges').data('daterangepicker').setEndDate(myFechaHasta2);
 
     }
 

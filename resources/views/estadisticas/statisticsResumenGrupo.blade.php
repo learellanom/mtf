@@ -626,21 +626,15 @@ $(document).ready(function () {
         //                      'estadisticasDetalle/{usuario}/{grupo?}/{wallet?}/{typeTransactions?}/{fechaDesde?}/{fechaHasta?}'
 
         let myFechaDesde, myFechaHasta;
+        let myFechaDesdeCompara = "{{ $myFechaDesde }}";
 
-        myFechaDesde =  ($('#drCustomRanges').val()).substr(6,4) +
-                        '-' +
-                        ($('#drCustomRanges').val()).substr(3,2) +
-                        '-' +
-                        ($('#drCustomRanges').val()).substr(0,2)
-                        ;
-
-        myFechaHasta =  ($('#drCustomRanges').val()).substr(19,4) +
-                        '-' +
-                        ($('#drCustomRanges').val()).substr(16,2) +
-                        '-' +
-                        ($('#drCustomRanges').val()).substr(13,2)
-                        ;
-
+        if (myFechaDesdeCompara = "2001-01-01"){
+            myFechaDesde = "{{ $myFechaDesde }}";
+            myFechaHasta = "{{ $myFechaHasta }}";
+        }else{
+            myFechaDesde = $('#drCustomRanges').data('daterangepicker').startDate.format('YYYY-MM-DD')
+            myFechaHasta = $('#drCustomRanges').data('daterangepicker').endDate.format('YYYY-MM-DD')
+        }
         
         let myRoute = "";
             myRoute = "{{ route('estadisticasDetalle', ['usuario' => 'usuario2', 'grupo' => 'grupo2', 'wallet' => 'wallet2', 'typeTransactions' => 'typeTransactions2','fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2']) }}";
@@ -721,8 +715,8 @@ $(document).ready(function () {
     function BuscaFechasBlade(){
         
         let myFechaDesdeCompara = "{{ $myFechaDesde }}";
-        if (myFechaDesdeCompara = "2001-01-01"){
-        //    return;
+        if (myFechaDesdeCompara == "2001-01-01"){
+            return;
         }
 
         let myFechaAnio  = {{ substr($myFechaDesde,0,4) }};
@@ -744,8 +738,8 @@ $(document).ready(function () {
         let myFechaHasta2 = myFechaDia.toString().concat('-', myFechaMes, '-', myFechaAnio);
 
 
-        console.log('myFechaDesde2 ->' + myFechaDesde2);
-        console.log('myFechaHasta2 ->' + myFechaHasta2);
+        //console.log('myFechaDesde2 ->' + myFechaDesde2);
+        //console.log('myFechaHasta2 ->' + myFechaHasta2);
 
         $('#drCustomRanges').data('daterangepicker').setStartDate(myFechaDesde2);
         $('#drCustomRanges').data('daterangepicker').setEndDate(myFechaHasta2);

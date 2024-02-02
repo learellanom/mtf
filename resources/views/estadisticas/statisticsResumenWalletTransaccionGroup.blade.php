@@ -626,11 +626,16 @@ $config4 = [
         if (wallet  === "") wallet  = 0;
         if (typeTransactions  === "") typeTransactions  = 0;
 
-        fechaDesde = $('#drCustomRanges').data('daterangepicker').startDate.format('YYYY-MM-DD')
-        fechaHasta = $('#drCustomRanges').data('daterangepicker').endDate.format('YYYY-MM-DD')
 
-        //                      'estadisticasDetalle/{usuario}/{grupo?}/{wallet?}/{typeTransactions?}/{fechaDesde?}/{fechaHasta?}'
-        //     http://localhost:8080/estadisticasDetalle/0/0/8/11/2023-05-02/2023-05-31
+         let myFechaDesdeCompara =  "{{ $myFechaDesde }}";
+         if (myFechaDesdeCompara == "2001-01-01"){
+            fechaDesde = "{{ $myFechaDesde }}";
+            fechaHasta = "{{ $myFechaHasta }}";
+         }else{
+            fechaDesde = $('#drCustomRanges').data('daterangepicker').startDate.format('YYYY-MM-DD')
+            fechaHasta = $('#drCustomRanges').data('daterangepicker').endDate.format('YYYY-MM-DD')
+         }
+
         let myRoute = "";
             myRoute = "{{ route('estadisticasDetalle', ['usuario' => 'usuario2', 'group' => 'grupo2', 'wallet' => 'wallet2', 'typeTransactions' => 'typeTransactions2','fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2']) }}";
             myRoute = myRoute.replace('grupo2',grupo);
@@ -648,20 +653,20 @@ $config4 = [
 
 
     function BuscaWallet(miWallet){
-            if (miWallet===0){
-                return;
-            }
-            // alert("BuscaWallet - miWallet -> " + miWallet);
-            $('#wallet').each( function(index, element){
-                // alert ("BuscaWallet -> " + $(this).val() + " text -> " + $(this).text()+ " y con index -> " + $(this).prop('selectedIndex'));
-                $(this).children("option").each(function(){
-                    if ($(this).val() === miWallet.toString()){
-                        // alert('BuscaWallet - encontro');
-                        $("#wallet option[value="+ miWallet +"]").attr("selected",true);
-                    }
-                    // alert("BuscaWallet aqui ->  the val " + $(this).val() + " text -> " + $(this).text());
-                });
+        if (miWallet===0){
+            return;
+        }
+        // alert("BuscaWallet - miWallet -> " + miWallet);
+        $('#wallet').each( function(index, element){
+            // alert ("BuscaWallet -> " + $(this).val() + " text -> " + $(this).text()+ " y con index -> " + $(this).prop('selectedIndex'));
+            $(this).children("option").each(function(){
+                if ($(this).val() === miWallet.toString()){
+                    // alert('BuscaWallet - encontro');
+                    $("#wallet option[value="+ miWallet +"]").attr("selected",true);
+                }
+                // alert("BuscaWallet aqui ->  the val " + $(this).val() + " text -> " + $(this).text());
             });
+        });
     }
 
     function BuscaTransaccion(miTypeTransaction){
@@ -723,11 +728,6 @@ $config4 = [
 
         myFecha = myFechaDesde.toString()  + ' - ' + myFechaHasta.toString();
 
-        // alert('myFecha -> ' + myFecha );
-
-        // $('#drCustomRanges').val(myFecha);
-        // alert(' Mi Fecha desde -> ' + myFechaDesde);
-        // alert('gggggsssss ' + $('#drCustomRanges').data('daterangepicker').startDate.format('YYYY-MM-DD'));
 
         $('#drCustomRanges').data('daterangepicker').setStartDate(myFechaDesde);
         $('#drCustomRanges').data('daterangepicker').setEndDate(myFechaHasta);
@@ -735,7 +735,7 @@ $config4 = [
 
     
     function BuscaFechasBlade(){
-
+        
         let myFechaDesdeCompara =  "{{ $myFechaDesde }}";
         if (myFechaDesdeCompara == "2001-01-01"){
             return;

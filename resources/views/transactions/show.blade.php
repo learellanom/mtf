@@ -205,6 +205,42 @@
                             </div>
                       </div>
 
+                    <div class="row">
+                        <div class="col-12 col-sm-4">
+                        
+                                <div class="info-box bg-light">
+                                    <div class="info-box-content">
+                                        <span class="info-box-text text-center text-muted">Orientacion del cambio<i class="fas fa-funnel-dollar"></i></span>
+                                        <span class="info-box-number text-center text-muted mb-0">
+                                            @php
+                                                $descripcionOrientacionCambio = "";
+                                                switch($transactions->exchange_rate_orientation){
+                                                    case 1:
+                                                        $descripcionOrientacionCambio = "De tipo Moneda Balance -> Tipo de Moneda";
+                                                        break;
+                                                    case 2:
+                                                        $descripcionOrientacionCambio = "De tipo Moneda -> Tipo de Moneda Balanc";
+                                                        break;
+                                                }
+                                            @endphp
+                                        
+                                            {{ $descripcionOrientacionCambio}}
+                                        </span>
+                                    </div>
+                                </div>
+                        
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-sm-3">
+                            <div class="info-box bg-light">
+                                <div class="info-box-content">
+                                    <span class="info-box-text text-center text-muted">Tipo de moneda balance<i class="fas fa-lock"></i></span>
+                                    <span class="info-box-number text-center text-muted mb-0 text-uppercase">{{ $transactions->type_coin_balance->name  }}</span>
+                                </div>
+                            </div>                            
+                        </div>
+                    </div>
                       <hr>
 
                       <div class="row">
@@ -212,7 +248,7 @@
 
                         <div class="row">
 
-                            @if($transactions->transfer_number)
+                            {{-- @if($transactions->transfer_number) --}}
                                 <div class="col-12 col-sm-3">
                                     <div class="info-box bg-light">
                                         <div class="info-box-content">
@@ -221,7 +257,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            @endif
+                            {{-- @endif --}}
 
                             <div class="col-12 col-sm-2">
                                 <div class="info-box bg-light">
@@ -236,36 +272,61 @@
                                 </div>
                             </div>
 
-                            @if($transactions->group_id == NULL)
+                            {{-- @if($transactions->group_id == NULL) --}}
                                 <div class="col-12 col-sm-3">
                                     <div class="info-box bg-light">
                                         <div class="info-box-content">
-                                            <span class="info-box-text text-center text-muted">Caja  <i class="fas fa-box"></i></span>
+                                            <span class="info-box-text text-center text-muted">Caja <i class="fas fa-box"></i></span>
+                                            <span class="info-box-number text-center text-muted mb-0 text-uppercase">{{ ($transactions->wallet->name) ?  $transactions->wallet->name :  ""}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            {{-- @endif --}}
+                            
+                            {{-- @if($transactions->group_id && $transactions->wallet_id) --}}
+                                <div class="col-12 col-sm-3">
+                                    <div class="info-box bg-light">
+                                        <div class="info-box-content">
+                                            <span class="info-box-text text-center text-muted">
+                                            @if($transactions->group_id)
+                                                @if($transactions->group->type == 2)   
+                                                    Caja Destino  
+                                                @else 
+                                                    Grupo 
+                                                @endif  
+                                            @else
+                                                Grupo
+                                            @endif
+                                                <i class="fas fa-hand-holding-usd"></i></span>
+                                            <span class="info-box-number text-center text-muted mb-0 text-uppercase">
+                                                @if($transactions->group_id)
+                                                    @if($transactions->group->type == 2)   
+                                                        {{ $transactions->group->name }}
+                                                    @else
+                                                        {{ $transactions->wallet->name}}
+                                                    @endif
+                                                @endif
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                {{--
+                                <div class="col-12 col-sm-3">
+                                    <div class="info-box bg-light">
+                                        <div class="info-box-content">
+                                            <span class="info-box-text text-center text-muted">
+                                                @if($transactions->group->type == 2 && $transactions->wallet_id) 
+                                                    Caja Destino 
+                                                @else 
+                                                    Caja  
+                                                @endif 
+                                                <i class="fas fa-box"></i></span>
                                             <span class="info-box-number text-center text-muted mb-0 text-uppercase">{{ $transactions->wallet->name }}</span>
                                         </div>
                                     </div>
                                 </div>
-                            @endif
-
-                            @if($transactions->group_id && $transactions->wallet_id)
-                                <div class="col-12 col-sm-3">
-                                    <div class="info-box bg-light">
-                                        <div class="info-box-content">
-                                            <span class="info-box-text text-center text-muted">@if($transactions->group->type == 2 && $transactions->group_id)   Caja Origen  @else Grupo @endif  <i class="fas fa-hand-holding-usd"></i></span>
-                                            <span class="info-box-number text-center text-muted mb-0 text-uppercase">{{ $transactions->group->name }}</span>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-12 col-sm-3">
-                                    <div class="info-box bg-light">
-                                        <div class="info-box-content">
-                                            <span class="info-box-text text-center text-muted">@if($transactions->group->type == 2 && $transactions->wallet_id) Caja Destino @else Caja  @endif <i class="fas fa-box"></i></span>
-                                            <span class="info-box-number text-center text-muted mb-0 text-uppercase">{{ $transactions->wallet->name }}</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            @endif
+                                --}}
+                            {{-- @endif --}}
 
                             {{-- fecha --}}
 

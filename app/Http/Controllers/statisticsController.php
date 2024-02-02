@@ -8,7 +8,7 @@ use App\Models\Client;
 use App\Models\Wallet;
 use App\Models\Type_transaction;
 use App\Models\Group;
-use App\Models\Supplier;
+// use App\Models\Supplier;
 use App\Models\Transaction_master;
 use App\Models\Transaction_supplier;
 use App\Models\Commissions_usdt;
@@ -213,11 +213,11 @@ class statisticsController extends Controller
             $myGroupDesde   = $request->grupo;
             $myGroupHasta   = $request->grupo;
         }else{
-        if ($request->group) {
-            $myGroup        = $request->group;
-            $myGroupDesde   = $request->group;
-            $myGroupHasta   = $request->group;
-        }
+            if ($request->group) {
+                $myGroup        = $request->group;
+                $myGroupDesde   = $request->group;
+                $myGroupHasta   = $request->group;
+            }
         }
 
         $myWallet       = 0;
@@ -1176,7 +1176,9 @@ class statisticsController extends Controller
 		$myTypeCoinBalance  = $myCoin; // dorales siempre por ahora
 		$Type_coin_balance  = Type_coin::pluck('name', 'id')->toArray();
 
-        
+        $parametros['myFechaDesde'] = $fechaDesde;
+        $parametros['myFechaHasta'] = $fechaHasta;
+
         $parametros['myWallet']             = $myWallet;
         $parametros['wallets']              = $wallets;
         $parametros['Transacciones']        = $Transacciones;
@@ -2400,11 +2402,13 @@ class statisticsController extends Controller
         }
         return $group2;
     }
+    
     /*
     *
     *    getSuppliers
     *
     */
+    /*
     function getSuppliers(){
         $supplier = Supplier::select('suppliers.id', 'suppliers.name')
         ->get();
@@ -2415,6 +2419,8 @@ class statisticsController extends Controller
         }
         return $supplier2;
     }
+    */
+
     /*
     *
     *

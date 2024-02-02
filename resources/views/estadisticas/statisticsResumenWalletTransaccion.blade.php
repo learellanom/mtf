@@ -613,11 +613,19 @@ $config4 = [
         if (wallet  === "") wallet  = 0;
         if (typeTransactions  === "") typeTransactions  = 0;
 
-        fechaDesde = $('#drCustomRanges').data('daterangepicker').startDate.format('YYYY-MM-DD')
-        fechaHasta = $('#drCustomRanges').data('daterangepicker').endDate.format('YYYY-MM-DD')
+        let myFechaDesdeCompara =  "{{ $myFechaDesde }}";
+        if (myFechaDesdeCompara == "2001-01-01"){
+            fechaDesde = "{{ $myFechaDesde }}";
+            fechaHasta = "{{ $myFechaHasta }}";
+        }else{
+            fechaDesde = $('#drCustomRanges').data('daterangepicker').startDate.format('YYYY-MM-DD');
+            fechaHasta = $('#drCustomRanges').data('daterangepicker').endDate.format('YYYY-MM-DD');
+        }
 
-        //                      'estadisticasDetalle/{usuario}/{grupo?}/{wallet?}/{typeTransactions?}/{fechaDesde?}/{fechaHasta?}'
-        //     http://localhost:8080/estadisticasDetalle/0/0/8/11/2023-05-02/2023-05-31
+        //fechaDesde = $('#drCustomRanges').data('daterangepicker').startDate.format('YYYY-MM-DD')
+        //fechaHasta = $('#drCustomRanges').data('daterangepicker').endDate.format('YYYY-MM-DD')
+
+
         let myRoute = "";
             myRoute = "{{ route('estadisticasDetalle', ['usuario' => 'usuario2', 'grupo' => 'grupo2', 'wallet' => 'wallet2', 'typeTransactions' => 'typeTransactions2','fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2']) }}";
             myRoute = myRoute.replace('grupo2',grupo);
@@ -626,6 +634,7 @@ $config4 = [
             myRoute = myRoute.replace('typeTransactions2',typeTransactions);
             myRoute = myRoute.replace('fechaDesde2',fechaDesde);
             myRoute = myRoute.replace('fechaHasta2',fechaHasta);
+            myRoute = myRoute.replaceAll('amp;','');
         // console.log(myRoute);
         //alert(myRoute);
         location.href = myRoute;
