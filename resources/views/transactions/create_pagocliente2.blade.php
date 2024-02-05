@@ -382,6 +382,7 @@
     allowClear: true,
     width:'100%'
   });
+
   $("#typecoin").val("")
   $("#typecoin").trigger("change");
 
@@ -390,9 +391,14 @@
     theme: 'bootstrap4',
     search: false,
     width: '100%'
-  });
-  $("#typetransaccion").val("")
-  $("#typetransaccion").trigger("change");
+  })
+  .on('select2:open', () => {
+            document.querySelector('.select2-search__field').focus();
+        })  
+  ;
+
+  //$("#typetransaccion").val("")
+  //$("#typetransaccion").trigger("change");
 
 
   $("#typetrasnferencia2Debit").select2({
@@ -401,7 +407,11 @@
     search: false,
     width: '100%',
     allowClear: true,
-  });
+  })
+  .on('select2:open', () => {
+            document.querySelector('.select2-search__field').focus();
+        })  
+  ;
   $("#typetrasnferencia2Debit").val("")
   $("#typetrasnferencia2Debit").trigger("change");
 
@@ -411,7 +421,11 @@
     search: false,
     width: '100%',
     allowClear: true,
-  });
+  })
+  .on('select2:open', () => {
+            document.querySelector('.select2-search__field').focus();
+        })  
+  ;
   $("#typetrasnferencia2Credit").val("")
   $("#typetrasnferencia2Credit").trigger("change");
 
@@ -481,7 +495,11 @@
         allowClear: true,
         placeholder: "Seleccionar cliente",
         width:'100%'
-    });
+    })
+    .on('select2:open', () => {
+            document.querySelector('.select2-search__field').focus();
+        })    
+    ;
     $("#wallet").val("")
     $("#wallet").trigger("change");
 
@@ -491,7 +509,11 @@
         allowClear: true,
         placeholder: "Seleccionar cliente",
         width:'100%'
-    });
+    })
+    .on('select2:open', () => {
+            document.querySelector('.select2-search__field').focus();
+        })    
+    ;
     $("#wallet2").val("")
     $("#wallet2").trigger("change");
 

@@ -349,16 +349,22 @@ class TransactionController extends Controller
                     status                      as estatus,
                     type_transaction_id         as TypeTransactionId,
                     transactions.description    as Description,
-                    type_transactions.name      as TypeTransactionName
+                    type_transactions.name      as TypeTransactionName,
+                    type_coin_id                as TypeCoinId,
+                    mtf.type_coins.name         as TypeCoinName,
+                    type_coin_balance_id        as TypeCoinBalanceId,
+                    type_coins_balance.name     as TypeCoinBalanceName
                 from mtf.transactions
-                    left join  mtf.groups on mtf.transactions.wallet_id                         = groups.id
-                    left join  mtf.type_transactions on mtf.transactions.type_transaction_id    = mtf.type_transactions.id
-                    left join  mtf.users on mtf.transactions.user_id                            = mtf.users.id
+                    left join  mtf.groups               on mtf.transactions.wallet_id                           = groups.id
+                    left join  mtf.type_transactions    on mtf.transactions.type_transaction_id                 = mtf.type_transactions.id
+                    left join  mtf.users                on mtf.transactions.user_id                             = mtf.users.id
+                    left join  mtf.type_coins           on mtf.transactions.type_coin_id                        = mtf.type_coins.id
+                    left join  mtf.type_coins   as type_coins_balance         on mtf.transactions.type_coin_balance_id  = type_coins_balance.id
                 where transfer_number like '%-OP'
                 order by transfer_number, TransferType desc");
 
         }
-
+        // dd($transactiones);
 
          return view('transactions.index_transferwalletop2', compact('transactiones'));
 
@@ -783,7 +789,52 @@ class TransactionController extends Controller
 
     public function transfer_walletop2(Request $request)
     {
-        //    dd('leam - aqui');
+        //   dd('leam - aqui');
+        /*
+        echo "<br>" . 'leam - transaction 1 ------------------------------------------------';
+        echo "<br>" . 'leam - type_transaction_id               -> ' . $request->input('type_transaction_id');
+        echo "<br>" . 'leam - wallet_id                         -> ' . $request->input('wallet_id');
+        echo "<br>" . 'leam - group_id                          -> ' . $request->input('wallet2_id');
+        echo "<br>" . 'leam - type_coin_id                      -> ' . $request->input('type_coin_id');
+        echo "<br>" . 'leam - exchange_rate                     -> ' . $request->input('exchange_rate');
+        echo "<br>" . 'leam - amount_foreign_currency           -> ' . $request->input('amount_foreign_currency');
+        echo "<br>" . 'leam - exchange_rate_orientation         -> ' . $request->input('exchange_rate_orientation');
+        echo "<br>" . 'leam - type_coin_balance_id              -> ' . $request->input('type_coin_balance_id');
+
+        echo "<br>" . 'leam - percentage                        -> ' . $request->input('percentage');
+        echo "<br>" . 'leam - amount_commission                 -> ' . $request->input('amount_commission');
+        echo "<br>" . 'leam - exonerate                         -> ' . $request->input('exonerate');
+
+        echo "<br>" . 'leam - amount                            -> ' . $request->input('amount');
+        echo "<br>" . 'leam - amount_total                      -> ' . $request->input('amount_total');
+
+        echo "<br>" . 'leam - percentage                        -> ' . $request->input('percentage_base');
+        echo "<br>" . 'leam - amount_commission                 -> ' . $request->input('amount_commission_base');
+        echo "<br>" . 'leam - exonerate                         -> ' . $request->input('exonerate_base');
+
+        echo "<br>" . 'leam - amount_base                       -> ' . $request->input('amount');
+        echo "<br>" . 'leam - amount_total_base                 -> ' . $request->input('amount_total_base');
+
+
+        echo "<br>" . 'leam - transaction 2 ------------------------------------------------';
+        echo "<br>" . 'leam - type_transaction2_id         -> ' . $request->input('type_transaction2_id');
+        echo "<br>" . "leam - wallet2_id                   -> " . $request->input('wallet2_id');
+        echo "<br>" . 'leam - type_coin_id2                -> ' . $request->input('type_coin_id2');
+        echo "<br>" . 'leam - exchange_rate2               -> ' . $request->input('exchange_rate2');
+        echo "<br>" . 'leam - amount_foreign_currency2     -> ' . $request->input('amount_foreign_currency2');
+        echo "<br>" . 'leam - exchange_rate_orientation2   -> ' . $request->input('exchange_rate_orientation2');
+        echo "<br>" . 'leam - type_coin_balance_id2        -> ' . $request->input('type_coin_balance_id2');
+        echo "<br>" . 'leam - amount2                      -> ' . $request->input('amount2');
+        echo "<br>" . 'leam - amount_total                 -> ' . $request->input('amount2');
+        echo "<br>" . 'leam - amount_base                  -> ' . $request->input('amount2');
+        echo "<br>" . 'leam - amount_total_base            -> ' . $request->input('amount2');
+        
+
+        
+
+        echo "pasa";
+       // dd();
+        */
         $user = Auth::id();
         $transactions = new Transaction;
 
@@ -827,21 +878,22 @@ class TransactionController extends Controller
 
 
 
+
         $transactions2 = new Transaction;
 
         $transactions2->type_transaction_id     = $request->input('type_transaction2_id');
         $transactions2->wallet_id               = $request->input('wallet2_id');
         
-        $transactions->type_coin_id             = $request->input('type_coin_id2');
-        $transactions->exchange_rate            = $request->input('exchange_rate2');
-        $transactions->amount_foreign_currency  = $request->input('amount_foreign_currency2');
+        $transactions2->type_coin_id             = $request->input('type_coin_id2');
+        $transactions2->exchange_rate            = $request->input('exchange_rate2');
+        $transactions2->amount_foreign_currency  = $request->input('amount_foreign_currency2');
 
-        $transactions->exchange_rate_orientation = $request->input('exchange_rate_orientation2');
+        $transactions2->exchange_rate_orientation = $request->input('exchange_rate_orientation2');
 
-        $transactions->type_coin_balance_id     = $request->input('type_coin_balance_id2');
-        $transactions->amount                   = $request->input('amount2');
+        $transactions2->type_coin_balance_id     = $request->input('type_coin_balance_id2');
+        $transactions2->amount                   = $request->input('amount2');
 
-        $transactions2->amount_total            = $request->input('amount_total');
+        $transactions2->amount_total            = $request->input('amount2');
 
         $transactions2->transaction_date        = $request->input('transaction_date');
         $transactions2->description             = $request->input('description2');
@@ -849,17 +901,19 @@ class TransactionController extends Controller
         $transactions2->token                   = $request->input('token');
 
         $transactions2->amount_base             = $request->input('amount2');
-        $transactions2->amount_total_base       = $request->input('amount_total_base'); // revisar si es asi
+        $transactions2->amount_total_base       = $request->input('amount2'); // revisar si es asi
         
         $transactions2->user_id                 = $user;
         $transactions2->transfer_number         = $number_referencia;
         $transactions2->save();
-
+       // \Log::info('transaction controller - type_coin_balance_id2 -> ' . $transactions->type_coin_balance_id);
+        // \Log::info('leam - pasa');
+        // die(); leamx
          flash()->addSuccess('Movimiento guardado', 'Transacción', ['timeOut' => 3000]);
 
-         return Redirect::back()->withInput();
-
          // return Redirect::back()->withInput();
+        // return redirect('transactions.create_transferwalletop2');
+
 
         $type_coin          = Type_coin::pluck('name', 'id');
         $type_transaction   = Type_transaction::whereIn('name', ['Pago Efectivo', 'Pago en Transferencia', 'Pago Mercancia','Pago USDT','Swift'])->pluck('name','id');

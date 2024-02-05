@@ -39,6 +39,7 @@
                                     <th>Tranccion</th>
                                     <th>Descripción</th>
                                     <th style="width:10%;">Monto Total</th>
+                                    <th>Moneda</th>
                                     <th class="no-exportar">Agente</th>
                                     <th>Tipo de Movimiento</th>
                                     <th style="width:10%;">Cajas <i class="fas fa-box"></i></th>
@@ -65,7 +66,7 @@
                                     </td>
 
                                     <td class="font-weight-bold">{!! number_format($transferencias->Amount) !!} <i class="fas fa-dollar-sign"></i></td>
-
+                                    <td>{!! $transferencias->TypeCoinBalanceName !!}</td>
                                     <td class="font-weight-bold">{!! $transferencias->Agente !!}</td>
                                     <td>{!! $transferencias->TransferType !!}</td>
                                     <td>{!! $transferencias->WalletNameOrigen !!}</td>

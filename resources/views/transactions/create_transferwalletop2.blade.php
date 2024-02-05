@@ -25,7 +25,7 @@
     <div class="card col-lg-12" style="min-height:500px !important; max-height:100%; height:100%; widht:100%;">
         <div class="card-body">
 
-            {!! Form::open(['route' => 'transactions.transfer_walletop', 'autocomplete' => 'off', 'files' => true, 'enctype' =>'multipart/form-data', 'id' => 'entre']) !!}
+            {!! Form::open(['route' => 'transactions.transfer_walletop2', 'autocomplete' => 'off', 'files' => true, 'enctype' =>'multipart/form-data', 'id' => 'entre']) !!}
 
 
             <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
@@ -165,7 +165,7 @@
                             {!! Form::Label('type_coin_id2', "Tipo de moneda:") !!}
                             <div class="input-group-text">
                                 <i class="fa-fw fas fa-dollar-sign mr-2"></i>
-                                {!! Form::select('type_coin_id2',$type_coin, null, ['class' => 'form-control entrada ',  'id' => 'type_coin_id2', 'disabled' => true]) !!}
+                                {!! Form::select('type_coin_id2',$type_coin, null, ['class' => 'form-control entrada ',  'id' => 'type_coin_id2', 'readonly' => true]) !!}
                             </div>
                         </div>
                         <div class="form-group col-xl-4">
@@ -413,11 +413,11 @@
                         </div>
                     </div>
 
-                    {{--
+                    
                     <div class="row justify-content-center">
                         {!! Form::Submit('GUARDAR', ['class' => 'btn btn-primary btn-block font-weight-bold', 'style' => "max-height: 400px; max-width: 130px;" , 'id' => 'publish']) !!}
                     </div>
-                    --}}
+                    
 
                 </div>
             </div>
@@ -536,20 +536,24 @@
     {{-- dd($type_coin); --}}
 
     BuscaMoneda(1); 
+    InicializaValores();
     // InicializaComision();
     inicializaComisionPorcentaje();
 
-    $(document).ready(function() {
 
+    $(document).ready(function() {
+        
          
-        $(".type_coin_id").select2({
+        $("#type_coin_id, #type_coin_balance_id, #type_coin_balance_id2").select2({
             placeholder: "Seleccionar Moneda",
             theme: 'bootstrap4',
             allowClear: true   
         })
         .on('select2:open', () => {
              document.querySelector('.select2-search__field').focus();
-         }).val('').trigger('change');
+        // }).val('').trigger('change');
+         });
+
 
          $("#typetransaccion").select2({
             placeholder: "Seleccionar Transaccion",
@@ -558,6 +562,7 @@
         }).on('select2:open', () => {
             document.querySelector('.select2-search__field').focus();
         }).val('').trigger('change');
+
 
         $("#wallet").select2({
             placeholder: "Seleccionar Caja Origien",
@@ -656,7 +661,7 @@
         });
 
         $('#entre').on('submit', function() {
-
+            
             var val1 = $('#wallet').val();
             var val2 = $('#wallet2').val();
             exonerar_base = $('#radio1_base').is(':checked');
@@ -666,7 +671,7 @@
                 return false; //prevent form submission
             }
 
-            if ($('#monto_dolares').val().length == 0) {
+            if ($('#monto_dolares').val() == "") {
                 Swal.fire('Monto en dolares, no puede estar vacio :(');
                 return false;
             }
@@ -683,6 +688,8 @@
                 }
             }
 
+            // alert('leam - type_coint_id2 ->' + $('#type_coin_id2').val());
+            // return false;
         });
 
 
@@ -882,6 +889,7 @@
     
     function updateMontorealBase() {
         
+        console.log('leam - pasa updateMontorealBase ->');
 
         let comision_base               = parseFloat($('#comision_base').val());
         let porcentage_base             = parseFloat($('#percentage_base').val());
@@ -901,7 +909,8 @@
         if (exchange_rate > 0){
           //  alert('leam - sin valor');
           if (exchange_rate2 == 0 ){
-                $('#exchange_rate2').val( $('#exchange_rate').val() );
+            console.log('leam - asigna exchange_rate2 ->' + $('#exchange_rate').val());
+                // $('#exchange_rate2').val( $('#exchange_rate').val() );
           }
         }
 
@@ -920,11 +929,11 @@
         }
         switch(exonerar_rate_orientation){
             case 1:
-                console.log('leam - divide');
+                
                 amount = amount_foreign_currency / exchange_rate;                
                 break;
             case 2:
-                console.log('leam - multiplicar');
+                
                 amount = amount_foreign_currency * exchange_rate;
                 break;
         }
@@ -942,11 +951,11 @@
         }
         switch(exonerar_rate_orientation){
             case 1:
-                console.log('leam - divide2 -> ' + amount_foreign_currency2 + ' / ' + exchange_rate2);
+                
                 amount2 = amount_foreign_currency2 / exchange_rate2;                
                 break;
             case 2:
-                console.log('leam - multiplicar2');
+                
                 amount2 = amount_foreign_currency2 * exchange_rate2;
                 break;
         }
@@ -1087,7 +1096,7 @@
                 //console.log ("Busca -> " + $(this).val() + " text -> " + $(this).text()+ " y con myCoin -> " + myCoin);                
                 if ($(this).val() == myCoin){
                     //console.log('Busca - encontro');
-                    $(mySelect + " option[value="+ myCoin +"]").attr("selected",true);
+                    $(mySelect + " option[value="+ myCoin +"]").attr("selected","selected");
                 }
                 //alert("Busca ->  the val " + $(this).val() + " text -> " + $(this).text());
             });
@@ -1099,7 +1108,7 @@
 
         
         let mySelect = "#" + "type_coin_id2";
-        //console.log("Busca -> " + myCoin + " en ->" + mySelect);
+        console.log("BuscaMonedaDestino -> " + myCoin + " en ->" + mySelect);
 
         $(mySelect).each( function (index, element) {
             $(this).children("option").each(function(){
@@ -1110,9 +1119,9 @@
         $(mySelect).each( function(index, element){
             
             $(this).children("option").each(function(){
-                //console.log ("Busca -> " + $(this).val() + " text -> " + $(this).text()+ " y con myCoin -> " + myCoin);                
+                console.log ("Busca -> " + $(this).val() + " text -> " + $(this).text()+ " y con myCoin -> " + myCoin);                
                 if ($(this).val() == myCoin){
-                    //console.log('Busca - encontro');
+                    console.log('Busca - encontro');
                     $(mySelect + " option[value="+ myCoin +"]").attr("selected",true);
                 }
                 //alert("Busca ->  the val " + $(this).val() + " text -> " + $(this).text());
@@ -1160,7 +1169,20 @@
 
     }
 
+    function InicializaValores(){
+        $('#exchange_rate').val('');
+        $('#amount_foreign_currency').val('');
+        $('#amount').val('');
+        $('#exchange_rate2').val('');
+        $('#amount_foreign_currency2').val('');
+        $('#amount2').val('');
+        $('#comision').val('');
+        $('#amount_total').val('');
+        $('#comision_base').val('');
+        $('#amount_total_base').val('');
 
+
+    }
 
 </script>
 
