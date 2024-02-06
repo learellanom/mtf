@@ -124,7 +124,7 @@
 
                         <label class="form-check-label mx-auto esconder comi col-md-3" for="exchange_rate_orientation_radio1">
                             {!! Form::radio('exchange_rate_orientation',1, 1, ['id' => 'exchange_rate_orientation_radio1', 'class' => 'entrada','required' => true, ]) !!}
-                            De tipo Moneda Balance -> Tipo de Monedaaaa
+                            De tipo Moneda Balance -> Tipo de Moneda
                         </label>
                         <label class="form-check-label mx-auto esconder comi col-md-3" for="exchange_rate_orientation_radio2">
                             {!! Form::radio('exchange_rate_orientation',2, null, ['id' => 'exchange_rate_orientation_radio2', 'class' => 'entrada', 'required' => true,]) !!}
@@ -165,7 +165,8 @@
                             {!! Form::Label('type_coin_id2', "Tipo de moneda:") !!}
                             <div class="input-group-text">
                                 <i class="fa-fw fas fa-dollar-sign mr-2"></i>
-                                {!! Form::select('type_coin_id2',$type_coin, null, ['class' => 'form-control entrada ',  'id' => 'type_coin_id2', 'readonly' => true]) !!}
+                                {!! Form::select('type_coin_id2',$type_coin, null, ['class' => 'form-control',  'id' => 'type_coin_id2', 'readonly' => true, 'disabled' => true]) !!}
+                                
                             </div>
                         </div>
                         <div class="form-group col-xl-4">
@@ -603,6 +604,7 @@
             }
             */
             BuscaMonedaDestino($(this).val());
+            $('#type_coin_id22').val($(this).val())
             
             updateMontorealBase();
 
@@ -666,17 +668,22 @@
             var val2 = $('#wallet2').val();
             exonerar_base = $('#radio1_base').is(':checked');
 
+            if ($(typetransaccion).val() == ""){
+                Swal.fire('Seleccione el Tipo de Transacción')
+                return false; //prevent form submission
+            }
+
             if (val1 == val2) {
                 Swal.fire('Las cajas no pueden ser iguales')
                 return false; //prevent form submission
             }
 
-            if ($('#monto_dolares').val() == "") {
+            if ($('#amount').val() == "") {
                 Swal.fire('Monto en dolares, no puede estar vacio :(');
                 return false;
             }
 
-            if ($('#monto_dolares').val() <= 0) {
+            if ($('#amount').val() <= 0) {
                 Swal.fire('Monto en dolares, no puede ser cero o menor a cero. :(');
                 return false;
             }

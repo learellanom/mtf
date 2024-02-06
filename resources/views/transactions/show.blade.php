@@ -151,7 +151,7 @@
                                         <span class="info-box-number text-center text-muted mb-0 text-uppercase">
 
                                         @if($transactions->group_id)
-                                                @if($transactions->group->type == 1)   
+                                                @if($transactions->group->type == 2)   
                                                     {{ $transactions->group->name }} 
                                                 @else
                                                     {{ $transactions->wallet->name}} 

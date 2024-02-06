@@ -819,7 +819,8 @@ class TransactionController extends Controller
         echo "<br>" . 'leam - transaction 2 ------------------------------------------------';
         echo "<br>" . 'leam - type_transaction2_id         -> ' . $request->input('type_transaction2_id');
         echo "<br>" . "leam - wallet2_id                   -> " . $request->input('wallet2_id');
-        echo "<br>" . 'leam - type_coin_id2                -> ' . $request->input('type_coin_id2');
+        echo "<br>" . 'leam - type_coin_id2                -> ' . $request->input('type_coin_id');
+        echo "<br>" . 'leam - type_coin_id22                -> ' . $request->input('type_coin_id22');
         echo "<br>" . 'leam - exchange_rate2               -> ' . $request->input('exchange_rate2');
         echo "<br>" . 'leam - amount_foreign_currency2     -> ' . $request->input('amount_foreign_currency2');
         echo "<br>" . 'leam - exchange_rate_orientation2   -> ' . $request->input('exchange_rate_orientation2');
@@ -833,8 +834,10 @@ class TransactionController extends Controller
         
 
         echo "pasa";
-       // dd();
+        die();
         */
+       // dd();
+        
         $user = Auth::id();
         $transactions = new Transaction;
 
@@ -884,7 +887,7 @@ class TransactionController extends Controller
         $transactions2->type_transaction_id     = $request->input('type_transaction2_id');
         $transactions2->wallet_id               = $request->input('wallet2_id');
         
-        $transactions2->type_coin_id             = $request->input('type_coin_id2');
+        $transactions2->type_coin_id             = $request->input('type_coin_id');
         $transactions2->exchange_rate            = $request->input('exchange_rate2');
         $transactions2->amount_foreign_currency  = $request->input('amount_foreign_currency2');
 
@@ -1582,12 +1585,12 @@ class TransactionController extends Controller
     {
         
         $transactions = Transaction::find($transaction);
-        
+         
         if($transactions->status == 'Activo'){
-             Transaction::where('transfer_number', $transactions->transfer_number)->update(['status' => 'Anulado']);
-            
-
-           return Redirect::route('transactions.index_transferwalletop2')->with('info', 'Transacción anulada  <strong># '. $transaction . '</strong>');
+            // dd($transactions->transfer_number);
+            Transaction::where('transfer_number', $transactions->transfer_number)->update(['status' => 'Anulado']);
+    
+            return Redirect::route('transactions.index_transferwalletop2')->with('info', 'Transacción anulada  <strong># '. $transaction . '</strong>');
         }
         elseif($transactions->status == 'Anulado'){
             

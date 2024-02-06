@@ -522,14 +522,13 @@
         });
     }
     function noEditar(){
-        
-            Swal.fire({
-                    position: 'center',
-                    type: 'error',
-                    title: 'No se puede editar transacción anulada',
-                    showConfirmButton: true
-            }
-            );          
+        Swal.fire({
+                position: 'center',
+                type: 'error',
+                title: 'No se puede editar transacción anulada',
+                showConfirmButton: true
+        }
+        );          
     }
 </script>
 @endsection
