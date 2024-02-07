@@ -104,6 +104,93 @@ class TransactionController extends Controller
         return view('transactions.index', $parametros);
 
     }
+    /*
+    *
+    *
+    * Display a listing of the resource.
+    *
+    *
+    */
+    public function index3(Request $request, transaction $transaction)
+    {
+        /*
+        if (!$request->query('user')){
+            \Log::info('leam - transaction controller - no user');
+        }
+        if ($request->query('user')){
+            \Log::info('leam - con user');
+        }
+        */
+        $parameters     = $request->query();
+
+        $user           = $request->query('user');        
+        $fechaDesde     = $request->query('fechaDesde');
+        $fechaHasta     = $request->query('fechaHasta');
+        
+        $myUser         = 0;
+        $myUsuarioDesde = 0;
+        $myUsuarioHasta = 999999;
+        if ($user){
+            $myUser         = $request->user;
+            $myUsuarioDesde = $request->user;
+            $myUsuarioHasta = $request->user;
+        }
+
+
+        $myFechaHasta = date("Y-m-d");
+        // $myFechaDesde = $this->get03DayBefore($myFechaHasta);
+        // $myFechaDesde = $this->get01DayBefore($myFechaHasta);        
+        $myFechaDesde = $this->get07DayBefore($myFechaHasta);
+        
+         if($fechaDesde){
+            $myFechaDesde = $request->fechaDesde;
+         };
+         if($fechaHasta){
+            $myFechaHasta = $request->fechaHasta;
+         };
+         //   dd(auth()->user()->roles);
+        //  \Log::info('leam - transaction index - aqui');
+        //  \Log::info('leam - transaction index - fecha desde - ' . $myFechaDesde . ' -- myFecha Hasta ->' . $myFechaHasta);
+        //  \Log::info('leam - transaction index - request fecha desde - ' . $request->fechaDesde . ' -- request myFecha Hasta ->' . $request->fechaHasta);
+        //  \Log::info('leam - transaction index - user  - ' . $myUser );
+        //  \Log::info('leam - transaction index - request  - ' . $request );
+         // dd($request);
+        $myLimit = 0;
+        if($this->isAdministrator()){
+            if (!$user){
+                $myUsuarioDesde = auth()->user()->id;
+                $myUsuarioHasta = auth()->user()->id;
+            }
+            $myLimit = 500;
+        }else{
+            $myUsuarioDesde = auth()->user()->id;
+            $myUsuarioHasta = auth()->user()->id;
+            $myLimit = 1000;
+        }
+
+        $transferencia = Transaction::whereNull(['transfer_number','pay_number'])
+        ->whereBetween('created_at',    [$myFechaDesde . " 00:00:00", $myFechaHasta . " 23:59:00"])
+        ->whereBetween('user_id',       [$myUsuarioDesde , $myUsuarioHasta])
+        ->orderBy('created_at','desc')
+        ->limit($myLimit)            
+        ->get();
+
+        $myFechaDesde2  =  substr($myFechaDesde,8,2) . '-' . substr($myFechaDesde,5,2) . '-' . substr($myFechaDesde,0,4);
+        $myFechaHasta2  =  substr($myFechaHasta,8,2) . '-' . substr($myFechaHasta,5,2) . '-' . substr($myFechaHasta,0,4);
+
+        $user           = User::pluck('name', 'id')->toArray();
+
+        $parametros['fechaDesde']       = $myFechaDesde2;
+        $parametros['fechaHasta']       = $myFechaHasta2;
+        $parametros['transferencia']    = $transferencia;
+        $parametros['myUser']           = $myUser;
+        $parametros['user']             = $user;
+
+        // dd($transferencia);
+
+        return view('transactions.index3', $parametros);
+
+    }
 
     public function credit(transaction $transaction)
     {
@@ -157,7 +244,23 @@ class TransactionController extends Controller
         }
         return view('transactions.create', compact('type_coin', 'type_transaction', 'wallet', 'group', 'user', 'transaction', 'fecha'));
     }
+    public function create3(transaction $transaction)
+    {
+        return Redirect::route('transactions.index3');
 
+        $type_coin          = Type_coin::pluck('name', 'id');
+        $type_transaction   = Type_transaction::whereIn('type_transaction', ['Transacciones'])->pluck('name', 'id');
+        $wallet             = Group::whereIn('type_wallet', ['transacciones', 'efectivo'])->where('type','=',2)->pluck('name', 'id');
+        $group              = Group::whereIn('type', [1])->pluck('name', 'id');
+        $user               = User::pluck('name', 'id');
+        $fecha              = Carbon::now();
+
+        if (auth()->id() == 99){
+            return view('transactions.create2', compact('type_coin', 'type_transaction', 'wallet', 'group', 'user', 'transaction', 'fecha'));
+            
+        }
+        return view('transactions.create3', compact('type_coin', 'type_transaction', 'wallet', 'group', 'user', 'transaction', 'fecha'));
+    }
     
      /**
      * Show the form for creating a new resource.

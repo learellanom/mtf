@@ -109,6 +109,7 @@ class RoleSeeder extends Seeder
         Permission::create(['name' => 'permissions.index', 'description' => 'Ver los permisos del sistema'])->assignRole($role1);
 
         Permission::create(['name' => 'estadisticasDetalle.estadisticasResumenGrupoWallet', 'description' => 'Resumen por Grupo Wallet'])->assignRole($role1);
+
         Permission::create(['name' => 'dashboardSaldos',            'description' => 'Saldos posicion consolidada'])->assignRole($role1);
         Permission::create(['name' => 'dashboardComisiones',        'description' => 'Dashboard de Comisiones'])->assignRole($role1);
         Permission::create(['name' => 'dashboardComisionesGrupo',   'description' => 'Consolidado de Comisiones por Grupo'])->assignRole($role1);
@@ -116,7 +117,9 @@ class RoleSeeder extends Seeder
         Permission::create(['name' => 'USDTResumenDiario',          'description' => 'USDT Resumen Diario de Movimientos'])->assignRole($role1);
         Permission::create(['name' => 'USDTResumenDiarioFiltro',    'description' => 'USDT Resumen Diario de Movimientos Filtros'])->assignRole($role1);
         
-        Permission::create(['name' => 'dashboardComisionesFiltro',           'description' => 'Dashboard de Comisiones Filtro'])->assignRole($role1);
+        Permission::create(['name' => 'dashboardComisionesFiltro',  'description' => 'Dashboard de Comisiones Filtro'])->assignRole($role1);
+
+        Permission::create(['name' => 'transactions.index3',        'description' => 'Transacciones v2 - Ver Transacciones'])->assignRole($role1);
 
     }
 }

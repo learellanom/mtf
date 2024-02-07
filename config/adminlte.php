@@ -506,7 +506,16 @@ return [
             'label_color' =>'success',
         ],
         [
-            'text'        => 'Transacciónes en efectivo',
+            'text'        => 'Transacciónes v2',
+            'url'         => 'movimientos3',
+            'active'      => ['movimientos', 'regex:@^movimientos/[0-9]+/*@', 'movimientos/create'],
+            'can'         => 'transactions.index3',
+            'icon'        => 'fas fa-fw fas fa-retweet',
+            'label'       => 'OP',
+            'label_color' =>'success',
+        ],
+        [
+            'text'        => 'Transacciónes en efectivo',   
             'url'         => 'movimientos/efectivo',
             'active'      => ['movimientos/create_efectivo'],
             'can'         => 'transactions.create_efectivo',
