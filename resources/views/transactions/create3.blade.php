@@ -17,7 +17,7 @@
     <div class="card col-md-10 movi" style="min-height: 500px !important; max-height:100%; height:100%; widht:100%"">
         <div class="card-body">
 
-            {!! Form::open(['route' => 'transactions.store', 'autocomplete' => 'on', 'files' => true, 'enctype' =>'multipart/form-data', 'id' => 'entre']) !!}
+            {!! Form::open(['route' => 'transactions.store3', 'autocomplete' => 'on', 'files' => true, 'enctype' =>'multipart/form-data', 'id' => 'entre']) !!}
 
             <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
                 <li class="nav-item" role="presentation">
@@ -115,10 +115,10 @@
                     <div class="form-row">
 
                         <div class="form-group col-xl-4">
-                            {!! Form::Label('type_coin_balance_id2', "Tipo de moneda Balance:") !!}
+                            {!! Form::Label('type_coin_balance_id', "Tipo de moneda Balance:") !!}
                             <div class="input-group-text">
                                 <i class="fa-fw fas fa-dollar-sign mr-2"></i>
-                                {!! Form::select('type_coin_balance_id2',$type_coin, null, ['class' => 'form-control ', 'required' => true, 'id' => 'type_coin_balance_id2', 'readonly' => false]) !!}
+                                {!! Form::select('type_coin_balance_id',$type_coin, null, ['class' => 'form-control ', 'required' => true, 'id' => 'type_coin_balance_id', 'readonly' => false]) !!}
                             </div>
                         </div>                    
                         <div class="form-group col-xl-8">
@@ -177,7 +177,7 @@
                                     {!! Form::Label('percentage', "Porcentaje:") !!}
                                     <div class="input-group-text">
                                         <i class="fa-fw fas fa-percentage mr-2"></i>
-                                        {!! Form::text('percentage',null, ['class' => 'form-control percentage rateMasks', 'required' => true, 'id' => 'percentage']) !!}
+                                        {!! Form::text('percentage',null, ['class' => 'form-control rateMasks myForm', 'required' => true, 'id' => 'percentage']) !!}
                                     </div>
                                 </div>
                             </div>
@@ -199,18 +199,18 @@
                     <div class="form-group col-12 justify-content-center comi">
 
                         <label class="form-check-label mx-auto esconder comi col-12 col-md-3" for="radio1">
-                            {!! Form::radio('exonerate',2, null, ['id' => 'radio1', 'class' => 'exonerar', 'required' => true,]) !!}
+                            {!! Form::radio('exonerate',2, null, ['id' => 'radio1', 'class' => 'exonerar myForm', 'required' => true,]) !!}
                             Exonerar comisión
                         </label>
 
                         <label class="form-check-label mx-auto esconder comi col-12 col-md-3" for="radio3">
-                            {!! Form::radio('exonerate',1, null, ['id' => 'radio3', 'class' => 'incluir','required' => true,]) !!}
+                            {!! Form::radio('exonerate',1, null, ['id' => 'radio3', 'class' => 'incluir myForm','required' => true,]) !!}
                             Incluir comisión
                         </label>
 
 
                         <label class="form-check-label mx-auto esconder comi col-12 col-md-3" for="radio2">
-                            {!! Form::radio('exonerate',3, null, ['id' => 'radio2', 'class' => 'descontar', 'required' => true,]) !!}
+                            {!! Form::radio('exonerate',3, null, ['id' => 'radio2', 'class' => 'descontar myForm', 'required' => true,]) !!}
                             Descontar comisión
                         </label>
 
@@ -249,7 +249,7 @@
                         {!! Form::Label('percentage_base', "Porcentaje Base:") !!}
                         <div class="input-group-text">
                             <i class="fa-fw fas fa-percentage mr-2"></i>
-                        {!! Form::text('percentage_base',null, ['class' => 'form-control percentage_base rateMasks', 'id' => 'percentage_base']) !!}
+                        {!! Form::text('percentage_base',null, ['class' => 'form-control rateMasks myForm', 'id' => 'percentage_base']) !!}
                         </div>
                     </div>
 
@@ -282,20 +282,20 @@
 
                     <div class="form-row form-group col-md-12 d-flex justify-content-center base">
 
-                        <label class="form-check-label mx-auto esconder comi comi_base col-12 col-md-4" for="radio1_base">
-                            {!! Form::radio('exonerate_base',2, null, ['id' => 'radio1_base', 'required' => true, 'class' => 'exonerar_base']) !!}
+                        <label class="form-check-label mx-auto   comi_base col-12 col-md-4" for="radio1_base">
+                            {!! Form::radio('exonerate_base',2, null, ['id' => 'radio1_base', 'required' => true, 'class' => 'exonerar_base myForm']) !!}
                             Exonerar comisión base
                         </label>
 
-                        <label class="form-check-label mx-auto esconder comi comi_base col-12 col-md-4" for="radio3_base">
-                            {!! Form::radio('exonerate_base',1, null, ['id' => 'radio3_base', 'required' => true, 'class' => 'incluir_base']) !!}
+                        <label class="form-check-label mx-auto   comi_base col-12 col-md-4" for="radio3_base">
+                            {!! Form::radio('exonerate_base',1, null, ['id' => 'radio3_base', 'required' => true, 'class' => 'incluir_base myForm']) !!}
                             Incluir comisión base
                         </label>
 
 
-                        <label class="form-check-label mx-auto esconder comi comi_base col-12 col-md-4" for="radio2_base">
+                        <label class="form-check-label mx-auto   comi_base col-12 col-md-4" for="radio2_base">
 
-                            {!! Form::radio('exonerate_base',3, null, ['id' => 'radio2_base', 'required' => true, 'class' => 'descontar_base']) !!}
+                            {!! Form::radio('exonerate_base',3, null, ['id' => 'radio2_base', 'required' => true, 'class' => 'descontar_base myForm']) !!}
                             Descontar comisión base
                         </label>
 
@@ -607,14 +607,14 @@
         insertMode:true,
     });
 
-
+    /*
     $('#monto_dolares').on('input', function() {
         var input1Value = $('#monto_dolares').val();
         //$('#montototal').val(input1Value);
         $('#montototal_base').val(input1Value);
         //$('#monto_extranjera_base').val(input1Value);
     });
-    
+    */
     
     
     $(document).ready(function() {
@@ -635,7 +635,12 @@
             incluir     = $('#radio3').is(':checked');
 
             if (!exonerar && !descontar && !incluir){
-                Swal.fire(`Error: Seleccion si la comision se exonera, incluye o descuenta`);
+                Swal.fire({
+                    position: 'left',
+                    type: 'error',
+                    title: `Error: Seleccion si la comision se exonera, incluye o descuenta`,
+                    showConfirmButton: true
+                });                 
                 return false;                
             }
 
@@ -665,13 +670,24 @@
                 myDateBefore.setDate(myDateBefore.getDate() - myDays);
 
             if (myDate <= myDateBefore){
-                Swal.fire(`Error: Fecha de transacción no puede ser menor a ${myDays} dias anteriores a la fecha`);
+                Swal.fire({
+                    position: 'left',
+                    type: 'error',
+                    title: `Error: Fecha de transacción no puede ser menor a ${myDays} dias anteriores a la fecha`,
+                    showConfirmButton: true
+                });                 
                 return false;
             }
 
 
             if (myDate > myDateNow){
-                Swal.fire('Error: Fecha de transacción no puede ser mayor a la fecha');
+                
+                Swal.fire({
+                    position: 'left',
+                    type: 'error',
+                    title: 'Error: Fecha de transacción no puede ser mayor a la fecha',
+                    showConfirmButton: true
+                });                
                 return false;
             }
 
@@ -682,22 +698,56 @@
             }else{
                 if(porcentage && !exonerar){
                     if ($('#percentage').val() <= 0) {
-                        Swal.fire('Porcentage, no puede ser cero o menor a cero. :(');
+
+                        Swal.fire({
+                            position: 'left',
+                            type: 'error',
+                            title: 'Porcentaje de comision, no puede ser cero o menor a cero.',
+                            showConfirmButton: true
+                        });
+
                         return false;
+
+
                     }
                 }
                 if(porcentage && !exonerar_base){
                     if ($('#percentage_base').val() <= 0) {
-                        Swal.fire('Porcentage base, no puede ser cero o menor a cero. :(');
+
+                        Swal.fire({
+                            position: 'left',
+                            type: 'error',
+                            title: 'Porcentaje base, no puede ser cero o menor a cero.',
+                            showConfirmButton: true
+                        });
+
                         return false;
                     }
                 }
 
                 if(tasa){
                     if ($('#tasa_base').val() <= 0) {
-                        Swal.fire('Tasa base, no puede ser cero o menor a cero. :(');
+
+                        Swal.fire({
+                            position: 'left',
+                            type: 'error',
+                            title: 'Tasa base, no puede ser cero o menor a cero.',
+                            showConfirmButton: true
+                        });
+
                         return false;
                     }
+                }
+
+                if (!exchange_rate){
+
+                    Swal.fire({
+                            position: 'left',
+                            type: 'error',
+                            title: 'Tasa de cambio es obligatoria',
+                            showConfirmButton: true
+                        });                    
+                    return false;
                 }
             }
 
@@ -732,18 +782,12 @@
         * 
         */
         $('.myForm').on('input', function (){
+            console.log('leam - pasa input');
             updateMontoreal();
         }); 
 
-
-        $('#radio1, #radio2, #radio3, #radio1_base, #radio2_base, #radio3_base').on('click', function() {
-            console.log('pasa');
-
-            updateMontoreal();
-
-        });
-        
-        $('#exchange_rate, #monto, #percentage, #percentage_base, #monto_dolares').on('input', function() {
+        /*
+        $('#monto, #percentage, #percentage_base, #monto_dolares').on('input', function() {
             console.log('leam - paso por nuevo');
             let exchange_rate        = parseFloat($('#exchange_rate').val());
             let monto       = parseFloat($('#monto').val());
@@ -773,7 +817,7 @@
             updateMontoreal();
 
         });
-
+        */
         /* TASA BASE */
         $('#tasa_base').on('input', function() {
             console.log('leam - aqui ->' + $('#monto_dolares').val());
@@ -1213,17 +1257,21 @@
                     monto_dolares           = amount_foreign_currency / exchange_rate;
                     break;
                 case 2:
-                    monto_dolares           = amount_foreign_currency / exchange_rate;
+                    monto_dolares           = amount_foreign_currency * exchange_rate;
                     break;
             }
         }
 
-        
+        console.log('leam - monto_dolares ->' + monto_dolares);
+
         let amount_commission_base  =  $('#comision_base').val() == "" ? 0 : parseFloat($('#comision_base').val());
         
         if(porcentage > 0){
             comision = (monto_dolares * (porcentage / 100));
-            $('#comision').val((monto_dolares * (porcentage / 100)));
+            $('#comision').val(comision);
+        }else{
+            comision = 0;
+            $('#comision').val(comision);        
         }
         // alert(amount_commission_base );
 
@@ -1273,10 +1321,6 @@
             $('#percentage').focus();
         }
 
-
-
-        console.log('pasa updateMontorealBase');
-
         let comision_base   = parseFloat($('#comision_base').val());
         let porcentage_base = parseFloat($('#percentage_base').val());
         let montoreal_base  = parseFloat($('#montototal_base').val());
@@ -1287,15 +1331,16 @@
 
             
 
-        monto_dolares   = parseFloat($('#monto_dolares').val());
+        // monto_dolares   = parseFloat($('#monto_dolares').val());
         comision        = $('#comision').val() == "" ? 0 : parseFloat($('#comision').val());
         
         if(porcentage_base > 0){
-
             comision_base = (monto_dolares * (porcentage_base / 100));
-
             $('#comision_base').val(comision_base);
             // alert($('#comision_base').val());
+        }else{
+            comision_base = 0;
+            $('#comision_base').val(comision_base);       
         }
 
 
@@ -1314,7 +1359,7 @@
                 $('#montototal_base').val((monto_dolares - comision_base));
                 $('#monto_extranjera_base').val(monto_dolares); 
                 
-            }
+            }   
         }else{
             $('#percentage_base').val('');
             $('#comision_base').val('');
@@ -1341,290 +1386,9 @@
                 $('#percentage_base').focus();
             }
 
-        $('#monto_dorales').val(monto_dorales);
+        $('#monto_dolares').val(monto_dolares);
 
     }
-    /*
-    *
-    *
-    * updateMontorealBase
-    * 
-    * 
-    */
-    function updateMontorealBase() {
-
-    }
-    /*
-    *
-    *
-    * updateTasaBase
-    * 
-    * 
-    */
-    function updateTasaBase(comision_base, tasa_base, montoreal_base) {
-        console.log('pasa updateTasaBase');
-        let monto_dolares = parseFloat($('#monto_dolares').val());
-
-        if(tasa_base > 0){
-            //   $('#comision_base').val(parseFloat($('#monto_dolares').val()) - parseFloat($('#monto_extranjera_base').val()));
-            // no debe grabar la comision en el campo
-
-        }
-        // aqui graba la ganancia comision
-        $('#amount_commission_profit').val(parseFloat($('#comision').val()) - parseFloat($('#comision_base').val()));
-        
-        
-
-    }
-    {{--
-
-    function calcula(){
-        // alert('calcula ----');
-
-        let type_coin_id                = $('#typecoin').val()          != "" ? $('#typecoin').val()                        : 0; // tipo de moneda
-        let exchange_rate               = $('#exchange_rate').val()              != "" ? parseFloat($('#exchange_rate').val())                : 0;
-        let amount_foreign_currency     = $('#monto').val()             != "" ? parseFloat($('#monto').val())               : 0;  // amount_foreign_currency - monto moneda extranjera
-        let amount                      = $('#monto_dorales').val()     != "" ? parseFloat($('#monto_dorales').val())       : 0;
-
-        let percentage                  = $('#percentage').val()        != "" ? parseFloat($('#percentage').val())          : 0;
-        //    percentage                  = $('#mipercentage').val()        != "" ? parseFloat($('#mipercentage').val())          : 0;
-        let percentage_base             = $('#percentage_base').val()   != "" ? parseFloat($('#percentage_base').val())     : 0;
-        
-        let exchange_rate_base          = $('#tasa_base').val()         != "" ? parseFloat($('#tasa_base').val())           : 0;
-        
-        let exonerar                    = $('#radio1').is(':checked');
-        let descontar                   = $('#radio2').is(':checked');
-        let incluir                     = $('#radio3').is(':checked');
-
-        let exonerar_base               = $('#radio1_base').is(':checked');
-        let descontar_base              = $('#radio2_base').is(':checked');
-        let incluir_base                = $('#radio3_base').is(':checked');   
-
-        let amount_base                 = 0 ; 
-
-        let amount_commission           = 0;        
-        let amount_commission_base      = 0; 
-
-        let amount_total                = 0  
-        let amount_total_base           = 0;
-
-        let amount_commission_profit    = 0;
-
-
-        //
-        //
-        // validacion de entradas
-        //
-        //
-        if (type_coin_id ==0){
-            alert('Error: Tipo de Moneda sin seleccionar');
-            return;
-        }
-
-        if (type_coing_id != 1) {
-            if (!(exchange_rate > 0)){
-                alert('Error: Tasa de cambio en cero');
-                return;
-            }
-        }
-
-
-        // alert('mi monto ->' + amount + ' type ' + {{ $transactions->type_coin_id}});
-        // 1 incluir
-        // 2 exonerar
-        // 3 descontar
-
-        //
-        // si la transaccion no es en dorales recalcula el amount
-        //
-        if (type_coin_id != 1) {
-            
-            amount = amount_foreign_currency / exchange_rate;
-
-        }
-        //
-        // determina el tipo de comision
-        //
-        let myTypeCommission = 1;
-
-        if (percentage > 0 || percentage_base > 0){
-            myTypeCommission = 1;
-        }else{
-            if (exchange_rate_base > 0){
-                myTypeCommission = 2;
-            }
-        }
-        //
-        //
-        //
-        if (myTypeCommission == 1){
-            //
-            // Comision por porcentaje
-            //
-            console.log('porcentaje por comision');
-            if (percentage > 0){
-                amount_commission           = (amount * percentage ) / 100;
-                amount_total                = amount + amount_commission;
-
-                amount_commission_base      = (amount * percentage_base ) / 100;
-                amount_commission_profit    = amount_commission - amount_commission_base;
-            }else{
-                amount_commission           = 0;
-                amount_total                = amount + amount_commission;    
-                
-                  
-                amount_commission_base      = (amount * percentage_base ) / 100;
-                amount_commission_profit    = amount_commission - amount_commission_base;                
-            }
-
-            // 1 incluir
-            // 2 exonerar
-            // 3 descontar
-
-            let myCommission = 0;
-            
-
-            if (incluir) {
-                myCommission = 1;
-            }else if(exonerar) {
-                myCommission = 2;
-            }else{
-                myCommission = 3;
-            }
-
-            
-            switch(myCommission){
-                case 1: // incluir
-                    amount_total = amount + amount_commission;
-                    break;
-                case 2: // exonerar
-                    amount_total = amount;
-                    break;
-                case 3: // descontar
-                    amount_total = amount - amount_commission;
-                    break;
-                default:
-                    break;
-            }
-            alert(amount_total);
-            if (percentage_base > 0){
-                amount_base                 = amount;
-                amount_commission_base      = (amount * percentage_base ) / 100;
-                amount_total_base           = amount + amount_commission_base;
-                amount_commission_profit    = amount_commission - amount_commission_base;
-            }else{
-                amount_base                 = amount;
-                amount_commission_base      = 0;
-                amount_total_base           = amount;            
-                amount_commission_profit    = amount_commission;
-            }
-
-            // 1 incluir
-            // 2 exonerar
-            // 3 descontar
-
-            let myCommission_base = 0;
-
-            if (incluir_base) {
-                myCommission_base = 1;
-            }else if(exonerar_base) {
-                myCommission_base = 2;
-            }else{
-                myCommission_base = 3;
-            }
-
-            switch(myCommission_base){
-                case 1:
-                    amount_total_base = amount_base + amount_commission_base;
-                    break;
-                case 2:
-                    amount_total_base = amount_base;
-                    break;
-                case 3:
-                    amount_total_base = amount_base - amount_commission_base;
-                    break;
-                default:
-                    amount_total_base = amount_base;
-                    break;
-            }
-
-             // exchange_rate = 0;
-             // exchange_rate_base = 0;
-        }
-
-
-
-
-        if (myTypeCommission == 2){
-            //
-            // comision tasa
-            //
-            if (exchange_rate_base > 0){
-                amount_base                 = amount_foreign_currency / exchange_rate_base;
-                amount_commission_base      = 0;
-                amount_total_base           = amount_base;
-                amount_commission_profit    = amount - amount_base;    
-            }else{
-                amount_base                 = amount;
-                amount_total_base           = amount;
-                amount_commission_profit    = 0;
-            }
-
-            // 1 incluir
-            // 2 exonerar
-            // 3 descontar
-
-            let myCommission_base = 0;
-
-            if (incluir_base) {
-                myCommission_base = 1;
-            }else if(exonerar_base) {
-                myCommission_base = 2;
-            }else{
-                myCommission_base = 3;
-            }
-
-            switch(myCommission_base){
-                case 1:
-                    amount_total_base = amount_base + amount_commission_base;
-                    break;
-                case 2:
-                    amount_total_base = amount_base;
-                    break;
-                case 3:
-                    amount_total_base = amount_base - amount_commission_base;
-                    break;
-                default:
-                    amount_total_base = amount_base;
-                    break;
-            }
-
-             percentage_base          = 0;
-             percentage               = 0;
-             amount_commission        = 0;
-             amount_commission_base   = 0;
-        }
-        
-
-        $('#monto_dorales').val(amount);
-        $('#amount_base').val(amount_base);
-        $('#comision').val(amount_commission);
-        $('#comision_base').val(amount_commission_base);
-        $('#montototal').val(amount_total);
-        $('#monto_base').val(amount_total_base);
-        $('#amount_commission_profit').val(amount_commission_profit);
-
-         $('#exchange_rate').val(exchange_rate);
-         $('#tasa_base').val(exchange_rate_base );
-
-         $('#percentage').val(percentage);
-         $('#percentage_base').val(percentage_base);
-
-        // alert('amount commission ->' + amount_commission_profit);
-
-    }
-
-    --}}
 
     function inicializaComisionPorcentaje(){
         

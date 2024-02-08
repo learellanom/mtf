@@ -206,8 +206,12 @@ Route::group(['middleware' => 'auth'], function () {
     
     Route::get('movimientos2/{movimiento}', [TransactionController::class,'edit2'])->middleware('auth')->name('transactions.edit2');
 
+    
+    Route::post('movimientos3/store3',           [TransactionController::class,'store3'])->middleware('auth')->name('transactions.store3');
     Route::get('movimientos3/create3',           [TransactionController::class,'create3'])->middleware('auth')->name('transactions.create3');
-    Route::get('movimientos3',                  [TransactionController::class,'index3'])->middleware('auth')->name('transactions.index3');
+    Route::get('movimientos3/{movimiento}',      [TransactionController::class,'edit3'])->middleware('auth')->name('transactions.edit3');
+    Route::put('movimientos3/{movimiento}',      [TransactionController::class,'update3'])->middleware('auth')->name('transactions.update3');
+    Route::get('movimientos3',                   [TransactionController::class,'index3'])->middleware('auth')->name('transactions.index3');
 
     Route::get('movimientosAudit/{movimiento}', [TransactionController::class,'indexAudit'])->middleware('auth')->name('transactions.audit');
 

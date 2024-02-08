@@ -246,8 +246,8 @@ class TransactionController extends Controller
     }
     public function create3(transaction $transaction)
     {
-        return Redirect::route('transactions.index3');
-
+        // return Redirect::route('transactions.index3');
+        
         $type_coin          = Type_coin::pluck('name', 'id');
         $type_transaction   = Type_transaction::whereIn('type_transaction', ['Transacciones'])->pluck('name', 'id');
         $wallet             = Group::whereIn('type_wallet', ['transacciones', 'efectivo'])->where('type','=',2)->pluck('name', 'id');
@@ -351,6 +351,49 @@ class TransactionController extends Controller
 
 
     }
+
+
+    
+    /**
+     * Store a newly created resource in storage.
+     */
+
+     public function store3(Request $request)
+     {
+        // dd($request->all());
+         // $myRequest = $request;
+ 
+         // \Log::info('request2 -> ' . $request2->all());
+         // \Log::info('request  -> ' . $request->all());
+ 
+         $transaction = Transaction::create($request->all() );
+ 
+         $files = [];
+         if($request->hasFile('file')){
+             foreach($request2->file('file') as $file)
+             {
+ 
+                 $url = Storage::put('public/Transactions/'.$transaction->id, $file);
+ 
+                 $files= new Image();
+                 $files->file = $files;
+ 
+ 
+                 $transaction->image()->create([
+                     'url' => $url
+                 ]);
+ 
+           }
+         }
+ 
+         flash()->addSuccess('Movimiento guardado', 'Transacción', ['timeOut' => 3000]);
+ 
+ 
+         return Redirect::route('transactions.index3');
+ 
+ 
+     }
+
 
 
     public function index_transferwallet(transaction $transaction)
@@ -1579,8 +1622,80 @@ class TransactionController extends Controller
         // dd('type transaction ->' . $transactions->type_transaction_id . 'myName ->' . $myName);
         return view('transactions.edit2', compact('transactions', 'imagen', 'type_coin', 'type_transaction', 'wallet', 'group', 'user'));
     }
+    
     /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit3($transactionid)
+    {
+        
+        $transactions       = Transaction::find($transactionid);
+        
+        $imagen             = Transaction::findOrFail($transactionid)->image;
+
+        
+        $type_coin          = Type_coin::pluck('name', 'id');
+        $type_transaction   = Type_transaction::pluck('name', 'id');
+        $wallet             = Group::where('type','=','2')->pluck('name', 'id');
+        $group              = Group::where('type','=','1')->pluck('name', 'id');
+        $user               = User::pluck('name', 'id');
+        
+        $myName = "";
+        foreach($type_transaction as $key => $value){
+            if ($transactions->type_transaction_id == $key){
+                $myName = $value;
+                break;
+            }
+        }
+        $transactions->type_transaction_name = $myName;
+
+        $myName = "";
+        foreach($type_coin as $key => $value){
+            if ($transactions->type_coin_id == $key){
+                $myName = $value;
+                break;
+            }
+        }
+        $transactions->type_coin_name = $myName;
+
+        $myName = "";
+        foreach($wallet as $key => $value){
+            if ($transactions->wallet_id == $key){
+                $myName = $value;
+                break;
+            }
+        }
+        $transactions->wallet_name = $myName;
+
+        $myName = "";
+        foreach($group as $key => $value){
+            if ($transactions->group_id == $key){
+                $myName = $value;
+                break;
+            }
+        }
+        $transactions->group_name = $myName;
+
+        $myName = "";
+        foreach($type_coin as $key => $value){
+            if ($transactions->type_coin_balance_id == $key){
+                $myName = $value;
+                break;
+            }
+        }
+        $transactions->type_coin_balance_name = $myName;
+
+        // $myPos              = array_search($transactions->type_transction_id,$type_transaction);
+        // $myName             = $type_transactions($myPos);
+        // dd($transactions);
+        // dd(var_dump($type_transaction));
+        // dd('type transaction ->' . $transactions->type_transaction_id . 'myName ->' . $myName);
+        return view('transactions.edit3', compact('transactions', 'imagen', 'type_coin', 'type_transaction', 'wallet', 'group', 'user'));
+    }
+    /*
+     * 
      * Update the specified resource in storage.
+     * 
      */
     public function update(Request $request, $transaction)
     {
@@ -1635,7 +1750,64 @@ class TransactionController extends Controller
 
         return Redirect::route('transactions.index')->with('warning', 'Transacción Modificada <strong># ' . $transaction . '</strong>');
     }
+    /*
+     * 
+     * Update the specified resource in storage.
+     * 
+     */
+    public function update3(Request $request, $transaction)
+    {
 
+        // dd($request->percentage);
+
+        Transaction::find($transaction)->update($request->all());
+
+        $myTransaccion = Transaction::find($transaction);
+        $myTransaccion->percentage = $request->percentage;
+        $myTransaccion->save();
+        // dd($myTransaccion);
+
+
+
+        $movimientos = Transaction::findOrFail($transaction);
+        $file = [];
+
+        if($request->file('file')){
+           foreach($request->file('file') as $files){
+
+              $url = Storage::put('public/Transactions/'.$transaction, $files); 
+
+
+
+         if($request->file('file')){
+
+             $file= new Image();
+             $file->file = $file;
+
+              $movimientos->image()->create([
+                'url' => $url
+            ]);
+
+         }
+
+        else{
+
+            $files= new Image();
+            $files->file = $files;
+
+            $movimientos->image()->create([
+                'url' => $url
+            ]);
+
+          }
+
+        }
+      }
+
+
+
+        return Redirect::route('transactions.index3')->with('warning', 'Transacción Modificada <strong># ' . $transaction . '</strong>');
+    }
     /**
      * Remove the specified resource from storage.
      */

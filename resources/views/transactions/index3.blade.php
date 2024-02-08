@@ -163,7 +163,7 @@
                                         <td class="font-weight-bold">{!! number_format(abs($transferencias->amount_total),2,".") !!} 
                                             <i class="fas fa-dollar-sign"></i>
                                         </td>
-                                        <td></td>
+                                        <td>{{ $transferencias->type_coin_balance->name}}</td>
                                         <td class="font-weight-bold">{!! $transferencias->user->name ?? '' !!}</td>
                                         <td>{!! $transferencias->type_transaction->name !!}</td>
                                         <td style="display: none;">{!! $transferencias->wallet->name ?? '' !!}</td>
@@ -189,7 +189,7 @@
                                             @if($transferencias->status == 'Activo')
                                                 <td class="text-center">
                                                     <a 
-                                                        href="{{route('transactions.edit2', $transferencias->id)}}" 
+                                                        href="{{route('transactions.edit3', $transferencias->id)}}" 
                                                         class="btn btn-xl text-dark mx-1 shadow text-center">
                                                         <i class="fas fa-lg fa-fw fa-coins"></i>
                                                     </a>
