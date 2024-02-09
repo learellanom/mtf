@@ -168,9 +168,23 @@ class TransactionController extends Controller
             $myLimit = 1000;
         }
 
+        $myCoinDesde    = 0;
+        $myCoinHasta    = 9999;
+        $myCoin = $request->coin ? $request->coin : 0;
+        if ($request->coin){
+            $myCoinDesde    = $request->coin;
+            $myCoinHasta    = $request->coin;
+        }
+        /*
+        echo "<br>" . "coin        - > $request->coin";
+        echo "<br>" . "myCoinDesde - > $myCoinDesde";
+        echo "<br>" . "myCoinHasta - > $myCoinHasta";
+        die();
+        */
         $transferencia = Transaction::whereNull(['transfer_number','pay_number'])
-        ->whereBetween('created_at',    [$myFechaDesde . " 00:00:00", $myFechaHasta . " 23:59:00"])
-        ->whereBetween('user_id',       [$myUsuarioDesde , $myUsuarioHasta])
+        ->whereBetween('created_at',            [$myFechaDesde . " 00:00:00", $myFechaHasta . " 23:59:00"])
+        ->whereBetween('user_id',               [$myUsuarioDesde , $myUsuarioHasta])
+        ->whereBetween('type_coin_balance_id',  [$myCoinDesde , $myCoinHasta])
         ->orderBy('created_at','desc')
         ->limit($myLimit)            
         ->get();
@@ -180,11 +194,20 @@ class TransactionController extends Controller
 
         $user           = User::pluck('name', 'id')->toArray();
 
-        $parametros['fechaDesde']       = $myFechaDesde2;
-        $parametros['fechaHasta']       = $myFechaHasta2;
-        $parametros['transferencia']    = $transferencia;
-        $parametros['myUser']           = $myUser;
-        $parametros['user']             = $user;
+
+     
+        $myTypeCoinBalance  = $myCoin; // dorales siempre por ahora
+        $Type_coin_balance  = Type_coin::pluck('name', 'id')->toArray();     
+
+        $parametros['myTypeCoinBalance']    = $myTypeCoinBalance;
+        $parametros['Type_coin_balance']    = $Type_coin_balance;
+        $parametros['Type_coin_balance']    = $Type_coin_balance;
+
+        $parametros['fechaDesde']           = $myFechaDesde2;
+        $parametros['fechaHasta']           = $myFechaHasta2;
+        $parametros['transferencia']        = $transferencia;
+        $parametros['myUser']               = $myUser;
+        $parametros['user']                 = $user;
 
         // dd($transferencia);
 
@@ -1834,7 +1857,32 @@ class TransactionController extends Controller
         // return response()->json(['success' => true, 'diets' => $diets], 200);
     }
 
-    
+    /**
+     * Remove the specified resource from storage.
+     */
+
+
+     public function update_status3(Request $request, $transaction)
+     {
+         
+         $transactions = Transaction::find($transaction);
+ 
+         if($transactions->status == 'Activo'){
+         Transaction::findOrFail($transaction)->update([
+             'status' => 'Anulado',
+         ]);
+            return Redirect::route('transactions.index3')->with('info', 'Transacción anulada  <strong># '. $transaction . '</strong>');
+         }
+         elseif($transactions->status == 'Anulado'){
+             
+             Transaction::findOrFail($transaction)->update([
+                 'status' => 'Activo',
+             ]);
+             return Redirect::route('transactions.index3')->with('success', 'Transacción activada  <strong># '. $transaction . '</strong>');
+         }
+         // return response()->json(['success' => true, 'diets' => $diets], 200);
+     }
+
     public function update_statusop(Request $request, $transaction)
     {
         

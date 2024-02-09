@@ -8,6 +8,10 @@
 
 @stop
 @php
+    $config1 =
+    [
+        "allowClear" => true,
+    ];
 
     $config2 =
     [
@@ -28,24 +32,26 @@
 @section('content')
 
 @can('transactions.create')
-    <a class="btn btn-dark" title="Crear transaccion" href={{ route('transactions.create3') }}>
+    <a class="btn btn-dark" title="Crear transaccion" href={{ route('transactions.create3') }} style="width: 5rem">
         <i class="fas fa-plus-circle"></i>
+        {{--
         <span class="d-none d-lg-inline-block text-uppercase font-weight-bold">{{ __('Crear') }}</span>
         <span class="d-none d-md-inline-block text-uppercase font-weight-bold">{{ __('Transacción') }}</span>
+        --}}
     </a>
 @endcan
 
 <br><br>
 {{-- Compressed with style options / fill data using the plugin config --}}
 
-<div class="row">
-    <div class="col-md-12">
+<!-- <div class="row"> -->
+    <!-- <div class="col-md-12"> -->
         <div class="card mb-4">
             <div class="card-header">
                 <div class="row">
-                    <h3 class="card-title text-uppercase font-weight-bold col-12 col-sm-6">{{ __('Transacciones') }} del {{ $fechaDesde}} al {{ $fechaHasta}}</h3>
+                    <h3 class="card-title text-uppercase font-weight-bold col-12 col-lg-6">{{ __('Transacciones') }} del {{ $fechaDesde}} al {{ $fechaHasta}}</h3>
 
-                    <div class ="col-12 col-sm-2 float-right" >
+                    <div class ="col-12 col-lg-2 float-right" >
                         <x-adminlte-date-range
                             id="drCustomRanges"
                             name="drCustomRanges"
@@ -62,7 +68,7 @@
 
 
                     @if($myAdministrator == true)
-                        <div class ="col-12 col-sm-2">
+                        <div class ="col-12 col-lg-2">
                             <x-adminlte-select2 id="usuario"
                                                 name="optionsUsuario"
                                                 igroup-size="sm"
@@ -82,14 +88,36 @@
                         </div>
                     @endif
 
+                    <div class ="col-lg-2">
+                        <x-adminlte-select2 id="coin"
+                                            name="optionsCoin"
+                                            igroup-size="sm"
+                                            label-class="text-lightblue"
+                                            data-placeholder="Moneda ..."
+                                            :config="$config1"
+                                            >
+                            <x-slot name="prependSlot">
+                                <div class="input-group-text bg-gradient-dark">
+                                    <!-- <i class="fas fa-car-side"></i> -->
+                                    <!-- <i class="fas fa-user-tie"></i> -->
+                                    <i class="fas fa-solid fa-dollar-sign"></i>                        
+                                </div>
+                                
+                            </x-slot>
+
+                            <x-adminlte-options :options="$Type_coin_balance" empty-option="Selecciona una moneda.."/>
+
+                        </x-adminlte-select2>
+                    </div>
+
                 </div>
 
 
             </div>
-            <d  iv class="card-body">
+            <div class="card-body">
                 <div class="row">
                     <div class="col-md-12">
-                        <table class="table table-bordered table-responsive-lg" id="table" style="width:100%;">
+                        <table class="table table-bordered table-responsive" id="table" style="width:100%;">
                             <thead>
                                 <tr>
                                     <th style="width:1%;">Nro</th>
@@ -114,7 +142,7 @@
                                     @endcan
                                     
                                     @can('transactions.edit')
-                                        <th style="width:1%;" class="no-exportar">Tasa/Comisión</th>
+                                        <th style="width:1%;" class="no-exportar">Editar</th>
                                     @endcan
 
                                     {{--
@@ -169,7 +197,7 @@
                                         <td style="display: none;">{!! $transferencias->wallet->name ?? '' !!}</td>
                                         @can('transactions.update_status')
                                             <td class="text-center">
-                                                {!! Form::model($transferencias->id, ['route' => ['transactions.update_status', $transferencias->id],'method' => 'put']) !!}
+                                                {!! Form::model($transferencias->id, ['route' => ['transactions.update_status3', $transferencias->id],'method' => 'put']) !!}
 
                                                     @if($transferencias->status == 'Activo')
                                                         <button class="btn btn-xl text-success mx-1 shadow text-center" title="Activo">
@@ -191,13 +219,13 @@
                                                     <a 
                                                         href="{{route('transactions.edit3', $transferencias->id)}}" 
                                                         class="btn btn-xl text-dark mx-1 shadow text-center">
-                                                        <i class="fas fa-lg fa-fw fa-coins"></i>
+                                                        <i class="fas fa-lg fa-fw fa-edit"></i>
                                                     </a>
                                                 </td>
                                             @elseif($transferencias->status == 'Anulado')
                                                 <td class="text-center">
                                                     <p class="btn btn-xl text-dark mx-1 shadow text-center" disabled  onclick="noEditar()">
-                                                        <i class="fas fa-lg fa-fw fa-coins"  style="color: gray;"></i>
+                                                        <i class="fas fa-lg fa-fw fa-edit"  style="color: gray;"></i>
                                                     </p>
                                                 </td>                                            
                                             @endif
@@ -226,8 +254,8 @@
                 </div>
             </div>
         </div>
-    </div>
-</div>
+    <!-- </div> -->
+<!-- </div> -->
 @endsection
 @section('css')
 
@@ -413,6 +441,11 @@
     BuscaUsuario();
 
     $(() => {
+
+
+        const myTypeCoinBalance = {!! $myTypeCoinBalance !!};
+        BuscaMoneda(myTypeCoinBalance);           
+
         BuscaFechas();
         
 
@@ -470,20 +503,53 @@
             theRoute(user, myFechaDesde,myFechaHasta);      
         });
 
+
+        
+		$('#coin').on('change', function (){
+
+            const usuario           = $('#userole').val();
+            const coin              = ($('#coin').val()) ? $('#coin').val() : 0;   
+
+            let myFechaDesde, myFechaHasta;
+
+            myFechaDesde =  ($('#drCustomRanges').val()).substr(6,4) +
+                            '-' +
+                            ($('#drCustomRanges').val()).substr(3,2) +
+                            '-' +
+                            ($('#drCustomRanges').val()).substr(0,2)
+                            ;
+
+            myFechaHasta =  ($('#drCustomRanges').val()).substr(19,4) +
+                            '-' +
+                            ($('#drCustomRanges').val()).substr(16,2) +
+                            '-' +
+                            ($('#drCustomRanges').val()).substr(13,2)
+                            ;
+
+            theRoute(usuario, myFechaDesde,myFechaHasta, coin);   
+
+        })
+        .on('select2:open', () => {
+            document.querySelector('.select2-search__field').focus();
+        });
+
+
     });
-    function theRoute(user = 0, fechaDesde = 0, fechaHasta = 0){
+    function theRoute(user = 0, fechaDesde = 0, fechaHasta = 0, coin = 0){
         // let user = "";
         let Route ="";
 
         myRoute = "";
-        myRoute = "{{ route('transactions.index', ['user' => 'user2', 'fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2']) }}"; 
+        myRoute = "{{ route('transactions.index3', ['user' => 'user2', 'fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2', 'coin' => 'coin2']) }}"; 
         // console.log('myRoute ->' + myRoute);
         myRoute = myRoute.replace('user2',user);
         myRoute = myRoute.replace('fechaDesde2',fechaDesde);
         myRoute = myRoute.replace('fechaHasta2',fechaHasta);
+        myRoute = myRoute.replace('coin2',coin);
+        myRoute = myRoute.replaceAll('amp;','');
 
         // alert(myRoute);
-        myRoute = myRoute.replaceAll('&amp;','&');
+        
 
         // alert('la ruta ->' + myRoute);
         location.href = myRoute;
@@ -531,6 +597,22 @@
         }
         );          
     }
+
+    function BuscaMoneda(myTypeCoinBalance){
+        //alert("BuscaGrupo - miGrupo -> " + miGrupo);
+        $('#coin').each( function(index, element){
+            //alert ("Buscagrupo -> " + $(this).val() + " text -> " + $(this).text()+ " y con index -> " + $(this).prop('selectedIndex'));
+            $(this).children("option").each(function(){
+                if ($(this).val() === myTypeCoinBalance.toString()){
+                    //alert('Buscagrupo - encontro');
+                    $("#coin option[value="+ myTypeCoinBalance +"]").attr("selected",true);
+                }
+                //alert("BuscaGrupoaqui ->  the val " + $(this).val() + " text -> " + $(this).text());
+            });
+        });
+        //
+    }
+
 </script>
 @endsection
 

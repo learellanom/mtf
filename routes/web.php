@@ -212,6 +212,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('movimientos3/{movimiento}',      [TransactionController::class,'edit3'])->middleware('auth')->name('transactions.edit3');
     Route::put('movimientos3/{movimiento}',      [TransactionController::class,'update3'])->middleware('auth')->name('transactions.update3');
     Route::get('movimientos3',                   [TransactionController::class,'index3'])->middleware('auth')->name('transactions.index3');
+    Route::match(['put', 'patch'], 'movimientos3/{movimiento}/estatus3', [TransactionController::class, 'update_status3'])->name('transactions.update_status3');
 
     Route::get('movimientosAudit/{movimiento}', [TransactionController::class,'indexAudit'])->middleware('auth')->name('transactions.audit');
 

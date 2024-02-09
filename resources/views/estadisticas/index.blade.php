@@ -957,6 +957,9 @@ if (isset($balance->Total)){
 
     });
 
+    $('#coin').select2({
+        allowClear: true
+    });
 
     function theRoute(usuario = 0, grupo = 0, wallet = 0, typeTransactions = 0, fechaDesde = 0, fechaHasta = 0, coin = 1){
 

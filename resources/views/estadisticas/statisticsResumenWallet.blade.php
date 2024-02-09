@@ -326,17 +326,20 @@ $config4 = [
         }
         //  alert('leam - fecha desde -> ' + myFechaDesde + ' fecha hasta ->' + myFechaHasta);
 
+        let coin = $('#coin').val() ? $('#coin').val() : 1;
+
         let myRoute = "";
-            myRoute = "{{ route('estadisticasDetalle', ['usuario' => 'usuario2', 'grupo' => 'grupo2', 'wallet' => 'wallet2', 'typeTransactions' => 'typeTransactions2','fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2']) }}";
+            myRoute = "{{ route('estadisticasDetalle', ['usuario' => 'usuario2', 'grupo' => 'grupo2', 'wallet' => 'wallet2', 'typeTransactions' => 'typeTransactions2','fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2', 'coin' => 'coin2']) }}";
             myRoute = myRoute.replace('grupo2',grupo);
             myRoute = myRoute.replace('usuario2',usuario);
             myRoute = myRoute.replace('wallet2',wallet);
             myRoute = myRoute.replace('typeTransactions2',typeTransactions);            
             myRoute = myRoute.replace('fechaDesde2',myFechaDesde);
             myRoute = myRoute.replace('fechaHasta2',myFechaHasta);
+            myRoute = myRoute.replace('coin2',coin);
             myRoute = myRoute.replaceAll('amp;','');
         // console.log(myRoute);
-        // alert(myRoute);
+         alert(myRoute);
         location.href = myRoute;
 
     }

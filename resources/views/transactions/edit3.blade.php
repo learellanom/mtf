@@ -79,19 +79,19 @@
                             .myStyle { background-color: #e9ecef; color: #495057; font-weight: 400 !important; height: 50px;}
                         </style>
                         <div class="form-row">
-                            <div class="form-group col">
+                            <div class="form-group col-md-12 col-xl-4">
 
                                 {!! Form::label('$transactionstype_transaction_name', 'Transaccion: '); !!}
                                 {!! Form::label('$transactionstype_transaction_name', $transactions->type_transaction_name, ['class' => 'form-control myStyle']); !!}
 
                             </div>
-                            <div class="form-group col">
+                            <div class="form-group col-md-12 col-xl-4">
 
                                 {!! Form::label('wallet_name', 'Caja: '); !!}
                                 {!! Form::label('wallet_name', $transactions->wallet_name, ['class' => 'form-control myStyle']); !!}
 
                             </div>
-                            <div class="form-group col">
+                            <div class="form-group col-md-12 col-xl-4">
 
                                 {!! Form::label('group_name', 'Grupo: '); !!}
                                 {!! Form::label('group_name', $transactions->group_name, ['class' => 'form-control myStyle']); !!}
@@ -101,11 +101,9 @@
                         </div>
 
                         <div class="row">
-                            <div class="form-group col">
-
-                            {!! Form::label('Tipo de Moneda', 'Tipo de Moneda: '); !!}
-                            {!! Form::label('', $transactions->type_coin_name, ['class' => 'form-control myStyle']); !!}
-
+                            <div class="form-group col-6 col-sd-12 col-xl-4">
+                                {!! Form::label('Tipo de Moneda', 'Tipo de Moneda: '); !!}
+                                {!! Form::label('', $transactions->type_coin_name, ['class' => 'form-control myStyle']); !!}
                             </div>
                             @php
                               $myReadOnly         = false;
@@ -130,7 +128,7 @@
                                 </div>
                             @endif
                             @if($myReadOnly) 
-                            {{ dd('paso') }}
+                            
                               <div class="form-group col">
                                   {!! Form::Label('tasa', "Tasa:") !!}
                                   <div class="input-group-text">
@@ -188,7 +186,7 @@
                          
                         <div class="form-row">
                          
-                            <div class="form-group col">
+                            <div class="form-group col-md-4">
                                 {!! Form::label('Tipo de Moneda', 'Tipo de Moneda Balance: '); !!}
                                 {!! Form::label('', $transactions->type_coin_balance_name, ['class' => 'form-control myStyle']); !!}
                             </div>
@@ -196,7 +194,7 @@
                             @if(!$myReadOnlyAmount) 
                                 
                                 <div class="form-group col-md-4">
-                                    {!! Form::Label('', "Monto en dolares:") !!} 
+                                    {!! Form::Label('', "Monto:") !!} 
                                     <div class="input-group-text">
                                         <i class="fa-fw fas fa-coins mr-2"></i>
                                        
@@ -207,8 +205,8 @@
                             --}}
                             {{-- @if($myReadOnlyAmount)  --}}
                             
-                                <div class="form-group col-md-4">
-                                    {!! Form::Label('', "Monto en dolares:") !!} 
+                                <div class="form-group col-md-8">
+                                    {!! Form::Label('', "Monto:") !!} 
                                     <div class="input-group-text">
                                         <i class="fa-fw fas fa-coins mr-2"></i>
                                         {!! Form::text('amount',null, ['class' => 'form-control general', 'required', 'readonly', 'min' => 0, 'id' => 'my_monto_dorales']) !!}
@@ -216,17 +214,18 @@
                                 </div>
 
                             {{-- @endif --}}
-                            
-                            <div class="form-group col-md-4">
+                             
+                        </div>   
+
+                        <div class="form-row">
+                            <div class="form-group col-md-6 col-xl-4">
                                 {!! Form::Label('', "Fecha:") !!}
                                 <div class="input-group-text">
                                     <i class="fa-fw fas fas fa-calendar-week mr-2"></i>
                                     {!! Form::datetimelocal('transaction_date', date_create($transactions->transaction_date), ['class' => 'form-control', 'required' => true, 'id' => 'transaction_date', 'readonly' => true]) !!}
                                 </div>
-                            </div>
-                            
-                        </div>   
-
+                            </div>                            
+                        </div>
 
                         {{-- Comision --}}
 
@@ -302,6 +301,10 @@
                         @else
 
                         @endif
+                        <div class="form-row">
+                            {!! Form::Label('montototal', "Monto total:") !!}
+                            {!! Form::text('amount_total',null, ['class' => 'form-control montototal general font-weight-bold h1', 'required' => true, 'min' => 0, 'id' => 'montototal', 'readonly' => true]) !!}
+                        </div>
 
                         <br>
                         <hr class="bg-dark esconder" style="height:1px;">
@@ -364,17 +367,16 @@
                         @else
                         @endif
 
+
+                        <div class="form-group form-row">
+                            {!! Form::Label('monto_base', "Monto total base:") !!}
+                            {!! Form::text('amount_total_base',null, ['class' => 'form-control montototal general font-weight-bold', 'required' => true, 'min' => 0, 'id' => 'monto_base', 'readonly' => true]) !!}
+
+                            
+                        </div>
+
                         <hr class="bg-dark" style="height:1px;">
 
-
-                        {!! Form::Label('montototal', "Monto total:") !!}
-                        {!! Form::text('amount_total',null, ['class' => 'form-control montototal general font-weight-bold h1', 'required' => true, 'min' => 0, 'id' => 'montototal', 'readonly' => true]) !!}
-
-
-                        {!! Form::Label('monto_base', "Monto total base:") !!}
-                        {!! Form::text('amount_total_base',null, ['class' => 'form-control montototal general font-weight-bold', 'required' => true, 'min' => 0, 'id' => 'monto_base', 'readonly' => true]) !!}
-                        <br>
-                        <br>
                         <div class="form-group form-row">
                             <div class="input-group-text">
                                 {!! Form::Label('description', "Descripcion:") !!}
@@ -595,10 +597,22 @@
 
         $('#myForm').on('submit', function() {
             // alert($('#percentage').val());
+            // percentage_base
+
+            if ($('#tasa').val() == "" || $('#tasa').val() == 0){
+                Swal.fire({
+                        position: 'center',
+                        type: 'error',
+                        title: 'Introduzca la Tasa de Cambio',
+                        showConfirmButton: true
+                    }
+                );  
+                return false;
+            }
 
             // Valida
             if ($('#radio3').is(':checked') || $('#radio2').is(':checked')){
-                if ($('#percentage').val() == ""){
+                if ($('#percentage').val() == "" || $('#percentage').val() == 0){
 
                     Swal.fire({
                             position: 'center',
@@ -623,6 +637,25 @@
                 );  
                 return false;
             }
+
+
+            if ($('#radio3_base').is(':checked') || $('#radio2_base').is(':checked')){
+                if ($('#percentage_base').val() == "" || $('#percentage_base').val() == 0){
+
+                    Swal.fire({
+                            position: 'center',
+                            type: 'error',
+                            title: 'Porcentaje de Comision Base en Blanco',
+                            showConfirmButton: true
+                        }
+                    );  
+                    $('#percentage').focus();
+                    return false;
+                    
+                }
+            }
+
+
         });
 
     
@@ -929,12 +962,13 @@
                     amount = amount_foreign_currency / exchange_rate;
                     break;
                 case 2:
+                    
                     amount = amount_foreign_currency * exchange_rate;
                     break;
             }
         }else{
-            amount = 0;
-            amount_foreign_currency = 0;
+            //amount = 0;
+            //amount_foreign_currency = 0;
         }
 
         //
