@@ -31,7 +31,7 @@
 
 @section('content')
 
-@can('transactions.create')
+@can('transactions.create3')
     <a class="btn btn-dark" title="Crear transaccion" href={{ route('transactions.create3') }} style="width: 5rem">
         <i class="fas fa-plus-circle"></i>
         {{--
@@ -137,11 +137,11 @@
                                     <th>Tipo de Movimiento</th>
                                     <th style="width:1%; display:none;">Caja <i class="fas fa-search"></i></th>
 
-                                    @can('transactions.update_status')
+                                    @can('transactions.update_status3')
                                         <th style="width:1%;">Activo/Anulado</th>
                                     @endcan
                                     
-                                    @can('transactions.edit')
+                                    @can('transactions.edit3')
                                         <th style="width:1%;" class="no-exportar">Editar</th>
                                     @endcan
 
@@ -195,7 +195,7 @@
                                         <td class="font-weight-bold">{!! $transferencias->user->name ?? '' !!}</td>
                                         <td>{!! $transferencias->type_transaction->name !!}</td>
                                         <td style="display: none;">{!! $transferencias->wallet->name ?? '' !!}</td>
-                                        @can('transactions.update_status')
+                                        @can('transactions.update_status3')
                                             <td class="text-center">
                                                 {!! Form::model($transferencias->id, ['route' => ['transactions.update_status3', $transferencias->id],'method' => 'put']) !!}
 
@@ -213,7 +213,7 @@
                                             </td>
                                         @endcan
 
-                                        @can('transactions.edit')
+                                        @can('transactions.edit3')
                                             @if($transferencias->status == 'Activo')
                                                 <td class="text-center">
                                                     <a 

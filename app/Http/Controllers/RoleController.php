@@ -25,7 +25,14 @@ class RoleController extends Controller
     public function create()
     {
         $permisos = Permission::all();
-        return view('roles.create', compact('permisos'));
+        $wallet                     = app(statisticsController::class)->getWallet();
+        $group                      = app(statisticsController::class)->getGroups();
+
+        $parametros['wallet']   = $wallet;
+        $parametros['group']    = $group;
+        $parametros['permisos'] = $permisos;
+
+        return view('roles.create', $parametros);
     }
 
     /**

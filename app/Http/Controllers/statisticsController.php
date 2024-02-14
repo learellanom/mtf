@@ -276,6 +276,13 @@ class statisticsController extends Controller
         $balance        = "";
         $balanceBefore  = 0;
 
+
+        $myCoin = ($request->coin) ? $request->coin : 1;
+     
+        $myTypeCoinBalance  = $myCoin; // dorales siempre por ahora
+        $Type_coin_balance  = Type_coin::pluck('name', 'id')->toArray();   
+
+
         if ($myGroup > 0){
 
             $balance            = $this->getBalance($myGroup);
@@ -286,6 +293,8 @@ class statisticsController extends Controller
         else
         {
             if ($myWallet > 0){
+                
+                // LEAM
                 $balance        = $this->getBalanceWallet($myWallet);
                 $balanceBefore  = $this->getBalanceWalletBefore($myWallet,$myFechaDesde, $myFechaHasta);
             }
@@ -388,10 +397,7 @@ class statisticsController extends Controller
             $busquedaWallet  = " and wallet_id between $myWalletDesde and $myWalletHasta ";
         }
 
-        $myCoin = ($request->coin) ? $request->coin : 1;
      
-        $myTypeCoinBalance  = $myCoin; // dorales siempre por ahora
-        $Type_coin_balance  = Type_coin::pluck('name', 'id')->toArray();        
 
         $myQuery =
         "
@@ -402,6 +408,7 @@ class statisticsController extends Controller
                 Transactions.exchange_rate_base        as TasaCambioBase,
                 Transactions.type_coin_id              as TipoMonedaId,
                 type_coins.name                        as TipoMoneda,
+                type_coins_balance.name                as TipoMonedaBalance,
                 users.name                             as AgenteName,
                 Transactions.amount                    as Monto,            
                 Transactions.amount_total              as MontoTotal,
@@ -428,6 +435,7 @@ class statisticsController extends Controller
                 left join mtf.users               on mtf.transactions.user_id             = mtf.users.id
                 left join mtf.type_coins          on mtf.transactions.type_coin_id        = mtf.type_coins.id
                 left join mtf.groups              on mtf.Transactions.group_id            = mtf.groups.id
+                left join mtf.type_coins as type_coins_balance  on mtf.transactions.type_coin_balance_id        = type_coins_balance.id                
             where
                     status = 'Activo'
                 and user_id             between $myUserDesde                and $myUserHasta 
@@ -5610,7 +5618,78 @@ class statisticsController extends Controller
     }
 
 
+    public function filtrosRolesGraba(Request $request){
 
+        $myfile = fopen("./filtros/myRolesFiltros", "w") or die("Unable to open file!");
+
+        $myLine = '{"wallets" : [' . implode(",",$request->myDataWallet) . "]}" . PHP_EOL;
+        fwrite($myfile, $myLine);
+
+        $myLine = '{"groups" : [' .implode(",",$request->myDataGroup) . "]}" . PHP_EOL;
+        fwrite($myfile, $myLine);
+
+        fclose($myfile);   
+
+
+
+        // dd($request);
+        // \Log::info(' llega por filtro wallet ->' . print_r($request->myDataWallet,true));
+        // \Log::info(' llega por filtro group  ->' . print_r($request->myDataGroup,true));
+
+        $myResponse = 
+        [
+            'success' => true,
+            'data' => '',
+            'message' => 'filtros guardados exitosamente'
+        ];
+
+        return response()->json($myResponse);
+    }
+
+    function filtrosRolesWalletsLee(){
+
+        $myfile = fopen("./filtros/myRolesFiltros", "r") or die("Unable to open file!");
+
+        
+        $myWallets = fgets($myfile);
+        
+        $myGroups  = fgets($myfile);
+
+
+
+        fclose($myfile);        
+
+        $myWallets = json_decode($myWallets,true);
+        // $myGroups = json_decode($myGroups);
+
+        // \Log::info('lee myWallets -> ' . print_r($myWallets,true));
+        // \Log::info('lee myGroups  -> ' . print_r($myGroups,true));
+
+        return $myWallets['wallets'];
+
+    }
+    function filtrosRolesGroupsLee(){
+
+        $myfile = fopen("./filtros/myRolesFiltros", "r") or die("Unable to open file!");
+
+        
+        $myWallets = fgets($myfile);
+        
+        $myGroups  = fgets($myfile);
+
+
+
+        fclose($myfile);        
+
+        $myWallets  = json_decode($myWallets,true);
+        $myGroups   = json_decode($myGroups);
+
+        // \Log::info('lee myWallets -> ' . print_r($myWallets,true));
+        // \Log::info('lee myGroups  -> ' . print_r($myGroups,true));
+
+        return $myWallets['groups'];
+
+    }
     function filtrosLeeWallet2(){
 
         $myfile = fopen("myFiltros", "r") or die("Unable to open file!");

@@ -647,7 +647,7 @@ $(document).ready(function () {
             myRoute = myRoute.replace('fechaHasta2',myFechaHasta);
             myRoute = myRoute.replace('coin2',coin);
             myRoute = myRoute.replaceAll('amp;','');
-        console.log(myRoute);
+        // console.log(myRoute);
         // alert(myRoute);
         location.href = myRoute;
 

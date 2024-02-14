@@ -281,6 +281,7 @@ if (isset($balance->Total)){
                                     <th style="width:1%;"><p style="display:none;">P - %</p>Moneda</th>
                                     <th style="width:6%;">Monto Moneda </th>
                                     <th style="width:1%;">Tasa</th>
+                                    <th style="width:1%;">Moneda Balance</th>
                                     <th style="width:1%;">Monto $ </th>
                                     <th style="width:1%;">%</th>
                                     <th style="width:1%;">Comisión</th>
@@ -412,6 +413,7 @@ if (isset($balance->Total)){
                                     <td>{!! $row->TipoMoneda !!}</td>
                                     <td class="text-right"  >{!! number_format($row->MontoMoneda,2) !!}</td>
                                     <td class="text-left"   >{!! number_format($TasaCambio,2) !!}</td>
+                                    <td class="text-left"   >{!! $row->TipoMonedaBalance!!} </td>
                                     <td class="text-right"  >{!! number_format($Monto,2) !!}</td>
                                     <td class="text-left"   >{!! number_format($myPorcentajeComision,2) !!}</td>
                                     <td class="text-right"  >{!! number_format($myMontoComision,2) !!}</td>

@@ -150,6 +150,9 @@ Route::post('filtrosGrabaWallet', [App\Http\Controllers\statisticsController::cl
 Route::post('filtrosGrabaGroup', [App\Http\Controllers\statisticsController::class, 'filtrosGrabaGroup'])->name('filtrosGrabaGroup'); // Lee filtros
 
 
+Route::post('filtrosRolesGraba',        [App\Http\Controllers\statisticsController::class, 'filtrosRolesGraba'])->name('filtrosRolesGraba'); // Lee filtros
+Route::post('filtrosRolesWalletsLee',    [App\Http\Controllers\statisticsController::class, 'filtrosRolesWalletLee'])->name('filtrosRolesWalletLee'); // Lee filtros
+Route::post('filtrosRolesGroupsLee',    [App\Http\Controllers\statisticsController::class, 'filtrosRolesGroupsLee'])->name('filtrosRolesGroupsLee'); // Lee filtros
 
 Route::post('filtrosGrabaEstadisticas', [App\Http\Controllers\statisticsController::class, 'filtrosGrabaEstadisticas'])->name('filtrosGrabaEstadisticas'); // Lee filtros
 
