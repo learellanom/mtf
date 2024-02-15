@@ -8,6 +8,8 @@ use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use Illuminate\Support\Facades\Redirect;
 
+use App\Http\Models\Group_role;
+
 class RoleController extends Controller
 {
     /**
@@ -40,6 +42,22 @@ class RoleController extends Controller
      */
     public function store(Request $request)
     {
+
+        // leam
+        print_r($request->myselect,false);
+        die();
+
+
+        foreach($request->myselect as $myselect){
+            
+            $Group_role = new Group_role;
+
+            $Group_role->
+
+            $Group_role->save();
+        }        
+
+
         $role = Role::create($request->all());
 
         $role->permissions()->sync($request->permissions);

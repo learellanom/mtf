@@ -101,9 +101,15 @@
                                 <div class="card-header">   
                                     <h3 class="card-title text-uppercase font-weight-bold">Filtros Wallet</h3>
                                 </div>
-                                <div class="card-body">    
+                                <div class="card-body">  
+                                    
+                                        <div class="row justify-content-center text-center align-items-center mt-4 mb-4"> 
+                                            <input type="checkbox" id="all_wallets" name="all_wallets" value="1">
+                                            <label for="all_wallets" style="margin-top: 0.4rem; margin-left: 0.4rem;">Todas las Cajas</label><br>
+                                        </div>                                
+                                         
                                     <div class="row justify-content-center text-center align-items-center">
-                                        <select multiple="multiple" id="my-select" name="my-select[]">
+                                        <select multiple="multiple" id="myselect" name="myselect[]" readonly>
                                         </select>
                                     </div>     
                                     <br>
@@ -126,8 +132,14 @@
                                     <h3 class="card-title text-uppercase font-weight-bold">Filtros Grupos</h3>
                                 </div>
                                 <div class="card-body">    
+
+                                    <div class="row justify-content-center text-center align-items-center mt-4 mb-4"> 
+                                        <input type="checkbox" id="all_groups" name="all_groups" value="1">
+                                        <label for="all_groups" style="margin-top: 0.4rem; margin-left: 0.4rem;">Todos los Grupos</label><br>
+
+                                    </div>
                                     <div class="row justify-content-center text-center align-items-center">
-                                        <select multiple="multiple" id="my-select2" name="my-select2[]">
+                                        <select multiple="multiple" id="myselect2" name="myselect2[]">
                                         </select>   
                                     </div>     
                                     <br>
@@ -163,10 +175,13 @@
          InicializaMultiselects();
          cargaGrupos();
          cargaWallets();
+         inicializaFiltroWalllets();
+
      });
 
      function InicializaMultiselects(){
-        $('#my-select').multiSelect({
+        $('#myselect').multiSelect({
+            disabledClass: 'diabled',
             selectableHeader: `<div class='custom-header' style='background-color: black; color:white'>
                                     Por asignar    
                                     <br><br> 
@@ -184,7 +199,7 @@
                                 </div>`
         });
 
-        $('#my-select2').multiSelect({
+        $('#myselect2').multiSelect({
             selectableHeader:  `<div class='custom-header' style='background-color: black; color:white'>
                                     Por Asignar
                                     <br>
@@ -205,7 +220,7 @@
 
 
         $('#myButtonLimpiar').on('click', function (){
-            $('#my-select').multiSelect('deselect_all');
+            $('#myselect').multiSelect('deselect_all');
             
         });
 
@@ -217,7 +232,7 @@
                 }
             });
 
-            $("#my-select option:selected").each(function(){
+            $("#myselect option:selected").each(function(){
                 
                 seleccionado = $(this).attr('value');
 
@@ -248,7 +263,7 @@
 
 
         $('#myButtonLimpiar2').on('click', function (){
-            $('#my-select2').multiSelect('deselect_all');
+            $('#myselect2').multiSelect('deselect_all');
         });
 
         $('#myButtonAplicar2').on('click', function (){
@@ -259,7 +274,7 @@
                 }
             });     
 
-            $("#my-select2 option:selected").each(function(){
+            $("#myselect2 option:selected").each(function(){
                 
                 seleccionado = $(this).attr('value');
                 // alert(" seleccionado : " + seleccionado); 
@@ -308,7 +323,7 @@
     function cargaWallets(){
         @foreach($wallet as $key => $wallet2)
             // console.log('el grupo con key {!! $key !!} es {!! $wallet2 !!}');
-            $('#my-select').multiSelect('addOption', { value: '{!! $key !!}', text: '{!! $wallet2 !!}' });
+            $('#myselect').multiSelect('addOption', { value: '{!! $key !!}', text: '{!! $wallet2 !!}' });
                 
         @endforeach
     }
@@ -360,7 +375,7 @@
 
         myData2.map( function (valor) {
 
-            $("#my-select option").each(function(){
+            $("#myselect option").each(function(){
                  if (valor == $(this).attr('value')){
                     $('#my-select').multiSelect('select', valor.toString());
 
@@ -403,7 +418,7 @@
 
         return;
 
-        let myDataWallet    = buscaFiltrosWallet('my-select');
+        let myDataWallet    = buscaFiltrosWallet('myselect');
         let myDataGroup     = buscaFiltrosGroup('my-select2');
 
         $.ajax(
@@ -424,8 +439,13 @@
 
         });
         return;
-    }     
+    }
 
+    function inicializaFiltroWalllets(){
+        $("#all_wallets").prop("checked",true);
+        $("#all_groups").prop("checked",true);
+        $("#myselect").prop("enable",false);
+    }
 
 </script>
 @endsection
