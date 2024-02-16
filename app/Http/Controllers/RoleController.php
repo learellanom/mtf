@@ -8,7 +8,8 @@ use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use Illuminate\Support\Facades\Redirect;
 
-use App\Http\Models\Group_role;
+use App\Models\Group_role;
+
 
 class RoleController extends Controller
 {
@@ -43,24 +44,73 @@ class RoleController extends Controller
     public function store(Request $request)
     {
 
-        // leam
-        print_r($request->myselect,false);
-        die();
-
-
-        foreach($request->myselect as $myselect){
-            
-            $Group_role = new Group_role;
-
-            $Group_role->
-
-            $Group_role->save();
-        }        
-
 
         $role = Role::create($request->all());
 
         $role->permissions()->sync($request->permissions);
+
+        // leam
+        // print_r($request->myselect,false);
+
+        $delete = Group_role::where('role_id', '=', $role->role_id)->delete();
+
+        if (!$request->myselect){
+           // echo "todas las cajas con el role id ->" . $role->id; 
+            
+            $Group_role                 = new Group_role;
+
+            $Group_role->role_id        = $role->id;
+            $Group_role->all_wallets    = '1';
+            $Group_role->all_groups     = '0';
+
+            $Group_role->save();
+
+        }else{
+
+            foreach($request->myselect as $myselect){
+
+                // echo "Cada caja -> $myselect con role_id -> $role->id"; 
+
+                $Group_role                 = new Group_role;
+
+                $Group_role->role_id        = $role->id;
+                $Group_role->group_id       = $myselect;
+                $Group_role->all_wallets    = '0';
+                $Group_role->all_groups     = '0';
+
+                $Group_role->save();
+            }        
+        }
+
+        if (!$request->myselect2){
+            // echo "todas los grupos con el role id ->" . $role->id; 
+            
+            $Group_role                 = new Group_role;
+            $Group_role->role_id        = $role->id;
+            $Group_role->all_wallets    = '0';            
+            $Group_role->all_groups     = '1';
+            
+
+            $Group_role->save();
+
+        }else{
+
+            foreach($request->myselect2 as $myselect){
+
+                // echo "Cada grupo -> $myselect con role_id -> $role->id"; 
+
+                $Group_role                 = new Group_role;
+
+                $Group_role->role_id        = $role->id;
+                $Group_role->group_id       = $myselect;
+                $Group_role->all_wallets    = '0';
+                $Group_role->all_groups     = '0';
+
+                $Group_role->save();
+            }        
+        }
+
+        // die();
 
         flash()->addSuccess('Nuevo role creado con exito.', 'Roles', ['timeOut' => 3000]);
 
@@ -83,7 +133,15 @@ class RoleController extends Controller
         $roles = Role::find($role);
         $permisos = Permission::all();
 
-        return view('roles.edit', compact('roles', 'permisos'));
+        $wallet                     = app(statisticsController::class)->getWallet();
+        $group                      = app(statisticsController::class)->getGroups();
+
+        $parametros['wallet']       = $wallet;
+        $parametros['group']        = $group;
+        $parametros['roles']        = $roles;
+        $parametros['permisos']     = $permisos;
+
+        return view('roles.edit', $parametros);
     }
 
     /**
@@ -116,4 +174,45 @@ class RoleController extends Controller
 
         return Redirect::route('roles.index')->with('destroy','ok');
     }
+
+    public function getRoleWallets (request $request){
+
+
+        $myRoleDesde = 0;
+        $myRoleHasta = 9999;
+        if ($request->role_id){
+            $myRoleDesde = $request->role_id;
+            $myRoleHasta = $request->role_id;
+        }
+
+        $myQuery =
+        "
+            select
+                group_roles.id                          as Id,
+                group_roles.role_id                     as RoleID,
+                roles.name                              as RoleName,
+                group_roles.group_id                    as GroupID,
+                groups.name                             ad GroupName,
+                groups.type                             ad GroupType,
+                group_roles.all_wallets                 as AllWallets,
+                group_roles.all_groups                  as AllGroups
+            from
+                mtf.group_roles
+                left join mtf.groups              on mtf.group_roles.group_id           = mtf.groups.id
+                left join mtf.roles               on mtf.group_roles.role_id            = mtf.roles.id
+            where
+                role_id                 between $myRoleDesde                and $myRoleHasta 
+            having
+                GroupType = 2
+            order by
+                groups_roles.role_id
+        ";
+        
+
+        $Group_roles = DB::select($myQuery);
+
+
+    }
+
+
 }

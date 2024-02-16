@@ -14,12 +14,12 @@ use Spatie\Permission\Traits\HasRoles;
 class Group_role extends Model
 {
     use HasFactory;
-    use \OwenIt\Auditing\Auditable;
+    // use \OwenIt\Auditing\Auditable;
     use Notifiable, HasRoles;
 
     protected $guarded = ['id', 'created_at', 'updated_at'];
 
-    //Relación uno a muchos
+    //Relación uno a muchos 
     public function role(){
         return $this->belongsTo(role::class, 'role_id');
     }

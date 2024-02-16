@@ -99,7 +99,7 @@
                         <div class="row card-deck mt-4 justify-content-center">
                             <div class="card mb-4 col-12 col-sm-6">
                                 <div class="card-header">   
-                                    <h3 class="card-title text-uppercase font-weight-bold">Filtros Wallet</h3>
+                                    <h3 class="card-title text-uppercase font-weight-bold">Wallet</h3>
                                 </div>
                                 <div class="card-body">  
                                     
@@ -114,6 +114,7 @@
                                     </div>     
                                     <br>
                                     <br>
+                                    {{--
                                     <div class="row justify-content-center text-center align-items-center">
                                         <div class="col-12 col-sm-3 mt-2">
                                             <button id="myButtonAplicar" type="button" class="btn btn-outline-primary btn-sm ">Aplicar</button>
@@ -122,6 +123,7 @@
                                             <button id="myButtonLimpiar" type="button" class="btn btn-outline-primary btn-sm ">Limpiar</button>
                                         </div>                    
                                     </div>
+                                    --}}
                                 </div>
                             </div>
                         </div>
@@ -129,7 +131,7 @@
                         <div class="row card-deck justify-content-center">
                             <div class="card mb-4 col-12 col-sm-6 lm-2">
                                 <div class="card-header">
-                                    <h3 class="card-title text-uppercase font-weight-bold">Filtros Grupos</h3>
+                                    <h3 class="card-title text-uppercase font-weight-bold">Grupos</h3>
                                 </div>
                                 <div class="card-body">    
 
@@ -144,6 +146,7 @@
                                     </div>     
                                     <br>
                                     <br>
+                                    {{--
                                     <div class="row justify-content-center text-center align-items-center">
                                         <div class="col-12 col-sm-3 mt-2">
                                             <button id="myButtonAplicar2" type="button" class="btn btn-outline-primary btn-sm ">Aplicar</button>
@@ -152,7 +155,7 @@
                                             <button id="myButtonLimpiar2" type="button" class="btn btn-outline-primary btn-sm ">Limpiar</button>                        
                                         </div>                
                                     </div>
-
+                                    --}}
                                 </div>
                             </div>
                         </div>
@@ -176,6 +179,47 @@
          cargaGrupos();
          cargaWallets();
          inicializaFiltroWalllets();
+
+         $('#all_wallets, #all_groups').on('click', function (){
+            
+            if ($('#all_wallets').prop('checked') ){
+                $('#myselect').multiSelect('deselect_all');
+                alert('aqui');
+            }
+            if ($('#all_groups').prop('checked') ){
+                $('#myselect2').multiSelect('deselect_all');
+            }
+
+        });
+
+        $('#myselect, #myselect2').on('change', function (){
+
+
+            let myCount;
+            myCount = 0;
+            $("#myselect option:selected").each(function(){
+                myCount++
+            });
+            if (myCount > 0){
+                $('#all_wallets').prop('checked',false);
+            }else{
+                $('#all_wallets').prop('checked',true);
+            }
+
+            myCount = 0;
+            $("#myselect2 option:selected").each(function(){
+                myCount++
+            });
+            if (myCount > 0){
+                $('#all_groups').prop('checked',false);
+            }else{
+                $('#all_groups').prop('checked',true);
+            }
+
+
+        });
+
+
 
      });
 
@@ -312,7 +356,7 @@
 
         @foreach($group as $key => $group2)
             // console.log('el grupo con key {!! $key !!} es {!! $group2 !!}');
-            $('#my-select2').multiSelect('addOption', { value: '{!! $key !!}', text: '{!! $group2 !!}' });
+            $('#myselect2').multiSelect('addOption', { value: '{!! $key !!}', text: '{!! $group2 !!}' });
             
 
         @endforeach
@@ -419,7 +463,7 @@
         return;
 
         let myDataWallet    = buscaFiltrosWallet('myselect');
-        let myDataGroup     = buscaFiltrosGroup('my-select2');
+        let myDataGroup     = buscaFiltrosGroup('myselect2');
 
         $.ajax(
             {
