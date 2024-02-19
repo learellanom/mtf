@@ -6,10 +6,13 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
+
 use Illuminate\Support\Facades\Redirect;
 
 use App\Models\Group_role;
+use App\Models\User;
 
+use Illuminate\Support\Facades\DB;
 
 class RoleController extends Controller
 {
@@ -130,8 +133,8 @@ class RoleController extends Controller
      */
     public function edit($role)
     {
-        $roles = Role::find($role);
-        $permisos = Permission::all();
+        $roles      = Role::find($role);
+        $permisos   = Permission::all();
 
         $wallet                     = app(statisticsController::class)->getWallet();
         $group                      = app(statisticsController::class)->getGroups();
@@ -157,6 +160,70 @@ class RoleController extends Controller
         $roles = Role::find($role);
         $roles->permissions()->sync($request->permissions);
 
+
+        //dd($request->myselect);
+        // dd($roles->id);
+
+        $delete = Group_role::where('role_id', '=', $roles->id)->delete();
+
+        if (!$request->myselect){
+           // echo "todas las cajas con el role id ->" . $role->id; 
+            
+            $Group_role                 = new Group_role;
+
+            $Group_role->role_id        = $roles->id;
+            $Group_role->all_wallets    = '1';
+            $Group_role->all_groups     = '0';
+
+            $Group_role->save();
+
+        }else{
+
+            foreach($request->myselect as $myselect){
+
+                // echo "Cada caja -> $myselect con role_id -> $role->id"; 
+
+                $Group_role                 = new Group_role;
+
+                $Group_role->role_id        = $roles->id;
+                $Group_role->group_id       = $myselect;
+                $Group_role->all_wallets    = '0';
+                $Group_role->all_groups     = '0';
+
+                $Group_role->save();
+            }        
+        }
+
+        if (!$request->myselect2){
+            // echo "todas los grupos con el role id ->" . $role->id; 
+            
+            $Group_role                 = new Group_role;
+            $Group_role->role_id        = $roles->id;
+            $Group_role->all_wallets    = '0';            
+            $Group_role->all_groups     = '1';
+            
+
+            $Group_role->save();
+
+        }else{
+
+            foreach($request->myselect2 as $myselect){
+
+                // echo "Cada grupo -> $myselect con role_id -> $role->id"; 
+
+                $Group_role                 = new Group_role;
+
+                $Group_role->role_id        = $roles->id;
+                $Group_role->group_id       = $myselect;
+                $Group_role->all_wallets    = '0';
+                $Group_role->all_groups     = '0';
+
+                $Group_role->save();
+            }        
+        }
+
+
+
         flash()->addInfo('Role modificado..', 'Roles', ['timeOut' => 3000]);
 
         return Redirect::route('roles.index')->with('update', 'ok');
@@ -175,44 +242,246 @@ class RoleController extends Controller
         return Redirect::route('roles.index')->with('destroy','ok');
     }
 
-    public function getRoleWallets (request $request){
+    public function getRoleWallets ( $theUserId = 0){
 
+        $wallets            = array();
+        $groups             = array();
 
-        $myRoleDesde = 0;
-        $myRoleHasta = 9999;
-        if ($request->role_id){
-            $myRoleDesde = $request->role_id;
-            $myRoleHasta = $request->role_id;
-        }
+        $myUserId           = $theUserId;
+        // $myUserId           = 2;
 
-        $myQuery =
-        "
-            select
-                group_roles.id                          as Id,
-                group_roles.role_id                     as RoleID,
-                roles.name                              as RoleName,
-                group_roles.group_id                    as GroupID,
-                groups.name                             ad GroupName,
-                groups.type                             ad GroupType,
-                group_roles.all_wallets                 as AllWallets,
-                group_roles.all_groups                  as AllGroups
-            from
-                mtf.group_roles
-                left join mtf.groups              on mtf.group_roles.group_id           = mtf.groups.id
-                left join mtf.roles               on mtf.group_roles.role_id            = mtf.roles.id
-            where
-                role_id                 between $myRoleDesde                and $myRoleHasta 
-            having
-                GroupType = 2
-            order by
-                groups_roles.role_id
-        ";
+       // $Type_coin_balance                  = model_has_role::pluck('name', 'id')->toArray();
+
+        // dd($myUserId);
+
+        $userole2 = User::select('users.id', 'users.name', 'model_has_roles.role_id')
+                ->join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
+                ->join('roles', 'roles.id', '=', 'model_has_roles.role_id')
+                ->where('users.id', '=', $myUserId)
+                ->get();
+
         
 
-        $Group_roles = DB::select($myQuery);
+        $userole = array();
+        foreach($userole2 as $user){
+            $myUserName         = $user->name;
+            $userole [] =  $user->role_id;
+        }
 
 
+        $myUserRoles        = $userole;
+        
+        if (count($myUserRoles) == 0) { return ;}
+
+        // dd($myUserRoles);
+        $all_wallets    = 0;
+        $all_groups     = 0;
+
+        foreach($myUserRoles as $role){
+            
+            //     if($roles->name == 'Administrador' || $roles->name == 'Supervisor'){        
+            //         dd($roles->id . ' ' . $roles->name);
+            //          return true;
+            //     }
+            //  }
+
+
+            $myRoleDesde = 0;
+            $myRoleHasta = 9999;
+            // if ($request->role_id){
+            //     $myRoleDesde = $request->role_id;
+            //     $myRoleHasta = $request->role_id;
+            // }
+
+            $myRoleDesde = $role;
+            $myRoleHasta = $role;
+
+            // $myRoleDesde = 38;
+            // $myRoleHasta = 38;
+
+
+
+            $myQuery =
+            "
+                select
+                    group_roles.id                          as Id,
+                    group_roles.role_id                     as RoleID,
+                    roles.name                              as RoleName,
+                    group_roles.group_id                    as GroupID,
+                    groups.name                             as GroupName,
+                    groups.type                             as GroupType,
+                    group_roles.all_wallets                 as AllWallets,
+                    group_roles.all_groups                  as AllGroups
+                from
+                    mtf.group_roles
+                    left join mtf.groups              on mtf.group_roles.group_id           = mtf.groups.id
+                    left join mtf.roles               on mtf.group_roles.role_id            = mtf.roles.id
+                where
+                    role_id                 between $myRoleDesde                and $myRoleHasta 
+                    and all_wallets = '1'
+            ";
+            
+
+            $Group_roles = DB::select($myQuery);
+
+
+
+            if (count($Group_roles) > 0) {
+                $all_wallets = 1;
+            }
+
+
+            // busca todos los grupos
+
+
+            $myQuery =
+            "
+                select
+                    group_roles.id                          as Id,
+                    group_roles.role_id                     as RoleID,
+                    roles.name                              as RoleName,
+                    group_roles.group_id                    as GroupID,
+                    groups.name                             as GroupName,
+                    groups.type                             as GroupType,
+                    group_roles.all_wallets                 as AllWallets,
+                    group_roles.all_groups                  as AllGroups
+                from
+                    mtf.group_roles
+                    left join mtf.groups              on mtf.group_roles.group_id           = mtf.groups.id
+                    left join mtf.roles               on mtf.group_roles.role_id            = mtf.roles.id
+                where
+                    role_id                 between $myRoleDesde                and $myRoleHasta 
+                    and all_groups = '1'
+            ";
+            
+
+            $Group_roles = DB::select($myQuery);
+
+            if (count($Group_roles) > 0) {
+                $all_groups = 1;
+            }
+
+
+
+
+
+            // dd(' all groups -> ' . $all_groups);
+
+
+            $myQuery =
+            "
+                select
+                    group_roles.id                          as Id,
+                    group_roles.role_id                     as RoleID,
+                    roles.name                              as RoleName,
+                    group_roles.group_id                    as GroupID,
+                    groups.name                             as GroupName,
+                    groups.type                             as GroupType,
+                    group_roles.all_wallets                 as AllWallets,
+                    group_roles.all_groups                  as AllGroups
+                from
+                    mtf.group_roles
+                    left join mtf.groups              on mtf.group_roles.group_id           = mtf.groups.id
+                    left join mtf.roles               on mtf.group_roles.role_id            = mtf.roles.id
+                where
+                    role_id                 between $myRoleDesde                and $myRoleHasta 
+                having
+                    GroupType = 2
+                order by
+                    RoleID
+            ";
+            
+
+            $Group_roles = DB::select($myQuery);
+            // dd($Group_roles);
+            
+            foreach($Group_roles as $item){
+                $wallets[] = $item->GroupID;
+            }
+            // dd('wallets ->'. count($wallets));
+
+            $myQuery =
+            "
+                select
+                    group_roles.id                          as Id,
+                    group_roles.role_id                     as RoleID,
+                    roles.name                              as RoleName,
+                    group_roles.group_id                    as GroupID,
+                    groups.name                             as GroupName,
+                    groups.type                             as GroupType,
+                    group_roles.all_wallets                 as AllWallets,
+                    group_roles.all_groups                  as AllGroups
+                from
+                    mtf.group_roles
+                    left join mtf.groups              on mtf.group_roles.group_id           = mtf.groups.id
+                    left join mtf.roles               on mtf.group_roles.role_id            = mtf.roles.id
+                where
+                    role_id                 between $myRoleDesde                and $myRoleHasta 
+                having
+                    GroupType = 1
+                order by
+                    RoleID
+            ";
+            
+
+            $Group_roles = DB::select($myQuery);
+
+            foreach($Group_roles as $item){
+                $groups[] = $item->GroupID;
+            }
+            \Log::info('leam - ***************');
+            \Log::info('leam - Role id      -> ' . $role);
+            \Log::info('leam - Role desde   -> ' . $myRoleDesde);
+            \Log::info('leam - Role Hasta   -> ' . $myRoleHasta);
+            \Log::info('leam - all_wallets  -> ' . $all_wallets);
+            \Log::info('leam - all_groups   -> ' . $all_groups);
+            \Log::info('leam - wallets      -> ' . print_r($wallets,true));
+            \Log::info('leam - groups       -> ' . print_r($groups,true));
+
+
+        }
+
+        sort($wallets);
+        sort($groups);
+
+
+        if(count($wallets) > 0)  $all_wallets = 0;
+        if(count($groups) > 0)   $all_groups = 0;
+
+        // dd("pasa con wallets -> " . print_r($wallets) . " los grupos -> " . print_r($groups));
+        //echo print_r($wallets);
+        //echo print_r($groups);
+        \Log::info('leam - fin');
+        \Log::info('leam - user id      -> ' . $myUserId);
+        \Log::info('leam - all_wallets  -> ' . $all_wallets);
+        \Log::info('leam - all_groups   -> ' . $all_groups);
+        \Log::info('leam - wallets      -> ' . print_r($wallets,true));
+        \Log::info('leam - groups       -> ' . print_r($groups,true));
+        \Log::info('leam - myUserRoles  -> ' . count($myUserRoles));
+
+        //$myWallets  = json_encode($wallets);
+        //$myGroups   = json_encode($groups);
+
+
+        $myObject  = new \stdClass();
+            
+        $myObject->userId       = $myUserId;
+        $myObject->userName     = $myUserName;
+        $myObject->userRoles    = $myUserRoles;
+        $myObject->allWallets   = $all_wallets;
+        $myObject->allGroups    = $all_groups;
+        $myObject->wallets      = $wallets;
+        $myObject->groups       = $groups;
+        
+        // dd($myObject);
+        // dd(json_encode($myObject));
+
+        \Log::info('leam - myObject ->' . print_r($myObject,true));
+
+        // die();
+        return $myObject;
     }
 
 
 }
+

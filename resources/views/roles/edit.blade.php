@@ -153,7 +153,20 @@
 @endsection
 @section('js')
 <script>
-    
+
+    @php
+        use App\Http\Controllers\RoleController;
+
+
+        $myUserId = Auth()->User()->id;
+        // dd($myUserId);
+
+        $Group_roles = app(RoleController::class)->getRoleWallets($myUserId);
+
+        // dd($Group_roles);
+        //dd($roles->id);
+    @endphp
+
      $(document).ready(function () {
          $('#myTable2').DataTable({
             "pageLength": 100
@@ -162,6 +175,48 @@
          InicializaMultiselects();
          cargaGrupos();
          cargaWallets();
+         leeGrupos();
+
+         $('#all_wallets, #all_groups').on('click', function (){
+            
+            if ($('#all_wallets').prop('checked') ){
+                $('#myselect').multiSelect('deselect_all');
+                // alert('aqui');
+            }
+            if ($('#all_groups').prop('checked') ){
+                $('#myselect2').multiSelect('deselect_all');
+            }
+
+        });
+
+        $('#myselect, #myselect2').on('change', function (){
+
+
+            let myCount;
+            myCount = 0;
+            $("#myselect option:selected").each(function(){
+                myCount++
+            });
+            if (myCount > 0){
+                $('#all_wallets').prop('checked',false);
+            }else{
+                $('#all_wallets').prop('checked',true);
+            }
+
+            myCount = 0;
+            $("#myselect2 option:selected").each(function(){
+                myCount++
+            });
+            if (myCount > 0){
+                $('#all_groups').prop('checked',false);
+            }else{
+                $('#all_groups').prop('checked',true);
+            }
+
+
+        });
+
+
 
      });
 
@@ -229,6 +284,51 @@
                 
         @endforeach
     }
+
+    function leeGrupos(){
+        
+        let allWallets  = ({{$Group_roles->allWallets}})    ? {{$Group_roles->allWallets}} : "0";
+        let allGroups   = ({{$Group_roles->allGroups}})     ? {{$Group_roles->allGroups}} : "0";
+
+        if (allWallets == "1") {
+            
+            $('#all_wallets').prop('checked',true);
+        }else{
+        
+            $('#all_wallets').prop('checked',false);
+
+
+
+            @foreach($Group_roles->wallets as $myWallets)
+                $("#myselect option").each(function(){
+                    console.log( 'leam - el valor -> ' +  $(this).val() + ' mi valor -> ' + {{ $myWallets }});
+                    if($(this).val() == {{ $myWallets }}){
+                        console.log('leam - encontro');
+                        $('#myselect').multiSelect('select', $(this).val());
+                    }
+                }); 
+            @endforeach
+             
+        }
+
+
+        if (allGroups == "1") {
+            $('#all_groups').prop('checked',true);
+        }else{
+            $('#all_groups').prop('checked',false);
+            @foreach($Group_roles->groups as $myGroups)
+                $("#myselect2 option").each(function(){
+                    if($(this).val() == {{ $myGroups }}){
+                        $('#myselect2').multiSelect('select', $(this).val());
+
+                    }
+                }); 
+            @endforeach
+        }
+
+    }
+
+
 
 </script>
 @endsection

@@ -179,12 +179,30 @@
          cargaGrupos();
          cargaWallets();
          inicializaFiltroWalllets();
+         @php
+          //  $usuario = auth()->user()->id;
+            
 
+
+            // dd(auth()->user()->roles);
+
+        //  foreach(auth()->user()->roles as $roles)
+        //  {
+        //     if($roles->name == 'Administrador' || $roles->name == 'Supervisor'){        
+        //         dd($roles->id . ' ' . $roles->name);
+        //          return true;
+        //     }
+        //  }
+
+        //    dd($usuario) ;
+
+
+        @endphp
          $('#all_wallets, #all_groups').on('click', function (){
             
             if ($('#all_wallets').prop('checked') ){
                 $('#myselect').multiSelect('deselect_all');
-                alert('aqui');
+                // alert('aqui');
             }
             if ($('#all_groups').prop('checked') ){
                 $('#myselect2').multiSelect('deselect_all');
