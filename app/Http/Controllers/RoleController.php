@@ -247,7 +247,11 @@ class RoleController extends Controller
         $wallets            = array();
         $groups             = array();
 
-        $myUserId           = $theUserId;
+        // if ($theUserId == 0) {
+        //     $myUserId           = Auth()->User()->id;
+        // }else{
+            $myUserId           = $theUserId;
+        //}
         // $myUserId           = 2;
 
        // $Type_coin_balance                  = model_has_role::pluck('name', 'id')->toArray();
