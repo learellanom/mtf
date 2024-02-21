@@ -44,7 +44,11 @@ class statisticsController extends Controller
 
     public function __construct() 
     {
-        $this->myTest = $this->getGroupRole();
+        
+        $myId = auth()->id();
+        $this->myTest = $this->getGroupRole($myId);
+        \Log::info('leam - controller busco -> ' . print_r($this->myTest,true));
+        \Log::info('leam - controller busco Id  -> ' . print_r($myId,true));
     }
     public function getCredits(){
 
@@ -293,9 +297,6 @@ class statisticsController extends Controller
 
         if ($myGroup > 0){
 
-            // $balance            = $this->getBalance($myGroup);
-            // $balanceBefore      = $this->getBalanceBefore($myGroup,$myFechaDesde, $myFechaHasta);
-
             $balance            = $this->getBalance($myGroup, "2001-01-01" , "9999-12-31" ,$myCoin);
             $balanceBefore      = $this->getBalanceBefore($myGroup,$myFechaDesde, $myFechaHasta, $myCoin);
 
@@ -304,14 +305,6 @@ class statisticsController extends Controller
         {
             if ($myWallet > 0){
                 
-                // LEAM
-                \Log::info('leam - balance 2 *************************** ');
-                $balance2        = $this->getBalanceWallet2($myWallet, "2001-01-01" , "9999-12-31" ,$myCoin);
-                $balanceBefore2  = $this->getBalanceWalletBefore($myWallet,$myFechaDesde, $myFechaHasta, $myCoin);
-
-                //$balance        = $this->getBalanceWallet($myWallet);
-                //$balanceBefore  = $this->getBalanceWalletBefore($myWallet,$myFechaDesde, $myFechaHasta);
-
                 $balance        = $this->getBalanceWallet($myWallet, "2001-01-01", "9999-12-31", $myCoin);
                 $balanceBefore  = $this->getBalanceWalletBefore($myWallet,$myFechaDesde, $myFechaHasta, $myCoin);
 
@@ -345,6 +338,13 @@ class statisticsController extends Controller
         
         $myLimitCondition   = "limit 1000";
 
+
+        
+        \Log::info('leam - el user id es -> ' . $request->user()->id);
+        $Group_roles = app(RoleController::class)->getRoleWallets($request->user()->id);
+        \Log::info('leam - el user id es -> ' . print_r($Group_roles,true));
+
+
         //if ($myWallet == 0 and $myGroup == 0) {
         //    $myLimit            = 1000;
         //    $myLimitDesde       = 0;
@@ -369,35 +369,36 @@ class statisticsController extends Controller
             }
         }
         */
-        /*
-        \Log::info('leam usuario desde       ***    -> ' . $myUserDesde);
-        \Log::info('leam usuario hasta       ***    -> ' . $myUserHasta);
+        
+        //\Log::info('leam usuario desde       ***    -> ' . $myUserDesde);
+        //\Log::info('leam usuario hasta       ***    -> ' . $myUserHasta);
 
-        \Log::info('leam wallet desde        ***    -> ' . $myWalletDesde);
-        \Log::info('leam wallet hasta        ***    -> ' . $myWalletHasta);        
+        // \Log::info('leam wallet desde   44444     ***    -> ' . $myWallet);
+        //\Log::info('leam wallet desde        ***    -> ' . $myWalletDesde);
+        //\Log::info('leam wallet hasta        ***    -> ' . $myWalletHasta);        
 
-        \Log::info('leam myGroup             ***    -> ' . $myGroup);        
-        \Log::info('leam group  desde        ***    -> ' . $myGroupDesde);
-        \Log::info('leam group  Hasta        ***    -> ' . $myGroupHasta);     
+        //\Log::info('leam myGroup             ***    -> ' . $myGroup);        
+        //\Log::info('leam group  desde        ***    -> ' . $myGroupDesde);
+        //\Log::info('leam group  Hasta        ***    -> ' . $myGroupHasta);     
 
-        \Log::info('leam transaction         ***    -> ' . $myTypeTransactions);
-        \Log::info('leam transaction  desde  ***    -> ' . $myTypeTransactionsDesde);
-        \Log::info('leam transaction  Hasta  ***    -> ' . $myTypeTransactionsHasta);              
+        //\Log::info('leam transaction         ***    -> ' . $myTypeTransactions);
+        //\Log::info('leam transaction  desde  ***    -> ' . $myTypeTransactionsDesde);
+        //\Log::info('leam transaction  Hasta  ***    -> ' . $myTypeTransactionsHasta);              
         
 
-        \Log::info('leam token desde         ***    -> ' . $myTokenDesde);
-        \Log::info('leam token hasta         ***    -> ' . $myTokenHasta);
+        // \Log::info('leam token desde         ***    -> ' . $myTokenDesde);
+        // \Log::info('leam token hasta         ***    -> ' . $myTokenHasta);
         
-        \Log::info('leam fecha desde         ***    -> ' . $myFechaDesde);
-        \Log::info('leam fecha hasta         ***    -> ' . $myFechaHasta);
+        // \Log::info('leam fecha desde         ***    -> ' . $myFechaDesde);
+        // \Log::info('leam fecha hasta         ***    -> ' . $myFechaHasta);
         
-        \Log::info('leam fecha desde request ***    -> ' . $request->fechaDesde);
-        \Log::info('leam fecha hasta request ***    -> ' . $request->fechaHasta);
+        // \Log::info('leam fecha desde request ***    -> ' . $request->fechaDesde);
+        // \Log::info('leam fecha hasta request ***    -> ' . $request->fechaHasta);
         
-        \Log::info('leam Lmit                ***    -> ' . $myLimit);
+        // \Log::info('leam Lmit                ***    -> ' . $myLimit);
 
-        \Log::info('leam - pasa sin  grupo');
-        */
+        // \Log::info('leam - pasa sin  grupo');
+        
         $busquedaGroup  = "";
         $busquedaWallet = "";
         
@@ -414,9 +415,25 @@ class statisticsController extends Controller
             $busquedaGroup = " and group_id between $myGroupDesde and $myGroupHasta ";
             $busquedaWallet  = " and wallet_id between $myWalletDesde and $myWalletHasta ";
         }
-
-     
-
+        
+        $busquedaGroupFilter      = "";
+        $busquedaWalletFilter     = "";
+        if ($myGroup != 0){
+            if($Group_roles->allGroups == 0){
+                $theGroups              = implode(",",$Group_roles->groups );
+                $busquedaGroupFilter    = " and group_id in ($theGroups)";
+            }
+        }
+        if ($myWallet != 0){
+            if($Group_roles->allWallets == 0){
+                $theWallets             = implode(",", $Group_roles->wallets);
+                $busquedaWalletFilter   = " and wallet_id in ($theWallets)";
+            }
+        }
+    
+        \Log::info("leam - busquedaGroupFilter -> $busquedaGroupFilter ");
+        \Log::info("leam - busquedaWalletFilter -> $busquedaWalletFilter ");
+        
         $myQuery =
         "
             select
@@ -463,13 +480,15 @@ class statisticsController extends Controller
                 $busquedaWallet 
                 $busquedaGroup 
                 $myTokenCondition
+                $busquedaWalletFilter
+                $busquedaGroupFilter
             order by
                 Transactions.transaction_date desc
             $myLimitCondition
         ";
         
         // return $myQuery;
-       //  \Log::info('leam - myQuery indexall2 ->' . $myQuery);
+         \Log::info('leam - myQuery indexall2 ->' . $myQuery);
 
         $Transacciones = DB::select($myQuery);
         
@@ -484,9 +503,6 @@ class statisticsController extends Controller
         $group              = $this->getGroups();
         $typeTransactions   = $this->getTypeTransactions();
 
-        \Log::info('leam - el user id es -> ' . $request->user()->id);
-        $Group_roles = app(RoleController::class)->getRoleWallets($request->user()->id);
-        \Log::info('leam - el user id es -> ' . print_r($Group_roles,true));
 
         switch ($Group_roles->allWallets){
             case 1:
@@ -499,11 +515,67 @@ class statisticsController extends Controller
                 break;
 
         }
-
-        \Log::info('leam - wallets2 -> ' . print_r($wallet2,true));
         // $wallet2 = Group::where('type', '=', '2')->whereBetween('id', [0, 9999])->whereIn('id',[89,445])->pluck('name', 'id')->toArray();
+        $wallet = $wallet2;
+        switch ($Group_roles->allGroups){
+            case 1:
+                // \Log::info('leam - all groups -> ');
+                $group2 = Group::where('type', '=', '1')->whereBetween('id', [0, 9999])->pluck('name', 'id')->toArray();
+                break;
+            case 0:
+                // \Log::info('leam - algunos groups -> ');
+                $group2 = Group::where('type', '=', '1')->whereBetween('id', [0, 9999])->whereIn('id', $Group_roles->groups)->pluck('name', 'id')->toArray();
+                
 
 
+                break;
+        }
+         $group = $group2;
+        // \Log::info('leam - wallet2 -> ' . print_r($wallet2,true));
+        // \Log::info('leam - group2 -> ' . print_r($group2,true));
+
+
+        if ($Group_roles->allGroups == 0){
+            if ($myWallet == 0){
+                $existGroup = 0;
+                foreach($Group_roles->groups as  $value){
+                    // \Log::info("leam - key -> $value y el mygroup -> $myGroup");
+                    if ($value == $myGroup){
+                        $existGroup = 1;
+                    }
+                }
+                // \Log::info("leam -  - existgroup $existGroup es " );
+
+                // \Log::info("leam -  - array keys es " . print_r(array_keys($Group_roles->groups, true)));
+
+
+                if ($existGroup == 0 ){
+                    $balance        = 0;
+                    $balanceBefore  = 0;
+                }
+            }
+        }
+
+        if ($Group_roles->allWallets == 0){
+            if ($myWallet !=  0){
+            $existWallet = 0;
+            foreach($Group_roles->wallets as  $value){
+                // \Log::info("leam - key -> $value y el myWallet -> $myWallet");
+                if ($value == $myWallet){
+                    $existWallet = 1;
+                }
+            }
+            // \Log::info("leam -  - existgroup $existGroup es " );
+
+            // \Log::info("leam -  - array keys es " . print_r(array_keys($Group_roles->groups, true)));
+
+
+            if ($existWallet == 0 ){
+                $balance        = 0;
+                $balanceBefore  = 0;
+            }
+            }
+        }
 
 
         if ($myFechaDesde === "2001-01-01"){
@@ -6201,7 +6273,7 @@ class statisticsController extends Controller
     }
 
 
-     function getGroupRole(){
+     function getGroupRole( $myId = 0){
 
     
 
@@ -6211,7 +6283,7 @@ class statisticsController extends Controller
         // $myUserId = Auth::User()->id;
         // dd($myUserId);
 
-        $Group_roles = app(RoleController::class)->getRoleWallets();
+        $Group_roles = app(RoleController::class)->getRoleWallets($myId);
 
         // dd($Group_roles);
         //dd($roles->id);

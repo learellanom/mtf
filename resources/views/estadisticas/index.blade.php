@@ -499,6 +499,8 @@ if (isset($balance->Total)){
      
     // alert ('myTotal ->' +);
     // console.log(miCliente);
+    
+    // console.log(miWallet);
 
     // alert('miCLiente -> ' + miCliente);
     // alert('miUser    -> ' + miUsuario);
