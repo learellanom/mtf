@@ -433,14 +433,14 @@ class RoleController extends Controller
             foreach($Group_roles as $item){
                 $groups[] = $item->GroupID;
             }
-            \Log::info('leam - ***************');
-            \Log::info('leam - Role id      -> ' . $role);
-            \Log::info('leam - Role desde   -> ' . $myRoleDesde);
-            \Log::info('leam - Role Hasta   -> ' . $myRoleHasta);
-            \Log::info('leam - all_wallets  -> ' . $all_wallets);
-            \Log::info('leam - all_groups   -> ' . $all_groups);
-            \Log::info('leam - wallets      -> ' . print_r($wallets,true));
-            \Log::info('leam - groups       -> ' . print_r($groups,true));
+            // \Log::info('leam - ***************');
+            // \Log::info('leam - Role id      -> ' . $role);
+            // \Log::info('leam - Role desde   -> ' . $myRoleDesde);
+            // \Log::info('leam - Role Hasta   -> ' . $myRoleHasta);
+            // \Log::info('leam - all_wallets  -> ' . $all_wallets);
+            // \Log::info('leam - all_groups   -> ' . $all_groups);
+            // \Log::info('leam - wallets      -> ' . print_r($wallets,true));
+            // \Log::info('leam - groups       -> ' . print_r($groups,true));
 
 
         }
@@ -455,13 +455,13 @@ class RoleController extends Controller
         // dd("pasa con wallets -> " . print_r($wallets) . " los grupos -> " . print_r($groups));
         //echo print_r($wallets);
         //echo print_r($groups);
-        \Log::info('leam - fin');
-        \Log::info('leam - user id      -> ' . $myUserId);
-        \Log::info('leam - all_wallets  -> ' . $all_wallets);
-        \Log::info('leam - all_groups   -> ' . $all_groups);
-        \Log::info('leam - wallets      -> ' . print_r($wallets,true));
-        \Log::info('leam - groups       -> ' . print_r($groups,true));
-        \Log::info('leam - myUserRoles  -> ' . count($myUserRoles));
+        // \Log::info('leam - fin');
+        // \Log::info('leam - user id      -> ' . $myUserId);
+        // \Log::info('leam - all_wallets  -> ' . $all_wallets);
+        // \Log::info('leam - all_groups   -> ' . $all_groups);
+        // \Log::info('leam - wallets      -> ' . print_r($wallets,true));
+        // \Log::info('leam - groups       -> ' . print_r($groups,true));
+        // \Log::info('leam - myUserRoles  -> ' . count($myUserRoles));
 
         //$myWallets  = json_encode($wallets);
         //$myGroups   = json_encode($groups);
@@ -480,7 +480,7 @@ class RoleController extends Controller
         // dd($myObject);
         // dd(json_encode($myObject));
 
-        \Log::info('leam - myObject ->' . print_r($myObject,true));
+        //\Log::info('leam - myObject ->' . print_r($myObject,true));
 
         // die();
         return $myObject;

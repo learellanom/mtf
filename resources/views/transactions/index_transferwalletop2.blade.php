@@ -42,7 +42,7 @@
                                     <th>Moneda</th>
                                     <th class="no-exportar">Agente</th>
                                     <th>Tipo de Movimiento</th>
-                                    <th style="width:10%;">Cajas <i class="fas fa-box"></i></th>
+                                    <th style="width:10%;">Cajas </th>
                                     @can('transactions.update_status')
                                         <th style="width:1%;">Activo/Anulado</th>
                                     @endcan
@@ -110,156 +110,152 @@
 <script>
     $(document).ready(function () {
         $('#table').DataTable( {
-
             language: {
-            "decimal": "",
-            "emptyTable": "No hay transacciones.",
-            "info": "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
-            "infoEmpty": "Mostrando 0 to 0 de 0 Entradas",
-            "infoFiltered": "(Filtrado de _MAX_ total entradas)",
-            "infoPostFix": "",
-            "thousands": ",",
-            "lengthMenu": "Mostrar _MENU_ Entradas",
-            "loadingRecords": "Cargando...",
-            "processing": "Procesando...",
-            "search": "Buscar:",
-            "zeroRecords": "Sin resultados encontrados",
-            "paginate": {
-                "first": "Primero",
-                "last": "Ultimo",
-                "next": "Siguiente",
-                "previous": "Anterior"
-            }
-        },
-        "order": [[ 1, 'desc' ]],
-        'dom' : 'Bfrtip',
-        'buttons':[
-            {
-                extend:  'excelHtml5',
-                exportOptions: {
-                  columns: ":not(.no-exportar)" //exportar toda columna que no tenga la clase no-exportar
-                },
-                text:    '<i class="fas fa-file-excel"></i>',
-                titleAttr: 'Exportar Excel',
-                className: 'btn btn-success',
-                "excelStyles": [
+                "decimal": "",
+                "emptyTable": "No hay transacciones.",
+                "info": "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
+                "infoEmpty": "Mostrando 0 to 0 de 0 Entradas",
+                "infoFiltered": "(Filtrado de _MAX_ total entradas)",
+                "infoPostFix": "",
+                "thousands": ",",
+                "lengthMenu": "Mostrar _MENU_ Entradas",
+                "loadingRecords": "Cargando...",
+                "processing": "Procesando...",
+                "search": "Buscar:",
+                "zeroRecords": "Sin resultados encontrados",
+                "paginate": {
+                    "first": "Primero",
+                    "last": "Ultimo",
+                    "next": "Siguiente",
+                    "previous": "Anterior"
+                }
+            },
+            "order": [[ 1, 'desc' ]],
+            'dom' : 'Bfrtip',
+            'buttons':[
                 {
-                    "template": ["title_medium", "gold_medium"]
-                },
-
-                {
-                    "cells": "2",
-                    "style": {
-                        "font": {
-                            "size": "18",
-                            "color": "FFFFFF"
+                    extend:  'excelHtml5',
+                    exportOptions: {
+                    columns: ":not(.no-exportar)" //exportar toda columna que no tenga la clase no-exportar
+                    },
+                    text:    '<i class="fas fa-file-excel"></i>',
+                    titleAttr: 'Exportar Excel',
+                    className: 'btn btn-success',
+                    "excelStyles": [
+                        {
+                            "template": ["title_medium", "gold_medium"]
                         },
-                        "fill": {
-                            "pattern": {
-                                "type": "solid",
-                                "color": "002B5B"
+
+                        {
+                            "cells": "2",
+                            "style": {
+                                "font": {
+                                    "size": "18",
+                                    "color": "FFFFFF"
+                                },
+                                "fill": {
+                                    "pattern": {
+                                        "type": "solid",
+                                        "color": "002B5B"
+                                    }
+                                },
+
+                            }
+                        },
+                        {
+                            "cells": "1",
+                            "style": {
+                                "font": {
+                                    "size": "20",
+                                    "color": "FFFFFF"
+                                },
+                                "fill": {
+                                    "pattern": {
+                                        "size": "25",
+                                        "type": "solid",
+                                        "color": "0B2447",
+                                    }
+                                }
                             }
                         },
 
-                    }
-                },
-                {
-                    "cells": "1",
-                    "style": {
-                        "font": {
-                            "size": "20",
-                            "color": "FFFFFF"
+                        {
+                            'cells': "sB",
+                            'template': "date_long",
                         },
-                        "fill": {
-                            "pattern": {
-                                "size": "25",
-                                "type": "solid",
-                                "color": "0B2447",
-                            }
+                        {
+                            "cells": "F",
+                            "width": "40",
+                            "style": {
+                                "numFmt": "#,##0;(#,##0)",
+                            },
+
+                        },
+                        {
+                            "cells": "A",
+                            "width": "25.86",
+                        },
+                        {
+                            "cells": "B",
+                            "width": "19",
+                        },
+                        {
+                            "cells": "C",
+                            "width": "21.71",
+                        },
+                        {
+                            "cells": "D",
+                            "width": "21",
+                        },
+                        {
+                            "cells": "E",
+                            "width": "31.43",
+                        },
+                        {
+                            "cells": "F",
+                            "width": "20",
+                        },
+                        {
+                            "cells": "G",
+                            "width": "24",
+                            "style": {
+                                "font": {                 // Style the font
+                                        "b": true,
+                                        },
+                            },
                         }
-                    }
+                    ]
                 },
-
-                    {
-                        'cells': "sB",
-                        'template': "date_long",
+                {
+                    extend:  'pdfHtml5',
+                    text:    '<i class="fas fa-file-pdf"></i>',
+                    orientation: 'landscape',
+                    title: 'MTF | TRANSACCIONES ENTRE CAJAS',
+                    titleAttr: 'Exportar PDF',
+                    className: 'btn btn-danger',
+                    exportOptions: {
+                        columns: ":not(.no-exportar)" //exportar toda columna que no tenga la clase no-exportar
                     },
-                    {
-                        "cells": "F",
-                        "width": "40",
-                        "style": {
-                            "numFmt": "#,##0;(#,##0)",
-                         },
-
-                    },
-                    {
-                        "cells": "A",
-                        "width": "25.86",
-                    },
-                    {
-                        "cells": "B",
-                        "width": "19",
-                    },
-                    {
-                        "cells": "C",
-                        "width": "21.71",
-                    },
-                    {
-                        "cells": "D",
-                        "width": "21",
-                    },
-                    {
-                        "cells": "E",
-                        "width": "31.43",
-                    },
-                    {
-                        "cells": "F",
-                        "width": "20",
-                    },
-                    {
-                        "cells": "G",
-                        "width": "24",
-                        "style": {
-                            "font": {                 // Style the font
-                                    "b": true,
-                                    },
-                         },
-                    }
-               ]
-
-            },
-            {
-            extend:  'pdfHtml5',
-            text:    '<i class="fas fa-file-pdf"></i>',
-            orientation: 'landscape',
-            title: 'MTF | TRANSACCIONES ENTRE CAJAS',
-            titleAttr: 'Exportar PDF',
-            className: 'btn btn-danger',
-
-            exportOptions: {
-            columns: ":not(.no-exportar)" //exportar toda columna que no tenga la clase no-exportar
-            },
-             customize: function ( doc ) {
-                 doc.styles.tableHeader = {
-                     fillColor:'#525659',
-                     color:'#FFF',
-                     fontSize: '10',
-                     alignment: 'center',
-                     bold: true
-                    },
-
-                    doc.content.splice(1, 0, {
-                    columns: [ {
-                        margin: [40, 30],
-                        text: 'MTF |TRANSFERENCIAS ENTRE CAJAS',
-                        fontSize: 30,
-                        bold: true
-                    }]
-                    }),
-                    doc.defaultStyle.fontSize = 13;
-                    doc.pageMargins = [50,50,50,60];
-                    doc.content[1].margin = [ 5, 0, 0, 0];
-                    doc.styles.title = {
+                    customize: function ( doc ) {
+                        doc.styles.tableHeader = {
+                            fillColor:'#525659',
+                            color:'#FFF',
+                            fontSize: '10',
+                            alignment: 'center',
+                            bold: true
+                        },
+                        doc.content.splice(1, 0, {
+                            columns: [ {
+                                margin: [40, 30],
+                                text: 'MTF |TRANSFERENCIAS ENTRE CAJAS',
+                                fontSize: 30,
+                                bold: true
+                            }]
+                        }),
+                        doc.defaultStyle.fontSize = 13;
+                        doc.pageMargins = [50,50,50,60];
+                        doc.content[1].margin = [ 5, 0, 0, 0];
+                        doc.styles.title = {
                             color: 'dark',
                             fontSize: '1',
                             alignment: 'left'
@@ -269,27 +265,19 @@
                             'max-width': '200px',
                         }
                         doc.styles.tableHeader = {
-                        fillColor:'#0B2447',
-                        color:'white',
-                        alignment: 'center',
+                            fillColor:'#0B2447',
+                            color:'white',
+                            alignment: 'center',
 
                         }
                         doc.styles.tableBody = {
-                        alignment: 'center'
+                            alignment: 'center'
                         }
                         doc.styles.tableBodyOdd.alignment = 'center';
                         doc.styles.tableBodyEven.alignment = 'center';
-
-
-
-                  },
-
-        },
-
-        ]
-
-
-
+                    },
+                },
+            ]    
         });
     });
     </script>
