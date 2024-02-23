@@ -157,11 +157,12 @@
     @php
         use App\Http\Controllers\RoleController;
 
+        $myUserId = $myRole;
 
-        $myUserId = Auth()->User()->id;
         // dd($myUserId);
 
-        $Group_roles = app(RoleController::class)->getRoleWallets($myUserId);
+        // $Group_roles = app(RoleController::class)->getRoleWallets($myUserId);
+        // \Log::info('leam - role - edit - group_roles -> ' . print_r($Group_roles,true));
 
         // dd($Group_roles);
         //dd($roles->id);
@@ -287,8 +288,8 @@
 
     function leeGrupos(){
         
-        let allWallets  = ({{$Group_roles->allWallets}})    ? {{$Group_roles->allWallets}} : "0";
-        let allGroups   = ({{$Group_roles->allGroups}})     ? {{$Group_roles->allGroups}} : "0";
+        let allWallets  = ({{$myRoleAllWallets}})    ? {{$myRoleAllWallets}} : "0";
+        let allGroups   = ({{$myRoleAllGroups}})     ? {{$myRoleAllGroups}} : "0";
 
         if (allWallets == "1") {
             
@@ -299,10 +300,10 @@
 
 
 
-            @foreach($Group_roles->wallets as $myWallets)
+            @foreach($myRoleWallets as $myWallets)
                 $("#myselect option").each(function(){
-                    console.log( 'leam - el valor -> ' +  $(this).val() + ' mi valor -> ' + {{ $myWallets }});
-                    if($(this).val() == {{ $myWallets }}){
+                    console.log( 'leam - el valor -> ' +  $(this).val() + ' mi valor -> ' + {{ $myWallets->GroupID }});
+                    if($(this).val() == {{ $myWallets->GroupID }}){
                         console.log('leam - encontro');
                         $('#myselect').multiSelect('select', $(this).val());
                     }
@@ -316,9 +317,9 @@
             $('#all_groups').prop('checked',true);
         }else{
             $('#all_groups').prop('checked',false);
-            @foreach($Group_roles->groups as $myGroups)
+            @foreach($myRoleGroups  as $myGroups)
                 $("#myselect2 option").each(function(){
-                    if($(this).val() == {{ $myGroups }}){
+                    if($(this).val() == {{ $myGroups->GroupID }}){
                         $('#myselect2').multiSelect('select', $(this).val());
 
                     }

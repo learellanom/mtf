@@ -1,5 +1,5 @@
 @extends('adminlte::page')
-@section('title', 'Resumen por Caja Transaccion Grupo')
+@section('title', 'Resumen de Tokens por Fecha')
 @section('content')
 {{-- Setup data for datatables --}}
 
@@ -59,7 +59,7 @@ $config4 = [
 
 <br>
 <br>
-<h1 class="text-center text-dark font-weight-bold text-uppercase">{{ __('Resumen de Movimiento por Caja Transaccion Grupo') }} <i class="fas fa-users"></i></h1>
+<h1 class="text-center text-dark font-weight-bold text-uppercase">{{ __('Resumen de Tokens por Fecha') }} <i class="fas fa-users"></i></h1>
 <br>
 <br>
 {{-- Disabled --}}
@@ -114,10 +114,11 @@ $config4 = [
 <div class="row">
     <div class="col-md-12">
         <div class="card mb-4">
+
             <div class="card-header">
                 <div class= "row">
                     <div class="col-md-4">
-                        <h3 class="card-title text-uppercase font-weight-bold">{{ __('Resumen| Resumen por Caja Transaccion Grupo') }}</h3>
+                        <h3 class="card-title text-uppercase font-weight-bold">{{ __('Resumen de Tokens por Fecha') }}</h3>
                         @php
                             // echo var_dump($balance);
                             // die();
@@ -126,6 +127,7 @@ $config4 = [
 
                 </div>
             </div>
+
             <div class="card-body">
                 <div class="row">
 
@@ -444,6 +446,7 @@ $config4 = [
         myRoute = myRoute.replace('fechaDesde2',fechaDesde);
         myRoute = myRoute.replace('fechaHasta2',fechaHasta);
         myRoute = myRoute.replace('token2',1);
+        myRoute = myRoute.replaceAll('amp;','');
         // console.log(myRoute);
         // alert(myRoute);
         location.href = myRoute;

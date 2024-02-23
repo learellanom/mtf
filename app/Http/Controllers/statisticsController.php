@@ -500,8 +500,8 @@ class statisticsController extends Controller
         $userole            = $this->getUser();
         $wallet             = $this->getWallet($Group_roles);
         $group              = $this->getGroups($Group_roles);
-        $typeTransactions   = $this->getTypeTransactions();
-
+        // $typeTransactions   = $this->getTypeTransactions();
+         $typeTransactions   = Type_transaction::orderBy('name','ASC')->pluck('name','id')->toArray();
         // switch ($Group_roles->allGroups){
         //     case 1:
         //         // \Log::info('leam - all groups -> ');
@@ -879,20 +879,6 @@ class statisticsController extends Controller
     public function fechaTokensSummary(Request $request)
     {
 
-        $myCliente = 0;
-        if ($request->cliente) {
-            $myCliente = $request->cliente;
-        }
-
-        $myClienteDesde = 0;
-        $myClienteHasta = 9999;
-
-
-        if ($myCliente != 0){
-            $myClienteDesde = $myCliente;
-            $myClienteHasta = $myCliente;
-        }
-
         $myFechaDesde = "2001-01-01";
         $myFechaHasta = "9999-12-31";
         if ($request->fechaDesde){
@@ -905,20 +891,32 @@ class statisticsController extends Controller
         }
 
         //
-         
-
-        $myFechaDesde = $myFechaDesde;
-        $myFechaHasta = $myFechaHasta;
-
-        // dd(" Fecha desde : " . $myFechaDesde . " Fecha Hasta : " . $myFechaHasta);
-
-
 
         $myCoin             = ($request->coin) ? $request->coin : 1;
 
         $myTypeCoinBalance  = $myCoin; // dorales siempre por ahora
-        $Type_coin_balance  = Type_coin::pluck('name', 'id')->toArray();
+        $Type_coin_balance  = Type_coin::orderBy('name','ASC')->pluck('name', 'id')->toArray();
 
+
+        $Group_roles = $this->getGroupRole(auth()->id());
+		// \Log::info('leam - el user id es -> ' . print_r($Group_roles,true));
+
+        $busquedaWalletFilter     = "";
+        if(isset($Group_roles->allWallets)){
+            if($Group_roles->allWallets == 0){
+                $theWallets             = implode(",", $Group_roles->wallets);
+                $busquedaWalletFilter   = " and wallet_id in ($theWallets)";
+            }
+        }
+
+        $busquedaGroupFilter      = "";
+        if(isset($Group_roles->allGroups)){        
+            if($Group_roles->allGroups == 0){
+                $theGroups              = implode(",",$Group_roles->groups );
+                $busquedaGroupFilter    = " and group_id in ($theGroups)";
+            }
+        }
+        /*
         $Transacciones = DB::table('transactions')
             ->select(DB::raw('
                 substring(transaction_date,1,10)    as fechaTransaccion,
@@ -933,7 +931,41 @@ class statisticsController extends Controller
             ->groupBy('fechaTransaccion')
             ->orderBy('fechaTransaccion', 'DESC')
             ->get();
-            //    dd($Transacciones);
+          */  
+
+
+            
+        $myQuery =
+        "
+            select
+                substring(transaction_date,1,10)    as fechaTransaccion,
+                count(*)                            as cant_transactions,
+                sum(amount)                         as total_amount,
+                sum(amount_commission)              as total_commission,
+                sum(amount_total)                   as total
+            from
+                mtf.transactions
+            where
+                    status = 'Activo'
+                and Token <> '' 
+                and transaction_date        between '$myFechaDesde  00:00:00'   and '$myFechaHasta 23:59:00' 
+                and type_coin_balance_id    = $myCoin 
+                $busquedaWalletFilter 
+                $busquedaGroupFilter 
+            group by
+                fechaTransaccion
+            order by
+                fechaTransaccion DESC
+            limit 300
+        ";
+        $Transacciones = DB::select($myQuery);
+        
+
+        // dd($myQuery);
+        // dd($Transacciones);
+        // \Log::info('leam My query *** -> ' . $myQuery);
+
+
 
         $parametros['myTypeCoinBalance']    = $myTypeCoinBalance;
         $parametros['Type_coin_balance']    = $Type_coin_balance;
@@ -942,10 +974,13 @@ class statisticsController extends Controller
         $parametros['myFechaDesde']         = $myFechaDesde;
         $parametros['myFechaHasta']         = $myFechaHasta;
 
-        \Log::info('leam - myFechaDesde ->' . $myFechaDesde);
+        // \Log::info('leam - myFechaDesde ->' . $myFechaDesde);
 
         return view('estadisticas.statisticsFechaTokens', $parametros);
         return $myUsers2;
+      
+        
+
     }
 
     /*
@@ -1193,11 +1228,18 @@ class statisticsController extends Controller
 		$myCoin = ($request->coin) ? $request->coin : 1;
 
         $myTypeCoinBalance  = $myCoin; // dorales siempre por ahora
-        $Type_coin_balance  = Type_coin::pluck('name', 'id')->toArray();
+        $Type_coin_balance  = Type_coin::orderBy('name','ASC')->pluck('name', 'id')->toArray();
+
         
+
+        $Group_roles = $this->getGroupRole(auth()->id());
+
+
+
+
         // $Transacciones1         = $this->getWalletTransactionSummary($request);
         $Transacciones2         = $this->getWalletTransactionGroupSummary($request);
-        $groups                 = $this->getGroups();
+        $groups                 = $this->getGroups($Group_roles);
 
         // $this->getWalletTransactionGroupTotal($Transacciones1, $Transacciones2);
 
@@ -1233,8 +1275,8 @@ class statisticsController extends Controller
                 //  dd('Fecha desde -> ' . $myFechaDesde . ' Fecha Hasta -> ' . $myFechaHasta . ' indRecibeFecha -> ' . $indRecibeFecha . ' balance detail -> ' . $balanceDetail . ' ' . $myFechaHastaBefore . ' ' . $myFechaDesdeBefore);
             };
         }
-        $Type_transactions  = $this->getTypeTransactions();
-        $wallet             = $this->getWallet();
+        $Type_transactions  = Type_transaction::orderBy('name','ASC')->pluck('name','id')->toArray();
+        $wallet             = $this->getWallet($Group_roles);
 
         // dd($Transacciones2); 
         // dd($Transacciones2);
@@ -1595,6 +1637,33 @@ class statisticsController extends Controller
 
        $myCoin = ($request->coin) ? $request->coin : 1;
 
+
+
+
+       $Group_roles = $this->getGroupRole(auth()->id());
+       \Log::info('leam - getWalletTransactionGroupSummary - el user id es -> ' . print_r($Group_roles,true));
+
+
+
+       $busquedaWalletFilter     = "";
+       if (isset($Group_roles->allWallets)){
+            if($Group_roles->allWallets == 0){
+                $theWallets             = implode(",", $Group_roles->wallets);
+                $busquedaWalletFilter   = " and wallet_id in ($theWallets)";
+            }
+        }
+
+
+        $busquedaGroupFilter      = "";
+        if (isset($Group_roles->allGroups)){
+            if($Group_roles->allGroups == 0){
+                $theGroups              = implode(",",$Group_roles->groups );
+                $busquedaGroupFilter    = " and group_id in ($theGroups)";
+            }
+        }
+
+
+
         $myQuery =
         "
         select
@@ -1628,7 +1697,9 @@ class statisticsController extends Controller
         and     mtf.Transactions.type_transaction_id   between  $myTypeTransactionDesde     and     $myTypeTransactionHasta      
         and     mtf.Transactions.transaction_date      between  '$myFechaDesde2 00:00:00'   and     '$myFechaHasta2 23:59:00'
         and     type_coin_balance_id  = $myCoin
-        $condicionGroup                  
+        $condicionGroup       
+        $busquedaWalletFilter     
+        $busquedaGroupFilter       
         group by
             WalletId,
             WalletName,
@@ -1651,7 +1722,7 @@ class statisticsController extends Controller
 
         $Transacciones = DB::select($myQuery);
        // dd($Transacciones);
-         \Log::info('leam *** $myQuery getWalletTransactionGroupSummary -> ' . $myQuery);       
+         \Log::info('leam *** $myQuery getWalletTransactionGroupSummary -> ' . $myQuery);
        //  \Log::info('leam *** $Transacciones3 -> ' . print_r($Transacciones3,true));
        
        return $Transacciones;
@@ -2234,17 +2305,17 @@ class statisticsController extends Controller
             switch ($Group_roles->allGroups){
                 case 1:
                     // \Log::info('leam - all groups -> ');
-                    $group2 = Group::where('type', '=', '1')->whereBetween('id', [0, 9999])->pluck('name', 'id')->toArray();
+                    $group2 = Group::where('type', '=', '1')->whereBetween('id', [0, 9999])->orderBY('name','ASC')->pluck('name', 'id')->toArray();
                     break;
                 case 0:
                     // \Log::info('leam - algunos groups -> ');
-                    $group2 = Group::where('type', '=', '1')->whereBetween('id', [0, 9999])->whereIn('id', $Group_roles->groups)->pluck('name', 'id')->toArray();
+                    $group2 = Group::where('type', '=', '1')->whereBetween('id', [0, 9999])->whereIn('id', $Group_roles->groups)->orderBY('name','ASC')->pluck('name', 'id')->toArray();
                     break;
             }
             return $group2;
         }
 
-        $group2 = Group::where('type', '=', '1')->whereBetween('id', [0, 9999])->pluck('name', 'id')->toArray();
+        $group2 = Group::where('type', '=', '1')->whereBetween('id', [0, 9999])->orderBY('name','ASC')->pluck('name', 'id')->toArray();
         return $group2;
     }
     
@@ -2300,11 +2371,11 @@ class statisticsController extends Controller
             switch ($Group_roles->allWallets){
                 case 1:
                     //\Log::info('leam - all wallets -> ');
-                    $wallet2 = Group::where('type', '=', '2')->whereBetween('id', [0, 9999])->pluck('name', 'id')->toArray();
+                    $wallet2 = Group::where('type', '=', '2')->whereBetween('id', [0, 9999])->orderBY('name','ASC')->pluck('name', 'id')->toArray();
                     break;
                 case 0:
                     //\Log::info('leam - algunos wallets -> ');
-                    $wallet2 = Group::where('type', '=', '2')->whereBetween('id', [0, 9999])->whereIn('id', $Group_roles->wallets)->pluck('name', 'id')->toArray();     
+                    $wallet2 = Group::where('type', '=', '2')->whereBetween('id', [0, 9999])->whereIn('id', $Group_roles->wallets)->orderBY('name','ASC')->pluck('name', 'id')->toArray();     
                     break;
 
             }
@@ -2312,7 +2383,7 @@ class statisticsController extends Controller
         }
 
 
-        $wallet2 = Group::where('type', '=', '2')->whereBetween('id', [0, 9999])->pluck('name', 'id')->toArray();
+        $wallet2 = Group::where('type', '=', '2')->whereBetween('id', [0, 9999])->orderBY('name','ASC')->pluck('name', 'id')->toArray();
         return $wallet2;
 
     }

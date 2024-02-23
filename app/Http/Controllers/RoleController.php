@@ -139,6 +139,37 @@ class RoleController extends Controller
         $wallet                     = app(statisticsController::class)->getWallet();
         $group                      = app(statisticsController::class)->getGroups();
 
+        $myRole                     = $roles->id;
+        \Log::info("leam - roles - edit - roles->id -- $roles->id");
+
+        $myRoleAllWallets           = Group_role::select('all_wallets')->where('role_id','=',$roles->id)->where('all_wallets','=','1')->get();
+        
+        \Log::info('leam - roles- edit - myRoleAllWallets 1a-> ' . print_r($myRoleAllWallets,true));
+        \Log::info('leam - roles- edit - myRoleAllWallets 1b-> ' . $myRoleAllWallets);
+
+        $myRoleAllWallets           = count($myRoleAllWallets) > 0 ? $myRoleAllWallets[0]->all_wallets : 0;
+        $myRoleWallets              = $this->getRolesWalletsByRole($roles->id);
+        
+
+        \Log::info('leam - roles- edit - myRoleAllWallets 2 -> ' . $myRoleAllWallets);
+        \Log::info('leam - roles- edit -wallets -> ' . print_r($myRoleWallets,true));
+        
+
+        $myRoleAllGroups            = Group_role::select('all_groups')->where('role_id','=',$roles->id)->where('all_groups','=','1')->get();
+        $myRoleAllGroups            = count($myRoleAllGroups) > 0  ? $myRoleAllGroups[0]->all_groups : 0;
+        $myRoleGroups               = $this->getRolesGroupsByRole($roles->id);
+        
+        \Log::info('leam - roles- edit - myRoleAllGroups -> ' . $myRoleAllGroups);
+        \Log::info('leam - roles- edit - groups -> ' . print_r($myRoleGroups,true));
+
+        $parametros['myRole']       = $myRole;
+        
+        $parametros['myRoleAllWallets']       = $myRoleAllWallets;
+        $parametros['myRoleWallets']       = $myRoleWallets;
+
+        $parametros['myRoleAllGroups']       = $myRoleAllGroups;
+        $parametros['myRoleGroups']       = $myRoleGroups;
+
         $parametros['wallet']       = $wallet;
         $parametros['group']        = $group;
         $parametros['roles']        = $roles;
@@ -161,11 +192,13 @@ class RoleController extends Controller
         $roles->permissions()->sync($request->permissions);
 
 
-        //dd($request->myselect);
-        // dd($roles->id);
+        // dd($request->myselect);
+        //dd($roles->id);
+        
+        \Log::info("leam - role - update - roles->id $roles->id");
 
         $delete = Group_role::where('role_id', '=', $roles->id)->delete();
-
+        
         if (!$request->myselect){
            // echo "todas las cajas con el role id ->" . $role->id; 
             
@@ -176,12 +209,12 @@ class RoleController extends Controller
             $Group_role->all_groups     = '0';
 
             $Group_role->save();
-
+            \Log::info("leam - role - update - roles->id $roles->id -> graba todos los wallets");
         }else{
 
             foreach($request->myselect as $myselect){
 
-                // echo "Cada caja -> $myselect con role_id -> $role->id"; 
+                \Log::info("Cada caja -> $myselect con role_id -> $roles->id"); 
 
                 $Group_role                 = new Group_role;
 
@@ -193,6 +226,7 @@ class RoleController extends Controller
                 $Group_role->save();
             }        
         }
+        
 
         if (!$request->myselect2){
             // echo "todas los grupos con el role id ->" . $role->id; 
@@ -204,12 +238,12 @@ class RoleController extends Controller
             
 
             $Group_role->save();
-
+            \Log::info("leam - role - update - roles->id $roles->id -> graba todos los grupos");
         }else{
 
             foreach($request->myselect2 as $myselect){
 
-                // echo "Cada grupo -> $myselect con role_id -> $role->id"; 
+               \Log::info("Cada grupo -> $myselect con role_id -> $roles->id"); 
 
                 $Group_role                 = new Group_role;
 
@@ -222,7 +256,7 @@ class RoleController extends Controller
             }        
         }
 
-
+        
 
         flash()->addInfo('Role modificado..', 'Roles', ['timeOut' => 3000]);
 
@@ -241,6 +275,54 @@ class RoleController extends Controller
 
         return Redirect::route('roles.index')->with('destroy','ok');
     }
+
+    public function getRolesWalletsByRole( $theRole = 0){
+        $wallets            = array();     
+        
+        $myQuery =
+        "
+            select
+                group_roles.group_id                    as GroupID,
+                groups.name                             as GroupName,
+                groups.type                             as GroupType
+            from
+                mtf.group_roles
+                left join mtf.groups              on mtf.group_roles.group_id           = mtf.groups.id
+                left join mtf.roles               on mtf.group_roles.role_id            = mtf.roles.id
+            where
+                role_id                 between $theRole                and $theRole 
+                and groups.type  = '2'
+        ";
+        
+
+        $wallets = DB::select($myQuery);
+
+        return $wallets;
+    }
+
+    public function getRolesGroupsByRole( $theRole = 0){
+        $groups            = array();     
+        
+        $myQuery =
+        "
+            select
+                group_roles.group_id                    as GroupID,
+                groups.name                             as GroupName,
+                groups.type                             as GroupType
+            from
+                mtf.group_roles
+                left join mtf.groups              on mtf.group_roles.group_id           = mtf.groups.id
+                left join mtf.roles               on mtf.group_roles.role_id            = mtf.roles.id
+            where
+                role_id                 between $theRole                and $theRole 
+                and groups.type  = '1'
+        ";
+        
+
+        $groups = DB::select($myQuery);
+
+        return $groups;
+    }    
 
     public function getRoleWallets ( $theUserId = 0){
 
