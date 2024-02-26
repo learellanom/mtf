@@ -46,8 +46,9 @@
                 </div>      
                 <nav>
                     <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                        <button class="nav-link active" id="nav-permisos-tab"   data-toggle="tab" data-target="#nav-permisos"   type="button" role="tab" aria-controls="nav-permisos"  aria-selected="true"><h4>Permisos</h4></button>
-                        <button class="nav-link"        id="nav-grupos-tab"     data-toggle="tab" data-target="#nav-grupos"     type="button" role="tab" aria-controls="nav-grupos"    aria-selected="false"><h4>Cajas y Grupos</h4></button>
+                        <button class="nav-link active" id="nav-permisos-tab"       data-toggle="tab" data-target="#nav-permisos"       type="button" role="tab" aria-controls="nav-permisos"       aria-selected="true"><h4>Permisos</h4></button>
+                        <button class="nav-link"        id="nav-grupos-tab"         data-toggle="tab" data-target="#nav-grupos"         type="button" role="tab" aria-controls="nav-grupos"         aria-selected="false"><h4>Cajas y Grupos</h4></button>
+                        <button class="nav-link"        id="nav-permisos2-tab"      data-toggle="tab" data-target="#nav-permisos2"      type="button" role="tab" aria-controls="nav-permisos2"      aria-selected="false"><h4>Permisos 2</h4></button>
                     </div>
                 </nav>
                 <!--
@@ -76,75 +77,422 @@
                             </tbody>
                         </table>
                     </div>
-                    <div class="tab-pane fade show active" id="nav-grupos" role="tabpanel" aria-labelledby="nav-grupos-tab">
+                    <div class="tab-pane fade " id="nav-grupos" role="tabpanel" aria-labelledby="nav-grupos-tab">
 
 
                         <div class="row card-deck mt-4 justify-content-center">
-                                <div class="card mb-4 col-12 col-sm-6">
-                                    <div class="card-header">   
-                                        <h3 class="card-title text-uppercase font-weight-bold">Wallet</h3>
-                                    </div>
-                                    <div class="card-body">  
-                                        
-                                            <div class="row justify-content-center text-center align-items-center mt-4 mb-4"> 
-                                                <input type="checkbox" id="all_wallets" name="all_wallets" value="1">
-                                                <label for="all_wallets" style="margin-top: 0.4rem; margin-left: 0.4rem;">Todas las Cajas</label><br>
-                                            </div>                                
-                                            
-                                        <div class="row justify-content-center text-center align-items-center">
-                                            <select multiple="multiple" id="myselect" name="myselect[]" readonly>
-                                            </select>
-                                        </div>     
-                                        <br>
-                                        <br>
-                                        {{--
-                                        <div class="row justify-content-center text-center align-items-center">
-                                            <div class="col-12 col-sm-3 mt-2">
-                                                <button id="myButtonAplicar" type="button" class="btn btn-outline-primary btn-sm ">Aplicar</button>
-                                            </div>
-                                            <div class="col-12 col-sm-3 mt-2">
-                                                <button id="myButtonLimpiar" type="button" class="btn btn-outline-primary btn-sm ">Limpiar</button>
-                                            </div>                    
-                                        </div>
-                                        --}}
-                                    </div>
+                            <div class="card mb-4 col-12 col-sm-6">
+                                <div class="card-header">   
+                                    <h3 class="card-title text-uppercase font-weight-bold">Wallet</h3>
                                 </div>
-                            </div>
-
-                            <div class="row card-deck justify-content-center">
-                                <div class="card mb-4 col-12 col-sm-6 lm-2">
-                                    <div class="card-header">
-                                        <h3 class="card-title text-uppercase font-weight-bold">Grupos</h3>
-                                    </div>
-                                    <div class="card-body">    
-
+                                <div class="card-body">  
+                                    
                                         <div class="row justify-content-center text-center align-items-center mt-4 mb-4"> 
-                                            <input type="checkbox" id="all_groups" name="all_groups" value="1">
-                                            <label for="all_groups" style="margin-top: 0.4rem; margin-left: 0.4rem;">Todos los Grupos</label><br>
-
+                                            <input type="checkbox" id="all_wallets" name="all_wallets" value="1">
+                                            <label for="all_wallets" style="margin-top: 0.4rem; margin-left: 0.4rem;">Todas las Cajas</label><br>
+                                        </div>                                
+                                        
+                                    <div class="row justify-content-center text-center align-items-center">
+                                        <select multiple="multiple" id="myselect" name="myselect[]" readonly>
+                                        </select>
+                                    </div>     
+                                    <br>
+                                    <br>
+                                    {{--
+                                    <div class="row justify-content-center text-center align-items-center">
+                                        <div class="col-12 col-sm-3 mt-2">
+                                            <button id="myButtonAplicar" type="button" class="btn btn-outline-primary btn-sm ">Aplicar</button>
                                         </div>
-                                        <div class="row justify-content-center text-center align-items-center">
-                                            <select multiple="multiple" id="myselect2" name="myselect2[]">
-                                            </select>   
-                                        </div>     
-                                        <br>
-                                        <br>
-                                        {{--
-                                        <div class="row justify-content-center text-center align-items-center">
-                                            <div class="col-12 col-sm-3 mt-2">
-                                                <button id="myButtonAplicar2" type="button" class="btn btn-outline-primary btn-sm ">Aplicar</button>
-                                            </div>
-                                            <div class="col-12 col-sm-3 mt-2">
-                                                <button id="myButtonLimpiar2" type="button" class="btn btn-outline-primary btn-sm ">Limpiar</button>                        
-                                            </div>                
-                                        </div>
-                                        --}}
+                                        <div class="col-12 col-sm-3 mt-2">
+                                            <button id="myButtonLimpiar" type="button" class="btn btn-outline-primary btn-sm ">Limpiar</button>
+                                        </div>                    
                                     </div>
+                                    --}}
                                 </div>
                             </div>
+                        </div>
+
+                        <div class="row card-deck justify-content-center">
+                            <div class="card mb-4 col-12 col-sm-6 lm-2">
+                                <div class="card-header">
+                                    <h3 class="card-title text-uppercase font-weight-bold">Grupos</h3>
+                                </div>
+                                <div class="card-body">    
+
+                                    <div class="row justify-content-center text-center align-items-center mt-4 mb-4"> 
+                                        <input type="checkbox" id="all_groups" name="all_groups" value="1">
+                                        <label for="all_groups" style="margin-top: 0.4rem; margin-left: 0.4rem;">Todos los Grupos</label><br>
+
+                                    </div>
+                                    <div class="row justify-content-center text-center align-items-center">
+                                        <select multiple="multiple" id="myselect2" name="myselect2[]">
+                                        </select>   
+                                    </div>     
+                                    <br>
+                                    <br>
+                                    {{--
+                                    <div class="row justify-content-center text-center align-items-center">
+                                        <div class="col-12 col-sm-3 mt-2">
+                                            <button id="myButtonAplicar2" type="button" class="btn btn-outline-primary btn-sm ">Aplicar</button>
+                                        </div>
+                                        <div class="col-12 col-sm-3 mt-2">
+                                            <button id="myButtonLimpiar2" type="button" class="btn btn-outline-primary btn-sm ">Limpiar</button>                        
+                                        </div>                
+                                    </div>
+                                    --}}
+                                </div>
+                            </div>
+                        </div>                      
+                    </div>
+                                    {{--
+                    <div class="tab-pane fade" id="nav-permisos2" role="tabpanel" aria-labelledby="nav-permisos2-tab">
+
+                    
+                        <div class="row card-deck justify-content-center mt-4 mb-4">
+                            <div class="card mb-4 col-12 col-sm-8 lm-2">
+                                <div class="card-header">
+                                    <h3 class="card-title text-uppercase font-weight-bold">Sesion</h3>
+                                </div>
+                                <div class="card-body">    
+
+                                    <label for="fname">{{$permisos[0]->description}}</label>
+                                    <input type="checkbox" id="{{$permisos[0]->id}}" name="permissions[]" value="{{$permisos[0]->id}}"><br><br>
+
+                                </div>
+                            </div>
+                        </div>        
+
+                        <!-- <td>{{$permission->description}}</td>
+                        <td>{!! Form::checkbox('permissions[]', $permission->id, null, ['class'=> '', 'id' => $permission->id ]) !!}</td> -->
 
 
-                        </div>                    
+                        <div class="row card-deck justify-content-center mt-4 mb-4">
+                            <div class="card mb-4 col-12 col-sm-8 lm-2">
+                                <div class="card-header">
+                                    <h3 class="card-title text-uppercase font-weight-bold">Estadisticas</h3>
+                                </div>
+                                <div class="card-body">    
+
+                                    <table id="myTable" class="table table-bordered table-responsive-lg">   
+
+                                        <tbody>
+                                            <tr>
+                                                <td class="col-12 col-md-6" style="width: 30rem;">Estadisticas</td>
+                                                <td class="col-12 col-md-6">
+                                                    <label for="fname">{{$permisos[0]->description}}</label>
+                                                    <input type="checkbox" id="{{$permisos[0]->id}}" name="{{$permisos[0]}}"><br><br>
+                                                </td>
+                                            </tr>
+                                            
+                                            <tr>
+                                                <td>Consolidado de Saldos</td>                                                    
+                                                <td>
+                                                    <label for="fname">{{$permisos[0]->description}}</label>
+                                                    <input type="checkbox" id="{{$permisos[0]->id}}" name="{{$permisos[0]}}"><br><br>
+                                                </td>
+                                            </tr>
+
+
+                                            <tr>
+                                                <td>Detalle de Movimientos</td>  
+                                                <td>
+                                                    <label for="fname">{{$permisos[0]->description}}</label>
+                                                    <input type="checkbox" id="{{$permisos[0]->id}}" name="{{$permisos[0]}}"><br><br>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>Comisiones - Consolidado</td>  
+                                                <td>
+                                                    <label for="fname">{{$permisos[0]->description}}</label>
+                                                    <input type="checkbox" id="{{$permisos[0]->id}}" name="{{$permisos[0]}}"><br><br>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>Comisiones - Grupos</td>  
+                                                <td>
+                                                    <label for="fname">{{$permisos[0]->description}}</label>
+                                                    <input type="checkbox" id="{{$permisos[0]->id}}" name="{{$permisos[0]}}"><br><br>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>Detalle USDT</td>  
+                                                <td>
+                                                    <label for="fname">{{$permisos[0]->description}}</label>
+                                                    <input type="checkbox" id="{{$permisos[0]->id}}" name="{{$permisos[0]}}"><br><br>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>Resumen Grupo USDT</td>  
+                                                <td>
+                                                    <label for="fname">{{$permisos[0]->description}}</label>
+                                                    <input type="checkbox" id="{{$permisos[0]->id}}" name="{{$permisos[0]}}"><br><br>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>Genera Comisiones USDT</td>  
+                                                <td>
+                                                    <label for="fname">{{$permisos[0]->description}}</label>
+                                                    <input type="checkbox" id="{{$permisos[0]->id}}" name="{{$permisos[0]}}"><br><br>
+                                                </td>
+                                            </tr>
+
+
+                                            <tr>
+                                                <td>USDT - Cuadro de Mvoimientos</td>  
+                                                <td>
+                                                    <label for="fname">{{$permisos[0]->description}}</label>
+                                                    <input type="checkbox" id="{{$permisos[0]->id}}" name="{{$permisos[0]}}"><br><br>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>Resumen - Grupo</td>  
+                                                <td>
+                                                    <label for="fname">{{$permisos[0]->description}}</label>
+                                                    <input type="checkbox" id="{{$permisos[0]->id}}" name="{{$permisos[0]}}"><br><br>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>Resumen - Caja</td>  
+                                                <td>
+                                                    <label for="fname">{{$permisos[0]->description}}</label>
+                                                    <input type="checkbox" id="{{$permisos[0]->id}}" name="{{$permisos[0]}}"><br><br>
+                                                </td>
+                                            </tr>                                            
+
+                                            <tr>
+                                                <td>Resumen - Caja Transaccion</td>  
+                                                <td>
+                                                    <label for="fname">{{$permisos[0]->description}}</label>
+                                                    <input type="checkbox" id="{{$permisos[0]->id}}" name="{{$permisos[0]}}"><br><br>
+                                                </td>
+                                            </tr>       
+
+                                            <tr>
+                                                <td>Resumen - Caja Transaccion Grupo</td>  
+                                                <td>
+                                                    <label for="fname">{{$permisos[0]->description}}</label>
+                                                    <input type="checkbox" id="{{$permisos[0]->id}}" name="{{$permisos[0]}}"><br><br>
+                                                </td>
+                                            </tr>       
+
+                                            <tr>
+                                                <td>Resumen - Fecha Token</td>  
+                                                <td>
+                                                    <label for="fname">{{$permisos[0]->description}}</label>
+                                                    <input type="checkbox" id="{{$permisos[0]->id}}" name="{{$permisos[0]}}"><br><br>
+                                                </td>
+                                            </tr>  
+
+                                            <tr>
+                                                <td>Consolidado de Movientos</td>  
+                                                <td>
+                                                    <label for="fname">{{$permisos[0]->description}}</label>
+                                                    <input type="checkbox" id="{{$permisos[0]->id}}" name="{{$permisos[0]}}"><br><br>
+                                                </td>
+                                            </tr>  
+
+                                        </tbody>
+                                    </table>
+
+
+
+
+                                </div>
+                            </div>
+                        </div> 
+
+
+                        <div class="row card-deck justify-content-center mt-4 mb-4">
+                            <div class="card mb-4 col-12 col-sm-8 lm-2">
+                                <div class="card-header">
+                                    <h3 class="card-title text-uppercase font-weight-bold">Operaciones</h3>
+                                </div>
+                                <div class="card-body">    
+
+                                    <table id="myTable" class="table table-bordered table-responsive-lg">   
+
+                                        <tbody>
+                                            <tr>
+                                                <td class="col-12 col-md-6" style="width: 30rem;">Transacciones</td>  
+                                                <td class="col-12 col-md-6">
+                                                    <label for="fname">{{$permisos[0]->description}}</label>
+                                                    <input type="checkbox" id="{{$permisos[0]->id}}" name="{{$permisos[0]}}"><br><br>
+                                                </td>
+                                            </tr>
+                                            
+                                            <tr>
+                                                <td>Transacciones v2</td>                                                    
+                                                <td>
+                                                    <label for="fname">{{$permisos[0]->description}}</label>
+                                                    <input type="checkbox" id="{{$permisos[0]->id}}" name="{{$permisos[0]}}"><br><br>
+                                                </td>
+                                            </tr>
+
+
+                                            <tr>
+                                                <td>Transacciones en Efectivo</td>  
+                                                <td>
+                                                    <label for="fname">{{$permisos[0]->description}}</label>
+                                                    <input type="checkbox" id="{{$permisos[0]->id}}" name="{{$permisos[0]}}"><br><br>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>Transferencia entre Cajas - Efectivo</td>  
+                                                <td>
+                                                    <label for="fname">{{$permisos[0]->description}}</label>
+                                                    <input type="checkbox" id="{{$permisos[0]->id}}" name="{{$permisos[0]}}"><br><br>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>Transferencia entre Cajas - Otras Operaciones</td>  
+                                                <td>
+                                                    <label for="fname">{{$permisos[0]->description}}</label>
+                                                    <input type="checkbox" id="{{$permisos[0]->id}}" name="{{$permisos[0]}}"><br><br>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>Transaferencia entre Cajas Otras Operaciones v2</td>  
+                                                <td>
+                                                    <label for="fname">{{$permisos[0]->description}}</label>
+                                                    <input type="checkbox" id="{{$permisos[0]->id}}" name="{{$permisos[0]}}"><br><br>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>Pagos del Proveedor</td>  
+                                                <td>
+                                                    <label for="fname">{{$permisos[0]->description}}</label>
+                                                    <input type="checkbox" id="{{$permisos[0]->id}}" name="{{$permisos[0]}}"><br><br>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>Cobros del Proveedor</td>  
+                                                <td>
+                                                    <label for="fname">{{$permisos[0]->description}}</label>
+                                                    <input type="checkbox" id="{{$permisos[0]->id}}" name="{{$permisos[0]}}"><br><br>
+                                                </td>
+                                            </tr>
+
+
+                                            <tr>
+                                                <td>Pagos Entre Clientes</td>  
+                                                <td>
+                                                    <label for="fname">{{$permisos[0]->description}}</label>
+                                                    <input type="checkbox" id="{{$permisos[0]->id}}" name="{{$permisos[0]}}"><br><br>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>Credito y Debito a Cajas</td>  
+                                                <td>
+                                                    <label for="fname">{{$permisos[0]->description}}</label>
+                                                    <input type="checkbox" id="{{$permisos[0]->id}}" name="{{$permisos[0]}}"><br><br>
+                                                </td>
+                                            </tr>
+
+
+                                        </tbody>
+                                    </table>
+
+
+
+
+                                </div>
+                            </div>
+                        </div> 
+
+
+
+                        <div class="row card-deck justify-content-center">
+                            <div class="card mb-4 col-12 col-sm-8 lm-2">
+                                <div class="card-header">
+                                    <h3 class="card-title text-uppercase font-weight-bold">Configuracion</h3>
+                                </div>
+                                <div class="card-body">    
+
+                                    <label for="fname">{{$permisos[0]->description}}</label>
+                                    <input type="checkbox" id="{{$permisos[0]->id}}" name="{{$permisos[0]}}"><br><br>
+
+
+
+
+
+                                    <table id="myTable" class="table table-bordered table-responsive-lg">   
+
+                                        <tbody>
+                                            <tr>
+                                                <td class="col-12 col-md-6" style="width: 30rem;">Usuarios</td>  
+                                                <td class="col-12 col-md-6">
+                                                    <label for="fname">{{$permisos[0]->description}}</label>
+                                                    <input type="checkbox" id="{{$permisos[0]->id}}" name="{{$permisos[0]}}"><br><br>
+                                                </td>
+                                            </tr>
+                                            
+                                            <tr>
+                                                <td>Roles</td>                                                    
+                                                <td>
+                                                    <label for="fname">{{$permisos[0]->description}}</label>
+                                                    <input type="checkbox" id="{{$permisos[0]->id}}" name="{{$permisos[0]}}"><br><br>
+                                                </td>
+                                            </tr>
+
+
+                                            <tr>
+                                                <td>Permisos</td>  
+                                                <td>
+                                                    <label for="fname">{{$permisos[0]->description}}</label>
+                                                    <input type="checkbox" id="{{$permisos[0]->id}}" name="{{$permisos[0]}}"><br><br>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>Grupos</td>  
+                                                <td>
+                                                    <label for="fname">{{$permisos[0]->description}}</label>
+                                                    <input type="checkbox" id="{{$permisos[0]->id}}" name="{{$permisos[0]}}"><br><br>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>Tipos de Movimiento</td>  
+                                                <td>
+                                                    <label for="fname">{{$permisos[0]->description}}</label>
+                                                    <input type="checkbox" id="{{$permisos[0]->id}}" name="{{$permisos[0]}}"><br><br>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>Tipo de Monedas</td>  
+                                                <td>
+                                                    <label for="fname">{{$permisos[0]->description}}</label>
+                                                    <input type="checkbox" id="{{$permisos[0]->id}}" name="{{$permisos[0]}}"><br><br>
+                                                </td>
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+
+
+
+
+                                </div>
+                            </div>
+                        </div>    
+
+
+                    </div>
+                                    --}}
                 </div>
             </form>
         </div>
