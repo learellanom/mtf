@@ -493,7 +493,7 @@ return [
             'url'       => 'consolidadoMovimientosGrupo',
             'active'    => ['consolidadoMovimientosGrupo' ],
             'icon'      => 'fas fa-fw fas fa-chart-bar',
-            'can'       => 'estadisticasDetalle.estadisticasFechaTokens',
+            'can'       => 'statistics.consolidadoMovimientos',
         ],        
         ['header' => 'Operaciones',
         'classes' =>'text-uppercase font-weight-bold text-light',],

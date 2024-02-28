@@ -135,12 +135,8 @@ class RoleController extends Controller
     {
         $roles       = Role::find($role);
         $permisos    = Permission::all();
-
-        // $permisos2   = Permission::orderBy('id','asc')->pluck('id','id');
-        
-         $permisos    = Permission::get()->keyBy('id');
-        // $permisos[53]->id ? dd($permisos[53]->id) :  dd('Sin descripcion');
-
+        $permisos    = Permission::get()->keyBy('id');
+        // dd($roles->permissions);
          // dd($permisos2[53]);
         $wallet                     = app(statisticsController::class)->getWallet();
         $group                      = app(statisticsController::class)->getGroups();

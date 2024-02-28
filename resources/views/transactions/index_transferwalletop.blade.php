@@ -11,7 +11,7 @@
 
 @section('content')
 
-@can('transactions.create')
+@can('transactions.transfer_walletop')
 <a class="btn btn-dark" title="Crear transaccion" href={{ route('transactions.create_transferwalletop') }}>
     <i class="fas fa-plus-circle"></i>
     <span class="d-none d-lg-inline-block text-uppercase font-weight-bold">{{ __('Crear') }}</span>
@@ -69,7 +69,7 @@
                                     <td class="font-weight-bold">{!! $transferencias->Agente !!}</td>
                                     <td>{!! $transferencias->TransferType !!}</td>
                                     <td>{!! $transferencias->WalletNameOrigen !!}</td>
-                                    @can('transactions.update_status')
+                                    @can('transactions.update_statusop')
                                         <td class="text-center">
                                             {!! Form::model($transferencias->TransactionId, ['route' => ['transactions.update_statusop', $transferencias->TransactionId], 'method' => 'put']) !!}
 
