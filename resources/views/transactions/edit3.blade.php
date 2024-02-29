@@ -145,7 +145,7 @@
                                     {!! Form::Label('monto', "Monto en moneda extranjera:") !!}
                                     <div class="input-group-text">
                                         <i class="fa-fw fas fa-coins mr-2"></i>
-                                        {!! Form::text('amount_foreign_currency',null, ['class' => 'form-control general', 'required' => true,  'id' => 'monto']) !!}
+                                        {!! Form::text('amount_foreign_currency',null, ['class' => 'form-control general ', 'required' => true,  'id' => 'monto']) !!}
                                     </div>
                                 </div>
                             @else
@@ -153,7 +153,7 @@
                                     {!! Form::Label('monto', "Monto en moneda extranjera:") !!}
                                     <div class="input-group-text">
                                         <i class="fa-fw fas fa-coins mr-2"></i>
-                                        {!! Form::text('amount_foreign_currency',null, ['class' => 'form-control general', 'required' => true,  'readonly']) !!}
+                                        {!! Form::text('amount_foreign_currency',null, ['class' => 'form-control general ', 'required' => true,  'readonly']) !!}
                                     </div>
                                 </div>                            
                             @endif
@@ -1156,7 +1156,7 @@
         $('#montototal').val(amount_total);
         $('#monto_base').val(amount_total_base);
         $('#amount_commission_profit').val(amount_commission_profit);
-        $('#monto').val(amount_foreign_currency);
+        // $('#monto').val(amount_foreign_currency);
 
 
         // alert($('#monto').val());

@@ -30,7 +30,13 @@ class RoleController extends Controller
      */
     public function create()
     {
-        $permisos = Permission::all();
+       // $permisos = Permission::all();
+
+
+        $permisos    = Permission::all();
+        $permisos    = Permission::get()->keyBy('id');
+        
+        
         $wallet                     = app(statisticsController::class)->getWallet();
         $group                      = app(statisticsController::class)->getGroups();
 
@@ -271,6 +277,10 @@ class RoleController extends Controller
     public function destroy($role)
     {
         $role = Role::find($role);
+
+
+        $delete = Group_role::where('role_id', '=', $role->id)->delete();
+
 
         $role->delete();
         flash()->addError('Roles', 'Role eliminado: ' . $role->name,  ['timeOut' => 2000]);

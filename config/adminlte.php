@@ -528,7 +528,7 @@ return [
             'text'          => 'Transferencias entre cajas',
             'icon'          => 'fas fa-fw fa-share',
             'icon_color'    => 'primary',
-            'can'           => ['transactions.index_transfer_wallet',],
+            'can'           => ['transactions.index_transfer_wallet', 'transactions.index_transfer_walletop', 'transactions.index_transfer_walletop2' ],
             'submenu'   => [
                     [
                         'text'        => 'Efectivo',
