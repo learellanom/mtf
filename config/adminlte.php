@@ -445,13 +445,13 @@ return [
             'text'          => 'Resumen',
             'icon'          => 'fas fa-dollar-sign', 
             'icon_color'    => 'primary',
-            'can'           =>  ['estadisticasDetalle.statisticsResumenUsuario','estadisticasDetalle.statisticsResumenWallet'],
+            'can'           =>  ['estadisticasDetalle.statisticsResumenGrupo', 'estadisticasDetalle.statisticsResumenWallet', 'estadisticasDetalle.estadisticasResumenWalletTran', 'estadisticasDetalle.estadisticasResumenWalletTranGroup'],
             'submenu'   => [
                 [
                     'text' => 'Grupo',
                     'url'  => 'estadisticasResumenGrupo',
                     'classes'   =>  'ml-4',              
-                    'can'  => 'estadisticasDetalle.statisticsResumenUsuario',
+                    'can'  => 'estadisticasDetalle.statisticsResumenGrupo',
                     'icon_color' => 'primary',                    
                 ],
                 [                    
