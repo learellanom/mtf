@@ -15,15 +15,15 @@ return new class extends Migration
             $table->bigIncrements('id');                            //-> Identificador de la tabla
             $table->string('transfer_number')->nullable();          //-> Numero de referencia para transferencias entre cajas
             $table->string('pay_number')->nullable();               //-> Numero de Referencia para pagos entre cajas
-            $table->double('amount');                               //-> Monto en Dorales
+            $table->double('amount')->nullable();                               //-> Monto en Dorales
             $table->double('amount_foreign_currency')->nullable();  //MONTO MONEDA EXTRANJERA
-            $table->double('amount_total');                         //MONTO TOTAL
+            $table->double('amount_total')->nullable();                         //MONTO TOTAL
             $table->double('amount_commission')->nullable();        //MONTO COMISION
             $table->double('exchange_rate')->nullable();            //TASA DE CAMBIO
             $table->double('exchange_rate_base')->nullable();       //TASA BASE
             $table->enum('exonerate', [1, 2, 3])->nullable()->default(2); //DESCUENTO, EXONERADO E INCLUIR COMOSIÓN
             $table->double('percentage')->nullable();               //PORCENTAJE DE LA TRANSFERENCIA
-            $table->foreignId('type_coin_id')->default(1)->references('id')->on('type_coins'); // TIPO DE MONEDA DE LA TRANSFERENCIA
+            $table->foreignId('type_coin_id')->nullable()->default(1)->references('id')->on('type_coins'); // TIPO DE MONEDA DE LA TRANSFERENCIA
             $table->foreignId('type_transaction_id')->references('id')->on('type_transactions');  //TIPO DE LA TRANSFERENCIA
             $table->foreignId('user_id')->references('id')->on('users');  // USUARIO QUE REALIZO LA TRANSFERENCIA
             $table->foreignId('group_id')->nullable()->references('id')->on('groups'); //ORIGEN
@@ -39,13 +39,11 @@ return new class extends Migration
             $table->double('amount_total_base')->nullable();                //GANANCIA DE LA COMOSION
             $table->double('amount_commission_profit')->nullable();         //GANANCIA DE LA COMOSION
 
-            $table->timestamps();            
-
             $table->foreignId('type_coin_balance_id')->default(1)->references('id')->on('type_coins');  //-> tipo de moneda en el que se llevara el balance de la transaccion
             $table->enum('exchange_rate_orientation', [1, 2])->nullable()->default(1); 					//-> orientacion del cambio 1 de derecha a izquierda / divide -- 2 de izquierda a derecha * se multiplica
-            
+            $table->foreignId('type_material_id')->nullable()->default(1)->references('id')->on('type_materials'); // TIPO DE MONEDA DE LA TRANSFERENCIA 
             $table->index('transaction_date');                                                          // crea indeice en transaction_date
-
+            $table->timestamps();        
         });
     }
 

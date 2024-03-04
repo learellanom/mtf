@@ -346,8 +346,7 @@ return [
             'url'  => 'dashboardSaldos',
             'active' => ['dashboardSaldos*'],
             'icon' => 'fas fa-fw fas fa-chart-line',
-            'can'  => '
-            ',
+            'can'  => 'dashboardSaldos',
         ],
      
         // [
