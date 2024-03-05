@@ -121,5 +121,9 @@ class RoleSeeder extends Seeder
 
         Permission::create(['name' => 'transactions.index3',        'description' => 'Transacciones v2 - Ver Transacciones'])->assignRole($role1);
 
+        Permission::create(['name' => 'type_materials.index',   'description'   => 'Ver tipos de material del sistema'])->assignRole($role1);
+        Permission::create(['name' => 'type_materials.edit',    'description'   => 'Modifica tipos de material del sistema'])->assignRole($role1);
+        Permission::create(['name' => 'type_materials.create',  'description'   => 'Crear tipos de material al sistema'])->assignRole($role1);
+
     }
 }

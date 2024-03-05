@@ -14,6 +14,7 @@ use App\Http\Controllers\WalletController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\Type_transactionController;
 use App\Http\Controllers\Type_coinController;
+use App\Http\Controllers\Type_materialController;
 
 use JeroenNoten\LaravelAdminLte\Http\Controllers\DarkModeController;
 use Illuminate\Support\Facades\Auth;
@@ -254,6 +255,7 @@ Route::resource('roles', RoleController::class)->middleware('auth')->except('sho
 Route::resource('tipo_transaccion', Type_transactionController::class)->middleware('auth')->except('show')->middleware('can:type_transactions.index')->names('type_transactions');
 Route::resource('tipo_moneda', Type_coinController::class)->middleware('auth')->except('show')->middleware('can:type_coins.index')->names('type_coins');
 Route::resource('permisos', PermissionController::class)->middleware('auth')->except('show')->names('permissions');
+Route::resource('tipo_material', Type_materialController::class)->middleware('auth')->except('show')->middleware('can:type_materials.index')->names('type_materials');
 //
 //
 // Estadisticas Detalle

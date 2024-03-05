@@ -589,6 +589,28 @@ return [
             'label'       => 'C-D',
             'label_color' => 'secondary',
         ],
+        [
+            'text'          => 'Materiales',
+            'icon'          => 'fas fa-fw fa-share',
+            'icon_color'    => 'primary',
+            //'can'           => ['materials.adquisicion_index', 'materials.recepcion_index'],
+            'submenu'   => [
+                [
+                    'text'        => 'Adquisicion',
+                    'classes'   =>  'ml-4',     
+                    'url'         => 'adquisicion',
+                    //'can'         => 'materials.adquisicion_index',
+                    'label_color' =>'success'
+                ],
+                [
+                    'text'        => 'Recepcion',
+                    'classes'   =>  'ml-4',     
+                    'url'         => 'recepcion',
+                    //'can'         => 'materials.recepcion_index',
+                    'label_color' =>'success'
+                ],         
+            ],
+        ],        
         //
         // Configuracion
         //
@@ -645,12 +667,15 @@ return [
             'icon'    => 'fas fa-file-invoice-dollar',
             'can'         => 'type_coins.index',
         ],
-
-
+        [
+            'text'      => 'Tipo de material',
+            'url'       => 'tipo_material',
+            'active'    => ['tipo_material*'],
+            'icon'      => 'fas fa-file-invoice-dollar',
+            'can'       => 'type_materials.index',
         ],
 
-
-
+    ],
     /*
     |--------------------------------------------------------------------------
     | Menu Filters

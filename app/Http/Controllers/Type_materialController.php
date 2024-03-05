@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\type_material;
+use App\Models\Type_material;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 
 class Type_materialController extends Controller
 {
@@ -12,7 +14,8 @@ class Type_materialController extends Controller
      */
     public function index()
     {
-        //
+        $Type_material = Type_material::all();
+        return view('type_materials.index', compact('Type_material'));
     }
 
     /**
@@ -20,7 +23,7 @@ class Type_materialController extends Controller
      */
     public function create()
     {
-        //
+        return view('type_materials.create');
     }
 
     /**
@@ -28,13 +31,17 @@ class Type_materialController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        Type_material::create($request->all());
+
+        flash()->addSuccess('Nuevo Tipo Material creado con exito.', 'Tipo de Material', ['timeOut' => 3000]);
+
+        return Redirect::route('type_materials.index');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(type_material $type_material)
+    public function show(Type_material $Type_material)
     {
         //
     }
@@ -42,24 +49,38 @@ class Type_materialController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(type_material $type_material)
+    public function edit($Type_material)
     {
-        //
+
+        $Type_material = Type_material::find($Type_material);
+        
+
+        return view('type_materials.edit', compact('Type_material'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, type_material $type_material)
+    public function update(Request $request,  $Type_material_id)
     {
-        //
+        
+        // dd('leam - aqui -> ' . print_r($Type_material,true));
+        $Type_material = Type_material::find($Type_material_id);
+        $Type_material->update($request->all());
+        flash()->addInfo('Tipo de material modificado..', 'Tipo de material', ['timeOut' => 3000]);
+        return Redirect::route('type_materials.index');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(type_material $type_material)
+    public function destroy($Type_material)
     {
-        //
+        $Type_material = Type_material::find($Type_material);
+        
+        $Type_material->delete();
+
+        flash()->addError('Tipo de material', 'Tipo de material Eliminado: ' . $Type_material->name,  ['timeOut' => 2000]);
+        return Redirect::route('type_materials.index');
     }
 }
