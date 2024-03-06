@@ -207,7 +207,10 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::resource('movimientos', TransactionController::class)->middleware('auth')->names('transactions');
 
-    
+    Route::get('adquisicion',           [TransactionController::class, 'materials_adquisicion_index']   )->name('materials.adquisicion_index');
+    //Route::get('adquisicion/create',    [TransactionController::class, 'materials_adquisicion_create']  )->middleware('auth')->names('materials.adquisicion_create');
+    //Route::get('adquisicion/edit',      [TransactionController::class, 'materials_adquisicion_edit']    )->middleware('auth')->names('materials.adquisicion_edit');
+
     Route::get('movimientos2/{movimiento}', [TransactionController::class,'edit2'])->middleware('auth')->name('transactions.edit2');
 
     

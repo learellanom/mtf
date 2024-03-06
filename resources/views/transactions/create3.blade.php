@@ -757,7 +757,20 @@
             let amount_commission           = $('#comision').val()          != "" ? parseFloat($('#comision').val())            : 0;
             let amount_commission_base      = $('#comision_base').val()     != "" ? parseFloat($('#comision_base').val())       : 0;
             let amount_commission_profit    = amount_commission - amount_commission_base;
+
             
+            let amount_foreign_currency           = $('#monto').val()             != "" ? parseFloat($('#monto').val())               : 0;
+            if (amount_foreign_currency <= 0) {
+                Swal.fire({
+                            position: 'left',
+                            type: 'error',
+                            title: 'Monto en moneda extranjera, no puede ser cero o menor a cero.',
+                            showConfirmButton: true
+                        });                    
+                    return false;
+            }
+
+
             // $('#amount_commission_profit').val(amount_commission_profit);
             // alert(amount_commission_profit);
             //alert($('#amount_commission_profit').val());
