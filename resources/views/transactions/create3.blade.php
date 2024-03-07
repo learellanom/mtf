@@ -760,14 +760,14 @@
 
             
             let amount_foreign_currency           = $('#monto').val()             != "" ? parseFloat($('#monto').val())               : 0;
-            if (amount_foreign_currency <= 0) {
+            if (amount_foreign_currency < 0) {
                 Swal.fire({
                             position: 'left',
                             type: 'error',
                             title: 'Monto en moneda extranjera, no puede ser cero o menor a cero.',
                             showConfirmButton: true
-                        });                    
-                    return false;
+                });                    
+                return false;
             }
 
 

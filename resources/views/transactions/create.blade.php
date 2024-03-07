@@ -679,7 +679,7 @@
             let amount_commission_profit    = amount_commission - amount_commission_base;
             
             let amount_foreign_currency           = $('#monto').val()             != "" ? parseFloat($('#monto').val())               : 0;
-            if (amount_foreign_currency <= 0) {
+            if (amount_foreign_currency < 0) {
                 Swal.fire('Monto en moneda extranjera, no puede ser cero o menor a cero.');
                 return false;
             }
