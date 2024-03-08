@@ -42,8 +42,13 @@ return new class extends Migration
             $table->foreignId('type_coin_balance_id')->default(1)->references('id')->on('type_coins');  //-> tipo de moneda en el que se llevara el balance de la transaccion
             $table->enum('exchange_rate_orientation', [1, 2])->nullable()->default(1); 					//-> orientacion del cambio 1 de derecha a izquierda / divide -- 2 de izquierda a derecha * se multiplica
             $table->foreignId('type_material_id')->nullable()->default(1)->references('id')->on('type_materials'); // TIPO DE MONEDA DE LA TRANSFERENCIA 
+
+            $table->double('material_amount')->nullable();                               //-> Monto en Dorales
+            $table->double('material_amount_total')->nullable();                               //-> Monto en Dorales
+            $table->double('material_price')->nullable();                               //-> Monto en Dorales
+
             $table->index('transaction_date');                                                          // crea indeice en transaction_date
-            $table->timestamps();        
+            $table->timestamps();       
         });
     }
 

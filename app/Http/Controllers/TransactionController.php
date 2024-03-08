@@ -188,18 +188,26 @@ class TransactionController extends Controller
         $myFechaDesde2  =  substr($myFechaDesde,8,2) . '-' . substr($myFechaDesde,5,2) . '-' . substr($myFechaDesde,0,4);
         $myFechaHasta2  =  substr($myFechaHasta,8,2) . '-' . substr($myFechaHasta,5,2) . '-' . substr($myFechaHasta,0,4);
 
-        $user           = User::pluck('name', 'id')->toArray();
+        $user               = User::pluck('name', 'id')->toArray();
 
         $myTypeCoinBalance  = $myCoin; // dorales siempre por ahora
-        $Type_coin_balance  = Type_coin::pluck('name', 'id')->toArray();     
+        $Type_coin_balance  = Type_coin::pluck('name', 'id')->toArray();
 
-        $parametros['fechaDesde']       = $myFechaDesde2;
-        $parametros['fechaHasta']       = $myFechaHasta2;
-        $parametros['movimientos']      = $movimientos;
-        $parametros['myUser']           = $myUser;
-        $parametros['user']             = $user;
-        $parametros['myTypeCoinBalance']             = $myTypeCoinBalance;
-        $parametros['Type_coin_balance']             = $Type_coin_balance;
+
+        $myTypeMaterial     = $request->material ? $request->material : 0;
+        $Type_material      = Type_material::pluck('name', 'id')->toArray();
+        
+        \Log::info('leam - llega el material ->' . $myTypeMaterial);
+
+        $parametros['fechaDesde']           = $myFechaDesde2;
+        $parametros['fechaHasta']           = $myFechaHasta2;
+        $parametros['movimientos']          = $movimientos;
+        $parametros['myUser']               = $myUser;
+        $parametros['user']                 = $user;
+        $parametros['myTypeCoinBalance']    = $myTypeCoinBalance;
+        $parametros['Type_coin_balance']    = $Type_coin_balance;
+        $parametros['myTypeMaterial']       = $myTypeMaterial;
+        $parametros['Type_material']        = $Type_material;
 
         // dd($transferencia);
 

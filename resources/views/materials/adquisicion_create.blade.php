@@ -61,19 +61,18 @@
                             </div>
                         </div>
                     </div>
-
-                    <div class="form-row">
-
+                    <hr class="bg-dark esconder" style="height:1px;">    
+                    <div class="form-row esconder">
                         <div class="form-group col-md-4">
-                            {!! Form::Label('type_material_id', "Tipo de material:") !!}
+                            {!! Form::Label('type_coin_id', "Tipo de moneda:") !!}
                             <div class="input-group-text">
                                 <i class="fa-fw fas fa-dollar-sign mr-2"></i>
-                            {!! Form::select('type_material_id',$type_material, null, ['class' => 'form-control type_material_id myForm', 'required' => true, 'id' => 'type_material_id', 'readonly' => false]) !!}
+                            {!! Form::select('type_coin_id',$type_coin, null, ['class' => 'form-control typecoin', 'required' => true, 'id' => 'type_coin_id', 'readonly' => false]) !!}
                             </div>
                         </div>
 
                         <div class="form-group col-md-4">
-                            {!! Form::Label('exchange_rate', "Precio/U:") !!}
+                            {!! Form::Label('exchange_rate', "Tasa:") !!}
                             <div class="input-group-text">
                                 <i class="fa-fw fas fa-random mr-2"></i>
                             {!! Form::text('exchange_rate',null, ['class' => 'form-control rateMasks myForm', 'required' => true, 'id' => 'exchange_rate', 'minlength' => 9]) !!}
@@ -82,14 +81,39 @@
                         </div>
 
                         <div class="form-group col-md-4">
-                            {!! Form::Label('amount_foreign_currency', "Cantidad:") !!}
+                            {!! Form::Label('monto', "Monto en moneda extranjera:") !!}
                             <div class="input-group-text">
                                 <i class="fa-fw fas fa-coins mr-2"></i>
-                                {!! Form::text('amount_foreign_currency',null, ['class' => 'form-control general myForm', 'required' => true, 'id' => 'amount_foreign_currency']) !!}
+                                {!! Form::text('amount_foreign_currency',null, ['class' => 'form-control general myForm', 'required' => true, 'id' => 'monto']) !!}
                             </div>
                         </div>
 
+
+
                     </div>
+
+
+                    <div class="form-row">
+                        <div class="form-group  col-12 mt-4 mb-4">
+                            <label class="form-check-label mx-auto  col-md-3">
+                                {!! Form::Label('', "Orientacion del Cambio:") !!}
+                            </label>
+
+                            <label class="form-check-label mx-auto col-md-4" for="exchange_rate_orientation2_radio1">
+                                {!! Form::radio('exchange_rate_orientation',1, 1, ['id' => 'exchange_rate_orientation2_radio1', 'class' => 'myForm','required' => true,]) !!}
+                                De tipo Moneda Balance -> Tipo de Moneda
+                            </label>
+                            <label class="form-check-label mx-auto esconder comi col-md-4" for="exchange_rate_orientation2_radio2">
+                                {!! Form::radio('exchange_rate_orientation',2, null, ['id' => 'exchange_rate_orientation2_radio2', 'class' => 'myForm', 'required' => true,]) !!}
+                                De tipo Moneda  -> Tipo de Moneda Balance
+                            </label>
+                            <!--
+                            <label class="form-check-label mx-auto esconder comi col-md-2">
+                            </label>
+                            -->
+                        </div>                        
+                    </div>
+
 
                     <div class="form-row">
 
@@ -109,7 +133,53 @@
                         </div>
 
                     </div>
+
+
+
+
+                    
+                    
                 </div>
+                <hr class="bg-dark escoder" style="height:1px;">   
+                <div class="form-row">
+                    
+
+                       
+                    <div class="form-group col-md-3">
+                        {!! Form::Label('type_material_id', "Tipo de material:") !!}
+                        <div class="input-group-text">
+                            <i class="fa-fw fas fa-dollar-sign mr-2"></i>
+                        {!! Form::select('type_material_id',$type_material, null, ['class' => 'form-control type_material_id myForm', 'required' => true, 'id' => 'type_material_id', 'readonly' => false]) !!}
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-3">
+                        {!! Form::Label('material_amount_price', "Precio/U:") !!}
+                        <div class="input-group-text">
+                            <i class="fa-fw fas fa-random mr-2"></i>
+                        {!! Form::text('material_amount_price',null, ['class' => 'form-control rateMasks myForm', 'required' => true, 'id' => 'material_amount_price', 'minlength' => 9]) !!}
+                        
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-3">
+                        {!! Form::Label('material_amount', "Cantidad:") !!}
+                        <div class="input-group-text">
+                            <i class="fa-fw fas fa-coins mr-2"></i>
+                            {!! Form::text('material_amount',null, ['class' => 'form-control general myForm', 'required' => true, 'id' => 'material_amount']) !!}
+                        </div>
+                    </div>
+                    <div class="form-group col-md-3">
+                        {!! Form::Label('material_amount_total', "Monto Total Material:") !!}
+                        <div class="input-group-text">
+                            <i class="fa-fw fas fas fa-funnel-dollar mr-2"></i>
+                            {!! Form::text('material_amount_total', null, ['class' => 'form-control dolar general', 'required' => true, 'id' => 'material_amount_total', 'readonly' => true, 'data-mask-clearifnotmatch' => true]) !!}
+                        </div>
+                    </div>
+                </div>
+
+                <hr class="bg-dark esconder" style="height:1px;">    
+
                 <div class="form-row">
                         <div class="form-group col-xl-4">
                             {!! Form::Label('fecha', "Fecha:") !!}
@@ -122,6 +192,7 @@
 
 
                 <div class="form-group">
+   
                     {!! Form::Label('description', "Descripción:") !!}
                     <div class="input-group-text">
                         <i class="fa-fw fas fa-text-width mr-2"></i>
@@ -332,6 +403,15 @@
 
     $("#clientes").val(null)
     $("#clientes").trigger("change");
+
+    $("#type_coin_id").select2({
+        placeholder: "Seleccionar Moneda",
+        theme: 'bootstrap4',
+        allowClear: true,
+        width: '100%'
+    });
+    $("#type_coin_id").val("")
+    $("#type_coin_id").trigger("change");
 
     $("#type_coin_balance_id").select2({
         placeholder: "Seleccionar Moneda",

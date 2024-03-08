@@ -1,0 +1,489 @@
+
+        <!-- Default box -->
+        <div class="card">
+            <div class="card-header">
+                <div class="row">
+                    <div class="col-lg-4">
+                        <h3 class="card-title text-uppercase font-weight-bold">Transacción numero #{{ $transactions->id }}
+                        @php
+                            if($transactions->status == 'Activo') {
+                                $myBadge = "badge badge-success";
+                            }else{
+                                $myBadge = "badge badge-danger";
+                            }
+                        @endphp
+                        <span class="{{$myBadge}}" id="myBadge">{{ $transactions->status }}</span>
+
+                        {{-- @if($transactions->status == 'Activo') <span class="badge badge-success" id="myBadge">{{ $transactions->status }}</span> @else <span class="badge badge-danger">{{ $transactions->status }}</span> @endif </h3> --}}
+                    </div>  
+                    
+                    @php
+
+                    @endphp
+                    <div class="col-lg-8 justify-content-end align-items-right text-right">
+                        
+                        @can('transactions.update_status')            
+                            @php
+                                
+                                $indMuestra = 1;
+                                if ($myAdministrator == false){
+                                    if ($transactions->user_id != auth()->id()){
+                                        $indMuestra = 0;
+                                    }
+                                }
+                                 
+                                if ($transactions->status == 'Activo') {
+                                    $myColor = "btn btn-xl text-success mx-1 shadow text-center";
+                                    $myIcon = "fa fa-lg fa-fw fas fa-check";
+                                    $myText = "Anular";                        
+                                }else{
+                                    $myColor = "btn btn-xl text-danger mx-1 shadow text-center";
+                                    $myIcon = "fa fa-lg fa-fw fas fa-times ";
+                                    $myText = "Activar";
+                                }
+                            @endphp 
+                            @if($indMuestra == 1)
+                                <button class="{{ $myColor }}" 
+                                    id="myBtnAnular"
+                                    onclick="apiUpdateStatus();"
+                                    title="Activo">
+                                    <i id="myIcon" class="{{$myIcon}}"></i><p id="myText" style="display: block;">{{ $myText }}</p>
+                                </button>
+                                
+                                <button class="btn btn-xl text-success mx-1 shadow text-center " 
+                                    title="Activo"
+                                    onclick="editTransaction();"
+                                    >
+                                    <i class="fas fa-lg fa-fw fa-coins"></i><p style="display: block;">Editar</p>
+                                </button>
+                                
+                            @else
+                                <button class="{{ $myColor }}" 
+                                    id="myBtnAnular"
+                                    onclick=""
+                                    title="Activo"
+                                    disabled
+                                    style="color: gray !important;"
+                                    >
+                                    <i id="myIcon" class="{{$myIcon}}"></i><p id="myText" style="display: block;">{{ $myText }}</p>
+                                </button>
+                                <button class="btn btn-xl text-success mx-1 shadow text-center " 
+                                    title="Activo"
+                                    onclick=""
+                                    disabled
+                                    style="color: gray !important;"
+                                    >
+                                    <i class="fas fa-lg fa-fw fa-coins"></i><p style="display: block;">Editarr</p>
+                                </button>                            
+                            @endif
+                        @endcan
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+
+                <div class="row">
+                    <div class="col-12 col-md-12 col-xl-8 order-2 order-md-1">
+                        <div class="row col-12">
+                            <div class="col-12 col-sm-4">
+                                <div class="info-box bg-light">
+                                    <div class="info-box-content">
+                                        <span class="info-box-text text-center text-muted">Transacción <i class="fas fa-trademark"></i></span>
+                                        <span class="info-box-number text-center text-muted mb-0 text-uppercase">{{ $transactions->type_transaction->name }}</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-sm-4">
+                                <div class="info-box bg-light">
+                                    <div class="info-box-content">
+                                        <span class="info-box-text text-center text-muted">Caja <i class="fas fa-box"></i></span>
+                                        <span class="info-box-number text-center text-muted mb-0 text-uppercase">{{ ($transactions->wallet->name) ?  $transactions->wallet->name :  ""}}</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-sm-4">
+                                <div class="info-box bg-light">
+                                    <div class="info-box-content">
+                                        <span class="info-box-text text-center text-muted">
+                                        @if($transactions->group_id)
+                                            @if($transactions->group->type == 2)   
+                                                Caja Destino  
+                                            @else 
+                                                Grupo 
+                                            @endif  
+                                        @else
+                                            
+                                        @endif
+                                            <i class="fas fa-hand-holding-usd"></i></span>
+                                        <span class="info-box-number text-center text-muted mb-0 text-uppercase">
+
+                                        @if($transactions->group_id)
+                                                @if($transactions->group->type == 2)   
+                                                    {{ $transactions->wallet->name}} 
+
+                                                @else
+                                                {{ $transactions->group->name }} 
+                                                @endif
+                                            @endif
+                                        
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>               
+
+                        </div>
+
+                        <hr>
+                        @if($transactions->type_transaction_id != 47)
+                            <div class="row">
+                                <div class="col-12 col-sm-4">
+                                    <div class="info-box bg-light">
+                                        <div class="info-box-content">
+                                            <span class="info-box-text text-center text-muted">Tipo de moneda <i class="fas fa-funnel-dollar"></i></span>
+                                            <span class="info-box-number text-center text-muted mb-0">{{ $transactions->type_coin->name }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-12 col-sm-4">
+                                    <div class="info-box bg-light">
+                                        <div class="info-box-content">
+                                            <span class="info-box-text text-center text-muted">Tasa de cambio <i class="fas fa-sync"></i></span>
+                                            <span class="info-box-number text-center text-muted mb-0 text-uppercase">
+                                                {{ number_format($transactions->exchange_rate,2,",",".") }}
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-12 col-sm-4">
+                                    <div class="info-box bg-light">
+                                        <div class="info-box-content">
+                                            <span class="info-box-text text-center text-muted">
+                                                Moneda Extranjera <i class="fas fa-hryvnia"></i>
+                                            </span>
+                                            <span class="info-box-number text-center text-muted mb-0 text-uppercase">
+                                                {{ number_format($transactions->amount_foreign_currency,2,",",".") ?? '0.00' }}
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        @else
+
+                            <div class="row">
+                                <div class="col-12 col-sm-4">
+                                </div>
+                                <div class="col-12 col-sm-4">
+                                    <div class="info-box bg-light">
+                                        <div class="info-box-content">
+                                            <span class="info-box-text text-center text-muted">Precio /U <i class="fas fa-sync"></i></span>
+                                            <span class="info-box-number text-center text-muted mb-0 text-uppercase">
+                                                {{ number_format($transactions->exchange_rate,2,",",".") }}
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-12 col-sm-4">
+                                    <div class="info-box bg-light">
+                                        <div class="info-box-content">
+                                            <span class="info-box-text text-center text-muted">
+                                                Cantidad<i class="fas fa-hryvnia"></i>
+                                            </span>
+                                            <span class="info-box-number text-center text-muted mb-0 text-uppercase">
+                                                {{ number_format($transactions->amount_foreign_currency,2,",",".") ?? '0.00' }}
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        @endif
+
+                        @if($transactions->type_transaction_id != 47)
+                        <div class="row">
+                            <div class="col-12 col-sm-4">
+                            
+                                <div class="info-box bg-light">
+                                    <div class="info-box-content">
+                                        <span class="info-box-text text-center text-muted">Orientacion del cambio<i class="fas fa-funnel-dollar"></i></span>
+                                        <span class="info-box-number text-center text-muted mb-0">
+                                            @php
+                                                $descripcionOrientacionCambio = "";
+                                                switch($transactions->exchange_rate_orientation){
+                                                    case 1:
+                                                        $descripcionOrientacionCambio = "De tipo Moneda Balance -> Tipo de Moneda";
+                                                        break;
+                                                    case 2:
+                                                        $descripcionOrientacionCambio = "De tipo Moneda -> Tipo de Moneda Balanc";
+                                                        break;
+                                                }
+                                            @endphp
+                                        
+                                            {{ $descripcionOrientacionCambio}}
+                                        </span>
+                                    </div>
+                                </div>
+                            
+                            </div>
+                        </div>
+                        @endif
+
+
+                        
+                        <div class="row">
+                            <div class="col-12 col-sm-4">
+                                <div class="info-box bg-light">
+                                    <div class="info-box-content">
+                                        <span class="info-box-text text-center text-muted">Tipo de moneda balance<i class="fas fa-lock"></i></span>
+                                        <span class="info-box-number text-center text-muted mb-0 text-uppercase">{{ $transactions->type_coin_balance->name  }}</span>
+                                    </div>
+                                </div>                            
+                            </div>
+
+
+                            <div class="col-12 col-sm-8">
+                                    <div class="info-box bg-light">
+                                        <div class="info-box-content">
+                                            <span class="info-box-text text-center text-muted">Monto<i class="fas fa-dollar-sign"></i></span>
+                                            <span class="info-box-number text-center text-muted mb-0">{{ number_format(abs($transactions->amount),2,",",".") }}$</span>
+                                        </div>
+                                    </div>
+                            </div>
+                        </div>
+
+                        @if($transactions->type_transaction_id != 47)
+                        <div class="row">
+
+
+                            <div class="col-13 col-sm-3">
+                                <div class="info-box bg-light">
+                                    <div class="info-box-content">
+                                        <span class="info-box-text text-center text-muted">Comisión <i class="fas fa-receipt"></i></span>
+                                        @if($transactions->exonerate == 1)
+                                            <span class="info-box-number mb-0 text-uppercase badge badge-success text-center">{{ 'Incluida' }} </span>
+                                        @elseif($transactions->exonerate == 2)
+                                            <span class="info-box-number mb-0 text-uppercase badge badge-warning text-center">{{ 'Exonerada' }} </span>
+                                        @else
+                                            <span class="info-box-number mb-0 text-uppercase badge badge-danger text-center">{{ 'Descontada' }} </span>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-3">
+                                <div class="info-box bg-light">
+                                    <div class="info-box-content">
+                                        <span class="info-box-text text-center text-muted"> <i class="fas fa-percentage"></i></span>
+                                        <span class="info-box-number text-center text-muted mb-0 text-uppercase">{{ $transactions->percentage ?? '-' }} </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-6">
+                                <div class="info-box bg-light">
+                                    <div class="info-box-content">
+                                        <span class="info-box-text text-center text-muted">Comisión <i class="fas fa-comment-dollar"></i></span>
+                                        <span class="info-box-number text-center text-muted mb-0 text-uppercase">{{ number_format(abs($transactions->amount_commission),2,",",".") ?? 'Sin comisión' }}</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        @endif
+
+                        @if($transactions->type_transaction_id != 47)
+                            <div class="row">
+                                <div class="col-12 col-sm-12">
+                                    <div class="info-box bg-light" style="border: 1px solid black;">
+                                        <div class="info-box-content">
+                                            <span class="info-box-text text-center text-muted">Monto total <i class="fas fa-money-check-alt"></i></span>
+                                            <span class="info-box-number text-center text-muted mb-0">{{ number_format(abs($transactions->amount_total),2,",",".") }}$</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
+
+                        @if($transactions->type_transaction_id != 47)
+                        <hr>                        
+                        <div class="row">
+                            <div class="col-12">
+
+                            <div class="row">
+
+                                <div class="col-12 col-sm-3">
+                                    <div class="info-box bg-light">
+                                        <div class="info-box-content">
+                                            <span class="info-box-text text-center text-muted">Numero de transferencia <i class="fas fa-asterisk"></i></span>
+                                            <span class="info-box-number text-center text-muted mb-0 text-uppercase">{{ $transactions->transfer_number }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                @php 
+                                    $myDate = date_create($transactions->transaction_date);
+                                @endphp 
+                                <div class="col-12 col-sm-4 col-xl-3">
+                                    <div class="info-box bg-light">
+                                        <div class="info-box-content">
+                                            <span class="info-box-text text-center text-muted">Fecha Transaccion <i class="fas fa-calendar"></i></span>
+                                            <span class="info-box-number text-center text-muted mb-0 text-danger">{{ date_format($myDate,"d/m/Y H:i:s") }}</span>
+                                        </div>
+                                    </div>
+                                </div>                            
+                                <div class="col-12 col-sm-4 col-xl-3">
+                                    <div class="info-box bg-light">
+                                        <div class="info-box-content">
+                                            <span class="info-box-text text-center text-muted">Token <i class="fas fa-lock"></i></span>
+                                            <span class="info-box-number text-center text-muted mb-0 text-uppercase">{{ $transactions->token ?? 'SIN TOKEN' }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-sm-4 col-xl-3">
+                                    <div class="info-box bg-light">
+                                        <div class="info-box-content">
+                                            <span class="info-box-text text-center text-muted">Agente <i class="fas fa-user"></i></span>
+                                            <span class="info-box-number text-center text-muted mb-0 text-uppercase">{{ $transactions->user->name }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                
+                        <hr>
+                        <div class="row col-12">
+                            <div class="col-12 col-sm-9">
+                                <div class="info-box bg-light">
+                                    <div class="info-box-content">
+                                        <span class="info-box-text text-center text-muted">
+                                            Monto Base<i class="fas fa-exclamation-triangle"></i>
+                                        </span>
+                                        <span class="info-box-number text-center text-muted mb-0 text-uppercase">
+                                            {{ number_format($transactions->amount_base,2,",",".") ?? '0.00' }}
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>                    
+                        </div>
+                
+                        <div class="row col-12">
+                            
+                            <div class="col-12 col-sm-3">
+                                <div class="info-box bg-light">
+                                    <div class="info-box-content">
+                                        <span class="info-box-text text-center text-muted">Comisión Base <i class="fas fa-receipt"></i></span>
+                                        @if($transactions->exonerate_base == 1)
+                                            <span class="info-box-number mb-0 text-uppercase badge badge-success text-center">{{ 'Incluida' }} </span>
+                                        @elseif($transactions->exonerate_base == 2)
+                                            <span class="info-box-number mb-0 text-uppercase badge badge-warning text-center">{{ 'Exonerada' }} </span>
+                                        @else
+                                            <span class="info-box-number mb-0 text-uppercase badge badge-danger text-center">{{ 'Descontada' }} </span>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-sm-3">
+                                <div class="info-box bg-light">
+                                    <div class="info-box-content">
+                                        <span class="info-box-text text-center text-muted">Porcentaje Base <i class="fas fa-asterisk"></i></span>
+                                        <span class="info-box-number text-center text-muted mb-0 text-uppercase">{{ $transactions->percentage_base ?? 'SIN BASE' }}</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-sm-6">
+                                <div class="info-box bg-light">
+                                    <div class="info-box-content">
+                                        <span class="info-box-text text-center text-muted">Comision Base <i class="fas fa-exclamation-triangle"></i></span>
+                                        <span class="info-box-number text-center text-muted mb-0 text-uppercase">
+                                            {{ number_format($transactions->amount_commission_base,2,",",".") ?? '0,00' }}
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                
+                        <div class="row col-12">
+                            <div class="col-12 col-sm-9">
+                                <div class="info-box bg-light">
+                                    <div class="info-box-content">
+                                        <span class="info-box-text text-center text-muted">Tasa de cambio base <i class="fas fa-sync"></i></span>
+                                        <span class="info-box-number text-center text-muted mb-0 text-uppercase">
+                                            {{ number_format($transactions->exchange_rate_base,2,",",".") }}
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row col-12">
+                            <div class="col-12 col-sm-12">
+                                <div class="info-box bg-light" style="border: 1px solid black;">
+                                    <div class="info-box-content">
+                                        <span class="info-box-text text-center text-muted">
+                                        Monto total (BASE) <i class="fas fa-funnel-dollar"></i>
+                                        </span>
+                                        <span class="info-box-number text-center text-muted mb-0">
+                                            {{  number_format(abs($transactions->amount_total_base),2,",",".") ?? 'SIN BASE' }} $
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        @endif
+                        <hr>
+                        <div class="row col-12">
+                            
+                            <div class="col-12 col-sm-12">
+                                <div class="info-box bg-light">
+                                    <div class="info-box-content">
+                                        <span class="info-box-text text-center text-muted">Descripción <i class="fas fa-text-width"></i></span>
+                                        <span class="info-box-number text-center text-muted mb-0 text-uppercase">{{ $transactions->description ?? 'SIN DESCRIPCIÓN' }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-12 col-md-12 col-lg-12 order-1 order-md-2">
+
+                        <!-- <hr> -->
+                        <h5 class="mt-5 text-muted text-uppercase font-weight-bold text-center">Captures de pantalla | Referencias <i class="fas fa-images"></i> </h5>
+                        <hr>
+
+                        <ul class="list-unstyled">
+                            <li>
+                                <div class="col-12">
+                                    <div class="card card-primary">
+                                        <div class="card-header">
+                                            <h4 class="card-title">Referencias</h4>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="row">
+                                                @foreach ($transactions->image as $transaction)
+                                                    <div class="col-sm-2">
+                                                        <a href="{{Storage::url($transaction->url)}}?text={{$transaction->id}}" data-toggle="lightbox" data-title="Transacciones">
+                                                            <img class="img-fluid mb-2" style="width:100%;" alt="white sample" @if($transaction) src="{{Storage::url($transaction->url)}}"> @else <p>Sin imagenes</p> @endif
+                                                        </a>
+                                                    </div>
+                                                @endforeach
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                                
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
