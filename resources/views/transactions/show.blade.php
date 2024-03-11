@@ -167,7 +167,7 @@
                         </div>
 
                         <hr>
-                        @if($transactions->type_transaction_id != 47)
+
                             <div class="row">
                                 <div class="col-12 col-sm-4">
                                     <div class="info-box bg-light">
@@ -204,46 +204,13 @@
 
 
                             </div>
-                        @else
 
-                            <div class="row">
-                                <div class="col-12 col-sm-4">
-                                    <div class="info-box bg-light">
-                                        <div class="info-box-content">
-                                            <span class="info-box-text text-center text-muted">Tipo de moneda <i class="fas fa-funnel-dollar"></i></span>
-                                            <span class="info-box-number text-center text-muted mb-0">{{ $transactions->type_coin->name }}</span>
-                                        </div>
-                                    </div>
-                                </div>
 
-                                <div class="col-12 col-sm-4">
-                                    <div class="info-box bg-light">
-                                        <div class="info-box-content">
-                                            <span class="info-box-text text-center text-muted">Precio /U <i class="fas fa-sync"></i></span>
-                                            <span class="info-box-number text-center text-muted mb-0 text-uppercase">
-                                                {{ number_format($transactions->exchange_rate,2,",",".") }}
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
+ 
 
-                                <div class="col-12 col-sm-4">
-                                    <div class="info-box bg-light">
-                                        <div class="info-box-content">
-                                            <span class="info-box-text text-center text-muted">
-                                                Cantidad<i class="fas fa-hryvnia"></i>
-                                            </span>
-                                            <span class="info-box-number text-center text-muted mb-0 text-uppercase">
-                                                {{ number_format($transactions->amount_foreign_currency,2,",",".") ?? '0.00' }}
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
 
-                        @endif
 
-                        @if($transactions->type_transaction_id != 47)
+                        
                         <div class="row">
                             <div class="col-12 col-sm-4">
                             
@@ -270,7 +237,7 @@
                             
                             </div>
                         </div>
-                        @endif
+                        
 
 
                         
@@ -294,6 +261,48 @@
                                     </div>
                             </div>
                         </div>
+
+                        @if($transactions->type_transaction_id == 47)
+                        <hr>  
+                            <div class="row mt-4 mb-4">
+                                <div class="col-12 col-sm-4">
+                                    <div class="info-box bg-light">
+                                        <div class="info-box-content">
+                                            <span class="info-box-text text-center text-muted">Tipo de material <i class="fas fa-funnel-dollar"></i></span>
+                                            <span class="info-box-number text-center text-muted mb-0">{{ $transactions->type_material->name }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-12 col-sm-4">
+                                    <div class="info-box bg-light">
+                                        <div class="info-box-content">
+                                            <span class="info-box-text text-center text-muted">Precio /U <i class="fas fa-sync"></i></span>
+                                            <span class="info-box-number text-center text-muted mb-0 text-uppercase">
+                                                {{ number_format($transactions->material_price,2,",",".") }}
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-12 col-sm-4">
+                                    <div class="info-box bg-light">
+                                        <div class="info-box-content">
+                                            <span class="info-box-text text-center text-muted">
+                                                Cantidad<i class="fas fa-hryvnia"></i>
+                                            </span>
+                                            <span class="info-box-number text-center text-muted mb-0 text-uppercase">
+                                                {{ number_format($transactions->material_amount,2,",",".") ?? '0.00' }}
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+
+                            </div>
+                        @endif
 
                         @if($transactions->type_transaction_id != 47)
                         <div class="row">
@@ -346,22 +355,25 @@
                             </div>
                         @endif
 
-                        @if($transactions->type_transaction_id != 47)
+
                         <hr>                        
                         <div class="row">
                             <div class="col-12">
 
                             <div class="row">
-
-                                <div class="col-12 col-sm-3">
-                                    <div class="info-box bg-light">
-                                        <div class="info-box-content">
-                                            <span class="info-box-text text-center text-muted">Numero de transferencia <i class="fas fa-asterisk"></i></span>
-                                            <span class="info-box-number text-center text-muted mb-0 text-uppercase">{{ $transactions->transfer_number }}</span>
+                                @if($transactions->type_transaction_id != 47)
+                                    <div class="col-12 col-sm-3">
+                                        <div class="info-box bg-light">
+                                            <div class="info-box-content">
+                                                <span class="info-box-text text-center text-muted">Numero de transferencia <i class="fas fa-asterisk"></i></span>
+                                                <span class="info-box-number text-center text-muted mb-0 text-uppercase">{{ $transactions->transfer_number }}</span>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-
+                                @else
+                                    <div class="col-12 col-sm-3">
+                                    </div>
+                                @endif
 
                                 @php 
                                     $myDate = date_create($transactions->transaction_date);
@@ -373,7 +385,9 @@
                                             <span class="info-box-number text-center text-muted mb-0 text-danger">{{ date_format($myDate,"d/m/Y H:i:s") }}</span>
                                         </div>
                                     </div>
-                                </div>                            
+                                </div>         
+
+                                @if($transactions->type_transaction_id != 47)
                                 <div class="col-12 col-sm-4 col-xl-3">
                                     <div class="info-box bg-light">
                                         <div class="info-box-content">
@@ -382,6 +396,11 @@
                                         </div>
                                     </div>
                                 </div>
+                                @else
+                                <div class="col-12 col-sm-4 col-xl-3">
+                                </div>
+                                @endif
+
                                 <div class="col-12 col-sm-4 col-xl-3">
                                     <div class="info-box bg-light">
                                         <div class="info-box-content">
@@ -393,7 +412,8 @@
 
                             </div>
                         </div>
-                
+
+                        @if($transactions->type_transaction_id != 47)
                         <hr>
                         <div class="row col-12">
                             <div class="col-12 col-sm-9">
@@ -477,6 +497,7 @@
                             </div>
                         </div>
                         @endif
+
                         <hr>
                         <div class="row col-12">
                             
@@ -524,7 +545,7 @@
                         </ul>
                     </div>
                     @endif
-                    
+
                 </div>
             </div>
         </div>

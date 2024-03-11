@@ -1243,6 +1243,7 @@ class TransactionController extends Controller
        // \Log::info('transaction controller - type_coin_balance_id2 -> ' . $transactions->type_coin_balance_id);
         // \Log::info('leam - pasa');
         // die(); leamx
+        
          flash()->addSuccess('Movimiento guardado', 'Transacción', ['timeOut' => 3000]);
 
          // return Redirect::back()->withInput();
@@ -1883,16 +1884,27 @@ class TransactionController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function materials_adquisicion_edit($transaction)
+    public function materials_adquisicion_edit(Request $request)
     {
-
-        $transactions       = Transaction::find($transaction);
+        $myId = 0;
+        if (isset($request->id)){
+            $myId = $request->id;
+        }
+        $transactions        = Transaction::find($myId);
 
         $type_coin          = Type_coin::pluck('name', 'id');
         $type_transaction   = Type_transaction::pluck('name', 'id');
         $wallet             = Group::where('type','=','2')->pluck('name', 'id');
         $group              = Group::where('type','=','1')->pluck('name', 'id');
         $user               = User::pluck('name', 'id');
+        $type_coin_balance  = Type_coin::pluck('name', 'id');
+
+        
+
+        // leamx
+        
+        $myTypeMaterial     = $request->material ? $request->material : 0;
+        $type_material      = Type_material::pluck('name', 'id')->toArray();
 
         $myName = "";
         foreach($type_transaction as $key => $value){
@@ -1944,7 +1956,19 @@ class TransactionController extends Controller
         // dd($transactions);
         // dd(var_dump($type_transaction));
         // dd('type transaction ->' . $transactions->type_transaction_id . 'myName ->' . $myName);
-        return view('transactions.edit', compact('transactions', 'imagen', 'type_coin', 'type_transaction', 'wallet', 'group', 'user'));
+
+
+        $parametros['transactions']     = $transactions;
+        $parametros['type_coin']        = $type_coin;
+        $parametros['type_transaction'] = $type_transaction;
+        $parametros['wallet']           = $wallet;
+        $parametros['group']            = $group;
+        $parametros['user']             = $user;
+        $parametros['type_coin']        = $type_coin;
+        $parametros['type_material']    = $type_material;
+
+        return view('materials.adquisicion_edit', $parametros);
+
     }
 
 
@@ -2065,6 +2089,28 @@ class TransactionController extends Controller
 
         return Redirect::route('transactions.index3')->with('warning', 'Transacción Modificada <strong># ' . $transaction . '</strong>');
     }
+
+        /*
+     * 
+     * Update the specified resource in storage.
+     * 
+     */             
+    public function materials_adquisicion_update(Request $request, $transaction)
+    {
+
+        // dd($request->percentage);
+
+        Transaction::find($transaction)->update($request->all());
+
+        $myTransaccion = Transaction::find($transaction);
+        $myTransaccion->percentage = $request->percentage;
+        $myTransaccion->save();
+        // dd($myTransaccion);
+
+        return Redirect::route('materials.adquisicion_index')->with('warning', 'Transacción Modificada <strong># ' . $transaction . '</strong>');
+    }
+
+
     /**
      * Remove the specified resource from storage.
      */

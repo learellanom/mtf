@@ -30,13 +30,13 @@
 
 
 @section('content')
-{{--
+
 @can('materials.adquisicion_create')
     <a class="btn btn-dark" title="Crear transaccion" href={{ route('materials.adquisicion_create') }} style="width: 5rem">
         <i class="fas fa-plus-circle"></i>
     </a>
 @endcan
---}}
+
 <br><br>
 {{-- Compressed with style options / fill data using the plugin config --}}
 
@@ -213,7 +213,7 @@
                                             @if($movimiento->status == 'Activo')
                                                 <td class="text-center">
                                                     <a 
-                                                        href="{{route('transactions.edit3', $movimiento->id)}}" 
+                                                        href="{{route('materials.adquisicion_edit', ['id' => $movimiento->id])}}" 
                                                         class="btn btn-xl text-dark mx-1 shadow text-center">
                                                         <i class="fas fa-lg fa-fw fa-edit"></i>
                                                     </a>

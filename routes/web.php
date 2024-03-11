@@ -210,6 +210,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('adquisicion',               [TransactionController::class, 'materials_adquisicion_index']   )->name('materials.adquisicion_index');
     Route::get('adquisicion/create',        [TransactionController::class, 'materials_adquisicion_create']  )->name('materials.adquisicion_create');
     Route::post('adquisicion/store',        [TransactionController::class, 'materials_adquisicion_store']   )->name('materials.adquisicion_store');
+    Route::get('adquisicion/edit',          [TransactionController::class, 'materials_adquisicion_edit']    )->name('materials.adquisicion_edit');
     Route::put('adquisicion/{movimiento}',  [TransactionController::class, 'materials_adquisicion_update']  )->middleware('auth')->name('materials.adquisicion_update');
 
     //Route::get('adquisicion/edit',      [TransactionController::class, 'materials_adquisicion_edit']    )->middleware('auth')->names('materials.adquisicion_edit');

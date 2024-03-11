@@ -81,10 +81,10 @@
                         </div>
 
                         <div class="form-group col-md-4">
-                            {!! Form::Label('monto', "Monto en moneda extranjera:") !!}
+                            {!! Form::Label('amount_foreign_currency', "Monto en moneda extranjera:") !!}
                             <div class="input-group-text">
                                 <i class="fa-fw fas fa-coins mr-2"></i>
-                                {!! Form::text('amount_foreign_currency',null, ['class' => 'form-control general myForm', 'required' => true, 'id' => 'monto']) !!}
+                                {!! Form::text('amount_foreign_currency',null, ['class' => 'form-control general myForm', 'required' => true, 'id' => 'amount_foreign_currency']) !!}
                             </div>
                         </div>
 
@@ -128,7 +128,7 @@
                             {!! Form::Label('monto_dolares', "Monto :") !!}
                             <div class="input-group-text">
                                 <i class="fa-fw fas fas fa-funnel-dollar mr-2"></i>
-                                {!! Form::text('amount', null, ['class' => 'form-control dolar general', 'required' => true, 'id' => 'amount', 'readonly' => true, 'data-mask-clearifnotmatch' => true]) !!}
+                                {!! Form::text('amount', null, ['class' => 'form-control dolar general myForm', 'required' => true, 'id' => 'amount', 'readonly' => true, 'data-mask-clearifnotmatch' => true]) !!}
                             </div>
                         </div>
 
@@ -154,10 +154,10 @@
                     </div>
 
                     <div class="form-group col-md-3">
-                        {!! Form::Label('material_amount_price', "Precio/U:") !!}
+                        {!! Form::Label('material_price', "Precio/U:") !!}
                         <div class="input-group-text">
                             <i class="fa-fw fas fa-random mr-2"></i>
-                        {!! Form::text('material_amount_price',null, ['class' => 'form-control rateMasks myForm', 'required' => true, 'id' => 'material_amount_price', 'minlength' => 9]) !!}
+                        {!! Form::text('material_price',null, ['class' => 'form-control rateMasks myForm', 'required' => true, 'id' => 'material_price', 'minlength' => 9]) !!}
                         
                         </div>
                     </div>
@@ -419,8 +419,8 @@
         allowClear: true,
         width: '100%'
     });
-    $("#type_coin_balance_id").val("")
-    $("#type_coin_balance_id").trigger("change");
+    // $("#type_coin_balance_id").val("")
+    // $("#type_coin_balance_id").trigger("change");
 
 
 
@@ -495,19 +495,12 @@
         insertMode:true,
     });
 
-    /*
-    $('#monto_dolares').on('input', function() {
-        var input1Value = $('#monto_dolares').val();
-        //$('#montototal').val(input1Value);
-        $('#montototal_base').val(input1Value);
-        //$('#monto_extranjera_base').val(input1Value);
-    });
-    */
     
+    BuscaMyElement('type_coin_balance_id',1);
     
     $(document).ready(function() {
 
-        
+
         // submit del form 
 
         $('#entre').on('submit', function() {
@@ -522,7 +515,6 @@
                     });                    
                 return false;
             }
-
 
             let amount_foreign_currency = $('#amount_foreign_currency').val() != "" ? parseFloat($('#amount_foreign_currency').val())            : 0;
             if (!amount_foreign_currency){
@@ -587,27 +579,84 @@
 
 
 
-        let exchange_rate           = ($('#exchange_rate').val())   ? parseFloat($('#exchange_rate ').val())    : 0;
-        let amount_foreign_currency = ($('#amount_foreign_currency').val())           ? parseFloat($('#amount_foreign_currency').val())             : 0;
+        let exchange_rate           = ($('#exchange_rate').val())           ? parseFloat($('#exchange_rate ').val())    : 0;
+        let amount_foreign_currency = ($('#amount_foreign_currency').val()) ? parseFloat($('#amount_foreign_currency').val())             : 0;
         let amount                  = 0;
         let amount_total            = 0;
+
+        let material_amount_price   = ($('#material_price').val())   ? parseFloat($('#material_price').val())     : 0;
+        let material_amount         = ($('#material_amount').val())         ? parseFloat($('#material_amount').val())           : 0;
 
         console.log('pasa updateMontoreal');
         console.log('pasa updateMontoreal con exchange_rate                 -> ' + exchange_rate);
         console.log('pasa updateMontoreal con amount_foreign_currency       -> ' + amount_foreign_currency);
         console.log('pasa updateMontoreal con amount                        -> ' + amount);
         console.log('pasa updateMontoreal con amount_total                  -> ' + amount_total);
+        console.log('pasa updateMontoreal con material_price                -> ' + material_price);
+        console.log('pasa updateMontoreal con material_amount               -> ' + material_amount);
+
+        let exchange_rate_orientation;
+        let exchange_rate_orientation1     = $('#exchange_rate_orientation2_radio1').is(':checked');
+        let exchange_rate_orientation2     = $('#exchange_rate_orientation2_radio2').is(':checked');
+
+        if (exchange_rate_orientation1){
+            exchange_rate_orientation = 1;
+        }else{
+            exchange_rate_orientation = 2;
+        }
 
 
-        if (exchange_rate > 0){
-            amount          = amount_foreign_currency * exchange_rate;
-            amount_total    = amount;
+        switch(exchange_rate_orientation){
+            case 1:
+                amount          = amount_foreign_currency / exchange_rate;
+                // alert('si' . amount);
+                amount_total    = amount;
+                break;  
+            case 2:
+                amount          = amount_foreign_currency * exchange_rate;
+                // alert('si' . amount);
+                amount_total    = amount;
+                break;                    
         }
 
         console.log('leam - amount ->' + amount);
 
+        if(material_amount_price > 0){
+            if(material_amount > 0){
+                material_amount_total = material_amount_price * material_amount;
+                console.log('leam - aqui');
+                $('#material_amount_total').val(material_amount_total); 
+            }
+        }
+
+
         $('#amount').val(amount);
         $('#amount_total').val(amount_total);
+
+    
+    }
+
+    function BuscaMyElement(myControl = "", myElement = ""){
+        // alert("BuscaTypeMaterial - myTypeMaterial -> " + myTypeMaterial);
+
+        let mySelect = myControl;
+        let myValue  = myElement;
+
+        // console.log('leam - busca en select ->' + mySelect);
+        // console.log('leam - busca myValue   ->' + myValue);
+
+        $('#' + mySelect).each( function(index, element){
+            // alert ("BuscaMaterial -> " + $(this).val() + " text -> " + $(this).text()+ " y con index -> " + $(this).prop('selectedIndex'));
+            $(this).children("option").each(function(){
+                if ($(this).val() === myValue.toString()){
+                    // alert('Busca Material - encontro');
+                    // console.log('Busca Material - encontro');
+                    $("#" + mySelect + " option[value="+ myValue +"]").attr("selected",true);
+                }
+                //alert("BuscaGrupoaqui ->  the val " + $(this).val() + " text -> " + $(this).text());
+            });
+        });
+        //
     }
 
 
@@ -616,3 +665,4 @@
 
 
 @endsection
+
