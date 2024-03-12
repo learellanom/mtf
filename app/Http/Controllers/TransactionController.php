@@ -218,6 +218,115 @@ class TransactionController extends Controller
 
     /*
     *
+    * Display a listing of the resource.
+    *
+    */
+    public function materials_recepcion_index(Request $request, transaction $transaction)
+    {
+        /*
+        if (!$request->query('user')){
+            \Log::info('leam - transaction controller - no user');
+        }
+        if ($request->query('user')){
+            \Log::info('leam - con user');
+        }
+        */
+        $parameters     = $request->query();
+
+        $user           = $request->query('user');        
+        $fechaDesde     = $request->query('fechaDesde');
+        $fechaHasta     = $request->query('fechaHasta');
+        
+        $myUser         = 0;
+        $myUsuarioDesde = 0;
+        $myUsuarioHasta = 999999;
+        if ($user){
+            $myUser         = $request->user;
+            $myUsuarioDesde = $request->user;
+            $myUsuarioHasta = $request->user;
+        }
+
+
+        $myFechaHasta = date("Y-m-d");
+        // $myFechaDesde = $this->get03DayBefore($myFechaHasta);
+        // $myFechaDesde = $this->get01DayBefore($myFechaHasta);        
+        $myFechaDesde = $this->get07DayBefore($myFechaHasta);
+        
+         if($fechaDesde){
+            $myFechaDesde = $request->fechaDesde;
+         };
+         if($fechaHasta){
+            $myFechaHasta = $request->fechaHasta;
+         };
+        //   dd(auth()->user()->roles);
+        //  \Log::info('leam - transaction index - aqui');
+        //  \Log::info('leam - transaction index - fecha desde - ' . $myFechaDesde . ' -- myFecha Hasta ->' . $myFechaHasta);
+        //  \Log::info('leam - transaction index - request fecha desde - ' . $request->fechaDesde . ' -- request myFecha Hasta ->' . $request->fechaHasta);
+        //  \Log::info('leam - transaction index - user  - ' . $myUser );
+        //  \Log::info('leam - transaction index - request  - ' . $request );
+        // dd($request);
+        $myLimit = 0;
+        if($this->isAdministrator()){
+            if (!$user){
+                $myUsuarioDesde = auth()->user()->id;
+                $myUsuarioHasta = auth()->user()->id;
+            }
+            $myLimit = 500;
+        }else{
+            $myUsuarioDesde = auth()->user()->id;
+            $myUsuarioHasta = auth()->user()->id;
+            $myLimit = 1000;
+        }
+
+        $myCoinDesde    = 0;
+        $myCoinHasta    = 9999;
+        $myCoin = $request->coin ? $request->coin : 0;
+        if ($request->coin){
+            $myCoinDesde    = $request->coin;
+            $myCoinHasta    = $request->coin;
+        }
+
+        $myTypeTransaction = 48; // Recepcion de materiales
+
+        $movimientos = Transaction::where('type_transaction_id', '=', $myTypeTransaction)
+        ->whereBetween('created_at',    [$myFechaDesde . " 00:00:00", $myFechaHasta . " 23:59:00"])
+        ->whereBetween('user_id',       [$myUsuarioDesde , $myUsuarioHasta])
+        ->whereBetween('type_coin_balance_id',  [$myCoinDesde , $myCoinHasta])        
+        ->orderBy('created_at','desc')
+        ->limit($myLimit)            
+        ->get();
+
+        $myFechaDesde2  =  substr($myFechaDesde,8,2) . '-' . substr($myFechaDesde,5,2) . '-' . substr($myFechaDesde,0,4);
+        $myFechaHasta2  =  substr($myFechaHasta,8,2) . '-' . substr($myFechaHasta,5,2) . '-' . substr($myFechaHasta,0,4);
+
+        $user               = User::pluck('name', 'id')->toArray();
+
+        $myTypeCoinBalance  = $myCoin; // dorales siempre por ahora
+        $Type_coin_balance  = Type_coin::pluck('name', 'id')->toArray();
+
+
+        $myTypeMaterial     = $request->material ? $request->material : 0;
+        $Type_material      = Type_material::pluck('name', 'id')->toArray();
+        
+        \Log::info('leam - llega el material ->' . $myTypeMaterial);
+
+        $parametros['fechaDesde']           = $myFechaDesde2;
+        $parametros['fechaHasta']           = $myFechaHasta2;
+        $parametros['movimientos']          = $movimientos;
+        $parametros['myUser']               = $myUser;
+        $parametros['user']                 = $user;
+        $parametros['myTypeCoinBalance']    = $myTypeCoinBalance;
+        $parametros['Type_coin_balance']    = $Type_coin_balance;
+        $parametros['myTypeMaterial']       = $myTypeMaterial;
+        $parametros['Type_material']        = $Type_material;
+
+        // dd($transferencia);
+
+        return view('materials.recepcion_index', $parametros);
+
+    }
+    /*
+    *
     *
     * Display a listing of the resource.
     *
@@ -455,6 +564,32 @@ class TransactionController extends Controller
     }
 
 
+     /**
+     * Show the form for creating a new resource.
+     */
+    public function materials_recepcion_create(transaction $transaction)
+    {
+
+        $type_coin                      = Type_coin::pluck('name', 'id');
+        $type_transaction               = Type_transaction::where('name','like','%Recepción%')->where('name','like','%Recepcion%')->whereIn('type_transaction', ['Transacciones'])->pluck('name', 'id');
+        $wallet                         = Group::whereIn('type_wallet', ['transacciones', 'efectivo'])->where('type','=',2)->pluck('name', 'id');
+        $group                          = Group::whereIn('type', [1])->pluck('name', 'id');
+        $user                           = User::pluck('name', 'id');
+        $type_material                  = Type_material::pluck('name', 'id');    
+        $fecha                          = Carbon::now();
+
+
+        $parametros['type_coin']        = $type_coin;
+        $parametros['type_transaction'] = $type_transaction;
+        $parametros['wallet']           = $wallet;
+        $parametros['group']            = $group;
+        $parametros['user']             = $user;
+        $parametros['type_material']    = $type_material;
+        $parametros['fecha']            = $fecha;
+
+        return view('materials.recepcion_create', $parametros);
+        
+    }
     public function edit_efectivo($transaction)
     {
 
@@ -2110,29 +2245,54 @@ class TransactionController extends Controller
         return Redirect::route('materials.adquisicion_index')->with('warning', 'Transacción Modificada <strong># ' . $transaction . '</strong>');
     }
 
+   /**
+     * Remove the specified resource from storage.
+     */
+
+
+     public function update_status(Request $request, $transaction)
+     {
+         
+         $transactions = Transaction::find($transaction);
+ 
+         if($transactions->status == 'Activo'){
+         Transaction::findOrFail($transaction)->update([
+             'status' => 'Anulado',
+         ]);
+            return Redirect::route('transactions.index')->with('info', 'Transacción anulada  <strong># '. $transaction . '</strong>');
+         }
+         elseif($transactions->status == 'Anulado'){
+             
+             Transaction::findOrFail($transaction)->update([
+                 'status' => 'Activo',
+             ]);
+             return Redirect::route('transactions.index')->with('success', 'Transacción activada  <strong># '. $transaction . '</strong>');
+         }
+         // return response()->json(['success' => true, 'diets' => $diets], 200);
+     }
 
     /**
      * Remove the specified resource from storage.
      */
 
 
-    public function update_status(Request $request, $transaction)
+    public function materials_adquisicion_update_status(Request $request, $transaction)
     {
-        
+        \Log::info('leam -  materials_adquisicion_update_status -  $transaction ->' . $transaction);
         $transactions = Transaction::find($transaction);
 
         if($transactions->status == 'Activo'){
         Transaction::findOrFail($transaction)->update([
             'status' => 'Anulado',
         ]);
-           return Redirect::route('transactions.index')->with('info', 'Transacción anulada  <strong># '. $transaction . '</strong>');
+           return Redirect::route('materials.adquisicion_index')->with('info', 'Transacción anulada  <strong># '. $transaction . '</strong>');
         }
         elseif($transactions->status == 'Anulado'){
             
             Transaction::findOrFail($transaction)->update([
                 'status' => 'Activo',
             ]);
-            return Redirect::route('transactions.index')->with('success', 'Transacción activada  <strong># '. $transaction . '</strong>');
+            return Redirect::route('materials.adquisicion_index')->with('success', 'Transacción activada  <strong># '. $transaction . '</strong>');
         }
         // return response()->json(['success' => true, 'diets' => $diets], 200);
     }

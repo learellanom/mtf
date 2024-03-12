@@ -162,7 +162,10 @@
                                     @endcan
                                     
                                     <th style="width:1%;" class="no-exportar">Ver <i class="fas fa-search"></i></th>
-                                    <th style="width:1%;" class="no-exportar">Historico</th>
+                                    
+                                    @can('materials.adquisicion_audit')
+                                        <th style="width:1%;" class="no-exportar">Historico</th>
+                                    @endcan
                                     
                                 </tr>
                             </thead>
@@ -193,7 +196,7 @@
 
                                         @can('materials.adquisicion_update')
                                             <td class="text-center">
-                                                {!! Form::model($movimiento->id, ['route' => ['materials.adquisicion_update', $movimiento->id],'method' => 'put']) !!}
+                                                {!! Form::model($movimiento->id, ['route' => ['materials.adquisicion_update_status', $movimiento->id],'method' => 'put']) !!}
 
                                                     @if($movimiento->status == 'Activo')
                                                         <button class="btn btn-xl text-success mx-1 shadow text-center" title="Activo">
@@ -235,16 +238,16 @@
                                                 <i class="fa fa-lg fa-fw fas fa-search"></i>
                                             </a>
                                         </td>
-                                        
+                                        @can('materials.adquisicion_audit')
                                         <td>
-                                            {{-- <a  href="{{ route('materials.adquisicion_audit', $movimiento->id) }}" --}}
-                                            {{-- <a  href="{{ route('transactions.audit', ['movimiento'=> $movimiento->Id]) }}"  --}}
-                                            <a  href="" 
+                                        
+                                            <a  href="{{ route('materials.adquisicion_audit', $movimiento) }}"  
+                                             {{-- <a  href="{{ route('transactions.audit', $movimiento) }}"  --}}
                                                 class="btn btn-xl text-dark mx-1 shadow text-center">
                                                 <i class="fa fa-lg fa-fw fas fa-solid fa-list"></i>        
                                             </a>
                                         </td>
-                                        
+                                        @endcan
                                     </tr>
 
                                 @endforeach

@@ -451,20 +451,23 @@
         // alert('calcula ----');
         
         let type_coin_id                = {{ $transactions->type_coin_id}} ;
-        let exchange_rate               = $('#tasa').val()              != "" ? parseFloat($('#tasa').val())                : 0;
-        let amount_foreign_currency     = $('#monto').val()             != "" ? parseFloat($('#monto').val())               : 0;  // amount_foreign_currency - monto moneda extranjera
-        let amount                      = $('#my_monto_dorales').val()  != "" ? parseFloat($('#my_monto_dorales').val())    : 0;
+        let exchange_rate               = $('#exchange_rate').val()                 != "" ? parseFloat($('#exchange_rate').val())           : 0;
+        let amount_foreign_currency     = $('#monamount_foreign_currencyto').val()  != "" ? parseFloat($('#amount_foreign_currency').val()) : 0;  // amount_foreign_currency - monto moneda extranjera
+        let amount                      = $('#amount').val()                        != "" ? parseFloat($('#amount').val())                  : 0;
 
         let exchange_rate_orientation;
-        let exchange_rate_orientation1     = $('#exchange_rate_orientation2_radio1').is(':checked');
-        let exchange_rate_orientation2     = $('#exchange_rate_orientation2_radio2').is(':checked');
+        let exchange_rate_orientation1  = $('#exchange_rate_orientation2_radio1').is(':checked');
+        let exchange_rate_orientation2  = $('#exchange_rate_orientation2_radio2').is(':checked');
         
+        let material_price              = $('#material_price').val()             != "" ? parseFloat($('#material_price').val())             : 0;
+        let material_amount             = $('#material_amount').val()            != "" ? parseFloat($('#material_amount').val())             : 0;
+
         if (exchange_rate_orientation1){
             exchange_rate_orientation = 1;
         }else{
             exchange_rate_orientation = 2;
         }
-
+        // console.log('leam - ' + exchange_rate_orientation);
         if (exchange_rate > 0){
             switch(exchange_rate_orientation){
                 case 1:
@@ -479,20 +482,17 @@
             //amount_foreign_currency = 0;
         }
 
+        let material_amount_total;
+        if (material_price > 0){
+            if (material_amount > 0){
+                material_amount_total = material_price * material_amount;
+            }
+        }
 
-        material_amount_total
-
-             // exchange_rate = 0;
-             // exchange_rate_base = 0;
-        
-
-
-
-
-        $('#my_monto_dorales').val(amount);
-        $('#amount_base').val(amount_base);
-        $('#montototal').val(amount_total);
-        $('#monto_base').val(amount_total_base);
+        $('#amount').val(amount);
+        $('#material_amount_total').val(material_amount_total);
+        // $('#montototal').val(amount_total);
+        // $('#monto_base').val(amount_total_base);
     }
 
 </script>

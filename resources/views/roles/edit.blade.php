@@ -1157,12 +1157,11 @@
                                             <tr>
                                                 <td>Materiales - Adquisicion</td>  
                                                 <td>
-                                                    @for($i = 159; $i <= 163; $i++)
+                                                    @for($i = 159; $i <= 164; $i++)
                                                         @php
                                                             $myKey          = $i;
                                                             $myDescription  = $permisos[$myKey]->description ?? 'Sin descripcion';
                                                             $myId           = $permisos[$myKey]->id ?? 0;
-
 
                                                             $myName         = "permissions[]";
 
@@ -1190,7 +1189,7 @@
                                             <tr>
                                                 <td>Materiales - Recepcion</td>  
                                                 <td>
-                                                    @for($i = 164; $i <= 168; $i++)
+                                                    @for($i = 165; $i <= 170; $i++)
                                                         @php
                                                             $myKey          = $i;
                                                             $myDescription  = $permisos[$myKey]->description ?? 'Sin descripcion';

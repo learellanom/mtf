@@ -212,6 +212,19 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('adquisicion/store',        [TransactionController::class, 'materials_adquisicion_store']   )->name('materials.adquisicion_store');
     Route::get('adquisicion/edit',          [TransactionController::class, 'materials_adquisicion_edit']    )->name('materials.adquisicion_edit');
     Route::put('adquisicion/{movimiento}',  [TransactionController::class, 'materials_adquisicion_update']  )->middleware('auth')->name('materials.adquisicion_update');
+    Route::match(['put', 'patch'], 'adquisicion/{movimiento}/estatus', [TransactionController::class, 'materials_adquisicion_update_status'])->name('materials.adquisicion_update_status');
+    Route::get('adquisicion/audit/{movimiento}', [TransactionController::class,'indexAudit'])->middleware('auth')->name('materials.adquisicion_audit');
+    
+
+    Route::get('recepcion',                                             [TransactionController::class, 'materials_recepcion_index']   )->name('materials.recepcion_index');
+    Route::get('recepcion/create',                                      [TransactionController::class, 'materials_recepcion_create']  )->name('materials.recepcion_create');
+    Route::post('recepcion/store',                                      [TransactionController::class, 'materials_recepcion_store']   )->name('materials.recepcion_store');
+    Route::get('recepcion/edit',                                        [TransactionController::class, 'materials_recepcion_edit']    )->name('materials.recepcion_edit');
+    Route::put('recepcion/{movimiento}',                                [TransactionController::class, 'materials_recepcion_update']  )->middleware('auth')->name('materials.recepcion_update');
+    Route::match(['put', 'patch'], 'recepcion/{movimiento}/estatus',    [TransactionController::class, 'materials_recepcion_update_status'])->name('materials.recepcion_update_status');
+    Route::get('recepcion/audit/{movimiento}',                          [TransactionController::class,'indexAudit'])->middleware('auth')->name('materials.recepcion_audit');
+    
+
 
     //Route::get('adquisicion/edit',      [TransactionController::class, 'materials_adquisicion_edit']    )->middleware('auth')->names('materials.adquisicion_edit');
 

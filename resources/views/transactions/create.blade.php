@@ -1223,10 +1223,10 @@
     */
     function updateMontoreal(exonerar, descontar, incluir, comision, porcentage, montoreal) {
 
-        console.log('pasa updateMontoreal con porcentage    -> ' + porcentage);
-        console.log('pasa updateMontoreal con exonerar      -> ' + exonerar);
-        console.log('pasa updateMontoreal con descontar     -> ' + descontar);
-        console.log('pasa updateMontoreal con incluir       -> ' + incluir);
+        // console.log('pasa updateMontoreal con porcentage    -> ' + porcentage);
+        // console.log('pasa updateMontoreal con exonerar      -> ' + exonerar);
+        // console.log('pasa updateMontoreal con descontar     -> ' + descontar);
+        // console.log('pasa updateMontoreal con incluir       -> ' + incluir);
 
         let monto_dolares           = parseFloat($('#monto_dolares').val());
         let amount_commission_base  =  $('#comision_base').val() == "" ? 0 : parseFloat($('#comision_base').val());
