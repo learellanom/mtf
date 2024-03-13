@@ -84,6 +84,7 @@
                         </div>
                     @endif
 
+                    {{--
                     <div class ="col-lg-2">
                         <x-adminlte-select2 id="coin"
                                             name="optionsCoin"
@@ -105,8 +106,9 @@
 
                         </x-adminlte-select2>
                     </div>
+                    --}}
 
-                    <div class ="col-lg-2">
+                    <div class ="col-12 col-lg-2">
                         <x-adminlte-select2 id="type_material_id"
                                             name="type_material_id"
                                             igroup-size="sm"
@@ -139,31 +141,31 @@
                             <thead>
                                 <tr>
                                     <th style="width:1%;"   >Nro</th>
-                                    <th style="width:1%;"   >Caja</th>
-                                    <th style="width:1%;"   >Grupo</th>
-                                    <th                     >Fecha</th>
-                                    <th                     >Fecha Creacion</th>
+                                    <th style="width:8%;"   >Caja</th>
+                                    <th style="width:8%;"   >Grupo</th>
+                                    <th style="width:8%;"   >Fecha</th>
+                                    <th style="width:8%;"   >Fecha Creacion</th>
                                     <th                     >Descripción</th>
                                     <th                     >Material</th>
                                     
-                                    <th style="width:1%;"   >Cantidad</th>
+                                    <th style="width:8%;"   >Cantidad</th>
 
 
                                     <th class="no-exportar" >Agente</th>
-                                    <th                     >Tipo de Movimiento</th>
+                                    <th style="width:10%;"  >Tipo de Movimiento</th>
 
 
-                                    @can('materials.requisicion_update')
+                                    @can('materials.recepcion_update')
                                         <th style="width:1%;">Activo/Anulado</th>
                                     @endcan
                                     
-                                    @can('materials.requisicion_edit')
+                                    @can('materials.recepcion_edit')
                                         <th style="width:1%;" class="no-exportar">Editar</th>
                                     @endcan
                                     
                                     <th style="width:1%;" class="no-exportar">Ver <i class="fas fa-search"></i></th>
                                     
-                                    @can('materials.requisicion_audit')
+                                    @can('materials.recepcion_audit')
                                         <th style="width:1%;" class="no-exportar">Historico</th>
                                     @endcan
                                     
@@ -183,14 +185,15 @@
                                         </td>
                                         <td >{!! $movimiento->type_material->name ?? '' !!}</td>
 
-                                        <td>{!! number_format(abs($movimiento->material_amount),2,".") ?? '' !!}</td>
+                                        {{-- <td>{!! number_format(abs($movimiento->material_amount),2,".") ?? '' !!}</td> --}}
+                                        <td>{!! number_format($movimiento->material_amount) ?? '' !!}</td>
 
                                         <td class="font-weight-bold">{!! $movimiento->user->name ?? '' !!}</td>
                                         <td>{!! $movimiento->type_transaction->name !!}</td>
 
-                                        @can('materials.requisicion_update')
+                                        @can('materials.recepcion_update_status')
                                             <td class="text-center">
-                                                {!! Form::model($movimiento->id, ['route' => ['materials.requisicion_update_status', $movimiento->id],'method' => 'put']) !!}
+                                                {!! Form::model($movimiento->id, ['route' => ['materials.recepcion_update_status', $movimiento->id],'method' => 'put']) !!}
 
                                                     @if($movimiento->status == 'Activo')
                                                         <button class="btn btn-xl text-success mx-1 shadow text-center" title="Activo">
@@ -206,11 +209,11 @@
                                             </td>
                                         @endcan
 
-                                        @can('materials.requisicion_edit')
+                                        @can('materials.recepcion_edit')
                                             @if($movimiento->status == 'Activo')
                                                 <td class="text-center">
                                                     <a 
-                                                        href="{{route('materials.adquisicion_edit', ['id' => $movimiento->id])}}" 
+                                                        href="{{route('materials.recepcion_edit', ['id' => $movimiento->id])}}" 
                                                         class="btn btn-xl text-dark mx-1 shadow text-center">
                                                         <i class="fas fa-lg fa-fw fa-edit"></i>
                                                     </a>
@@ -232,9 +235,9 @@
                                                 <i class="fa fa-lg fa-fw fas fa-search"></i>
                                             </a>
                                         </td>
-                                        @can('materials.requisicion_audit')
+                                        @can('materials.recepcion_audit')
                                             <td>
-                                                <a  href="{{ route('materials.requisicion_audit', $movimiento) }}"  
+                                                <a  href="{{ route('materials.recepcion_audit', $movimiento) }}"  
                                                     class="btn btn-xl text-dark mx-1 shadow text-center">
                                                     <i class="fa fa-lg fa-fw fas fa-solid fa-list"></i>        
                                                 </a>

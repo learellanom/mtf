@@ -588,7 +588,7 @@ class TransactionController extends Controller
         $parametros['fecha']            = $fecha;
 
         return view('materials.recepcion_create', $parametros);
-        
+
     }
     public function edit_efectivo($transaction)
     {
@@ -715,6 +715,26 @@ class TransactionController extends Controller
  
  
      }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+
+     public function materials_recepcion_store(Request $request)
+     {
+         // dd($request->all());
+         // $myRequest = $request;
+ 
+         // \Log::info('request2 -> ' . $request2->all());
+         // \Log::info('request  -> ' . $request->all());
+ 
+         $transaction = Transaction::create($request->all() );
+ 
+         flash()->addSuccess('Movimiento guardado', 'Transacción', ['timeOut' => 3000]);
+ 
+         return Redirect::route('materials.recepcion_index');
+  
+    }
 
     public function index_transferwallet(transaction $transaction)
     {
@@ -2108,6 +2128,63 @@ class TransactionController extends Controller
 
 
 
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function materials_recepcion_edit(Request $request)
+    {
+        $myId = 0;
+        if (isset($request->id)){
+            $myId = $request->id;
+        }
+        $transactions        = Transaction::find($myId);
+
+        
+        $type_transaction   = Type_transaction::pluck('name', 'id');
+        $wallet             = Group::where('type','=','2')->pluck('name', 'id');
+        $group              = Group::where('type','=','1')->pluck('name', 'id');
+        $myTypeMaterial     = $request->material ? $request->material : 0;
+        $type_material      = Type_material::pluck('name', 'id')->toArray();
+
+        $myName = "";
+        foreach($type_transaction as $key => $value){
+            if ($transactions->type_transaction_id == $key){
+                $myName = $value;
+                break;
+            }
+        }
+        $transactions->type_transaction_name = $myName;
+
+
+        $myName = "";
+        foreach($wallet as $key => $value){
+            if ($transactions->wallet_id == $key){
+                $myName = $value;
+                break;
+            }
+        }
+        $transactions->wallet_name = $myName;
+
+        $myName = "";
+        foreach($group as $key => $value){
+            if ($transactions->group_id == $key){
+                $myName = $value;
+                break;
+            }
+        }
+        $transactions->group_name = $myName;
+
+        $parametros['transactions']     = $transactions;
+        $parametros['type_transaction'] = $type_transaction;
+        $parametros['wallet']           = $wallet;
+        $parametros['group']            = $group;
+
+        $parametros['type_material']    = $type_material;
+
+        return view('materials.recepcion_edit', $parametros);
+
+    }
+
     /*
      * 
      * Update the specified resource in storage.
@@ -2225,7 +2302,7 @@ class TransactionController extends Controller
         return Redirect::route('transactions.index3')->with('warning', 'Transacción Modificada <strong># ' . $transaction . '</strong>');
     }
 
-        /*
+    /*
      * 
      * Update the specified resource in storage.
      * 
@@ -2244,7 +2321,25 @@ class TransactionController extends Controller
 
         return Redirect::route('materials.adquisicion_index')->with('warning', 'Transacción Modificada <strong># ' . $transaction . '</strong>');
     }
+    /*
+    * 
+    * Update the specified resource in storage.
+    * 
+    */             
+    public function materials_recepcion_update(Request $request, $transaction)
+    {
 
+        // dd($request->percentage);
+
+        Transaction::find($transaction)->update($request->all());
+
+        $myTransaccion = Transaction::find($transaction);
+        $myTransaccion->percentage = $request->percentage;
+        $myTransaccion->save();
+        // dd($myTransaccion);
+
+        return Redirect::route('materials.recepcion_index')->with('warning', 'Transacción Modificada <strong># ' . $transaction . '</strong>');
+    }
    /**
      * Remove the specified resource from storage.
      */
@@ -2296,7 +2391,31 @@ class TransactionController extends Controller
         }
         // return response()->json(['success' => true, 'diets' => $diets], 200);
     }
-
+    /*
+     * 
+     * Remove the specified resource from storage.
+     * 
+     */
+     public function materials_recepcion_update_status(Request $request, $transaction)
+     {
+         \Log::info('leam -  materials_recepcion_update_status -  $transaction ->' . $transaction);
+         $transactions = Transaction::find($transaction);
+ 
+         if($transactions->status == 'Activo'){
+            Transaction::findOrFail($transaction)->update([
+                'status' => 'Anulado',
+            ]);
+            return Redirect::route('materials.recepcion_index')->with('info', 'Transacción anulada  <strong># '. $transaction . '</strong>');
+         }
+         elseif($transactions->status == 'Anulado'){
+             
+             Transaction::findOrFail($transaction)->update([
+                 'status' => 'Activo',
+             ]);
+             return Redirect::route('materials.recepcion_index')->with('success', 'Transacción activada  <strong># '. $transaction . '</strong>');
+         }
+         // return response()->json(['success' => true, 'diets' => $diets], 200);
+     }
     /**
      * Remove the specified resource from storage.
      */
