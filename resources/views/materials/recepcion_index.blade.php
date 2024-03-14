@@ -228,7 +228,7 @@
                                         @endcan
 
                                         <td>
-                                            {{-- <a  href="{{ route('materials.adquisicion_show', $movimiento->id) }}"  --}}
+
                                             <a href="{{ route('transactions.show', $movimiento->id) }}"
                                             
                                                 class="btn btn-xl text-dark mx-1 shadow text-center">
@@ -287,91 +287,84 @@
         'buttons':[
             {
                 extend:  'excelHtml5',
-                exportOptions: { columns: [ 1, 2, 3,4,5,6,7,8,9,11,12 ] },
+                exportOptions: { columns: [ 1, 2, 3,4,5,6,7,8,9 ] },
                 text:    '<i class="fas fa-file-excel"></i>',
                 titleAttr: 'Exportar Excel',
                 className: 'btn btn-success',
                 "excelStyles": [
-                {
-                    "template": ["title_medium", 'blue_gray_medium']
-                },
+                    {
+                        "template": ["title_medium", 'blue_gray_medium']
+                    },
 
-                {
-                    "cells": "2",
-                    "style": {
-                        "font": {
-                            "size": "18",
-                            "color": "FFFFFF"
-                        },
-                        "fill": {
-                            "pattern": {
-                                "type": "solid",
-                                "color": "002B5B"
-                            }
-                        },
+                    {
+                        "cells": "2",
+                        "style": {
+                            "font": {
+                                "size": "18",
+                                "color": "FFFFFF"
+                            },
+                            "fill": {
+                                "pattern": {
+                                    "type": "solid",
+                                    "color": "002B5B"
+                                }
+                            },
 
-                    }
-                },
-                {
-                    "cells": "1",
-                    "style": {
-                        "font": {
-                            "size": "20",
-                            "color": "FFFFFF"
-                        },
-                        "fill": {
-                            "pattern": {
-                                "size": "25",
-                                "type": "solid",
-                                "color": "0B2447",
+                        }
+                    },
+                    {
+                        "cells": "1",
+                        "style": {
+                            "font": {
+                                "size": "20",
+                                "color": "FFFFFF"
+                            },
+                            "fill": {
+                                "pattern": {
+                                    "size": "25",
+                                    "type": "solid",
+                                    "color": "0B2447",
+                                }
                             }
                         }
-                    }
-                },
-
+                    },
                     {
                         'cells': "sC",
                         'template': "date_long",
                     },
-
                     {
-                        "cells": "F",
-                        "width": "40",
-                    },
+                        "cells": "A",
+                        "width": "25",
+                    },                    
                     {
                         "cells": "B",
-                        "width": "12",
+                        "width": "25",
                     },
                     {
                         "cells": "D",
-                        "width": "17.5",
+                        "width": "20",
+                    },                    
+                    {
+                        "cells": "E",
+                        "width": "25",
                     },
                     {
-                        "cells": "I",
-                        "width": "19.15",
-                    },
-                    {
-                        "cells": "J",
-                        "width": "35",
-                    },
-                    {
-                        "cells": "H",
-                        "width": "19.15",
-
-                    },
+                        "cells": "F",
+                        "width": "40",
+                    },   
                     {
                         "cells": "G",
                         "width": "15",
                     },
                     {
-                        "cells": "K",
-                        "width": "32",
+                        "cells": "H",
+                        "width": "19.15",
                     },
                     {
-                        "cells": "B",
-                        "width": "11",
+                        "cells": "I",
+                        "width": "30",
                     }
-            ]
+                ]
 
             },
             {
