@@ -31,17 +31,21 @@
             <br>
             <div class="form-group col-12  justify-content-center">
 
-                <label class="form-check-label mx-auto col-12 col-xl-3" for="radio1">
+                <label class="form-check-label mx-auto col-12 col-xl-2" for="radio1">
                     {!! Form::radio('type_transaction','Transacciones', null, ['id' => 'radio1', 'class' => 'exonerar', 'required' => true]) !!}
                     Transacciones
                 </label>
-                <label class="form-check-label mx-auto  col-12 col-xl-3" for="radio2">
+                <label class="form-check-label mx-auto  col-12 col-xl-2" for="radio2">
                     {!! Form::radio('type_transaction','Efectivo', null, ['id' => 'radio2', 'class' => 'exonerar', 'required' => true]) !!}
                     Efectivo
                 </label>
-                <label class="form-check-label mx-auto  col-12 col-xl-3" for="radio2">
-                    {!! Form::radio('type_transaction','Credito', null, ['id' => 'radio2', 'class' => 'exonerar', 'required' => true]) !!}
+                <label class="form-check-label mx-auto  col-12 col-xl-2" for="radio3">
+                    {!! Form::radio('type_transaction','Credito', null, ['id' => 'radio3', 'class' => 'exonerar', 'required' => true]) !!}
                     Notas de Credito
+                </label>
+                <label class="form-check-label mx-auto  col-12 col-xl-2" for="radio4">
+                    {!! Form::radio('type_transaction','Material', null, ['id' => 'radio4', 'class' => 'exonerar', 'required' => true]) !!}
+                    Material
                 </label>
 
                 @error('type_wallet')
@@ -56,19 +60,19 @@
             <br>            
             <div class="form-group col-12  justify-content-center">
                 
-                <label class="form-check-label mx-auto col-12 col-xl-3" for="radio3">
+                <label class="form-check-label mx-auto col-12 col-xl-3" for="radio5">
                     
-                    {!! Form::radio('type_transaction_wallet','0', true, ['id' => 'radio3', 'class' => '', 'required' => true]) !!}
+                    {!! Form::radio('type_transaction_wallet','0', true, ['id' => 'radio5', 'class' => '', 'required' => true]) !!}
                     Sin asignar
                 </label>            
-                <label class="form-check-label mx-auto col-12 col-xl-3" for="radio3">
+                <label class="form-check-label mx-auto col-12 col-xl-3" for="radio6">
                     
-                    {!! Form::radio('type_transaction_wallet','1', false, ['id' => 'radio4', 'class' => '', 'required' => true]) !!}
+                    {!! Form::radio('type_transaction_wallet','1', false, ['id' => 'radio6', 'class' => '', 'required' => true]) !!}
                     Credito
                 </label>
-                <label class="form-check-label mx-auto col-12 col-xl-3" for="radio4">
+                <label class="form-check-label mx-auto col-12 col-xl-3" for="radio7">
                     
-                    {!! Form::radio('type_transaction_wallet','2', false, ['id' => 'radio5', 'class' => '', 'required' => true]) !!}
+                    {!! Form::radio('type_transaction_wallet','2', false, ['id' => 'radio7', 'class' => '', 'required' => true]) !!}
                     Debito    
                 </label>
 
@@ -83,20 +87,20 @@
             <br>            
             <div class="form-group col-12  justify-content-center">
 
-                <label class="form-check-label mx-auto col-12 col-xl-3" for="radio3">
+                <label class="form-check-label mx-auto col-12 col-xl-3" for="radio8">
                     
-                    {!! Form::radio('type_transaction_group','0', true, ['id' => 'radio3', 'class' => '', 'required' => true]) !!}
+                    {!! Form::radio('type_transaction_group','0', true, ['id' => 'radio8', 'class' => '', 'required' => true]) !!}
                     Sin asignar
                 </label>            
-                <label class="form-check-label mx-auto col-12 col-xl-3" for="radio3">
+                <label class="form-check-label mx-auto col-12 col-xl-3" for="radio9">
                     
-                    {!! Form::radio('type_transaction_group','1', false, ['id' => 'radio4', 'class' => '', 'required' => true]) !!}
+                    {!! Form::radio('type_transaction_group','1', false, ['id' => 'radio9', 'class' => '', 'required' => true]) !!}
                     Credito
                 </label>
-                <label class="form-check-label mx-auto col-12 col-xl-3" for="radio4">
+                <label class="form-check-label mx-auto col-12 col-xl-3" for="radio10">
                     
-                    {!! Form::radio('type_transaction_group','2', false, ['id' => 'radio5', 'class' => '', 'required' => true]) !!}
-                    Debito    
+                    {!! Form::radio('type_transaction_group','2', false, ['id' => 'radio10', 'class' => '', 'required' => true]) !!}
+                    Debito
                 </label>
 
                 @error('type_wallet')

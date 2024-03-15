@@ -83,7 +83,7 @@
                             </x-adminlte-select2>
                         </div>
                     @endif
-
+                    {{--
                     <div class ="col-lg-2">
                         <x-adminlte-select2 id="coin"
                                             name="optionsCoin"
@@ -105,7 +105,7 @@
 
                         </x-adminlte-select2>
                     </div>
-
+                    --}}
                     <div class ="col-lg-2">
                         <x-adminlte-select2 id="type_material_id"
                                             name="type_material_id"
@@ -148,7 +148,6 @@
                                     <th style="width:1%;"   >Precio/U</th>
                                     <th style="width:1%;"   >Cantidad</th>
                                     <th style="width:10%;"  >Monto</th>
-                                    <th                     >Moneda</th>
                                     <th class="no-exportar" >Agente</th>
                                     <th                     >Tipo de Movimiento</th>
 
@@ -162,7 +161,7 @@
                                     @endcan
                                     
                                     <th style="width:1%;" class="no-exportar">Ver <i class="fas fa-search"></i></th>
-                                    
+
                                     @can('materials.adquisicion_audit')
                                         <th style="width:1%;" class="no-exportar">Historico</th>
                                     @endcan
@@ -190,7 +189,6 @@
                                             <i class="fas fa-dollar-sign"></i>
                                         </td>
 
-                                        <td>{{ $movimiento->type_coin_balance->name}}</td>
                                         <td class="font-weight-bold">{!! $movimiento->user->name ?? '' !!}</td>
                                         <td>{!! $movimiento->type_transaction->name !!}</td>
 
@@ -434,8 +432,8 @@
     const myTypeMaterial = {!! $myTypeMaterial !!};
     BuscaTypeMaterial(myTypeMaterial);    
 
-    const myTypeCoinBalance = {!! $myTypeCoinBalance !!};
-    BuscaMoneda(myTypeCoinBalance);           
+    //const myTypeCoinBalance = {!! $myTypeCoinBalance !!};
+    //BuscaMoneda(myTypeCoinBalance);           
 
     $(() => {
 

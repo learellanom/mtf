@@ -61,6 +61,9 @@
                             </div>
                         </div>
                     </div>
+
+                    {{-- 
+
                     <hr class="bg-dark esconder" style="height:1px;">    
                     <div class="form-row esconder">
                         <div class="form-group col-md-4">
@@ -135,7 +138,7 @@
                     </div>
 
 
-
+                    --}}
 
                     
                     
@@ -422,8 +425,6 @@
     // $("#type_coin_balance_id").val("")
     // $("#type_coin_balance_id").trigger("change");
 
-
-
     $(".status").select2({
         placeholder: "Seleccionar estatus",
         theme: 'bootstrap4',
@@ -447,8 +448,8 @@
         allowClear: true,
         width: '100%'
     });
-    $("#typetrasnferencia").val("")
-    $("#typetrasnferencia").trigger("change");
+    //$("#typetrasnferencia").val("")
+    //$("#typetrasnferencia").trigger("change");
 
 
 
@@ -496,7 +497,8 @@
     });
 
     
-    BuscaMyElement('type_coin_balance_id',1);
+    BuscaMyElement('type_transaction_id',47);
+    // BuscaMyElement('type_coin_balance_id',1);
     
     $(document).ready(function() {
 
@@ -504,7 +506,7 @@
         // submit del form 
 
         $('#entre').on('submit', function() {
-
+            /*
             let exchange_rate           = $('#exchange_rate').val()          != "" ? parseFloat($('#exchange_rate').val())            : 0;
             if (!exchange_rate){
                 Swal.fire({
@@ -535,6 +537,7 @@
                     });                    
                 return false;
             }            
+            */
             let myDate      = new Date($('#fecha').val());
             let myDateNow   = new Date();
 
@@ -613,33 +616,33 @@
 
 
 
-        let exchange_rate           = ($('#exchange_rate').val())           ? parseFloat($('#exchange_rate ').val())    : 0;
-        let amount_foreign_currency = ($('#amount_foreign_currency').val()) ? parseFloat($('#amount_foreign_currency').val())             : 0;
-        let amount                  = 0;
-        let amount_total            = 0;
+        // let exchange_rate           = ($('#exchange_rate').val())           ? parseFloat($('#exchange_rate ').val())    : 0;
+        // let amount_foreign_currency = ($('#amount_foreign_currency').val()) ? parseFloat($('#amount_foreign_currency').val())             : 0;
+        // let amount                  = 0;
+        // let amount_total            = 0;
 
-        let material_amount_price   = ($('#material_price').val())   ? parseFloat($('#material_price').val())     : 0;
-        let material_amount         = ($('#material_amount').val())         ? parseFloat($('#material_amount').val())           : 0;
+        let material_amount_price   = ($('#material_price').val())  ? parseFloat($('#material_price').val())    : 0;
+        let material_amount         = ($('#material_amount').val()) ? parseFloat($('#material_amount').val())   : 0;
 
         console.log('pasa updateMontoreal');
-        console.log('pasa updateMontoreal con exchange_rate                 -> ' + exchange_rate);
-        console.log('pasa updateMontoreal con amount_foreign_currency       -> ' + amount_foreign_currency);
-        console.log('pasa updateMontoreal con amount                        -> ' + amount);
-        console.log('pasa updateMontoreal con amount_total                  -> ' + amount_total);
+        // console.log('pasa updateMontoreal con exchange_rate                 -> ' + exchange_rate);
+        // console.log('pasa updateMontoreal con amount_foreign_currency       -> ' + amount_foreign_currency);
+        // console.log('pasa updateMontoreal con amount                        -> ' + amount);
+        // console.log('pasa updateMontoreal con amount_total                  -> ' + amount_total);
         console.log('pasa updateMontoreal con material_price                -> ' + material_price);
         console.log('pasa updateMontoreal con material_amount               -> ' + material_amount);
 
-        let exchange_rate_orientation;
-        let exchange_rate_orientation1     = $('#exchange_rate_orientation2_radio1').is(':checked');
-        let exchange_rate_orientation2     = $('#exchange_rate_orientation2_radio2').is(':checked');
+        // let exchange_rate_orientation;
+        // let exchange_rate_orientation1     = $('#exchange_rate_orientation2_radio1').is(':checked');
+        // let exchange_rate_orientation2     = $('#exchange_rate_orientation2_radio2').is(':checked');
 
-        if (exchange_rate_orientation1){
-            exchange_rate_orientation = 1;
-        }else{
-            exchange_rate_orientation = 2;
-        }
+        // if (exchange_rate_orientation1){
+        //     exchange_rate_orientation = 1;
+        // }else{
+        //     exchange_rate_orientation = 2;
+        // }
 
-
+        /*
         switch(exchange_rate_orientation){
             case 1:
                 amount          = amount_foreign_currency / exchange_rate;
@@ -652,8 +655,9 @@
                 amount_total    = amount;
                 break;                    
         }
+        */
 
-        console.log('leam - amount ->' + amount);
+        // console.log('leam - amount ->' + amount);
 
         if(material_amount_price > 0){
             if(material_amount > 0){
@@ -664,8 +668,8 @@
         }
 
 
-        $('#amount').val(amount);
-        $('#amount_total').val(amount_total);
+        // $('#amount').val(amount);
+        // $('#amount_total').val(amount_total);
 
     
     }

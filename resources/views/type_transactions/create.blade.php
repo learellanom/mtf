@@ -23,7 +23,7 @@
 
                 @error('name')
 
-                <span class="text-danger">{{$message}}</span>
+                    <span class="text-danger">{{$message}}</span>
 
                 @enderror
 
@@ -34,17 +34,21 @@
             <br>
             <div class="form-group col-12  justify-content-center">
 
-                <label class="form-check-label mx-auto col-12 col-xl-3" for="radio1">
+                <label class="form-check-label mx-auto col-12 col-xl-2" for="radio1">
                     {!! Form::radio('type_transaction','Transacciones', null, ['id' => 'radio1', 'class' => 'exonerar', 'required' => true]) !!}
                     Transacciones
                 </label>
-                <label class="form-check-label mx-auto  col-12 col-xl-3" for="radio2">
+                <label class="form-check-label mx-auto  col-12 col-xl-2" for="radio2">
                     {!! Form::radio('type_transaction','Efectivo', null, ['id' => 'radio2', 'class' => 'exonerar', 'required' => true]) !!}
                     Efectivo
                 </label>
-                <label class="form-check-label mx-auto  col-12 col-xl-3" for="radio2">
+                <label class="form-check-label mx-auto  col-12 col-xl-2" for="radio2">
                     {!! Form::radio('type_transaction','Credito', null, ['id' => 'radio2', 'class' => 'exonerar', 'required' => true]) !!}
                     Notas de Credito
+                </label>
+                <label class="form-check-label mx-auto  col-12 col-xl-2" for="radio2">
+                    {!! Form::radio('type_transaction','Material', null, ['id' => 'radio2', 'class' => 'exonerar', 'required' => true]) !!}
+                    Material
                 </label>
 
                 @error('type_wallet')

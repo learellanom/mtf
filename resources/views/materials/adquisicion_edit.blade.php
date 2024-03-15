@@ -63,6 +63,8 @@
                             </div>
                         </div>
                     </div>
+
+                    {{--
                     <hr class="bg-dark esconder" style="height:1px;">    
                     <div class="form-row esconder">
                         <div class="form-group col-md-4">
@@ -135,12 +137,8 @@
                         </div>
 
                     </div>
+                    --}}
 
-
-
-
-                    
-                    
                 </div>
                 <hr class="bg-dark escoder" style="height:1px;">   
                 <div class="form-row">
@@ -450,37 +448,39 @@
     function calcula(){
         // alert('calcula ----');
         
-        let type_coin_id                = {{ $transactions->type_coin_id}} ;
-        let exchange_rate               = $('#exchange_rate').val()                 != "" ? parseFloat($('#exchange_rate').val())           : 0;
-        let amount_foreign_currency     = $('#monamount_foreign_currencyto').val()  != "" ? parseFloat($('#amount_foreign_currency').val()) : 0;  // amount_foreign_currency - monto moneda extranjera
-        let amount                      = $('#amount').val()                        != "" ? parseFloat($('#amount').val())                  : 0;
+        // let type_coin_id                = {{ $transactions->type_coin_id}} ;
+        // let exchange_rate               = $('#exchange_rate').val()                 != "" ? parseFloat($('#exchange_rate').val())           : 0;
+        // let amount_foreign_currency     = $('#monamount_foreign_currencyto').val()  != "" ? parseFloat($('#amount_foreign_currency').val()) : 0;  // amount_foreign_currency - monto moneda extranjera
+        // let amount                      = $('#amount').val()                        != "" ? parseFloat($('#amount').val())                  : 0;
 
-        let exchange_rate_orientation;
-        let exchange_rate_orientation1  = $('#exchange_rate_orientation2_radio1').is(':checked');
-        let exchange_rate_orientation2  = $('#exchange_rate_orientation2_radio2').is(':checked');
+        // let exchange_rate_orientation;
+        // let exchange_rate_orientation1  = $('#exchange_rate_orientation2_radio1').is(':checked');
+        // let exchange_rate_orientation2  = $('#exchange_rate_orientation2_radio2').is(':checked');
         
         let material_price              = $('#material_price').val()             != "" ? parseFloat($('#material_price').val())             : 0;
         let material_amount             = $('#material_amount').val()            != "" ? parseFloat($('#material_amount').val())             : 0;
 
-        if (exchange_rate_orientation1){
-            exchange_rate_orientation = 1;
-        }else{
-            exchange_rate_orientation = 2;
-        }
+        // if (exchange_rate_orientation1){
+        //     exchange_rate_orientation = 1;
+        // }else{
+        //     exchange_rate_orientation = 2;
+        // }
+
         // console.log('leam - ' + exchange_rate_orientation);
-        if (exchange_rate > 0){
-            switch(exchange_rate_orientation){
-                case 1:
-                    amount = amount_foreign_currency / exchange_rate;
-                    break;
-                case 2:
-                    amount = amount_foreign_currency * exchange_rate;
-                    break;
-            }
-        }else{
-            //amount = 0;
-            //amount_foreign_currency = 0;
-        }
+        
+        // if (exchange_rate > 0){
+        //     switch(exchange_rate_orientation){
+        //         case 1:
+        //             amount = amount_foreign_currency / exchange_rate;
+        //             break;
+        //         case 2:
+        //             amount = amount_foreign_currency * exchange_rate;
+        //             break;
+        //     }
+        // }else{
+        //     //amount = 0;
+        //     //amount_foreign_currency = 0;
+        // }
 
         let material_amount_total;
         if (material_price > 0){
@@ -489,7 +489,7 @@
             }
         }
 
-        $('#amount').val(amount);
+        // $('#amount').val(amount);
         $('#material_amount_total').val(material_amount_total);
         // $('#montototal').val(amount_total);
         // $('#monto_base').val(amount_total_base);
