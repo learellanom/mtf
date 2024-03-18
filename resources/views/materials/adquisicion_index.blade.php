@@ -181,11 +181,11 @@
                                             <div style='width:60px; height:60px; overflow:hidden;'>{!!  $movimiento->description !!}</div>
                                         </td>
                                         <td >{!! $movimiento->type_material->name ?? '' !!}</td>
-                                        <td class="font-weight-bold">{!! $movimiento->exchange_rate ?? ''!!} </td>
+                                        <td class="font-weight-bold">{!! number_format($movimiento->material_price,2,".") ?? ''!!} </td>
 
-                                        <td>{!! number_format(abs($movimiento->amount_foreign_currency),2,".") ?? '' !!}</td>
+                                        <td>{!! number_format($movimiento->material_amount) ?? '' !!}</td>
 
-                                        <td class="font-weight-bold">{!!  number_format(abs($movimiento->amount),2,".") !!} 
+                                        <td class="font-weight-bold">{!!  number_format($movimiento->material_amount_total) !!} 
                                             <i class="fas fa-dollar-sign"></i>
                                         </td>
 

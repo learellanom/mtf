@@ -13,6 +13,7 @@ use App\Models\Transaction_master;
 use App\Models\Transaction_supplier;
 use App\Models\Commissions_usdt;
 use App\Models\Type_coin;
+use App\Models\Type_material;
 
 use Spatie\Permission\Models\Role;
 use App\Http\Controllers\Controller;
@@ -1026,6 +1027,172 @@ class statisticsController extends Controller
         // aquix
         return view('estadisticas.statisticsResumenWallet', $parametros);
     }
+
+    /*
+    *
+    *
+    *   walletSummary
+    *
+    *
+    */
+    public function materials_adquisicion_rescajagrupo(Request $request) {
+
+        $myWallet       = ($request->wallet)        ? $request->wallet      : 0;
+        $fechaDesde     = ($request->fechaDesde)    ? $request->fechaDesde  : '2001-01-01';  
+        $fechaHasta     = ($request->fechaHasta)    ? $request->fechaHasta  : '9999-12-31';
+
+        if ($wallet === 0){
+            $walletDesde = 00000;
+            $walletHasta = 99999;
+
+        }else{
+            $walletDesde = $wallet;
+            $walletHasta = $wallet;
+        }
+         //\Log::info('leam wallet      getBalanceWallet *** -> ' . $wallet);
+        // \Log::info('leam fecha Desde getBalanceWallet *** -> ' . $fechaDesde);
+        // \Log::info('leam fecha Hasta getBalanceWallet *** -> ' . $fechaHasta);
+        // \Log::info('leam coin        getBalanceWallet *** -> ' . $myCoin);
+
+        $horaDesde      = " 00:00:00";
+        $horaHasta      = " 23:59:00";
+
+        $myFechaDesde   = $fechaDesde . $horaDesde;
+        $myFechaHasta   = $fechaHasta . $horaHasta;
+
+        $myTable        = "mtf.transactions";
+
+
+
+        $myTempCredits  = $this->getWalletCredits();
+        $myTempDebits   = $this->getWalletDebits();
+
+
+        $Group_roles = $this->getGroupRole(auth()->id());
+
+
+        $busquedaWalletFilter     = "";
+        if (isset($Group_roles->allWallets)){
+            if($Group_roles->allWallets == 0){
+                $theWallets             = implode(",", $Group_roles->wallets);
+                $busquedaWalletFilter   = " and wallet_id in ($theWallets)";
+            }
+        }
+ 
+        $busquedaGroupFilter      = "";
+        if (isset($Group_roles->allGroups)){
+            if($Group_roles->allGroups == 0){
+                $theGroups              = implode(",",$Group_roles->groups );
+                $busquedaGroupFilter    = " and group_id in ($theGroups)";
+            }
+        }
+
+
+         // dd("wallet debits ->" . $myTempDebits . " wallet credits ->" . $myTempCredits ); // ajuax
+         
+        //
+        // 26-04-2023
+        //
+        // Debitos
+        //  4 cobro en efectivo
+        //  8 Nota de debito
+        //  2 cobro transferencia
+        //  6 Nota de credito a caja
+        //
+        // Creditos
+        //  1 transferencia
+        //  3 pago en efectivo
+        //  5 mercancia
+        //  7 notas de credito
+        //  9 switft
+        //  11 pago usdt
+        //
+
+        $myTransactionId = 47;
+
+
+        $myQuery =
+        "
+            SELECT
+                wallet_id                       as IdWallet,
+                mtf.groups.name                 as NombreWallet,
+                group_id                        as GroupId,
+                grupos.name                     as GroupName,
+                type_material_id                as TypeMaterialId,
+                mtf.type_materials.name         as TypeMaterialName,
+                sum(material_amount)            as MaterialAmount,
+                sum(material_amount_total)      as MaterialAmountTotal
+            FROM transactions
+                left join  mtf.groups           on mtf.transactions.wallet_id         = mtf.groups.id
+                left join  mtf.groups as grupos on mtf.transactions.group_id          = grupos.id
+                left join  mtf.type_materials   on mtf.tracsations.type_material_id   = mtf.type_materials.id
+            where
+                type_transaction_id in ($myTransactionId)
+                and
+                transaction_date            between '$myFechaDesde' and '$myFechaHasta'
+                and
+                wallet_id                   between $walletDesde    and $walletHasta
+                group_id                    between $groupDesde     and $grouptHasta
+                and status                  <> 'Anulado'
+                $busquedaWalletFilter 
+                $busquedaGroupFilter
+            group by
+                IdWallet,
+                NombreWallet,
+                GroupId,
+                GroupName
+        ";
+
+        // dd($myQuery);
+        $Transacciones = DB::select($myQuery);
+
+        
+        //
+        // si es un solo grupo devuelve un objeto y debe convertirse a array de 1
+        //
+        if (gettype($Transacciones) == "object"){
+            $Transacciones = [$Transacciones];
+        }
+
+
+
+
+        $wallets                = $this->getWallet($Group_roles);
+
+        $myTypeMaterial         = ($request->type_material_id) ? $request->type_material_id  : 0;
+        $Type_material          = Type_material::pluck('name', 'id')->toArray();
+
+        $myGroup                = ($request->group) ? $request->group  : 0;
+        if ($myGroup === 0){
+            $groupDesde = 00000;
+            $groupHasta = 99999;
+
+        }else{
+            $groupDesde = $wallet;
+            $groupHasta = $wallet;
+        }
+
+
+        $groups                 = $this->getGroups($Group_roles);
+
+        $parametros['myFechaDesde']         = $fechaDesde;
+        $parametros['myFechaHasta']         = $fechaHasta;
+
+        $parametros['myWallet']             = $myWallet;
+        $parametros['wallets']              = $wallets;
+
+        $parametros['myGroup']              = $myGroup;
+        $parametros['groups']               = $groups;
+
+        $parametros['Transacciones']        = $Transacciones;
+
+        $parametros['myTypeMaterial']       = $myTypeMaterial;
+        $parametros['Type_material']        = $Type_material;
+
+        // aquix
+        return view('MaterialsAdquisicionResCajaGrupo', $parametros);
+        
+    }    
    /*
     *
     *

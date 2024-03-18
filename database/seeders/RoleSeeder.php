@@ -125,5 +125,25 @@ class RoleSeeder extends Seeder
         Permission::create(['name' => 'type_materials.edit',    'description'   => 'Modifica tipos de material del sistema'])->assignRole($role1);
         Permission::create(['name' => 'type_materials.create',  'description'   => 'Crear tipos de material al sistema'])->assignRole($role1);
 
+        Permission::create(['name' => 'materials.adquisicion_index',            'description'   => 'Ver Materiales Aquisicion'])->assignRole($role1);
+        Permission::create(['name' => 'materials.adquisicion_create',           'description'   => 'Crear Materiales Adquisicion'])->assignRole($role1);
+        Permission::create(['name' => 'materials.adquisicion_edit',             'description'   => 'Editar Materiales Adquisicion'])->assignRole($role1);
+        Permission::create(['name' => 'materials.adquisicion_update',           'description'   => 'Actualizar Materiales Adquisicion'])->assignRole($role1);
+        Permission::create(['name' => 'materials.adquisicion_update_status',    'description'   => 'Anular/ Activar Materiales Adquisicion'])->assignRole($role1);
+        Permission::create(['name' => 'materials.adquisicion_audit',            'description'   => 'Ver Auditoria Materiales Adquisicion'])->assignRole($role1);
+
+        Permission::create(['name' => 'materials.recepcion_index',            'description'   => 'Ver Materiales Recepcion'])->assignRole($role1);
+        Permission::create(['name' => 'materials.recepcion_create',           'description'   => 'Crear Materiales Recepcion'])->assignRole($role1);
+        Permission::create(['name' => 'materials.recepcion_edit',             'description'   => 'Editar Materiales Recepcion'])->assignRole($role1);
+        Permission::create(['name' => 'materials.recepcion_update',           'description'   => 'Actualizar Materiales Recepcion'])->assignRole($role1);
+        Permission::create(['name' => 'materials.recepcion_update_status',    'description'   => 'Anular/ Activar Materiales Recepcion'])->assignRole($role1);
+        Permission::create(['name' => 'materials.recepcion_audit',            'description'   => 'Ver Auditoria Materiales Recepcion'])->assignRole($role1);
+
+        Permission::create(['name' => 'materials.adquisicion_rescajagrupo',     'description'   => 'Resumen Adquisicion por Caja - Grupo'])->assignRole($role1);
+        Permission::create(['name' => 'materials.recepcion_rescajagrupo',       'description'   => 'Resumen Recepcion por Caja - Grupo'])->assignRole($role1);
+        Permission::create(['name' => 'materials.adquisicion_consolidado',      'description'   => 'Resumen Consolidado de Aquisicion'])->assignRole($role1);
+
+
+
     }
 }

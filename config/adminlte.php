@@ -494,6 +494,35 @@ return [
             'icon'      => 'fas fa-fw fas fa-chart-bar',
             'can'       => 'statistics.consolidadoMovimientos',
         ],        
+        [ 
+            'text'          => 'Material',
+            'icon'          => 'fas fa-dollar-sign', 
+            'icon_color'    => 'primary',
+            'can'           =>  ['materials.adquisicion_rescajagrupo', 'materials.recepcion_rescajagrupo', 'materials.adquisicion_cosolidado'],
+            'submenu'   => [
+                [
+                    'text' => 'Adquisicon por Caja - Grupo',
+                    'url'  => '#',
+                    'classes'   =>  'ml-4',              
+                    'can'  => 'materials.adquisicion_rescajagrupo',
+                    'icon_color' => 'primary',                    
+                ],
+                [                    
+                    'text'      => 'Recepcion por Caja - Grupo',
+                    'url'       => '#',
+                    'classes'   =>  'ml-4',
+                    'can'       => 'materials.recepcion_rescajagrupo',
+                    'icon_color' => 'primary',       
+                ],     
+                [                    
+                    'text'      => 'Consolidado de Aquisicion',
+                    'url'       => '#',
+                    'classes'   =>  'ml-4',                    
+                    'can'       => 'materials.adquisicion_cosolidado',
+                    'icon_color' => 'primary',       
+                ],                                           
+            ]
+        ],            
         ['header' => 'Operaciones',
         'classes' =>'text-uppercase font-weight-bold text-light',],
         [

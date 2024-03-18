@@ -38,7 +38,7 @@
                     {!! Form::hidden('user_id',auth()->id(), null, ['class' => 'form-control', 'required' => true]) !!}
 
                     <div class="form-row">
-
+                        {{--
                         <div class="form-group col-md-4 col-xl-4">
                             {!! Form::Label('typetrasnferencia', "Tipo de Movimiento:") !!}
                             <div class="input-group-text col-md-12">
@@ -46,6 +46,17 @@
                             {!! Form::select('type_transaction_id',$type_transaction, null, ['class' => 'form-control typetrasnferencia myForm', 'required' => true, 'id'=>'typetrasnferencia', 'readonly' => false]) !!}
                             </div>
                         </div>
+                        --}}
+                        <div class="form-group col-md-4 col-xl-4">
+                            {!! Form::Label('typetrasnferencia', "Tipo de Movimiento:") !!}
+                            <div class="input-group-text col-md-12" style="height:3.3rem;">
+                                <i class="fa-fw fas fa-random mr-2"></i>
+                                {!! Form::Label($transactions->type_transaction_name ) !!}
+                            </div>
+                        </div>
+
+
+
 
                         <div class="form-group col-md-4 col-xl-4 esconder">
                             {!! Form::Label('wallet', "Caja:") !!}
@@ -361,6 +372,23 @@
         insertMode:true,
     });
 
+
+    $(".typetrasnferencia").select2({
+        placeholder: "Seleccionar ...",
+        theme: 'bootstrap4',
+        allowClear: true,
+        width: '100%'
+    });
+
+    $("#type_material_id").select2({
+        placeholder: "Seleccionar ...",
+        theme: 'bootstrap4',
+        allowClear: true,
+        width: '100%'
+    });
+
+
+    
 
     $(document).ready(function() {
 

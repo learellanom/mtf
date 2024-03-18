@@ -543,10 +543,10 @@ class TransactionController extends Controller
     public function materials_adquisicion_create(transaction $transaction)
     {
 
-        $myTypeTransaction = 0;
+        $myTypeTransaction = 47;
 
         $type_coin                      = Type_coin::pluck('name', 'id');
-        $type_transaction               = Type_transaction::where('name','like','%Material%')->whereIn('type_transaction', ['Transacciones'])->pluck('name', 'id');
+        $type_transaction               = Type_transaction::where('id','=',$myTypeTransaction)->where('name','like','%Material%')->whereIn('type_transaction', ['Transacciones'])->pluck('name', 'id');
         $wallet                         = Group::whereIn('type_wallet', ['transacciones', 'efectivo'])->where('type','=',2)->pluck('name', 'id');
         $group                          = Group::whereIn('type', [1])->pluck('name', 'id');
         $user                           = User::pluck('name', 'id');
