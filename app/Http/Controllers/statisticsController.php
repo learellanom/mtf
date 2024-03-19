@@ -1028,171 +1028,6 @@ class statisticsController extends Controller
         return view('estadisticas.statisticsResumenWallet', $parametros);
     }
 
-    /*
-    *
-    *
-    *   walletSummary
-    *
-    *
-    */
-    public function materials_adquisicion_rescajagrupo(Request $request) {
-
-        $myWallet       = ($request->wallet)        ? $request->wallet      : 0;
-        $fechaDesde     = ($request->fechaDesde)    ? $request->fechaDesde  : '2001-01-01';  
-        $fechaHasta     = ($request->fechaHasta)    ? $request->fechaHasta  : '9999-12-31';
-
-        if ($wallet === 0){
-            $walletDesde = 00000;
-            $walletHasta = 99999;
-
-        }else{
-            $walletDesde = $wallet;
-            $walletHasta = $wallet;
-        }
-         //\Log::info('leam wallet      getBalanceWallet *** -> ' . $wallet);
-        // \Log::info('leam fecha Desde getBalanceWallet *** -> ' . $fechaDesde);
-        // \Log::info('leam fecha Hasta getBalanceWallet *** -> ' . $fechaHasta);
-        // \Log::info('leam coin        getBalanceWallet *** -> ' . $myCoin);
-
-        $horaDesde      = " 00:00:00";
-        $horaHasta      = " 23:59:00";
-
-        $myFechaDesde   = $fechaDesde . $horaDesde;
-        $myFechaHasta   = $fechaHasta . $horaHasta;
-
-        $myTable        = "mtf.transactions";
-
-
-
-        $myTempCredits  = $this->getWalletCredits();
-        $myTempDebits   = $this->getWalletDebits();
-
-
-        $Group_roles = $this->getGroupRole(auth()->id());
-
-
-        $busquedaWalletFilter     = "";
-        if (isset($Group_roles->allWallets)){
-            if($Group_roles->allWallets == 0){
-                $theWallets             = implode(",", $Group_roles->wallets);
-                $busquedaWalletFilter   = " and wallet_id in ($theWallets)";
-            }
-        }
- 
-        $busquedaGroupFilter      = "";
-        if (isset($Group_roles->allGroups)){
-            if($Group_roles->allGroups == 0){
-                $theGroups              = implode(",",$Group_roles->groups );
-                $busquedaGroupFilter    = " and group_id in ($theGroups)";
-            }
-        }
-
-
-         // dd("wallet debits ->" . $myTempDebits . " wallet credits ->" . $myTempCredits ); // ajuax
-         
-        //
-        // 26-04-2023
-        //
-        // Debitos
-        //  4 cobro en efectivo
-        //  8 Nota de debito
-        //  2 cobro transferencia
-        //  6 Nota de credito a caja
-        //
-        // Creditos
-        //  1 transferencia
-        //  3 pago en efectivo
-        //  5 mercancia
-        //  7 notas de credito
-        //  9 switft
-        //  11 pago usdt
-        //
-
-        $myTransactionId = 47;
-
-
-        $myQuery =
-        "
-            SELECT
-                wallet_id                       as IdWallet,
-                mtf.groups.name                 as NombreWallet,
-                group_id                        as GroupId,
-                grupos.name                     as GroupName,
-                type_material_id                as TypeMaterialId,
-                mtf.type_materials.name         as TypeMaterialName,
-                sum(material_amount)            as MaterialAmount,
-                sum(material_amount_total)      as MaterialAmountTotal
-            FROM transactions
-                left join  mtf.groups           on mtf.transactions.wallet_id         = mtf.groups.id
-                left join  mtf.groups as grupos on mtf.transactions.group_id          = grupos.id
-                left join  mtf.type_materials   on mtf.tracsations.type_material_id   = mtf.type_materials.id
-            where
-                type_transaction_id in ($myTransactionId)
-                and
-                transaction_date            between '$myFechaDesde' and '$myFechaHasta'
-                and
-                wallet_id                   between $walletDesde    and $walletHasta
-                group_id                    between $groupDesde     and $grouptHasta
-                and status                  <> 'Anulado'
-                $busquedaWalletFilter 
-                $busquedaGroupFilter
-            group by
-                IdWallet,
-                NombreWallet,
-                GroupId,
-                GroupName
-        ";
-
-        // dd($myQuery);
-        $Transacciones = DB::select($myQuery);
-
-        
-        //
-        // si es un solo grupo devuelve un objeto y debe convertirse a array de 1
-        //
-        if (gettype($Transacciones) == "object"){
-            $Transacciones = [$Transacciones];
-        }
-
-
-
-
-        $wallets                = $this->getWallet($Group_roles);
-
-        $myTypeMaterial         = ($request->type_material_id) ? $request->type_material_id  : 0;
-        $Type_material          = Type_material::pluck('name', 'id')->toArray();
-
-        $myGroup                = ($request->group) ? $request->group  : 0;
-        if ($myGroup === 0){
-            $groupDesde = 00000;
-            $groupHasta = 99999;
-
-        }else{
-            $groupDesde = $wallet;
-            $groupHasta = $wallet;
-        }
-
-
-        $groups                 = $this->getGroups($Group_roles);
-
-        $parametros['myFechaDesde']         = $fechaDesde;
-        $parametros['myFechaHasta']         = $fechaHasta;
-
-        $parametros['myWallet']             = $myWallet;
-        $parametros['wallets']              = $wallets;
-
-        $parametros['myGroup']              = $myGroup;
-        $parametros['groups']               = $groups;
-
-        $parametros['Transacciones']        = $Transacciones;
-
-        $parametros['myTypeMaterial']       = $myTypeMaterial;
-        $parametros['Type_material']        = $Type_material;
-
-        // aquix
-        return view('MaterialsAdquisicionResCajaGrupo', $parametros);
-        
-    }    
    /*
     *
     *
@@ -4109,7 +3944,185 @@ class statisticsController extends Controller
         
 
     }    
-        /*
+    /*
+    *
+    *
+    *        materials_adquisicion_consolidado
+    *
+    *
+    */
+    function materials_adquisicion_consolidado(Request $request){
+
+        $myWalletDesde = 00000;
+        $myWalletHasta = 99999;
+        if ($request->wallet){
+            $myWalletDesde = $request->wallet;
+            $myWalletHasta = $request->wallet;
+        }
+
+        $myGroupDesde = 00000;
+        $myGroupHasta = 99999;
+        if ($request->group){
+            $myGroupDesde = $request->group;
+            $myGroupHasta = $request->group;
+        }
+
+        $myTransactionDesde     = 47;
+        $myTransactionHasta     = 47;
+        if ($request->transaction){
+            $myTransactionDesde     = $request->transaction;
+            $myTransactionHasta     = $request->transaction;
+        }
+
+        $myFechaDesde = "2001-01-01";
+        $myFechaHasta = "9999-12-31";
+        if ($request->fechaDesde){
+            $myFechaDesde = $request->fechaDesde;
+        }
+        if ($request->fechaHasta){
+            $myFechaHasta = $request->fechaHasta;
+        }
+
+        $myFechaDesde = "2001-01-01";
+        $myFechaHasta = "9999-12-31";
+
+        $horaDesde = " 00:00:00";
+        $horaHasta = " 23:59:00";
+
+        $myFechaDesde = $myFechaDesde . $horaDesde;
+        $myFechaHasta = $myFechaHasta . $horaHasta;
+
+        $myQuery =
+        "
+            select
+                mtf.transactions.id                             as Id,
+                mtf.transactions.wallet_id                      as WalletId,
+                wallets.name                                    as WalletName,
+                mtf.transactions.group_id                       as GroupId,
+                mtf.groups.name                                 as GroupName,
+                mtf.transactions.type_transaction_id            as TypeTransactionId,
+                type_transactions.name                          as TypeTransactionName,
+                mtf.transactions.type_material_id               as TypeMaterialId,
+                mtf.type_materials.name                         as TypeMaterialName,
+                transaction_date                                as TransactionDate,
+                created_at                                      as CreatedAt,
+                mtf.transactions.material_price                 as MaterialPrice,
+                mtf.transactions.material_amount                as MaterialAmount,
+                mtf.transactions.material_amount_total          as MaterialAmountTotal,
+                0                                               as Saldo
+            from
+                        mtf.transactions
+            left join   mtf.type_transactions   on mtf.transactions.type_transaction_id = mtf.type_transactions.id
+            left join   mtf.groups as wallets   on mtf.transactions.wallet_id           = wallets.id
+            left join   mtf.groups              on mtf.Transactions.group_id            = mtf.groups.id
+            left join   mtf.type_materials      on mtf.Transactions.type_material_id    = mtf.type_materials.id
+            where
+                    status = 'Activo'
+                and wallet_id            between $myWalletDesde              and     $myWalletHasta
+                and type_transaction_id  between $myTransactionDesde         and     $myTransactionHasta
+                and transaction_date     between '$myFechaDesde'             and     '$myFechaHasta'
+            order by
+                Transactions.transaction_date ASC,
+                id ASC
+        ";
+
+        // dd($myQuery);
+        
+        $adquisiciones = DB::select($myQuery);        
+
+        
+
+
+        $myTransactionDesde     = 48;
+        $myTransactionHasta     = 48;        
+        $myQuery =
+        "
+            select
+                mtf.transactions.id                             as Id,
+                mtf.transactions.wallet_id                      as WalletId,
+                wallets.name                                    as WalletName,
+                mtf.transactions.group_id                       as GroupId,
+                mtf.groups.name                                 as GroupName,
+                mtf.transactions.type_transaction_id            as TypeTransactionId,
+                type_transactions.name                          as TypeTransactionName,
+                mtf.transactions.type_material_id               as TypeMaterialId,
+                mtf.type_materials.name                         as TypeMaterialName,
+                transaction_date                                as TransactionDate,
+                created_at                                      as CreatedAt,                
+                mtf.transactions.material_price                 as MaterialPrice,
+                mtf.transactions.material_amount                as MaterialAmount,
+                mtf.transactions.material_amount_total          as MaterialAmountTotal,
+                mtf.transactions.material_amount                as Saldo
+            from
+                        mtf.transactions
+            left join   mtf.type_transactions   on mtf.transactions.type_transaction_id = mtf.type_transactions.id
+            left join   mtf.groups as wallets   on mtf.transactions.wallet_id           = wallets.id
+            left join   mtf.groups              on mtf.Transactions.group_id            = mtf.groups.id
+            left join   mtf.type_materials      on mtf.Transactions.type_material_id    = mtf.type_materials.id
+            where
+                    status = 'Activo'
+                and wallet_id            between $myWalletDesde              and     $myWalletHasta
+                and type_transaction_id  between $myTransactionDesde         and     $myTransactionHasta
+                and transaction_date     between '$myFechaDesde'             and     '$myFechaHasta'
+            order by
+                Transactions.transaction_date ASC,
+                id ASC
+        ";
+
+        // dd($myQuery);
+        
+        $recepciones = DB::select($myQuery);        
+
+        $adquisiciones2 = [];
+        foreach($adquisiciones as $myAdquisicion){
+
+            $myAdquisicion2         = clone $myAdquisicion;
+
+            $myAdquisicion2->Saldo  = $myAdquisicion2->material_amount;
+
+            foreach($recepciones as $myRecepcion){
+
+                
+                $myMaterialAmount = $myAdquisicion2->Saldo - $myRecepcion->Saldo;
+
+
+                $myAdquisicion2->recepcion_id               = $recepcion->id;
+                $myAdquisicion2->recepcion_transaction_date = $recepcion->transaction_date;
+                $myAdquisicion2->recepcion_material_amount  = $recepcion->material_amount;
+
+                
+
+                if ($myMaterialAmount == 0){
+                    $myAdquisicion2->Saldo              = 0;
+                    $myAdquisicion2->recepcion_saldo    = 0;
+                    $myRecepcion->Saldo                 = 0;
+                }
+
+                if ($myMaterialAmount > 0){
+
+                    $myAdquisicion2->Saldo              = $myMaterialAmount;
+                    $myAdquisicion2->recepcion_saldo    =  0 ;
+                    $myRecepcion->Saldo                 = 0;
+
+                }
+
+                if ($myMaterialAmount < 0){
+                    $myAdquisicion2->Saldo              = 0;
+                    $myRecepcion->Saldo                 = abs($myMaterialAmount);
+
+                    $myAdquisicion2->recepcion_saldo    = abs($myMaterialAmount);
+                }
+
+
+            }
+        }
+        dd($adquisiciones);
+
+    }
+
+
+
+    /*
     *
     *
     *       USDTResumen

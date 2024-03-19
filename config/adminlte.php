@@ -500,23 +500,23 @@ return [
             'icon_color'    => 'primary',
             'can'           =>  ['materials.adquisicion_rescajagrupo', 'materials.recepcion_rescajagrupo', 'materials.adquisicion_cosolidado'],
             'submenu'   => [
-                [
-                    'text' => 'Adquisicon por Caja - Grupo',
-                    'url'  => '#',
-                    'classes'   =>  'ml-4',              
-                    'can'  => 'materials.adquisicion_rescajagrupo',
-                    'icon_color' => 'primary',                    
-                ],
-                [                    
-                    'text'      => 'Recepcion por Caja - Grupo',
-                    'url'       => '#',
-                    'classes'   =>  'ml-4',
-                    'can'       => 'materials.recepcion_rescajagrupo',
-                    'icon_color' => 'primary',       
-                ],     
+                // [
+                //     'text' => 'Adquisicon por Caja - Grupo',
+                //     'url'  => '#',
+                //     'classes'   =>  'ml-4',              
+                //     'can'  => 'materials.adquisicion_rescajagrupo',
+                //     'icon_color' => 'primary',                    
+                // ],
+                // [                    
+                //     'text'      => 'Recepcion por Caja - Grupo',
+                //     'url'       => '#',
+                //     'classes'   =>  'ml-4',
+                //     'can'       => 'materials.recepcion_rescajagrupo',
+                //     'icon_color' => 'primary',       
+                // ],     
                 [                    
                     'text'      => 'Consolidado de Aquisicion',
-                    'url'       => '#',
+                    'url'       => 'materialsAdquisicionConsolidado',
                     'classes'   =>  'ml-4',                    
                     'can'       => 'materials.adquisicion_cosolidado',
                     'icon_color' => 'primary',       
