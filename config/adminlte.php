@@ -516,7 +516,7 @@ return [
                 // ],     
                 [                    
                     'text'      => 'Consolidado de Aquisicion',
-                    'url'       => 'materialsAdquisicionConsolidado',
+                    'url'       => 'materialsAdquisicionConsolidado', 
                     'classes'   =>  'ml-4',                    
                     'can'       => 'materials.adquisicion_cosolidado',
                     'icon_color' => 'primary',       

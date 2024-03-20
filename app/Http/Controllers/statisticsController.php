@@ -4005,11 +4005,15 @@ class statisticsController extends Controller
                 mtf.transactions.type_material_id               as TypeMaterialId,
                 mtf.type_materials.name                         as TypeMaterialName,
                 transaction_date                                as TransactionDate,
-                created_at                                      as CreatedAt,
+                mtf.transactions.created_at                     as CreatedAt,
                 mtf.transactions.material_price                 as MaterialPrice,
                 mtf.transactions.material_amount                as MaterialAmount,
                 mtf.transactions.material_amount_total          as MaterialAmountTotal,
-                0                                               as Saldo
+                0                                               as Saldo,
+                0                                               as RecepcionId,
+                0                                               as RecepcionTransactionDate,
+                0                                               as RecepcionMaterialAmount,
+                0                                               as RecepcionSaldo
             from
                         mtf.transactions
             left join   mtf.type_transactions   on mtf.transactions.type_transaction_id = mtf.type_transactions.id
@@ -4048,11 +4052,11 @@ class statisticsController extends Controller
                 mtf.transactions.type_material_id               as TypeMaterialId,
                 mtf.type_materials.name                         as TypeMaterialName,
                 transaction_date                                as TransactionDate,
-                created_at                                      as CreatedAt,                
+                mtf.transactions.created_at                     as CreatedAt,                
                 mtf.transactions.material_price                 as MaterialPrice,
                 mtf.transactions.material_amount                as MaterialAmount,
                 mtf.transactions.material_amount_total          as MaterialAmountTotal,
-                mtf.transactions.material_amount                as Saldo
+                mtf.transactions.material_amount                as Saldo              
             from
                         mtf.transactions
             left join   mtf.type_transactions   on mtf.transactions.type_transaction_id = mtf.type_transactions.id
@@ -4072,52 +4076,185 @@ class statisticsController extends Controller
         // dd($myQuery);
         
         $recepciones = DB::select($myQuery);        
-
+        // dd($recepciones);
         $adquisiciones2 = [];
-        foreach($adquisiciones as $myAdquisicion){
+        foreach($adquisiciones as $key => $myAdquisicion){
 
             $myAdquisicion2         = clone $myAdquisicion;
 
-            $myAdquisicion2->Saldo  = $myAdquisicion2->material_amount;
-
-            foreach($recepciones as $myRecepcion){
-
-                
-                $myMaterialAmount = $myAdquisicion2->Saldo - $myRecepcion->Saldo;
+            $myAdquisicion2->Saldo      = $myAdquisicion2->MaterialAmount;
+            $myAdquisicion2->Saldo2     = $myAdquisicion2->MaterialAmount;
 
 
-                $myAdquisicion2->recepcion_id               = $recepcion->id;
-                $myAdquisicion2->recepcion_transaction_date = $recepcion->transaction_date;
-                $myAdquisicion2->recepcion_material_amount  = $recepcion->material_amount;
+            
+
+            foreach($recepciones as $key => $myRecepcion){
+
+                // if ($key >= 3){
+                //     die();
+                // }
+
+                if ($myRecepcion->Saldo == 0){
+                    continue;
+                }
+
+                $myMaterialAmount = $myAdquisicion2->Saldo2 - $myRecepcion->Saldo;
+
+
+                $myAdquisicion2->RecepcionId               = $myRecepcion->Id;
+                $myAdquisicion2->RecepcionTransactionDate  = $myRecepcion->TransactionDate;
+                $myAdquisicion2->RecepcionMaterialAmount   = $myRecepcion->MaterialAmount;
 
                 
 
                 if ($myMaterialAmount == 0){
-                    $myAdquisicion2->Saldo              = 0;
-                    $myAdquisicion2->recepcion_saldo    = 0;
+                    $myAdquisicion2->Saldo2             = 0;
+                    $myAdquisicion2->RecepcionSaldo    = 0;
+            
                     $myRecepcion->Saldo                 = 0;
+
+                    $myAdquisicion2->RecepcionMaterialAmount2       = $myRecepcion->MaterialAmount;
+
+                    echo "<br>" . "igual **********";
+                    echo "<br>" . $myAdquisicion2->Id;
+                    echo "<br>" . $myAdquisicion2->WalletId;
+                    echo "<br>" . $myAdquisicion2->WalletName;
+                    echo "<br>" . $myAdquisicion2->GroupId;
+                    echo "<br>" . $myAdquisicion2->GroupName;
+                    echo "<br>" . $myAdquisicion2->TypeTransactionId;
+                    echo "<br>" . $myAdquisicion2->TypeTransactionName;
+                    echo "<br>" . $myAdquisicion2->TypeMaterialId;
+                    echo "<br>" . $myAdquisicion2->TypeMaterialName;
+                    echo "<br>" . $myAdquisicion2->TransactionDate;
+                    echo "<br>" . $myAdquisicion2->CreatedAt;
+                    echo "<br> precio ---->" . $myAdquisicion2->MaterialPrice;
+                    echo "<br> cantidad -->" . $myAdquisicion2->MaterialAmount;
+                    echo "<br> monto ----->" . $myAdquisicion2->MaterialAmountTotal;
+                    echo "<br> saldo ----->" . $myAdquisicion2->Saldo;
+                    echo "<br> saldo2 ----->" . $myAdquisicion2->Saldo2;
+                    echo "<br>" . $myAdquisicion2->RecepcionId;
+                    echo "<br>" . $myAdquisicion2->RecepcionTransactionDate;
+                    echo "<br> Recepcion MaterialAmount -->" . $myAdquisicion2->RecepcionMaterialAmount;
+                    echo "<br> recepcion MaterialAmount2 ->" . $myAdquisicion2->RecepcionMaterialAmount2;                    
+                    echo "<br> Recepcion Saldo ----------->" . $myAdquisicion2->RecepcionSaldo;
+
+
+                    $adquisiciones2[] = $myAdquisicion2;
+                    $myAdquisicion2->Saldo             = 0;
+                    break;
                 }
 
                 if ($myMaterialAmount > 0){
 
-                    $myAdquisicion2->Saldo              = $myMaterialAmount;
-                    $myAdquisicion2->recepcion_saldo    =  0 ;
+                    $myAdquisicion2->Saldo2             = $myMaterialAmount;
+                    $myAdquisicion2->RecepcionSaldo    =  0 ;
+
+                    $myAdquisicion2->RecepcionMaterialAmount2       = $myRecepcion->Saldo;
+
                     $myRecepcion->Saldo                 = 0;
+
+
+                    echo "<br>" . "mayor **********";
+                    echo "<br>" . $myAdquisicion2->Id;
+                    echo "<br>" . $myAdquisicion2->WalletId;
+                    echo "<br>" . $myAdquisicion2->WalletName;
+                    echo "<br>" . $myAdquisicion2->GroupId;
+                    echo "<br>" . $myAdquisicion2->GroupName;
+                    echo "<br>" . $myAdquisicion2->TypeTransactionId;
+                    echo "<br>" . $myAdquisicion2->TypeTransactionName;
+                    echo "<br>" . $myAdquisicion2->TypeMaterialId;
+                    echo "<br>" . $myAdquisicion2->TypeMaterialName;
+                    echo "<br>" . $myAdquisicion2->TransactionDate;
+                    echo "<br>" . $myAdquisicion2->CreatedAt;
+                    echo "<br> Precio --->" . $myAdquisicion2->MaterialPrice;
+                    echo "<br> Cantidad ->" . $myAdquisicion2->MaterialAmount;
+                    echo "<br> Monto ---->" . $myAdquisicion2->MaterialAmountTotal;
+                    echo "<br> Saldo ---->" . $myAdquisicion2->Saldo;
+                    echo "<br> saldo2 ----->" . $myAdquisicion2->Saldo2;                    
+                    echo "<br>" . $myAdquisicion2->RecepcionId;
+                    echo "<br>" . $myAdquisicion2->RecepcionTransactionDate;
+                    echo "<br> Recepcion MaterialAmount -->" . $myAdquisicion2->RecepcionMaterialAmount;
+                    echo "<br> Recepcion MaterialAmount2 ->" . $myAdquisicion2->RecepcionMaterialAmount2;
+                    echo "<br> Recepcion Saldo ----------->" . $myAdquisicion2->RecepcionSaldo;
+
+
+                    $adquisiciones2[] = $myAdquisicion2;
+                    $myAdquisicion2->Saldo             = $myMaterialAmount;
+
+
 
                 }
 
                 if ($myMaterialAmount < 0){
-                    $myAdquisicion2->Saldo              = 0;
+
+                    $myAdquisicion2->Saldo2              = 0;
+                    $myAdquisicion2->RecepcionSaldo    = abs($myMaterialAmount);            
+                    
                     $myRecepcion->Saldo                 = abs($myMaterialAmount);
 
-                    $myAdquisicion2->recepcion_saldo    = abs($myMaterialAmount);
+                    $myAdquisicion2->RecepcionMaterialAmount2    = $myRecepcion->MaterialAmount - abs($myMaterialAmount);
+
+                    echo "<br>" . "menor **********";
+                    echo "<br>" . $myAdquisicion2->Id;
+                    echo "<br>" . $myAdquisicion2->WalletId;
+                    echo "<br>" . $myAdquisicion2->WalletName;
+                    echo "<br>" . $myAdquisicion2->GroupId;
+                    echo "<br>" . $myAdquisicion2->GroupName;
+                    echo "<br>" . $myAdquisicion2->TypeTransactionId;
+                    echo "<br>" . $myAdquisicion2->TypeTransactionName;
+                    echo "<br>" . $myAdquisicion2->TypeMaterialId;
+                    echo "<br>" . $myAdquisicion2->TypeMaterialName;
+                    echo "<br>" . $myAdquisicion2->TransactionDate;
+                    echo "<br>" . $myAdquisicion2->CreatedAt;
+                    echo "<br> Precio   " . $myAdquisicion2->MaterialPrice;
+                    echo "<br> Cantidad " . $myAdquisicion2->MaterialAmount;
+                    echo "<br> Monto    " . $myAdquisicion2->MaterialAmountTotal;
+                    echo "<br> Saldo    " . $myAdquisicion2->Saldo;
+                    echo "<br> Saldo2 ----->" . $myAdquisicion2->Saldo2;
+                    echo "<br>" . $myAdquisicion2->RecepcionId;
+                    echo "<br>" . $myAdquisicion2->RecepcionTransactionDate;
+                    echo "<br> Recepcion MaterialAmount  ->" . $myAdquisicion2->RecepcionMaterialAmount;
+                    echo "<br> Recepcion MaterialAmount2 ->" . $myAdquisicion2->RecepcionMaterialAmount2;
+                    echo "<br> Recepcion Saldo ----------->" . $myAdquisicion2->RecepcionSaldo;
+
+
+                    $adquisiciones2[] = $myAdquisicion2;
+                    $myAdquisicion2->Saldo             = 0;
+                    break;                    
+
+
                 }
 
+                
 
             }
         }
-        dd($adquisiciones);
-
+        // dd($adquisiciones);
+        /*
+        foreach($adquisiciones2 as $myAdquisicion){
+            echo "<br>" . "**********";
+            echo "<br>" . $myAdquisicion->Id;
+            echo "<br>" . $myAdquisicion->WalletId;
+            echo "<br>" . $myAdquisicion->WalletName;
+            echo "<br>" . $myAdquisicion->GroupId;
+            echo "<br>" . $myAdquisicion->GroupName;
+            echo "<br>" . $myAdquisicion->TypeTransactionId;
+            echo "<br>" . $myAdquisicion->TypeTransactionName;
+            echo "<br>" . $myAdquisicion->TypeMaterialId;
+            echo "<br>" . $myAdquisicion->TypeMaterialName;
+            echo "<br>" . $myAdquisicion->TransactionDate;
+            echo "<br>" . $myAdquisicion->CreatedAt;
+            echo "<br>" . $myAdquisicion->MaterialPrice;
+            echo "<br>" . $myAdquisicion->MaterialAmount;
+            echo "<br>" . $myAdquisicion->MaterialAmountTotal;
+            echo "<br>" . $myAdquisicion->Saldo;
+            echo "<br>" . $myAdquisicion->RecepcionId;
+            echo "<br>" . $myAdquisicion->RecepcionTransactionDate;
+            echo "<br>" . $myAdquisicion->RecepcionMaterialAmount;
+            echo "<br>" . $myAdquisicion->RecepcionSaldo;
+        }
+        die('fin');
+        */
     }
 
 

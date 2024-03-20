@@ -546,13 +546,14 @@ class TransactionController extends Controller
         $myTypeTransaction = 47;
 
         $type_coin                      = Type_coin::pluck('name', 'id');
-        $type_transaction               = Type_transaction::where('id','=',$myTypeTransaction)->where('name','like','%Material%')->whereIn('type_transaction', ['Transacciones'])->pluck('name', 'id');
+        $type_transaction               = Type_transaction::where('id','=',$myTypeTransaction)->whereIn('type_transaction', ['Material'])->pluck('name', 'id');
         $wallet                         = Group::whereIn('type_wallet', ['transacciones', 'efectivo'])->where('type','=',2)->pluck('name', 'id');
         $group                          = Group::whereIn('type', [1])->pluck('name', 'id');
         $user                           = User::pluck('name', 'id');
         $type_material                  = Type_material::pluck('name', 'id');    
         $fecha                          = Carbon::now();
 
+        // dd($type_transaction);
 
         $parametros['type_coin']        = $type_coin;
         $parametros['type_transaction'] = $type_transaction;
@@ -573,7 +574,7 @@ class TransactionController extends Controller
     {
 
         $type_coin                      = Type_coin::pluck('name', 'id');
-        $type_transaction               = Type_transaction::where('name','like','%Recepción%')->where('name','like','%Recepcion%')->whereIn('type_transaction', ['Transacciones'])->pluck('name', 'id');
+        $type_transaction               = Type_transaction::where('name','like','%Recepción%')->where('name','like','%Recepcion%')->whereIn('type_transaction', ['Material'])->pluck('name', 'id');
         $wallet                         = Group::whereIn('type_wallet', ['transacciones', 'efectivo'])->where('type','=',2)->pluck('name', 'id');
         $group                          = Group::whereIn('type', [1])->pluck('name', 'id');
         $user                           = User::pluck('name', 'id');
