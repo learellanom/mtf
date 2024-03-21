@@ -1700,7 +1700,7 @@ class TransactionController extends Controller
         // $transactions->percentage_base          = $request->input('percentage_base');
         // $transactions->exonerate_base           = $request->input('exonerate_base');
         $transactions->amount_base              = $request->input('amount');
-        $transactions->amount_total_base        = $request->input('amount_total_base');
+        $transactions->amount_total_base        = $request->input('amount');
         // $transactions->amount_commission_profit = $request->input('amount_commission_profit');
         $transactions->user_id                  = $user;
 
