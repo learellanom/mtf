@@ -1684,6 +1684,11 @@ class TransactionController extends Controller
         // 02-10-2023 se desincorpora el cobrod e la comision base  para nmo descuadrar el commission profit
 
         $user = Auth::id();
+
+        //
+        // Nota de debito
+        //
+
         $transactions = new Transaction;
         $number = date('YmdHis'). rand(100,200). 'C-G';
 
@@ -1706,7 +1711,9 @@ class TransactionController extends Controller
 
         $transactions->save();
 
-
+        //
+        // cobro
+        //
 
         $transactions2 = new Transaction;
 

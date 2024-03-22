@@ -3953,18 +3953,22 @@ class statisticsController extends Controller
     */
     function materials_adquisicion_consolidado(Request $request){
 
+        $myWallet      = 0; 
         $myWalletDesde = 00000;
         $myWalletHasta = 99999;
         if ($request->wallet){
-            $myWalletDesde = $request->wallet;
-            $myWalletHasta = $request->wallet;
+            $myWallet       = $request->wallet; 
+            $myWalletDesde  = $request->wallet;
+            $myWalletHasta  = $request->wallet;
         }
 
+        $myGroup        = 0;
         $myGroupDesde = 00000;
         $myGroupHasta = 99999;
         if ($request->group){
-            $myGroupDesde = $request->group;
-            $myGroupHasta = $request->group;
+            $myGroup        = $request->group;
+            $myGroupDesde   = $request->group;
+            $myGroupHasta   = $request->group;
         }
 
         $myTransactionDesde     = 47;
@@ -3981,6 +3985,16 @@ class statisticsController extends Controller
         }
         if ($request->fechaHasta){
             $myFechaHasta = $request->fechaHasta;
+        }
+
+        $myType_material        = 0;
+        $myTypeMaterialDesde    = 0;
+        $myTypeMaterialHasta    = 9999;
+
+        if ($request->type_material){
+            $myType_material        = $request->type_material;
+            $myTypeMaterialDesde    = $request->type_material;
+            $myTypeMaterialHasta    = $request->type_material;
         }
 
         $myFechaDesde = "2001-01-01";
@@ -4077,10 +4091,10 @@ class statisticsController extends Controller
         
         $recepciones = DB::select($myQuery);        
         // dd($recepciones);
-        $adquisiciones2 = [];
+        $adqui = [];
         foreach($adquisiciones as $key => $myAdquisicion){
 
-            $myAdquisicion2         = clone $myAdquisicion;
+            $myAdquisicion2             = clone $myAdquisicion;
 
             $myAdquisicion2->Saldo      = $myAdquisicion2->MaterialAmount;
             $myAdquisicion2->Saldo2     = $myAdquisicion2->MaterialAmount;
@@ -4090,9 +4104,10 @@ class statisticsController extends Controller
 
             foreach($recepciones as $key => $myRecepcion){
 
-                // if ($key >= 3){
-                //     die();
-                // }
+                //  if ($key >= 4){
+                //     dd($adqui);
+                //      die();
+                //  }
 
                 if ($myRecepcion->Saldo == 0){
                     continue;
@@ -4119,7 +4134,8 @@ class statisticsController extends Controller
                     $this->materials_adquisicion_consolidado_show($myAdquisicion2);
 
 
-                    $adquisiciones2[] = $myAdquisicion2;
+                    $adqui[] = clone $myAdquisicion2;
+                    
                     $myAdquisicion2->Saldo             = 0;
                     break;
                 }
@@ -4138,9 +4154,10 @@ class statisticsController extends Controller
                     $this->materials_adquisicion_consolidado_show($myAdquisicion2);
 
 
-                    $adquisiciones2[] = $myAdquisicion2;
+                    $adqui[] = clone $myAdquisicion2;
+                    
                     $myAdquisicion2->Saldo             = $myMaterialAmount;
-
+                    
 
 
                 }
@@ -4159,8 +4176,9 @@ class statisticsController extends Controller
                     $this->materials_adquisicion_consolidado_show($myAdquisicion2);
 
 
-                    $adquisiciones2[] = $myAdquisicion2;
-                    $myAdquisicion2->Saldo             = 0;
+                    $adqui[]       = clone $myAdquisicion2;
+                    
+                    $myAdquisicion2->Saldo  = 0;
                     break;                    
 
 
@@ -4169,6 +4187,7 @@ class statisticsController extends Controller
                 
 
             }
+
         }
 
         $Group_roles 	    = $this->getGroupRole(auth()->id());
@@ -4178,38 +4197,45 @@ class statisticsController extends Controller
 
 
         // dd($adquisiciones);
-        /*
-        foreach($adquisiciones2 as $myAdquisicion){
+        
+        foreach($adqui as $myRow){
             echo "<br>" . "**********";
-            echo "<br>" . $myAdquisicion->Id;
-            echo "<br>" . $myAdquisicion->WalletId;
-            echo "<br>" . $myAdquisicion->WalletName;
-            echo "<br>" . $myAdquisicion->GroupId;
-            echo "<br>" . $myAdquisicion->GroupName;
-            echo "<br>" . $myAdquisicion->TypeTransactionId;
-            echo "<br>" . $myAdquisicion->TypeTransactionName;
-            echo "<br>" . $myAdquisicion->TypeMaterialId;
-            echo "<br>" . $myAdquisicion->TypeMaterialName;
-            echo "<br>" . $myAdquisicion->TransactionDate;
-            echo "<br>" . $myAdquisicion->CreatedAt;
-            echo "<br>" . $myAdquisicion->MaterialPrice;
-            echo "<br>" . $myAdquisicion->MaterialAmount;
-            echo "<br>" . $myAdquisicion->MaterialAmountTotal;
-            echo "<br>" . $myAdquisicion->Saldo;
-            echo "<br>" . $myAdquisicion->RecepcionId;
-            echo "<br>" . $myAdquisicion->RecepcionTransactionDate;
-            echo "<br>" . $myAdquisicion->RecepcionMaterialAmount;
-            echo "<br>" . $myAdquisicion->RecepcionSaldo;
+            echo "<br>" . $myRow->Id;
+            echo "<br>" . $myRow->WalletId;
+            echo "<br>" . $myRow->WalletName;
+            echo "<br>" . $myRow->GroupId;
+            echo "<br>" . $myRow->GroupName;
+            echo "<br>" . $myRow->TypeTransactionId;
+            echo "<br>" . $myRow->TypeTransactionName;
+            echo "<br>" . $myRow->TypeMaterialId;
+            echo "<br>" . $myRow->TypeMaterialName;
+            echo "<br>" . $myRow->TransactionDate;
+            echo "<br>" . $myRow->CreatedAt;
+            echo "<br>" . $myRow->MaterialPrice;
+            echo "<br>" . $myRow->MaterialAmount;
+            echo "<br>" . $myRow->MaterialAmountTotal;
+            echo "<br>" . $myRow->Saldo;
+            echo "<br>" . $myRow->Saldo2;
+            echo "<br>" . $myRow->RecepcionId;
+            echo "<br>" . $myRow->RecepcionTransactionDate;
+            echo "<br>" . $myRow->RecepcionMaterialAmount;
+            echo "<br>" . $myRow->RecepcionMaterialAmount2;
+            echo "<br>" . $myRow->RecepcionSaldo;
         }
-        die('fin');
-        */
+        // die('fin');
+        
 
-   
+        $parametros ['myFechaDesde']    = $myFechaDesde;
+        $parametros ['myFechaHasta']    = $myFechaHasta;
+        $parametros ['myWallet']        = $myWallet;
+        $parametros ['myGroup']         = $myGroup;
+        $parametros ['myType_material'] = $myType_material;     
         $parametros ['wallet']          = $wallet;
         $parametros ['group']           = $group;
-        $parametros ['adquisiciones']   = $adquisiciones2;
-
-        return view('materialsAdquisicionConsolidado', $parametros);
+        $parametros ['type_material']   = $type_material;        
+        $parametros ['adquisiciones']   = $adqui;
+        // dd($adquisiciones2);
+        return view('estadisticas.materialsAdquisicionConsolidado', $parametros);
 
     }
 
