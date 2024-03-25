@@ -18,7 +18,7 @@ $heads = [
 
     'Saldo Monto',
     'Saldo Cantidad',
-
+    'Saldo Cantidad Restante',
     'Nro Recepcion',
     'Recepcion Fecha',
     'Recepcion Cantidad',
@@ -189,6 +189,7 @@ $config4 = [
 
                                     <td></td>
                                     <td></td>
+                                    <td>{!! number_format($row->Saldo2,2) !!}</td>
 
                                     <td>{!! $row->RecepcionId !!}</td>                                    
                                     <td>{!! $row->RecepcionTransactionDate !!}</td>
