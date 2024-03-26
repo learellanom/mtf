@@ -16,14 +16,15 @@ $heads = [
     'Cantidad',
     'Monto',
 
-    'Saldo Monto',
-    'Saldo Cantidad',
-    'Saldo Cantidad Restante',
+    'Saldo Total',
+    'Cierre Total',
+
+    
     'Nro Recepcion',
     'Recepcion Fecha',
     'Recepcion Cantidad',
     'Recepcion Cantidad Asignado',
-    'Recepcion Monto',
+    'Recepcion Material Total',
 
     ['label' => 'Actions', 'no-export' => true, 'width' => 5],
 ];
@@ -187,9 +188,9 @@ $config4 = [
                                     <td>{!! number_format($row->MaterialAmount) !!}</td>
                                     <td>{!! number_format($row->MaterialAmountTotal,2) !!}</td>
 
-                                    <td></td>
-                                    <td></td>
-                                    <td>{!! number_format($row->Saldo2,2) !!}</td>
+                                    <td>{!! number_format($row->AdquisicionCierreAmount,2) !!}</td>
+                                    <td>{!! number_format($row->AdquisicionCierreCant,2) !!}</td>
+
 
                                     <td>{!! $row->RecepcionId !!}</td>                                    
                                     <td>{!! $row->RecepcionTransactionDate !!}</td>
@@ -197,8 +198,8 @@ $config4 = [
 
                                     <td class="text-right">{!! number_format($row->RecepcionMaterialAmount,2,",",".") !!}</td>
                                     <td class="text-right">{!! number_format($row->RecepcionMaterialAmount2,2,",",".") !!}</td>
- 
-                                    <td></td>
+                                    
+                                    <td>{!! number_format($row->RecepcionBalance,2,",",".") !!}</td>
 
                                     <!-- <td class="text-center">
                                         <button class="btn btn-xl text-teal mx-auto shadow" title="Detalles">

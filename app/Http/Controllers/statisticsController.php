@@ -4006,7 +4006,7 @@ class statisticsController extends Controller
         $myFechaDesde = $myFechaDesde . $horaDesde;
         $myFechaHasta = $myFechaHasta . $horaHasta;
 
-        $verLog = 0;
+
 
         $myQuery =
         "
@@ -4097,11 +4097,18 @@ class statisticsController extends Controller
         // dd($recepciones);
         $adqui = [];
 
+        $verLog = 0;
+
         $myWalletId         = 0;
         $myGroupId          = 0;
         $myGroupCant        = 0;
         $myGroupAmount      = 0;
         $myAdquisicionId    = 0;
+
+        $myRecepcionCant    = 0;
+        $myRecepcionBalance  = 0;
+
+        $myRecepcionIdTemp = 0;
 
         foreach($adquisiciones as $key => $myAdquisicion){
 
@@ -4129,6 +4136,9 @@ class statisticsController extends Controller
             
             // echo "<br>" . print_r($myAdquisicion,true);
             
+
+
+
             foreach($recepciones as $key => $myRecepcion){
 
                 //  if ($key >= 4){
@@ -4152,17 +4162,32 @@ class statisticsController extends Controller
                 $myAdquisicion2->AdquisicionCierreCant     = $myGroupCant;
                 $myAdquisicion2->AdquisicionCierreAmount   = $myGroupAmount;
 
+                if ($myRecepcion->Id != ""){
+                if ($myRecepcionIdTemp != $myRecepcion->Id){
+                    echo "<br>" . "distinto ----------------->";
+                    $myRecepcionCant++;
+                    $myRecepcionBalance += $myRecepcion->MaterialAmount;
+                    $myRecepcionIdTemp = $myRecepcion->Id;
+                }
+                }
+
                 if ($myMaterialAmount == 0){
                     $myAdquisicion2->Saldo2             = 0;
                     $myAdquisicion2->RecepcionSaldo     = 0;
             
                     $myRecepcion->Saldo                 = 0;
 
-                    $myAdquisicion2->RecepcionMaterialAmount2       = $myRecepcion->MaterialAmount;
+                    $myAdquisicion2->RecepcionMaterialAmount2   = $myRecepcion->MaterialAmount;
+                    $myAdquisicion2->RecepcionBalance           = $myRecepcionBalance;
+
                     $indRecepcion = 1;
 
                     if ($verLog == 1){
                         echo "<br>" . "igual *************************************************** idRecepcion -> " . $indRecepcion;
+                        echo "<br>" . " myRecepcionCant -> " . $myRecepcionCant;
+                        echo "<br>" . " myRecepcionBalance -> " . $myRecepcionBalance;
+                        echo "<br>" . " myRecepcionIdTemp -> " . $myRecepcionIdTemp;
+
                         $this->materials_adquisicion_consolidado_show($myAdquisicion2);
                     }
 
@@ -4181,12 +4206,17 @@ class statisticsController extends Controller
                     $myAdquisicion2->RecepcionSaldo    =  0 ;
 
                     $myAdquisicion2->RecepcionMaterialAmount2       = $myRecepcion->Saldo;
+                    $myAdquisicion2->RecepcionBalance           = $myRecepcionBalance;
 
                     $myRecepcion->Saldo                 = 0;
                     $indRecepcion = 1;
 
                     if ($verLog == 1){
                         echo "<br>" . "mayor *************************************************** indRecepcion ->" . $indRecepcion;
+                        echo "<br>" . " myRecepcionCant -> " . $myRecepcionCant;
+                        echo "<br>" . " myRecepcionBalance -> " . $myRecepcionBalance;
+                        echo "<br>" . " myRecepcionIdTemp -> " . $myRecepcionIdTemp;
+
                         $this->materials_adquisicion_consolidado_show($myAdquisicion2);
                     }
 
@@ -4207,17 +4237,23 @@ class statisticsController extends Controller
                     $myRecepcion->Saldo                 = abs($myMaterialAmount);
 
                     $myAdquisicion2->RecepcionMaterialAmount2    = $myRecepcion->MaterialAmount - abs($myMaterialAmount);
+                    $myAdquisicion2->RecepcionBalance           = $myRecepcionBalance;
+
                     $indRecepcion = 1;
 
                     if ($verLog == 1){
                         echo "<br>" . "menor *************************************************** indRecepcion -> " . $indRecepcion;
+                        echo "<br>" . " myRecepcionCant -> " . $myRecepcionCant;
+                        echo "<br>" . " myRecepcionBalance -> " . $myRecepcionBalance;
+                        echo "<br>" . " myRecepcionIdTemp -> " . $myRecepcionIdTemp;
+
                         $this->materials_adquisicion_consolidado_show($myAdquisicion2);
                     }
 
                     $adqui[]       = clone $myAdquisicion2;
                     
                     $myAdquisicion2->Saldo  = 0;
-
+                    $myAdquisicion2->RecepcionBalance           = 0;
                     break;                    
 
 
@@ -4242,13 +4278,26 @@ class statisticsController extends Controller
                 $myAdquisicion2->RecepcionSaldo             = 0;
                 $myAdquisicion2->RecepcionMaterialAmount2   = 0; 
 
+                $myAdquisicion2->RecepcionBalance           = $myRecepcionBalance;
+
                 if ($verLog == 1){
                     echo "<br>" . "sin recepcion  nnn *************************************************** indRecepcion -> " . $indRecepcion;
+                    echo "<br>" . " myRecepcionCant -> " . $myRecepcionCant;
+                    echo "<br>" . " myRecepcionBalance -> " . $myRecepcionBalance;
+                    echo "<br>" . " myRecepcionIdTemp -> " . $myRecepcionIdTemp;
+
                     $this->materials_adquisicion_consolidado_show($myAdquisicion2);    
                 }
 
                 $adqui[]       = clone $myAdquisicion2;
             }
+
+            if ($verLog == 1){
+                echo "<br>" . "cant recepcion  nnn *************************************************** indRecepcion -> " . $myRecepcionCant;
+
+            }
+            
+
 
         }
 
@@ -4305,6 +4354,7 @@ class statisticsController extends Controller
         echo "<br> Recepcion MaterialAmount  -->" . $myAdquisicion2->RecepcionMaterialAmount;
         echo "<br> Recepcion MaterialAmount2 -->" . $myAdquisicion2->RecepcionMaterialAmount2;
         echo "<br> Recepcion Saldo ------------>" . $myAdquisicion2->RecepcionSaldo;
+        echo "<br> Recepcion Balance ---------->" . $myAdquisicion2->RecepcionBalance;
 
     }
 
