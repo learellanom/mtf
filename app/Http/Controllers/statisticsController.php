@@ -3997,14 +3997,11 @@ class statisticsController extends Controller
             $myTypeMaterialHasta    = $request->type_material;
         }
 
-        $myFechaDesde = "2001-01-01";
-        $myFechaHasta = "9999-12-31";
-
         $horaDesde = " 00:00:00";
         $horaHasta = " 23:59:00";
 
-        $myFechaDesde = $myFechaDesde . $horaDesde;
-        $myFechaHasta = $myFechaHasta . $horaHasta;
+        $myFechaDesde2 = $myFechaDesde . $horaDesde;
+        $myFechaHasta2 = $myFechaHasta . $horaHasta;
 
 
 
@@ -4038,9 +4035,10 @@ class statisticsController extends Controller
             left join   mtf.type_materials      on mtf.Transactions.type_material_id    = mtf.type_materials.id
             where
                     status = 'Activo'
-                and wallet_id            between $myWalletDesde              and     $myWalletHasta
-                and type_transaction_id  between $myTransactionDesde         and     $myTransactionHasta
-                and transaction_date     between '$myFechaDesde'             and     '$myFechaHasta'
+                and wallet_id               between $myWalletDesde      and     $myWalletHasta
+                and group_id                between $myGroupDesde       and     $myGroupHasta                
+                and type_transaction_id  between $myTransactionDesde    and     $myTransactionHasta
+                and transaction_date     between '$myFechaDesde2'        and     '$myFechaHasta2'
             order by
                 transactions.wallet_id,
                 transactions.group_id,
@@ -4083,9 +4081,10 @@ class statisticsController extends Controller
             left join   mtf.type_materials      on mtf.Transactions.type_material_id    = mtf.type_materials.id
             where
                     status = 'Activo'
-                and wallet_id            between $myWalletDesde              and     $myWalletHasta
-                and type_transaction_id  between $myTransactionDesde         and     $myTransactionHasta
-                and transaction_date     between '$myFechaDesde'             and     '$myFechaHasta'
+                and wallet_id            between $myWalletDesde         and     $myWalletHasta
+                and group_id                between $myGroupDesde       and     $myGroupHasta                      
+                and type_transaction_id  between $myTransactionDesde    and     $myTransactionHasta
+                and transaction_date     between '$myFechaDesde2'        and     '$myFechaHasta2'
             order by
                 Transactions.transaction_date ASC,
                 id ASC

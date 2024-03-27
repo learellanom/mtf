@@ -27,6 +27,7 @@ $heads = [
     'Recepcion Material Total',
 
     ['label' => 'Actions', 'no-export' => true, 'width' => 5],
+    ['label' => 'Actions', 'no-export' => true, 'width' => 5],
 ];
 
 $btnEdit = '<button class="btn btn-xs btn-default text-primary mx-1 shadow" title="Edit">
@@ -201,11 +202,15 @@ $config4 = [
                                     
                                     <td>{!! number_format($row->RecepcionBalance,2,",",".") !!}</td>
 
-                                    <!-- <td class="text-center">
+                                    <!-- 
+                                    <td class="text-center">
                                         <button class="btn btn-xl text-teal mx-auto shadow" title="Detalles">
                                             <i class="fa fa-lg fa-fw fa-eye"></i>
                                         </button>
-                                    </td> -->
+                                    </td> 
+                                    -->
+
+                                    <!--
                                     <td class="text-center">
                                         <a
                                             href="#"
@@ -216,6 +221,25 @@ $config4 = [
                                             <i class="fa fa-lg fa-fw fa-eye"></i>
                                         </a>
                                     </td>
+                                    -->
+                                    <td>
+
+                                        <a href="{{ route('transactions.show', $row->Id) }}"
+
+                                            class="btn btn-xl text-dark mx-1 shadow text-center">
+                                            <i class="fa fa-lg fa-fw fa-eye"></i>
+                                        </a>
+                                    </td>
+
+                                    <td>
+
+                                        <a href="{{ route('transactions.show', $row->RecepcionId) }}"
+
+                                            class="btn btn-xl text-dark mx-1 shadow text-center">
+                                            <i class="fa fa-lg fa-fw fa-eye"></i>
+                                        </a>
+                                    </td>
+
                                 </tr>
                             @endforeach
                         </x-adminlte-datatable>
@@ -247,8 +271,8 @@ $config4 = [
         InicializaFechas();
         // BuscaFechas();
         BuscaFechasBlade();
-        /*
-        $('#wallet, #group, #type_matrerial_id, #drCustomRanges').on('change', function (){
+        
+        $('#wallet, #group, #type_material_id, #drCustomRanges').on('change', function (){
 
             const wallet        = $('#wallet').val();
             const group         = $('#group').val();
@@ -270,17 +294,17 @@ $config4 = [
                             ($('#drCustomRanges').val()).substr(13,2)
                             ;
 
-            theRoute(wallet,group,myFechaDesde,myFechaHasta);
+            theRoute(wallet,group,myFechaDesde,myFechaHasta, type_material);
 
         }).on('select2:open', () => {
              document.querySelector('.select2-search__field').focus();
         });        
-        */
+        
 
         $('#drCustomRanges').on('change', function () {
 
             const wallet        = $('#wallet').val();
-            const coin          = $('#coin').val();
+            const grupo         = $('#grupo').val();
             const type_material = $('#type_material_id').val();
 
             // alert('ggggg ' + $('#drCustomRanges').val());
@@ -303,16 +327,20 @@ $config4 = [
             //alert('Fecha Desde ' + myFechaDesde + 'Fecha Hasta ' + myFechaHasta);
 
             
-            theRoute(wallet,myFechaDesde,myFechaHasta,coin);
+            theRoute(wallet, grupo, myFechaDesde,myFechaHasta,type_material);
         });
 
 
 
     })
 
-    function theRoute(wallet = 0, group = 0, fechaDesde = 0, fechaHasta = 0){
+    function theRoute(wallet = 0, group = 0, fechaDesde = 0, fechaHasta = 0, type_material = 0){
+
+        // alert('leam - cambio');
 
         if (wallet  === "") wallet  = 0;
+        if (group  === "") group  = 0;
+        if (type_material  === "") type_material  = 0;
 
         let myRoute = "";
             myRoute = "{{ route('materialsAdquisicionConsolidado', ['wallet' => 'wallet2',  'group' => 'group2', 'type_material' => 'type_material2','fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2']) }}";

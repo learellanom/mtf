@@ -32,8 +32,8 @@
 
         @switch($transactions->type_transaction_id)
             @case(47)
-                {{-- @include('transactions.show_material') --}}    
-                @include('transactions.show_transaction')
+                @include('transactions.show_material')
+                {{-- @include('transactions.show_transaction') --}}
                 @break
             @case(48)
                 @include('transactions.show_material_recepcion')
