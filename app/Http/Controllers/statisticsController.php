@@ -4163,7 +4163,7 @@ class statisticsController extends Controller
 
                 if ($myRecepcion->Id != ""){
                 if ($myRecepcionIdTemp != $myRecepcion->Id){
-                    echo "<br>" . "distinto ----------------->";
+                    // echo "<br>" . "distinto ----------------->";
                     $myRecepcionCant++;
                     $myRecepcionBalance += $myRecepcion->MaterialAmount;
                     $myRecepcionIdTemp = $myRecepcion->Id;
@@ -4305,8 +4305,8 @@ class statisticsController extends Controller
         $group              = $this->getGroups($Group_roles);
         $type_material      = Type_material::pluck('name', 'id')->toArray();  
 
+        // dd($adqui);
 
-        // dd($adquisiciones);
 
         // die('fin');
         

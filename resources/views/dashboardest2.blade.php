@@ -65,7 +65,7 @@ $config4 = [
                     data-placeholder="Tipo de transacción"
 
                     :config="$config2"
-                >
+                    >
                     <x-slot name="prependSlot">
                         <div class="input-group-text bg-gradient-light">
                         <i class="fas fa-exchange-alt"></i>
@@ -120,7 +120,7 @@ $config4 = [
                     <a class="btn btn-primary imprimir"><i class="fas fa-print"></i></a>
                     <a class="btn btn-success"  onclick="exportaEstadisticas();"><i class="fas fa-file-excel"></i></a>
                     <a class="btn btn-danger"   onclick="exportaEstadisticasPDF();"><i class="fas fa-file-pdf"></i></a>
-                    {{-- <a class="btn btn-success" href={{route('exports.excel', [$myWallet, $myFechaDesde, $myFechaHasta])}}><i class="fas fa-file-excel"></i></a> --}}
+                    {{-- <a class="btn btn-success" href="{{route('exports.excel', [$myWallet, $myFechaDesde, $myFechaHasta])}}"><i class="fas fa-file-excel"></i></a> --}}
                 </div>
             </div>
 
@@ -278,15 +278,15 @@ $config4 = [
 
         // dd(' myocultarresumengeneral -> ' . $myocultarresumengeneral . ' myocultarresumentransaccion -> ' . $myocultarresumentransaccion . ' mytransactions -> ' . print_r($mytransactions,true) );
         // dd(json_encode($myocultarresumentransaccion));
-        //dd(json_encode($myocultarresumengeneral));
-        //dd(json_encode($mytransactions));
+        // dd(json_encode($myocultarresumengeneral));
+        // dd(json_encode($mytransactions));
 
     @endphp
 
-
+    
     $(() => {
 
-            // Valida y esconde
+        // Valida y esconde
 
         let text        = window.location.href;
         const myArray   = text.split("/");
@@ -315,8 +315,8 @@ $config4 = [
 
         InicializaFechas();
 
-        // BuscaFechas(myFechaDesde, myFechaHasta);
-        BuscaFechasBlade(myFechaDesde, myFechaHasta);
+        
+         BuscaFechasBlade(myFechaDesde, myFechaHasta);
 
         $('#wallet').on('change', function (){
 
@@ -411,21 +411,21 @@ $config4 = [
                                 </div>`
         });
 
+        
         cargaTransacciones();
-
-
+        leeFiltros();  
+        aplicaFiltros();  
+        
         if (!miWallet){
-            // alert ('aqui');
             calculoGeneral3();
             calculos3();
         }else{
             calculoGeneral2();
             calculos2();
         }
+    
+    
         
-        leeFiltros();  
-        aplicaFiltros();      
-
         $('#myButtonLimpiar2').on('click', function (){
 
             // alert('El canvas general ->' + $('#ResumenGeneral').prop('checked'));
@@ -540,15 +540,16 @@ $config4 = [
             document.querySelector('.select2-search__field').focus();
         });
 
-
+        
     });
-
+    
     $( document ).ready(function() {
 
     });
     //
     // calculos - transaction sumarry general
     //
+    
     function calculos3(){
 
         let ctx3, myId, myobj, myChart3, ctx4, myChart4;
@@ -646,7 +647,7 @@ $config4 = [
                             // alert('Aqui -> ' + "{{$wallet2->GroupName}}" + " total amount -> " + "{{$wallet2->total_amount}}");
 
                             myLabel.push("{{$wallet2->GroupName ?? $wallet2->WalletName }}");
-                            myData.push({{$wallet2->total_amount . ',' }});
+                            myData.push({{$wallet2->total_amount == ""? 0 : $wallet2->total_amount . ',' }});
                             myBackGroudColor.push('rgb(0, 173, 181)');
                             myBorderColor.push('rgb(0, 173, 181)');
 
@@ -731,13 +732,13 @@ $config4 = [
                             </table>
                         </div>
                     </div>
-                `
+                `;
                 $("#myCanvas").append(myElement);
 
             }
         @endforeach
     }
-
+    
     function calculos2 (){
 
         let ctx3, myId, myobj, myChart3, ctx4, myChart4;
@@ -823,7 +824,7 @@ $config4 = [
                 let myBackGroudColor    = [];
                 let myBorderColor       = [];
 
-                {{-- dd ($wallet_groupsummary) --}}
+                // {{-- dd ($wallet_groupsummary) --}}
                 @foreach($wallet_groupsummary as $wallet2)
 
                         @if($wallet2->TypeTransactionId == $wallet->TypeTransactionId )
@@ -924,13 +925,13 @@ $config4 = [
         @endforeach
     }
 
-    /*
-    *
-    *
-    *  calculoGeneral2
-    *  resumen general por wallet
-    *
-    */
+    //
+    //
+    //
+    //  calculoGeneral2
+    //  resumen general por wallet
+    //
+    //
     function calculoGeneral2(){
 
         let myCount = {{ count($wallet_summary) }};
@@ -1011,7 +1012,8 @@ $config4 = [
 
         });
 
-        {{--             <div class ="row mb-4" style="background-color: white;" data-wallet="{{$wallet2->WalletId}}"> --}}
+        // {{--             <div class ="row mb-4" style="background-color: white;" data-wallet="{{$wallet2->WalletId}}"> --}}
+
         myElement =
         `
             <style>
@@ -1142,14 +1144,15 @@ $config4 = [
         $("#myCanvasGeneral").append(myElement);
 
     }
+    
 
-    /*
-    *
-    *
-    *   calculogeneral3
-    *   sin wallet
-    *
-    */
+    //*
+    //*
+    //*
+    //*   calculogeneral3
+    //*   sin wallet
+    //*
+    //
     function calculoGeneral3(){
 
         let myElement;
@@ -1442,8 +1445,8 @@ $config4 = [
         $("#myCanvasGeneral").append(myElement);
 
     }
-
-
+    
+    
     function theRoute(wallet = 0, transaction = 0, fechaDesde = 0, fechaHasta = 0, coin = 1){
 
 
@@ -1482,6 +1485,7 @@ $config4 = [
             myRoute = myRoute.replace('typeTransactions2',typeTransactions);
             myRoute = myRoute.replace('fechaDesde2',fechaDesde);
             myRoute = myRoute.replace('fechaHasta2',fechaHasta);
+            myRoute = myRoute.replaceAll('amp;','');
         // console.log(myRoute);
         // alert(myRoute);
         location.href = myRoute;

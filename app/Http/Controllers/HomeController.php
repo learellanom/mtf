@@ -176,6 +176,8 @@ class HomeController extends Controller
         $parametros['myTypeCoinBalance']            = $myTypeCoinBalance;
         $parametros['Type_coin_balance']            = $Type_coin_balance;
 
+        
+
         return view('dashboardest2', $parametros);
         /*
         return view('dashboardest2', compact(

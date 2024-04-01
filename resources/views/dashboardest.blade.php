@@ -31,13 +31,13 @@ $config4 = [
     <div class="card">
         <div class="card-header">
             <div class="row">
+
                 <div class="col col-md-4">
                     <x-adminlte-select2 id="wallet"
                     name="optionsWallets"
                     igroup-size="lg"
                     label-class="text-lightblue"
                     data-placeholder="Seleccione una caja"
-
                     :config="$config4"
                     >
                     <x-slot name="prependSlot">
@@ -48,6 +48,7 @@ $config4 = [
                     <x-adminlte-options :options="$wallet" empty-option="Wallet.."/>
                     </x-adminlte-select2>
                 </div>
+
                 <div class="col col-md-4">
                     <x-adminlte-select2 id="typeTransactions"
                     name="optionstypeTransactions"

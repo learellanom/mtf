@@ -122,7 +122,8 @@
 
                                         @if($transactions->group_id)
                                                 @if($transactions->group->type == 2)   
-                                                    {{ $transactions->wallet->name}} 
+                                                    {{ $transactions->group->name }} 
+                                                    {{-- $transactions->wallet->name --}} 
 
                                                 @else
                                                 {{ $transactions->group->name }} 

@@ -414,8 +414,11 @@
 
         // Valida y esconde
 
-        let myFechaDesde = {!! $myFechaDesde !!};
-        let myFechaHasta = {!! $myFechaHasta !!};
+        let myFechaDesde = '{!! $myFechaDesde !!}';
+        let myFechaHasta = '{!! $myFechaHasta !!}';
+
+        console.log('myFechaDesde -> ' + myFechaDesde);
+        console.log('myFechaHasta -> ' + myFechaHasta);
 
         // 
         InicializaMultiselects();
@@ -1902,6 +1905,9 @@
     function theRoute(wallet = 0, transaction = 0, fechaDesde = 0, fechaHasta = 0, coin = 1){
 
         let myRoute = "";
+        
+        fechaDesde = '{!! $myFechaDesde !!}';
+        fechaHasta = '{!! $myFechaHasta !!}';
 
         myRoute = "{{ route('dashboardSaldos', ['fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2', 'coin' => 'coin2']) }}";
         
@@ -1924,6 +1930,13 @@
         fechaDesde = $('#drCustomRanges').data('daterangepicker').startDate.format('YYYY-MM-DD')
         fechaHasta = $('#drCustomRanges').data('daterangepicker').endDate.format('YYYY-MM-DD')
 
+
+        fechaDesde = '{!! $myFechaDesde !!}';
+        fechaHasta = '{!! $myFechaHasta !!}';
+        
+        console.log('leam - fecha desde -> ' + fechaDesde);
+        console.log('leam - fecha Hasta -> ' + fechaHasta);
+
         let myRoute = "";
             myRoute = "{{ route('estadisticasDetalle', ['usuario' => 'usuario2', 'grupo' => 'grupo2', 'wallet' => 'wallet2', 'typeTransactions' => 'typeTransactions2','fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2']) }}";
             myRoute = myRoute.replace('grupo2',grupo);
@@ -1932,6 +1945,7 @@
             myRoute = myRoute.replace('typeTransactions2',typeTransactions);
             myRoute = myRoute.replace('fechaDesde2',fechaDesde);
             myRoute = myRoute.replace('fechaHasta2',fechaHasta);
+            myRoute = myRoute.replaceAll('amp;','');
         // console.log(myRoute);
         // alert(myRoute);
         location.href = myRoute;
@@ -2067,7 +2081,7 @@
         myRoute = myRoute.replace('filtroGroup2B',      myFiltroGroupB);
 
         myRoute = myRoute.replace('resumen2',       resumen);
-
+        myRoute = myRoute.replaceAll('amp;','');
         // alert(' myRoute ->' + myRoute);
 
         location.href = myRoute;

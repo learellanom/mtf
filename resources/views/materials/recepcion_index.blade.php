@@ -487,7 +487,7 @@
         let Route ="";
 
         myRoute = "";
-        myRoute = "{{ route('materials.adquisicion_index', ['user' => 'user2', 'fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2', 'coin' => 'coin2', 'material' => 'material2']) }}"; 
+        myRoute = "{{ route('materials.recepcion_index', ['user' => 'user2', 'fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2', 'coin' => 'coin2', 'material' => 'material2']) }}"; 
         // console.log('myRoute ->' + myRoute);
         myRoute = myRoute.replace('user2',user);
         myRoute = myRoute.replace('fechaDesde2',fechaDesde);
