@@ -60,7 +60,9 @@ class HomeController extends Controller
         $wallet                     = app(statisticsController::class)->getWallet();
         // dd($wallet);
         $typeTransactions           = app(statisticsController::class)->getTypeTransactions();
-
+        $typeTransactionsDetail     = app(statisticsController::class)->getTypeTransactionsDetail();
+        
+        // dd($typeTransactionsDetail);
 
         $request3                   = clone $request;
         $request3->transaction      = 0;
@@ -165,6 +167,7 @@ class HomeController extends Controller
         $parametros['wallet_groupsummary']          = $wallet_groupsummary;
         $parametros['wallet']                       = $wallet;
         $parametros['typeTransactions']             = $typeTransactions;
+        $parametros['typeTransactionsDetail']       = $typeTransactionsDetail;
         $parametros['myWallet']                     = $myWallet;
         $parametros['myTypeTransaction']            = $myTypeTransaction;
         $parametros['myFechaDesde']                 = $myFechaDesde;
@@ -217,7 +220,7 @@ class HomeController extends Controller
         // dd($wallet);
         $typeTransactions           = app(statisticsController::class)->getTypeTransactions();
 
-
+        
         $request3                   = clone $request;
         $request3->transaction      = 0;
         $transaction_summary        = app(statisticsController::class)->getTransactionSummary($request3);

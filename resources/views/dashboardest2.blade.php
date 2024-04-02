@@ -1454,6 +1454,8 @@ $config4 = [
         if (transaction   === "")   transaction     = 0;
 
         let myRoute = "";
+        
+
 
         myRoute = "{{ route('dashboardest', ['wallet' => 'wallet2' , 'transaction' => 'transaction2', 'fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2', 'coin' => 'coin2']) }}";
         myRoute = myRoute.replace('wallet2',wallet);
@@ -1476,6 +1478,9 @@ $config4 = [
 
         fechaDesde = $('#drCustomRanges').data('daterangepicker').startDate.format('YYYY-MM-DD')
         fechaHasta = $('#drCustomRanges').data('daterangepicker').endDate.format('YYYY-MM-DD')
+
+        let myTypeTransaction = BuscaTypeTransactionDetail(typeTransactions);
+        // alert('leam -  myTypeTransaction ->' + myTypeTransaction + ' y el typeTransactions ->' + typeTransactions);
 
         let myRoute = "";
             myRoute = "{{ route('estadisticasDetalle', ['usuario' => 'usuario2', 'grupo' => 'grupo2', 'wallet' => 'wallet2', 'typeTransactions' => 'typeTransactions2','fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2']) }}";
@@ -1815,7 +1820,26 @@ $config4 = [
         $('#drCustomRanges').data('daterangepicker').setEndDate(myFechaHasta2);
 
     }
+    
+    function BuscaTypeTransactionDetail(myTypeTransaction = 0){
 
+        let myDetailId = "";
+        let myDetailTypeTransaction = "";
+        
+        @foreach($typeTransactionsDetail as $myDetail)
+            myDetailId = {{ $myDetail->id }};
+            {{-- dd($myDetail) --}}
+            // console.log( 'leam myTypeTransaction-> ' + myTypeTransaction + ' myDetailId -> ' + myDetailId + ' $myDetail->type_transaction ' + '{{ $myDetail->type_transaction }}' );
+            if (myDetailId == myTypeTransaction){
+                myDetailTypeTransaction = '{{ $myDetail->type_transaction }}';
+            }
+            
+        @endforeach
+
+        return myDetailTypeTransaction;
+
+    }
+    
 </script>
 
 @endsection

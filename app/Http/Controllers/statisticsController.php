@@ -2337,6 +2337,34 @@ class statisticsController extends Controller
         }
         return $Type_transactions2;
     }
+    /*
+    *
+    *
+    *    Carga los tipos de transacciones con detalles
+    *
+    *
+    */
+    function getTypeTransactionsDetail($myTypeTransaction = 0){
+        if ($myTypeTransaction == 0){
+            $Type_transactionsDetail = Type_transaction::all();
+        }else{
+            $Type_transactionsDetail = Type_transaction::where('type_transaction_id','=',$myTypeTransaction)->get();
+        }
+        return $Type_transactionsDetail;
+    }
+    /*
+    *
+    *
+    *    busca detalle tipo transaccion
+    *
+    *
+    */
+    function getTypeTransactionDetail($myTypeTransaction){
+        $Type_transaction = Type_transaction::select('type_transactions.id', 'type_transactions.name')
+        ->where('type_transaction_id','=', $myTypeTransaction)
+        ->get();
+        return $Type_transaction;
+    }    
         /*
     *
     *
