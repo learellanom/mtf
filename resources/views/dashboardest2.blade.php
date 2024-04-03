@@ -1476,6 +1476,8 @@ $config4 = [
         if (wallet  === "") wallet  = 0;
         if (typeTransactions  === "") typeTransactions  = 0;
 
+        let type_material = 0;
+
         fechaDesde = $('#drCustomRanges').data('daterangepicker').startDate.format('YYYY-MM-DD')
         fechaHasta = $('#drCustomRanges').data('daterangepicker').endDate.format('YYYY-MM-DD')
 
@@ -1483,6 +1485,41 @@ $config4 = [
         // alert('leam -  myTypeTransaction ->' + myTypeTransaction + ' y el typeTransactions ->' + typeTransactions);
 
         let myRoute = "";
+        // alert(typeTransactions);
+        if (typeTransactions == 47){
+
+            myRoute = "{{ route('materials.adquisicion_index', ['user' => 'user2', 'fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2', 'wallet' => 'wallet2', 'group' => 'group2', 'type_material' => 'type_material2']) }}"; 
+            // console.log('myRoute ->' + myRoute);
+
+            myRoute = myRoute.replace('user2',usuario);
+            myRoute = myRoute.replace('fechaDesde2',fechaDesde);
+            myRoute = myRoute.replace('fechaHasta2',fechaHasta);
+            myRoute = myRoute.replace('wallet2',wallet);
+            myRoute = myRoute.replace('group2',grupo);
+            myRoute = myRoute.replace('type_material2',type_material);
+            myRoute = myRoute.replaceAll('amp;','');
+            
+            alert('myRoute ->' + myRoute);
+            location.href = myRoute;
+            return;
+        }
+
+        if (typeTransactions == 48){
+            myRoute = "{{ route('materials.recepcion_index', ['user' => 'user2', 'fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2', 'type_material' => 'type_material2', 'group' => 'group2', 'wallet' => 'wallet2']) }}"; 
+            // console.log('myRoute ->' + myRoute);
+            myRoute = myRoute.replace('user2',usuario);
+            myRoute = myRoute.replace('wallet2',wallet);
+            myRoute = myRoute.replace('group2',grupo);
+            myRoute = myRoute.replace('fechaDesde2',fechaDesde);
+            myRoute = myRoute.replace('fechaHasta2',fechaHasta);
+            myRoute = myRoute.replace('type_material2',type_material);
+            myRoute = myRoute.replaceAll('amp;','');
+            location.href = myRoute;
+            return;
+        }
+
+
+
             myRoute = "{{ route('estadisticasDetalle', ['usuario' => 'usuario2', 'grupo' => 'grupo2', 'wallet' => 'wallet2', 'typeTransactions' => 'typeTransactions2','fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2']) }}";
             myRoute = myRoute.replace('grupo2',grupo);
             myRoute = myRoute.replace('usuario2',usuario);

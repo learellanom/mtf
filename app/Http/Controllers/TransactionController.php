@@ -175,12 +175,44 @@ class TransactionController extends Controller
             $myCoinHasta    = $request->coin;
         }
 
+
+        $myGroup        = $request->group ? $request->group : 0;
+        $myGroupDesde   = 0;
+        $myGroupHasta   = 9999;
+        if ($request->group){
+            $myGroupDesde   = $request->group;
+            $myGroupHasta   = $request->group;
+        }
+
+        $myWallet        = $request->wallet ? $request->wallet : 0;
+        $myWalletDesde   = 0;
+        $myWalletHasta   = 9999;
+        if ($request->wallet){
+            $myWalletDesde   = $request->wallet;
+            $myWalletHasta   = $request->wallet;
+        }
+        
+        $myTypeMaterial  = $request->type_material ? $request->type_material : 0;
+        $myTypeMaterialDesde   = 0;
+        $myTypeMaterialHasta   = 9999;
+        if ($request->type_material){
+            $myTypeMaterialDesde   = $request->type_material;
+            $myTypeMaterialHasta   = $request->type_material;
+        }
+
+
+        $wallet             = Group::where('type','=','2')->pluck('name', 'id')->toArray();
+        $group              = Group::where('type','=','1')->pluck('name', 'id')->toArray();
+
+
         $myTypeTransaction = 47; // Adquisiciones de materiales
 
         $movimientos = Transaction::where('type_transaction_id', '=', $myTypeTransaction)
-        ->whereBetween('created_at',    [$myFechaDesde . " 00:00:00", $myFechaHasta . " 23:59:00"])
-        ->whereBetween('user_id',       [$myUsuarioDesde , $myUsuarioHasta])
-        ->whereBetween('type_coin_balance_id',  [$myCoinDesde , $myCoinHasta])        
+        ->whereBetween('wallet_id',         [$myWalletDesde, $myWalletHasta])
+        ->whereBetween('group_id',          [$myGroupDesde,  $myGroupHasta])
+        ->whereBetween('type_material_id',  [$myTypeMaterialDesde,  $myTypeMaterialHasta])
+        ->whereBetween('created_at',        [$myFechaDesde . " 00:00:00", $myFechaHasta . " 23:59:00"])
+        ->whereBetween('user_id',           [$myUsuarioDesde , $myUsuarioHasta])   
         ->orderBy('created_at','desc')
         ->limit($myLimit)            
         ->get();
@@ -194,10 +226,16 @@ class TransactionController extends Controller
         $Type_coin_balance  = Type_coin::pluck('name', 'id')->toArray();
 
 
-        $myTypeMaterial     = $request->material ? $request->material : 0;
+        // $myTypeMaterial     = $request->material ? $request->material : 0;
         $Type_material      = Type_material::pluck('name', 'id')->toArray();
         
-        \Log::info('leam - llega el material ->' . $myTypeMaterial);
+
+
+        $parametros['wallet']               = $wallet;
+        $parametros['group']                = $group;
+        
+        $parametros['myWallet']               = $myWallet;
+        $parametros['myGroup']                = $myGroup;
 
         $parametros['fechaDesde']           = $myFechaDesde2;
         $parametros['fechaHasta']           = $myFechaHasta2;
@@ -278,20 +316,43 @@ class TransactionController extends Controller
             $myLimit = 1000;
         }
 
-        $myCoinDesde    = 0;
-        $myCoinHasta    = 9999;
-        $myCoin = $request->coin ? $request->coin : 0;
-        if ($request->coin){
-            $myCoinDesde    = $request->coin;
-            $myCoinHasta    = $request->coin;
+        $myWalletDesde    = 0;
+        $myWalletHasta    = 9999;
+        $myWallet = $request->wallet ? $request->wallet : 0;
+        if ($request->wallet){
+            $myWalletDesde    = $request->wallet;
+            $myWalletHasta    = $request->wallet;
         }
+
+        $myGroupDesde   = 0;
+        $myGroupHasta   = 9999;
+        $myGroup        = $request->group ? $request->group : 0;
+        if ($request->group){
+            $myGroupDesde    = $request->group;
+            $myGroupHasta    = $request->group;
+        }
+
+
+        $myTypeMaterial  = $request->type_material ? $request->type_material : 0;
+        $myTypeMaterialDesde   = 0;
+        $myTypeMaterialHasta   = 9999;
+        if ($request->type_material){
+            $myTypeMaterialDesde   = $request->type_material;
+            $myTypeMaterialHasta   = $request->type_material;
+        }
+
+        $wallet             = Group::where('type','=','2')->pluck('name', 'id')->toArray();
+        $group              = Group::where('type','=','1')->pluck('name', 'id')->toArray();
+
 
         $myTypeTransaction = 48; // Recepcion de materiales
 
         $movimientos = Transaction::where('type_transaction_id', '=', $myTypeTransaction)
-        ->whereBetween('created_at',    [$myFechaDesde . " 00:00:00", $myFechaHasta . " 23:59:00"])
-        ->whereBetween('user_id',       [$myUsuarioDesde , $myUsuarioHasta])
-        ->whereBetween('type_coin_balance_id',  [$myCoinDesde , $myCoinHasta])        
+        ->whereBetween('wallet_id',         [$myWalletDesde, $myWalletHasta])
+        ->whereBetween('group_id',          [$myGroupDesde,  $myGroupHasta])
+        ->whereBetween('type_material_id',  [$myTypeMaterialDesde,  $myTypeMaterialHasta])        
+        ->whereBetween('created_at',        [$myFechaDesde . " 00:00:00", $myFechaHasta . " 23:59:00"])
+        ->whereBetween('user_id',           [$myUsuarioDesde , $myUsuarioHasta])
         ->orderBy('created_at','desc')
         ->limit($myLimit)            
         ->get();
@@ -301,22 +362,22 @@ class TransactionController extends Controller
 
         $user               = User::pluck('name', 'id')->toArray();
 
-        $myTypeCoinBalance  = $myCoin; // dorales siempre por ahora
-        $Type_coin_balance  = Type_coin::pluck('name', 'id')->toArray();
-
-
-        $myTypeMaterial     = $request->material ? $request->material : 0;
         $Type_material      = Type_material::pluck('name', 'id')->toArray();
         
         \Log::info('leam - llega el material ->' . $myTypeMaterial);
+
+        $parametros['wallet']               = $wallet;
+        $parametros['group']                = $group;
+
+        $parametros['myWallet']             = $myWallet;
+        $parametros['myGroup']              = $myGroup;
 
         $parametros['fechaDesde']           = $myFechaDesde2;
         $parametros['fechaHasta']           = $myFechaHasta2;
         $parametros['movimientos']          = $movimientos;
         $parametros['myUser']               = $myUser;
         $parametros['user']                 = $user;
-        $parametros['myTypeCoinBalance']    = $myTypeCoinBalance;
-        $parametros['Type_coin_balance']    = $Type_coin_balance;
+
         $parametros['myTypeMaterial']       = $myTypeMaterial;
         $parametros['Type_material']        = $Type_material;
 

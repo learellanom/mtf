@@ -44,8 +44,11 @@
         <div class="card mb-4">
             <div class="card-header">
                 <div class="row">
-                    <h3 class="card-title text-uppercase font-weight-bold col-12 col-lg-4">{{ __('Recepcion') }} del {{ $fechaDesde}} al {{ $fechaHasta}}
-                    </h3>
+                    <p class="text-uppercase font-weight-bold col-12 col-lg-4">
+                        {{ __('Recepcion') }} del {{ $fechaDesde}} al {{ $fechaHasta}}
+                    </p>
+                </div>
+                <div class="row">
 
                     <div class ="col-12 col-lg-2 float-right" >
                         <x-adminlte-date-range
@@ -60,6 +63,45 @@
                                 </div>
                             </x-slot>
                         </x-adminlte-date-range>
+                    </div>
+
+
+                    <div class ="col-12 col-sm-2">
+                        <x-adminlte-select2 id="wallet"
+                                            name="optionsCliente"
+                                            igroup-size="sm"
+                                            label-class="text-lightblue"
+                                            data-placeholder="Wallet ..."
+                                            :config="$config1"
+                                            >
+                            <x-slot name="prependSlot">
+                                <div class="input-group-text bg-gradient-dark">
+                                    <!-- <i class="fas fa-car-side"></i> -->
+                                    <i class="fas fa-box"></i>
+                                </div>
+                            </x-slot>
+
+                            <x-adminlte-options :options="$wallet" empty-option="Selecciona un Wallet.."/>
+                        </x-adminlte-select2>
+                    </div>
+
+                    <div class ="col-12 col-sm-2">
+                        <x-adminlte-select2 id="group"
+                                            name="optionsGroup"
+                                            igroup-size="sm"
+                                            label-class="text-lightblue"
+                                            data-placeholder="Grupo ..."
+                                            :config="$config2"
+                                            >
+                            <x-slot name="prependSlot">
+                                <div class="input-group-text bg-gradient-dark">
+                                    <!-- <i class="fas fa-car-side"></i> -->
+                                    <i class="fas fa-user-tie"></i>
+                                </div>
+                            </x-slot>
+
+                            <x-adminlte-options :options="$group" empty-option="Selecciona un Grupo.."/>
+                        </x-adminlte-select2>
                     </div>
 
 
@@ -83,30 +125,6 @@
                             </x-adminlte-select2>
                         </div>
                     @endif
-
-                    {{--
-                    <div class ="col-lg-2">
-                        <x-adminlte-select2 id="coin"
-                                            name="optionsCoin"
-                                            igroup-size="sm"
-                                            label-class="text-lightblue"
-                                            data-placeholder="Moneda ..."
-                                            :config="$config1"
-                                            >
-                            <x-slot name="prependSlot">
-                                <div class="input-group-text bg-gradient-dark">
-                                    <!-- <i class="fas fa-car-side"></i> -->
-                                    <!-- <i class="fas fa-user-tie"></i> -->
-                                    <i class="fas fa-solid fa-dollar-sign"></i>                        
-                                </div>
-                                
-                            </x-slot>
-
-                            <x-adminlte-options :options="$Type_coin_balance" empty-option="Selecciona una moneda.."/>
-
-                        </x-adminlte-select2>
-                    </div>
-                    --}}
 
                     <div class ="col-12 col-lg-2">
                         <x-adminlte-select2 id="type_material_id"
@@ -418,18 +436,23 @@
         });
     });
     
-    BuscaUsuario();
-    const myTypeMaterial = {!! $myTypeMaterial !!};
-    BuscaTypeMaterial(myTypeMaterial);    
+    const myUsuario = {{ $myUser }};
+    BuscaElemento('usuario', myUsuario);
 
-    const myTypeCoinBalance = {!! $myTypeCoinBalance !!};
-    BuscaMoneda(myTypeCoinBalance);           
+    const myTypeMaterial = {!! $myTypeMaterial !!};
+    BuscaElemento('type_material_id', myTypeMaterial);
+
+    const myWallet = {!! $myWallet !!};
+    BuscaElemento('wallet', myWallet);
+
+    const myGroup = {!! $myGroup !!};
+    BuscaElemento('group', myGroup);
 
     $(() => {
 
         BuscaFechas();
         
-        $('#drCustomRanges').on('change', function () {
+        $('#drCustomRanges, #wallet, #group').on('change', function () {
             theRoute();
         })
         .on('select2:open', () => {
@@ -444,13 +467,6 @@
         });
 
         
-		$('#coin').on('change', function (){
-            theRoute();
-        })
-        .on('select2:open', () => {
-            document.querySelector('.select2-search__field').focus();
-        });
-
 		$('#type_material_id').on('change', function (){
             theRoute();   
         })            
@@ -465,7 +481,8 @@
     function theRoute(user = 0, fechaDesde = 0, fechaHasta = 0, coin = 0, material = 0){
 
         user        = $('#usuario').val() == "" ? 0 : $('#usuario').val();
-        coin        = ($('#coin').val()) ? $('#coin').val() : 0;
+        wallet      = $('#wallet').val() == ""  ? 0 : $('#wallet').val();
+        group       = $('#group').val() == ""   ? 0 : $('#group').val();
 
         fechaDesde =  ($('#drCustomRanges').val()).substr(6,4) +
                     '-' +
@@ -480,20 +497,21 @@
                     '-' +
                     ($('#drCustomRanges').val()).substr(13,2)
                     ;
-                    material = ($('#type_material_id').val()) ? $('#type_material_id').val() : 0;
+        type_material = ($('#type_material_id').val()) ? $('#type_material_id').val() : 0;
 
 
         // let user = "";
         let Route ="";
 
         myRoute = "";
-        myRoute = "{{ route('materials.recepcion_index', ['user' => 'user2', 'fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2', 'coin' => 'coin2', 'material' => 'material2']) }}"; 
+        myRoute = "{{ route('materials.recepcion_index', ['user' => 'user2', 'fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2', 'type_material' => 'type_material2', 'group' => 'group2', 'wallet' => 'wallet2']) }}"; 
         // console.log('myRoute ->' + myRoute);
         myRoute = myRoute.replace('user2',user);
+        myRoute = myRoute.replace('wallet2',wallet);
+        myRoute = myRoute.replace('group2',group);
         myRoute = myRoute.replace('fechaDesde2',fechaDesde);
         myRoute = myRoute.replace('fechaHasta2',fechaHasta);
-        myRoute = myRoute.replace('coin2',coin);
-        myRoute = myRoute.replace('material2',material);
+        myRoute = myRoute.replace('type_material2',type_material);
         myRoute = myRoute.replaceAll('amp;','');
 
         // alert(myRoute);
@@ -546,20 +564,6 @@
         );          
     }
 
-    function BuscaMoneda(myTypeCoinBalance){
-        //alert("BuscaGrupo - miGrupo -> " + miGrupo);
-        $('#coin').each( function(index, element){
-            //alert ("Buscagrupo -> " + $(this).val() + " text -> " + $(this).text()+ " y con index -> " + $(this).prop('selectedIndex'));
-            $(this).children("option").each(function(){
-                if ($(this).val() === myTypeCoinBalance.toString()){
-                    //alert('Buscagrupo - encontro');
-                    $("#coin option[value="+ myTypeCoinBalance +"]").attr("selected",true);
-                }
-                //alert("BuscaGrupoaqui ->  the val " + $(this).val() + " text -> " + $(this).text());
-            });
-        });
-        //
-    }
 
 
     function BuscaTypeMaterial(myTypeMaterial){
@@ -580,6 +584,26 @@
         });
         //
     }
+
+
+    function BuscaElemento(myControl, myElement){
+
+        let mySelect = myControl;
+        let myValue  = myElement;
+
+        $('#' + mySelect).each( function(index, element){
+            // alert ("BuscaMaterial -> " + $(this).val() + " text -> " + $(this).text()+ " y con index -> " + $(this).prop('selectedIndex'));
+            $(this).children("option").each(function(){
+                if ($(this).val() === myValue.toString()){
+                    // alert('Busca Material - encontro');
+                    $("#" + mySelect + " option[value="+ myValue +"]").attr("selected",true);
+                }
+                //alert("BuscaGrupoaqui ->  the val " + $(this).val() + " text -> " + $(this).text());
+            });
+        });
+        //
+    }
+
 
 </script>
 @endsection
