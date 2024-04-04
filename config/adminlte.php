@@ -521,6 +521,13 @@ return [
                     'can'       => 'materials.adquisicion_cosolidado',
                     'icon_color' => 'primary',       
                 ],                                           
+                [                    
+                    'text'      => 'Proceso de Cierre',
+                    'url'       => 'materialsCierreGenera', 
+                    'classes'   =>  'ml-4',                    
+                    'can'       => 'materials.CierreGenera',
+                    'icon_color' => 'primary',       
+                ],                   
             ]
         ],            
         ['header' => 'Operaciones',

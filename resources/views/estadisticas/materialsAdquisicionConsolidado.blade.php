@@ -190,15 +190,15 @@ $config4 = [
                                     <td>{!! number_format($row->MaterialAmountTotal,2) !!}</td>
 
                                     <td>{!! number_format($row->AdquisicionCierreAmount,2) !!}</td>
-                                    <td>{!! number_format($row->AdquisicionCierreCant,2) !!}</td>
+                                    <td>{!! number_format($row->AdquisicionCierreCant) !!}</td>
 
 
                                     <td>{!! $row->RecepcionId !!}</td>                                    
                                     <td>{!! $row->RecepcionTransactionDate !!}</td>
 
 
-                                    <td class="text-right">{!! number_format($row->RecepcionMaterialAmount,2,",",".") !!}</td>
-                                    <td class="text-right">{!! number_format($row->RecepcionMaterialAmount2,2,",",".") !!}</td>
+                                    <td class="text-right">{!! number_format($row->RecepcionMaterialAmount,",",".") !!}</td>
+                                    <td class="text-right">{!! number_format($row->RecepcionMaterialAmount2,",",".") !!}</td>
                                     
                                     <td>{!! number_format($row->RecepcionBalance,2,",",".") !!}</td>
 

@@ -3138,6 +3138,9 @@ class statisticsController extends Controller
             return $Transacciones;
         }
     }
+
+
+
     function commissionProfitGenera(){
 
         $myQuery =
@@ -3227,8 +3230,8 @@ class statisticsController extends Controller
                     $CommissionUsdt->amount_commission          = $transaccion->AmountCommission;
                     $CommissionUsdt->percentage                 = $transaccion->Percentage;
                     $CommissionUsdt->type_transaction_id        = $transaccion->TypeTransactionId;
-                    // $CommissionUsdt->user_id                    = auth()->user()->id;
-                    $CommissionUsdt->user_id                    = 2;
+                    $CommissionUsdt->user_id                    = auth()->user()->id;
+                    // $CommissionUsdt->user_id                    = 2;
                     $CommissionUsdt->group_id                   = $transaccion->GroupId;
                     $CommissionUsdt->wallet_id                  = $transaccion->WalletId;
                     $CommissionUsdt->transaction_date           = $transaccion->TransactionDate;
@@ -3282,6 +3285,40 @@ class statisticsController extends Controller
     }
 
 
+    function materialsCierreGenera(){
+
+        $myQuery =
+            "
+            SELECT
+                user_id,
+                name,
+                substr(mtf.materials_balance.created_at,1,10) as created_at2
+            FROM mtf.materials_balance
+            left join
+                mtf.users on mtf.materials_balance.user_id = mtf.users.id
+            group by
+                user_id,
+                name,
+                created_at2
+            ";
+
+        // dd($myQuery);
+        
+        $materialsCierre = DB::select($myQuery);
+        
+        // return redirect()->route("home");
+
+        if (count($materialsCierre) > 0) {
+            $materialsCierre  = (object) $materialsCierre[0];
+        }
+
+        // dd($comisionesUSDT);
+                                           
+        $parametros ['materialsCierre '] = $materialsCierre ;
+
+        return view('estadisticas.materialsCierreGenera', $parametros);
+
+    }
 
     /*
     *

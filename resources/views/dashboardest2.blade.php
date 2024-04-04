@@ -1499,7 +1499,7 @@ $config4 = [
             myRoute = myRoute.replace('type_material2',type_material);
             myRoute = myRoute.replaceAll('amp;','');
             
-            alert('myRoute ->' + myRoute);
+            // alert('myRoute ->' + myRoute);
             location.href = myRoute;
             return;
         }
@@ -1520,14 +1520,14 @@ $config4 = [
 
 
 
-            myRoute = "{{ route('estadisticasDetalle', ['usuario' => 'usuario2', 'grupo' => 'grupo2', 'wallet' => 'wallet2', 'typeTransactions' => 'typeTransactions2','fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2']) }}";
-            myRoute = myRoute.replace('grupo2',grupo);
-            myRoute = myRoute.replace('usuario2',usuario);
-            myRoute = myRoute.replace('wallet2',wallet);
-            myRoute = myRoute.replace('typeTransactions2',typeTransactions);
-            myRoute = myRoute.replace('fechaDesde2',fechaDesde);
-            myRoute = myRoute.replace('fechaHasta2',fechaHasta);
-            myRoute = myRoute.replaceAll('amp;','');
+        myRoute = "{{ route('estadisticasDetalle', ['usuario' => 'usuario2', 'grupo' => 'grupo2', 'wallet' => 'wallet2', 'typeTransactions' => 'typeTransactions2','fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2']) }}";
+        myRoute = myRoute.replace('grupo2',grupo);
+        myRoute = myRoute.replace('usuario2',usuario);
+        myRoute = myRoute.replace('wallet2',wallet);
+        myRoute = myRoute.replace('typeTransactions2',typeTransactions);
+        myRoute = myRoute.replace('fechaDesde2',fechaDesde);
+        myRoute = myRoute.replace('fechaHasta2',fechaHasta);
+        myRoute = myRoute.replaceAll('amp;','');
         // console.log(myRoute);
         // alert(myRoute);
         location.href = myRoute;
