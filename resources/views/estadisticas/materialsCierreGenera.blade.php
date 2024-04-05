@@ -6,8 +6,8 @@
 @php
 
 
-    $myClass = new app\Http\Controllers\statisticsController;
-
+    
+    // dd($materialsCierre);
 @endphp
 <style>
 
@@ -28,7 +28,7 @@
                 <div class="form-group col-md-4">
                     <label class="">Generado por</label>
                     
-                    <div class="input-group-text">
+                    <div class="input-group-text">     
                     <label class="col-md-3 col-12">{{ $materialsCierre->name ?? ""}}</label>
                     </div>
                 </div>
@@ -38,7 +38,7 @@
                 <div class="form-group col-md-4">
                     <label class="">Fecha de Generacion</label>
                     
-                    <div class="input-group-text">
+                    <div class="input-group-text">         
                         <label class="col-md-3 col-12">{{ $materialsCierre-> created_at2 ?? ""}}</label>
                     </div>
                 </div>
@@ -47,7 +47,7 @@
                 <div class="form-group col-md-1 col-3">
                     <button class="btn btn-xl text-primary mx-1 shadow text-center " 
                         title="Activo"
-                        onclick="generaCierre2();"
+                        onclick="generaCierre();"
                         >
                         <i class="fas fa-lg fa-fw fa-coins"></i><p style="display: block;">Generar</p>
                     </button>
@@ -161,7 +161,7 @@
         // let data    = { id:  id };
         // let token   = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
-        fetch("{{route('dashboardComisionesUSDTProcess')}}")
+        fetch("{{route('materialsCierreProcess')}}")
         .then(response => {
             return response.json()
         }).then(data =>{        
@@ -170,7 +170,7 @@
             console.log('Genero ->' + JSON.stringify(data));
 
             if(data.success){
-                if(data.result == "Procesadas"){
+                if(data.result == "Procesado"){
                     $('#myModal').modal('hide');
                     $('#myModal2').modal('show');
                     

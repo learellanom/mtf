@@ -12,6 +12,7 @@ use App\Models\Group;
 use App\Models\Transaction_master;
 use App\Models\Transaction_supplier;
 use App\Models\Commissions_usdt;
+use App\Models\Materials_balance;
 use App\Models\Type_coin;
 use App\Models\Type_material;
 
@@ -3171,7 +3172,7 @@ class statisticsController extends Controller
         // dd($comisionesUSDT);
 
         $parametros ['comisionesUSDT'] = $comisionesUSDT;
-
+        // dd($parametros);
         return view('dashboardComisionesUSDTGenera', $parametros);
 
     }
@@ -3305,17 +3306,23 @@ class statisticsController extends Controller
         // dd($myQuery);
         
         $materialsCierre = DB::select($myQuery);
+        // var_dump($materialsCierre);
+        //die();
+        // dd($materialsCierre);
+
         
-        // return redirect()->route("home");
+        //dd(count($materialsCierre));
 
         if (count($materialsCierre) > 0) {
-            $materialsCierre  = (object) $materialsCierre[0];
+            // dd('aqui');
+            // $materialsCierre  = (object) $materialsCierre[0];
+             $materialsCierre  = (object) $materialsCierre[0];
         }
 
-        // dd($comisionesUSDT);
+         //dd($materialsCierre->name);
                                            
         $parametros ['materialsCierre '] = $materialsCierre ;
-
+        // dd($parametros);
         return view('estadisticas.materialsCierreGenera', $parametros);
 
     }
@@ -4062,6 +4069,203 @@ class statisticsController extends Controller
             $myTypeMaterialHasta    = $request->type_material;
         }
 
+
+
+        $adqui              = $this->materialsProcesa($request);
+        $Group_roles 	    = $this->getGroupRole(auth()->id());
+        $wallet             = $this->getWallet($Group_roles);
+        $group              = $this->getGroups($Group_roles);
+        $type_material      = Type_material::pluck('name', 'id')->toArray();
+
+
+        $parametros ['myFechaDesde']    = $myFechaDesde;
+        $parametros ['myFechaHasta']    = $myFechaHasta;
+        $parametros ['myWallet']        = $myWallet;
+        $parametros ['myGroup']         = $myGroup;
+        $parametros ['myType_material'] = $myType_material;     
+        $parametros ['wallet']          = $wallet;
+        $parametros ['group']           = $group;
+        $parametros ['type_material']   = $type_material;        
+        $parametros ['adquisiciones']   = $adqui;
+        // dd($adquisiciones2);
+        return view('estadisticas.materialsAdquisicionConsolidado', $parametros);
+
+    }
+    /*
+    *
+    *
+    *        materials_adquisicion_consolidado2
+    *
+    *
+    */
+    function materials_adquisicion_consolidado2(Request $request){
+
+        $myWallet      = 0; 
+        $myWalletDesde = 00000;
+        $myWalletHasta = 99999;
+        if ($request->wallet){
+            $myWallet       = $request->wallet; 
+            $myWalletDesde  = $request->wallet;
+            $myWalletHasta  = $request->wallet;
+        }
+
+        $myGroup        = 0;
+        $myGroupDesde = 00000;
+        $myGroupHasta = 99999;
+        if ($request->group){
+            $myGroup        = $request->group;
+            $myGroupDesde   = $request->group;
+            $myGroupHasta   = $request->group;
+        }
+
+        $myTransactionDesde     = 47;
+        $myTransactionHasta     = 47;
+        if ($request->transaction){
+            $myTransactionDesde     = $request->transaction;
+            $myTransactionHasta     = $request->transaction;
+        }
+
+        $myFechaDesde = "2001-01-01";
+        $myFechaHasta = "9999-12-31";
+        if ($request->fechaDesde){
+            $myFechaDesde = $request->fechaDesde;
+        }
+        if ($request->fechaHasta){
+            $myFechaHasta = $request->fechaHasta;
+        }
+
+        $myType_material        = 0;
+        $myTypeMaterialDesde    = 0;
+        $myTypeMaterialHasta    = 9999;
+
+        if ($request->type_material){
+            $myType_material        = $request->type_material;
+            $myTypeMaterialDesde    = $request->type_material;
+            $myTypeMaterialHasta    = $request->type_material;
+        }
+
+
+
+        $adqui              = $this->materialsProcesa($request);
+
+
+        $myQuery =
+        "
+            select
+                mtf.materials_balance.adquisicion_id                as Id,
+                mtf.materials_balance.wallet_id                     as WalletId,
+                wallets.name                                        as WalletName,
+                mtf.materials_balance.group_id                      as GroupId,
+                mtf.groups.name                                     as GroupName,
+                mtf.materials_balance.type_transaction_id           as TypeTransactionId,
+                type_transactions.name                              as TypeTransactionName,
+                mtf.materials_balance.type_material_id              as TypeMaterialId,
+                mtf.type_materials.name                             as TypeMaterialName,
+                mtf.materials_balance.transaction_date              as TransactionDate,
+                mtf.materials_balance.created_at                    as CreatedAt,
+                mtf.materials_balance.material_price                as MaterialPrice,
+                mtf.materials_balance.material_amount               as MaterialAmount,
+                mtf.materials_balance.material_amount_total         as MaterialAmountTotal,
+                mtf.materials_balance.material_saldo                as Saldo,
+                mtf.materials_balance.material_saldo2               as Saldo2,
+                mtf.materials_balance.adquisicion_cierre_cant       as AdquisicionCierreAmount,
+                mtf.materials_balance.adquisicion_cierre_amount     as AdquisicionCierreCant,
+                mtf.materials_balance.recepcion_id                  as RecepcionId,
+                mtf.materials_balance.recepcion_transaction_date    as RecepcionTransactionDate,
+                mtf.materials_balance.recepcion_material_amount     as RecepcionMaterialAmount,
+                mtf.materials_balance.recepcion_material_amount2    as RecepcionMaterialAmount2,
+                mtf.materials_balance.recepcion_saldo               as RecepcionSaldo,
+                mtf.materials_balance.recepcion_balance             as RecepcionBalance
+            from
+                        mtf.materials_balance
+            left join   mtf.type_transactions   on mtf.transactions.type_transaction_id = mtf.type_transactions.id
+            left join   mtf.groups as wallets   on mtf.transactions.wallet_id           = wallets.id
+            left join   mtf.groups              on mtf.Transactions.group_id            = mtf.groups.id
+            left join   mtf.type_materials      on mtf.Transactions.type_material_id    = mtf.type_materials.id
+            where
+                    status = 'Activo'
+                and wallet_id               between $myWalletDesde      and     $myWalletHasta
+                and group_id                between $myGroupDesde       and     $myGroupHasta                
+                and type_transaction_id     between $myTransactionDesde    and     $myTransactionHasta
+                and transaction_date        between '$myFechaDesde2'        and     '$myFechaHasta2'
+            order by
+                transactions.wallet_id,
+                transactions.group_id,
+                Transactions.transaction_date ASC,
+                id ASC
+        ";
+
+        // dd($myQuery);
+        
+        // $adquisiciones = DB::select($myQuery);      
+
+
+
+        $Group_roles 	    = $this->getGroupRole(auth()->id());
+        $wallet             = $this->getWallet($Group_roles);
+        $group              = $this->getGroups($Group_roles);
+        $type_material      = Type_material::pluck('name', 'id')->toArray();
+
+
+        $parametros ['myFechaDesde']    = $myFechaDesde;
+        $parametros ['myFechaHasta']    = $myFechaHasta;
+        $parametros ['myWallet']        = $myWallet;
+        $parametros ['myGroup']         = $myGroup;
+        $parametros ['myType_material'] = $myType_material;     
+        $parametros ['wallet']          = $wallet;
+        $parametros ['group']           = $group;
+        $parametros ['type_material']   = $type_material;        
+        $parametros ['adquisiciones']   = $adqui;
+        // dd($adquisiciones2);
+        return view('estadisticas.materialsAdquisicionConsolidado', $parametros);
+
+    }
+
+    function materialsProcesa(Request $request){
+        $myWallet      = 0; 
+        $myWalletDesde = 00000;
+        $myWalletHasta = 99999;
+        if ($request->wallet){
+            $myWallet       = $request->wallet; 
+            $myWalletDesde  = $request->wallet;
+            $myWalletHasta  = $request->wallet;
+        }
+
+        $myGroup        = 0;
+        $myGroupDesde = 00000;
+        $myGroupHasta = 99999;
+        if ($request->group){
+            $myGroup        = $request->group;
+            $myGroupDesde   = $request->group;
+            $myGroupHasta   = $request->group;
+        }
+
+        $myTransactionDesde     = 47;
+        $myTransactionHasta     = 47;
+        if ($request->transaction){
+            $myTransactionDesde     = $request->transaction;
+            $myTransactionHasta     = $request->transaction;
+        }
+
+        $myFechaDesde = "2001-01-01";
+        $myFechaHasta = "9999-12-31";
+        if ($request->fechaDesde){
+            $myFechaDesde = $request->fechaDesde;
+        }
+        if ($request->fechaHasta){
+            $myFechaHasta = $request->fechaHasta;
+        }
+
+        $myType_material        = 0;
+        $myTypeMaterialDesde    = 0;
+        $myTypeMaterialHasta    = 9999;
+
+        if ($request->type_material){
+            $myType_material        = $request->type_material;
+            $myTypeMaterialDesde    = $request->type_material;
+            $myTypeMaterialHasta    = $request->type_material;
+        }
+
         $horaDesde = " 00:00:00";
         $horaHasta = " 23:59:00";
 
@@ -4163,16 +4367,16 @@ class statisticsController extends Controller
 
         $verLog = 0;
 
-        $myWalletId         = 0;
-        $myGroupId          = 0;
-        $myGroupCant        = 0;
-        $myGroupAmount      = 0;
-        $myAdquisicionId    = 0;
+        $myWalletId             = 0;
+        $myGroupId              = 0;
+        $myGroupCant            = 0;
+        $myGroupAmount          = 0;
+        $myAdquisicionId        = 0;
 
-        $myRecepcionCant    = 0;
-        $myRecepcionBalance  = 0;
+        $myRecepcionCant        = 0;
+        $myRecepcionBalance     = 0;
 
-        $myRecepcionIdTemp = 0;
+        $myRecepcionIdTemp      = 0;
 
         foreach($adquisiciones as $key => $myAdquisicion){
 
@@ -4365,30 +4569,8 @@ class statisticsController extends Controller
 
         }
 
-        $Group_roles 	    = $this->getGroupRole(auth()->id());
-        $wallet             = $this->getWallet($Group_roles);
-        $group              = $this->getGroups($Group_roles);
-        $type_material      = Type_material::pluck('name', 'id')->toArray();  
 
-        // dd($adqui);
-
-
-        // die('fin');
-        
-        if ($verLog == 1){
-            die('fin indRecepcion ->' . $indRecepcion);
-        }
-        $parametros ['myFechaDesde']    = $myFechaDesde;
-        $parametros ['myFechaHasta']    = $myFechaHasta;
-        $parametros ['myWallet']        = $myWallet;
-        $parametros ['myGroup']         = $myGroup;
-        $parametros ['myType_material'] = $myType_material;     
-        $parametros ['wallet']          = $wallet;
-        $parametros ['group']           = $group;
-        $parametros ['type_material']   = $type_material;        
-        $parametros ['adquisiciones']   = $adqui;
-        // dd($adquisiciones2);
-        return view('estadisticas.materialsAdquisicionConsolidado', $parametros);
+        return $adqui;
 
     }
 
@@ -4419,6 +4601,47 @@ class statisticsController extends Controller
         echo "<br> Recepcion MaterialAmount2 -->" . $myAdquisicion2->RecepcionMaterialAmount2;
         echo "<br> Recepcion Saldo ------------>" . $myAdquisicion2->RecepcionSaldo;
         echo "<br> Recepcion Balance ---------->" . $myAdquisicion2->RecepcionBalance;
+
+    }
+
+
+    function materialsCierreProcess(Request $request){
+
+        $adqui              = $this->materialsProcesa($request);
+
+        Materials_balance::truncate();
+
+
+        foreach($adqui as $key => $transaccion){
+
+            $Materials_balance = new Materials_balance;
+            
+            $Materials_balance->adquisicion_id              = $transaccion->Id;
+            $Materials_balance->wallet_id                   = $transaccion->WalletId;
+            $Materials_balance->group_id                    = $transaccion->GroupId;
+            $Materials_balance->type_transaction_id         = $transaccion->TypeTransactionId;
+            $Materials_balance->type_material_id            = $transaccion->TypeMaterialId;
+            $Materials_balance->transaction_date            = $transaccion->TransactionDate;
+            $Materials_balance->material_price              = $transaccion->MaterialPrice;
+            $Materials_balance->material_amount             = $transaccion->MaterialAmount;
+            $Materials_balance->material_amount_total       = $transaccion->MaterialAmountTotal;
+            $Materials_balance->material_saldo              = $transaccion->Saldo;
+            $Materials_balance->material_saldo2             = $transaccion->Saldo2;
+            $Materials_balance->adquisicion_cierre_cant     = $transaccion->AdquisicionCierreCant;
+            $Materials_balance->adquisicion_cierre_amount   = $transaccion->AdquisicionCierreAmount;
+            $Materials_balance->recepcion_id                = $transaccion->RecepcionId;
+            $Materials_balance->recepcion_transaction_date  = $transaccion->RecepcionTransactionDate;
+            $Materials_balance->recepcion_material_amount   = $transaccion->RecepcionMaterialAmount;
+            $Materials_balance->recepcion_material_amount2  = $transaccion->RecepcionMaterialAmount2;
+            $Materials_balance->recepcion_saldo             = $transaccion->RecepcionSaldo;
+            $Materials_balance->recepcion_balance           = $transaccion->RecepcionBalance;
+            $Materials_balance->user_id                     = auth()->user()->id;
+
+            $Materials_balance->save();
+
+        }
+
+        return response()->json(['success' => true, 'result' => 'Procesado', 'message' => 'Cierre Materiales procesado con exito'], 200);
 
     }
 

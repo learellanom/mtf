@@ -197,8 +197,8 @@ $config4 = [
                                     <td>{!! $row->RecepcionTransactionDate !!}</td>
 
 
-                                    <td class="text-right">{!! number_format($row->RecepcionMaterialAmount,",",".") !!}</td>
-                                    <td class="text-right">{!! number_format($row->RecepcionMaterialAmount2,",",".") !!}</td>
+                                    <td class="text-right">{!! number_format($row->RecepcionMaterialAmount) !!}</td>
+                                    <td class="text-right">{!! number_format($row->RecepcionMaterialAmount2) !!}</td>
                                     
                                     <td>{!! number_format($row->RecepcionBalance,2,",",".") !!}</td>
 
