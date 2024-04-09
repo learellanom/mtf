@@ -319,6 +319,6 @@ Route::get('estadisticasFechaTokens',[App\Http\Controllers\statisticsController:
 //
 Route::get('estadisticasResumenWallet',[App\Http\Controllers\statisticsController::class, 'walletSummary'])->middleware('can:estadisticasDetalle.statisticsResumenWallet')->name('estadisticasResumenWallet');
 
-Route::get('materialsAdquisicionConsolidado',[App\Http\Controllers\statisticsController::class, 'materials_adquisicion_consolidado'])->middleware('can:materials.adquisicion_cosolidado')->name('materialsAdquisicionConsolidado');
+Route::get('materialsAdquisicionConsolidado',[App\Http\Controllers\statisticsController::class, 'materials_adquisicion_consolidado2'])->middleware('can:materials.adquisicion_cosolidado')->name('materialsAdquisicionConsolidado');
 
 ?>

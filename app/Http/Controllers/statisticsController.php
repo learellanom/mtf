@@ -4278,6 +4278,39 @@ class statisticsController extends Controller
         $myFechaHasta2 = $myFechaHasta . $horaHasta;
 
 
+        $myQuery =
+        "
+            select
+                mtf.transactions.wallet_id                      as WalletId,
+                wallets.name                                    as WalletName,
+                mtf.transactions.group_id                       as GroupId,
+                mtf.groups.name                                 as GroupName
+            from
+                        mtf.transactions
+            left join   mtf.type_transactions   on mtf.transactions.type_transaction_id = mtf.type_transactions.id
+            left join   mtf.groups as wallets   on mtf.transactions.wallet_id           = wallets.id
+            left join   mtf.groups              on mtf.Transactions.group_id            = mtf.groups.id
+            left join   mtf.type_materials      on mtf.Transactions.type_material_id    = mtf.type_materials.id
+            where
+                    status = 'Activo'
+                and wallet_id               between $myWalletDesde         and     $myWalletHasta
+                and group_id                between $myGroupDesde          and     $myGroupHasta                
+                and type_transaction_id     between $myTransactionDesde    and     $myTransactionHasta            
+            group by
+                mtf.transactions.wallet_id,
+                wallets.name,
+                mtf.transactions.group_id,
+                mtf.groups.name
+            order by
+                transactions.wallet_id,
+                transactions.group_id    
+        ";
+
+        // dd($myQuery);
+        
+        $adquisicionesResumen = DB::select($myQuery);     
+
+        // dd($adquisicionesResumen);
 
         $myQuery =
         "
@@ -4370,246 +4403,319 @@ class statisticsController extends Controller
         // dd($recepciones);
         $adqui = [];
 
-        $verLog = 0;
 
-        $myWalletId             = 0;
-        $myGroupId              = 0;
-        $myGroupCant            = 0;
-        $myGroupAmount          = 0;
-        $myAdquisicionId        = 0;
+        foreach($adquisicionesResumen as $myAdquisicionesResumen){
 
-        $myRecepcionCant        = 0;
-        $myRecepcionBalance     = 0;
+            $verLog = 0;
 
-        $myRecepcionIdTemp      = 0;
+            $myWalletId             = 0;
+            $myGroupId              = 0;
+            $myGroupCant            = 0;
+            $myGroupAmount          = 0;
+            $myAdquisicionId        = 0;
 
-        foreach($adquisiciones as $key => $myAdquisicion){
+            $myRecepcionCant        = 0;
+            $myRecepcionBalance     = 0;
 
-            $myAdquisicion2             = clone $myAdquisicion;
+            $myRecepcionIdTemp      = 0;
 
-            $myAdquisicion2->Saldo      = $myAdquisicion2->MaterialAmount;
-            $myAdquisicion2->Saldo2     = $myAdquisicion2->MaterialAmount;
-
-            // if ($myAdquisicionId <> $myAdquisicion->Id){
-            //     $myGroupId      = $myAdquisicion->Id;
-            //     $myGroupCant    = 0;
-            //     $myGroupAmount  = 0;
-            // }
-            
-            if ($myGroupId <> $myAdquisicion->GroupId){
-                $myGroupId      = $myAdquisicion->GroupId;
-                $myGroupCant    = 0;
-                $myGroupAmount  = 0;
-            }
-            
-            $myGroupCant    +=  $myAdquisicion->MaterialAmount;
-            $myGroupAmount  +=  $myAdquisicion->MaterialAmountTotal;
-
-            $indRecepcion = 0;
-            
-            // echo "<br>" . print_r($myAdquisicion,true);
-            
+            foreach($adquisiciones as $key => $myAdquisicion){
 
 
-
-            foreach($recepciones as $key => $myRecepcion){
-
-                //  if ($key >= 4){
-                //     dd($adqui);
-                //      die();
-                //  }
-
-                if ($myRecepcion->Saldo == 0){
+                if ($myAdquisicion->WalletId != $myAdquisicionesResumen->WalletId){
                     continue;
                 }
-                
-                
 
-                $myMaterialAmount                           = $myAdquisicion2->Saldo2 - $myRecepcion->Saldo;
-
-
-                $myAdquisicion2->RecepcionId               = $myRecepcion->Id;
-                $myAdquisicion2->RecepcionTransactionDate  = $myRecepcion->TransactionDate;
-                $myAdquisicion2->RecepcionMaterialAmount   = $myRecepcion->MaterialAmount;
-
-                $myAdquisicion2->AdquisicionCierreCant     = $myGroupCant;
-                $myAdquisicion2->AdquisicionCierreAmount   = $myGroupAmount;
-
-                if ($myRecepcion->Id != ""){
-                    if ($myRecepcionIdTemp != $myRecepcion->Id){
-                        // echo "<br>" . "distinto ----------------->";
-                        $myRecepcionCant++;
-                        $myRecepcionBalance += $myRecepcion->MaterialAmount;
-                        $myRecepcionIdTemp  = $myRecepcion->Id;
-                    }
+                if ($myAdquisicion->GroupId != $myAdquisicionesResumen->GroupId){
+                    continue;
                 }
 
-                if ($myMaterialAmount == 0){
-                    $myAdquisicion2->Saldo2             = 0;
-                    $myAdquisicion2->RecepcionSaldo     = 0;
-            
-                    $myRecepcion->Saldo                 = 0;
+                $myAdquisicion2             = clone $myAdquisicion;
 
-                    $myAdquisicion2->RecepcionMaterialAmount2   = $myRecepcion->MaterialAmount;
+                $myAdquisicion2->Saldo      = $myAdquisicion2->MaterialAmount;
+                $myAdquisicion2->Saldo2     = $myAdquisicion2->MaterialAmount;
+
+                // if ($myAdquisicionId <> $myAdquisicion->Id){
+                //     $myGroupId      = $myAdquisicion->Id;
+                //     $myGroupCant    = 0;
+                //     $myGroupAmount  = 0;
+                // }
+                
+                if ($myGroupId <> $myAdquisicion->GroupId){
+                    $myGroupId      = $myAdquisicion->GroupId;
+                    $myGroupCant    = 0;
+                    $myGroupAmount  = 0;
+                }
+                
+                $myGroupCant    +=  $myAdquisicion->MaterialAmount;
+                $myGroupAmount  +=  $myAdquisicion->MaterialAmountTotal;
+
+                $indRecepcion = 0;
+                
+                // echo "<br>" . print_r($myAdquisicion,true);
+                
+
+
+
+                foreach($recepciones as $key => $myRecepcion){
+
+                    //  if ($key >= 4){
+                    //     dd($adqui);
+                    //      die();
+                    //  }
+                    
+                    if ($myRecepcion->WalletId != $myAdquisicionesResumen->WalletId){
+                        continue;
+                    }
+    
+                    if ($myRecepcion->GroupId != $myAdquisicionesResumen->GroupId){
+                        continue;
+                    }
+
+                    if ($myRecepcion->Saldo == 0){
+                        continue;
+                    }
+                    
+                    
+
+                    $myMaterialAmount                           = $myAdquisicion2->Saldo2 - $myRecepcion->Saldo;
+
+
+                    $myAdquisicion2->RecepcionId               = $myRecepcion->Id;
+                    $myAdquisicion2->RecepcionTransactionDate  = $myRecepcion->TransactionDate;
+                    $myAdquisicion2->RecepcionMaterialAmount   = $myRecepcion->MaterialAmount;
+
+                    $myAdquisicion2->AdquisicionCierreCant     = $myGroupCant;
+                    $myAdquisicion2->AdquisicionCierreAmount   = $myGroupAmount;
+
+                    if ($myRecepcion->Id != ""){
+                        if ($myRecepcionIdTemp != $myRecepcion->Id){
+                            // echo "<br>" . "distinto ----------------->";
+                            $myRecepcionCant++;
+                            $myRecepcionBalance += $myRecepcion->MaterialAmount;
+                            $myRecepcionIdTemp  = $myRecepcion->Id;
+                        }
+                    }
+
+                    if ($myMaterialAmount == 0){
+                        $myAdquisicion2->Saldo2             = 0;
+                        $myAdquisicion2->RecepcionSaldo     = 0;
+                
+                        $myRecepcion->Saldo                 = 0;
+
+                        $myAdquisicion2->RecepcionMaterialAmount2   = $myRecepcion->MaterialAmount;
+                        $myAdquisicion2->RecepcionBalance           = $myRecepcionBalance;
+
+                        $indRecepcion = 1;
+
+                        if ($verLog == 1){
+                            echo "<br>" . "igual *************************************************** idRecepcion -> " . $indRecepcion;
+                            echo "<br>" . " myRecepcionCant -> " . $myRecepcionCant;
+                            echo "<br>" . " myRecepcionBalance -> " . $myRecepcionBalance;
+                            echo "<br>" . " myRecepcionIdTemp -> " . $myRecepcionIdTemp;
+
+                            $this->materials_adquisicion_consolidado_show($myAdquisicion2);
+                        }
+
+                        $adqui[] = clone $myAdquisicion2;
+                        
+                        $myAdquisicion2->Saldo             = 0;
+
+
+
+                        break;
+                    }
+
+                    if ($myMaterialAmount > 0){
+
+                        $myAdquisicion2->Saldo2                     = $myMaterialAmount;        // saldo que queda de la aduisicion por completar
+
+
+                        $myAdquisicion2->RecepcionMaterialAmount2   = $myRecepcion->Saldo;      // monto utilizado de la recepecion
+                        $myAdquisicion2->RecepcionBalance           = $myRecepcionBalance;      // acumulado de recepcion
+                        $myAdquisicion2->RecepcionSaldo             = 0 ;                       // saldo que queda de la recepcion
+
+                        $myRecepcion->Saldo                         = 0;                        // sal que queda de la recepcion
+
+                        $indRecepcion                               = 1;
+
+                        if ($verLog == 1){
+                            echo "<br>" . "mayor *************************************************** indRecepcion ->" . $indRecepcion;
+                            echo "<br>" . " myRecepcionCant -> " . $myRecepcionCant;
+                            echo "<br>" . " myRecepcionBalance -> " . $myRecepcionBalance;
+                            echo "<br>" . " myRecepcionIdTemp -> " . $myRecepcionIdTemp;
+
+                            $this->materials_adquisicion_consolidado_show($myAdquisicion2);
+                        }
+
+
+                        $adqui[] = clone $myAdquisicion2;
+                        
+                        $myAdquisicion2->Saldo             = $myMaterialAmount;
+                        
+                        
+
+                    }
+
+                    if ($myMaterialAmount < 0){
+
+
+
+                        // $myAdquisicion2->RecepcionMaterialAmount2    = $myRecepcion->MaterialAmount - abs($myMaterialAmount);
+                        $myAdquisicion2->RecepcionMaterialAmount2    = $myAdquisicion2->Saldo2 ;
+                        $myAdquisicion2->Saldo2                      = 0;
+
+                        $myAdquisicion2->RecepcionSaldo    = abs($myMaterialAmount);            
+                        
+                        $myRecepcion->Saldo                 = abs($myMaterialAmount);
+
+                        
+                        $myAdquisicion2->RecepcionBalance           = $myRecepcionBalance;
+
+                        $indRecepcion = 1;
+
+                        if ($verLog == 1){
+                            echo "<br>" . "menor *************************************************** indRecepcion -> " . $indRecepcion;
+                            echo "<br>" . " myMaterialAmount    -> " . $myMaterialAmount;
+                            echo "<br>" . " myRecepcionCant     -> " . $myRecepcionCant;
+                            echo "<br>" . " myRecepcionCant     -> " . $myRecepcionCant;
+                            echo "<br>" . " myRecepcionBalance  -> " . $myRecepcionBalance;
+                            echo "<br>" . " myRecepcionIdTemp   -> " . $myRecepcionIdTemp;
+
+                            $this->materials_adquisicion_consolidado_show($myAdquisicion2);
+                        }
+
+                        $adqui[]       = clone $myAdquisicion2;
+                        
+                        $myAdquisicion2->Saldo  = 0;
+                        $myAdquisicion2->RecepcionBalance           = 0;
+                        break;                    
+
+
+                    }
+
+                    
+
+                }
+
+
+                if ($indRecepcion == 0){
+
+                    $myAdquisicion2->Saldo2                     = 0;
+
+                    $myAdquisicion2->AdquisicionCierreCant     = $myGroupCant;
+                    $myAdquisicion2->AdquisicionCierreAmount   = $myGroupAmount;
+
+                    $myAdquisicion2->RecepcionId                = "";
+                    $myAdquisicion2->RecepcionTransactionDate   = "";
+                    $myAdquisicion2->RecepcionMaterialAmount    = 0;
+
+                    $myAdquisicion2->RecepcionSaldo             = 0;
+                    $myAdquisicion2->RecepcionMaterialAmount2   = 0; 
+
                     $myAdquisicion2->RecepcionBalance           = $myRecepcionBalance;
 
-                    $indRecepcion = 1;
-
                     if ($verLog == 1){
-                        echo "<br>" . "igual *************************************************** idRecepcion -> " . $indRecepcion;
+                        echo "<br>" . "sin recepcion  nnn *************************************************** indRecepcion -> " . $indRecepcion;
                         echo "<br>" . " myRecepcionCant -> " . $myRecepcionCant;
                         echo "<br>" . " myRecepcionBalance -> " . $myRecepcionBalance;
                         echo "<br>" . " myRecepcionIdTemp -> " . $myRecepcionIdTemp;
 
-                        $this->materials_adquisicion_consolidado_show($myAdquisicion2);
-                    }
-
-                    $adqui[] = clone $myAdquisicion2;
-                    
-                    $myAdquisicion2->Saldo             = 0;
-
-
-
-                    break;
-                }
-
-                if ($myMaterialAmount > 0){
-
-                    $myAdquisicion2->Saldo2                     = $myMaterialAmount;        // saldo que queda de la aduisicion por completar
-
-
-                    $myAdquisicion2->RecepcionMaterialAmount2   = $myRecepcion->Saldo;      // monto utilizado de la recepecion
-                    $myAdquisicion2->RecepcionBalance           = $myRecepcionBalance;      // acumulado de recepcion
-                    $myAdquisicion2->RecepcionSaldo             = 0 ;                       // saldo que queda de la recepcion
-
-                    $myRecepcion->Saldo                         = 0;                        // sal que queda de la recepcion
-
-                    $indRecepcion                               = 1;
-
-                    if ($verLog == 1){
-                        echo "<br>" . "mayor *************************************************** indRecepcion ->" . $indRecepcion;
-                        echo "<br>" . " myRecepcionCant -> " . $myRecepcionCant;
-                        echo "<br>" . " myRecepcionBalance -> " . $myRecepcionBalance;
-                        echo "<br>" . " myRecepcionIdTemp -> " . $myRecepcionIdTemp;
-
-                        $this->materials_adquisicion_consolidado_show($myAdquisicion2);
-                    }
-
-
-                    $adqui[] = clone $myAdquisicion2;
-                    
-                    $myAdquisicion2->Saldo             = $myMaterialAmount;
-                    
-                    
-
-                }
-
-                if ($myMaterialAmount < 0){
-
-
-
-                    // $myAdquisicion2->RecepcionMaterialAmount2    = $myRecepcion->MaterialAmount - abs($myMaterialAmount);
-                    $myAdquisicion2->RecepcionMaterialAmount2    = $myAdquisicion2->Saldo2 ;
-                    $myAdquisicion2->Saldo2                      = 0;
-
-                    $myAdquisicion2->RecepcionSaldo    = abs($myMaterialAmount);            
-                    
-                    $myRecepcion->Saldo                 = abs($myMaterialAmount);
-
-                    
-                    $myAdquisicion2->RecepcionBalance           = $myRecepcionBalance;
-
-                    $indRecepcion = 1;
-
-                    if ($verLog == 1){
-                        echo "<br>" . "menor *************************************************** indRecepcion -> " . $indRecepcion;
-                        echo "<br>" . " myMaterialAmount    -> " . $myMaterialAmount;
-                        echo "<br>" . " myRecepcionCant     -> " . $myRecepcionCant;
-                        echo "<br>" . " myRecepcionCant     -> " . $myRecepcionCant;
-                        echo "<br>" . " myRecepcionBalance  -> " . $myRecepcionBalance;
-                        echo "<br>" . " myRecepcionIdTemp   -> " . $myRecepcionIdTemp;
-
-                        $this->materials_adquisicion_consolidado_show($myAdquisicion2);
+                        $this->materials_adquisicion_consolidado_show($myAdquisicion2);    
                     }
 
                     $adqui[]       = clone $myAdquisicion2;
+                }
+
+
+
+                if ($verLog == 1){
+                    echo "<br>" . "cant recepcion  nnn *************************************************** indRecepcion -> " . $myRecepcionCant;
+
+                }
+                
+
+
+            }
+
+            // dd($myAdquisicion2->Id);
+            // dd($myAdquisicion2->TransactionDate);
+            /*
+            foreach($recepciones as $key => $myRecepcion){
+
+
                     
-                    $myAdquisicion2->Saldo  = 0;
-                    $myAdquisicion2->RecepcionBalance           = 0;
-                    break;                    
+                if ($myRecepcion->WalletId != $myAdquisicionesResumen->WalletId){
+                    continue;
+                }
 
-
+                if ($myRecepcion->GroupId != $myAdquisicionesResumen->GroupId){
+                    continue;
                 }
 
                 
-
-            }
-
-
-            if ($indRecepcion == 0){
-
-                $myAdquisicion2->Saldo2                     = 0;
-
-                $myAdquisicion2->AdquisicionCierreCant     = $myGroupCant;
-                $myAdquisicion2->AdquisicionCierreAmount   = $myGroupAmount;
-
-                $myAdquisicion2->RecepcionId                = "";
-                $myAdquisicion2->RecepcionTransactionDate   = "";
-                $myAdquisicion2->RecepcionMaterialAmount    = 0;
-
-                $myAdquisicion2->RecepcionSaldo             = 0;
-                $myAdquisicion2->RecepcionMaterialAmount2   = 0; 
-
-                $myAdquisicion2->RecepcionBalance           = $myRecepcionBalance;
-
-                if ($verLog == 1){
-                    echo "<br>" . "sin recepcion  nnn *************************************************** indRecepcion -> " . $indRecepcion;
-                    echo "<br>" . " myRecepcionCant -> " . $myRecepcionCant;
-                    echo "<br>" . " myRecepcionBalance -> " . $myRecepcionBalance;
-                    echo "<br>" . " myRecepcionIdTemp -> " . $myRecepcionIdTemp;
-
-                    $this->materials_adquisicion_consolidado_show($myAdquisicion2);    
+                
+                if ($myRecepcion->Saldo > 0){
+                    if ($myAdquisicion->WalletId != $myAdquisicionesResumen->WalletId){
+                        continue;
+                    }
+    
+                    if ($myAdquisicion->GroupId != $myAdquisicionesResumen->GroupId){
+                        continue;
+                    }
+                    $myAdquisicion3             = clone $myAdquisicion2;
+                    $myAdquisicion3->Id                         = 0;
+                    $myAdquisicion3->WalletId                   = $myAdquisicionesResumen->WalletId;
+                    $myAdquisicion3->GroupId                    = $myAdquisicionesResumen->GroupId;
+                    $myAdquisicion3->TypeTransactionId          = $myRecepcion->TypeTransactionId;
+                    $myAdquisicion3->TypeMaterialId             = $myRecepcion->TypeMaterialId;
+                    $myAdquisicion3->TransactionDate            = $myRecepcion->TransactionDate;
+                    $myAdquisicion3->MaterialPrice              = 0;
+                    $myAdquisicion3->MaterialAmount             = 0;
+                    $myAdquisicion3->MaterialAmountTotal        = 0;
+                    $myAdquisicion3->Saldo                      = 0;
+                    $myAdquisicion3->Saldo2                     = 0;
+                    $myAdquisicion3->AdquisicionCierreCant      = 0;
+                    $myAdquisicion3->AdquisicionCierreAmount    = 0;
+                    $myAdquisicion3->RecepcionId                = $myRecepcion->Id;
+                    $myAdquisicion3->RecepcionTransactionDate   = $myRecepcion->TransactionDate;
+                    $myAdquisicion3->RecepcionMaterialAmount    = $myRecepcion->MaterialAmount;
+                    $myAdquisicion3->RecepcionMaterialAmount2   = 0;
+                    $myAdquisicion3->RecepcionSaldo             = $myRecepcion->Saldo;
+                    $adqui[]       = clone $myAdquisicion3;  
+                    
                 }
+                
+                if ($verLog == 1){
+                    if ($myRecepcion->Saldo > 0){
 
-                $adqui[]       = clone $myAdquisicion2;
+                    echo "<br> *****************************************************************************";
+                    echo "<br> Recepcion ID                  -> " . $myRecepcion->Id;
+                    echo "<br> Recepcion WalletId            -> " . $myRecepcion->WalletId;
+                    echo "<br> Recepcion WalletName          -> " . $myRecepcion->WalletName;
+                    echo "<br> Recepcion GroupId             -> " . $myRecepcion->GroupId;
+                    echo "<br> Recepcion GroupName           -> " . $myRecepcion->GroupName;
+                    echo "<br> Recepcion TypeTransactionId   -> " . $myRecepcion->TypeTransactionId;
+                    echo "<br> Recepcion TypeTransactionName -> " . $myRecepcion->TypeTransactionName;
+                    echo "<br> Recepcion TypeMaterialId      -> " . $myRecepcion->TypeMaterialId;
+                    echo "<br> Recepcion TypeMaterialName    -> " . $myRecepcion->TypeMaterialName;
+                    echo "<br> Recepcion TransactionDate     -> " . $myRecepcion->TransactionDate;
+                    echo "<br> Recepcion CreatedAt           -> " . $myRecepcion->CreatedAt;            
+                    echo "<br> Recepcion MaterialPrice       -> " . $myRecepcion->MaterialPrice;
+                    echo "<br> Recepcion MaterialAmount      -> " . $myRecepcion->MaterialAmount;
+                    echo "<br> Recepcion MaterialAmountTotal -> " . $myRecepcion->MaterialAmountTotal;
+                    echo "<br> Recepcion Saldo               -> " . $myRecepcion->Saldo;
+                    }
+                }
             }
+            */
 
-
-
-            if ($verLog == 1){
-                echo "<br>" . "cant recepcion  nnn *************************************************** indRecepcion -> " . $myRecepcionCant;
-
-            }
-            
-
-
-        }
-
-        
-        foreach($recepciones as $key => $myRecepcion){
-            if ($verLog == 1){
-                echo "<br> *****************************************************************************";
-                echo "<br> Recepcion ID        -> " . $myRecepcion->Id;
-                echo "<br> Recepcion Wallet Id -> " . $myRecepcion->WalletId;
-                echo "<br> Recepcion Wallet Id -> " . $myRecepcion->WalletName;
-                echo "<br> Recepcion Wallet Id -> " . $myRecepcion->GroupId;
-                echo "<br> Recepcion Wallet Id -> " . $myRecepcion->GroupName;
-                echo "<br> Recepcion Wallet Id -> " . $myRecepcion->TypeTransactionId;
-                echo "<br> Recepcion Wallet Id -> " . $myRecepcion->TypeTransactionName;
-                echo "<br> Recepcion Wallet Id -> " . $myRecepcion->TypeMaterialId;
-                echo "<br> Recepcion Wallet Id -> " . $myRecepcion->TypeMaterialName;
-                echo "<br> Recepcion Wallet Id -> " . $myRecepcion->TransactionDate;
-                echo "<br> Recepcion Wallet Id -> " . $myRecepcion->CreatedAt;            
-                echo "<br> Recepcion Wallet Id -> " . $myRecepcion->MaterialPrice;
-                echo "<br> Recepcion Wallet Id -> " . $myRecepcion->MaterialAmount;
-                echo "<br> Recepcion Wallet Id -> " . $myRecepcion->MaterialAmountTotal;
-                echo "<br> Recepcion Wallet Id -> " . $myRecepcion->Saldo;
-            }
         }
 
         if ($verLog == 1){
-            die();
+        //    die();
         }
+
         return $adqui;
 
     }

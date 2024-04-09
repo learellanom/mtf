@@ -63,6 +63,9 @@ $config2 =
 
 $config3 = [
     "locale" => ["format" => "DD-MM-YYYY"],
+    'order' => [
+        [3, 'asc']
+    ],
 ];
 
 $config4 = [
@@ -176,7 +179,13 @@ $config4 = [
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-12">
-                        <x-adminlte-datatable id="table3" :heads="$heads" class="table table-bordered table-responsive-lg" hoverable with-buttons>
+                        <x-adminlte-datatable 
+                            id="table3" 
+                            :heads="$heads" 
+                            class="table table-bordered table-responsive-lg" 
+                            hoverable 
+                            with-buttons
+                        >
                             @foreach($adquisiciones as $row)
                                 <tr>
                                     <td>{!! $row->Id !!}</td>                                    
