@@ -321,4 +321,6 @@ Route::get('estadisticasResumenWallet',[App\Http\Controllers\statisticsControlle
 
 Route::get('materialsAdquisicionConsolidado',[App\Http\Controllers\statisticsController::class, 'materials_adquisicion_consolidado2'])->middleware('can:materials.adquisicion_cosolidado')->name('materialsAdquisicionConsolidado');
 
+Route::get('materialsAdquisicionResumenGrupo',[App\Http\Controllers\statisticsController::class, 'materialsAdquisicionResumenGrupo'])->middleware('can:materials.materialsAdquisicionResumenGrupo')->name('materialsAdquisicionResumenGrupo');
+
 ?>

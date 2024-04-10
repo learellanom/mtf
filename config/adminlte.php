@@ -515,6 +515,13 @@ return [
                 //     'icon_color' => 'primary',       
                 // ],     
                 [                    
+                    'text'      => 'Resumen de Adquisición/Grupo',
+                    'url'       => 'materialsAdquisicionResumenGrupo', 
+                    'classes'   =>  'ml-4',                    
+                    'can'       => 'materials.materialsAdquisicionResumenGrupo',
+                    'icon_color' => 'primary',       
+                ],                   
+                [                    
                     'text'      => 'Consolidado de Aquisicion',
                     'url'       => 'materialsAdquisicionConsolidado', 
                     'classes'   =>  'ml-4',                    
