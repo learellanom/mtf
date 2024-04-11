@@ -123,9 +123,16 @@ class TransactionController extends Controller
         $parameters     = $request->query();
 
         $user           = $request->query('user');        
-        $fechaDesde     = $request->query('fechaDesde');
-        $fechaHasta     = $request->query('fechaHasta');
-        
+        $fechaDesde     = $request->query('fechaDesde') ? $request->query('fechaDesde') : "2000-01-01";
+        $fechaHasta     = $request->query('fechaHasta') ? $request->query('fechaHasta') : "9999-12-31";
+                
+        if($request->query('fechaDesde')){
+            $myFechaDesde = $request->fechaDesde;
+         };
+         if($request->query('fechaHasta')){
+            $myFechaHasta = $request->fechaHasta;
+         };
+
         $myUser         = 0;
         $myUsuarioDesde = 0;
         $myUsuarioHasta = 999999;
@@ -140,13 +147,7 @@ class TransactionController extends Controller
         // $myFechaDesde = $this->get03DayBefore($myFechaHasta);
         // $myFechaDesde = $this->get01DayBefore($myFechaHasta);        
         $myFechaDesde = $this->get07DayBefore($myFechaHasta);
-        
-         if($fechaDesde){
-            $myFechaDesde = $request->fechaDesde;
-         };
-         if($fechaHasta){
-            $myFechaHasta = $request->fechaHasta;
-         };
+
         //   dd(auth()->user()->roles);
         //  \Log::info('leam - transaction index - aqui');
         //  \Log::info('leam - transaction index - fecha desde - ' . $myFechaDesde . ' -- myFecha Hasta ->' . $myFechaHasta);
@@ -155,6 +156,7 @@ class TransactionController extends Controller
         //  \Log::info('leam - transaction index - request  - ' . $request );
         // dd($request);
         $myLimit = 0;
+        /*
         if($this->isAdministrator()){
             if (!$user){
                 $myUsuarioDesde = auth()->user()->id;
@@ -166,7 +168,7 @@ class TransactionController extends Controller
             $myUsuarioHasta = auth()->user()->id;
             $myLimit = 1000;
         }
-
+        */
         $myCoinDesde    = 0;
         $myCoinHasta    = 9999;
         $myCoin = $request->coin ? $request->coin : 0;
@@ -183,7 +185,7 @@ class TransactionController extends Controller
             $myGroupDesde   = $request->group;
             $myGroupHasta   = $request->group;
         }
-
+        // dd($myGroup);
         $myWallet        = $request->wallet ? $request->wallet : 0;
         $myWalletDesde   = 0;
         $myWalletHasta   = 9999;

@@ -182,30 +182,9 @@ $config4 = [
                                     <td>{!! number_format($row->AdquisicionMaterialAmountTotal) !!}</td>
                                     <td>{!! number_format($row->RecepcionMaterialAmount) !!}</td>
                                     
-
-                                    <!-- 
-                                    <td class="text-center">
-                                        <button class="btn btn-xl text-teal mx-auto shadow" title="Detalles">
-                                            <i class="fa fa-lg fa-fw fa-eye"></i>
-                                        </button>
-                                    </td> 
-                                    -->
-
-                                    <!--
-                                    <td class="text-center">
-                                        <a
-                                            href="#"
-                                            title="Detalles"
-                                            class="btn btn-xl text-primary mx-1 shadow text-center"
-                                            onClick="theRoute2({{0}}, {{0}}, {{$row->Id}})"
-                                        >
-                                            <i class="fa fa-lg fa-fw fa-eye"></i>
-                                        </a>
-                                    </td>
-                                    -->
                                     <td>
 
-                                        <a href="{{ route('transactions.show', $row->Id) }}"
+                                        <a href="{{ route('materials.adquisicion_index', [ 'wallet' => $row->WalletId, 'group' => $row->GroupId] ) }}"
 
                                             class="btn btn-xl text-dark mx-1 shadow text-center">
                                             <i class="fa fa-lg fa-fw fa-eye"></i>
@@ -214,7 +193,7 @@ $config4 = [
 
                                     <td>
 
-                                        <a href="{{ route('transactions.show', $row->RecepcionId) }}"
+                                        <a href="{{ route('materials.recepcion_index', $row->WalletId) }}"
 
                                             class="btn btn-xl text-dark mx-1 shadow text-center">
                                             <i class="fa fa-lg fa-fw fa-eye"></i>

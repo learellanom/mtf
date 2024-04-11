@@ -4193,7 +4193,7 @@ class statisticsController extends Controller
         }
 
         // fin
-         dd($adquisiciones);
+        // dd($adquisiciones);
 
         $Group_roles 	    = $this->getGroupRole(auth()->id());
         $wallet             = $this->getWallet($Group_roles);
@@ -4205,13 +4205,13 @@ class statisticsController extends Controller
         $parametros ['myFechaHasta']    = $myFechaHasta;
         $parametros ['myWallet']        = $myWallet;
         $parametros ['myGroup']         = $myGroup;
-        $parametros ['myType_material'] = $myType_material;     
+        $parametros ['myType_material'] = $myType_material;
         $parametros ['wallet']          = $wallet;
         $parametros ['group']           = $group;
-        $parametros ['type_material']   = $type_material;        
-        $parametros ['adquisiciones']   = $adqui;
+        $parametros ['type_material']   = $type_material;
+        $parametros ['adquisiciones']   = $adquisiciones;
         // dd($adquisiciones2);
-        return view('estadisticas.materialsAdquisicionConsolidado', $parametros);
+        return view('estadisticas.materialsAdquisicionResumenGrupo', $parametros);
 
     }
 
