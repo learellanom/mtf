@@ -387,23 +387,29 @@
 <script>
 
 $('#entre').on('submit', function() {
-exonerar = $('#radio1').is(':checked');
-if(!exonerar){
-    if ($('#percentage').val() <= 0) {
-     Swal.fire('Porcentaje, no puede ser cero o menor a cero. :(');
-     return false;
-  }
-}
-        if ($('#monto_dolares').val() <= 0) {
-            Swal.fire('Monto en dolares, no puede ser cero o menor a cero. ');
+
+    exonerar = $('#radio1').is(':checked');
+    if(!exonerar){
+        if ($('#percentage').val() <= 0) {
+            Swal.fire('Porcentaje, no puede ser cero o menor a cero. :(');
             return false;
         }
-        else if($('#monto_dolares').val().length == 0){
-            Swal.fire('Monto en dolares, no puede estar vacio :( ');
-            return false;
-        }
+    }
+    if ($('#monto_dolares').val() <= 0) {
+        Swal.fire('Monto en dolares, no puede ser cero o menor a cero. ');
+        return false;
+    }
+    else if($('#monto_dolares').val().length == 0){
+        Swal.fire('Monto en dolares, no puede estar vacio :( ');
+        return false;
+    }
 
-
+    let myDate      = new Date($('#fecha').val());
+    let myDateNow   = new Date();
+    if (myDate > myDateNow){
+        Swal.fire('Error: Fecha de transacción no puede ser mayor a la fecha');
+        return false;
+    }
 
 });
 
@@ -465,123 +471,126 @@ $(document).ready(function() {
 
 
      $('.general').inputmask({
-			alias: 'decimal',
-			allowMinus: false,
-			autoUnmask:true,
-			removeMaskOnSubmit:true,
-			rightAlign: true,
-			groupSeparator:".",
-			undoOnEscape:true,
-			insertMode:false,
-			clearIncomplete:true,
-			digits: 2,
-            autoClear: true,
-			insertMode:true, });
-
-
-       $(".rateMask").attr("minlength","8");
-	   $(".rateMask").attr("maxlength","8");
-	   $(".rateMask").inputmask({
-			alias: 'decimal',
-			repeat: 4,
-			allowMinus: false,
-			autoUnmask:true,
-			removeMaskOnSubmit:true,
-			rightAlign: true,
-            autoClear: true,
-			groupSeparator:".",
-			undoOnEscape:true,
-			insertMode: false,
-			clearIncomplete:true,
-			digits: 7,
-			insertMode:true,
-		});
-
-     $( function() {
-    var availableTags = [
-      "cash",
-      "CASH",
-      "Saldo anterior",
-      "suift",
-      "abono",
-      "Abono en cash",
-      "Cash enviado",
-      "Ali",
-      "Abu",
-      "Cash Dubai",
-      "abono en Valencia",
-      "abono cash",
-      "cash libano",
-      "cash la yaguara",
-      "la yaguara",
-      "suift (preforman)",
-      "cash turquia",
-      "libano",
-      "Turquia",
-      "Turkia",
-      "Banesco",
-      "Banesco Panama",
-      "Mercantil",
-      "BDV",
-      "pago bolivares",
-      "cash recibido",
-      "pasaje de",
-      "pasajes",
-      "boletos",
-      "Abonado",
-      "recibido para",
-      "USDT",
-      "Token",
-      "Nomina",
-      "Pago nomina",
-      "Cobro en USDT",
-      "Nomina a",
-      "Bono",
-      "Pago a ",
-      "Cobro a ",
-      "Credito a ",
-      "Pago por suift",
-      "Transferencias bancaria",
-    ];
-    $("#description").autocomplete({
-      source: availableTags
+        alias: 'decimal',
+        allowMinus: false,
+        autoUnmask:true,
+        removeMaskOnSubmit:true,
+        rightAlign: true,
+        groupSeparator:".",
+        undoOnEscape:true,
+        insertMode:false,
+        clearIncomplete:true,
+        digits: 2,
+        autoClear: true,
+        insertMode:true, 
     });
-  });
-
-  $('#radio1').on('click', function() {
-    $('#percentage').val("");
-    $('#comision').val("");
-    $('#comision').attr("readonly", true);
-    $('#percentage').attr("readonly", true);
-  });
-
-  $('#radio2').on('click', function() {
-
-    $('#percentage').attr("readonly", false);
-  });
-
-  $('#radio3').on('click', function() {
-
-    $('#percentage').attr("readonly", false);
-  });
 
 
-  $('.typecoin').on('change', function() {
+    $(".rateMask").attr("minlength","8");
+    $(".rateMask").attr("maxlength","8");
+    $(".rateMask").inputmask({
+        alias: 'decimal',
+        repeat: 4,
+        allowMinus: false,
+        autoUnmask:true,
+        removeMaskOnSubmit:true,
+        rightAlign: true,
+        autoClear: true,
+        groupSeparator:".",
+        undoOnEscape:true,
+        insertMode: false,
+        clearIncomplete:true,
+        digits: 7,
+        insertMode:true,
+    });
 
-    $('#tasa').val(""); // LIMPIAR TASA DE CAMBIO
-    $('#monto').val(""); // LIMPIAR MONTO DE MONEDA EXTRANJERA
+    $( function() {
+        var availableTags = [
+            "cash",
+            "CASH",
+            "Saldo anterior",
+            "suift",
+            "abono",
+            "Abono en cash",
+            "Cash enviado",
+            "Ali",
+            "Abu",
+            "Cash Dubai",
+            "abono en Valencia",
+            "abono cash",
+            "cash libano",
+            "cash la yaguara",
+            "la yaguara",
+            "suift (preforman)",
+            "cash turquia",
+            "libano",
+            "Turquia",
+            "Turkia",
+            "Banesco",
+            "Banesco Panama",
+            "Mercantil",
+            "BDV",
+            "pago bolivares",
+            "cash recibido",
+            "pasaje de",
+            "pasajes",
+            "boletos",
+            "Abonado",
+            "recibido para",
+            "USDT",
+            "Token",
+            "Nomina",
+            "Pago nomina",
+            "Cobro en USDT",
+            "Nomina a",
+            "Bono",
+            "Pago a ",
+            "Cobro a ",
+            "Credito a ",
+            "Pago por suift",
+            "Transferencias bancaria",
+        ];
 
-    $('#comision').val(""); // LIMPIAR COMISION
-    $('#percentage').val("");  // LIMPIAR PORCENTAJE
-    $('#monto_dolares').val(""); // LIMPIAR MONTO EN DOLARES
-    $('#montototal').val(""); //LIMPIAR MONTO TOTAL
-    $('#montototal_base').val(""); //LIMPIAR MONTO TOTAL BASE
+        $("#description").autocomplete({
+            source: availableTags
+        });
+
+    });
+
+    $('#radio1').on('click', function() {
+        $('#percentage').val("");
+        $('#comision').val("");
+        $('#comision').attr("readonly", true);
+        $('#percentage').attr("readonly", true);
+    });
+
+    $('#radio2').on('click', function() {
+
+        $('#percentage').attr("readonly", false);
+    });
+
+    $('#radio3').on('click', function() {
+
+        $('#percentage').attr("readonly", false);
+    });
 
 
-    if ($(this).val() == 1) {
-    $('#tasa').attr("readonly", true);
-    $('#monto').attr("readonly", true);
-    $('#monto_dolares').attr("readonly", false);
+    $('.typecoin').on('change', function() {
+
+        $('#tasa').val(""); // LIMPIAR TASA DE CAMBIO
+        $('#monto').val(""); // LIMPIAR MONTO DE MONEDA EXTRANJERA
+
+        $('#comision').val(""); // LIMPIAR COMISION
+        $('#percentage').val("");  // LIMPIAR PORCENTAJE
+        $('#monto_dolares').val(""); // LIMPIAR MONTO EN DOLARES
+        $('#montototal').val(""); //LIMPIAR MONTO TOTAL
+        $('#montototal_base').val(""); //LIMPIAR MONTO TOTAL BASE
+
+
+        if ($(this).val() == 1) {
+            $('#tasa').attr("readonly", true);
+            $('#monto').attr("readonly", true);
+            $('#monto_dolares').attr("readonly", false);
 
             tasa = document.getElementById("tasa");
             monto = document.getElementById("monto");
@@ -615,221 +624,218 @@ $(document).ready(function() {
                             updateMontoreal(exonerar, descontar, incluir, comision, porcentage, montoreal);
                  });
 
-                 function updateMontoreal(exonerar, descontar, incluir, comision, porcentage, montoreal) {
-                            let monto_dolares = parseFloat($('#monto_dolares').val());
+                function updateMontoreal(exonerar, descontar, incluir, comision, porcentage, montoreal) {
+                    let monto_dolares = parseFloat($('#monto_dolares').val());
 
-                            if(porcentage > 0){
-                               $('#comision').val((monto_dolares * (porcentage / 100)));
-                                comision = (monto_dolares * (porcentage / 100));
-                                //alert(comision);
-                            }
+                    if(porcentage > 0){
+                        $('#comision').val((monto_dolares * (porcentage / 100)));
+                        comision = (monto_dolares * (porcentage / 100));
+                        //alert(comision);
+                    }
 
-                            if(!exonerar) {
+                    if(!exonerar) {
 
-                                if(incluir) {
+                        if(incluir) {
 
-                                 montoreal = (monto_dolares + comision).toFixed(2);
-                                 d = monto_dolares.toFixed(2);
-                                $('#montototal').val((monto_dolares + comision));
+                            montoreal = (monto_dolares + comision).toFixed(2);
+                            d = monto_dolares.toFixed(2);
+                        $('#montototal').val((monto_dolares + comision));
 
-                                } else if(descontar) {
-                                montoreal = (monto_dolares - comision).toFixed(2);
-                                d = monto_dolares.toFixed(2);
-                                $('#montototal').val((monto_dolares - comision));
+                        } else if(descontar) {
+                        montoreal = (monto_dolares - comision).toFixed(2);
+                        d = monto_dolares.toFixed(2);
+                        $('#montototal').val((monto_dolares - comision));
 
-                                }
-                            }
-                            else {
-                                $('#percentage').val('');
-                                $('#comision').val('');
-                                d = monto_dolares.toFixed(2);
-                                $('#montototal').val(d);
-                             }
-                          }
+                        }
+                    }
+                    else {
+                        $('#percentage').val('');
+                        $('#comision').val('');
+                        d = monto_dolares.toFixed(2);
+                        $('#montototal').val(d);
+                    }
+                }
 
             });
-    }
-    else if ($(this).val() == null)
-    {
-    $('#tasa').attr("readonly", true);
-    $('#monto').attr("readonly", true);
-    $('#monto_dolares').prop('readonly', true);
+        }
+        else if ($(this).val() == null){
+            $('#tasa').attr("readonly", true);
+            $('#monto').attr("readonly", true);
+            $('#monto_dolares').prop('readonly', true);
 
-    $('#tasa').val("");
-    $('#monto').val("");
-    $('#monto_dolares').val("");
+            $('#tasa').val("");
+            $('#monto').val("");
+            $('#monto_dolares').val("");
 
-    }
+        }
         else {
             $('#tasa').prop("readonly", false);
             $('#monto').prop("readonly", false);
             $('#monto_dolares').prop('readonly', true);
 
 
-                        $('#tasa, #monto, #percentage').on('input', function() {
-                            let tasa = parseFloat($('#tasa').val());
-                            let monto = parseFloat($('#monto').val());
+            $('#tasa, #monto, #percentage').on('input', function() {
+                let tasa = parseFloat($('#tasa').val());
+                let monto = parseFloat($('#monto').val());
 
-                            if(tasa > 0 && monto > 0) {
-                                let monto_total = (monto / tasa).toFixed(2);
-                                $('#monto_dolares').val(monto_total);
-                                $('#monto_base').val(monto_total);
-                                $('#monto_base2').val(monto_total);
-                            }
-
-                            let comision = parseFloat($('#comision').val());
-                            let porcentage = parseFloat($('#percentage').val());
-                            let montoreal = parseFloat($('#montototal').val());
-
-                            let exonerar = $('#radio1').is(':checked');
-                            //alert(exonerar)
-                            let descontar = $('#radio2').is(':checked');
-                            let incluir = $('#radio3').is(':checked');
-                            //alert(incluir)
-
-                            updateMontoreal(exonerar, descontar, incluir, comision, porcentage, montoreal);
-                            });
-
-                          $('#radio1, #radio2, #radio3').on('click', function() {
-                            let comision = parseFloat($('#comision').val());
-                            let porcentage = parseFloat($('#percentage').val());
-                            let montoreal = parseFloat($('#montototal').val());
-
-                            let exonerar = $('#radio1').is(':checked');
-                            let descontar = $('#radio2').is(':checked');
-                            let incluir = $('#radio3').is(':checked');
-                            updateMontoreal(exonerar, descontar, incluir, comision, porcentage, montoreal);
-                          });
-
-
-                            function updateMontoreal(exonerar, descontar, incluir, comision, porcentage, montoreal) {
-                            let monto_dolares = parseFloat($('#monto_dolares').val());
-
-                            if(porcentage > 0){
-                               $('#comision').val((monto_dolares * (porcentage / 100)));
-                                comision = (monto_dolares * (porcentage / 100));
-                                //alert(comision);
-                            }
-
-
-                            if(!exonerar) {
-                                if(incluir) {
-                                 montoreal = (monto_dolares + comision).toFixed(2);
-                                $('#montototal').val((monto_dolares + comision));
-                                //alert(montoreal);
-
-                                } else if(descontar) {
-                                montoreal = (monto_dolares - comision).toFixed(2);
-                                $('#montototal').val((monto_dolares - comision));
-                                }
-                            }
-                            else {
-                                montoreal = monto_dolares.toFixed(2);
-                                $('#montototal').val(montoreal);
-                             }
-                          }
-
-                     } //ELSE
-                });
-            });
-
-     $("#file").fileinput({
-        uploadUrl: '{{ route('transactions.store') }}'
-        , language: 'es'
-        , showUpload: false
-        , dropZoneEnabled: false
-        , theme:"fas"
-        , mainClass: "input-group-md"
-        , overwriteInitial: false
-        , fileActionSettings: {
-            showRemove: true,
-            showUpload: false,
-            showZoom: true,
-            showDrag: false,
-        }
-        , initialPreviewAsData: true
-        , allowedPreviewTypes: ['text', 'image']
-        , uploadExtraData: function () {  // Devolución de llamada
-
-            var documentos = [];
-
-            $.each($(this)[0].filenames, function (i, v) {
-                var nombre = v;
-                //Busco la extension
-                var lastPoint = nombre.lastIndexOf(".");
-                var extension = nombre.substring(lastPoint + 1);
-
-                var b;
-
-                switch (extension.toUpperCase()) {
-                    case "ZIP":
-                    case "RAR":
-                    case "JPG":
-                    case "PNG":
-                    case "JPEG":
-                        b = {
-                            'id': i + 1,
-                            'nombre': nombre,
-                            'mensaje': '',
-                            'tipo': extension.toUpperCase(),
-                            'procesado': false
-                        };
-                        documentos.push(b);
-                        break;
-
-                    case "PDF":
-                        b = {
-                            'id': i + 1,
-                            'nombre': nombre,
-                            'mensaje': '',
-                            'tipo': extension.toUpperCase(),
-                            'procesado': false
-                        };
-                        pdf.push(b);
-                        documentos.push(b);
-                        break;
-                    case "XML":
-                        b = {
-                            'id': i + 1,
-                            'nombre': nombre,
-                            'mensaje': '',
-                            'tipo': extension.toUpperCase(),
-                            'procesado': false
-                        };
-                        xml.push(b);
-                        documentos.push(b);
-                        break;
-                    default:
-                        b = {
-                            'id': i + 1,
-                            'nombre': nombre,
-                            'mensaje': msgWrongFileType,
-                            'tipo': extension.toUpperCase(),
-                            'procesado': false
-                        };
-                        documentos.push(b);
-                        break;
+                if(tasa > 0 && monto > 0) {
+                    let monto_total = (monto / tasa).toFixed(2);
+                    $('#monto_dolares').val(monto_total);
+                    $('#monto_base').val(monto_total);
+                    $('#monto_base2').val(monto_total);
                 }
+
+                let comision = parseFloat($('#comision').val());
+                let porcentage = parseFloat($('#percentage').val());
+                let montoreal = parseFloat($('#montototal').val());
+
+                let exonerar = $('#radio1').is(':checked');
+                //alert(exonerar)
+                let descontar = $('#radio2').is(':checked');
+                let incluir = $('#radio3').is(':checked');
+                //alert(incluir)
+
+                updateMontoreal(exonerar, descontar, incluir, comision, porcentage, montoreal);
             });
 
-            //Recorro todos los xmls y pdfs, los que no tenga par se marcaran como bad
-            $.each(xml, function (i, v) {
-                if (v.tienePar == false) {
-                    v.mensaje = msgNoPdf;
-                    //bad.push(v);
+            $('#radio1, #radio2, #radio3').on('click', function() {
+                let comision = parseFloat($('#comision').val());
+                let porcentage = parseFloat($('#percentage').val());
+                let montoreal = parseFloat($('#montototal').val());
+
+                let exonerar = $('#radio1').is(':checked');
+                let descontar = $('#radio2').is(':checked');
+                let incluir = $('#radio3').is(':checked');
+                updateMontoreal(exonerar, descontar, incluir, comision, porcentage, montoreal);
+            });
+
+
+            function updateMontoreal(exonerar, descontar, incluir, comision, porcentage, montoreal) {
+                let monto_dolares = parseFloat($('#monto_dolares').val());
+
+                if(porcentage > 0){
+                    $('#comision').val((monto_dolares * (porcentage / 100)));
+                    comision = (monto_dolares * (porcentage / 100));
+                    //alert(comision);
                 }
-            });
 
+                if(!exonerar) {
+                    if(incluir) {
+                        montoreal = (monto_dolares + comision).toFixed(2);
+                    $('#montototal').val((monto_dolares + comision));
+                    //alert(montoreal);
 
-            var data = {
-                Documentos: documentos
-                , DatoExtra: "Información EXTRA"
+                    } else if(descontar) {
+                    montoreal = (monto_dolares - comision).toFixed(2);
+                    $('#montototal').val((monto_dolares - comision));
+                    }
+                }
+                else {
+                    montoreal = monto_dolares.toFixed(2);
+                    $('#montototal').val(montoreal);
+                }
             }
 
-            alert(JSON.stringify(data));
-            return { datos: JSON.stringify(data) }; //Este objeto mandarias al SERVER al presionar upload
-          }
-        });
+        } //ELSE
+    });
+});
+
+$("#file").fileinput({
+    uploadUrl: '{{ route('transactions.store') }}'
+    , language: 'es'
+    , showUpload: false
+    , dropZoneEnabled: false
+    , theme:"fas"
+    , mainClass: "input-group-md"
+    , overwriteInitial: false
+    , fileActionSettings: {
+        showRemove: true,
+        showUpload: false,
+        showZoom: true,
+        showDrag: false,
+    }
+    , initialPreviewAsData: true
+    , allowedPreviewTypes: ['text', 'image']
+    , uploadExtraData: function () {  // Devolución de llamada
+
+    var documentos = [];
+
+    $.each($(this)[0].filenames, function (i, v) {
+        var nombre = v;
+        //Busco la extension
+        var lastPoint = nombre.lastIndexOf(".");
+        var extension = nombre.substring(lastPoint + 1);
+
+        var b;
+
+        switch (extension.toUpperCase()) {
+            case "ZIP":
+            case "RAR":
+            case "JPG":
+            case "PNG":
+            case "JPEG":
+                b = {
+                    'id': i + 1,
+                    'nombre': nombre,
+                    'mensaje': '',
+                    'tipo': extension.toUpperCase(),
+                    'procesado': false
+                };
+                documentos.push(b);
+                break;
+
+            case "PDF":
+                b = {
+                    'id': i + 1,
+                    'nombre': nombre,
+                    'mensaje': '',
+                    'tipo': extension.toUpperCase(),
+                    'procesado': false
+                };
+                pdf.push(b);
+                documentos.push(b);
+                break;
+            case "XML":
+                b = {
+                    'id': i + 1,
+                    'nombre': nombre,
+                    'mensaje': '',
+                    'tipo': extension.toUpperCase(),
+                    'procesado': false
+                };
+                xml.push(b);
+                documentos.push(b);
+                break;
+            default:
+                b = {
+                    'id': i + 1,
+                    'nombre': nombre,
+                    'mensaje': msgWrongFileType,
+                    'tipo': extension.toUpperCase(),
+                    'procesado': false
+                };
+                documentos.push(b);
+                break;
+        }
+    });
+
+    //Recorro todos los xmls y pdfs, los que no tenga par se marcaran como bad
+    $.each(xml, function (i, v) {
+        if (v.tienePar == false) {
+            v.mensaje = msgNoPdf;
+            //bad.push(v);
+        }
+    });
+
+    var data = {
+        Documentos: documentos
+        , DatoExtra: "Información EXTRA"
+    }
+
+    alert(JSON.stringify(data));
+    return { datos: JSON.stringify(data) }; //Este objeto mandarias al SERVER al presionar upload
+    }
+});
 
 
 

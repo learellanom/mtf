@@ -112,20 +112,16 @@ class TransactionController extends Controller
      */
     public function materials_adquisicion_index(Request $request, transaction $transaction)
     {
-        /*
-        if (!$request->query('user')){
-            \Log::info('leam - transaction controller - no user');
-        }
-        if ($request->query('user')){
-            \Log::info('leam - con user');
-        }
-        */
+
         $parameters     = $request->query();
 
         $user           = $request->query('user');        
         $fechaDesde     = $request->query('fechaDesde') ? $request->query('fechaDesde') : "2000-01-01";
         $fechaHasta     = $request->query('fechaHasta') ? $request->query('fechaHasta') : "9999-12-31";
-                
+            
+        $myFechaDesde   = "2000-01-01";
+        $myFechaHasta   = "9999-12-31";
+
         if($request->query('fechaDesde')){
             $myFechaDesde = $request->fechaDesde;
          };
@@ -136,17 +132,17 @@ class TransactionController extends Controller
         $myUser         = 0;
         $myUsuarioDesde = 0;
         $myUsuarioHasta = 999999;
-        if ($user){
+        if ($request->query('user')){
             $myUser         = $request->user;
             $myUsuarioDesde = $request->user;
             $myUsuarioHasta = $request->user;
         }
 
 
-        $myFechaHasta = date("Y-m-d");
+        // $myFechaHasta = date("Y-m-d");
         // $myFechaDesde = $this->get03DayBefore($myFechaHasta);
         // $myFechaDesde = $this->get01DayBefore($myFechaHasta);        
-        $myFechaDesde = $this->get07DayBefore($myFechaHasta);
+        // $myFechaDesde = $this->get07DayBefore($myFechaHasta);
 
         //   dd(auth()->user()->roles);
         //  \Log::info('leam - transaction index - aqui');
@@ -209,14 +205,26 @@ class TransactionController extends Controller
 
         $myTypeTransaction = 47; // Adquisiciones de materiales
 
+
+
+        // echo "<br>" . "myTypeTransaction " . $myTypeTransaction;
+        // echo "<br>" . "fechaDesde        " . $fechaDesde;
+        // echo "<br>" . "fechaHasta        " . $fechaHasta;        
+        // echo "<br>" . "myFechaDesde      " . $myFechaDesde;
+        // echo "<br>" . "myFechaHasta      " . $myFechaHasta;
+        // echo "<br>" . "myWalletDesde     " . $myWalletDesde;
+        // echo "<br>" . "myWalletHasta     " . $myWalletHasta;
+        // echo "<br>" . "myGroupDesde      " . $myGroupDesde;
+        // echo "<br>" . "myGroupHasta      " . $myGroupHasta;        
+        // die();
+
         $movimientos = Transaction::where('type_transaction_id', '=', $myTypeTransaction)
         ->whereBetween('wallet_id',         [$myWalletDesde, $myWalletHasta])
         ->whereBetween('group_id',          [$myGroupDesde,  $myGroupHasta])
         ->whereBetween('type_material_id',  [$myTypeMaterialDesde,  $myTypeMaterialHasta])
         ->whereBetween('created_at',        [$myFechaDesde . " 00:00:00", $myFechaHasta . " 23:59:00"])
         ->whereBetween('user_id',           [$myUsuarioDesde , $myUsuarioHasta])   
-        ->orderBy('created_at','desc')
-        ->limit($myLimit)            
+        ->orderBy('created_at','desc')       
         ->get();
 
         $myFechaDesde2  =  substr($myFechaDesde,8,2) . '-' . substr($myFechaDesde,5,2) . '-' . substr($myFechaDesde,0,4);
@@ -537,7 +545,7 @@ class TransactionController extends Controller
      */
     public function create(transaction $transaction)
     {
-
+        
         $type_coin          = Type_coin::pluck('name', 'id');
         $type_transaction   = Type_transaction::whereIn('type_transaction', ['Transacciones'])->pluck('name', 'id');
         $wallet             = Group::whereIn('type_wallet', ['transacciones', 'efectivo'])->where('type','=',2)->pluck('name', 'id');
