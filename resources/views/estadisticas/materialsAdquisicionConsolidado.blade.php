@@ -73,6 +73,13 @@ $config4 = [
     "allowClear" => true,
 ];
 
+
+ //  dd($adquisiciones);
+  // dd($myCierre);
+ // dd($myCierre->name);
+ //    dd('aqui');
+ // echo "aqui";
+// die();
 @endphp
 
 <script>
@@ -81,7 +88,7 @@ $config4 = [
 </script>
 <br>
 <br>
-<h1 class="text-center text-dark font-weight-bold text-uppercase">{{ __('Adquisicion Consolidado') }} <i class="fas fa-w fa-box"></i></h1>
+<h1 class="text-center text-dark font-weight-bold text-uppercase">{{ __('Adquisicion Consolidado') }}<i class="fas fa-w fa-box"></i></h1>
 <br>
 <br>
 {{-- Disabled --}}
@@ -174,7 +181,7 @@ $config4 = [
     <div class="col-md-12">
         <div class="card mb-4">
             <div class="card-header">
-                <h3 class="card-title text-uppercase font-weight-bold">{{ __('Estadisticas| Adquisicion Consolidado') }}</h3>
+                <h3 class="card-title  font-weight-bold">{{ __('Estadisticas| Adquisicion Consolidado')}}  -  Cierre al {{ $myCierre->created_at2 }}</h3>
             </div>
             <div class="card-body">
                 <div class="row">

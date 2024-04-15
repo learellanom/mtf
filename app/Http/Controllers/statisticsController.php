@@ -343,7 +343,7 @@ class statisticsController extends Controller
         //$Group_roles = app(RoleController::class)->getRoleWallets($request->user()->id);
         // $Group_roles = $this->getGroupRole($request->user()->id);
         $Group_roles = $this->getGroupRole(auth()->id());
-        \Log::info('leam - el user id es -> ' . print_r($Group_roles,true));
+        // \Log::info('leam - el user id es -> ' . print_r($Group_roles,true));
        
         
         //if ($myWallet == 0 and $myGroup == 0) {
@@ -2388,7 +2388,7 @@ class statisticsController extends Controller
     */
     function getWallet($Group_roles = null){
 
-            \Log::info('leam -  Group_roles -> ' . print_r($Group_roles,true));
+        //    \Log::info('leam -  Group_roles -> ' . print_r($Group_roles,true));
 
 
         // $wallet2 = Group::where('type', '=', '2')->whereBetween('id', [0, 9999])->pluck('name', 'id')->toArray();
@@ -3311,7 +3311,7 @@ class statisticsController extends Controller
         // dd($materialsCierre);
 
         
-        //dd(count($materialsCierre));
+        // dd(count($materialsCierre));
 
         if (count($materialsCierre) > 0) {
             // dd('aqui');
@@ -3319,11 +3319,12 @@ class statisticsController extends Controller
              $materialsCierre  = (object) $materialsCierre[0];
         }
 
-         //dd($materialsCierre->name);
+         // dd($materialsCierre->name);
                                            
-        $parametros ['materialsCierre '] = $materialsCierre ;
-        // dd($parametros);
-        return view('estadisticas.materialsCierreGenera', $parametros);
+        $parametros ['materialsCierre '] = $materialsCierre;
+        //  dd($parametros);
+        // return view('estadisticas.materialsCierreGenera', $parametros);
+        return view('estadisticas.materialsCierreGenera', ['materialsCierre' => $materialsCierre]);
 
     }
 
@@ -4074,9 +4075,18 @@ class statisticsController extends Controller
             $myTypeMaterialHasta    = $request->type_material;
         }
 
+        /*
+        echo "<br>" . " leam - myTypeMaterial      -> " . $myType_material;
+        echo "<br>" . " leam - myTypeMaterialDesde -> " . $myTypeMaterialDesde;
+        echo "<br>" . " leam - myTypeMaterialHasta -> " . $myTypeMaterialHasta;
+        die();
+        */
 
 
-
+        
+        //  dd($myCierre);
+        // var_dump($materialsCierre);
+        // die();
         $myQuery =
         "
             select
@@ -4088,9 +4098,11 @@ class statisticsController extends Controller
                 type_transactions.name                          as TypeTransactionName,
                 mtf.transactions.type_material_id               as TypeMaterialId,
                 mtf.type_materials.name                         as TypeMaterialName,
+                count(mtf.transactions.wallet_id)               as AdquisicionCant,
                 sum(mtf.transactions.material_price)            as AdquisicionMaterialPrice,
                 sum(mtf.transactions.material_amount)           as AdquisicionMaterialAmount,
                 sum(mtf.transactions.material_amount_total)     as AdquisicionMaterialAmountTotal,
+                0                                               as RecepcionCant,
                 0                                               as RecepcionMaterialPrice,
                 0                                               as RecepcionMaterialAmount,
                 0                                               as RecepcionMaterialAmountTotal                
@@ -4102,10 +4114,11 @@ class statisticsController extends Controller
             left join   mtf.type_materials      on mtf.Transactions.type_material_id    = mtf.type_materials.id
             where
                     status = 'Activo'
-                and wallet_id               between $myWalletDesde      and     $myWalletHasta
-                and group_id                between $myGroupDesde       and     $myGroupHasta                
-                and type_transaction_id     between $myTransactionDesde and     $myTransactionHasta
-                and transaction_date        between '$myFechaDesde2'    and     '$myFechaHasta2'
+                and wallet_id               between $myWalletDesde       and     $myWalletHasta
+                and group_id                between $myGroupDesde        and     $myGroupHasta                
+                and type_transaction_id     between $myTransactionDesde  and     $myTransactionHasta
+                and transaction_date        between '$myFechaDesde2'     and     '$myFechaHasta2'
+                and type_material_id        between $myTypeMaterialDesde and    $myTypeMaterialHasta
             group by 
                 mtf.transactions.wallet_id,
                 wallets.name,
@@ -4123,7 +4136,8 @@ class statisticsController extends Controller
         // dd($myQuery);
         
         $adquisiciones = DB::select($myQuery);        
-
+        //var_dump($adquisiciones);
+        //die();
         
         // dd($adquisiciones);
 
@@ -4141,9 +4155,11 @@ class statisticsController extends Controller
                 type_transactions.name                          as TypeTransactionName,
                 mtf.transactions.type_material_id               as TypeMaterialId,
                 mtf.type_materials.name                         as TypeMaterialName,
+                0                                               as AdquisicionCant,                
                 0                                               as AdquisicionMaterialPrice,
                 0                                               as AdquisicionMaterialAmount,
                 0                                               as AdquisicionMaterialAmountTotal,                
+                count(mtf.transactions.wallet_id )              as RecepcionCant,
                 0                                               as RecepcionMaterialPrice,
                 sum(mtf.transactions.material_amount)           as RecepcionMaterialAmount,
                 0                                               as RecepcionMaterialAmountTotal
@@ -4159,6 +4175,7 @@ class statisticsController extends Controller
                 and group_id                between $myGroupDesde       and     $myGroupHasta                
                 and type_transaction_id     between $myTransactionDesde and     $myTransactionHasta
                 and transaction_date        between '$myFechaDesde2'    and     '$myFechaHasta2'
+                and type_material_id        between $myTypeMaterialDesde and    $myTypeMaterialHasta
             group by 
                 mtf.transactions.wallet_id,
                 wallets.name,
@@ -4187,7 +4204,8 @@ class statisticsController extends Controller
                 if($myAdquisiciones->WalletId == $myRecepciones->WalletId){
                     if($myAdquisiciones->GroupId == $myRecepciones->GroupId){
                         $myAdquisiciones->RecepcionMaterialAmount = $myRecepciones->RecepcionMaterialAmount;
-                    }    
+                        $myAdquisiciones->RecepcionCant           = $myRecepciones->RecepcionCant;
+                    }
                 }
             }
         }
@@ -4210,7 +4228,8 @@ class statisticsController extends Controller
         $parametros ['group']           = $group;
         $parametros ['type_material']   = $type_material;
         $parametros ['adquisiciones']   = $adquisiciones;
-        // dd($adquisiciones2);
+
+
         return view('estadisticas.materialsAdquisicionResumenGrupo', $parametros);
 
     }
@@ -4287,6 +4306,8 @@ class statisticsController extends Controller
         $parametros ['type_material']   = $type_material;        
         $parametros ['adquisiciones']   = $adqui;
         // dd($adquisiciones2);
+
+
         return view('estadisticas.materialsAdquisicionConsolidado', $parametros);
 
     }
@@ -4348,7 +4369,43 @@ class statisticsController extends Controller
             $myTypeMaterialHasta    = $request->type_material;
         }
 
+            // leamx
 
+            $myQuery =
+            "
+            SELECT
+                user_id,
+                mtf.users.name,
+                substr(mtf.materials_balance.created_at,1,10) as created_at2
+            FROM mtf.materials_balance
+            left join
+                mtf.users on mtf.materials_balance.user_id = mtf.users.id
+            group by
+                user_id,
+                name,
+                mtf.materials_balance.created_at
+            ";
+        /*
+            $myQuery =
+            "
+            SELECT 
+                user_id,
+                mtf.users.name,
+                substr(mtf.materials_balance.created_at,1,10) as created_at2
+            FROM mtf.materials_balance
+            left join
+                mtf.users on mtf.materials_balance.user_id = mtf.users.id
+            limit 1
+            ";
+        */
+        // dd($myQuery);
+        
+        $myCierre = DB::select($myQuery);
+        if (count($myCierre)>0){
+            $myCierre = $myCierre[0];
+        }
+        
+        // dd($myCierre);
 
         // $adqui              = $this->materialsProcesa($request);
 
@@ -4420,7 +4477,10 @@ class statisticsController extends Controller
         $parametros ['group']           = $group;
         $parametros ['type_material']   = $type_material;        
         $parametros ['adquisiciones']   = $adqui;
+        $parametros ['myCierre']        = $myCierre;
         // dd($adquisiciones2);
+
+        
         return view('estadisticas.materialsAdquisicionConsolidado', $parametros);
 
     }

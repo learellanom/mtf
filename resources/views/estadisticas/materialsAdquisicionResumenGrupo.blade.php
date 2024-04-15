@@ -8,9 +8,11 @@
 $heads = [
     'Caja',    
     'Grupo',
+    'Nro de Adquisiciones',
     'Material',
     'Cantidad',
     'Monto total',
+    'Nro de Recepciones',
     'Recepcion Cantidad',
 
     ['label' => 'Actions', 'no-export' => true, 'width' => 5],
@@ -59,6 +61,8 @@ $config4 = [
     "placeHolder" => "selecciona...",
     "allowClear" => true,
 ];
+
+
 
 @endphp
 
@@ -177,13 +181,14 @@ $config4 = [
                                 <tr>                               
                                     <td>{!! $row->WalletName !!}</td>
                                     <td>{!! $row->GroupName !!}</td>
+                                    <td>{!! number_format($row->AdquisicionCant) !!}</td>
                                     <td>{!! $row->TypeMaterialName !!}</td>
                                     <td>{!! number_format($row->AdquisicionMaterialAmount,2) !!}</td>
                                     <td>{!! number_format($row->AdquisicionMaterialAmountTotal) !!}</td>
+                                    <td>{!! number_format($row->RecepcionCant) !!}</td>
                                     <td>{!! number_format($row->RecepcionMaterialAmount) !!}</td>
                                     
                                     <td>
-
                                         <a href="{{ route('materials.adquisicion_index', [ 'wallet' => $row->WalletId, 'group' => $row->GroupId] ) }}"
 
                                             class="btn btn-xl text-dark mx-1 shadow text-center">
@@ -192,8 +197,7 @@ $config4 = [
                                     </td>
 
                                     <td>
-
-                                        <a href="{{ route('materials.recepcion_index', $row->WalletId) }}"
+                                        <a href="{{ route('materials.recepcion_index', [ 'wallet' => $row->WalletId, 'group' => $row->GroupId]) }}"
 
                                             class="btn btn-xl text-dark mx-1 shadow text-center">
                                             <i class="fa fa-lg fa-fw fa-eye"></i>

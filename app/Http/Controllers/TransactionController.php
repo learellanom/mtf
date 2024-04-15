@@ -295,17 +295,22 @@ class TransactionController extends Controller
         }
 
 
-        $myFechaHasta = date("Y-m-d");
+        //$myFechaHasta = date("Y-m-d");
         // $myFechaDesde = $this->get03DayBefore($myFechaHasta);
         // $myFechaDesde = $this->get01DayBefore($myFechaHasta);        
-        $myFechaDesde = $this->get07DayBefore($myFechaHasta);
+        //$myFechaDesde = $this->get07DayBefore($myFechaHasta);
         
-         if($fechaDesde){
+        $myFechaDesde = "2001-01-01";
+        $myFechaHasta = "9999-12-31";
+
+        if($fechaDesde){
             $myFechaDesde = $request->fechaDesde;
-         };
-         if($fechaHasta){
+        };
+        
+        if($fechaHasta){
             $myFechaHasta = $request->fechaHasta;
          };
+
         //   dd(auth()->user()->roles);
         //  \Log::info('leam - transaction index - aqui');
         //  \Log::info('leam - transaction index - fecha desde - ' . $myFechaDesde . ' -- myFecha Hasta ->' . $myFechaHasta);
@@ -313,7 +318,8 @@ class TransactionController extends Controller
         //  \Log::info('leam - transaction index - user  - ' . $myUser );
         //  \Log::info('leam - transaction index - request  - ' . $request );
         // dd($request);
-        $myLimit = 0;
+        $myLimit = "";
+        /*
         if($this->isAdministrator()){
             if (!$user){
                 $myUsuarioDesde = auth()->user()->id;
@@ -325,7 +331,7 @@ class TransactionController extends Controller
             $myUsuarioHasta = auth()->user()->id;
             $myLimit = 1000;
         }
-
+        */
         $myWalletDesde    = 0;
         $myWalletHasta    = 9999;
         $myWallet = $request->wallet ? $request->wallet : 0;
@@ -357,6 +363,27 @@ class TransactionController extends Controller
 
         $myTypeTransaction = 48; // Recepcion de materiales
 
+        /*
+        echo "<br>" . "recepcion myTypeTransaction ->". $myTypeTransaction;
+
+        echo "<br>" . "recepcion myWalletDesde ->". $myWalletDesde;
+        echo "<br>" . "recepcion myWalletHasta ->". $myWalletHasta;
+
+        echo "<br>" . "recepcion myGroupDesde ->". $myGroupDesde;
+        echo "<br>" . "recepcion myGroupHasta ->". $myGroupHasta;
+
+        echo "<br>" . "recepcion myTypeMaterialDesde ->". $myTypeMaterialDesde;
+        echo "<br>" . "recepcion myTypeMaterialHasta ->". $myTypeMaterialHasta;
+
+        echo "<br>" . "recepcion myFechaDesde ->". $myFechaDesde;
+        echo "<br>" . "recepcion myFechaHasta ->". $myFechaHasta;
+
+        echo "<br>" . "recepcion myUsuarioDesde ->". $myUsuarioDesde;
+        echo "<br>" . "recepcion myUsuarioHasta ->". $myUsuarioHasta;
+
+        die();
+        */
+        
         $movimientos = Transaction::where('type_transaction_id', '=', $myTypeTransaction)
         ->whereBetween('wallet_id',         [$myWalletDesde, $myWalletHasta])
         ->whereBetween('group_id',          [$myGroupDesde,  $myGroupHasta])

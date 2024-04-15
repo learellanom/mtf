@@ -1,14 +1,16 @@
 @extends('adminlte::page')
 @section('title', 'Estadisticas')
-<!-- @section('plugins.chartJs', true) -->
-@section('content')
 
 @php
 
 
-    
-    // dd($materialsCierre);
+         
+     // dd($materialsCierre);
 @endphp
+{{-- dd('aqui ->' . $Cierre) --}}
+
+@section('content')
+
 <style>
 
 </style>
