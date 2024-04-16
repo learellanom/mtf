@@ -181,7 +181,13 @@ $config4 = [
     <div class="col-md-12">
         <div class="card mb-4">
             <div class="card-header">
-                <h3 class="card-title  font-weight-bold">{{ __('Estadisticas| Adquisicion Consolidado')}}  -  Cierre al {{ $myCierre->created_at2 }}</h3>
+
+                    <h3 class="card-title  font-weight-bold col-xl-6">
+                        {{ __('Estadisticas| Adquisicion Consolidado')}}
+                    </h3>
+                    <h3 class="card-title font-weight-bold text-xl-right col-xl-6">
+                        Cierre al {{ $myCierre->created_at2 }}
+                    </h3>
             </div>
             <div class="card-body">
                 <div class="row">
@@ -195,7 +201,7 @@ $config4 = [
                         >
                             @foreach($adquisiciones as $row)
                                 <tr>
-                                    <td>{!! $row->Id !!}</td>                                    
+                                    <td>{!! $row->Id !!}</td>
                                     <td>{!! $row->WalletName !!}</td>
                                     <td>{!! $row->GroupName !!}</td>
                                     <td>{!! $row->TransactionDate !!}</td>
