@@ -4475,7 +4475,7 @@ class statisticsController extends Controller
         $parametros ['myType_material'] = $myType_material;     
         $parametros ['wallet']          = $wallet;
         $parametros ['group']           = $group;
-        $parametros ['type_material']   = $type_material;        
+        $parametros ['type_material']   = $type_material;
         $parametros ['adquisiciones']   = $adqui;
         $parametros ['myCierre']        = $myCierre;
         // dd($adquisiciones2);
