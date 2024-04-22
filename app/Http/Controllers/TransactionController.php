@@ -454,7 +454,21 @@ class TransactionController extends Controller
             $myUsuarioDesde = $request->user;
             $myUsuarioHasta = $request->user;
         }
-
+        $myGroup        = $request->group ? $request->group : 0;
+        $myGroupDesde   = 0;
+        $myGroupHasta   = 9999;
+        if ($request->group){
+            $myGroupDesde   = $request->group;
+            $myGroupHasta   = $request->group;
+        }
+        // dd($myGroup);
+        $myWallet        = $request->wallet ? $request->wallet : 0;
+        $myWalletDesde   = 0;
+        $myWalletHasta   = 9999;
+        if ($request->wallet){
+            $myWalletDesde   = $request->wallet;
+            $myWalletHasta   = $request->wallet;
+        }
 
         $myFechaHasta = date("Y-m-d");
         // $myFechaDesde = $this->get03DayBefore($myFechaHasta);
@@ -512,11 +526,19 @@ class TransactionController extends Controller
         $myFechaHasta2  =  substr($myFechaHasta,8,2) . '-' . substr($myFechaHasta,5,2) . '-' . substr($myFechaHasta,0,4);
 
         $user           = User::pluck('name', 'id')->toArray();
+        $wallet             = Group::where('type','=','2')->pluck('name', 'id')->toArray();
+        $group              = Group::where('type','=','1')->pluck('name', 'id')->toArray();
 
 
      
         $myTypeCoinBalance  = $myCoin; // dorales siempre por ahora
         $Type_coin_balance  = Type_coin::pluck('name', 'id')->toArray();     
+
+        $parametros['wallet']               = $wallet;
+        $parametros['group']                = $group;
+
+        $parametros['myWallet']             = $myWallet;
+        $parametros['myGroup']              = $myGroup;
 
         $parametros['myTypeCoinBalance']    = $myTypeCoinBalance;
         $parametros['Type_coin_balance']    = $Type_coin_balance;

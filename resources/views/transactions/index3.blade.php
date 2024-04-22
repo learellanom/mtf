@@ -50,7 +50,10 @@
             <div class="card-header">
                 <div class="row">
                     <h3 class="card-title text-uppercase font-weight-bold col-12 col-lg-6">{{ __('Transacciones') }} del {{ $fechaDesde}} al {{ $fechaHasta}}</h3>
-
+                </div>
+                <br>
+                <div class="row">
+                
                     <div class ="col-12 col-lg-2 float-right" >
                         <x-adminlte-date-range
                             id="drCustomRanges"
@@ -65,8 +68,46 @@
                             </x-slot>
                         </x-adminlte-date-range>
                     </div>
+                    {{--
 
+                    <div class ="col-12 col-lg-2">
+                        <x-adminlte-select2 id="wallet"
+                                            name="optionsCliente"
+                                            igroup-size="sm"
+                                            label-class="text-lightblue"
+                                            data-placeholder="Wallet ..."
+                                            :config="$config1"
+                                            >
+                            <x-slot name="prependSlot">
+                                <div class="input-group-text bg-gradient-dark">
+                                    <!-- <i class="fas fa-car-side"></i> -->
+                                    <i class="fas fa-box"></i>
+                                </div>
+                            </x-slot>
 
+                            <x-adminlte-options :options="$wallet" empty-option="Selecciona un Wallet.."/>
+                        </x-adminlte-select2>
+                    </div>
+
+                    <div class ="col-lg-2">
+                        <x-adminlte-select2 id="group"
+                                            name="optionsGroup"
+                                            igroup-size="sm"
+                                            label-class="text-lightblue"
+                                            data-placeholder="Grupo ..."
+                                            :config="$config2"
+                                            >
+                            <x-slot name="prependSlot">
+                                <div class="input-group-text bg-gradient-dark">
+                                    <!-- <i class="fas fa-car-side"></i> -->
+                                    <i class="fas fa-user-tie"></i>
+                                </div>
+                            </x-slot>
+
+                            <x-adminlte-options :options="$group" empty-option="Selecciona un Grupo.."/>
+                        </x-adminlte-select2>
+                    </div>
+                    --}}
                     @if($myAdministrator == true)
                         <div class ="col-12 col-lg-2">
                             <x-adminlte-select2 id="usuario"
@@ -438,7 +479,14 @@
         });
     });
     
-    BuscaUsuario();
+    const miUsuario = {{ $myUser }};
+    BuscaUsuario('usuario',myUsuario);
+
+    const myWallet = {!! $myWallet !!};
+    BuscaElemento('wallet',myWallet);
+
+    const myGroup = {!! $myGroup !!};
+    BuscaElemento('group',myGroup);
 
     $(() => {
 
@@ -537,6 +585,17 @@
     });
     function theRoute(user = 0, fechaDesde = 0, fechaHasta = 0, coin = 0){
         // let user = "";
+
+
+        let myParameters;
+
+        myParameters += "[";
+        myParameters += "'user'         => 'user2',";
+        myParameters += "'fechaDesde'   => 'fechaDesde2',";
+        myParameters += "'fechaHasta'   => 'fechaHasta2',";
+        myParameters += "'coin'         => 'coin2',";
+        myParameters += "]";
+
         let Route ="";
 
         myRoute = "";
@@ -612,6 +671,26 @@
         });
         //
     }
+
+
+    function BuscaElemento(myControl, myElement){
+
+        let mySelect = myControl;
+        let myValue  = myElement;
+
+        $('#' + mySelect).each( function(index, element){
+            // alert ("BuscaMaterial -> " + $(this).val() + " text -> " + $(this).text()+ " y con index -> " + $(this).prop('selectedIndex'));
+            $(this).children("option").each(function(){
+                if ($(this).val() === myValue.toString()){
+                    // alert('Busca Material - encontro');
+                    $("#" + mySelect + " option[value="+ myValue +"]").attr("selected",true);
+                }
+                //alert("BuscaGrupoaqui ->  the val " + $(this).val() + " text -> " + $(this).text());
+            });
+        });
+        //
+    }
+
 
 </script>
 @endsection

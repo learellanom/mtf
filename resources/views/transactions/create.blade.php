@@ -505,6 +505,9 @@
         allowClear: true,
         clearing: true,
         width: '100%'
+    })
+    .on('select2:open', () => {
+             document.querySelector('.select2-search__field').focus();
     });
 
     $("#clientes").val(null)
@@ -515,6 +518,9 @@
         theme: 'bootstrap4',
         allowClear: true,
         width: '100%'
+    })
+    .on('select2:open', () => {
+             document.querySelector('.select2-search__field').focus();
     });
 
     $("#typecoin").val("")
@@ -533,7 +539,11 @@
         search: false,
         allowClear: true,
         width: '100%'
+    })
+    .on('select2:open', () => {
+             document.querySelector('.select2-search__field').focus();
     });
+
     $("#wallet").val(null)
     $("#wallet").trigger("change");
 
@@ -542,7 +552,11 @@
         theme: 'bootstrap4',
         allowClear: true,
         width: '100%'
+    })
+    .on('select2:open', () => {
+             document.querySelector('.select2-search__field').focus();
     });
+
     $("#typetrasnferencia").val("")
     $("#typetrasnferencia").trigger("change");
 
@@ -630,6 +644,7 @@
             myDays = 4;
             myDays = 30;
             myDays = 240;
+            myDays = 1;
 
             let myDateBefore = new Date();
                 myDateBefore.setDate(myDateBefore.getDate() - myDays);
