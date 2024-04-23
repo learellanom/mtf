@@ -442,22 +442,23 @@ class TransactionController extends Controller
         */
         $parameters     = $request->query();
 
-        $user           = $request->query('user');        
         $fechaDesde     = $request->query('fechaDesde');
         $fechaHasta     = $request->query('fechaHasta');
-        
-        $myUser         = 0;
+
+        $myUser         = $request->query('user') ? $request->query('user') : 0;        
         $myUsuarioDesde = 0;
         $myUsuarioHasta = 999999;
-        if ($user){
+        if ($myUser != 0){
             $myUser         = $request->user;
             $myUsuarioDesde = $request->user;
             $myUsuarioHasta = $request->user;
         }
+        // die(' myUSerDesde ->' . $myUsuarioDesde . ' myUserHasta ->' . $myUsuarioHasta);
+
         $myGroup        = $request->group ? $request->group : 0;
         $myGroupDesde   = 0;
         $myGroupHasta   = 9999;
-        if ($request->group){
+        if ($myGroup != 0){
             $myGroupDesde   = $request->group;
             $myGroupHasta   = $request->group;
         }
@@ -465,11 +466,11 @@ class TransactionController extends Controller
         $myWallet        = $request->wallet ? $request->wallet : 0;
         $myWalletDesde   = 0;
         $myWalletHasta   = 9999;
-        if ($request->wallet){
+        if ($myWallet != 0){
             $myWalletDesde   = $request->wallet;
             $myWalletHasta   = $request->wallet;
         }
-
+        
         $myFechaHasta = date("Y-m-d");
         // $myFechaDesde = $this->get03DayBefore($myFechaHasta);
         // $myFechaDesde = $this->get01DayBefore($myFechaHasta);        
@@ -490,7 +491,7 @@ class TransactionController extends Controller
          // dd($request);
         $myLimit = 0;
         if($this->isAdministrator()){
-            if (!$user){
+            if ($myUser == 0){
                 $myUsuarioDesde = auth()->user()->id;
                 $myUsuarioHasta = auth()->user()->id;
             }
@@ -514,20 +515,34 @@ class TransactionController extends Controller
         echo "<br>" . "myCoinHasta - > $myCoinHasta";
         die();
         */
+        /*
         $transferencia = Transaction::whereNull(['transfer_number','pay_number'])
+        ->whereBetween('wallet_id',             [$myWalletDesde , $myWalletHasta])
+        ->whereBetween('group_id',              [$myGroupDesde , $myGroupHasta])
         ->whereBetween('created_at',            [$myFechaDesde . " 00:00:00", $myFechaHasta . " 23:59:00"])
         ->whereBetween('user_id',               [$myUsuarioDesde , $myUsuarioHasta])
         ->whereBetween('type_coin_balance_id',  [$myCoinDesde , $myCoinHasta])
         ->orderBy('created_at','desc')
         ->limit($myLimit)            
         ->get();
-
+        */
+        
+        $transferencia = Transaction::
+          whereBetween('wallet_id',             [$myWalletDesde , $myWalletHasta])
+        ->whereBetween('group_id',              [$myGroupDesde , $myGroupHasta])
+        ->whereBetween('created_at',            [$myFechaDesde . " 00:00:00", $myFechaHasta . " 23:59:00"])
+        ->whereBetween('user_id',               [$myUsuarioDesde , $myUsuarioHasta])
+        ->whereBetween('type_coin_balance_id',  [$myCoinDesde , $myCoinHasta])
+        ->orderBy('created_at','desc')
+        ->limit($myLimit)            
+        ->get();
+        
         $myFechaDesde2  =  substr($myFechaDesde,8,2) . '-' . substr($myFechaDesde,5,2) . '-' . substr($myFechaDesde,0,4);
         $myFechaHasta2  =  substr($myFechaHasta,8,2) . '-' . substr($myFechaHasta,5,2) . '-' . substr($myFechaHasta,0,4);
 
         $user           = User::pluck('name', 'id')->toArray();
-        $wallet             = Group::where('type','=','2')->pluck('name', 'id')->toArray();
-        $group              = Group::where('type','=','1')->pluck('name', 'id')->toArray();
+        $wallet         = Group::where('type','=','2')->orderBy('name','asc')->pluck('name', 'id')->toArray();
+        $group          = Group::where('type','=','1')->orderBy('name','asc')->pluck('name', 'id')->toArray();
 
 
      
@@ -1583,8 +1598,14 @@ class TransactionController extends Controller
 
          }
 
+         //$wallet                = Group::where('type','=','2')->orderBy('name','asc')->pluck('name', 'id')->toArray();
+         //$group                 = Group::where('type','=','1')->orderBy('name','asc')->pluck('name', 'id')->toArray();
+         //$Type_coin_balance     = Type_coin::pluck('name', 'id')->toArray();   
+         //$user                  = User::pluck('name', 'id')->toArray();
 
-         return view('transactions.index_pagoclientes', compact('transactiones'));
+         $parametros['transactiones'] = $transactiones;
+
+         return view('transactions.index_pagoclientes', $parametros);
 
     }
 

@@ -54,7 +54,7 @@
                 <br>
                 <div class="row">
                 
-                    <div class ="col-12 col-lg-2 float-right" >
+                    <div class ="col-12 col-xl-2" >
                         <x-adminlte-date-range
                             id="drCustomRanges"
                             name="drCustomRanges"
@@ -68,9 +68,8 @@
                             </x-slot>
                         </x-adminlte-date-range>
                     </div>
-                    {{--
 
-                    <div class ="col-12 col-lg-2">
+                    <div class ="col-12 col-xl-2">
                         <x-adminlte-select2 id="wallet"
                                             name="optionsCliente"
                                             igroup-size="sm"
@@ -89,7 +88,7 @@
                         </x-adminlte-select2>
                     </div>
 
-                    <div class ="col-lg-2">
+                    <div class ="col-xl-2">
                         <x-adminlte-select2 id="group"
                                             name="optionsGroup"
                                             igroup-size="sm"
@@ -107,9 +106,9 @@
                             <x-adminlte-options :options="$group" empty-option="Selecciona un Grupo.."/>
                         </x-adminlte-select2>
                     </div>
-                    --}}
+
                     @if($myAdministrator == true)
-                        <div class ="col-12 col-lg-2">
+                        <div class ="col-12 col-xl-2">
                             <x-adminlte-select2 id="usuario"
                                                 name="optionsUsuario"
                                                 igroup-size="sm"
@@ -129,7 +128,7 @@
                         </div>
                     @endif
 
-                    <div class ="col-lg-2">
+                    <div class ="col-xl-2">
                         <x-adminlte-select2 id="coin"
                                             name="optionsCoin"
                                             igroup-size="sm"
@@ -173,13 +172,15 @@
                                     <th style="width:1%;">Comisión</th>
                                     <th style="width:10%;">Monto Dolar <i class="fas fa-funnel-dollar"></i></th>
                                     <th style="width:10%;">Monto Total</th>
-                                    <th>Moneda</th>
+                                    <th>Div</th>
                                     <th class="no-exportar">Agente</th>
                                     <th>Tipo de Movimiento</th>
+                                    <th>Nro Transferencia</th>
+                                    
                                     <th style="width:1%; display:none;">Caja <i class="fas fa-search"></i></th>
 
                                     @can('transactions.update_status3')
-                                        <th style="width:1%;">Activo/Anulado</th>
+                                        <th style="width:1%;">Estado</th>
                                     @endcan
                                     
                                     @can('transactions.edit3')
@@ -213,7 +214,6 @@
 
 
                                         <td class="font-weight-bold" style="display:none;">{!! $transferencias->token !!}</td>
-
                                         <td class="font-weight-bold" style="min-width: 80px;">{!! $transferencias->transaction_date !!}</td>
                                         <td class="font-weight-bold" style="min-width: 80px;">{!! $transferencias->created_at !!}</td>
                                         <td class="font-weight-bold">
@@ -236,53 +236,63 @@
                                         <td class="font-weight-bold">{!! $transferencias->user->name ?? '' !!}</td>
                                         <td>{!! $transferencias->type_transaction->name !!}</td>
                                         <td style="display: none;">{!! $transferencias->wallet->name ?? '' !!}</td>
+                                        <th>{!! $transferencias->pay_number ?? $transferencias->transfer_number  !!}</th>
                                         @can('transactions.update_status3')
-                                            <td class="text-center">
-                                                {!! Form::model($transferencias->id, ['route' => ['transactions.update_status3', $transferencias->id],'method' => 'put']) !!}
+                                            @if( !$transferencias->pay_number && !$transferencias->transfer_number)
+                                            
+                                                <td class="text-center">
+                                                    {!! Form::model($transferencias->id, ['route' => ['transactions.update_status3', $transferencias->id],'method' => 'put']) !!}
 
-                                                    @if($transferencias->status == 'Activo')
-                                                        <button class="btn btn-xl text-success mx-1 shadow text-center" title="Activo">
-                                                            <i class="fa fa-lg fa-fw fas fa-check"></i><p style="display: none;">Activo</p>
-                                                        </button>
+                                                        @if($transferencias->status == 'Activo')
+                                                            <button class="btn btn-xs text-success mx-1 shadow text-center" title="Activo">
+                                                                <i class="fa fa-xs fa-fw fas fa-check"></i><p style="display: none;">Activo</p>
+                                                            </button>
 
-                                                    @elseif($transferencias->status == 'Anulado')
-                                                        <div class="btn btn-xl text-danger mx-1 shadow text-center"">
-                                                            <i class="fa fa-lg fa-fw fas fa-times"></i><p style="display: none;">Anulado</p>
-                                                        </div>
-                                                    @endif
-                                                {!! Form::close() !!}
-                                            </td>
+                                                        @elseif($transferencias->status == 'Anulado')
+                                                            <div class="btn btn-xs text-danger mx-1 shadow text-center"">
+                                                                <i class="fa fa-xs fa-fw fas fa-times"></i><p style="display: none;">Anulado</p>
+                                                            </div>
+                                                        @endif
+                                                    {!! Form::close() !!}
+                                                </td>
+                                            @else
+                                            <td class="text-center"></td>
+                                            @endif
                                         @endcan
 
                                         @can('transactions.edit3')
+                                            @if( !$transferencias->pay_number && !$transferencias->transfer_number)
                                             @if($transferencias->status == 'Activo')
                                                 <td class="text-center">
                                                     <a 
                                                         href="{{route('transactions.edit3', $transferencias->id)}}" 
-                                                        class="btn btn-xl text-dark mx-1 shadow text-center">
-                                                        <i class="fas fa-lg fa-fw fa-edit"></i>
+                                                        class="btn btn-xs text-dark mx-1 shadow text-center">
+                                                        <i class="fas fa-xs fa-fw fa-edit"></i>
                                                     </a>
                                                 </td>
                                             @elseif($transferencias->status == 'Anulado')
                                                 <td class="text-center">
-                                                    <p class="btn btn-xl text-dark mx-1 shadow text-center" disabled  onclick="noEditar()">
-                                                        <i class="fas fa-lg fa-fw fa-edit"  style="color: gray;"></i>
+                                                    <p class="btn btn-xs text-dark mx-1 shadow text-center" disabled  onclick="noEditar()">
+                                                        <i class="fas fa-xs fa-fw fa-edit"  style="color: gray;"></i>
                                                     </p>
                                                 </td>                                            
+                                            @endif
+                                            @else
+                                            <td class="text-center"></td>
                                             @endif
                                         @endcan
 
                                         <td>
                                             <a  href="{{ route('transactions.show', $transferencias->id) }}" 
-                                                class="btn btn-xl text-dark mx-1 shadow text-center">
-                                                <i class="fa fa-lg fa-fw fas fa-search"></i>
+                                                class="btn btn-xs text-dark mx-1 shadow text-center">
+                                                <i class="fa fa-xs fa-fw fas fa-search"></i>
                                             </a>
                                         </td>
                                         
                                         <td>
                                             <a  href="{{ route('transactions.audit', $transferencias->id) }}" 
-                                                class="btn btn-xl text-dark mx-1 shadow text-center">
-                                                <i class="fa fa-lg fa-fw fas fa-solid fa-list"></i>        
+                                                class="btn btn-xs text-dark mx-1 shadow text-center">
+                                                <i class="fa fa-xs fa-fw fas fa-solid fa-list"></i>        
                                             </a>
                                         </td>
                                         
@@ -480,7 +490,7 @@
     });
     
     const miUsuario = {{ $myUser }};
-    BuscaUsuario('usuario',myUsuario);
+    BuscaUsuario('usuario',miUsuario);
 
     const myWallet = {!! $myWallet !!};
     BuscaElemento('wallet',myWallet);
@@ -488,76 +498,14 @@
     const myGroup = {!! $myGroup !!};
     BuscaElemento('group',myGroup);
 
+    const myTypeCoinBalance = {!! $myTypeCoinBalance !!};
+    BuscaElemento('coin', myTypeCoinBalance);   
+
     $(() => {
-
-
-        const myTypeCoinBalance = {!! $myTypeCoinBalance !!};
-        BuscaMoneda(myTypeCoinBalance);           
 
         BuscaFechas();
         
-
-        $('#drCustomRanges').on('change', function () {
-            // alert('Fechas rnagos -> ' + $('#drCustomRanges').val());
-            let myFechaDesde, myFechaHasta, id;
-
-            myFechaDesde =  ($('#drCustomRanges').val()).substr(6,4) +
-                            '-' +
-                            ($('#drCustomRanges').val()).substr(3,2) +
-                            '-' +
-                            ($('#drCustomRanges').val()).substr(0,2)
-                            ;
-
-            myFechaHasta =  ($('#drCustomRanges').val()).substr(19,4) +
-                            '-' +
-                            ($('#drCustomRanges').val()).substr(16,2) +
-                            '-' +
-                            ($('#drCustomRanges').val()).substr(13,2)
-                            ;
-
-            myFechaDesde = $('#drCustomRanges').data('daterangepicker').startDate.format('YYYY-MM-DD');
-            myFechaHasta = $('#drCustomRanges').data('daterangepicker').endDate.format('YYYY-MM-DD');
-
-            const user = $('#usuario').val() == "" ? 0 : $('#usuario').val();
-
-            theRoute(user, myFechaDesde,myFechaHasta);
-
-        });
-
-        $('#usuario').on('change', function () {
-            let myFechaDesde, myFechaHasta, id;
-
-            myFechaDesde =  ($('#drCustomRanges').val()).substr(6,4) +
-                            '-' +
-                            ($('#drCustomRanges').val()).substr(3,2) +
-                            '-' +
-                            ($('#drCustomRanges').val()).substr(0,2)
-                            ;
-
-            myFechaHasta =  ($('#drCustomRanges').val()).substr(19,4) +
-                            '-' +
-                            ($('#drCustomRanges').val()).substr(16,2) +
-                            '-' +
-                            ($('#drCustomRanges').val()).substr(13,2)
-                            ;
-
-            myFechaDesde = $('#drCustomRanges').data('daterangepicker').startDate.format('YYYY-MM-DD');
-            myFechaHasta = $('#drCustomRanges').data('daterangepicker').endDate.format('YYYY-MM-DD');
-
-            const user = $('#usuario').val() == "" ? 0 : $('#usuario').val();
-
-            console.log($('#usuario').val() + ' -- ' + user);
-            
-            theRoute(user, myFechaDesde,myFechaHasta);      
-        });
-
-
-        
-		$('#coin').on('change', function (){
-
-            const usuario           = $('#userole').val();
-            const coin              = ($('#coin').val()) ? $('#coin').val() : 0;   
-
+        $('#wallet, #group, #usuario, #coin').on('change', function (){
             let myFechaDesde, myFechaHasta;
 
             myFechaDesde =  ($('#drCustomRanges').val()).substr(6,4) +
@@ -574,44 +522,82 @@
                             ($('#drCustomRanges').val()).substr(13,2)
                             ;
 
-            theRoute(usuario, myFechaDesde,myFechaHasta, coin);   
+            myFechaDesde = $('#drCustomRanges').data('daterangepicker').startDate.format('YYYY-MM-DD');
+            myFechaHasta = $('#drCustomRanges').data('daterangepicker').endDate.format('YYYY-MM-DD');
+
+            const user  = $('#usuario').val() == "" ? 0 : $('#usuario').val();
+
+
+            theRoute(user, myFechaDesde,myFechaHasta);
 
         })
         .on('select2:open', () => {
             document.querySelector('.select2-search__field').focus();
         });
 
+        $('#drCustomRanges').on('change', function () {
+            
+            let myFechaDesde, myFechaHasta;
+            /*
+            myFechaDesde =  ($('#drCustomRanges').val()).substr(6,4) +
+                            '-' +
+                            ($('#drCustomRanges').val()).substr(3,2) +
+                            '-' +
+                            ($('#drCustomRanges').val()).substr(0,2)
+                            ;
+
+            myFechaHasta =  ($('#drCustomRanges').val()).substr(19,4) +
+                            '-' +
+                            ($('#drCustomRanges').val()).substr(16,2) +
+                            '-' +
+                            ($('#drCustomRanges').val()).substr(13,2)
+                            ;
+            */
+            myFechaDesde = $('#drCustomRanges').data('daterangepicker').startDate.format('YYYY-MM-DD');
+            myFechaHasta = $('#drCustomRanges').data('daterangepicker').endDate.format('YYYY-MM-DD');
+
+            let user = 0;
+            theRoute(user, myFechaDesde,myFechaHasta);
+
+        });
 
     });
-    function theRoute(user = 0, fechaDesde = 0, fechaHasta = 0, coin = 0){
+
+    function theRoute(user = 0, fechaDesde = 0, fechaHasta = 0){
         // let user = "";
 
+        const myUsuario = $('#usuario').val()   ? $('#usuario').val()   : 0;
+        const myWallet  = $('#wallet').val()    ? $('#wallet').val()    : 0;
+        const myGroup   = $('#group').val()     ? $('#group').val()     : 0;
+        const coin      = $('#coin').val()      ? $('#coin').val()      : 0;
 
-        let myParameters;
+        @php
 
-        myParameters += "[";
-        myParameters += "'user'         => 'user2',";
-        myParameters += "'fechaDesde'   => 'fechaDesde2',";
-        myParameters += "'fechaHasta'   => 'fechaHasta2',";
-        myParameters += "'coin'         => 'coin2',";
-        myParameters += "]";
+            $myParameters ['wallet']       = 'wallet2';
+            $myParameters ['group']        = 'group2'; 
+
+            $myParameters ['user']         = 'user2';
+            $myParameters ['fechaDesde']   = 'fechaDesde2';
+            $myParameters ['fechaHasta']   = 'fechaHasta2';
+            $myParameters ['coin']         = 'coin2';
+        
+        @endphp
+
 
         let Route ="";
-
-        myRoute = "";
-        myRoute = "{{ route('transactions.index3', ['user' => 'user2', 'fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2', 'coin' => 'coin2']) }}"; 
+        myRoute = "{{ route('transactions.index3', $myParameters) }}";
         // console.log('myRoute ->' + myRoute);
-        myRoute = myRoute.replace('user2',user);
+        myRoute = myRoute.replace('wallet2',myWallet);
+        myRoute = myRoute.replace('group2',myGroup); 
+        myRoute = myRoute.replace('user2',myUsuario);
         myRoute = myRoute.replace('fechaDesde2',fechaDesde);
         myRoute = myRoute.replace('fechaHasta2',fechaHasta);
         myRoute = myRoute.replace('coin2',coin);
         myRoute = myRoute.replaceAll('amp;','');
 
-        // alert(myRoute);
-        
 
         // alert('la ruta ->' + myRoute);
-        location.href = myRoute;
+         location.href = myRoute;
 
     }
 
