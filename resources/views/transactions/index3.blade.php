@@ -177,7 +177,7 @@
                                     <th>Tipo de Movimiento</th>
                                     <th>Nro Transferencia</th>
                                     
-                                    <th style="width:1%; display:none;">Caja <i class="fas fa-search"></i></th>
+                                    
 
                                     @can('transactions.update_status3')
                                         <th style="width:1%;">Estado</th>
@@ -235,8 +235,20 @@
                                         <td>{{ $transferencias->type_coin_balance->name}}</td>
                                         <td class="font-weight-bold">{!! $transferencias->user->name ?? '' !!}</td>
                                         <td>{!! $transferencias->type_transaction->name !!}</td>
-                                        <td style="display: none;">{!! $transferencias->wallet->name ?? '' !!}</td>
-                                        <th>{!! $transferencias->pay_number ?? $transferencias->transfer_number  !!}</th>
+                                        
+
+                                        @php 
+                                            $myTransfer = "";
+                                            if($transferencias->pay_number){
+                                                $myTransfer = $transferencias->pay_number;
+                                            }elseif($transferencias->transfer_number){
+                                                $myTransfer = $transferencias->transfer_number;
+                                            }
+                                        @endphp
+
+                                        <th>{!! $myTransfer  !!}</th>
+                                        {{-- <th>{!! $transferencias->pay_number ?? $transferencias->transfer_number  !!}</th> --}}
+
                                         @can('transactions.update_status3')
                                             @if( !$transferencias->pay_number && !$transferencias->transfer_number)
                                             
@@ -262,31 +274,82 @@
 
                                         @can('transactions.edit3')
                                             @if( !$transferencias->pay_number && !$transferencias->transfer_number)
-                                            @if($transferencias->status == 'Activo')
-                                                <td class="text-center">
-                                                    <a 
-                                                        href="{{route('transactions.edit3', $transferencias->id)}}" 
-                                                        class="btn btn-xs text-dark mx-1 shadow text-center">
-                                                        <i class="fas fa-xs fa-fw fa-edit"></i>
-                                                    </a>
-                                                </td>
-                                            @elseif($transferencias->status == 'Anulado')
-                                                <td class="text-center">
-                                                    <p class="btn btn-xs text-dark mx-1 shadow text-center" disabled  onclick="noEditar()">
-                                                        <i class="fas fa-xs fa-fw fa-edit"  style="color: gray;"></i>
-                                                    </p>
-                                                </td>                                            
-                                            @endif
+                                                @if($transferencias->status == 'Activo')
+                                                    <td class="text-center">
+                                                        <a 
+                                                            href="{{route('transactions.edit3', $transferencias->id)}}" 
+                                                            class="btn btn-xs text-dark mx-1 shadow text-center">
+                                                            <i class="fas fa-xs fa-fw fa-edit"></i>
+                                                        </a>
+                                                    </td>
+                                                @elseif($transferencias->status == 'Anulado')
+                                                    <td class="text-center">
+                                                        <p class="btn btn-xs text-dark mx-1 shadow text-center" disabled  onclick="noEditar()">
+                                                            <i class="fas fa-xs fa-fw fa-edit"  style="color: gray;"></i>
+                                                        </p>
+                                                    </td>                                            
+                                                @endif
                                             @else
-                                            <td class="text-center"></td>
+                                                <td class="text-center"></td>
                                             @endif
                                         @endcan
 
+                                        @php
+                                            $myType = "";
+                                            if($transferencias->pay_number){
+                                                $indExiste = strpos($transferencias->pay_number, 'P-G');
+                                                if ($indExiste) {
+                                                    $myType ="P-G";
+                                                }
+
+                                                $indExiste = strpos($transferencias->pay_number,'T-C');
+                                                if ($indExiste) {
+                                                    $myType ="T-C";
+                                                }
+
+                                                $indExiste = strpos($transferencias->pay_number,'C-G');
+                                                if ($indExiste) {
+                                                    $myType ="C-G";
+                                                }
+                                            }elseif($transferencias->transfer_number){
+                                                    $myType = "Transfer";
+                                            }
+                                        @endphp
+
                                         <td>
-                                            <a  href="{{ route('transactions.show', $transferencias->id) }}" 
-                                                class="btn btn-xs text-dark mx-1 shadow text-center">
-                                                <i class="fa fa-xs fa-fw fas fa-search"></i>
-                                            </a>
+                                            
+                                            @if($transferencias->pay_number)
+                                                @switch($myType)
+                                                    @case('T-C')
+                                                        <a  href="{{ route('transactions.index_pagoclientes', ['pay_number' => $transferencias->pay_number]) }}" 
+                                                            class="btn btn-xs text-dark mx-1 shadow text-center">
+                                                            <i class="fa fa-xs fa-fw fas fa-search"></i>
+                                                        </a>      
+                                                        @break
+                                                    @case('P-G')
+                                                        <a  href="{{ route('transactions.index_pagowallet', ['pay_number' => $transferencias->pay_number]) }}" 
+                                                            class="btn btn-xs text-dark mx-1 shadow text-center">
+                                                            <i class="fa fa-xs fa-fw fas fa-search"></i>
+                                                        </a>      
+                                                        @break    
+                                                    @case('C-G')
+                                                        <a  href="{{ route('transactions.index_cobrowallet', ['pay_number' => $transferencias->pay_number]) }}" 
+                                                            class="btn btn-xs text-dark mx-1 shadow text-center">
+                                                            <i class="fa fa-xs fa-fw fas fa-search"></i>
+                                                        </a>      
+                                                        @break                                                                                                              
+                                                @endswitch                                      
+                                            @elseif($transferencias->transfer_number)
+                                                <a  href="{{ route('transactions.index_transferwallet',  ['transfer_number' => $transferencias->transfer_number]) }}" 
+                                                    class="btn btn-xs text-dark mx-1 shadow text-center">
+                                                    <i class="fa fa-xs fa-fw fas fa-search"></i>
+                                                </a>
+                                            @else
+                                                <a  href="{{ route('transactions.show', $transferencias->id) }}" 
+                                                    class="btn btn-xs text-dark mx-1 shadow text-center">
+                                                    <i class="fa fa-xs fa-fw fas fa-search"></i>
+                                                </a>
+                                            @endif
                                         </td>
                                         
                                         <td>

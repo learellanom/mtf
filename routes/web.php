@@ -192,18 +192,18 @@ Route::group(['middleware' => 'auth'], function () {
 
 
 
-    Route::get('movimientos/indice_pagos', [TransactionController::class, 'index_pagowallet'])->middleware('can:transactions.index_pagowallet')->name('transactions.index_pagowallet');
-    Route::get('movimientos/pago_cajas', [TransactionController::class, 'create_pagowallet'])->middleware('can:transactions.create_pagowallet')->name('transactions.create_pagowallet');
-    Route::post('movimientos/pago', [TransactionController::class, 'store_pagowallet'])->name('transactions.store_pagowallet');
+    Route::get('movimientos/indice_pagos',  [TransactionController::class, 'index_pagowallet'])->middleware('can:transactions.index_pagowallet')->name('transactions.index_pagowallet');
+    Route::get('movimientos/pago_cajas',    [TransactionController::class, 'create_pagowallet'])->middleware('can:transactions.create_pagowallet')->name('transactions.create_pagowallet');
+    Route::post('movimientos/pago',         [TransactionController::class, 'store_pagowallet'])->name('transactions.store_pagowallet');
 
-    Route::get('movimientos/indice_cobros', [TransactionController::class, 'index_cobrowallet'])->middleware('can:transactions.index_cobrowallet')->name('transactions.index_cobrowallet');
-    Route::get('movimientos/cobros_proveedores', [TransactionController::class, 'create_cobrowallet'])->middleware('can:transactions.create_cobrowallet')->name('transactions.create_cobrowallet');
-    Route::post('movimientos/cobro', [TransactionController::class, 'store_cobrowallet'])->name('transactions.store_cobrowallet');
+    Route::get('movimientos/indice_cobros',         [TransactionController::class, 'index_cobrowallet'])->middleware('can:transactions.index_cobrowallet')->name('transactions.index_cobrowallet');
+    Route::get('movimientos/cobros_proveedores',    [TransactionController::class, 'create_cobrowallet'])->middleware('can:transactions.create_cobrowallet')->name('transactions.create_cobrowallet');
+    Route::post('movimientos/cobro',                [TransactionController::class, 'store_cobrowallet'])->name('transactions.store_cobrowallet');
 
-    Route::get('movimientos/indice_pagoclientes', [TransactionController::class, 'index_pagoclientes'])->middleware('can:transactions.index_pagoclientes')->name('transactions.index_pagoclientes');
-    Route::get('movimientos/pago_clientes', [TransactionController::class, 'create_pagoclientes'])->middleware('can:transactions.create_pagoclientes')->name('transactions.create_pagoclientes');
-    Route::post('movimientos/pgo',  [TransactionController::class, 'store_pagocliente'])->name('transactions.store_pagocliente');
-    Route::post('movimientos/pgo2', [TransactionController::class, 'store_pagocliente2'])->name('transactions.store_pagocliente2');
+    Route::get('movimientos/indice_pagoclientes',   [TransactionController::class, 'index_pagoclientes'])->middleware('can:transactions.index_pagoclientes')->name('transactions.index_pagoclientes');
+    Route::get('movimientos/pago_clientes',         [TransactionController::class, 'create_pagoclientes'])->middleware('can:transactions.create_pagoclientes')->name('transactions.create_pagoclientes');
+    Route::post('movimientos/pgo',                  [TransactionController::class, 'store_pagocliente'])->name('transactions.store_pagocliente');
+    Route::post('movimientos/pgo2',                 [TransactionController::class, 'store_pagocliente2'])->name('transactions.store_pagocliente2');
 
     Route::match(['put', 'patch'], 'movimientos/{movimiento}/estatus_pagos_cajas',  [TransactionController::class, 'updatestatus_pago'])->name('transactions.updatestatus_pago');
     Route::match(['put', 'patch'], 'movimientos/{movimiento}/estatus_cajas',        [TransactionController::class, 'updatestatus_transfer'])->name('transactions.updatestatus_transfer');

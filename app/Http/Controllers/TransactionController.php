@@ -874,30 +874,43 @@ class TransactionController extends Controller
   
     }
 
-    public function index_transferwallet(transaction $transaction)
+    public function index_transferwallet(Request $request, transaction $transaction)
     {
+
+        $myTransferNumber = "transfer_number between '00000000000000000' and '99999999999999999'";
+        //     die('aqui llego');
+        if ($request->transfer_number){
+
+            $myTransferNumber = "transfer_number = '$request->transfer_number'";
+        } 
+
          foreach(auth()->user()->roles as $roles)
          {
-                $transactiones = DB::select("
-                    select
-                        mtf.transactions.id as TransactionId,
-                        transfer_number as TransferNumber,
-                        IF(type_transactions.name = 'Nota de Credito a Caja de efectivo', 'Destino', 'Origen') as TransferType,
-                        wallet_id as WalletIdOrigen,
-                        groups.name as WalletNameOrigen,
-                        amount_total as Amount,
-                        transaction_date as TransactionDate,
-                        users.name as Agente,
-                        status as estatus,
-                        type_transaction_id as TypeTransactionId,
-                        transactions.description as Description,
-                        type_transactions.name as TypeTransactionName
-                    from mtf.transactions
-                    left join  mtf.groups on mtf.transactions.wallet_id = groups.id
-                    left join  mtf.type_transactions on mtf.transactions.type_transaction_id  = mtf.type_transactions.id
-                    left join  mtf.users on mtf.transactions.user_id  = mtf.users.id
-                    where transfer_number between '00000000000000000' and '99999999999999999'
-                    order by transfer_number, TransferType desc");
+            $myQuery = "
+                select
+                    mtf.transactions.id as TransactionId,
+                    transfer_number as TransferNumber,
+                    IF(type_transactions.name = 'Nota de Credito a Caja de efectivo', 'Destino', 'Origen') as TransferType,
+                    wallet_id as WalletIdOrigen,
+                    groups.name as WalletNameOrigen,
+                    amount_total as Amount,
+                    transaction_date as TransactionDate,
+                    users.name as Agente,
+                    status as estatus,
+                    type_transaction_id as TypeTransactionId,
+                    transactions.description as Description,
+                    type_transactions.name as TypeTransactionName
+                from mtf.transactions
+                left join  mtf.groups on mtf.transactions.wallet_id = groups.id
+                left join  mtf.type_transactions on mtf.transactions.type_transaction_id  = mtf.type_transactions.id
+                left join  mtf.users on mtf.transactions.user_id  = mtf.users.id
+                where $myTransferNumber
+                order by 
+                    transfer_number, 
+                    TransferType desc";
+
+
+            $transactiones = DB::select($myQuery);
 
          }
 
@@ -1040,43 +1053,56 @@ class TransactionController extends Controller
                 $myUserHasta    = auth()->id();
                 break;
         }
+        
+        $myPayNumber = "pay_number LIKE '%P-G' != '' ";
+
+        if ($request->pay_number){
+            // die('aqui llego');
+            $myPayNumber = "pay_number = '$request->pay_number'";
+            $myUserDesde    = 0;
+            $myUserHasta    = 9999;
+            $limit          = "";
+            $myFechaDesde = "2000-01-01";
+        }   
 
         //    \Log::info('leam - myUserDesde -> ' . $myUserDesde . ' -- myUserHasta -> ' . $myUserHasta);
 
-            $query = 
-                "select
-                mtf.transactions.id                 as TransactionId,
-                pay_number                          as TransferNumber,
-                IF(
-                    type_transactions.name = 'Nota de Credito a Caja de efectivo' 
-                or  type_transactions.name = 'Nota de credito', 'Destino', 'Origen'
-                ) 
-                                                    as TransferType,
-                wallet_id                           as WalletIdOrigen,
-                groups.name                         as WalletNameOrigen,
-                amount_total                        as Amount,
-                transaction_date                    as TransactionDate,
-                users.name                          as Agente,
-                status                              as estatus,
-                type_transaction_id                 as TypeTransactionId,
-                transactions.description            as Description,
-                type_transactions.name              as TypeTransactionName,
-                transactions.amount_commission_base as ComisionBase,
-                transactions.percentage_base        as PorcentageBase,
-                transactions.exonerate_base         as ExonerateBase,
-                transactions.amount_total_base      as TotalBase
-                from mtf.transactions
-                left join  mtf.groups on mtf.transactions.wallet_id                         = groups.id
-                left join  mtf.type_transactions on mtf.transactions.type_transaction_id    = mtf.type_transactions.id
-                left join  mtf.users on mtf.transactions.user_id                            = mtf.users.id
-                where pay_number LIKE '%P-G' != ''
-                and user_id between $myUsuarioDesde and $myUsuarioHasta
-                and mtf.transactions.created_at between '$myFechaDesde 00:00:00' and '$myFechaHasta 23:59:59'
-                order by pay_number desc
-                $limit
-                ";
+        $query = 
+            "select
+            mtf.transactions.id                 as TransactionId,
+            pay_number                          as TransferNumber,
+            IF(
+                type_transactions.name = 'Nota de Credito a Caja de efectivo' 
+            or  type_transactions.name = 'Nota de credito', 'Destino', 'Origen'
+            ) 
+                                                as TransferType,
+            wallet_id                           as WalletIdOrigen,
+            groups.name                         as WalletNameOrigen,
+            amount_total                        as Amount,
+            transaction_date                    as TransactionDate,
+            users.name                          as Agente,
+            status                              as estatus,
+            type_transaction_id                 as TypeTransactionId,
+            transactions.description            as Description,
+            type_transactions.name              as TypeTransactionName,
+            transactions.amount_commission_base as ComisionBase,
+            transactions.percentage_base        as PorcentageBase,
+            transactions.exonerate_base         as ExonerateBase,
+            transactions.amount_total_base      as TotalBase
+            from mtf.transactions
+            left join  mtf.groups on mtf.transactions.wallet_id                         = groups.id
+            left join  mtf.type_transactions on mtf.transactions.type_transaction_id    = mtf.type_transactions.id
+            left join  mtf.users on mtf.transactions.user_id                            = mtf.users.id
+            where $myPayNumber
+            and user_id between $myUsuarioDesde and $myUsuarioHasta
+            and mtf.transactions.created_at between '$myFechaDesde 00:00:00' and '$myFechaHasta 23:59:59'
+            order by pay_number desc
+            $limit
+            ";
+        // die('aqui ->' . $query);
 
         $transacciones  = DB::select($query);
+
         $user           = User::pluck('name', 'id')->toArray();
 
         $myFechaDesde2  =  substr($myFechaDesde,8,2) . '-' . substr($myFechaDesde,5,2) . '-' . substr($myFechaDesde,0,4);
@@ -1566,35 +1592,49 @@ class TransactionController extends Controller
         // return Redirect::back()-with($parameters);
         return view('transactions.create_transferwalletop2',$parameters);
     }
-    public function index_pagoclientes(transaction $transaction)
+    public function index_pagoclientes(Request $request, transaction $transaction)
     {
+
+        $myPayNumber = "pay_number LIKE '%T-C' != '' ";
+
+        if ($request->pay_number){
+            // die('aqui llego');
+            $myPayNumber = "pay_number = '$request->pay_number'";
+        }        
+
          foreach(auth()->user()->roles as $roles)
          {
-                $transactiones = DB::select('select
-                    mtf.transactions.id             as TransactionId,
-                    pay_number                      as TransferNumber,
-                    IF(type_transactions.name = "Pago Efectivo", "Destino", "Origen") as TransferType,
-                    wallet_id                       as WalletIdOrigen,
-                    groups2.name                    as WalletNameOrigen,
-                    group_id                        as GroupIdOrigen,
-                    groups.name                     as GroupNameOrigen,
-                    amount_total                    as Amount,
-                    transaction_date                as TransactionDate,
-                    users.name                      as Agente,
-                    status                          as estatus,
-                    type_transaction_id             as TypeTransactionId,
-                    transactions.description        as Description,
-                    type_transactions.name          as TypeTransactionName,
-                    transactions.amount_commission  as ComisionBase,
-                    transactions.percentage         as PorcentageBase,
-                    transactions.exonerate          as ExonerateBase,
-                    transactions.amount_total       as TotalBase
-                    from mtf.transactions
-                    left join  mtf.groups  as groups2   on mtf.transactions.wallet_id = groups2.id
-                    left join  mtf.groups               on mtf.transactions.group_id  = groups.id
-                    left join  mtf.type_transactions    on mtf.transactions.type_transaction_id  = mtf.type_transactions.id
-                    left join  mtf.users                on mtf.transactions.user_id  = mtf.users.id
-                    where pay_number LIKE "%T-C" != "" order by pay_number desc');
+
+            $myQuery ="
+            select
+                mtf.transactions.id             as TransactionId,
+                pay_number                      as TransferNumber,
+                IF(type_transactions.name = 'Pago Efectivo', 'Destino', 'Origen') as TransferType,
+                wallet_id                       as WalletIdOrigen,
+                groups2.name                    as WalletNameOrigen,
+                group_id                        as GroupIdOrigen,
+                groups.name                     as GroupNameOrigen,
+                amount_total                    as Amount,
+                transaction_date                as TransactionDate,
+                users.name                      as Agente,
+                status                          as estatus,
+                type_transaction_id             as TypeTransactionId,
+                transactions.description        as Description,
+                type_transactions.name          as TypeTransactionName,
+                transactions.amount_commission  as ComisionBase,
+                transactions.percentage         as PorcentageBase,
+                transactions.exonerate          as ExonerateBase,
+                transactions.amount_total       as TotalBase
+            from mtf.transactions
+            left join  mtf.groups  as groups2   on mtf.transactions.wallet_id = groups2.id
+            left join  mtf.groups               on mtf.transactions.group_id  = groups.id
+            left join  mtf.type_transactions    on mtf.transactions.type_transaction_id  = mtf.type_transactions.id
+            left join  mtf.users                on mtf.transactions.user_id  = mtf.users.id
+            where $myPayNumber
+            order by pay_number desc
+            ";
+
+            $transactiones = DB::select($myQuery);
 
          }
 
@@ -1764,10 +1804,51 @@ class TransactionController extends Controller
 
          return Redirect::back()->withInput();
     }
-    public function index_cobrowallet(transaction $transaction)
+    public function index_cobrowallet(Request $request, transaction $transaction)
     {
+
+        $myPayNumber = 'pay_number LIKE "%C-G" != ""';
+        // die('aqui llego ->' . $request->pay_number );
+        if ($request->pay_number){
+
+            $myPayNumber = "pay_number = '$request->pay_number'";
+        }  
+
+
          foreach(auth()->user()->roles as $roles)
          {
+
+                $myQuery = "
+                    select
+                        mtf.transactions.id as TransactionId,
+                        pay_number as TransferNumber,
+                        IF(type_transactions.name = 'Nota de Debito a Caja de Efectivo' or type_transactions.name = 'Nota de debito', 'Destino', 'Origen') as TransferType,
+                        wallet_id as WalletIdOrigen,
+                        groups2.name as WalletNameOrigen,
+                        group_id  as GroupIdOrigen,
+                        groups.name as GroupNameOrigen,
+                        amount_total as Amount,
+                        transaction_date as TransactionDate,
+                        users.name as Agente,
+                        status as estatus,
+                        type_transaction_id as TypeTransactionId,
+                        transactions.description as Description,
+                        type_transactions.name as TypeTransactionName,
+                        transactions.amount_commission as ComisionBase,
+                        transactions.percentage as PorcentageBase,
+                        transactions.exonerate as ExonerateBase,
+                        transactions.amount_total as TotalBase
+                    from mtf.transactions
+                        left join  mtf.groups  as groups2   on mtf.transactions.wallet_id = groups2.id
+                        left join  mtf.groups on mtf.transactions.group_id = groups.id
+                        left join  mtf.type_transactions on mtf.transactions.type_transaction_id  = mtf.type_transactions.id
+                        left join  mtf.users on mtf.transactions.user_id  = mtf.users.id
+                    where $myPayNumber
+                    order by pay_number desc                
+                ";
+                $transactiones = DB::select($myQuery);
+
+                /*
                 $transactiones = DB::select('select
                 mtf.transactions.id as TransactionId,
                     pay_number as TransferNumber,
@@ -1792,8 +1873,9 @@ class TransactionController extends Controller
                     left join  mtf.groups on mtf.transactions.group_id = groups.id
                     left join  mtf.type_transactions on mtf.transactions.type_transaction_id  = mtf.type_transactions.id
                     left join  mtf.users on mtf.transactions.user_id  = mtf.users.id
-                    where pay_number LIKE "%C-G" != "" order by pay_number desc');
-
+                    where pay_number LIKE "%C-G" != "" 
+                    order by pay_number desc');
+                */
          }
 
 
