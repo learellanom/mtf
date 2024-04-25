@@ -492,10 +492,10 @@ class TransactionController extends Controller
         $myLimit = 0;
         if($this->isAdministrator()){
             if ($myUser == 0){
-                $myUsuarioDesde = auth()->user()->id;
-                $myUsuarioHasta = auth()->user()->id;
+//                $myUsuarioDesde = auth()->user()->id;
+//                $myUsuarioHasta = auth()->user()->id;
             }
-            $myLimit = 500;
+            $myLimit = 1000;
         }else{
             $myUsuarioDesde = auth()->user()->id;
             $myUsuarioHasta = auth()->user()->id;
@@ -510,9 +510,14 @@ class TransactionController extends Controller
             $myCoinHasta    = $request->coin;
         }
         /*
-        echo "<br>" . "coin        - > $request->coin";
-        echo "<br>" . "myCoinDesde - > $myCoinDesde";
-        echo "<br>" . "myCoinHasta - > $myCoinHasta";
+        echo "<br>" . "coin         - > $request->coin";
+        echo "<br>" . "myCoinDesde  - > $myCoinDesde";
+        echo "<br>" . "myCoinHasta  - > $myCoinHasta";
+        echo "<br>" . "myGroupDesde - > $myGroupDesde";
+        echo "<br>" . "myGroupHasta - > $myGroupHasta";
+        echo "<br>" . "myUsuarioDesde - > $myUsuarioDesde";
+        echo "<br>" . "myUsuarioHasta - > $myUsuarioHasta";
+
         die();
         */
         /*
@@ -537,12 +542,12 @@ class TransactionController extends Controller
         ->limit($myLimit)            
         ->get();
         
-        $myFechaDesde2  =  substr($myFechaDesde,8,2) . '-' . substr($myFechaDesde,5,2) . '-' . substr($myFechaDesde,0,4);
-        $myFechaHasta2  =  substr($myFechaHasta,8,2) . '-' . substr($myFechaHasta,5,2) . '-' . substr($myFechaHasta,0,4);
+        $myFechaDesde2      =  substr($myFechaDesde,8,2) . '-' . substr($myFechaDesde,5,2) . '-' . substr($myFechaDesde,0,4);
+        $myFechaHasta2      =  substr($myFechaHasta,8,2) . '-' . substr($myFechaHasta,5,2) . '-' . substr($myFechaHasta,0,4);
 
-        $user           = User::pluck('name', 'id')->toArray();
-        $wallet         = Group::where('type','=','2')->orderBy('name','asc')->pluck('name', 'id')->toArray();
-        $group          = Group::where('type','=','1')->orderBy('name','asc')->pluck('name', 'id')->toArray();
+        $user               = User::pluck('name', 'id')->toArray();
+        $wallet             = Group::where('type','=','2')->orderBy('name','asc')->pluck('name', 'id')->toArray();
+        $group              = Group::where('type','=','1')->orderBy('name','asc')->pluck('name', 'id')->toArray();
 
 
      
@@ -876,8 +881,9 @@ class TransactionController extends Controller
 
     public function index_transferwallet(Request $request, transaction $transaction)
     {
-
-        $myTransferNumber = "transfer_number between '00000000000000000' and '99999999999999999'";
+                                                      
+        // $myTransferNumber = "transfer_number between '00000000000000000' and '99999999999999999'";
+        $myTransferNumber = "transfer_number REGEXP '^[0-9]+$'";
         //     die('aqui llego');
         if ($request->transfer_number){
 
@@ -909,12 +915,12 @@ class TransactionController extends Controller
                     transfer_number, 
                     TransferType desc";
 
-
+            // dd($myQuery);
             $transactiones = DB::select($myQuery);
 
          }
 
-
+         
          return view('transactions.index_transferwallet', compact('transactiones'));
 
     }
@@ -1135,7 +1141,7 @@ class TransactionController extends Controller
         // $type_transaction2  = Type_transaction::whereIn('name', ['Nota de Credito a Caja de efectivo'])->pluck('id'); // 6
 
         $type_transaction   = Type_transaction::whereIn('id', [12])->pluck('id');   // 12 Salida de efectivo
-        $type_transaction2  = Type_transaction::whereIn('id', [6])->pluck('id');    // 6 ENtrada de efectivo o nota de credito
+        $type_transaction2  = Type_transaction::whereIn('id', [6])->pluck('id');    // 6 Entrada de efectivo o nota de credito
 
         $wallet             = Group::whereIn('type_wallet', ['Efectivo'])->where('type','=','2')->pluck('name', 'id');
         $user               = User::pluck('name', 'id');
