@@ -161,14 +161,14 @@
                             <thead>
                                 <tr>
                                     <th style="width:1%;">Nro</th>
-                                    <th style="width:10%; min-width: 10%;">Caja</th>
-                                    <th style="width:1%;">Cliente</th>
+                                    <th>Caja</th>
+                                    <th>Cliente</th>
                                     <th style="display:none;">Token</th>
                                     <th>Fecha</th>
                                     <th>Fecha Creacion</th>
                                     <th>Descripción</th>
                                     <th style="width:1%;"><p style="display:none;"> %</p><i class="fas fa-percentage"></i></th>
-                                    <th style="width:15%;">Monto <i class="fas fa-globe-europe"></i> <p style="display:none;">Moneda Extranjera</p></th>
+                                    <th style="width:1%;">Monto <i class="fas fa-globe-europe"></i> <p style="display:none;">Moneda Extranjera</p></th>
                                     <th style="width:1%;">Comisión</th>
                                     <th style="width:10%;">Monto Dolar <i class="fas fa-funnel-dollar"></i></th>
                                     <th style="width:10%;">Monto Total</th>
@@ -178,11 +178,11 @@
                                     <th>Nro Transferencia</th>
 
                                     @can('transactions.update_status3')
-                                        <th style="width:1%;">Estado</th>
+                                        <th style="width:1%;">Est</th>
                                     @endcan
                                     
                                     @can('transactions.edit3')
-                                        <th style="width:1%;" class="no-exportar">Editar</th>
+                                        <th style="width:1%;" class="no-exportar">Edi</th>
                                     @endcan
 
                                     {{--
@@ -193,8 +193,8 @@
                                         @endif
                                     --}}
                                     
-                                    <th style="width:1%;" class="no-exportar">Ver <i class="fas fa-search"></i></th>
-                                    <th style="width:1%;" class="no-exportar">Historico</th>
+                                    <th style="width:1%;" class="no-exportar">Ver</th>
+                                    <th style="width:1%;" class="no-exportar">His</th>
                                     
                                 </tr>
                             </thead>
@@ -203,13 +203,14 @@
                                 
                                     <tr style="height: 100px;">
                                         <td class="font-weight-bold">{{ $transferencias->id }}</td>
-                                        <td class="font-weight-bold" style="width: 200px; min-width: 200px;">
-                                                {{ $transferencias->wallet->name ?? "" }}
-                                        </td>                                    
-                                        <td class="font-weight-bold">
-                                                {{ $transferencias->group->name ?? "" }}
+
+                                        <td class="font-weight-bold" style="width: 100px; min-width: 100px;">
+                                                {{ substr($transferencias->wallet->name,0,15) ?? "" }}
                                         </td>
 
+                                        <td class="font-weight-bold" style="width: 100px; min-width: 100px;">
+                                                {{ $transferencias->group->name ?? "" }}
+                                        </td>
 
                                         <td class="font-weight-bold" style="display:none;">{!! $transferencias->token !!}</td>
 
@@ -220,20 +221,22 @@
                                         </td>
 
                                         <td class="font-weight-bold" style="width: 90px; min-width: 90px;">{!! $transferencias->created_at !!}</td>
-                                        <td class="font-weight-bold" style='width:20px; height:20px; overflow:hidden;'>
+                                        <td class="font-weight-bold" style='width:20px; min-width:20px; max-width:20px; height:20px;'>
+                                            <div style="width: 100%; height: 60px; overflow: hidden;text-overflow:ellipsis">
                                             {!!  $transferencias->description !!}
+                                            </div>
                                         </td>
 
-                                        <td class="font-weight-bold">{!! $transferencias->percentage ?? ''!!} </td>
+                                        <td class="font-weight-bold" style="min-width: 50px;">{!! $transferencias->percentage ?? ''!!} </td>
 
-                                        <td>{!! number_format(abs($transferencias->amount_foreign_currency),2,".") ?? '' !!}</td>
+                                        <td class="font-weight-bold" style="min-width: 100px;">{!! number_format(abs($transferencias->amount_foreign_currency),2,".") ?? '' !!}</td>
 
-                                        <td>{!! number_format(abs($transferencias->amount_commission),2,".") ?? '' !!} </td>
+                                        <td style="min-width: 120px;">{!! number_format(abs($transferencias->amount_commission),2,".") ?? '' !!} </td>
 
-                                        <td class="font-weight-bold">{!!  number_format(abs($transferencias->amount),2,".") !!} 
+                                        <td class="font-weight-bold" style="min-width: 100px;">{!!  number_format(abs($transferencias->amount),2,".") !!} 
                                             <i class="fas fa-dollar-sign"></i>
                                         </td>
-                                        <td class="font-weight-bold">{!! number_format(abs($transferencias->amount_total),2,".") !!} 
+                                        <td class="font-weight-bold" style="min-width: 100px;">{!! number_format(abs($transferencias->amount_total),2,".") !!} 
                                             <i class="fas fa-dollar-sign"></i>
                                         </td>
                                         <td>{{ $transferencias->type_coin_balance->name}}</td>
@@ -405,7 +408,6 @@
             },
             "order": [[ 3, 'desc' ]],
             'dom' : 'Bfrtip',
-            autoWidth: false,
             'buttons':[
                 {
                     extend:  'excelHtml5',

@@ -43,11 +43,20 @@ return new class extends Migration
             $table->enum('exchange_rate_orientation', [1, 2])->nullable()->default(1); 					//-> orientacion del cambio 1 de derecha a izquierda / divide -- 2 de izquierda a derecha * se multiplica
             $table->foreignId('type_material_id')->nullable()->default(1)->references('id')->on('type_materials'); // TIPO DE MONEDA DE LA TRANSFERENCIA 
 
-            $table->double('material_amount')->nullable();                               //-> Monto en Dorales
-            $table->double('material_amount_total')->nullable();                               //-> Monto en Dorales
-            $table->double('material_price')->nullable();                               //-> Monto en Dorales
+            $table->enum('materials_type_adquisicion', [1, 2, 3])->nullable()->default(1); 					//-> 1. Kilo / 2.Gramos / 3. Cantidad
 
-            $table->index('transaction_date');                                                          // crea indeice en transaction_date
+            $table->double('material_amount')->nullable();                                      //-> Monto en Dorales
+            $table->double('material_amount_kilos')->nullable();                                //-> Monto en Dorales
+            $table->double('material_amount_gramos')->nullable();                               //-> Monto en Dorales
+
+            $table->double('material_amount_total')->nullable();                                //-> Monto en Dorales
+            $table->double('material_amount_total_kilos')->nullable();                          //-> Monto en Dorales
+            $table->double('material_amount_total_gramos')->nullable();                         //-> Monto en Dorales
+
+
+            $table->double('material_price')->nullable();                                       //-> Monto en Dorales
+
+            $table->index('transaction_date');                                                  // crea indeice en transaction_date
             $table->timestamps();       
         });
     }
