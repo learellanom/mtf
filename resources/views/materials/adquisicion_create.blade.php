@@ -544,7 +544,8 @@
         });
         $('#material_type_adquisicion3').on('input', function (){
             alert('leam aqui 3');
-        });        
+        });  
+              
     });
 
     $("#typetrasnferencia").on("change", function() {
