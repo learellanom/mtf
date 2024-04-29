@@ -76,19 +76,24 @@
                     </div>
                 </div>
 
-                <div class="form-row">
+                    <div class="form-row ">
 
                     
-                    <div class="form-group col-lg-4">
-                        <p>Tipo de Adquisicion  :</p>
-                        <input type="radio" id="material_type_adquisicion1" name="material_type_adquisicion" value="1" checked>
-                        <label for="html">Kilos</label><br>
-                        <input type="radio" id="material_type_adquisicion2" name="material_type_adquisicion" value="2">
-                        <label for="css">Gramos</label><br>
-                        <input type="radio" id="material_type_adquisicion3" name="material_type_adquisicion" value="3">
-                        <label for="Cantidad">Cantidad</label>
+                        <div class="form-group col-xs-3 col-lg-12 justify-content-center align-items-center">
+                            <p>Tipo de Adquisicion  :</p>
+                            <input class="myForm" type="radio" id="material_type_adquisicion1" name="material_type_adquisicion" value="1" checked>
+                            <label for="material_type_adquisicion1">Kilos</label>
+                            
+                            <input class="myForm" type="radio" id="material_type_adquisicion2" name="material_type_adquisicion" value="2">
+                            <label for="material_type_adquisicion2">Gramos</label>
+                            
+                            <input class="myForm" type="radio" id="material_type_adquisicion3" name="material_type_adquisicion" value="3">
+                            <label for="material_type_adquisicion3">Cantidad</label>
+                        </div>
+
                     </div>
 
+                    <div class="form-row">
                     <div class="form-group col-lg-4">
                         {!! Form::Label('material_amount_kilos', "kilos:") !!}
                         <div class="input-group-text">
@@ -102,34 +107,63 @@
                             {!! Form::text('material_amount_gramos',null, ['class' => 'form-control general myForm', 'required' => true, 'id' => 'material_amount_gramos', 'disabled' => 'true']) !!}
                         </div>
 
-                        {!! Form::Label('material_amount', "Cantidad:") !!}
+                        {!! Form::Label('material_amount_cantidad', "Cantidad:") !!}
                         <div class="input-group-text">
                             <i class="fa-fw fas fa-coins mr-2"></i>
-                            {!! Form::text('material_amount',null, ['class' => 'form-control general myForm', 'required' => true, 'id' => 'material_amount', 'disabled' => 'true']) !!}
+                            {!! Form::text('material_amount_cantidad',null, ['class' => 'form-control general myForm', 'required' => true, 'id' => 'material_amount_cantidad', 'disabled' => 'true']) !!}
                         </div>
 
                     </div>
+
+
+
                     <div class="form-group col-lg-4">
-                            {!! Form::Label('material_price', "Precio/U:") !!}
+                            {!! Form::Label('material_price', "Precio/U Kilos:") !!}
                             <div class="input-group-text">
                                 <i class="fa-fw fas fa-random mr-2"></i>
-                            {!! Form::text('material_price',null, ['class' => 'form-control rateMasks myForm', 'required' => true, 'id' => 'material_price', 'minlength' => 9]) !!}
+                                {!! Form::text('material_price_kilos',null, ['class' => 'form-control rateMasks myForm', 'required' => true, 'id' => 'material_price_kilos', 'minlength' => 9]) !!}
                             
                             </div>
-                        </div>
+
+                            {!! Form::Label('material_price', "Precio/U Gramos:") !!}
+                            <div class="input-group-text">
+                                <i class="fa-fw fas fa-random mr-2"></i>
+                                {!! Form::text('material_price_gramos',null, ['class' => 'form-control rateMasks myForm', 'required' => true, 'id' => 'material_price_gramos', 'minlength' => 9, 'disabled' => 'true']) !!}
+                            
+                            </div>
+
+
+                            {!! Form::Label('material_price', "Precio/U Cantidad:") !!}
+                            <div class="input-group-text">
+                                <i class="fa-fw fas fa-random mr-2"></i>
+                                {!! Form::text('material_price_cantidad',null, ['class' => 'form-control rateMasks myForm', 'required' => true, 'id' => 'material_price_cantidad', 'minlength' => 9, 'disabled' => 'true']) !!}
+                            
+                            </div>
+
+                    </div>
+
+                
 
                     <div class="form-group col-lg-4">
-                    </div>
-
-                    <div class="form-group col-lg-8">
-                        {!! Form::Label('material_amount_total', "Monto Total Material:") !!}
+                        {!! Form::Label('material_amount_total', "Monto Total $ Kilos:") !!}
                         <div class="input-group-text">
                             <i class="fa-fw fas fas fa-funnel-dollar mr-2"></i>
-                            {!! Form::text('material_amount_total', null, ['class' => 'form-control dolar general', 'required' => true, 'id' => 'material_amount_total', 'readonly' => true, 'data-mask-clearifnotmatch' => true]) !!}
+                            {!! Form::text('material_amount_total_kilos', null, ['class' => 'form-control dolar general', 'required' => true, 'id' => 'material_amount_total_kilos', 'readonly' => true, 'data-mask-clearifnotmatch' => true]) !!}
                         </div>
-                    </div>
-                </div>
 
+                        {!! Form::Label('material_amount_total', "Monto Total $ Gramos:") !!}
+                        <div class="input-group-text">
+                            <i class="fa-fw fas fas fa-funnel-dollar mr-2"></i>
+                            {!! Form::text('material_amount_total_gramos', null, ['class' => 'form-control dolar general', 'required' => true, 'id' => 'material_amount_total_gramos', 'readonly' => true, 'data-mask-clearifnotmatch' => true]) !!}
+                        </div>
+                        
+                        {!! Form::Label('material_amount_total', "Monto Total $ Cantidad:") !!}
+                        <div class="input-group-text">
+                            <i class="fa-fw fas fas fa-funnel-dollar mr-2"></i>
+                            {!! Form::text('material_amount_total_cantidad', null, ['class' => 'form-control dolar general', 'required' => true, 'id' => 'material_amount_total_cantidad', 'readonly' => true, 'data-mask-clearifnotmatch' => true]) !!}
+                        </div>                        
+                    </div>
+                    </div>
                 <hr class="bg-dark esconder" style="height:1px;">    
 
                 <div class="form-row">
@@ -291,57 +325,6 @@
 @section('js')
 
 <script>
-    $( function() {
-        var availableTags = [
-            "cash",
-            "CASH",
-            "Saldo anterior",
-            "suift",
-            "abono",
-            "Abono en cash",
-            "Cash enviado",
-            "Ali",
-            "Abu",
-            "Cash Dubai",
-            "abono en Valencia",
-            "abono cash",
-            "cash libano",
-            "cash la yaguara",
-            "la yaguara",
-            "suift (preforman)",
-            "cash turquia",
-            "libano",
-            "Turquia",
-            "Turkia",
-            "Banesco",
-            "Banesco Panama",
-            "Mercantil",
-            "BDV",
-            "pago bolivares",
-            "cash recibido",
-            "pasaje de",
-            "pasajes",
-            "boletos",
-            "Abonado",
-            "recibido para",
-            "USDT",
-            "Token",
-            "Nomina",
-            "Pago nomina",
-            "Cobro en USDT",
-            "Nomina a",
-            "Bono",
-            "Pago a ",
-            "Cobro a ",
-            "Credito a ",
-            "Pago por suift",
-            "Transferencias bancaria",
-            ];
-
-        $("#description").autocomplete({
-            source: availableTags
-        });
-    });
 
 
     $(".clientes").select2({
@@ -536,16 +519,19 @@
             updateMontoreal();
         }); 
 
-        $('#material_type_adquisicion1').on('input', function (){
-            alert('leam aqui 1');
+        $('#material_type_adquisicion1').on('click', function (){
+            // alert('leam aqui 1');
+            validaMaterialTypeAdquisicion();
         });
-        $('#material_type_adquisicion2').on('input', function (){
-            alert('leam aqui 2');
+        $('#material_type_adquisicion2').on('click', function (){
+            // alert('leam aqui 2');
+            validaMaterialTypeAdquisicion();
         });
-        $('#material_type_adquisicion3').on('input', function (){
-            alert('leam aqui 3');
+        $('#material_type_adquisicion3').on('click', function (){
+            // alert('leam aqui 3');
+            validaMaterialTypeAdquisicion();
         });  
-              
+
     });
 
     $("#typetrasnferencia").on("change", function() {
@@ -575,55 +561,130 @@
 
 
 
-        // let exchange_rate           = ($('#exchange_rate').val())           ? parseFloat($('#exchange_rate ').val())    : 0;
-        // let amount_foreign_currency = ($('#amount_foreign_currency').val()) ? parseFloat($('#amount_foreign_currency').val())             : 0;
-        // let amount                  = 0;
-        // let amount_total            = 0;
+        let material_amount_kilos   = ($('#material_amount_kilos').val())   ? parseFloat($('#material_amount_kilos').val())     : 0;
+        let material_amount_gramos  = ($('#material_amount_gramos').val())  ? parseFloat($('#material_amount_gramos').val())    : 0;
+        let material_amount         = ($('#material_amount').val())         ? parseFloat($('#material_amount').val())           : 0;
+        let material_amount_price   = ($('#material_price').val())          ? parseFloat($('#material_price').val())            : 0;
 
-        let material_amount_price   = ($('#material_price').val())  ? parseFloat($('#material_price').val())    : 0;
-        let material_amount         = ($('#material_amount').val()) ? parseFloat($('#material_amount').val())   : 0;
+
+
+        
+        let material_type_adquisicion1  = $('#material_type_adquisicion1').is(':checked');
+        let material_type_adquisicion2  = $('#material_type_adquisicion2').is(':checked');
+        let material_type_adquisicion3  = $('#material_type_adquisicion3').is(':checked');
+        let material_type_adquisicion   = 0;
+
+        let my_material_amount          = 0;
+
+        let material_price_kilos        = ($('#material_price_kilos').val())        ? parseFloat($('#material_price_kilos').val())      : 0;
+        let material_price_gramos       = ($('#material_price_gramos').val())       ? parseFloat($('#material_price_gramos').val())     : 0;
+        let material_price_cantidad     = ($('#material_price_cantidad').val())     ? parseFloat($('#material_price_cantidad').val())   : 0;
+
+        if (material_type_adquisicion1){
+            material_type_adquisicion = 1;
+
+            $('#material_amount_kilos').prop('disabled',false);
+            $('#material_price_kilos').prop('disabled',false);
+
+
+            $('#material_amount_gramos').prop('disabled',true);
+            $('#material_price_gramos').prop('disabled',true);
+
+            $('#material_amount_cantidad').prop('disabled',true);
+            $('#material_price_cantidad').prop('disabled',true);
+
+
+            // alert($('#material_amount_kilos').val());
+
+            $('#material_amount_gramos').val("");
+            $('#material_amount_cantidad').val("");
+
+        }else if(material_type_adquisicion2){
+            material_type_adquisicion = 2;
+            $('#material_amount_kilos').prop('disabled',true);
+            $('#material_amount_gramos').prop('disabled',false);
+            $('#material_amount_cantidad').prop('disabled',true);
+
+            $('#material_price_kilos').prop('disabled',true);
+            $('#material_price_gramos').prop('disabled',false);
+            $('#material_price_cantidad').prop('disabled',true);
+
+
+            $('#material_amount_kilos').val("");
+            $('#material_amount_cantidad').val("");
+
+        }else if(material_type_adquisicion3){
+            material_type_adquisicion = 3;
+            $('#material_amount_kilos').prop('disabled',true);
+            $('#material_amount_gramos').prop('disabled',true);
+            $('#material_amount_cantidad').prop('disabled',false);
+
+            $('#material_price_kilos').prop('disabled',true);
+            $('#material_price_gramos').prop('disabled',true);
+            $('#material_price_cantidad').prop('disabled',false);
+
+
+            $('#material_amount_kilos').val("");
+            $('#material_amount_gramos').val("");
+
+
+        }
+        // alert('material_type_adquisicion ->' + material_type_adquisicion);
+
+
 
         console.log('pasa updateMontoreal');
         // console.log('pasa updateMontoreal con exchange_rate                 -> ' + exchange_rate);
         // console.log('pasa updateMontoreal con amount_foreign_currency       -> ' + amount_foreign_currency);
         // console.log('pasa updateMontoreal con amount                        -> ' + amount);
         // console.log('pasa updateMontoreal con amount_total                  -> ' + amount_total);
-        console.log('pasa updateMontoreal con material_price                -> ' + material_price);
-        console.log('pasa updateMontoreal con material_amount               -> ' + material_amount);
+        console.log('pasa updateMontoreal con material_price                -> ' + material_price_kilos);
+        console.log('pasa updateMontoreal con material_amount               -> ' + material_amount_kilos);
 
-        // let exchange_rate_orientation;
-        // let exchange_rate_orientation1     = $('#exchange_rate_orientation2_radio1').is(':checked');
-        // let exchange_rate_orientation2     = $('#exchange_rate_orientation2_radio2').is(':checked');
+        switch (material_type_adquisicion){
+            case 1: // Kilos
+                if (material_price_kilos > 0){
+                    material_amount_total_kilos = material_price_kilos * material_amount_kilos;
+                    $('#material_amount_total_kilos').val(material_amount_total_kilos); 
 
-        // if (exchange_rate_orientation1){
-        //     exchange_rate_orientation = 1;
-        // }else{
-        //     exchange_rate_orientation = 2;
-        // }
+                    material_amount_gramos           = material_amount_kilos * 1000;
+                    material_price_gramos            = material_price_kilos / 1000;
+                    material_amount_total_gramos     = material_price_gramos  * material_amount_gramos;
 
-        /*
-        switch(exchange_rate_orientation){
-            case 1:
-                amount          = amount_foreign_currency / exchange_rate;
-                // alert('si' . amount);
-                amount_total    = amount;
-                break;  
-            case 2:
-                amount          = amount_foreign_currency * exchange_rate;
-                // alert('si' . amount);
-                amount_total    = amount;
-                break;                    
-        }
-        */
+                    $('#material_amount_gramos').val(material_amount_gramos);
+                    $('#material_amount_total_gramos').val(material_amount_total_gramos);
+                    $('#material_price_gramos').val(material_price_gramos);
 
-        // console.log('leam - amount ->' + amount);
+                }        
 
-        if(material_amount_price > 0){
-            if(material_amount > 0){
-                material_amount_total = material_amount_price * material_amount;
-                console.log('leam - aqui');
-                $('#material_amount_total').val(material_amount_total); 
-            }
+                break;      
+            case 2: // Gramos
+
+                if (material_price_gramos > 0){
+
+                    material_amount_total_gramos    = material_price_gramos * material_amount_gramos;
+
+                    material_amount_kilos           = material_amount_gramos / 1000;
+                    material_price_kilos            = material_price_gramos * 1000;
+                    material_amount_total_kilos     = material_price_kilos  * material_amount_kilos;
+
+                    $('#material_amount_kilos').val(material_amount_kilos);
+                    $('#material_amount_total_kilos').val(material_amount_total_kilos);
+                    $('#material_price_kilos').val(material_price_kilos);
+
+                    $('#material_amount_total_gramos').val(material_amount_total_gramos);
+                    
+                }
+
+                break;
+            case 3: // Cantidad
+                if (material_price_cantidad > 0){
+                    // alert('***');
+                    material_amount_total_cantidad = material_price_cantidad * material_amount_cantidad;
+                    $('#material_amount_total_cantidad').val(material_amount_total_cantidad); 
+                }
+                break;
+            default:
         }
 
 
@@ -656,6 +717,63 @@
         //
     }
 
+
+    function validaMaterialTypeAdquisicion(){
+
+        // alert('pasa');
+
+        let material_type_adquisicion1  = $('#material_type_adquisicion1').is(':checked');
+        let material_type_adquisicion2  = $('#material_type_adquisicion2').is(':checked');
+        let material_type_adquisicion3  = $('#material_type_adquisicion3').is(':checked');
+        let material_type_adquisicion   = 0;
+
+        let my_material_amount          = 0;
+
+        if (material_type_adquisicion1){
+            material_type_adquisicion = 1;
+
+            $('#material_amount_kilos').prop('disabled',false);
+            $('#material_amount_gramos').prop('disabled',true);
+            $('#material_amount').prop('disabled',true);
+
+
+            $('#material_amount_kilos').focus();
+
+            // alert($('#material_amount_kilos').val());
+
+        }else if(material_type_adquisicion2){
+            material_type_adquisicion = 2;
+            $('#material_amount_kilos').prop('disabled',true);
+            $('#material_amount_gramos').prop('disabled',false);
+            $('#material_amount').prop('disabled',true);
+
+            $('#material_amount_gramos').focus();
+
+        }else if(material_type_adquisicion3){
+            material_type_adquisicion = 3;
+            $('#material_amount_kilos').prop('disabled',true);
+            $('#material_amount_gramos').prop('disabled',true);
+            $('#material_amount_cantidad').prop('disabled',false);
+
+            $('#material_amount_cantidad').focus();
+
+
+        }
+        // alert('material_type_adquisicion ->' + material_type_adquisicion);
+
+        $('#material_amount_kilos').val("");
+            $('#material_amount_gramos').val("");
+            $('#material_amount_cantidad').val("");
+
+            $('#material_price_kilos').val("");
+            $('#material_price_gramos').val("");
+            $('#material_price_cantidad').val("");
+
+            $('#material_amount_total_kilos').val("");
+            $('#material_amount_total_gramos').val("");
+            $('#material_amount_total_cantidad').val("");
+
+    }
 
 </script>
 

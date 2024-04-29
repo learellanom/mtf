@@ -17,7 +17,7 @@
             {!! Form::open([
                     'route' => 'transactions.store', 
                     'autocomplete' => 'on', 
-                    'files' => true, 
+                    'files' => true, +
                     'enctype' => 'multipart/form-data', 
                     'id' => 'entre']) !!}
 
