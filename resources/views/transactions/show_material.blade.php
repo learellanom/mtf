@@ -139,7 +139,6 @@
                 <hr>
 
                 <div class="form-row">
-
                     <div class="form-group col-md-3">
                         <div class="info-box bg-light">
                             <div class="info-box-content">
@@ -147,21 +146,32 @@
                                 <span class="info-box-number text-center text-muted mb-0">{{ $transactions->type_material->name }}</span>
                             </div>
                         </div>
-                    </div>
+                    </div>                    
+                </div>
 
 
-                    <div class="form-group col-md-3">
+                <!-- tipo de adquisicion -->
+                @php 
+
+                    $myClass	            = new app\Http\Controllers\TransactionController;
+                    $myDesTypeAdquisicion   = $myClass->getDesTyperAdquisicion($transactions->material_type_adquisicion);
+
+                @endphp 
+
+                <div class="form-row">
+                    <div class="form-group col-md-9">
                         <div class="info-box bg-light">
                             <div class="info-box-content">
-                                <span class="info-box-text text-center text-muted">
-                                Precio/U:<i class="fas fa-hryvnia"></i>
-                                </span>
-                                <span class="info-box-number text-center text-muted mb-0 text-uppercase">
-                                    {{ number_format($transactions->material_price,2,",",".") ?? '0.00' }}
-                                </span>
+                                <span class="info-box-text text-center text-muted">Tipo de adquisicion <i class="fas fa-funnel-dollar"></i></span>
+                                <span class="info-box-number text-center text-muted mb-0">{{ $myDesTypeAdquisicion}}</span>
                             </div>
                         </div>
-                    </div>
+                    </div>                    
+                </div>
+
+
+                <div class="form-row">
+
 
                     <div class="form-group col-md-3">
                         <div class="info-box bg-light">
@@ -170,11 +180,25 @@
                                     Cantidad<i class="fas fa-hryvnia"></i>
                                 </span>
                                 <span class="info-box-number text-center text-muted mb-0 text-uppercase">
-                                    {{ number_format($transactions->material_amount,2,",",".") ?? '0.00' }}
+                                    {{ number_format($transactions->material_amount_kilos,2,",",".") ?? '0.00' }}
                                 </span>
                             </div>
                         </div>
                     </div>
+
+                    <div class="form-group col-md-3">
+                        <div class="info-box bg-light">
+                            <div class="info-box-content">
+                                <span class="info-box-text text-center text-muted">
+                                Precio/U:<i class="fas fa-hryvnia"></i>
+                                </span>
+                                <span class="info-box-number text-center text-muted mb-0 text-uppercase">
+                                    {{ number_format($transactions->material_price_kilos,2,",",".") ?? '0.00' }}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
 
 
                     <div class="form-group col-md-3">
@@ -184,7 +208,7 @@
                                 Monto Total Material<i class="fas fa-hryvnia"></i>
                                 </span>
                                 <span class="info-box-number text-center text-muted mb-0 text-uppercase">
-                                    {{ number_format($transactions->material_amount_total,2,",",".") ?? '0.00' }}
+                                    {{ number_format($transactions->material_amount_total_kilos,2,",",".") ?? '0.00' }}
                                 </span>
                             </div>
                         </div>
@@ -194,6 +218,109 @@
 
 
                 <hr>
+
+
+
+                <div class="form-row">
+
+                    <div class="form-group col-md-3">
+                        <div class="info-box bg-light">
+                            <div class="info-box-content">
+                                <span class="info-box-text text-center text-muted">
+                                    Cantidad<i class="fas fa-hryvnia"></i>
+                                </span>
+                                <span class="info-box-number text-center text-muted mb-0 text-uppercase">
+                                    {{ number_format($transactions->material_amount_gramos,2,",",".") ?? '0.00' }}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-3">
+                        <div class="info-box bg-light">
+                            <div class="info-box-content">
+                                <span class="info-box-text text-center text-muted">
+                                Precio/U:<i class="fas fa-hryvnia"></i>
+                                </span>
+                                <span class="info-box-number text-center text-muted mb-0 text-uppercase">
+                                    {{ number_format($transactions->material_price_gramos,2,",",".") ?? '0.00' }}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+                    <div class="form-group col-md-3">
+                        <div class="info-box bg-light">
+                            <div class="info-box-content">
+                                <span class="info-box-text text-center text-muted">
+                                Monto Total Material<i class="fas fa-hryvnia"></i>
+                                </span>
+                                <span class="info-box-number text-center text-muted mb-0 text-uppercase">
+                                    {{ number_format($transactions->material_amount_total_gramos,2,",",".") ?? '0.00' }}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <hr>
+
+
+
+                <div class="form-row">
+
+
+                    <div class="form-group col-md-3">
+                        <div class="info-box bg-light">
+                            <div class="info-box-content">
+                                <span class="info-box-text text-center text-muted">
+                                    Cantidad<i class="fas fa-hryvnia"></i>
+                                </span>
+                                <span class="info-box-number text-center text-muted mb-0 text-uppercase">
+                                    {{ number_format($transactions->material_amount_cantidad,2,",",".") ?? '0.00' }}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-3">
+                        <div class="info-box bg-light">
+                            <div class="info-box-content">
+                                <span class="info-box-text text-center text-muted">
+                                Precio/U:<i class="fas fa-hryvnia"></i>
+                                </span>
+                                <span class="info-box-number text-center text-muted mb-0 text-uppercase">
+                                    {{ number_format($transactions->material_price_cantidad,2,",",".") ?? '0.00' }}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+                    <div class="form-group col-md-3">
+                        <div class="info-box bg-light">
+                            <div class="info-box-content">
+                                <span class="info-box-text text-center text-muted">
+                                Monto Total Material<i class="fas fa-hryvnia"></i>
+                                </span>
+                                <span class="info-box-number text-center text-muted mb-0 text-uppercase">
+                                    {{ number_format($transactions->material_amount_total_cantidad,2,",",".") ?? '0.00' }}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <hr>                
 
                 <div class="form-row">
                                             

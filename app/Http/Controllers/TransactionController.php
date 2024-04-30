@@ -206,18 +206,22 @@ class TransactionController extends Controller
         $myTypeTransaction = 47; // Adquisiciones de materiales
 
 
-
-        // echo "<br>" . "myTypeTransaction " . $myTypeTransaction;
-        // echo "<br>" . "fechaDesde        " . $fechaDesde;
-        // echo "<br>" . "fechaHasta        " . $fechaHasta;        
-        // echo "<br>" . "myFechaDesde      " . $myFechaDesde;
-        // echo "<br>" . "myFechaHasta      " . $myFechaHasta;
-        // echo "<br>" . "myWalletDesde     " . $myWalletDesde;
-        // echo "<br>" . "myWalletHasta     " . $myWalletHasta;
-        // echo "<br>" . "myGroupDesde      " . $myGroupDesde;
-        // echo "<br>" . "myGroupHasta      " . $myGroupHasta;        
-        // die();
-
+        /*
+        echo "<br>" . "myTypeTransaction " . $myTypeTransaction;
+        echo "<br>" . "fechaDesde        " . $fechaDesde;
+        echo "<br>" . "fechaHasta        " . $fechaHasta;
+        echo "<br>" . "myFechaDesde      " . $myFechaDesde;
+        echo "<br>" . "myFechaHasta      " . $myFechaHasta;
+        echo "<br>" . "myWalletDesde     " . $myWalletDesde;
+        echo "<br>" . "myWalletHasta     " . $myWalletHasta;
+        echo "<br>" . "myGroupDesde      " . $myGroupDesde;
+        echo "<br>" . "myGroupHasta      " . $myGroupHasta;
+        echo "<br>" . "myTypeMaterialDesde      " . $myTypeMaterialDesde;
+        echo "<br>" . "myTypeMaterialHasta      " . $myTypeMaterialHasta;        
+        echo "<br>" . "myUsuarioDesde    " . $myUsuarioDesde;
+        echo "<br>" . "myUsuarioHasta    " . $myUsuarioHasta;
+         die();
+        */
         $movimientos = Transaction::where('type_transaction_id', '=', $myTypeTransaction)
         ->whereBetween('wallet_id',         [$myWalletDesde, $myWalletHasta])
         ->whereBetween('group_id',          [$myGroupDesde,  $myGroupHasta])
@@ -226,6 +230,8 @@ class TransactionController extends Controller
         ->whereBetween('user_id',           [$myUsuarioDesde , $myUsuarioHasta])   
         ->orderBy('created_at','desc')       
         ->get();
+
+        //dd($movimientos);
 
         $myFechaDesde2  =  substr($myFechaDesde,8,2) . '-' . substr($myFechaDesde,5,2) . '-' . substr($myFechaDesde,0,4);
         $myFechaHasta2  =  substr($myFechaHasta,8,2) . '-' . substr($myFechaHasta,5,2) . '-' . substr($myFechaHasta,0,4);
@@ -839,25 +845,21 @@ class TransactionController extends Controller
      * Store a newly created resource in storage.
      */
 
-     public function materials_adquisicion_store(Request $request)
-     {
-         // dd($request->all());
-         // $myRequest = $request;
+    public function materials_adquisicion_store(Request $request)
+    {
+        //  dd($request->all());
  
-         // \Log::info('request2 -> ' . $request2->all());
-         // \Log::info('request  -> ' . $request->all());
- 
+        // \Log::info('request2 -> ' . $request2->all());
+        // \Log::info('request  -> ' . $request->all());
+        
          $transaction = Transaction::create($request->all() );
- 
 
- 
          flash()->addSuccess('Movimiento guardado', 'Transacción', ['timeOut' => 3000]);
- 
  
          return Redirect::route('materials.adquisicion_index');
  
  
-     }
+    }
 
     /**
      * Store a newly created resource in storage.
@@ -2904,5 +2906,21 @@ class TransactionController extends Controller
         return view('transactions.transactionAudit', $parametros);
 
 
+    }
+
+    function getDesTyperAdquisicion($myType){
+        switch ($myType){
+            case 1:
+                return "Kilos";
+                break;
+            case 2:
+                return "Gramos";
+                break;
+            case 3:
+                return "Cantidad";
+                break;
+            deafult:
+                return "";
+        }
     }
 }

@@ -183,10 +183,11 @@
                                     <th style="width:1%;"   >Nro</th>
                                     <th style="width:1%;"   >Caja</th>
                                     <th style="width:1%;"   >Grupo</th>
-                                    <th                     >Fecha</th>
-                                    <th                     >Fecha Creacion</th>
+                                    <th                     >Fecha <br> Transaccion</th>
+                                    <th                     >Fecha <br> Creacion</th>
                                     <th                     >Descripción</th>
                                     <th                     >Material</th>
+                                    <th                     >Tipo</th>
                                     <th style="width:1%;"   >Precio/U</th>
                                     <th style="width:1%;"   >Cantidad</th>
                                     <th style="width:10%;"  >Monto</th>
@@ -213,21 +214,59 @@
                             
                                 @foreach($movimientos as $movimiento)
                                 
+                                    @php 
+                                        $myDesTypeAdquisicion   = $myClass->getDesTyperAdquisicion($movimiento->material_type_adquisicion);
+                                        switch($movimiento->material_type_adquisicion){
+                                            case 1:
+                                                $myMaterialPrice        = $movimiento->material_price_kilos;
+                                                $myMaterialAmount       = $movimiento->material_amount_kilos;
+                                                $myMaterialAmountTotal  = $movimiento->material_amount_total_kilos;
+                                                break;
+                                            case 2:
+                                                $myMaterialPrice        = $movimiento->material_price_gramos;
+                                                $myMaterialAmount       = $movimiento->material_amount_gramos;
+                                                $myMaterialAmountTotal  = $movimiento->material_amount_total_gramos; 
+                                                break;
+                                            case 3:
+                                                $myMaterialPrice        = $movimiento->material_price_cantidad;
+                                                $myMaterialAmount       = $movimiento->material_amount_cantidad;
+                                                $myMaterialAmountTotal  = $movimiento->material_amount_total_cantidad;                                                
+                                                break;
+                                            default:
+                                                $myMaterialPrice        = 0;
+                                                $myMaterialAmount       = 0;
+                                                $myMaterialAmountTotal  = 0;
+
+                                        }
+
+                                    @endphp
+
                                     <tr>
                                         <td class="font-weight-bold">{{ $movimiento->id }}</td>
                                         <td class="font-weight-bold">{{ $movimiento->wallet->name ?? "" }}</td>                                    
                                         <td class="font-weight-bold">{{ $movimiento->group->name ?? "" }}</td>
-                                        <td class="font-weight-bold" style="min-width: 80px;">{!! $movimiento->transaction_date !!}</td>
-                                        <td class="font-weight-bold" style="min-width: 80px;">{!! $movimiento->created_at !!}</td>
+                                        <td class="font-weight-bold" style="min-width: 80px;">
+                                            {!! substr($movimiento->transaction_date,0,10) !!}
+                                            <br>
+                                            {!! substr($movimiento->transaction_date,11,8) !!}
+                                        </td>
+                                        <td class="font-weight-bold" style="min-width: 80px;">
+                                            {!! substr($movimiento->created_at,0,10) !!}
+                                            <br>
+                                            {!! substr($movimiento->created_at,11,8) !!}
+                                        </td>
                                         <td class="font-weight-bold">
                                             <div style='width:60px; height:60px; overflow:hidden;'>{!!  $movimiento->description !!}</div>
                                         </td>
                                         <td >{!! $movimiento->type_material->name ?? '' !!}</td>
-                                        <td class="font-weight-bold">{!! number_format($movimiento->material_price,2,".") ?? ''!!} </td>
+                                        
+                                        <td>{!! $myDesTypeAdquisicion ?? '' !!}</td>
 
-                                        <td>{!! number_format($movimiento->material_amount) ?? '' !!}</td>
+                                        <td class="font-weight-bold">{!! number_format($myMaterialPrice,2,".") ?? ''!!} </td>
 
-                                        <td class="font-weight-bold">{!!  number_format($movimiento->material_amount_total) !!} 
+                                        <td>{!! number_format($myMaterialAmount) ?? '' !!}</td>
+
+                                        <td class="font-weight-bold">{!!  number_format($myMaterialAmountTotal) !!} 
                                             <i class="fas fa-dollar-sign"></i>
                                         </td>
 
@@ -279,14 +318,13 @@
                                             </a>
                                         </td>
                                         @can('materials.adquisicion_audit')
-                                        <td>
-                                        
-                                            <a  href="{{ route('materials.adquisicion_audit', $movimiento) }}"  
-                                             {{-- <a  href="{{ route('transactions.audit', $movimiento) }}"  --}}
-                                                class="btn btn-xl text-dark mx-1 shadow text-center">
-                                                <i class="fa fa-lg fa-fw fas fa-solid fa-list"></i>        
-                                            </a>
-                                        </td>
+                                            <td>
+                                                <a  href="{{ route('materials.adquisicion_audit', $movimiento) }}"  
+                                                {{-- <a  href="{{ route('transactions.audit', $movimiento) }}"  --}}
+                                                    class="btn btn-xl text-dark mx-1 shadow text-center">
+                                                    <i class="fa fa-lg fa-fw fas fa-solid fa-list"></i>        
+                                                </a>
+                                            </td>
                                         @endcan
                                     </tr>
 
