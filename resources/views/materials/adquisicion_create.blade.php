@@ -99,7 +99,7 @@
                 </div>
 
                 <hr class="bg-dark esconder" style="height:1px;">
-                
+
                 <div class="form-row">
                     <div class="form-group col-lg-4">
                         {!! Form::Label('material_amount_kilos', "kilos:") !!}
@@ -609,18 +609,13 @@
         console.log('leam - typetransferencia pasa');
         // Capturar dato seleccionado
   
-            
-
-            $('#wallet').prop("disabled", false);
-            $('#typecoin').prop("disabled", false);
-            $('#wallet').prop("required", true);
-            $('#typecoin').prop("required", true);
+        $('#wallet').prop("disabled", false);
+        $('#typecoin').prop("disabled", false);
+        $('#wallet').prop("required", true);
+        $('#typecoin').prop("required", true);
 
     });
     
-
-
-
     /*
     *
     *
@@ -634,7 +629,7 @@
 
         let material_amount_kilos       = ($('#material_amount_kilos').val())           ? parseFloat($('#material_amount_kilos').val())     : 0;
         let material_amount_gramos      = ($('#material_amount_gramos').val())          ? parseFloat($('#material_amount_gramos').val())    : 0;
-        let material_amount_cantidad    = ($('#material_amount_cantidad').val())        ? parseFloat($('#material_amount_cantidad').val())           : 0;
+        let material_amount_cantidad    = ($('#material_amount_cantidad').val())        ? parseFloat($('#material_amount_cantidad').val())  : 0;
         
         let material_price_kilos        = ($('#material_price_kilos').val())        ? parseFloat($('#material_price_kilos').val())      : 0;
         let material_price_gramos       = ($('#material_price_gramos').val())       ? parseFloat($('#material_price_gramos').val())     : 0;
@@ -757,11 +752,6 @@
                 break;
             default:
         }
-
-
-        // $('#amount').val(amount);
-        // $('#amount_total').val(amount_total);
-
     
     }
 

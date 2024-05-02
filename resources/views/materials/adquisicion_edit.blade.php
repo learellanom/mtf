@@ -37,6 +37,7 @@
                 <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
                     {!! Form::hidden('user_id',auth()->id(), null, ['class' => 'form-control', 'required' => true]) !!}
                     {!! Form::hidden('amount',0, null, ['class' => 'form-control', 'required' => true]) !!}
+
                     <div class="form-row">
                         {{--
                         <div class="form-group col-md-4 col-xl-4">
@@ -47,7 +48,7 @@
                             </div>
                         </div>
                         --}}
-                        <div class="form-group col-md-4 col-xl-4">
+                        <div class="form-group col-xl-4">
                             {!! Form::Label('typetrasnferencia', "Tipo de Movimiento:") !!}
                             <div class="input-group-text col-md-12" style="height:3.3rem;">
                                 <i class="fa-fw fas fa-random mr-2"></i>
@@ -55,10 +56,7 @@
                             </div>
                         </div>
 
-
-
-
-                        <div class="form-group col-md-4 col-xl-4 esconder">
+                        <div class="form-group col-xl-4 esconder">
                             {!! Form::Label('wallet', "Caja:") !!}
                             <div class="input-group-text col-md-12">
                                 <i class="fa-fw fas fa-box-open mr-2"></i>
@@ -66,7 +64,7 @@
                             </div>
                         </div>
 
-                        <div class="form-group col-md-4 col-xl-4">
+                        <div class="form-group col-xl-4">
                             {!! Form::Label('clientes', "Grupo:") !!}
                             <div class="input-group-text">
                                 <i class="fa-fw fas fas fa-user-friends mr-2"></i>
@@ -75,139 +73,140 @@
                         </div>
                     </div>
 
-                    {{--
-                    <hr class="bg-dark esconder" style="height:1px;">    
-                    <div class="form-row esconder">
-                        <div class="form-group col-md-4">
-                            {!! Form::Label('type_coin_id', "Tipo de moneda:") !!}
-                            <div class="input-group-text">
-                                <i class="fa-fw fas fa-dollar-sign mr-2"></i>
-                            {!! Form::select('type_coin_id',$type_coin, null, ['class' => 'form-control typecoin', 'required' => true, 'id' => 'type_coin_id', 'readonly' => false]) !!}
-                            </div>
-                        </div>
-
-                        <div class="form-group col-md-4">
-                            {!! Form::Label('exchange_rate', "Tasa:") !!}
-                            <div class="input-group-text">
-                                <i class="fa-fw fas fa-random mr-2"></i>
-                            {!! Form::text('exchange_rate',null, ['class' => 'form-control rateMasks myForm', 'required' => true, 'id' => 'exchange_rate', 'minlength' => 9]) !!}
-                            
-                            </div>
-                        </div>
-
-                        <div class="form-group col-md-4">
-                            {!! Form::Label('amount_foreign_currency', "Monto en moneda extranjera:") !!}
-                            <div class="input-group-text">
-                                <i class="fa-fw fas fa-coins mr-2"></i>
-                                {!! Form::text('amount_foreign_currency',null, ['class' => 'form-control general myForm', 'required' => true, 'id' => 'amount_foreign_currency']) !!}
-                            </div>
-                        </div>
-
-
-
-                    </div>
-
-
-                    <div class="form-row">
-                        <div class="form-group  col-12 mt-4 mb-4">
-                            <label class="form-check-label mx-auto  col-md-3">
-                                {!! Form::Label('', "Orientacion del Cambio:") !!}
-                            </label>
-
-                            <label class="form-check-label mx-auto col-md-4" for="exchange_rate_orientation2_radio1">
-                                {!! Form::radio('exchange_rate_orientation',1, 1, ['id' => 'exchange_rate_orientation2_radio1', 'class' => 'myForm','required' => true,]) !!}
-                                De tipo Moneda Balance -> Tipo de Moneda
-                            </label>
-                            <label class="form-check-label mx-auto esconder comi col-md-4" for="exchange_rate_orientation2_radio2">
-                                {!! Form::radio('exchange_rate_orientation',2, null, ['id' => 'exchange_rate_orientation2_radio2', 'class' => 'myForm', 'required' => true,]) !!}
-                                De tipo Moneda  -> Tipo de Moneda Balance
-                            </label>
-                            <!--
-                            <label class="form-check-label mx-auto esconder comi col-md-2">
-                            </label>
-                            -->
-                        </div>                        
-                    </div>
-
-
-                    <div class="form-row">
-
-                        <div class="form-group col-xl-4">
-                            {!! Form::Label('type_coin_balance_id', "Tipo de moneda Balance:") !!}
-                            <div class="input-group-text">
-                                <i class="fa-fw fas fa-dollar-sign mr-2"></i>
-                                {!! Form::select('type_coin_balance_id',$type_coin, null, ['class' => 'form-control myForm', 'required' => true, 'id' => 'type_coin_balance_id', 'readonly' => false]) !!}
-                            </div>
-                        </div>                    
-                        <div class="form-group col-xl-8">
-                            {!! Form::Label('monto_dolares', "Monto :") !!}
-                            <div class="input-group-text">
-                                <i class="fa-fw fas fas fa-funnel-dollar mr-2"></i>
-                                {!! Form::text('amount', null, ['class' => 'form-control dolar general myForm', 'required' => true, 'id' => 'amount', 'readonly' => true, 'data-mask-clearifnotmatch' => true]) !!}
-                            </div>
-                        </div>
-
-                    </div>
-                    --}}
 
                 </div>
                 <hr class="bg-dark escoder" style="height:1px;">   
-                <div class="form-row">
-                    
 
-                       
-                    <div class="form-group col-md-3">
+                <div class="form-row">
+                    <div class="form-group col-xl-3">
                         {!! Form::Label('type_material_id', "Tipo de material:") !!}
                         <div class="input-group-text">
                             <i class="fa-fw fas fa-dollar-sign mr-2"></i>
                         {!! Form::select('type_material_id',$type_material, null, ['class' => 'form-control type_material_id myForm', 'required' => true, 'id' => 'type_material_id', 'readonly' => false]) !!}
                         </div>
                     </div>
+                </div>
+                <hr class="bg-dark escoder" style="height:1px;">   
 
-                    <div class="form-group col-md-3">
-                        {!! Form::Label('material_price', "Precio/U:") !!}
-                        <div class="input-group-text">
-                            <i class="fa-fw fas fa-random mr-2"></i>
-                        {!! Form::text('material_price',null, ['class' => 'form-control rateMasks myForm', 'required' => true, 'id' => 'material_price', 'minlength' => 9]) !!}
-                        
-                        </div>
+                @php 
+                            
+                @endphp
+
+                <div class="form-row col-lg-12 justify-content-center align-items-center">        
+                    <p>Tipo de Adquisicion  :</p>
+                </div>
+
+                <div class="form-row  col-lg-12 justify-content-center align-items-center">
+                    <div class="col-sm-12 col-md-4">
+                        <input class="myForm" type="radio" id="material_type_adquisicion1" name="material_type_adquisicion" value="1">
+                        <label for="material_type_adquisicion1">Kilos</label>
+                    </div>
+                    <div class="col-sm-12 col-md-4">
+
+                        <input class="myForm" type="radio" id="material_type_adquisicion2" name="material_type_adquisicion" value="2">
+                        <label for="material_type_adquisicion2">Gramos</label>
                     </div>
 
-                    <div class="form-group col-md-3">
-                        {!! Form::Label('material_amount', "Cantidad:") !!}
+                    <div class="col-sm-12 col-md-4">
+
+                        <input class="myForm" type="radio" id="material_type_adquisicion3" name="material_type_adquisicion" value="3">
+                        <label for="material_type_adquisicion3">Cantidad</label>
+                    </div>
+                </div>
+
+                <hr class="bg-dark esconder" style="height:1px;">
+                
+
+                <div class="form-row">
+                    <div class="form-group col-lg-4">
+                        {!! Form::Label('material_amount_kilos', "kilos:") !!}
                         <div class="input-group-text">
                             <i class="fa-fw fas fa-coins mr-2"></i>
-                            {!! Form::text('material_amount',null, ['class' => 'form-control general myForm', 'required' => true, 'id' => 'material_amount']) !!}
+                            {!! Form::text('material_amount_kilos',null, ['class' => 'form-control general myForm', 'required' => true, 'id' => 'material_amount_kilos']) !!}
                         </div>
+
+                        {!! Form::Label('material_amount_gramos', "Gramos:") !!}
+                        <div class="input-group-text">
+                            <i class="fa-fw fas fa-coins mr-2"></i>
+                            {!! Form::text('material_amount_gramos',null, ['class' => 'form-control general myForm', 'required' => true, 'id' => 'material_amount_gramos', 'readonly' => 'true']) !!}
+                        </div>
+
+                        {!! Form::Label('material_amount_cantidad', "Cantidad:") !!}
+                        <div class="input-group-text">
+                            <i class="fa-fw fas fa-coins mr-2"></i>
+                            {!! Form::text('material_amount_cantidad',null, ['class' => 'form-control general myForm', 'required' => true, 'id' => 'material_amount_cantidad', 'readonly' => 'true']) !!}
+                        </div>
+
                     </div>
-                    <div class="form-group col-md-3">
-                        {!! Form::Label('material_amount_total', "Monto Total Material:") !!}
+
+
+
+                    <div class="form-group col-lg-4">
+                            {!! Form::Label('material_price', "Precio/U Kilos:") !!}
+                            <div class="input-group-text">
+                                <i class="fa-fw fas fa-random mr-2"></i>
+                                {!! Form::text('material_price_kilos',null, ['class' => 'form-control general myForm', 'required' => true, 'id' => 'material_price_kilos', 'minlength' => 9]) !!}
+                            
+                            </div>
+
+                            {!! Form::Label('material_price', "Precio/U Gramos:") !!}
+                            <div class="input-group-text">
+                                <i class="fa-fw fas fa-random mr-2"></i>
+                                {!! Form::text('material_price_gramos',null, ['class' => 'form-control general myForm', 'required' => true, 'id' => 'material_price_gramos', 'minlength' => 9, 'readonly' => true,]) !!}
+                            
+                            </div>
+
+
+                            {!! Form::Label('material_price', "Precio/U Cantidad:") !!}
+                            <div class="input-group-text">
+                                <i class="fa-fw fas fa-random mr-2"></i>
+                                {!! Form::text('material_price_cantidad',null, ['class' => 'form-control general myForm', 'required' => true, 'id' => 'material_price_cantidad', 'minlength' => 9, 'readonly' => true,]) !!}
+                            
+                            </div>
+
+                    </div>
+
+                
+
+                    <div class="form-group col-lg-4">
+                        {!! Form::Label('material_amount_total', "Monto Total $ Kilos:") !!}
                         <div class="input-group-text">
                             <i class="fa-fw fas fas fa-funnel-dollar mr-2"></i>
-                            {!! Form::text('material_amount_total', null, ['class' => 'form-control dolar general', 'required' => true, 'id' => 'material_amount_total', 'readonly' => true, 'data-mask-clearifnotmatch' => true]) !!}
+                            {!! Form::text('material_amount_total_kilos', null, ['class' => 'form-control  general', 'required' => true, 'id' => 'material_amount_total_kilos', 'readonly' => true, 'data-mask-clearifnotmatch' => true]) !!}
                         </div>
+
+                        {!! Form::Label('material_amount_total', "Monto Total $ Gramos:") !!}
+                        <div class="input-group-text">
+                            <i class="fa-fw fas fas fa-funnel-dollar mr-2"></i>
+                            {!! Form::text('material_amount_total_gramos', null, ['class' => 'form-control general', 'required' => true, 'id' => 'material_amount_total_gramos', 'readonly' => true, 'data-mask-clearifnotmatch' => true]) !!}
+                        </div>
+                        
+                        {!! Form::Label('material_amount_total', "Monto Total $ Cantidad:") !!}
+                        <div class="input-group-text">
+                            <i class="fa-fw fas fas fa-funnel-dollar mr-2"></i>
+                            {!! Form::text('material_amount_total_cantidad', null, ['class' => 'form-control general', 'required' => true, 'id' => 'material_amount_total_cantidad', 'readonly' => true, 'data-mask-clearifnotmatch' => true]) !!}
+                        </div>                        
                     </div>
                 </div>
 
                 <hr class="bg-dark esconder" style="height:1px;">    
 
                 <div class="form-row">
-                        <div class="form-group col-xl-4">
-                            {!! Form::Label('fecha', "Fecha:") !!}
-                            <div class="input-group-text">
-                                <i class="fa-fw fas fas fa-calendar-week mr-2"></i>
+                    <div class="form-group col-xl-4">
+                        {!! Form::Label('fecha', "Fecha:") !!}
+                        <div class="input-group-text">
+                            <i class="fa-fw fas fas fa-calendar-week mr-2"></i>
                             {!! Form::datetimeLocal('transaction_date', $transactions->transaction_date, ['class' => 'form-control', 'required' => true, 'id' => 'fecha']) !!}
-                            </div>
-                        </div>                    
+                        </div>
+                    </div>                    
                 </div>
-
 
                 <div class="form-group">
    
                     {!! Form::Label('description', "Descripción:") !!}
                     <div class="input-group-text">
                         <i class="fa-fw fas fa-text-width mr-2"></i>
-                    {!! Form::textarea('description',null, ['rows' => 1, 'class' => 'form-control', 'required' => false]) !!}
+                        {!! Form::textarea('description',null, ['rows' => 1, 'class' => 'form-control', 'required' => false]) !!}
                     </div>
                 </div>
 
@@ -215,14 +214,9 @@
 
             </div>
 
-
-
         </div>
 
-
-
-
-          {!! Form::close() !!}
+        {!! Form::close() !!}
 
       </div>
   </div>
@@ -392,6 +386,9 @@
 
     $(document).ready(function() {
 
+
+        buscaTipoAdquisicion();
+
         // alert(" " + {{ $transactions->type_transaction_id}});
         if ({{ $transactions->type_coin_id}} == 1) {
             // $('#tasa').attr("readonly", true);
@@ -405,7 +402,9 @@
         $('#myForm').on('input', function (){
             // alert('cambio');
             calcula();
+
         });        
+
 
         $('#myForm').on('submit', function() {
             // alert($('#percentage').val());
@@ -474,54 +473,235 @@
     });
     
     function calcula(){
-        // alert('calcula ----');
+
+
+
+        let material_amount_kilos       = ($('#material_amount_kilos').val())           ? parseFloat($('#material_amount_kilos').val())     : 0;
+        let material_amount_gramos      = ($('#material_amount_gramos').val())          ? parseFloat($('#material_amount_gramos').val())    : 0;
+        let material_amount_cantidad    = ($('#material_amount_cantidad').val())        ? parseFloat($('#material_amount_cantidad').val())  : 0;
         
-        // let type_coin_id                = {{ $transactions->type_coin_id}} ;
-        // let exchange_rate               = $('#exchange_rate').val()                 != "" ? parseFloat($('#exchange_rate').val())           : 0;
-        // let amount_foreign_currency     = $('#monamount_foreign_currencyto').val()  != "" ? parseFloat($('#amount_foreign_currency').val()) : 0;  // amount_foreign_currency - monto moneda extranjera
-        // let amount                      = $('#amount').val()                        != "" ? parseFloat($('#amount').val())                  : 0;
+        let material_price_kilos        = ($('#material_price_kilos').val())        ? parseFloat($('#material_price_kilos').val())      : 0;
+        let material_price_gramos       = ($('#material_price_gramos').val())       ? parseFloat($('#material_price_gramos').val())     : 0;
+        let material_price_cantidad     = ($('#material_price_cantidad').val())     ? parseFloat($('#material_price_cantidad').val())   : 0;
 
-        // let exchange_rate_orientation;
-        // let exchange_rate_orientation1  = $('#exchange_rate_orientation2_radio1').is(':checked');
-        // let exchange_rate_orientation2  = $('#exchange_rate_orientation2_radio2').is(':checked');
-        
-        let material_price              = $('#material_price').val()             != "" ? parseFloat($('#material_price').val())             : 0;
-        let material_amount             = $('#material_amount').val()            != "" ? parseFloat($('#material_amount').val())             : 0;
+        let material_type_adquisicion1  = $('#material_type_adquisicion1').is(':checked');
+        let material_type_adquisicion2  = $('#material_type_adquisicion2').is(':checked');
+        let material_type_adquisicion3  = $('#material_type_adquisicion3').is(':checked');
 
-        // if (exchange_rate_orientation1){
-        //     exchange_rate_orientation = 1;
-        // }else{
-        //     exchange_rate_orientation = 2;
-        // }
+        let material_type_adquisicion   = 0;
 
-        // console.log('leam - ' + exchange_rate_orientation);
-        
-        // if (exchange_rate > 0){
-        //     switch(exchange_rate_orientation){
-        //         case 1:
-        //             amount = amount_foreign_currency / exchange_rate;
-        //             break;
-        //         case 2:
-        //             amount = amount_foreign_currency * exchange_rate;
-        //             break;
-        //     }
-        // }else{
-        //     //amount = 0;
-        //     //amount_foreign_currency = 0;
-        // }
+        let my_material_amount          = 0;
 
-        let material_amount_total;
-        if (material_price > 0){
-            if (material_amount > 0){
-                material_amount_total = material_price * material_amount;
-            }
+
+
+        if (material_type_adquisicion1){
+            material_type_adquisicion = 1;
+
+            $('#material_amount_kilos').prop('readonly',false);
+            $('#material_price_kilos').prop('readonly',false);
+
+
+            $('#material_amount_gramos').prop('readonly',true);
+            $('#material_price_gramos').prop('readonly',true);
+
+            $('#material_amount_cantidad').prop('readonly',true);
+            $('#material_price_cantidad').prop('readonly',true);
+
+
+            // alert($('#material_amount_kilos').val());
+
+            $('#material_amount_gramos').val("");
+            $('#material_price_gramos').val("");
+            $('#material_amount_total_gramos').val("");
+
+            $('#material_amount_cantidad').val("");
+            $('#material_price_cantidad').val("");
+            $('#material_amount_total_cantidad').val("");
+
+
+
+        }else if(material_type_adquisicion2){
+            material_type_adquisicion = 2; // gramos
+            $('#material_amount_kilos').prop('readonly',true);
+            $('#material_amount_gramos').prop('readonly',false);
+            $('#material_amount_cantidad').prop('readonly',true);
+
+            $('#material_price_kilos').prop('readonly',true);
+            $('#material_price_gramos').prop('readonly',false);
+            $('#material_price_cantidad').prop('readonly',true);
+
+
+            $('#material_amount_kilos').val("");
+            $('#material_price_kilos').val("");
+            $('#material_amount_total_kilos').val("");
+            
+            $('#material_amount_cantidad').val("");
+            $('#material_price_cantidad').val("");
+            $('#material_amount_total_cantidad').val("");
+
+        }else if(material_type_adquisicion3){
+            material_type_adquisicion = 3; // cantidad
+            $('#material_amount_kilos').prop('readonly',true);
+            $('#material_amount_gramos').prop('readonly',true);
+            $('#material_amount_cantidad').prop('readonly',false);
+
+            $('#material_price_kilos').prop('readonly',true);
+            $('#material_price_gramos').prop('readonly',true);
+            $('#material_price_cantidad').prop('readonly',false);
+
+
+            $('#material_amount_kilos').val("");
+            $('#material_price_kilos').val("");
+            $('#material_amount_total_kilos').val("");
+
+            $('#material_amount_gramos').val("");
+            $('#material_price_gramos').val("");
+            $('#material_amount_total_gramos').val("");
+
+        }
+        // alert('material_type_adquisicion ->' + material_type_adquisicion);
+
+
+
+        // console.log('pasa updateMontoreal');
+        // console.log('pasa updateMontoreal con exchange_rate                 -> ' + exchange_rate);
+        // console.log('pasa updateMontoreal con amount_foreign_currency       -> ' + amount_foreign_currency);
+        // console.log('pasa updateMontoreal con amount                        -> ' + amount);
+        // console.log('pasa updateMontoreal con amount_total                  -> ' + amount_total);
+        //console.log('pasa updateMontoreal con material_price                -> ' + material_price_kilos);
+        //console.log('pasa updateMontoreal con material_amount               -> ' + material_amount_kilos);
+
+        switch (material_type_adquisicion){
+            case 1: // Kilos
+                if (material_price_kilos > 0){
+                    material_amount_total_kilos = material_price_kilos * material_amount_kilos;
+                    $('#material_amount_total_kilos').val(material_amount_total_kilos); 
+
+                    material_amount_gramos           = material_amount_kilos * 1000;
+                    material_price_gramos            = material_price_kilos / 1000;
+                    material_amount_total_gramos     = material_price_gramos  * material_amount_gramos;
+
+                    $('#material_amount_gramos').val(material_amount_gramos);
+                    $('#material_amount_total_gramos').val(material_amount_total_gramos);
+                    $('#material_price_gramos').val(material_price_gramos);
+
+                }        
+               
+                
+                break;      
+            case 2: // Gramos
+
+                if (material_price_gramos > 0){
+
+                    material_amount_total_gramos    = material_price_gramos * material_amount_gramos;
+
+                    material_amount_kilos           = material_amount_gramos / 1000;
+                    material_price_kilos            = material_price_gramos * 1000;
+                    material_amount_total_kilos     = material_price_kilos  * material_amount_kilos;
+
+                    $('#material_amount_kilos').val(material_amount_kilos);
+                    $('#material_amount_total_kilos').val(material_amount_total_kilos);
+                    $('#material_price_kilos').val(material_price_kilos);
+
+                    $('#material_amount_total_gramos').val(material_amount_total_gramos);
+                    
+                }
+                
+                break;
+            case 3: // Cantidad
+                if (material_price_cantidad > 0){
+
+                    material_amount_total_cantidad = material_price_cantidad * material_amount_cantidad;
+                    // alert(material_amount_cantidad);
+                    $('#material_amount_total_cantidad').val(material_amount_total_cantidad); 
+                }
+
+                
+
+
+                break;
+            default:
+        }
+    
+
+
+
+
+    }
+
+
+    function BuscaMyElement(myControl = "", myElement = ""){
+        // alert("BuscaTypeMaterial - myTypeMaterial -> " + myTypeMaterial);
+
+        let mySelect = myControl;
+        let myValue  = myElement;
+
+        // console.log('leam - busca en select ->' + mySelect);
+        // console.log('leam - busca myValue   ->' + myValue);
+
+        $('#' + mySelect).each( function(index, element){
+            // alert ("BuscaMaterial -> " + $(this).val() + " text -> " + $(this).text()+ " y con index -> " + $(this).prop('selectedIndex'));
+            $(this).children("option").each(function(){
+                if ($(this).val() === myValue.toString()){
+                    // alert('Busca Material - encontro');
+                    // console.log('Busca Material - encontro');
+                    $("#" + mySelect + " option[value="+ myValue +"]").attr("selected",true);
+                }
+                //alert("BuscaGrupoaqui ->  the val " + $(this).val() + " text -> " + $(this).text());
+            });
+        });
+        //
+    }
+
+    function buscaTipoAdquisicion(){
+
+        let myTypeAdquisicion = {{ $transactions->material_type_adquisicion ?? 0}};
+
+
+
+        $('#material_amount_kilos').prop('readonly',true);
+        $('#material_price_kilos').prop('readonly',true);
+        $('#material_amount_total_kilos').prop('readonly',true);
+
+        $('#material_amount_gramos').prop('readonly',true);
+        $('#material_price_gramos').prop('readonly',true);
+        $('#material_amount_total_gramos').prop('readonly',true);
+
+        $('#material_amount_cantidad').prop('readonly',true);
+        $('#material_price_cantidad').prop('readonly',true);
+        $('#material_amount_total_cantidad').prop('readonly',true);
+
+        switch (myTypeAdquisicion){
+            case 1:
+                $('#material_type_adquisicion1').prop('checked',true);
+
+                $('#material_amount_kilos').prop('readonly',false);
+                $('#material_price_kilos').prop('readonly',false);
+                $('#material_amount_total_kilos').prop('readonly',false);
+
+                $('#material_amount_kilos').focus();
+                console.log('aqui');
+                break;
+            case 2:
+                $('#material_type_adquisicion2').prop('checked',true);
+
+                $('#material_amount_gramos').prop('readonly',false);
+                $('#material_price_gramos').prop('readonly',false);
+                $('#material_amount_total_gramos').prop('readonly',false);
+
+                break;
+            case 3:
+                $('#material_type_adquisicion3').prop('checked',true);
+
+                $('#material_amount_cantidad').prop('readonly',false);
+                $('#material_price_cantidad').prop('readonly',false);
+                $('#material_amount_total_cantidad').prop('readonly',true);
+
+                break;
         }
 
-        // $('#amount').val(amount);
-        $('#material_amount_total').val(material_amount_total);
-        // $('#montototal').val(amount_total);
-        // $('#monto_base').val(amount_total_base);
     }
+
 
 </script>
 
