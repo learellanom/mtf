@@ -167,7 +167,7 @@
                                     <th                     >Material</th>
                                     
                                     <th style="width:8%;"   >Cantidad</th>
-
+                                    <th style="width:8%;"   >Tipo Adquisicion</th>
 
                                     <th class="no-exportar" >Agente</th>
                                     <th style="width:10%;"  >Tipo de Movimiento</th>
@@ -191,7 +191,27 @@
                             </thead>
                             
                                 @foreach($movimientos as $movimiento)
-                                
+                                    @php 
+                                        $myDesTypeAdquisicion   = $myClass->getDesTyperAdquisicion($movimiento->material_type_adquisicion);
+                                        switch($movimiento->material_type_adquisicion){
+                                            case 1:
+
+                                                $myMaterialAmount       = $movimiento->material_amount_kilos;
+                                                break;
+                                            case 2:
+                                                $myMaterialAmount       = $movimiento->material_amount_gramos;
+                                                break;
+                                            case 3:
+                                                $myMaterialAmount       = $movimiento->material_amount_cantidad;
+                                                break;
+                                            default:
+                                                $myMaterialAmount       = 0;
+
+                                        }
+
+                                    @endphp
+                                    
+                                    
                                     <tr>
                                         <td class="font-weight-bold">{{ $movimiento->id }}</td>
                                         <td class="font-weight-bold">{{ $movimiento->wallet->name ?? "" }}</td>                                    
@@ -203,9 +223,9 @@
                                         </td>
                                         <td >{!! $movimiento->type_material->name ?? '' !!}</td>
 
-                                        {{-- <td>{!! number_format(abs($movimiento->material_amount),2,".") ?? '' !!}</td> --}}
-                                        <td>{!! number_format($movimiento->material_amount) ?? '' !!}</td>
 
+                                        <td>{!! number_format($myMaterialAmount) ?? '' !!}</td>
+                                        <td>{!! $myDesTypeAdquisicion ?? '' !!}</td>
                                         <td class="font-weight-bold">{!! $movimiento->user->name ?? '' !!}</td>
                                         <td>{!! $movimiento->type_transaction->name !!}</td>
 

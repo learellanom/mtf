@@ -58,46 +58,14 @@
                             {!! Form::select('group_id',$group, null,['class' => 'form-control clientes myForm', 'required' => true, 'id' => 'clientes', 'readonly' => false]) !!}
                             </div>
                         </div>
-                    </div>
-                    <!--
-                    <hr class="bg-dark esconder" style="height:1px;">    
-                    <div class="form-row esconder">
-                        <div class="form-group col-md-4">
-                            {!! Form::Label('type_coin_id', "Tipo de moneda:") !!}
-                            <div class="input-group-text">
-                                <i class="fa-fw fas fa-dollar-sign mr-2"></i>
-                            {!! Form::select('type_coin_id',$type_coin, null, ['class' => 'form-control typecoin', 'required' => true, 'id' => 'type_coin_id', 'readonly' => false]) !!}
-                            </div>
-                        </div>
-
-                        <div class="form-group col-md-4">
-                            {!! Form::Label('exchange_rate', "Tasa:") !!}
-                            <div class="input-group-text">
-                                <i class="fa-fw fas fa-random mr-2"></i>
-                            {!! Form::text('exchange_rate',null, ['class' => 'form-control rateMasks myForm', 'required' => true, 'id' => 'exchange_rate', 'minlength' => 9]) !!}
-                            
-                            </div>
-                        </div>
-
-                        <div class="form-group col-md-4">
-                            {!! Form::Label('amount_foreign_currency', "Monto en moneda extranjera:") !!}
-                            <div class="input-group-text">
-                                <i class="fa-fw fas fa-coins mr-2"></i>
-                                {!! Form::text('amount_foreign_currency',null, ['class' => 'form-control general myForm', 'required' => true, 'id' => 'amount_foreign_currency']) !!}
-                            </div>
-                        </div>
-
-
-
-                    </div>
-                    -->            
+                    </div>       
                     
                 </div>
 
                 <hr class="bg-dark escoder" style="height:1px;">   
                 <div class="form-row">
                            
-                    <div class="form-group col-md-3">
+                    <div class="form-group col-md-4">
                         {!! Form::Label('type_material_id', "Tipo de material:") !!}
                         <div class="input-group-text">
                             <i class="fa-fw fas fa-dollar-sign mr-2"></i>
@@ -105,19 +73,56 @@
                         </div>
                     </div>
 
-                    <div class="form-group col-md-3">
+
+                </div>
+
+                <hr class="bg-dark escoder" style="height:1px;">   
+
+                <div class="form-row col-lg-12 justify-content-center align-items-center">        
+                    <p>Tipo de Adquisicion  :</p>
+                </div>
+                <div class="form-row  col-lg-12 justify-content-center align-items-center">
+                    <div class="col-sm-12 col-md-4">
+                        <input class="myForm" type="radio" id="material_type_adquisicion1" name="material_type_adquisicion" value="1" checked>
+                        <label for="material_type_adquisicion1">Kilos</label>
+                    </div>
+                    <div class="col-sm-12 col-md-4">
+
+                        <input class="myForm" type="radio" id="material_type_adquisicion2" name="material_type_adquisicion" value="2">
+                        <label for="material_type_adquisicion2">Gramos</label>
                     </div>
 
-                    <div class="form-group col-md-3">
-                        {!! Form::Label('material_amount', "Cantidad:") !!}
+                    <div class="col-sm-12 col-md-4">
+
+                        <input class="myForm" type="radio" id="material_type_adquisicion3" name="material_type_adquisicion" value="3">
+                        <label for="material_type_adquisicion3">Cantidad</label>
+                    </div>
+                </div>
+
+                <hr class="bg-dark esconder" style="height:1px;">
+
+                <div class="form-row">
+
+                    <div class="form-group col-lg-4">
+                        {!! Form::Label('material_amount_kilos', "kilos:") !!}
                         <div class="input-group-text">
                             <i class="fa-fw fas fa-coins mr-2"></i>
-                            {!! Form::text('material_amount',null, ['class' => 'form-control general myForm', 'required' => true, 'id' => 'material_amount']) !!}
+                            {!! Form::text('material_amount_kilos',null, ['class' => 'form-control general myForm', 'required' => true, 'id' => 'material_amount_kilos']) !!}
+                        </div>
+
+                        {!! Form::Label('material_amount_gramos', "Gramos:") !!}
+                        <div class="input-group-text">
+                            <i class="fa-fw fas fa-coins mr-2"></i>
+                            {!! Form::text('material_amount_gramos',null, ['class' => 'form-control general myForm', 'required' => true, 'id' => 'material_amount_gramos', 'readonly' => 'true']) !!}
+                        </div>
+
+                        {!! Form::Label('material_amount_cantidad', "Cantidad:") !!}
+                        <div class="input-group-text">
+                            <i class="fa-fw fas fa-coins mr-2"></i>
+                            {!! Form::text('material_amount_cantidad',null, ['class' => 'form-control general myForm', 'required' => true, 'id' => 'material_amount_cantidad', 'readonly' => 'true']) !!}
                         </div>
                     </div>
-                    <div class="form-group col-md-3">
-
-                    </div>
+                    
                 </div>
 
                 <hr class="bg-dark esconder" style="height:1px;">    
@@ -160,92 +165,8 @@
 
 <meta name="csrf-token" content="{{ csrf_token() }}">
 
-
 <style>
-.file-preview-thumbnails{
-    overflow-y: scroll;
-    height: 550px;
-	width: 870px;
-}
-@media screen and (max-width: 1880px) {
-  .file-preview {
-    min-width: 290px;
-    min-height: 450px;
-  }
-  .file-preview-thumbnails {
-    width:500px;
-  }
-}
 
-
-@media screen and (max-width: 1780px) {
-  .file-preview {
-    min-width: 290px;
-    min-height: 450px;
-  }
-  .file-preview-thumbnails {
-    width:500px;
-  }
-}
-
-
-@media screen and (max-width: 1680px) {
-  .file-preview {
-    min-width: 290px;
-    min-height: 450px;
-  }
-  .file-preview-thumbnails {
-    width:500px;
-  }
-}
-
-
-@media screen and (max-width: 1580px) {
-  .file-preview {
-    min-width: 290px;
-    min-height: 450px;
-  }
-  .file-preview-thumbnails {
-    width:400px;
-  }
-}
-
-@media screen and (max-width: 1280px) {
-  .file-preview {
-    min-width: 290px;
-    min-height: 450px;
-  }
-  .file-preview-thumbnails {
-    width:400px;
-  }
-}
-@media screen and (max-width: 800px) {
-  .file-preview {
-    min-width: 290px;
-    min-height: 450px;
-  }
-  .file-preview-thumbnails {
-    width:400px;
-  }
-}
-@media screen and (max-width: 480px) {
-  .file-preview {
-    min-width: 350px;
-    min-height: 450px;
-  }
-  .file-preview-thumbnails {
-    width:200px;
-  }
-}
-@media screen and (max-height: 280px) {
-  .file-preview {
-    min-width: 350px;
-    min-height: 300px;
-  }
-  .file-preview-thumbnails {
-    width:400px;
-  }
-}
 .form-group > .select2-container {
     width: 100% !important;
 }
@@ -255,102 +176,27 @@
 }
 
 </style>
+
 @endsection
 
 @section('js')
 
 <script>
-    $( function() {
-        var availableTags = [
-            "cash",
-            "CASH",
-            "Saldo anterior",
-            "suift",
-            "abono",
-            "Abono en cash",
-            "Cash enviado",
-            "Ali",
-            "Abu",
-            "Cash Dubai",
-            "abono en Valencia",
-            "abono cash",
-            "cash libano",
-            "cash la yaguara",
-            "la yaguara",
-            "suift (preforman)",
-            "cash turquia",
-            "libano",
-            "Turquia",
-            "Turkia",
-            "Banesco",
-            "Banesco Panama",
-            "Mercantil",
-            "BDV",
-            "pago bolivares",
-            "cash recibido",
-            "pasaje de",
-            "pasajes",
-            "boletos",
-            "Abonado",
-            "recibido para",
-            "USDT",
-            "Token",
-            "Nomina",
-            "Pago nomina",
-            "Cobro en USDT",
-            "Nomina a",
-            "Bono",
-            "Pago a ",
-            "Cobro a ",
-            "Credito a ",
-            "Pago por suift",
-            "Transferencias bancaria",
-            ];
 
-        $("#description").autocomplete({
-            source: availableTags
-        });
-    });
-
-
-    $(".clientes").select2({
+    $("#clientes").select2({
         placeholder: "Seleccionar cliente",
         theme: 'bootstrap4',
         notEmpty: false,
         allowClear: true,
         clearing: true,
         width: '100%'
-    });
+    })
+    .on('select2:open', () => {
+            document.querySelector('.select2-search__field').focus();
+    });    
 
     $("#clientes").val(null)
     $("#clientes").trigger("change");
-
-    $("#type_coin_id").select2({
-        placeholder: "Seleccionar Moneda",
-        theme: 'bootstrap4',
-        allowClear: true,
-        width: '100%'
-    });
-    $("#type_coin_id").val("")
-    $("#type_coin_id").trigger("change");
-
-    $("#type_coin_balance_id").select2({
-        placeholder: "Seleccionar Moneda",
-        theme: 'bootstrap4',
-        allowClear: true,
-        width: '100%'
-    });
-    // $("#type_coin_balance_id").val("")
-    // $("#type_coin_balance_id").trigger("change");
-
-
-
-    $(".status").select2({
-        placeholder: "Seleccionar estatus",
-        theme: 'bootstrap4',
-        search: false,
-        width: '100%'
-    });
 
     $(".wallet").select2({
         placeholder: "Seleccionar Caja | Wallet",
@@ -358,7 +204,11 @@
         search: false,
         allowClear: true,
         width: '100%'
-    });
+    })
+    .on('select2:open', () => {
+            document.querySelector('.select2-search__field').focus();
+    });   
+
     $("#wallet").val(null)
     $("#wallet").trigger("change");
 
@@ -367,7 +217,11 @@
         theme: 'bootstrap4',
         allowClear: true,
         width: '100%'
-    });
+    })
+    .on('select2:open', () => {
+            document.querySelector('.select2-search__field').focus();
+    });  
+
     $("#typetrasnferencia").val("")
     $("#typetrasnferencia").trigger("change");
 
@@ -379,7 +233,10 @@
         theme: 'bootstrap4',
         allowClear: true,
         width: '100%'
-    });
+    })
+    .on('select2:open', () => {
+            document.querySelector('.select2-search__field').focus();
+    });     
     $("#type_material_id").val("")
     $("#type_material_id").trigger("change");
 
@@ -417,7 +274,6 @@
     });
 
     
-    BuscaMyElement('type_coin_balance_id',1);
     
     $(document).ready(function() {
 
@@ -449,7 +305,6 @@
                 return false;
             }
 
-
             if (myDate > myDateNow){
                 Swal.fire({
                         position: 'left',
@@ -475,20 +330,30 @@
             updateMontoreal();
         }); 
 
+
+        $('#material_type_adquisicion1').on('click', function (){
+            // alert('leam aqui 1');
+            validaMaterialTypeAdquisicion();
+        });
+        $('#material_type_adquisicion2').on('click', function (){
+            // alert('leam aqui 2');
+            validaMaterialTypeAdquisicion();
+        });
+        $('#material_type_adquisicion3').on('click', function (){
+            // alert('leam aqui 3');
+            validaMaterialTypeAdquisicion();
+        }); 
+
+
     });
 
     $("#typetrasnferencia").on("change", function() {
-            console.log('leam - typetransferencia pasa');
-            // Capturar dato seleccionado
-  
-            $('#wallet').prop("disabled", false);
-            $('#wallet').prop("required", true);
+
+        $('#wallet').prop("disabled", false);
+        $('#wallet').prop("required", true);
 
     });
     
-
-
-
     /*
     *
     *
@@ -499,6 +364,103 @@
     function updateMontoreal() {
 
         console.log('pasa updateMontoreal');
+
+
+
+        let material_amount_kilos       = ($('#material_amount_kilos').val())           ? parseFloat($('#material_amount_kilos').val())     : 0;
+        let material_amount_gramos      = ($('#material_amount_gramos').val())          ? parseFloat($('#material_amount_gramos').val())    : 0;
+        let material_amount_cantidad    = ($('#material_amount_cantidad').val())        ? parseFloat($('#material_amount_cantidad').val())  : 0;
+
+        let material_type_adquisicion1  = $('#material_type_adquisicion1').is(':checked');
+        let material_type_adquisicion2  = $('#material_type_adquisicion2').is(':checked');
+        let material_type_adquisicion3  = $('#material_type_adquisicion3').is(':checked');
+
+        let material_type_adquisicion   = 0;
+
+        let my_material_amount          = 0;
+
+
+
+        if (material_type_adquisicion1){
+            material_type_adquisicion = 1;
+
+            $('#material_amount_kilos').prop('readonly',false);
+
+            $('#material_amount_gramos').prop('readonly',true);
+
+            $('#material_amount_cantidad').prop('readonly',true);
+
+            $('#material_amount_gramos').val("");
+            $('#material_amount_cantidad').val("");
+
+        }else if(material_type_adquisicion2){
+            material_type_adquisicion = 2;
+            $('#material_amount_kilos').prop('readonly',true);
+            $('#material_amount_gramos').prop('readonly',false);
+            $('#material_amount_cantidad').prop('readonly',true);
+
+
+            $('#material_amount_kilos').val("");
+            $('#material_amount_cantidad').val("");
+
+        }else if(material_type_adquisicion3){
+            material_type_adquisicion = 3;
+            $('#material_amount_kilos').prop('readonly',true);
+            $('#material_amount_gramos').prop('readonly',true);
+            $('#material_amount_cantidad').prop('readonly',false);
+
+            $('#material_amount_kilos').val("");
+            $('#material_amount_gramos').val("");
+
+        }
+        // alert('material_type_adquisicion ->' + material_type_adquisicion);
+
+
+
+        // console.log('pasa updateMontoreal');
+        // console.log('pasa updateMontoreal con exchange_rate                 -> ' + exchange_rate);
+        // console.log('pasa updateMontoreal con amount_foreign_currency       -> ' + amount_foreign_currency);
+        // console.log('pasa updateMontoreal con amount                        -> ' + amount);
+        // console.log('pasa updateMontoreal con amount_total                  -> ' + amount_total);
+        //console.log('pasa updateMontoreal con material_price                -> ' + material_price_kilos);
+        //console.log('pasa updateMontoreal con material_amount               -> ' + material_amount_kilos);
+
+        switch (material_type_adquisicion){
+            case 1: // Kilos
+                if (material_amount_kilos> 0){
+
+                    material_amount_gramos           = material_amount_kilos * 1000;
+
+                    $('#material_amount_gramos').val(material_amount_gramos);
+
+                }else if(material_amount_kilos < 0){
+
+                    material_amount_gramos           = material_amount_kilos * 1000;
+
+                    $('#material_amount_gramos').val(material_amount_gramos);
+
+                }
+
+                break;      
+            case 2: // Gramos
+
+                if (material_amount_gramos > 0){
+
+                    material_amount_kilos           = material_amount_gramos / 1000;
+
+                    $('#material_amount_kilos').val(material_amount_kilos);
+                    
+                }
+
+                break;
+            case 3: // Cantidad
+                if (material_amount_cantidad > 0){
+
+                }
+                break;
+            default:
+        }
+
 
     }
 
@@ -525,6 +487,55 @@
         //
     }
 
+
+    function validaMaterialTypeAdquisicion(){
+
+        // alert('pasa');
+
+        let material_type_adquisicion1  = $('#material_type_adquisicion1').is(':checked');
+        let material_type_adquisicion2  = $('#material_type_adquisicion2').is(':checked');
+        let material_type_adquisicion3  = $('#material_type_adquisicion3').is(':checked');
+        let material_type_adquisicion   = 0;
+
+        let my_material_amount          = 0;
+
+        if (material_type_adquisicion1){
+            material_type_adquisicion = 1;
+
+            $('#material_amount_kilos').prop('readonly',false);
+            $('#material_amount_gramos').prop('readonly',true);
+            $('#material_amount_cantidad').prop('readonly',true);
+
+
+            $('#material_amount_kilos').focus();
+
+            // alert($('#material_amount_kilos').val());
+
+        }else if(material_type_adquisicion2){
+            material_type_adquisicion = 2;
+            $('#material_amount_kilos').prop('readonly',true);
+            $('#material_amount_gramos').prop('readonly',false);
+            $('#material_amount_cantidad').prop('readonly',true);
+
+            $('#material_amount_gramos').focus();
+
+        }else if(material_type_adquisicion3){
+            material_type_adquisicion = 3;
+            $('#material_amount_kilos').prop('readonly',true);
+            $('#material_amount_gramos').prop('readonly',true);
+            $('#material_amount_cantidad').prop('readonly',false);
+
+            $('#material_amount_cantidad').focus();
+
+
+        }
+        // alert('material_type_adquisicion ->' + material_type_adquisicion);
+
+        $('#material_amount_kilos').val("");
+        $('#material_amount_gramos').val("");
+        $('#material_amount_cantidad').val("");
+
+    }
 
 </script>
 

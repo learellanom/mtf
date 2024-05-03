@@ -38,15 +38,7 @@
                     {!! Form::hidden('user_id',auth()->id(), null, ['class' => 'form-control', 'required' => true]) !!}
                     {!! Form::hidden('amount',0, null, ['class' => 'form-control', 'required' => true]) !!}
                     <div class="form-row">
-                        {{--
-                        <div class="form-group col-md-4 col-xl-4">
-                            {!! Form::Label('typetrasnferencia', "Tipo de Movimiento:") !!}
-                            <div class="input-group-text col-md-12">
-                                <i class="fa-fw fas fa-random mr-2"></i>
-                            {!! Form::select('type_transaction_id',$type_transaction, null, ['class' => 'form-control typetrasnferencia myForm', 'required' => true, 'id'=>'typetrasnferencia', 'readonly' => false]) !!}
-                            </div>
-                        </div>
-                        --}}
+
                         <div class="form-group col-md-4 col-xl-4" >
                             {!! Form::Label('typetrasnferencia', "Tipo de Movimiento:") !!}
                             <div class="input-group-text col-md-12" style="height: 3.3rem;">
@@ -76,10 +68,9 @@
                 </div>
 
                 <hr class="bg-dark escoder" style="height:1px;">   
-                <div class="form-row">
-                    
 
-                       
+                <div class="form-row">
+                           
                     <div class="form-group col-md-3">
                         {!! Form::Label('type_material_id', "Tipo de material:") !!}
                         <div class="input-group-text">
@@ -92,6 +83,33 @@
 
                     </div>
 
+
+
+                </div>
+
+                <hr class="bg-dark esconder" style="height:1px;">   
+
+                <div class="form-row">
+                    <div class="form-group col-md-3">
+                        {!! Form::Label('material_amount', "Kilos:") !!}
+                        <div class="input-group-text">
+                            <i class="fa-fw fas fa-coins mr-2"></i>
+                            {!! Form::text('material_amount',null, ['class' => 'form-control general myForm', 'required' => true, 'id' => 'material_amount']) !!}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-3">
+                        {!! Form::Label('material_amount', "Gramos:") !!}
+                        <div class="input-group-text">
+                            <i class="fa-fw fas fa-coins mr-2"></i>
+                            {!! Form::text('material_amount',null, ['class' => 'form-control general myForm', 'required' => true, 'id' => 'material_amount']) !!}
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-row">
                     <div class="form-group col-md-3">
                         {!! Form::Label('material_amount', "Cantidad:") !!}
                         <div class="input-group-text">
@@ -99,11 +117,9 @@
                             {!! Form::text('material_amount',null, ['class' => 'form-control general myForm', 'required' => true, 'id' => 'material_amount']) !!}
                         </div>
                     </div>
-                    <div class="form-group col-md-3">
-
-                    </div>
                 </div>
-
+                
+                
                 <hr class="bg-dark esconder" style="height:1px;">    
 
                 <div class="form-row">

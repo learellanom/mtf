@@ -23,9 +23,7 @@
                 <li class="nav-item" role="presentation">
                     <button class="nav-link active" id="pills-home-tab" data-toggle="pill" data-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">{{ __('Movimiento') }}</button>
                 </li>
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="pills-profile-tab" data-toggle="pill" data-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">{{ __('Referencias') }}</button>
-                </li>
+
             </ul>
 
             <div class="tab-content" id="pills-tabContent">
@@ -45,7 +43,7 @@
                             </div>
                         </div>
 
-                        <div class="form-group col-xl-4 esconder">
+                        <div class="form-group col-xl-4">
                             {!! Form::Label('wallet', "Caja:") !!}
                             <div class="input-group-text col-md-12">
                                 <i class="fa-fw fas fa-box-open mr-2"></i>
@@ -67,7 +65,7 @@
 
                 <div class="form-row">
 
-                    <div class="form-group col-lg-4">
+                    <div class="form-group col-xl-3">
                         {!! Form::Label('type_material_id', "Tipo de material:") !!}
                         <div class="input-group-text">
                             <i class="fa-fw fas fa-dollar-sign mr-2"></i>
@@ -148,8 +146,6 @@
                             </div>
 
                     </div>
-
-                
 
                     <div class="form-group col-lg-4">
                         {!! Form::Label('material_amount_total', "Monto Total $ Kilos:") !!}
@@ -235,90 +231,7 @@
 
 
 <style>
-.file-preview-thumbnails{
-    overflow-y: scroll;
-    height: 550px;
-	width: 870px;
-}
-@media screen and (max-width: 1880px) {
-  .file-preview {
-    min-width: 290px;
-    min-height: 450px;
-  }
-  .file-preview-thumbnails {
-    width:500px;
-  }
-}
 
-
-@media screen and (max-width: 1780px) {
-  .file-preview {
-    min-width: 290px;
-    min-height: 450px;
-  }
-  .file-preview-thumbnails {
-    width:500px;
-  }
-}
-
-
-@media screen and (max-width: 1680px) {
-  .file-preview {
-    min-width: 290px;
-    min-height: 450px;
-  }
-  .file-preview-thumbnails {
-    width:500px;
-  }
-}
-
-
-@media screen and (max-width: 1580px) {
-  .file-preview {
-    min-width: 290px;
-    min-height: 450px;
-  }
-  .file-preview-thumbnails {
-    width:400px;
-  }
-}
-
-@media screen and (max-width: 1280px) {
-  .file-preview {
-    min-width: 290px;
-    min-height: 450px;
-  }
-  .file-preview-thumbnails {
-    width:400px;
-  }
-}
-@media screen and (max-width: 800px) {
-  .file-preview {
-    min-width: 290px;
-    min-height: 450px;
-  }
-  .file-preview-thumbnails {
-    width:400px;
-  }
-}
-@media screen and (max-width: 480px) {
-  .file-preview {
-    min-width: 350px;
-    min-height: 450px;
-  }
-  .file-preview-thumbnails {
-    width:200px;
-  }
-}
-@media screen and (max-height: 280px) {
-  .file-preview {
-    min-width: 350px;
-    min-height: 300px;
-  }
-  .file-preview-thumbnails {
-    width:400px;
-  }
-}
 .form-group > .select2-container {
     width: 100% !important;
 }
@@ -335,7 +248,7 @@
 <script>
 
 
-    $(".clientes").select2({
+    $("#clientes").select2({
         placeholder: "Seleccionar cliente",
         theme: 'bootstrap4',
         notEmpty: false,
@@ -373,23 +286,45 @@
     });
 
     $(".wallet").select2({
-        placeholder: "Seleccionar Caja | Wallet",
+        placeholder: "Seleccione...",
         theme: 'bootstrap4',
         search: false,
         allowClear: true,
         width: '100%'
+    })
+    .on('select2:open', () => {
+            document.querySelector('.select2-search__field').focus();
     });
+
     $("#wallet").val(null)
     $("#wallet").trigger("change");
 
-    $(".typetrasnferencia").select2({
+
+    $("#clientes").select2({
+        placeholder: "Seleccione...",
+        theme: 'bootstrap4',
+        search: false,
+        allowClear: true,
+        width: '100%'
+    })
+    .on('select2:open', () => {
+            document.querySelector('.select2-search__field').focus();
+    });
+        
+    $("#clientes").val(null);
+    $("#clientes").trigger("change");
+
+    $("#typetrasnferencia").select2({
         placeholder: "Seleccionar ...",
         theme: 'bootstrap4',
         allowClear: true,
         width: '100%'
-    });
-    //$("#typetrasnferencia").val("")
-    //$("#typetrasnferencia").trigger("change");
+    })
+    .on('select2:open', () => {
+            document.querySelector('.select2-search__field').focus();
+    });    
+    $("#typetrasnferencia").val("")
+    $("#typetrasnferencia").trigger("change");
 
 
 
@@ -399,7 +334,12 @@
         theme: 'bootstrap4',
         allowClear: true,
         width: '100%'
-    });
+    })
+    .on('select2:open', () => {
+            document.querySelector('.select2-search__field').focus();
+    });  
+
+
     $("#type_material_id").val("")
     $("#type_material_id").trigger("change");
 

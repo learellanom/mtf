@@ -82,9 +82,90 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-12 col-sm-3">
 
+            </div>
+
+            <!-- tipo de adquisicion -->
+            @php 
+
+                $myClass	            = new app\Http\Controllers\TransactionController;
+                $myDesTypeAdquisicion   = $myClass->getDesTyperAdquisicion($transactions->material_type_adquisicion);
+
+                $myStyle1 = "";
+                $myStyle2 = "";
+                $myStyle3 = "";
+                switch($transactions->material_type_adquisicion){
+                    case 1:
+                        $myStyle1 = "border: 1px solid navy;";
+                        break;
+                    case 2:
+                        $myStyle2 = "border: 1px solid navy;";
+                        $myStyle = "";
+                        break;
+                    case 3:
+                        $myStyle3 = "border: 1px solid navy;";
+                        break;
+                    default:
+                        break;
+                }
+
+            @endphp 
+
+            <div class="form-row">
+                <div class="form-group col-12">
+                    <div class="info-box bg-light">
+                        <div class="info-box-content">
+                            <span class="info-box-text text-center text-muted">Tipo de adquisicion <i class="fas fa-funnel-dollar"></i></span>
+                            <span class="info-box-number text-center text-muted mb-0">{{ $myDesTypeAdquisicion}}</span>
+                        </div>
+                    </div>
+                </div>                    
+            </div>
+
+            <div class="form-row pt-4" style="{{ $myStyle1 }}">
+
+                <div class="form-group col-md-3">
+                    <div class="info-box bg-light">
+                        <div class="info-box-content">
+                            <span class="info-box-text text-center text-muted">
+                                Cantidad Kilos<i class="fas fa-hryvnia"></i>
+                            </span>
+                            <span class="info-box-number text-center text-muted mb-0 text-uppercase">
+                                {{ number_format($transactions->material_amount_kilos,2,",",".") ?? '0.00' }}
+                            </span>
+                        </div>
+                    </div>
                 </div>
+            </div>
+
+            <div class="form-row pt-4" style="{{ $myStyle2 }}">
+                <div class="form-group col-md-3">
+                    <div class="info-box bg-light">
+                        <div class="info-box-content">
+                            <span class="info-box-text text-center text-muted">
+                                Gramos<i class="fas fa-hryvnia"></i>
+                            </span>
+                            <span class="info-box-number text-center text-muted mb-0 text-uppercase">
+                                {{ number_format($transactions->material_amount_gramos,2,",",".") ?? '0.00' }}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-row pt-4" style="{{ $myStyle3 }}">
+                <div class="form-group col-md-3">
+                    <div class="info-box bg-light">
+                        <div class="info-box-content">
+                            <span class="info-box-text text-center text-muted">
+                                Cantidad<i class="fas fa-hryvnia"></i>
+                            </span>
+                            <span class="info-box-number text-center text-muted mb-0 text-uppercase">
+                                {{ number_format($transactions->material_amount_cantidad,2,",",".") ?? '0.00' }}
+                            </span>
+                        </div>
+                    </div>
+                </div>                
             </div>
 
             <hr>                        

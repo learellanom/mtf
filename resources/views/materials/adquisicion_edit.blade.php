@@ -15,20 +15,14 @@
 
             {!! Form::model($transactions, ['route' => ['materials.adquisicion_update', $transactions],'method' => 'put', 'autocomplete' => 'off', 'files' => true, 'enctype' =>'multipart/form-data', 'id' => 'myForm']) !!}
 
-
-
-            <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link active" id="pills-home-tab" data-toggle="pill" data-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">{{ __('Movimiento') }}</button>
-                </li>
-
-                <div class="col-md-4 justify-content-start float-right">
-                    <span class="badge badge-primary text-lg text-uppercase">
-                        <h6 class="font-weight-bold text-uppercase"> Transacción numero # - {{ $transactions->id }}</h6>
-                    </span>
-                </div>
-
-            </ul>
+            <div class="form-row  col-md-5 col-xl-3 mb-4 badge badge-primary" style="">
+                <span class="">
+                    <h6 class="font-weight-bold text-uppercase"> Transacción numero #</h6>
+                </span>
+                <span class="">
+                    <h6 class="font-weight-bold text-uppercase">{{ $transactions->id }}</h6>
+                </span>                    
+            </div>
 
             <div class="tab-content" id="pills-tabContent">
 
@@ -39,20 +33,14 @@
                     {!! Form::hidden('amount',0, null, ['class' => 'form-control', 'required' => true]) !!}
 
                     <div class="form-row">
-                        {{--
-                        <div class="form-group col-md-4 col-xl-4">
+
+                        <div class="form-group col-xl-4" style="word-wrap: break-word;">
                             {!! Form::Label('typetrasnferencia', "Tipo de Movimiento:") !!}
-                            <div class="input-group-text col-md-12">
-                                <i class="fa-fw fas fa-random mr-2"></i>
-                            {!! Form::select('type_transaction_id',$type_transaction, null, ['class' => 'form-control typetrasnferencia myForm', 'required' => true, 'id'=>'typetrasnferencia', 'readonly' => false]) !!}
-                            </div>
-                        </div>
-                        --}}
-                        <div class="form-group col-xl-4">
-                            {!! Form::Label('typetrasnferencia', "Tipo de Movimiento:") !!}
-                            <div class="input-group-text col-md-12" style="height:3.3rem;">
-                                <i class="fa-fw fas fa-random mr-2"></i>
-                                {!! Form::Label($transactions->type_transaction_name ) !!}
+                            
+                            <div class="input-group-text col-md-12" style="height:3.3rem; word-wrap: break-word; overflow: hidden; text-overflow: ellipsis;">
+                            <i class="fa-fw fas fa-random mr-2"></i>
+                               {!! Form::Label($transactions->type_transaction_name ) !!}
+
                             </div>
                         </div>
 
@@ -232,101 +220,16 @@
 
 
 <style>
+
 .form-control{
     width: 100%;
 }
 .input-group-text{
     width: 100%;
 }
-.file-preview-thumbnails{
-    overflow-y: scroll;
-    height: 650px;
-	 width: 870px;
-}
-
-@media screen and (max-width: 1880px) {
-  .file-preview {
-    min-width: 290px;
-    min-height: 450px;
-  }
-  .file-preview-thumbnails {
-    width:500px;
-  }
-}
-
-
-@media screen and (max-width: 1780px) {
-  .file-preview {
-    min-width: 290px;
-    min-height: 450px;
-  }
-  .file-preview-thumbnails {
-    width:500px;
-  }
-}
-
-
-@media screen and (max-width: 1680px) {
-  .file-preview {
-    min-width: 290px;
-    min-height: 450px;
-  }
-  .file-preview-thumbnails {
-    width:500px;
-  }
-}
-
-
-@media screen and (max-width: 1580px) {
-  .file-preview {
-    min-width: 290px;
-    min-height: 450px;
-  }
-  .file-preview-thumbnails {
-    width:400px;
-  }
-}
-
-@media screen and (max-width: 1280px) {
-  .file-preview {
-    min-width: 290px;
-    min-height: 450px;
-  }
-  .file-preview-thumbnails {
-    width:400px;
-  }
-}
-@media screen and (max-width: 800px) {
-  .file-preview {
-    min-width: 290px;
-    min-height: 450px;
-  }
-  .file-preview-thumbnails {
-    width:400px;
-  }
-}
-@media screen and (max-width: 480px) {
-  .file-preview {
-    min-width: 350px;
-    min-height: 450px;
-  }
-  .file-preview-thumbnails {
-    width:200px;
-  }
-}
-@media screen and (max-height: 280px) {
-  .file-preview {
-    min-width: 350px;
-    min-height: 300px;
-  }
-  .file-preview-thumbnails {
-    width:400px;
-  }
-}
-
-
 
 </style>
+
 @endsection
 
 @section('js')
@@ -374,11 +277,34 @@
         width: '100%'
     });
 
+    $("#wallet").select2({
+        placeholder: "Seleccionar ...",
+        theme: 'bootstrap4',
+        allowClear: true,
+        width: '100%'
+    })
+    .on('select2:open', () => {
+            document.querySelector('.select2-search__field').focus();
+    });
+
+    $("#clientes").select2({
+        placeholder: "Seleccionar ...",
+        theme: 'bootstrap4',
+        allowClear: true,
+        width: '100%'
+    })
+    .on('select2:open', () => {
+            document.querySelector('.select2-search__field').focus();
+    });
+
     $("#type_material_id").select2({
         placeholder: "Seleccionar ...",
         theme: 'bootstrap4',
         allowClear: true,
         width: '100%'
+    })
+    .on('select2:open', () => {
+            document.querySelector('.select2-search__field').focus();
     });
 
 
@@ -389,53 +315,153 @@
 
         buscaTipoAdquisicion();
 
-        // alert(" " + {{ $transactions->type_transaction_id}});
-        if ({{ $transactions->type_coin_id}} == 1) {
-            // $('#tasa').attr("readonly", true);
-            // $('#monto').attr("readonly", true);
-        }
-        else {
-            
-            // $('#tasa').prop("readonly", false);
-            // $('#monto').prop("readonly", false);
-        }
         $('#myForm').on('input', function (){
             // alert('cambio');
             calcula();
 
         });        
 
+        $('#material_type_adquisicion1').on('click', function(){
+            $('#material_amount_kilos').focus();
+        });
+        $('#material_type_adquisicion2').on('click', function(){
+            $('#material_amount_gramos').focus();
+        });
+        $('#material_type_adquisicion3').on('click', function(){
+            $('#material_amount_cantidad').focus();
+        });
 
         $('#myForm').on('submit', function() {
             // alert($('#percentage').val());
             // percentage_base
 
-            if ($('#tasa').val() == "" || $('#tasa').val() == 0){
+            let myDate      = new Date($('#fecha').val());
+            let myDateNow   = new Date();
+
+            if ($('#type_material_id').val() = ""){
                 Swal.fire({
-                        position: 'center',
+                        position: 'left',
                         type: 'error',
-                        title: 'Introduzca la Tasa de Cambio',
+                        title: `Error: Seleccione el tipo de material`,
                         showConfirmButton: true
-                    }
-                );  
+                    });
+                return false;                
+            }
+
+            // valida cuantos dias hacia atras se permite cargar una transaccion
+
+            let myDays;
+            myDays = 4;
+            // yDays = 30;
+            // myDays = 240;
+
+            let myDateBefore = new Date();
+                myDateBefore.setDate(myDateBefore.getDate() - myDays);
+
+            if (myDate <= myDateBefore){
+                Swal.fire({
+                        position: 'left',
+                        type: 'error',
+                        title: `Error: Fecha de transacción no puede ser menor a ${myDays} dias anteriores a la fecha`,
+                        showConfirmButton: true
+                    });
                 return false;
             }
 
-            // Valida
-            if ($('#radio3').is(':checked') || $('#radio2').is(':checked')){
-                if ($('#percentage').val() == "" || $('#percentage').val() == 0){
 
+            if (myDate > myDateNow){
+                Swal.fire({
+                        position: 'left',
+                        type: 'error',
+                        title: 'Error: Fecha de transacción no puede ser mayor a la fecha',
+                        showConfirmButton: true
+                    });                
+
+                return false;
+            }
+
+
+            let material_type_adquisicion1  = $('#material_type_adquisicion1').is(':checked');
+            let material_type_adquisicion2  = $('#material_type_adquisicion2').is(':checked');
+            let material_type_adquisicion3  = $('#material_type_adquisicion3').is(':checked'); 
+
+            let material_price_kilos        = ($('#material_price_kilos').val())        ? parseFloat($('#material_price_kilos').val())      : 0;
+            let material_price_gramos       = ($('#material_price_gramos').val())       ? parseFloat($('#material_price_gramos').val())     : 0;
+            let material_price_cantidad     = ($('#material_price_cantidad').val())     ? parseFloat($('#material_price_cantidad').val())   : 0;
+
+            let material_amount_kilos       = ($('#material_amount_kilos').val())           ? parseFloat($('#material_amount_kilos').val())     : 0;
+            let material_amount_gramos      = ($('#material_amount_gramos').val())          ? parseFloat($('#material_amount_gramos').val())    : 0;
+            let material_amount_cantidad    = ($('#material_amount_cantidad').val())        ? parseFloat($('#material_amount_cantidad').val())           : 0;
+
+
+            if (material_type_adquisicion1){
+                if (material_amount_kilos = 0){
                     Swal.fire({
-                            position: 'center',
-                            type: 'error',
-                            title: 'Porcentaje de Comision en Blanco',
-                            showConfirmButton: true
-                        }
-                    );  
-                    $('#percentage').focus();
+                        position: 'left',
+                        type: 'error',
+                        title: 'Error: Cantidad adquiridos de Kilos no puede ser Cero',
+                        showConfirmButton: true
+                    });
+
                     return false;
-                    
                 }
+                if (material_price_kilos = 0){
+                    Swal.fire({
+                        position: 'left',
+                        type: 'error',
+                        title: 'Error: El precio del Kilo adquirido no puede ser Cero',
+                        showConfirmButton: true
+                    });
+
+                    return false;
+                }                
+            }
+
+
+            if (material_type_adquisicion2){
+                if (material_amount_gramos = 0){
+                    Swal.fire({
+                        position: 'left',
+                        type: 'error',
+                        title: 'Error: Cantidad adquiridos de Gramos no puede ser Cero',
+                        showConfirmButton: true
+                    });
+
+                    return false;
+                }
+                if (material_price_gramos = 0){
+                    Swal.fire({
+                        position: 'left',
+                        type: 'error',
+                        title: 'Error: El precio del Gramo adquirido no puede ser Cero',
+                        showConfirmButton: true
+                    });
+
+                    return false;
+                }                
+            }
+
+            if (material_type_adquisicion3){
+                if (material_amount_cantidad = 0){
+                    Swal.fire({
+                        position: 'left',
+                        type: 'error',
+                        title: 'Error: Cantidad adquiridos no puede ser Cero',
+                        showConfirmButton: true
+                    });
+
+                    return false;
+                }
+                if (material_price_cantidad = 0){
+                    Swal.fire({
+                        position: 'left',
+                        type: 'error',
+                        title: 'Error: El precio adquirido no puede ser Cero',
+                        showConfirmButton: true
+                    });
+
+                    return false;
+                }                
             }
 
             if ($('#description').val() == ""){
@@ -449,32 +475,12 @@
                 return false;
             }
 
-
-            if ($('#radio3_base').is(':checked') || $('#radio2_base').is(':checked')){
-                if ($('#percentage_base').val() == "" || $('#percentage_base').val() == 0){
-
-                    Swal.fire({
-                            position: 'center',
-                            type: 'error',
-                            title: 'Porcentaje de Comision Base en Blanco',
-                            showConfirmButton: true
-                        }
-                    );  
-                    $('#percentage').focus();
-                    return false;
-                    
-                }
-            }
-
-
         });
 
 
     });
     
     function calcula(){
-
-
 
         let material_amount_kilos       = ($('#material_amount_kilos').val())           ? parseFloat($('#material_amount_kilos').val())     : 0;
         let material_amount_gramos      = ($('#material_amount_gramos').val())          ? parseFloat($('#material_amount_gramos').val())    : 0;
@@ -518,7 +524,7 @@
             $('#material_price_cantidad').val("");
             $('#material_amount_total_cantidad').val("");
 
-
+            
 
         }else if(material_type_adquisicion2){
             material_type_adquisicion = 2; // gramos
@@ -586,7 +592,6 @@
                     $('#material_price_gramos').val(material_price_gramos);
 
                 }        
-               
                 
                 break;      
             case 2: // Gramos
@@ -616,17 +621,10 @@
                     $('#material_amount_total_cantidad').val(material_amount_total_cantidad); 
                 }
 
-                
-
-
                 break;
             default:
         }
     
-
-
-
-
     }
 
 
@@ -656,8 +654,6 @@
     function buscaTipoAdquisicion(){
 
         let myTypeAdquisicion = {{ $transactions->material_type_adquisicion ?? 0}};
-
-
 
         $('#material_amount_kilos').prop('readonly',true);
         $('#material_price_kilos').prop('readonly',true);
