@@ -17,7 +17,7 @@
   <div class="card col-md-6" style="min-height: 500px !important; max-height:100%; height:100%; widht:100%"">
     <div class="card-body">
 
-      {!! Form::open(['route' => 'transactions.store', 'autocomplete' => 'off', 'files' => true, 'enctype' =>'multipart/form-data']) !!}
+      {!! Form::open(['route' => 'transactions.store', 'autocomplete' => 'off', 'files' => true, 'enctype' =>'multipart/form-data', 'id' => 'entre']) !!}
 
 
           <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
@@ -287,38 +287,80 @@ $("#wallet").val("")
 $("#wallet").trigger("change");
 
 $('.general').inputmask({
-			alias: 'decimal',
-			allowMinus: false,
-			autoUnmask:true,
-			removeMaskOnSubmit:true,
-			rightAlign: true,
-			groupSeparator:".",
-			undoOnEscape:true,
-			insertMode:false,
-			clearIncomplete:true,
-			digits: 2,
-            autoClear: true,
-			insertMode:true, });
+    alias: 'decimal',
+    allowMinus: false,
+    autoUnmask:true,
+    removeMaskOnSubmit:true,
+    rightAlign: true,
+    groupSeparator:".",
+    undoOnEscape:true,
+    insertMode:false,
+    clearIncomplete:true,
+    digits: 2,
+    autoClear: true,
+    insertMode:true, 
+});
 
 
-       $(".rateMask").attr("minlength","8");
-	   $(".rateMask").attr("maxlength","8");
-	   $(".rateMask").inputmask({
-			alias: 'decimal',
-			repeat: 4,
-			allowMinus: false,
-			autoUnmask:true,
-			removeMaskOnSubmit:true,
-			rightAlign: true,
-            autoClear: true,
-			groupSeparator:".",
-			undoOnEscape:true,
-			insertMode: false,
-			clearIncomplete:true,
-			digits: 7,
-			insertMode:true,
-		});
+$(".rateMask").attr("minlength","8");
+$(".rateMask").attr("maxlength","8");
+$(".rateMask").inputmask({
+    alias: 'decimal',
+    repeat: 4,
+    allowMinus: false,
+    autoUnmask:true,
+    removeMaskOnSubmit:true,
+    rightAlign: true,
+    autoClear: true,
+    groupSeparator:".",
+    undoOnEscape:true,
+    insertMode: false,
+    clearIncomplete:true,
+    digits: 7,
+    insertMode:true,
+});
 
+
+
+$('#entre').on('submit', function() {
+
+    //
+    // Valida fecha
+    //
+    let myDate      = new Date($('#fecha').val());
+    let myDateNow   = new Date();
+
+    // valida cuantos dias hacia atras se permite cargar una transaccion
+
+    let myDays;
+    myDays = 30;
+
+    let myDateBefore = new Date();
+        myDateBefore.setDate(myDateBefore.getDate() - myDays);
+
+    if (myDate <= myDateBefore){
+        Swal.fire({
+            position: 'left',
+            type: 'error',
+            title: `Error: Fecha de transacción no puede ser menor a ${myDays} dias anteriores a la fecha`,
+            showConfirmButton: true
+        });                 
+        return false;
+    }
+
+
+    if (myDate > myDateNow){
+        
+        Swal.fire({
+            position: 'left',
+            type: 'error',
+            title: 'Error: Fecha de transacción no puede ser mayor a la fecha',
+            showConfirmButton: true
+        });                
+        return false;
+    }
+
+});
 
 $(document).ready(function() {
   //$('#monto_dolares').toFixed(2);
@@ -334,31 +376,31 @@ $(document).ready(function() {
       $('#montototal').val(""); // LIMPIAR MONTO TOTAL
 
     if ($(this).val() == 1) {
-      $('#tasa').attr("readonly", true);
-      $('#monto').attr("readonly", true);
-      $('#monto_dolares').attr("readonly", false);
+        $('#tasa').attr("readonly", true);
+        $('#monto').attr("readonly", true);
+        $('#monto_dolares').attr("readonly", false);
 
-            tasa = document.getElementById("tasa");
-            monto = document.getElementById("monto");
-            monto_dolares = document.getElementById("monto_dolares");
-            montototal =   document.getElementById("montototal");
-            monto_base =   document.getElementById("monto_base");
-            monto_base =   document.getElementById("monto_base");
+        tasa = document.getElementById("tasa");
+        monto = document.getElementById("monto");
+        monto_dolares = document.getElementById("monto_dolares");
+        montototal =   document.getElementById("montototal");
+        monto_base =   document.getElementById("monto_base");
+        monto_base =   document.getElementById("monto_base");
 
-            onkeyup = function(){
-                if(tasa.value == null && monto.value == null){
-                    monto_total = monto_dolares;
-                    monto_dolares.value =  monto_total.toFixed(2);
-                }
+        onkeyup = function(){
+            if(tasa.value == null && monto.value == null){
+                monto_total = monto_dolares;
+                monto_dolares.value =  monto_total.toFixed(2);
             }
-            onkeyup = function(){
-                if(monto_dolares.value){
-                    //monto_total = monto_dolares;
-                    montototal.value = monto_dolares.value;
-                    monto_base.value = monto_dolares.value;
-                    monto_base_extranjera.value = monto_dolares.value;
-                }
+        }
+        onkeyup = function(){
+            if(monto_dolares.value){
+                //monto_total = monto_dolares;
+                montototal.value = monto_dolares.value;
+                monto_base.value = monto_dolares.value;
+                monto_base_extranjera.value = monto_dolares.value;
             }
+        }
     }
     else if ($(this).val() == null)
     {
@@ -377,27 +419,27 @@ $(document).ready(function() {
         $('#monto_dolares').prop('readonly', true);
 
 
-            tasa = document.getElementById("tasa");
-            monto = document.getElementById("monto");
+        tasa = document.getElementById("tasa");
+        monto = document.getElementById("monto");
 
-            monto_dolares = document.getElementById("monto_dolares");
-            montototal =   document.getElementById("montototal");
+        monto_dolares = document.getElementById("monto_dolares");
+        montototal =   document.getElementById("montototal");
 
-            onkeyup = function(){
-                if(tasa.value > 0 && monto.value > 0){
-                    monto_total = (monto.value / tasa.value);
-                    monto_dolares.value =  monto_total.toFixed(2);
-                }
-                else if(monto_dolares.value == NaN){
-                    monto_dolares.value = 'Por favor use punto en vez de coma.'
+        onkeyup = function(){
+            if(tasa.value > 0 && monto.value > 0){
+                monto_total = (monto.value / tasa.value);
+                monto_dolares.value =  monto_total.toFixed(2);
+            }
+            else if(monto_dolares.value == NaN){
+                monto_dolares.value = 'Por favor use punto en vez de coma.'
 
-                }else{
-                    monto_dolares.value = 'Por favor llene el campo tasa.'
-                }
+            }else{
+                monto_dolares.value = 'Por favor llene el campo tasa.'
+            }
 
-            };
+        };
 
-            onkeyup = function(){
+        onkeyup = function(){
             if(tasa.value!="" && monto.value!=""){
                 monto_total = (monto.value / tasa.value);
                 monto_dolares.value =  monto_total.toFixed(2);
@@ -410,8 +452,6 @@ $(document).ready(function() {
             }
 
         };
-
-
 
      }
   })

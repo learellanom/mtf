@@ -634,18 +634,14 @@
            //
            // Valida fecha
            //
-            // if ({{auth()->id()}} == 2){
             let myDate      = new Date($('#fecha').val());
             let myDateNow   = new Date();
 
             // valida cuantos dias hacia atras se permite cargar una transaccion
 
             let myDays;
-            myDays = 4;
-            // myDays = 30;
-            // myDays = 240;
+            myDays = 30;
             
-
             let myDateBefore = new Date();
                 myDateBefore.setDate(myDateBefore.getDate() - myDays);
 
@@ -654,11 +650,15 @@
                 return false;
             }
 
-
             if (myDate > myDateNow){
                 Swal.fire('Error: Fecha de transacción no puede ser mayor a la fecha');
                 return false;
             }
+
+
+            //
+            //
+            //
 
             if (transferencia === 'Nota de debito' || transferencia === 'Nota de credito'){
                 if ($('#percentage').val() <= 0) {

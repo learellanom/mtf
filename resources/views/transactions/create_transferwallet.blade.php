@@ -317,13 +317,15 @@ $('.general').inputmask({
 
 
     $('#entre').on('submit', function() {
-    var val1 = $('#wallet').val();
-    var val2 = $('#wallet2').val();
 
-    if (val1 == val2) {
-        Swal.fire('Las cajas no pueden ser iguales')
-        return false; //prevent form submission
-    }
+        var val1 = $('#wallet').val();
+        var val2 = $('#wallet2').val();
+
+        if (val1 == val2) {
+            Swal.fire('Las cajas no pueden ser iguales')
+            return false; //prevent form submission
+        }
+
         if ($('#monto_dolares').val() <= 0) {
             Swal.fire('Monto en dolares, no puede ser cero o menor a cero. ');
             return false;
@@ -332,6 +334,44 @@ $('.general').inputmask({
             Swal.fire('Monto en dolares, no puede estar vacio :( ');
             return false;
         }
+
+
+        let myDate      = new Date($('#fecha').val());
+        let myDateNow   = new Date();
+
+        // valida cuantos dias hacia atras se permite cargar una transaccion
+
+        let myDays;
+        myDays = 4;
+        myDays = 30;
+        // myDays = 240;
+
+        let myDateBefore = new Date();
+            myDateBefore.setDate(myDateBefore.getDate() - myDays);
+
+        if (myDate <= myDateBefore){
+            Swal.fire({
+                position: 'left',
+                type: 'error',
+                title: `Error: Fecha de transacción no puede ser menor a ${myDays} dias anteriores a la fecha`,
+                showConfirmButton: true
+            });                 
+            return false;
+        }
+
+
+        if (myDate > myDateNow){
+            
+            Swal.fire({
+                position: 'left',
+                type: 'error',
+                title: 'Error: Fecha de transacción no puede ser mayor a la fecha',
+                showConfirmButton: true
+            });                
+            return false;
+        }
+
+
     });
 
  /* OCULTAR LA CAJA SELECCIONADA */

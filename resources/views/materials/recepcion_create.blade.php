@@ -62,7 +62,8 @@
                     
                 </div>
 
-                <hr class="bg-dark escoder" style="height:1px;">   
+                <hr class="bg-dark escoder" style="height:1px;"> 
+
                 <div class="form-row">
                            
                     <div class="form-group col-md-4">
@@ -73,7 +74,6 @@
                         </div>
                     </div>
 
-
                 </div>
 
                 <hr class="bg-dark escoder" style="height:1px;">   
@@ -81,6 +81,7 @@
                 <div class="form-row col-lg-12 justify-content-center align-items-center">        
                     <p>Tipo de Adquisicion  :</p>
                 </div>
+                
                 <div class="form-row  col-lg-12 justify-content-center align-items-center">
                     <div class="col-sm-12 col-md-4">
                         <input class="myForm" type="radio" id="material_type_adquisicion1" name="material_type_adquisicion" value="1" checked>

@@ -5,7 +5,7 @@
 @section('title', 'Pagos del Proveedor')
 @section('content_header')
 
-    <h1 class="text-center text-dark font-weight-bold text-uppercase">{{ __('Transferencia entre cajas - otras operacionesss') }}<i class="fas fa-donate"></i> </h1></a>
+    <h1 class="text-center text-dark font-weight-bold text-uppercase">{{ __('Transferencia entre cajas - otras operaciones') }}<i class="fas fa-donate"></i> </h1></a>
 
 
 @stop
@@ -486,6 +486,44 @@
 
 
         $('#entre').on('submit', function() {
+
+
+
+            let myDate      = new Date($('#fecha').val());
+            let myDateNow   = new Date();
+
+            // valida cuantos dias hacia atras se permite cargar una transaccion
+
+            let myDays;
+            myDays = 4;
+            myDays = 30;
+            // myDays = 240;
+
+            let myDateBefore = new Date();
+                myDateBefore.setDate(myDateBefore.getDate() - myDays);
+
+            if (myDate <= myDateBefore){
+                Swal.fire({
+                    position: 'left',
+                    type: 'error',
+                    title: `Error: Fecha de transacción no puede ser menor a ${myDays} dias anteriores a la fecha`,
+                    showConfirmButton: true
+                });                 
+                return false;
+            }
+
+
+            if (myDate > myDateNow){
+                
+                Swal.fire({
+                    position: 'left',
+                    type: 'error',
+                    title: 'Error: Fecha de transacción no puede ser mayor a la fecha',
+                    showConfirmButton: true
+                });                
+                return false;
+            }
+
 
             var val1 = $('#wallet').val();
             var val2 = $('#wallet2').val();

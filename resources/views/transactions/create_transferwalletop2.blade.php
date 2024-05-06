@@ -663,7 +663,47 @@
         });
 
         $('#entre').on('submit', function() {
+
             
+
+
+
+            let myDate      = new Date($('#fecha').val());
+            let myDateNow   = new Date();
+
+            // valida cuantos dias hacia atras se permite cargar una transaccion
+
+            let myDays;
+            myDays = 4;
+            myDays = 30;
+            // myDays = 240;
+
+            let myDateBefore = new Date();
+                myDateBefore.setDate(myDateBefore.getDate() - myDays);
+
+            if (myDate <= myDateBefore){
+                Swal.fire({
+                    position: 'left',
+                    type: 'error',
+                    title: `Error: Fecha de transacción no puede ser menor a ${myDays} dias anteriores a la fecha`,
+                    showConfirmButton: true
+                });                 
+                return false;
+            }
+
+
+            if (myDate > myDateNow){
+                
+                Swal.fire({
+                    position: 'left',
+                    type: 'error',
+                    title: 'Error: Fecha de transacción no puede ser mayor a la fecha',
+                    showConfirmButton: true
+                });                
+                return false;
+            }
+
+
             var val1 = $('#wallet').val();
             var val2 = $('#wallet2').val();
             exonerar_base = $('#radio1_base').is(':checked');

@@ -518,6 +518,45 @@
     $("#wallet2").trigger("change");
 
     $('#entre').on('submit', function() {
+
+
+
+        let myDate      = new Date($('#fecha').val());
+        let myDateNow   = new Date();
+
+        // valida cuantos dias hacia atras se permite cargar una transaccion
+
+        let myDays;
+        myDays = 4;
+        myDays = 30;
+        // myDays = 240;
+
+        let myDateBefore = new Date();
+            myDateBefore.setDate(myDateBefore.getDate() - myDays);
+
+        if (myDate <= myDateBefore){
+            Swal.fire({
+                position: 'left',
+                type: 'error',
+                title: `Error: Fecha de transacción no puede ser menor a ${myDays} dias anteriores a la fecha`,
+                showConfirmButton: true
+            });                 
+            return false;
+        }
+
+
+        if (myDate > myDateNow){
+            
+            Swal.fire({
+                position: 'left',
+                type: 'error',
+                title: 'Error: Fecha de transacción no puede ser mayor a la fecha',
+                showConfirmButton: true
+            });                
+            return false;
+        }
+
+
         var val1 = $('#wallet').val();
         var val2 = $('#wallet2').val();
 
@@ -564,30 +603,6 @@
             return false;            
         }
 
-        console.log('typetrasnferencia2Debit -> '  + $('#typetrasnferencia2Debit').val());
-        console.log($('#wallet').val());
-        console.log($('#wallet_id').val());
-        console.log($('#amount').val());
-        console.log($('#transaction_date').val());
-        console.log($('#description').val());        
-        console.log($('#commission').val());
-        console.log($('#percentage').val());
-        console.log($('#exonerate').val());
-        console.log($('#amount_total').val());
-        console.log($('#amount_commission_profit').val());
-        console.log('-----------------');
-        console.log('typetrasnferencia2Credit -> '  + + $('#typetrasnferencia2Credit').val());
-        console.log($('#wallet2').val());
-        console.log($('#wallet_id2').val());
-        console.log($('#amount').val());
-        console.log($('#transaction_date').val());
-        console.log($('#description2').val());        
-        console.log($('#commission2').val());
-        console.log($('#percentage2').val());
-        console.log($('#exonerate2').val());
-        console.log($('#amount_total2').val());
-        console.log($('#amount_commission_profit2').val());
-        // alert();
         //  return false; // no envia submit
 
     });

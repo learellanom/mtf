@@ -89,12 +89,39 @@
 
                 <hr class="bg-dark esconder" style="height:1px;">   
 
+
+                <div class="form-row col-lg-12 justify-content-center align-items-center">        
+                    <p>Tipo de Adquisicion  :</p>
+                </div>
+                
+                <div class="form-row  col-lg-12 justify-content-center align-items-center">
+                    <div class="col-sm-12 col-md-4">
+                        <input class="myForm" type="radio" id="material_type_adquisicion1" name="material_type_adquisicion" value="1">
+                        <label for="material_type_adquisicion1">Kilos</label>
+                    </div>
+                    <div class="col-sm-12 col-md-4">
+
+                        <input class="myForm" type="radio" id="material_type_adquisicion2" name="material_type_adquisicion" value="2">
+                        <label for="material_type_adquisicion2">Gramos</label>
+                    </div>
+
+                    <div class="col-sm-12 col-md-4">
+
+                        <input class="myForm" type="radio" id="material_type_adquisicion3" name="material_type_adquisicion" value="3">
+                        <label for="material_type_adquisicion3">Cantidad</label>
+                    </div>
+                </div>
+
+
+                <hr class="bg-dark esconder" style="height:1px;">   
+
+
                 <div class="form-row">
                     <div class="form-group col-md-3">
                         {!! Form::Label('material_amount', "Kilos:") !!}
                         <div class="input-group-text">
                             <i class="fa-fw fas fa-coins mr-2"></i>
-                            {!! Form::text('material_amount',null, ['class' => 'form-control general myForm', 'required' => true, 'id' => 'material_amount']) !!}
+                            {!! Form::text('material_amount_kilos',null, ['class' => 'form-control general myForm', 'required' => true, 'id' => 'material_amount_kilos']) !!}
                         </div>
                     </div>
                 </div>
@@ -104,17 +131,17 @@
                         {!! Form::Label('material_amount', "Gramos:") !!}
                         <div class="input-group-text">
                             <i class="fa-fw fas fa-coins mr-2"></i>
-                            {!! Form::text('material_amount',null, ['class' => 'form-control general myForm', 'required' => true, 'id' => 'material_amount']) !!}
+                            {!! Form::text('material_amount_gramos',null, ['class' => 'form-control general myForm', 'required' => true, 'id' => 'material_amount_gramos']) !!}
                         </div>
                     </div>
                 </div>
                 
                 <div class="form-row">
                     <div class="form-group col-md-3">
-                        {!! Form::Label('material_amount', "Cantidad:") !!}
+                        {!! Form::Label('material_amount_cantidad', "Cantidad:") !!}
                         <div class="input-group-text">
                             <i class="fa-fw fas fa-coins mr-2"></i>
-                            {!! Form::text('material_amount',null, ['class' => 'form-control general myForm', 'required' => true, 'id' => 'material_amount']) !!}
+                            {!! Form::text('material_amount_cantidad',null, ['class' => 'form-control general myForm', 'required' => true, 'id' => 'material_amount_cantidad']) !!}
                         </div>
                     </div>
                 </div>
@@ -183,7 +210,7 @@
 
     $('.general').inputmask({
         alias: 'decimal',
-        allowMinus: false,
+        allowMinus: true,
         autoUnmask:true,
         removeMaskOnSubmit:true,
         rightAlign: true,
@@ -215,6 +242,7 @@
         insertMode:true,
     });
 
+    buscaTipoAdquisicion();
 
     $(document).ready(function() {
 
@@ -325,8 +353,20 @@
         width: '100%'
     });
 
-    // console.log('leam - aqui el type_material_id -> ' + {{ $transactions->type_material_id }});
-    // console.log('leam - wallet_id ' + {{ $transactions->wallet_id }});
+
+    $('#material_type_adquisicion1').on('click', function (){
+        // alert('leam aqui 1');
+        validaMaterialTypeAdquisicion();
+    });
+    $('#material_type_adquisicion2').on('click', function (){
+        // alert('leam aqui 2');
+        validaMaterialTypeAdquisicion();
+    });
+    $('#material_type_adquisicion3').on('click', function (){
+        // alert('leam aqui 3');
+        validaMaterialTypeAdquisicion();
+    }); 
+
 
     BuscaMyElement('typetrasnferencia',  {{ $transactions->type_transaction_id }});
     BuscaMyElement('type_material_id',  {{ $transactions->type_material_id }});
@@ -336,7 +376,96 @@
     function calcula(){
         // alert('calcula ----');
 
-        let material_amount             = $('#material_amount').val()            != "" ? parseFloat($('#material_amount').val())             : 0;
+        
+        let material_amount_kilos       = ($('#material_amount_kilos').val())           ? parseFloat($('#material_amount_kilos').val())     : 0;
+        let material_amount_gramos      = ($('#material_amount_gramos').val())          ? parseFloat($('#material_amount_gramos').val())    : 0;
+        let material_amount_cantidad    = ($('#material_amount_cantidad').val())        ? parseFloat($('#material_amount_cantidad').val())  : 0;
+
+        let material_type_adquisicion1  = $('#material_type_adquisicion1').is(':checked');
+        let material_type_adquisicion2  = $('#material_type_adquisicion2').is(':checked');
+        let material_type_adquisicion3  = $('#material_type_adquisicion3').is(':checked');
+
+        let material_type_adquisicion   = 0;
+
+        let my_material_amount          = 0;
+
+
+
+
+
+        if (material_type_adquisicion1){
+            material_type_adquisicion = 1;
+
+            $('#material_amount_kilos').prop('readonly',false);
+
+            $('#material_amount_gramos').prop('readonly',true);
+
+            $('#material_amount_cantidad').prop('readonly',true);
+
+
+            // alert($('#material_amount_kilos').val());
+
+            $('#material_amount_gramos').val("");
+
+            $('#material_amount_cantidad').val("");            
+
+        }else if(material_type_adquisicion2){
+            material_type_adquisicion = 2; // gramos
+            $('#material_amount_kilos').prop('readonly',true);
+            $('#material_amount_gramos').prop('readonly',false);
+            $('#material_amount_cantidad').prop('readonly',true);
+
+            $('#material_amount_kilos').val("");
+            
+            $('#material_amount_cantidad').val("");
+
+        }else if(material_type_adquisicion3){
+            material_type_adquisicion = 3; // cantidad
+            $('#material_amount_kilos').prop('readonly',true);
+            $('#material_amount_gramos').prop('readonly',true);
+            $('#material_amount_cantidad').prop('readonly',false);
+
+            $('#material_amount_kilos').val("");
+
+            $('#material_amount_gramos').val("");
+
+        }
+
+
+        switch (material_type_adquisicion){
+            case 1: // Kilos
+                if (material_amount_kilos != 0){
+
+                    material_amount_gramos           = material_amount_kilos * 1000;
+                    
+                    $('#material_amount_gramos').val(material_amount_gramos);
+
+                }        
+
+                break;      
+            case 2: // Gramos
+
+                if (material_amount_gramos != 0){
+
+
+                    material_amount_kilos           = material_amount_gramos / 1000;
+
+                    $('#material_amount_kilos').val(material_amount_kilos);
+                    
+                }
+                
+                break;
+            case 3: // Cantidad
+                if (material_amount_cantidad != 0){
+
+
+                    $('#material_amount_cantidad').val(material_amount_cantidad); 
+                }
+
+                break;
+            default:
+        }
+
 
     }
 
@@ -362,6 +491,93 @@
         });
         //
     }
+
+
+    function buscaTipoAdquisicion(){
+        
+        let myTypeAdquisicion = {{ $transactions->material_type_adquisicion ?? 0}};
+
+        $('#material_amount_kilos').prop('readonly',true);
+
+
+        $('#material_amount_gramos').prop('readonly',true);
+
+        $('#material_amount_cantidad').prop('readonly',true);
+
+        switch (myTypeAdquisicion){
+            case 1:
+                $('#material_type_adquisicion1').prop('checked',true);
+
+                $('#material_amount_kilos').prop('readonly',false);
+
+                $('#material_amount_kilos').focus();
+
+                break;
+            case 2:
+                $('#material_type_adquisicion2').prop('checked',true);
+
+                $('#material_amount_gramos').prop('readonly',false);
+
+                break;
+            case 3:
+                $('#material_type_adquisicion3').prop('checked',true);
+
+                $('#material_amount_cantidad').prop('readonly',false);
+
+                break;
+        }
+
+        }
+
+
+        function validaMaterialTypeAdquisicion(){
+
+            // alert('pasa');
+
+            let material_type_adquisicion1  = $('#material_type_adquisicion1').is(':checked');
+            let material_type_adquisicion2  = $('#material_type_adquisicion2').is(':checked');
+            let material_type_adquisicion3  = $('#material_type_adquisicion3').is(':checked');
+            let material_type_adquisicion   = 0;
+
+            let my_material_amount          = 0;
+
+            if (material_type_adquisicion1){
+                material_type_adquisicion = 1;
+
+                $('#material_amount_kilos').prop('readonly',false);
+                $('#material_amount_gramos').prop('readonly',true);
+                $('#material_amount_cantidad').prop('readonly',true);
+
+
+                $('#material_amount_kilos').focus();
+
+                // alert($('#material_amount_kilos').val());
+
+            }else if(material_type_adquisicion2){
+                material_type_adquisicion = 2;
+                $('#material_amount_kilos').prop('readonly',true);
+                $('#material_amount_gramos').prop('readonly',false);
+                $('#material_amount_cantidad').prop('readonly',true);
+
+                $('#material_amount_gramos').focus();
+
+            }else if(material_type_adquisicion3){
+                material_type_adquisicion = 3;
+                $('#material_amount_kilos').prop('readonly',true);
+                $('#material_amount_gramos').prop('readonly',true);
+                $('#material_amount_cantidad').prop('readonly',false);
+
+                $('#material_amount_cantidad').focus();
+
+
+            }
+            // alert('material_type_adquisicion ->' + material_type_adquisicion);
+
+            $('#material_amount_kilos').val("");
+            $('#material_amount_gramos').val("");
+            $('#material_amount_cantidad').val("");
+
+        }
 
 </script>
 

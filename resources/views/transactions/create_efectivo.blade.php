@@ -388,6 +388,10 @@
 
 $('#entre').on('submit', function() {
 
+
+
+
+
     exonerar = $('#radio1').is(':checked');
     if(!exonerar){
         if ($('#percentage').val() <= 0) {
@@ -404,13 +408,45 @@ $('#entre').on('submit', function() {
         return false;
     }
 
+
+
     let myDate      = new Date($('#fecha').val());
     let myDateNow   = new Date();
-    if (myDate > myDateNow){
-        Swal.fire('Error: Fecha de transacción no puede ser mayor a la fecha');
+
+    // valida cuantos dias hacia atras se permite cargar una transaccion
+
+    let myDays;
+    myDays = 4;
+    myDays = 30;
+    // myDays = 240;
+
+    let myDateBefore = new Date();
+        myDateBefore.setDate(myDateBefore.getDate() - myDays);
+
+    if (myDate <= myDateBefore){
+        Swal.fire({
+            position: 'left',
+            type: 'error',
+            title: `Error: Fecha de transacción no puede ser menor a ${myDays} dias anteriores a la fecha`,
+            showConfirmButton: true
+        });                 
         return false;
     }
 
+
+    if (myDate > myDateNow){
+        
+        Swal.fire({
+            position: 'left',
+            type: 'error',
+            title: 'Error: Fecha de transacción no puede ser mayor a la fecha',
+            showConfirmButton: true
+        });                
+        return false;
+    }
+
+
+    
 });
 
 

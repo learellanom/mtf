@@ -648,7 +648,7 @@
                             title: 'Porcentaje de Comision Base en Blanco',
                             showConfirmButton: true
                         }
-                    );  
+                    );
                     $('#percentage').focus();
                     return false;
                     

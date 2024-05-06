@@ -75,6 +75,7 @@
                 </div>
 
                 <hr class="bg-dark esconder" style="height:1px;">    
+                
                 <div class="form-row col-lg-12 justify-content-center align-items-center">        
                         <p>Tipo de Adquisicion  :</p>
                 </div></div>

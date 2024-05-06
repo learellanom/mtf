@@ -851,7 +851,7 @@ class TransactionController extends Controller
  
         // \Log::info('request2 -> ' . $request2->all());
         // \Log::info('request  -> ' . $request->all());
-        
+
          $transaction = Transaction::create($request->all() );
 
          flash()->addSuccess('Movimiento guardado', 'Transacción', ['timeOut' => 3000]);
@@ -1250,7 +1250,18 @@ class TransactionController extends Controller
         $user               = User::pluck('name', 'id');
         $fecha              = Carbon::now();
 
-        return view('transactions.create_transferwalletop', compact('type_coin', 'type_transaction', 'type_transaction2', 'wallet', 'wallet2', 'user', 'transaction', 'fecha'));
+        $parametros['type_coin']            = $type_coin;
+        $parametros['type_transaction']     = $type_transaction;
+        $parametros['type_transaction2']    = $type_transaction2;
+        $parametros['wallet']               = $wallet;
+        $parametros['wallet2']              = $wallet2;
+        $parametros['user']                 = $user;
+        $parametros['fecha']                = $fecha;
+        $parametros['transaction']          = $transaction;
+    
+        return view('transactions.create_transferwalletop', $parametros);
+
+        // return view('transactions.create_transferwalletop', compact('type_coin', 'type_transaction', 'type_transaction2', 'wallet', 'wallet2', 'user', 'transaction', 'fecha'));
     }
     public function create_transferwalletop2(transaction $transaction)
     {
@@ -2923,4 +2934,6 @@ class TransactionController extends Controller
                 return "";
         }
     }
+
+
 }

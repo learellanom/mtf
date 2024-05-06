@@ -132,13 +132,13 @@
                     </div>
                 </div>
                 <div class="form-row">
-                        <div class="form-group col-xl-4">
-                            {!! Form::Label('fecha', "Fecha:") !!}
-                            <div class="input-group-text">
-                                <i class="fa-fw fas fas fa-calendar-week mr-2"></i>
+                    <div class="form-group col-xl-4">
+                        {!! Form::Label('fecha', "Fecha:") !!}
+                        <div class="input-group-text">
+                            <i class="fa-fw fas fas fa-calendar-week mr-2"></i>
                             {!! Form::datetimeLocal('transaction_date', $fecha, ['class' => 'form-control', 'required' => true, 'id' => 'fecha']) !!}
-                            </div>
-                        </div>                    
+                        </div>
+                    </div>                    
                 </div>
 
                 
@@ -161,11 +161,7 @@
 
                 <div class="esconder " style="height: 12rem; min-height: 12rem;" >
 
-
-
-
                     {{-- Porcentaje --}}
-
 
                     <div class="esconder " >
                         <div class="form-row col-12">
@@ -652,19 +648,17 @@
                 return false;
             }
             */
-           //
-           // Valida fecha
-           //
-            // if ({{auth()->id()}} == 2){
+
+            //
+            // Valida fecha
+            //
             let myDate      = new Date($('#fecha').val());
             let myDateNow   = new Date();
 
             // valida cuantos dias hacia atras se permite cargar una transaccion
 
             let myDays;
-            myDays = 4;
             myDays = 30;
-            myDays = 240;
 
             let myDateBefore = new Date();
                 myDateBefore.setDate(myDateBefore.getDate() - myDays);
