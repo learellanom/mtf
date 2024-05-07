@@ -4090,22 +4090,28 @@ class statisticsController extends Controller
         $myQuery =
         "
             select
-                mtf.transactions.wallet_id                      as WalletId,
-                wallets.name                                    as WalletName,
-                mtf.transactions.group_id                       as GroupId,
-                mtf.groups.name                                 as GroupName,
-                mtf.transactions.type_transaction_id            as TypeTransactionId,
-                type_transactions.name                          as TypeTransactionName,
-                mtf.transactions.type_material_id               as TypeMaterialId,
-                mtf.type_materials.name                         as TypeMaterialName,
-                count(mtf.transactions.wallet_id)               as AdquisicionCant,
-                sum(mtf.transactions.material_price)            as AdquisicionMaterialPrice,
-                sum(mtf.transactions.material_amount)           as AdquisicionMaterialAmount,
-                sum(mtf.transactions.material_amount_total)     as AdquisicionMaterialAmountTotal,
-                0                                               as RecepcionCant,
-                0                                               as RecepcionMaterialPrice,
-                0                                               as RecepcionMaterialAmount,
-                0                                               as RecepcionMaterialAmountTotal                
+                mtf.transactions.wallet_id                        as WalletId,
+                wallets.name                                      as WalletName,
+                mtf.transactions.group_id                         as GroupId,
+                mtf.groups.name                                   as GroupName,
+                mtf.transactions.type_transaction_id              as TypeTransactionId,
+                type_transactions.name                            as TypeTransactionName,
+                mtf.transactions.type_material_id                 as TypeMaterialId,
+                mtf.type_materials.name                           as TypeMaterialName,
+                count(mtf.transactions.wallet_id)                 as AdquisicionCant,  
+                sum(mtf.transactions.material_price_kilos)        as AdquisicionMaterialPriceKilos,
+                sum(mtf.transactions.material_amount_kilos)          as AdquisicionMaterialAmountKilos,
+                sum(mtf.transactions.material_amount_total_kilos)    as AdquisicionMaterialAmountTotalKilos,
+                sum(mtf.transactions.material_price_gramos)          as AdquisicionMaterialPriceGramos,
+                sum(mtf.transactions.material_amount_gramos)         as AdquisicionMaterialAmountGramos,
+                sum(mtf.transactions.material_amount_total_gramos)   as AdquisicionMaterialAmountTotalGramos,
+                0                                                    as RecepcionCant,
+                0                                                    as RecepcionMaterialPriceKilos,
+                0                                                    as RecepcionMaterialAmountKilos,
+                0                                                    as RecepcionMaterialAmountTotalKilos,
+                0                                                    as RecepcionMaterialPriceGramos,
+                0                                                    as RecepcionMaterialAmountGramos,
+                0                                                    as RecepcionMaterialAmountTotalGramos
             from
                         mtf.transactions
             left join   mtf.type_transactions   on mtf.transactions.type_transaction_id = mtf.type_transactions.id
@@ -4119,6 +4125,7 @@ class statisticsController extends Controller
                 and type_transaction_id     between $myTransactionDesde  and     $myTransactionHasta
                 and transaction_date        between '$myFechaDesde2'     and     '$myFechaHasta2'
                 and type_material_id        between $myTypeMaterialDesde and    $myTypeMaterialHasta
+                and material_type_adquisicion between 1 and 2
             group by 
                 mtf.transactions.wallet_id,
                 wallets.name,
@@ -4154,15 +4161,21 @@ class statisticsController extends Controller
                 mtf.transactions.type_transaction_id            as TypeTransactionId,
                 type_transactions.name                          as TypeTransactionName,
                 mtf.transactions.type_material_id               as TypeMaterialId,
-                mtf.type_materials.name                         as TypeMaterialName,
-                0                                               as AdquisicionCant,                
-                0                                               as AdquisicionMaterialPrice,
-                0                                               as AdquisicionMaterialAmount,
-                0                                               as AdquisicionMaterialAmountTotal,                
+                mtf.type_materials.name                         as TypeMaterialName,              
+                0                                               as AdquisicionCant,
+                0                                               as AdquisicionMaterialPriceKilos,
+                0                                               as AdquisicionMaterialAmountKilos,
+                0                                               as AdquisicionMaterialAmountTotalKilos,
+                0                                               as AdquisicionMaterialPriceGramos,
+                0                                               as AdquisicionMaterialAmountGramos,
+                0                                               as AdquisicionMaterialAmountTotalGramos,
                 count(mtf.transactions.wallet_id )              as RecepcionCant,
-                0                                               as RecepcionMaterialPrice,
-                sum(mtf.transactions.material_amount)           as RecepcionMaterialAmount,
-                0                                               as RecepcionMaterialAmountTotal
+                0                                               as RecepcionMaterialPriceKilos,
+                sum(mtf.transactions.material_amount_kilos)     as RecepcionMaterialAmountKilos,
+                0                                               as RecepcionMaterialAmountTotalKilos,
+                0                                               as RecepcionMaterialPriceGramos,
+                sum(mtf.transactions.material_amount_gramos)    as RecepcionMaterialAmountGramos,
+                0                                               as RecepcionMaterialAmountTotalGramos
             from
                         mtf.transactions
             left join   mtf.type_transactions   on mtf.transactions.type_transaction_id = mtf.type_transactions.id
@@ -4176,6 +4189,7 @@ class statisticsController extends Controller
                 and type_transaction_id     between $myTransactionDesde and     $myTransactionHasta
                 and transaction_date        between '$myFechaDesde2'    and     '$myFechaHasta2'
                 and type_material_id        between $myTypeMaterialDesde and    $myTypeMaterialHasta
+                and material_type_adquisicion between 1 and 2                
             group by 
                 mtf.transactions.wallet_id,
                 wallets.name,
@@ -4203,8 +4217,11 @@ class statisticsController extends Controller
             foreach($recepciones as $myRecepciones){
                 if($myAdquisiciones->WalletId == $myRecepciones->WalletId){
                     if($myAdquisiciones->GroupId == $myRecepciones->GroupId){
-                        $myAdquisiciones->RecepcionMaterialAmount = $myRecepciones->RecepcionMaterialAmount;
-                        $myAdquisiciones->RecepcionCant           = $myRecepciones->RecepcionCant;
+
+                        $myAdquisiciones->RecepcionMaterialAmountKilos      = $myRecepciones->RecepcionMaterialAmountKilos;
+                        $myAdquisiciones->RecepcionMaterialAmountGramos     = $myRecepciones->RecepcionMaterialAmountGramos;                                           
+                        $myAdquisiciones->RecepcionCant                     = $myRecepciones->RecepcionCant;
+
                     }
                 }
             }
@@ -4467,7 +4484,7 @@ class statisticsController extends Controller
         $group              = $this->getGroups($Group_roles);
         $type_material      = Type_material::pluck('name', 'id')->toArray();
 
-
+        // dd($adqui);
         $parametros ['myFechaDesde']    = $myFechaDesde;
         $parametros ['myFechaHasta']    = $myFechaHasta;
         $parametros ['myWallet']        = $myWallet;
@@ -4585,9 +4602,9 @@ class statisticsController extends Controller
                 mtf.type_materials.name                         as TypeMaterialName,
                 transaction_date                                as TransactionDate,
                 mtf.transactions.created_at                     as CreatedAt,
-                mtf.transactions.material_price                 as MaterialPrice,
-                mtf.transactions.material_amount                as MaterialAmount,
-                mtf.transactions.material_amount_total          as MaterialAmountTotal,
+                mtf.transactions.material_price_gramos                 as MaterialPrice,
+                mtf.transactions.material_amount_gramos                as MaterialAmount,
+                mtf.transactions.material_amount_total_gramos          as MaterialAmountTotal,
                 0                                               as Saldo,
                 0                                               as RecepcionId,
                 0                                               as RecepcionTransactionDate,
@@ -4605,6 +4622,7 @@ class statisticsController extends Controller
                 and group_id                between $myGroupDesde       and     $myGroupHasta                
                 and type_transaction_id  between $myTransactionDesde    and     $myTransactionHasta
                 and transaction_date     between '$myFechaDesde2'        and     '$myFechaHasta2'
+                and material_type_adquisicion between 1 and 2
             order by
                 transactions.wallet_id,
                 transactions.group_id,
@@ -4614,10 +4632,9 @@ class statisticsController extends Controller
 
         // dd($myQuery);
         
-        $adquisiciones = DB::select($myQuery);        
-
+        $adquisiciones = DB::select($myQuery);
         
-        //dd($adquisiciones);
+        // dd($adquisiciones);
 
         $myTransactionDesde     = 48;
         $myTransactionHasta     = 48;        
@@ -4635,10 +4652,10 @@ class statisticsController extends Controller
                 mtf.type_materials.name                         as TypeMaterialName,
                 transaction_date                                as TransactionDate,
                 mtf.transactions.created_at                     as CreatedAt,                
-                mtf.transactions.material_price                 as MaterialPrice,
-                mtf.transactions.material_amount                as MaterialAmount,
-                mtf.transactions.material_amount_total          as MaterialAmountTotal,
-                mtf.transactions.material_amount                as Saldo              
+                mtf.transactions.material_price_gramos                 as MaterialPrice,
+                mtf.transactions.material_amount_gramos                as MaterialAmount,
+                mtf.transactions.material_amount_total_gramos          as MaterialAmountTotal,
+                mtf.transactions.material_amount_gramos                as Saldo              
             from
                         mtf.transactions
             left join   mtf.type_transactions   on mtf.transactions.type_transaction_id = mtf.type_transactions.id
@@ -4651,6 +4668,7 @@ class statisticsController extends Controller
                 and group_id                between $myGroupDesde       and     $myGroupHasta                      
                 and type_transaction_id  between $myTransactionDesde    and     $myTransactionHasta
                 and transaction_date     between '$myFechaDesde2'        and     '$myFechaHasta2'
+                and material_type_adquisicion between 1 and 2
             order by
                 Transactions.transaction_date ASC,
                 id ASC
@@ -4865,8 +4883,9 @@ class statisticsController extends Controller
                     $myAdquisicion2->AdquisicionCierreCant     = $myGroupCant;
                     $myAdquisicion2->AdquisicionCierreAmount   = $myGroupAmount;
 
-                    $myAdquisicion2->RecepcionId                = "";
-                    $myAdquisicion2->RecepcionTransactionDate   = "";
+                    $myAdquisicion2->RecepcionId                = null;
+                    // $myAdquisicion2->RecepcionTransactionDate   = date("Y-m-d h:i:s");
+                    $myAdquisicion2->RecepcionTransactionDate   = null;
                     $myAdquisicion2->RecepcionMaterialAmount    = 0;
 
                     $myAdquisicion2->RecepcionSaldo             = 0;
@@ -4970,9 +4989,9 @@ class statisticsController extends Controller
             */
 
         }
-
+        // dd($adqui);
         if ($verLog == 1){
-        //    die();
+            die('fin');
         }
 
         return $adqui;
@@ -5021,7 +5040,7 @@ class statisticsController extends Controller
 
         Materials_balance::truncate();
 
-
+        
         foreach($adqui as $key => $transaccion){
 
             $Materials_balance = new Materials_balance;

@@ -156,7 +156,7 @@
 
     function generaCierre(){
 
-        $('#myModal').modal('show');
+         $('#myModal').modal('show');
         
         //alert('apiUpdateStatus');
         //return;
@@ -182,7 +182,7 @@
               console.log('no genero comisiones ->');
             }
 
-        }).catch(error => console.error( 'Error en Fetch -> ' + error));
+        }).catch(error => console.log( 'Error en Fetch -> ' + error));
     }
 
 

@@ -210,8 +210,8 @@ $config4 = [
                                     <td>{!! number_format($row->MaterialPrice,2) !!}</td>
                                     <td>{!! number_format($row->MaterialAmount) !!}</td>
                                     <td>{!! number_format($row->MaterialAmountTotal,2) !!}</td>
-
-                                    <td>{!! number_format($row->AdquisicionCierreAmount,2) !!}</td>
+                                    <td>{!! number_format($row->Saldo2,2) !!}</td>
+                                    {{-- <td>{!! number_format($row->AdquisicionCierreAmount,2) !!}</td> --}}
                                     <td>{!! number_format($row->AdquisicionCierreCant) !!}</td>
 
 
@@ -254,12 +254,13 @@ $config4 = [
                                     </td>
 
                                     <td>
-
+                                        @if($row->RecepcionId > 0)
                                         <a href="{{ route('transactions.show', $row->RecepcionId) }}"
 
                                             class="btn btn-xl text-dark mx-1 shadow text-center">
                                             <i class="fa fa-lg fa-fw fa-eye"></i>
                                         </a>
+                                        @endif
                                     </td>
 
                                 </tr>

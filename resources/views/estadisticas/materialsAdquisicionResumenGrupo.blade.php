@@ -10,10 +10,12 @@ $heads = [
     'Grupo',
     'Nro de Adquisiciones',
     'Material',
-    'Cantidad',
+    'Kilos',
+    'Gramos',          
     'Monto total',
     'Nro de Recepciones',
-    'Recepcion Cantidad',
+    'Recepcion Kilos',
+    'Recepcion Gramos',
 
     ['label' => 'Actions', 'no-export' => true, 'width' => 5],
     ['label' => 'Actions', 'no-export' => true, 'width' => 5],
@@ -183,10 +185,12 @@ $config4 = [
                                     <td>{!! $row->GroupName !!}</td>
                                     <td>{!! number_format($row->AdquisicionCant) !!}</td>
                                     <td>{!! $row->TypeMaterialName !!}</td>
-                                    <td>{!! number_format($row->AdquisicionMaterialAmount,2) !!}</td>
-                                    <td>{!! number_format($row->AdquisicionMaterialAmountTotal) !!}</td>
+                                    <td>{!! number_format($row->AdquisicionMaterialAmountKilos,2) !!}</td>
+                                    <td>{!! number_format($row->AdquisicionMaterialAmountGramos,2) !!}</td>                                    
+                                    <td>{!! number_format($row->AdquisicionMaterialAmountTotalKilos) !!}</td>
                                     <td>{!! number_format($row->RecepcionCant) !!}</td>
-                                    <td>{!! number_format($row->RecepcionMaterialAmount) !!}</td>
+                                    <td>{!! number_format($row->RecepcionMaterialAmountKilos,2) !!}</td>
+                                    <td>{!! number_format($row->RecepcionMaterialAmountGramos,2) !!}</td>
                                     
                                     <td>
                                         <a href="{{ route('materials.adquisicion_index', [ 'wallet' => $row->WalletId, 'group' => $row->GroupId] ) }}"
