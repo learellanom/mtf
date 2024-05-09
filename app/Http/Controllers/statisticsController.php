@@ -1644,7 +1644,7 @@ class statisticsController extends Controller
 
 
        $Group_roles = $this->getGroupRole(auth()->id());
-       \Log::info('leam - getWalletTransactionGroupSummary - el user id es -> ' . print_r($Group_roles,true));
+       // \Log::info('leam - getWalletTransactionGroupSummary - el user id es -> ' . print_r($Group_roles,true));
 
 
 
@@ -1725,7 +1725,7 @@ class statisticsController extends Controller
 
         $Transacciones = DB::select($myQuery);
        // dd($Transacciones);
-         \Log::info('leam *** $myQuery getWalletTransactionGroupSummary -> ' . $myQuery);
+        // \Log::info('leam *** $myQuery getWalletTransactionGroupSummary -> ' . $myQuery);
        //  \Log::info('leam *** $Transacciones3 -> ' . print_r($Transacciones3,true));
        
        return $Transacciones;
@@ -2330,12 +2330,19 @@ class statisticsController extends Controller
     *
     */
     function getTypeTransactions(){
+        // leamx
+        /*
         $Type_transactions = Type_transaction::select('type_transactions.id', 'type_transactions.name')
         ->get();
         $Type_transactions2 = array();
         foreach($Type_transactions as $Type_transactions){
             $Type_transactions2 [$Type_transactions->id] =  $Type_transactions->name;
         }
+        // $Type_transactions = Type_transaction::select('type_transactions.id', 'type_transactions.name')->get();
+        */
+        // echo "aaa222";
+        $Type_transactions2 = Type_transaction::pluck('name', 'id')->toArray();
+        // dd($Type_transactions);
         return $Type_transactions2;
     }
     /*
@@ -4340,7 +4347,7 @@ class statisticsController extends Controller
         $myWallet      = 0; 
         $myWalletDesde = 00000;
         $myWalletHasta = 99999;
-        if ($request->wallet){
+        if ($request->wallet && $request->wallet > 0){
             $myWallet       = $request->wallet; 
             $myWalletDesde  = $request->wallet;
             $myWalletHasta  = $request->wallet;
@@ -4349,7 +4356,7 @@ class statisticsController extends Controller
         $myGroup        = 0;
         $myGroupDesde = 00000;
         $myGroupHasta = 99999;
-        if ($request->group){
+        if ($request->group && $request->group > 0){
             $myGroup        = $request->group;
             $myGroupDesde   = $request->group;
             $myGroupHasta   = $request->group;
@@ -4380,7 +4387,7 @@ class statisticsController extends Controller
         $myTypeMaterialDesde    = 0;
         $myTypeMaterialHasta    = 9999;
 
-        if ($request->type_material){
+        if ($request->type_material && $request->type_material > 0){
             $myType_material        = $request->type_material;
             $myTypeMaterialDesde    = $request->type_material;
             $myTypeMaterialHasta    = $request->type_material;
@@ -4388,20 +4395,20 @@ class statisticsController extends Controller
 
             // leamx
 
-            $myQuery =
-            "
-            SELECT
-                user_id,
-                mtf.users.name,
-                substr(mtf.materials_balance.created_at,1,10) as created_at2
-            FROM mtf.materials_balance
-            left join
-                mtf.users on mtf.materials_balance.user_id = mtf.users.id
-            group by
-                user_id,
-                name,
-                mtf.materials_balance.created_at
-            ";
+        $myQuery =
+        "
+        SELECT
+            user_id,
+            mtf.users.name,
+            substr(mtf.materials_balance.created_at,1,10) as created_at2
+        FROM mtf.materials_balance
+        left join
+            mtf.users on mtf.materials_balance.user_id = mtf.users.id
+        group by
+            user_id,
+            name,
+            mtf.materials_balance.created_at
+        ";
         /*
             $myQuery =
             "
@@ -4446,8 +4453,8 @@ class statisticsController extends Controller
                 mtf.materials_balance.material_amount_total         as MaterialAmountTotal,
                 mtf.materials_balance.material_saldo                as Saldo,
                 mtf.materials_balance.material_saldo2               as Saldo2,
-                mtf.materials_balance.adquisicion_cierre_cant       as AdquisicionCierreAmount,
-                mtf.materials_balance.adquisicion_cierre_amount     as AdquisicionCierreCant,
+                mtf.materials_balance.adquisicion_cierre_cant       as AdquisicionCierreCant,
+                mtf.materials_balance.adquisicion_cierre_amount     as AdquisicionCierreAmount,
                 mtf.materials_balance.recepcion_id                  as RecepcionId,
                 mtf.materials_balance.recepcion_transaction_date    as RecepcionTransactionDate,
                 mtf.materials_balance.recepcion_material_amount     as RecepcionMaterialAmount,
@@ -5176,7 +5183,7 @@ class statisticsController extends Controller
         $Recargas = DB::select($myQuery);
         // dd($Recargas);
 
-        $myTransactionDesde     = 13; // 13 corbos usdt
+        $myTransactionDesde     = 13; // 13 cobros usdt
         $myTransactionHasta     = 13;
 
         $myQuery =
@@ -6961,9 +6968,9 @@ class statisticsController extends Controller
         $mytransactions = json_decode($mytransactions);
         
 
-        \Log::info('lee myOcultarresumengeneral -> ' . print_r($myOcultarresumengeneral,true));
-        \Log::info('lee myOcultarresumentransaccion  -> ' . print_r($myOcultarresumentransaccion,true));
-        \Log::info('lee mytransactions  -> ' . print_r($mytransactions,true));
+        // \Log::info('lee myOcultarresumengeneral -> ' . print_r($myOcultarresumengeneral,true));
+        // \Log::info('lee myOcultarresumentransaccion  -> ' . print_r($myOcultarresumentransaccion,true));
+        // \Log::info('lee mytransactions  -> ' . print_r($mytransactions,true));
 
         $myData['ocultarresumengeneral']        = $myOcultarresumengeneral->ocultarresumengeneral;
         $myData['ocultarresumentransaccion']    = $myOcultarresumentransaccion->ocultarresumentransaccion;

@@ -9,25 +9,27 @@ $heads = [
     'Nro',
     'Caja',    
     'Grupo',    
-    'Fecha',
+    'Fecha Adquisicion',
     'Material',
-
-    'Precio/U',
-    'Cantidad',
+    'Prec Kilo',
+    'Cant Kilo',
+    'Prec Gramos',
+    'Cant Gramos',
     'Monto',
 
-    'Saldo Total',
-    'Cierre Total',
+    'Saldo Total Gramos',
+    'Acumulado Cantidad',
+    'Acumulado Total $',
 
     
     'Nro Recepcion',
     'Recepcion Fecha',
-    'Recepcion Cantidad',
-    'Recepcion Cantidad Asignado',
+    'Recepcion Cantidad Gramos',
+    'Recepcion Cantidad Asignado Gramos',
     'Recepcion Material Total',
 
-    ['label' => 'Actions', 'no-export' => true, 'width' => 5],
-    ['label' => 'Actions', 'no-export' => true, 'width' => 5],
+    ['label' => 'Adqui.', 'no-export' => true, 'width' => 5],
+    ['label' => 'Recep.', 'no-export' => true, 'width' => 5],
 ];
 
 $btnEdit = '<button class="btn btn-xs btn-default text-primary mx-1 shadow" title="Edit">
@@ -186,7 +188,7 @@ $config4 = [
                         {{ __('Estadisticas| Adquisicion Consolidado')}}
                     </h3>
                     <h3 class="card-title font-weight-bold text-xl-right col-xl-6">
-                        Cierre al {{ $myCierre->created_at2 }}
+                        Cierre al {{ $myCierre->created_at2 ?? ""}}
                     </h3>
             </div>
             <div class="card-body">
@@ -206,14 +208,14 @@ $config4 = [
                                     <td>{!! $row->GroupName !!}</td>
                                     <td>{!! $row->TransactionDate !!}</td>
                                     <td>{!! $row->TypeMaterialName !!}</td>
-
+                                    <td>{!! number_format($row->MaterialPrice*1000,2) !!}</td>
+                                    <td>{!! number_format($row->MaterialAmount / 1000,2)!!}</td>
                                     <td>{!! number_format($row->MaterialPrice,2) !!}</td>
                                     <td>{!! number_format($row->MaterialAmount) !!}</td>
                                     <td>{!! number_format($row->MaterialAmountTotal,2) !!}</td>
                                     <td>{!! number_format($row->Saldo2,2) !!}</td>
-                                    {{-- <td>{!! number_format($row->AdquisicionCierreAmount,2) !!}</td> --}}
                                     <td>{!! number_format($row->AdquisicionCierreCant) !!}</td>
-
+                                    <td>{!! number_format($row->AdquisicionCierreAmount,2) !!}</td>
 
                                     <td>{!! $row->RecepcionId !!}</td>                                    
                                     <td>{!! $row->RecepcionTransactionDate !!}</td>
@@ -255,11 +257,10 @@ $config4 = [
 
                                     <td>
                                         @if($row->RecepcionId > 0)
-                                        <a href="{{ route('transactions.show', $row->RecepcionId) }}"
-
-                                            class="btn btn-xl text-dark mx-1 shadow text-center">
-                                            <i class="fa fa-lg fa-fw fa-eye"></i>
-                                        </a>
+                                            <a href="{{ route('transactions.show', $row->RecepcionId) }}"
+                                                class="btn btn-xl text-dark mx-1 shadow text-center">
+                                                <i class="fa fa-lg fa-fw fa-eye"></i>
+                                            </a>
                                         @endif
                                     </td>
 

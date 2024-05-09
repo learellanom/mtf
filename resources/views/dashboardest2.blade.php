@@ -260,13 +260,10 @@ $config4 = [
     const myTypeCoinBalance = {!! $myTypeCoinBalance !!};
     
     BuscaMoneda(myTypeCoinBalance);
-
+    
     @php
-
         
         $myData = $myClass->filtrosLeeEstadisticas();
-
-       
 
         $myocultarresumengeneral        = $myData['ocultarresumengeneral'];
         $myocultarresumentransaccion    = $myData['ocultarresumentransaccion'];
@@ -297,15 +294,7 @@ $config4 = [
         } else {
             $('.esconder').hide();
         }
-
-        if (myLength == 4 || myLength == 8 && myArray[4] === '0') {
-            // $('#typeTransactions, #drCustomRanges').prop('disabled', true);
-            //$('#typeTransactions').prop('disabled', true);
-        } else {
-            // $('#typeTransactions, #drCustomRanges').prop('disabled', false);
-           // $('#typeTransactions').prop('disabled', false);
-        }
-
+        
 
         let  myFechaDesde   = '{!! $myFechaDesde !!}';
         // console.log({!! $myFechaDesde !!});
@@ -316,7 +305,7 @@ $config4 = [
         InicializaFechas();
 
         
-         BuscaFechasBlade(myFechaDesde, myFechaHasta);
+        BuscaFechasBlade(myFechaDesde, myFechaHasta);
 
         $('#wallet').on('change', function (){
 
@@ -412,6 +401,7 @@ $config4 = [
         });
 
         
+        
         cargaTransacciones();
         leeFiltros();  
         aplicaFiltros();  
@@ -423,7 +413,7 @@ $config4 = [
             calculoGeneral2();
             calculos2();
         }
-    
+        
     
         
         $('#myButtonLimpiar2').on('click', function (){
@@ -642,18 +632,43 @@ $config4 = [
 
                 @foreach($wallet_groupsummary as $wallet2)
 
-                        @if($wallet2->TypeTransactionId == $wallet->TypeTransactionId )
+                    @if($wallet2->TypeTransactionId == $wallet->TypeTransactionId )
 
-                            // alert('Aqui -> ' + "{{$wallet2->GroupName}}" + " total amount -> " + "{{$wallet2->total_amount}}");
+                        // alert('Aqui -> ' + "{{$wallet2->GroupName}}" + " total amount -> " + "{{$wallet2->total_amount}}");
 
-                            myLabel.push("{{$wallet2->GroupName ?? $wallet2->WalletName }}");
+                        myLabel.push("{{$wallet2->GroupName ?? $wallet2->WalletName }}");
+
+                        @if( $wallet->TypeTransactionId == 48 || $wallet->TypeTransactionId == 47)
+                            myData.push({{$wallet2->cant_transactions  == ""? 0 : $wallet2->cant_transactions . ',' }});
+                        @else
                             myData.push({{$wallet2->total_amount == ""? 0 : $wallet2->total_amount . ',' }});
-                            myBackGroudColor.push('rgb(0, 173, 181)');
-                            myBorderColor.push('rgb(0, 173, 181)');
-
                         @endif
 
+                        myBackGroudColor.push('rgb(0, 173, 181)');
+                        myBorderColor.push('rgb(0, 173, 181)');
+
+                    @endif
+
                 @endforeach
+
+
+                let myOptions = {};
+                @if ($wallet->TypeTransactionId == 48 || $wallet->TypeTransactionId == 47 )
+                    myOptions = {
+                                         
+                        scales:{
+                            yAxes: [
+                                {
+                                    ticks: {
+                                        stepSize: 1
+                                    }
+                                }
+                            ]
+                        }
+                    
+                    };
+                                  
+                @endif
 
                 ctx4 = document.getElementById(
                     "M{{$wallet->TypeTransactionId. 'A' }}",
@@ -670,8 +685,8 @@ $config4 = [
                             borderColor: myBorderColor,
                             borderWidth: 6
                         }]
-                    }
-
+                    },
+                    options: myOptions
                 });
 
                 myElement = `
@@ -697,12 +712,12 @@ $config4 = [
                                     <tr class="myTr" onClick="theRoute2({{0}}, {{0}}, {{0}}, {{$wallet2->TypeTransactionId}})">
                                         @if($wallet2->TypeTransactionId == $wallet->TypeTransactionId)
                                             <td class="font-weight-bold" style="color: green;">{{ $wallet2->TypeTransaccionName}}</td>
-                                            <td class="font-weight-bold" style="color: green;">{{ number_format($wallet2->cant_transactions) }}</td>
-                                            <td class="font-weight-bold" style="color: green;">{{ number_format($wallet2->total_amount,2)}}</td>
+                                            <td class="font-weight-bold" style="color: green;">{{ number_format($wallet2->cant_transactions ?? 0) }}</td>
+                                            <td class="font-weight-bold" style="color: green;">{{ number_format($wallet2->total_amount ?? 0,2)}}</td>
                                         @else
                                             <td >{{ $wallet2->TypeTransaccionName}}</td>
-                                            <td>{{ number_format($wallet2->cant_transactions) }}</td>
-                                            <td>{{ number_format($wallet2->total_amount,2)}}</td>
+                                            <td>{{ number_format($wallet2->cant_transactions ?? 0) }}</td>
+                                            <td>{{ number_format($wallet2->total_amount ?? 0,2)}}</td>
                                         @endif
                                     </tr>
                                 @endforeach
@@ -725,7 +740,7 @@ $config4 = [
                                         <tr class="myTr" onClick="theRoute2({{0}}, {{$wallet2->GroupId ?? 0 }}, {{0}}, {{$wallet2->TypeTransactionId}})">
                                             <td class="font-weight-bold" style="color: green;">{{ $wallet2->GroupName ?? "A cajas"}}</td>
                                             <td class="font-weight-bold" style="color: green;">{{ number_format($wallet2->cant_transactions)}}</td>
-                                            <td class="font-weight-bold" style="color: green;">{{ number_format($wallet2->total_amount,2)}}</td>
+                                            <td class="font-weight-bold" style="color: green;">{{ number_format($wallet2->total_amount ?? 0,2)}}</td>
                                         </tr>
                                     @endif
                                 @endforeach
@@ -884,12 +899,12 @@ $config4 = [
                                     <tr class="myTr" onClick="theRoute2({{0}}, {{0}}, {{$wallet2->WalletId}}, {{$wallet2->TypeTransactionId}})">
                                         @if($wallet2->TypeTransactionId == $wallet->TypeTransactionId)
                                             <td class="font-weight-bold" style="color: green;">{{ $wallet2->TypeTransaccionName}}</td>
-                                            <td class="font-weight-bold" style="color: green;">{{ number_format($wallet2->cant_transactions) }}</td>
-                                            <td class="font-weight-bold" style="color: green;">{{ number_format($wallet2->total_amount,2)}}</td>
+                                            <td class="font-weight-bold" style="color: green;">{{ number_format($wallet2->cant_transactions ??0) }}</td>
+                                            <td class="font-weight-bold" style="color: green;">{{ number_format($wallet2->total_amount ?? 0,2)}}</td>
                                         @else
                                             <td >{{ $wallet2->TypeTransaccionName}}</td>
                                             <td>{{ number_format($wallet2->cant_transactions) }}</td>
-                                            <td>{{ number_format($wallet2->total_amount,2)}}</td>
+                                            <td>{{ number_format($wallet2->total_amount ?? 0,2)}}</td>
                                         @endif
                                     </tr>
                                 @endforeach
@@ -911,7 +926,7 @@ $config4 = [
                                         <tr class="myTr" onClick="theRoute2({{0}}, {{$wallet2->GroupId ?? 0 }}, {{$wallet2->WalletId}}, {{$wallet2->TypeTransactionId}})">
                                             <td class="font-weight-bold" style="color: green;">{{ $wallet2->GroupName ?? "A cajas"}}</td>
                                             <td class="font-weight-bold" style="color: green;">{{ number_format($wallet2->cant_transactions)}}</td>
-                                            <td class="font-weight-bold" style="color: green;">{{ number_format($wallet2->total_amount,2)}}</td>
+                                            <td class="font-weight-bold" style="color: green;">{{ number_format($wallet2->total_amount ?? 0,2)}}</td>
                                         </tr>
                                     @endif
                                 @endforeach
@@ -1089,7 +1104,7 @@ $config4 = [
                                         <td>{{ $wallet2->TypeTransaccionName}}</td>
                                         <td>{{ number_format($wallet2->cant_transactions) }}</td>
                                         <td>{{ ' ' }}</td>
-                                        <td>{{ number_format($myAmount ,2)}}</td>                        
+                                        <td>{{ number_format($myAmount ?? 0,2)}}</td>                        
                                         <td>{{ ' ' }}</td>                                    
                                         @php
                                             $cantDebitos ++;
@@ -1109,7 +1124,7 @@ $config4 = [
                                         
                                         <td>{{ $wallet2->TypeTransaccionName}}</td>
                                         <td>{{ number_format($wallet2->cant_transactions) }}</td>
-                                        <td>{{ number_format($myAmount ,2)}}</td>
+                                        <td>{{ number_format($myAmount ?? 0,2)}}</td>
                                         <td>{{ ' ' }}</td>
                                         <td>{{ ' ' }}</td>
                                         @break
@@ -1133,7 +1148,7 @@ $config4 = [
                             <td >{{ ' ' }}</td>
                             <td >{{ ' ' }}</td>
                             <td >{{ 'Saldo al dia '}}</td>
-                            <td>{{  number_format($myBalance,2) }}</td>
+                            <td>{{  number_format($myBalance ?? 0,2) }}</td>
                         </tr>
                     </table>
                 </div>
@@ -1283,14 +1298,14 @@ $config4 = [
                                             <td class="font-weight-bold" style="color: green;">{{ $wallet2->TypeTransaccionName}}</td>
                                             <td class="font-weight-bold" style="color: green;">{{ number_format($wallet2->cant_transactions) }}</td>
                                             <td class="font-weight-bold" style="color: green;">{{  ' ' }}</td>
-                                            <td class="font-weight-bold" style="color: green;">{{ number_format($wallet2->total_amount,2)}}</td>
+                                            <td class="font-weight-bold" style="color: green;">{{ number_format($wallet2->total_amount ?? 0,2)}}</td>
                                             
                                             
                                         @else
                                             <td                                                 >{{ $wallet2->TypeTransaccionName}}</td>
                                             <td                                                 >{{ number_format($wallet2->cant_transactions) }}</td>
                                             <td                                                 >{{  ' ' }}</td>
-                                            <td class="font-weight-bold" style="color: green;"  >{{ number_format($wallet2->total_amount,2)}}</td>
+                                            <td class="font-weight-bold" style="color: green;"  >{{ number_format($wallet2->total_amount ?? 0,2)}}</td>
                                             
                                         @endif
                                         @php
@@ -1303,13 +1318,13 @@ $config4 = [
                                         @if($wallet2->TypeTransactionId == $myTypeTransaction )
                                             <td class="font-weight-bold" style="color: green;">{{ $wallet2->TypeTransaccionName}}</td>
                                             <td class="font-weight-bold" style="color: green;">{{ number_format($wallet2->cant_transactions) }}</td>
-                                            <td class="font-weight-bold" style="color: green;">{{ number_format($wallet2->total_amount,2)}}</td>
+                                            <td class="font-weight-bold" style="color: green;">{{ number_format($wallet2->total_amount ?? 0,2)}}</td>
                                             <td class="font-weight-bold" style="color: green;">{{ ' ' }}</td>
 
                                         @else
                                             <td                                                 >{{ $wallet2->TypeTransaccionName}}</td>
                                             <td                                                 >{{ number_format($wallet2->cant_transactions) }}</td>
-                                            <td                                                 >{{ number_format($wallet2->total_amount,2)}}</td>
+                                            <td                                                 >{{ number_format($wallet2->total_amount ?? 0,2)}}</td>
                                             <td class="font-weight-bold" style="color: green;"  >{{ ' ' }}</td>
 
                                         @endif
@@ -1387,14 +1402,14 @@ $config4 = [
                                             <td class="font-weight-bold" style="color: green;">{{ $wallet2->TypeTransaccionName}}</td>
                                             <td class="font-weight-bold" style="color: green;">{{ number_format($wallet2->cant_transactions) }}</td>
                                             <td class="font-weight-bold" style="color: green;">{{  ' ' }}</td>
-                                            <td class="font-weight-bold" style="color: green;">{{ number_format($wallet2->total_amount,2)}}</td>
+                                            <td class="font-weight-bold" style="color: green;">{{ number_format($wallet2->total_amount ?? 0,2)}}</td>
                                             
                                             
                                         @else
                                             <td                                                 >{{ $wallet2->TypeTransaccionName}}</td>
                                             <td                                                 >{{ number_format($wallet2->cant_transactions) }}</td>
                                             <td                                                 >{{  ' ' }}</td>
-                                            <td class="font-weight-bold" style="color: green;"  >{{ number_format($wallet2->total_amount,2)}}</td>
+                                            <td class="font-weight-bold" style="color: green;"  >{{ number_format($wallet2->total_amount ?? 0,2)}}</td>
                                             
                                         @endif
                                         @php
@@ -1407,13 +1422,13 @@ $config4 = [
                                         @if($wallet2->TypeTransactionId == $myTypeTransaction )
                                             <td class="font-weight-bold" style="color: green;">{{ $wallet2->TypeTransaccionName}}</td>
                                             <td class="font-weight-bold" style="color: green;">{{ number_format($wallet2->cant_transactions) }}</td>
-                                            <td class="font-weight-bold" style="color: green;">{{ number_format($wallet2->total_amount,2)}}</td>
+                                            <td class="font-weight-bold" style="color: green;">{{ number_format($wallet2->total_amount ?? 0,2)}}</td>
                                             <td class="font-weight-bold" style="color: green;">{{ ' ' }}</td>
 
                                         @else
                                             <td                                                 >{{ $wallet2->TypeTransaccionName}}</td>
                                             <td                                                 >{{ number_format($wallet2->cant_transactions) }}</td>
-                                            <td                                                 >{{ number_format($wallet2->total_amount,2)}}</td>
+                                            <td                                                 >{{ number_format($wallet2->total_amount ?? 0,2)}}</td>
                                             <td class="font-weight-bold" style="color: green;"  >{{ ' ' }}</td>
 
                                         @endif
@@ -1439,8 +1454,6 @@ $config4 = [
 
             </div>
         `;
-
-
 
         $("#myCanvasGeneral").append(myElement);
 

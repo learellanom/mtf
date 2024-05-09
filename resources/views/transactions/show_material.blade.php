@@ -185,14 +185,14 @@
                 </div>
 
 
-                <div class="form-row pt-4" style="{{ $myStyle1 }}">
+                <div class="form-row pt-4" >
 
 
-                    <div class="form-group col-md-3">
+                    <div class="form-group col-md-3" style="{{ $myStyle1 }}">
                         <div class="info-box bg-light">
                             <div class="info-box-content">
                                 <span class="info-box-text text-center text-muted">
-                                    Cantidad<i class="fas fa-hryvnia"></i>
+                                    Cantidad Kilos<i class="fas fa-hryvnia"></i>
                                 </span>
                                 <span class="info-box-number text-center text-muted mb-0 text-uppercase">
                                     {{ number_format($transactions->material_amount_kilos,2,",",".") ?? '0.00' }}
@@ -201,11 +201,11 @@
                         </div>
                     </div>
 
-                    <div class="form-group col-md-3">
+                    <div class="form-group col-md-3" style="{{ $myStyle1 }}">
                         <div class="info-box bg-light">
                             <div class="info-box-content">
                                 <span class="info-box-text text-center text-muted">
-                                Precio/U:<i class="fas fa-hryvnia"></i>
+                                Precio/Kilo:<i class="fas fa-hryvnia"></i>
                                 </span>
                                 <span class="info-box-number text-center text-muted mb-0 text-uppercase">
                                     {{ number_format($transactions->material_price_kilos,2,",",".") ?? '0.00' }}
@@ -216,11 +216,11 @@
 
 
 
-                    <div class="form-group col-md-3">
+                    <div class="form-group col-md-3" style="{{ $myStyle1 }}">
                         <div class="info-box bg-light">
                             <div class="info-box-content">
                                 <span class="info-box-text text-center text-muted">
-                                Monto Total Material<i class="fas fa-hryvnia"></i>
+                                Monto $ Total Kilo<i class="fas fa-hryvnia"></i>
                                 </span>
                                 <span class="info-box-number text-center text-muted mb-0 text-uppercase">
                                     {{ number_format($transactions->material_amount_total_kilos,2,",",".") ?? '0.00' }}
@@ -236,13 +236,13 @@
 
 
 
-                <div class="form-row pt-4" style="{{ $myStyle2 }}">
+                <div class="form-row pt-4" >
 
                     <div class="form-group col-md-3">
                         <div class="info-box bg-light">
                             <div class="info-box-content">
                                 <span class="info-box-text text-center text-muted">
-                                    Cantidad<i class="fas fa-hryvnia"></i>
+                                    Cantidad Gramos<i class="fas fa-hryvnia"></i>
                                 </span>
                                 <span class="info-box-number text-center text-muted mb-0 text-uppercase">
                                     {{ number_format($transactions->material_amount_gramos,2,",",".") ?? '0.00' }}
@@ -251,11 +251,11 @@
                         </div>
                     </div>
 
-                    <div class="form-group col-md-3">
+                    <div class="form-group col-md-3" style="{{ $myStyle2 }}">
                         <div class="info-box bg-light">
                             <div class="info-box-content">
                                 <span class="info-box-text text-center text-muted">
-                                Precio/U:<i class="fas fa-hryvnia"></i>
+                                Precio/Gramo:<i class="fas fa-hryvnia"></i>
                                 </span>
                                 <span class="info-box-number text-center text-muted mb-0 text-uppercase">
                                     {{ number_format($transactions->material_price_gramos,2,",",".") ?? '0.00' }}
@@ -267,11 +267,11 @@
 
 
 
-                    <div class="form-group col-md-3">
+                    <div class="form-group col-md-3" style="{{ $myStyle2 }}">
                         <div class="info-box bg-light">
                             <div class="info-box-content">
                                 <span class="info-box-text text-center text-muted">
-                                Monto Total Material<i class="fas fa-hryvnia"></i>
+                                Monto $ Total Gramos<i class="fas fa-hryvnia"></i>
                                 </span>
                                 <span class="info-box-number text-center text-muted mb-0 text-uppercase">
                                     {{ number_format($transactions->material_amount_total_gramos,2,",",".") ?? '0.00' }}
@@ -286,7 +286,7 @@
                 <hr>
 
 
-
+                {{--
                 <div class="form-row pt-4" style="{{ $myStyle3 }}">
 
 
@@ -333,7 +333,7 @@
                     </div>
 
                 </div>
-
+                --}}
 
                 <hr>                
 

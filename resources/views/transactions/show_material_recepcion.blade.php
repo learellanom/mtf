@@ -122,9 +122,9 @@
                 </div>                    
             </div>
 
-            <div class="form-row pt-4" style="{{ $myStyle1 }}">
+            <div class="form-row pt-4" >
 
-                <div class="form-group col-md-3">
+                <div class="form-group col-md-3" style="{{ $myStyle1 }}">
                     <div class="info-box bg-light">
                         <div class="info-box-content">
                             <span class="info-box-text text-center text-muted">
@@ -138,8 +138,8 @@
                 </div>
             </div>
 
-            <div class="form-row pt-4" style="{{ $myStyle2 }}">
-                <div class="form-group col-md-3">
+            <div class="form-row pt-4" >
+                <div class="form-group col-md-3" style="{{ $myStyle2 }}">
                     <div class="info-box bg-light">
                         <div class="info-box-content">
                             <span class="info-box-text text-center text-muted">
@@ -153,8 +153,8 @@
                 </div>
             </div>
 
-            <div class="form-row pt-4" style="{{ $myStyle3 }}">
-                <div class="form-group col-md-3">
+            <div class="form-row pt-4" >
+                <div class="form-group col-md-3" style="{{ $myStyle3 }}">
                     <div class="info-box bg-light">
                         <div class="info-box-content">
                             <span class="info-box-text text-center text-muted">

@@ -39,7 +39,10 @@
                             {!! Form::Label('typetrasnferencia', "Tipo de Movimiento:") !!}
                             <div class="input-group-text col-md-12">
                                 <i class="fa-fw fas fa-random mr-2"></i>
-                            {!! Form::select('type_transaction_id',$type_transaction, null, ['class' => 'form-control typetrasnferencia myForm', 'required' => true, 'id'=>'typetrasnferencia', 'readonly' => false]) !!}
+                                {!! Form::select('type_transaction_id',$type_transaction, null, 
+                                                [   'class' => 'form-control typetrasnferencia myForm', 
+                                                    'required' => true, 'id'=>'typetrasnferencia', 'readonly' => false]) 
+                                !!}
                             </div>
                         </div>
 
@@ -81,7 +84,7 @@
                 <div class="form-row col-lg-12 justify-content-center align-items-center">        
                     <p>Tipo de Adquisicion  :</p>
                 </div>
-                
+
                 <div class="form-row  col-lg-12 justify-content-center align-items-center">
                     <div class="col-sm-12 col-md-4">
                         <input class="myForm" type="radio" id="material_type_adquisicion1" name="material_type_adquisicion" value="1" checked>
@@ -92,12 +95,13 @@
                         <input class="myForm" type="radio" id="material_type_adquisicion2" name="material_type_adquisicion" value="2">
                         <label for="material_type_adquisicion2">Gramos</label>
                     </div>
-
+                    {{--
                     <div class="col-sm-12 col-md-4">
 
                         <input class="myForm" type="radio" id="material_type_adquisicion3" name="material_type_adquisicion" value="3">
                         <label for="material_type_adquisicion3">Cantidad</label>
                     </div>
+                    --}}
                 </div>
 
                 <hr class="bg-dark esconder" style="height:1px;">
@@ -116,12 +120,13 @@
                             <i class="fa-fw fas fa-coins mr-2"></i>
                             {!! Form::text('material_amount_gramos',null, ['class' => 'form-control general myForm', 'required' => true, 'id' => 'material_amount_gramos', 'readonly' => 'true']) !!}
                         </div>
-
+                        {{--
                         {!! Form::Label('material_amount_cantidad', "Cantidad:") !!}
                         <div class="input-group-text">
                             <i class="fa-fw fas fa-coins mr-2"></i>
                             {!! Form::text('material_amount_cantidad',null, ['class' => 'form-control general myForm', 'required' => true, 'id' => 'material_amount_cantidad', 'readonly' => 'true']) !!}
                         </div>
+                        --}}
                     </div>
                     
                 </div>
@@ -428,7 +433,7 @@
 
         switch (material_type_adquisicion){
             case 1: // Kilos
-                if (material_amount_kilos> 0){
+                if (material_amount_kilos != 0){
 
                     material_amount_gramos           = material_amount_kilos * 1000;
 
@@ -445,7 +450,7 @@
                 break;      
             case 2: // Gramos
 
-                if (material_amount_gramos > 0){
+                if (material_amount_gramos != 0){
 
                     material_amount_kilos           = material_amount_gramos / 1000;
 

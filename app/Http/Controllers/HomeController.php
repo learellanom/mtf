@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Wallet;
 use App\Http\Controllers\statisticsController;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Pagination\Paginator;
@@ -11,7 +10,10 @@ use App\Exports\DashboardestExport;
 use App\Exports\DashboardExportComisiones;
 use App\Exports\DashboardSaldosExport;
 use Maatwebsite\Excel\Facades\Excel;
+
 use App\Models\Type_coin;
+use App\Models\Type_transaction;
+use App\Models\Wallet;
 
 class HomeController extends Controller
 {
@@ -48,25 +50,31 @@ class HomeController extends Controller
 
     public function graphics(request $request)
     {
-
-        $wallet_summary             = app(statisticsController::class)->getWalletTransactionSummary($request);
-        // dd($wallet_summary );
+        // leam
+        // $wallet_summary             = app(statisticsController::class)->getWalletTransactionSummary($request);
+        //
+        
         $request2                   = clone $request;
         $request2->transaction      = 0;
         $wallet_summary             = app(statisticsController::class)->getwalletTransactionSummary($request2);
+        //dd($wallet_summary );
 
         $wallet_groupsummary        = app(statisticsController::class)->getWalletTransactionGroupSummary($request);
         // dd($wallet_groupsummary);
         $wallet                     = app(statisticsController::class)->getWallet();
         // dd($wallet);
-        $typeTransactions           = app(statisticsController::class)->getTypeTransactions();
-        $typeTransactionsDetail     = app(statisticsController::class)->getTypeTransactionsDetail();
+
+        $typeTransactions           = Type_transaction::orderBY('name','ASC')->pluck('name', 'id')->toArray();
+        // $typeTransactionsDetail     = app(statisticsController::class)->getTypeTransactionsDetail();
+        $typeTransactionsDetail     = Type_transaction::all();
         
         // dd($typeTransactionsDetail);
 
         $request3                   = clone $request;
         $request3->transaction      = 0;
         $transaction_summary        = app(statisticsController::class)->getTransactionSummary($request3);
+
+        // dd($transaction_summary  );
 
         $request4                   = clone $request;
         $transaction_group_summary  = app(statisticsController::class)->getTransactionGroupSummary($request4);
@@ -180,25 +188,8 @@ class HomeController extends Controller
         $parametros['Type_coin_balance']            = $Type_coin_balance;
 
         
-
+        
         return view('dashboardest2', $parametros);
-        /*
-        return view('dashboardest2', compact(
-        'transaction_group_summary',
-        'transaction_summary',
-        'wallet_summary', 
-        'wallet_groupsummary', 
-        'wallet', 
-        'typeTransactions', 
-        'myWallet', 
-        'myTypeTransaction', 
-        'myFechaDesde', 
-        'myFechaHasta',
-        'balanceDetail',
-        'myFechaDesdeBefore',
-        'myFechaHastaBefore',
-        'balance'));
-        */
 
     }
 

@@ -104,12 +104,13 @@
                         <input class="myForm" type="radio" id="material_type_adquisicion2" name="material_type_adquisicion" value="2">
                         <label for="material_type_adquisicion2">Gramos</label>
                     </div>
-
+                    {{--
                     <div class="col-sm-12 col-md-4">
 
                         <input class="myForm" type="radio" id="material_type_adquisicion3" name="material_type_adquisicion" value="3">
                         <label for="material_type_adquisicion3">Cantidad</label>
                     </div>
+                    --}}
                 </div>
 
 
@@ -135,7 +136,7 @@
                         </div>
                     </div>
                 </div>
-                
+                {{--
                 <div class="form-row">
                     <div class="form-group col-md-3">
                         {!! Form::Label('material_amount_cantidad', "Cantidad:") !!}
@@ -145,7 +146,7 @@
                         </div>
                     </div>
                 </div>
-                
+                --}}
                 
                 <hr class="bg-dark esconder" style="height:1px;">    
 

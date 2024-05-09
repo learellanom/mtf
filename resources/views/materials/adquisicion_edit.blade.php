@@ -94,12 +94,13 @@
                         <input class="myForm" type="radio" id="material_type_adquisicion2" name="material_type_adquisicion" value="2">
                         <label for="material_type_adquisicion2">Gramos</label>
                     </div>
-
+                    {{--
                     <div class="col-sm-12 col-md-4">
 
                         <input class="myForm" type="radio" id="material_type_adquisicion3" name="material_type_adquisicion" value="3">
                         <label for="material_type_adquisicion3">Cantidad</label>
                     </div>
+                    --}}
                 </div>
 
                 <hr class="bg-dark esconder" style="height:1px;">
@@ -118,13 +119,13 @@
                             <i class="fa-fw fas fa-coins mr-2"></i>
                             {!! Form::text('material_amount_gramos',null, ['class' => 'form-control general myForm', 'required' => true, 'id' => 'material_amount_gramos', 'readonly' => 'true']) !!}
                         </div>
-
+                        {{--
                         {!! Form::Label('material_amount_cantidad', "Cantidad:") !!}
                         <div class="input-group-text">
                             <i class="fa-fw fas fa-coins mr-2"></i>
                             {!! Form::text('material_amount_cantidad',null, ['class' => 'form-control general myForm', 'required' => true, 'id' => 'material_amount_cantidad', 'readonly' => 'true']) !!}
                         </div>
-
+                        --}}
                     </div>
 
 
@@ -144,14 +145,14 @@
                             
                             </div>
 
-
+                            {{--
                             {!! Form::Label('material_price', "Precio/U Cantidad:") !!}
                             <div class="input-group-text">
                                 <i class="fa-fw fas fa-random mr-2"></i>
                                 {!! Form::text('material_price_cantidad',null, ['class' => 'form-control general myForm', 'required' => true, 'id' => 'material_price_cantidad', 'minlength' => 9, 'readonly' => true,]) !!}
                             
                             </div>
-
+                            --}}
                     </div>
 
                 
@@ -168,12 +169,13 @@
                             <i class="fa-fw fas fas fa-funnel-dollar mr-2"></i>
                             {!! Form::text('material_amount_total_gramos', null, ['class' => 'form-control general', 'required' => true, 'id' => 'material_amount_total_gramos', 'readonly' => true, 'data-mask-clearifnotmatch' => true]) !!}
                         </div>
-                        
+                        {{--
                         {!! Form::Label('material_amount_total', "Monto Total $ Cantidad:") !!}
                         <div class="input-group-text">
                             <i class="fa-fw fas fas fa-funnel-dollar mr-2"></i>
                             {!! Form::text('material_amount_total_cantidad', null, ['class' => 'form-control general', 'required' => true, 'id' => 'material_amount_total_cantidad', 'readonly' => true, 'data-mask-clearifnotmatch' => true]) !!}
-                        </div>                        
+                        </div>     
+                        --}}                   
                     </div>
                 </div>
 
