@@ -4609,9 +4609,9 @@ class statisticsController extends Controller
                 mtf.type_materials.name                         as TypeMaterialName,
                 transaction_date                                as TransactionDate,
                 mtf.transactions.created_at                     as CreatedAt,
-                mtf.transactions.material_price_gramos                 as MaterialPrice,
-                mtf.transactions.material_amount_gramos                as MaterialAmount,
-                mtf.transactions.material_amount_total_gramos          as MaterialAmountTotal,
+                mtf.transactions.material_price_gramos          as MaterialPrice,
+                mtf.transactions.material_amount_gramos         as MaterialAmount,
+                mtf.transactions.material_amount_total_gramos   as MaterialAmountTotal,
                 0                                               as Saldo,
                 0                                               as RecepcionId,
                 0                                               as RecepcionTransactionDate,
@@ -4790,6 +4790,8 @@ class statisticsController extends Controller
                         $myAdquisicion2->RecepcionMaterialAmount2   = $myRecepcion->MaterialAmount;
                         $myAdquisicion2->RecepcionBalance           = $myRecepcionBalance;
 
+                        $myAdquisicion2->RecepcionMaterialAmountTotal= $myAdquisicion2->MaterialPrice * $myRecepcion->MaterialAmount; // leamx
+
                         $indRecepcion = 1;
 
                         if ($verLog == 1){
@@ -4820,6 +4822,8 @@ class statisticsController extends Controller
                         $myAdquisicion2->RecepcionSaldo             = 0 ;                       // saldo que queda de la recepcion
 
                         $myRecepcion->Saldo                         = 0;                        // sal que queda de la recepcion
+
+                        $myAdquisicion2->RecepcionMaterialAmountTotal= $myAdquisicion2->MaterialPrice * $myRecepcion->MaterialAmount; // leamx
 
                         $indRecepcion                               = 1;
 
@@ -4853,7 +4857,8 @@ class statisticsController extends Controller
                         
                         $myRecepcion->Saldo                 = abs($myMaterialAmount);
 
-                        
+                        $myAdquisicion2->RecepcionMaterialAmountTotal= $myAdquisicion2->MaterialPrice * $myRecepcion->MaterialAmount; // leamx
+
                         $myAdquisicion2->RecepcionBalance           = $myRecepcionBalance;
 
                         $indRecepcion = 1;
@@ -4899,6 +4904,8 @@ class statisticsController extends Controller
                     $myAdquisicion2->RecepcionMaterialAmount2   = 0; 
 
                     $myAdquisicion2->RecepcionBalance           = $myRecepcionBalance;
+                    
+                    $myAdquisicion2->RecepcionMaterialAmountTotal = 0; // leamx
 
                     if ($verLog == 1){
                         echo "<br>" . "sin recepcion  nnn *************************************************** indRecepcion -> " . $indRecepcion;
@@ -5037,6 +5044,7 @@ class statisticsController extends Controller
         echo "<br>";
         echo "<br> Recepcion Saldo ------------>" . $myAdquisicion2->RecepcionSaldo;
         echo "<br> Recepcion Balance ---------->" . $myAdquisicion2->RecepcionBalance;
+        echo "<br> Recepcion Material Total Amount ---------->" . $myAdquisicion2->RecepcionMaterialTotalAmount;
 
     }
 
@@ -5069,8 +5077,9 @@ class statisticsController extends Controller
             $Materials_balance->recepcion_transaction_date  = $transaccion->RecepcionTransactionDate;
             $Materials_balance->recepcion_material_amount   = $transaccion->RecepcionMaterialAmount;
             $Materials_balance->recepcion_material_amount2  = $transaccion->RecepcionMaterialAmount2;
-            $Materials_balance->recepcion_saldo             = $transaccion->RecepcionSaldo;
-            $Materials_balance->recepcion_balance           = $transaccion->RecepcionBalance;
+            $Materials_balance->recepcion_saldo                 = $transaccion->RecepcionSaldo;
+            $Materials_balance->recepcion_balance               = $transaccion->RecepcionBalance;
+            $Materials_balance->recepcion_material_amount_total = $transaccion->RecepcionMaterialAmountTotal;
             $Materials_balance->user_id                     = auth()->user()->id;
 
             $Materials_balance->save();
@@ -5080,13 +5089,258 @@ class statisticsController extends Controller
         return response()->json(['success' => true, 'result' => 'Procesado', 'message' => 'Cierre Materiales procesado con exito'], 200);
 
     }
+    /*
+    *
+    *
+    *       materialPosicionConsolidadaGrupo
+    *
+    * leamx
+    */
+    function materialPosicionConsolidadaGrupo(Request $request){
+        // \Log::info('leam - statisticsController - commissionsProfit - el wallet es ->' . $request->wallet);
+        // $request->wallet        = 89;   // abu mahmud
+        // $request->wallet        = 93;   // caja usdt
+        // $request->wallet        = 139;  // caja principal usdt
+        $myWallet      = 0; 
+        $myWalletDesde = 00000;
+        $myWalletHasta = 99999;
+        if ($request->wallet){
+            $myWallet       = $request->wallet; 
+            $myWalletDesde = $request->wallet;
+            $myWalletHasta = $request->wallet;
+        }
+        $myGroup        = 0;
+        $myGroupDesde = 00000;
+        $myGroupHasta = 99999;
+        if ($request->group){
+            $myGroup        = $request->group;
+            $myGroupDesde = $request->group;
+            $myGroupHasta = $request->group;
+        }
 
+        $request->transaction   = 11; // 11 pago usdt 
+        $myTransactionDesde     = 0000;
+        $myTransactionHasta     = 9999;
+        if ($request->transaction){
+            $myTransactionDesde     = $request->transaction;
+            $myTransactionHasta     = $request->transaction;
+        }
+
+        $myType_material        = 0;
+        $myTypeMaterialDesde    = 0;
+        $myTypeMaterialHasta    = 9999;
+
+        if ($request->type_material){
+            $myType_material         = $request->type_material;
+            $myTypeMaterialDesde    = $request->type_material;
+            $myTypeMaterialHasta    = $request->type_material;
+        }
+
+        $myFechaDesde = "2001-01-01";
+        $myFechaHasta = "9999-12-31";
+        if ($request->fechaDesde){
+            $myFechaDesde = $request->fechaDesde;
+        }
+        if ($request->fechaHasta){
+            $myFechaHasta = $request->fechaHasta;
+        }
+        // dd('statiscticController -> ' . $request->fechaDesde . ' -- ' . $request->fechaHasta);
+        //$myFechaDesde = "2001-01-01";
+        //$myFechaHasta = "9999-12-31";
+
+        $horaDesde = " 00:00:00";
+        $horaHasta = " 23:59:00";
+
+        $myFechaDesde = $myFechaDesde . $horaDesde;
+        $myFechaHasta = $myFechaHasta . $horaHasta;
+        //
+        //
+        // type_transaction = 11
+        //
+        //
+
+        $myQuery =
+        "
+            select
+                mtf.transactions.wallet_id                          as WalletId,
+                wallets.name                                        as WalletName,
+                mtf.transactions.group_id                           as GroupId,
+                mtf.groups.name                                     as GroupName,
+                mtf.transactions.type_transaction_id                as TypeTransactionId,
+                type_transactions.name                              as TypeTransactionName,                
+                count(mtf.transactions.amount)                      as Cant,
+                sum(mtf.transactions.amount_foreign_currency)       as AmountForeignCurrency,
+                sum(mtf.transactions.amount)                        as Amount,
+                sum(mtf.transactions.amount_total)                  as AmountTotal,
+                sum(mtf.transactions.amount_commission)             as AmountCommission,
+                sum(mtf.transactions.amount_base)                   as AmountBase,
+                sum(mtf.transactions.amount_total_base)             as AmountTotalBase,
+                sum(mtf.transactions.amount_commission_base)        as AmountCommissionBase,
+                sum(mtf.transactions.amount_commission_profit)      as AmountCommissionProfit,
+                sum(mtf.transactions.amount)                        as Saldo
+            from
+                        mtf.transactions
+            left join   mtf.type_transactions   on mtf.transactions.type_transaction_id = mtf.type_transactions.id
+            left join   mtf.groups as wallets   on mtf.transactions.wallet_id           = wallets.id
+            left join   mtf.groups              on mtf.Transactions.group_id            = mtf.groups.id
+            where
+                    status = 'Activo'
+                and wallet_id               between $myWalletDesde              and     $myWalletHasta
+                and group_id                between $myGroupDesde               and     $myGroupHasta
+                and type_transaction_id     between $myTransactionDesde         and     $myTransactionHasta
+                and transaction_date        between '$myFechaDesde'             and     '$myFechaHasta'
+            group by
+                mtf.transactions.wallet_id,
+                wallets.name,
+                mtf.transactions.group_id,
+                mtf.groups.name,
+                mtf.transactions.type_transaction_id,
+                type_transactions.name
+            order by
+                wallets.name ASC,
+                mtf.groups.name ASC
+        ";
+
+        // dd($myQuery);
+        
+        $pagosUSDT = DB::select($myQuery);
+        // dd($Recargas);
+
+
+        //
+        //
+        // Adquisiciones
+        //
+        //
+        $myTransactionDesde     = 47;
+        $myTransactionHasta     = 47;
+
+
+        $myQuery =
+        "
+            select
+                mtf.transactions.wallet_id                          as WalletId,
+                wallets.name                                        as WalletName,
+                mtf.transactions.group_id                           as GroupId,
+                mtf.groups.name                                     as GroupName,
+                mtf.transactions.type_transaction_id                as TypeTransactionId,
+                type_transactions.name                              as TypeTransactionName,                
+                count(mtf.transactions.amount)                      as Cant,
+                sum(mtf.transactions.amount_foreign_currency)       as AmountForeignCurrency,
+                sum(mtf.transactions.amount)                        as Amount,
+                sum(mtf.transactions.amount_total)                  as AmountTotal,
+                sum(mtf.transactions.amount_commission)             as AmountCommission,
+                sum(mtf.transactions.amount_base)                   as AmountBase,
+                sum(mtf.transactions.amount_total_base)             as AmountTotalBase,
+                sum(mtf.transactions.amount_commission_base)        as AmountCommissionBase,
+                sum(mtf.transactions.amount_commission_profit)      as AmountCommissionProfit,
+                sum(mtf.transactions.amount)                        as Saldo,
+                sum(mtf.transactions.material_amount_kilos)         as MaterialAmountKilos,
+                sum(mtf.transactions.material_amount_gramos)        as MaterialAmountGramos,
+                sum(mtf.transactions.material_amount_total_kilos)   as MaterialAmountTotalKilos,
+                sum(mtf.transactions.material_amount_total_gramos)  as MaterialAmountTotalGramos
+            from
+                        mtf.transactions
+            left join   mtf.type_transactions   on mtf.transactions.type_transaction_id = mtf.type_transactions.id
+            left join   mtf.groups as wallets   on mtf.transactions.wallet_id           = wallets.id
+            left join   mtf.groups              on mtf.Transactions.group_id            = mtf.groups.id
+            where
+                    status = 'Activo'
+                and wallet_id               between $myWalletDesde              and     $myWalletHasta
+                and group_id                between $myGroupDesde               and     $myGroupHasta
+                and type_transaction_id     between $myTransactionDesde         and     $myTransactionHasta
+                and transaction_date        between '$myFechaDesde'             and     '$myFechaHasta'
+            group by
+                mtf.transactions.wallet_id,
+                wallets.name,
+                mtf.transactions.group_id,
+                mtf.groups.name,
+                mtf.transactions.type_transaction_id,
+                type_transactions.name
+            order by
+                wallets.name ASC,
+                mtf.groups.name ASC
+        ";
+
+        // dd($myQuery);
+        
+        $adquisicionesMaterial = DB::select($myQuery);
+        // dd($Recargas);
+
+
+
+        //
+        //
+        //  Recepciones
+        //
+        //
+
+        $myQuery =
+        "
+            select
+                mtf.materials_balance.wallet_id                            as WalletId,
+                wallets.name                                               as WalletName,
+                mtf.materials_balance.group_id                             as GroupId,
+                mtf.groups.name                                            as GroupName,             
+                count(mtf.materials_balance.material_amount)               as Cant,
+                sum(mtf.materials_balance.material_amount)                 as Amount,
+                sum(mtf.materials_balance.material_amount_total)           as AmountTotal,
+                sum(mtf.materials_balance.recepcion_material_amount)       as RecepcionMaterialAmount,
+                sum(mtf.materials_balance.recepcion_material_amount_total) as RecepcionMaterialTotalAmount
+            from
+                        mtf.materials_balance   
+            left join   mtf.groups as wallets   on mtf.materials_balance.wallet_id           = wallets.id
+            left join   mtf.groups              on mtf.materials_balance.group_id            = mtf.groups.id
+            where
+                    wallet_id               between $myWalletDesde              and     $myWalletHasta
+                and group_id                between $myGroupDesde               and     $myGroupHasta
+                and transaction_date        between '$myFechaDesde'             and     '$myFechaHasta'
+            group by
+                mtf.materials_balance.wallet_id,
+                wallets.name,
+                mtf.materials_balance.group_id,
+                mtf.groups.name
+            order by
+                wallets.name ASC,
+                mtf.groups.name ASC
+        ";
+
+        // dd($myQuery);
+        
+        $recepcionMaterial = DB::select($myQuery);
+        // $Recargas3 = array_merge($Recargas, $Recargas2);
+        
+       // usort($Recargas3, function($a, $b) {return strcmp($a->TransactionDate, $b->TransactionDate);});
+
+
+       $wallet             = $this->getWallet();
+       $group              = $this->getGroups();
+       $type_material      = Type_material::pluck('name', 'id')->toArray();
+
+
+        $parametros['myWallet']                 = $myWallet;
+        $parametros['myGroup']                  = $myGroup;
+        $parametros['myType_material']          = $myType_material; 
+        $parametros['myFechaDesde']             = $myFechaDesde; 
+        $parametros['myFechaHasta']             = $myFechaHasta;
+
+        $parametros['wallet']                   = $wallet;
+        $parametros['group']                    = $group;
+        $parametros['type_material']                    = $type_material;
+        $parametros['pagosUSDT']                = $pagosUSDT;
+        $parametros['adquisicionesMaterial']    = $adquisicionesMaterial;
+        $parametros['recepcionMaterial']        = $recepcionMaterial;
+
+        return view('estadisticas.materialPosicionConsolidadaGrupo', $parametros);
+
+
+    }    
     /*
     *
     *
     *       USDTResumen (resumen general USDT) 10-05-2024
     *
-    *
+    * leamx
     */
     function USDTResumen(Request $request){
         // \Log::info('leam - statisticsController - commissionsProfit - el wallet es ->' . $request->wallet);
@@ -5094,7 +5348,7 @@ class statisticsController extends Controller
         // $request->wallet        = 93;   // caja usdt
         // $request->wallet        = 139;  // caja principal usdt
 
-        $request->transaction   = 11; // 11 pago usdt 
+
 
         $myWalletDesde = 00000;
         $myWalletHasta = 99999;
@@ -5116,6 +5370,7 @@ class statisticsController extends Controller
             $myTransactionDesde     = $request->transaction;
             $myTransactionHasta     = $request->transaction;
         }
+        $request->transaction   = 11; // 11 pago usdt 
 
         $myFechaDesde = "2001-01-01";
         $myFechaHasta = "9999-12-31";

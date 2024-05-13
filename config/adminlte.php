@@ -534,7 +534,14 @@ return [
                     'classes'       =>  'ml-4',
                     'can'           => 'materials.CierreGenera',
                     'icon_color'    => 'primary',
-                ],                   
+                ],    
+                [                    
+                    'text'          => 'Posicion Consolidada por Grupo',
+                    'url'           => 'materialPosicionConsolidadaGrupo',
+                    'classes'       =>  'ml-4',
+                    'can'           => 'materials.CierreGenera',
+                    'icon_color'    => 'primary',
+                ],                                   
             ]
         ],            
         ['header' => 'Operaciones',

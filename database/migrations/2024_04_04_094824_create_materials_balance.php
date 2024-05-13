@@ -33,6 +33,7 @@ return new class extends Migration
             $table->double('recepcion_material_amount2');                                           // cantidad asignada de la recepcion a la adquisicion
             $table->double('recepcion_saldo');                                                      // cantiad que queda por asignar de esta recepcion
             $table->double('recepcion_balance');                                                    // acumulado de cantidad recibida
+            $table->double('recepcion_material_total_amount');                                      // monto de la recpcion de la recepcion
             $table->foreignId('user_id')->references('id')->on('users');                            // usuario que genera el cierre
 
             $table->index('transaction_date');                                                      // crea indice en transaction_date
