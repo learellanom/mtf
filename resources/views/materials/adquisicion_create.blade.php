@@ -128,14 +128,14 @@
                             {!! Form::Label('material_price', "Precio/U Kilos:") !!}
                             <div class="input-group-text">
                                 <i class="fa-fw fas fa-random mr-2"></i>
-                                {!! Form::text('material_price_kilos',null, ['class' => 'form-control rateMasks myForm', 'required' => true, 'id' => 'material_price_kilos', 'minlength' => 9]) !!}
+                                {!! Form::text('material_price_kilos',null, ['class' => 'form-control general myForm', 'required' => true, 'id' => 'material_price_kilos', 'minlength' => 9]) !!}
                             
                             </div>
 
                             {!! Form::Label('material_price', "Precio/U Gramos:") !!}
                             <div class="input-group-text">
                                 <i class="fa-fw fas fa-random mr-2"></i>
-                                {!! Form::text('material_price_gramos',null, ['class' => 'form-control rateMasks myForm', 'required' => true, 'id' => 'material_price_gramos', 'minlength' => 9, 'readonly' => true,]) !!}
+                                {!! Form::text('material_price_gramos',null, ['class' => 'form-control general myForm', 'required' => true, 'id' => 'material_price_gramos', 'minlength' => 9, 'readonly' => true,]) !!}
                             
                             </div>
 
@@ -143,7 +143,7 @@
                             {!! Form::Label('material_price', "Precio/U Cantidad:") !!}
                             <div class="input-group-text">
                                 <i class="fa-fw fas fa-random mr-2"></i>
-                                {!! Form::text('material_price_cantidad',null, ['class' => 'form-control rateMasks myForm', 'required' => true, 'id' => 'material_price_cantidad', 'minlength' => 9, 'readonly' => true,]) !!}
+                                {!! Form::text('material_price_cantidad',null, ['class' => 'form-control general myForm', 'required' => true, 'id' => 'material_price_cantidad', 'minlength' => 9, 'readonly' => true,]) !!}
                             
                             </div>
                             --}}

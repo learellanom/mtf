@@ -82,7 +82,7 @@ $config4 = [
 <div class="container-left">
     <div class="row col-12 d-flex">
 
-        <div class ="col-12 col-sm-2">
+        <div class ="col-lg-3">
             <x-adminlte-select2 id="wallet"
                                 name="optionsCliente"
                                 igroup-size="sm"
@@ -101,7 +101,7 @@ $config4 = [
             </x-adminlte-select2>
         </div>
 
-        <div class ="col-12 col-sm-2">
+        <div class ="col-lg-3">
             <x-adminlte-select2 id="group"
                                 name="optionsGroup"
                                 igroup-size="sm"
@@ -120,18 +120,7 @@ $config4 = [
             </x-adminlte-select2>
         </div>
 
-
-        <div class ="col-12 col-sm-2">
-            <x-adminlte-date-range name="drCustomRanges" enable-default-ranges="Last 30 Days" style="height: 30px;" :config="$config3">
-                <x-slot name="prependSlot">
-                    <div class="input-group-text bg-gradient-dark">
-                        <i class="fas fa-calendar-alt"></i>
-                    </div>
-                </x-slot>
-            </x-adminlte-date-range>
-        </div>
-
-        <div class ="col-lg-2">
+        <div class ="col-lg-3">
             <x-adminlte-select2 id="type_material_id"
                                 name="type_material_id"
                                 igroup-size="sm"
@@ -151,7 +140,19 @@ $config4 = [
                 <x-adminlte-options :options="$type_material" empty-option="Selecciona un material.."/>
 
             </x-adminlte-select2>
-            </div>
+        </div>
+        
+        <div class ="col-lg-3">
+            <x-adminlte-date-range name="drCustomRanges" enable-default-ranges="Last 30 Days" style="height: 30px;" :config="$config3">
+                <x-slot name="prependSlot">
+                    <div class="input-group-text bg-gradient-dark">
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                </x-slot>
+            </x-adminlte-date-range>
+        </div>
+
+
 
     </div>
 
@@ -170,30 +171,109 @@ $config4 = [
                 <h3 class="card-title text-uppercase font-weight-bold">{{ __('Estadisticas| Posicion Consolidada Grupo') }}</h3>
             </div>
             <div class="card-body">
-                <div class="form-row  justify-content-center align-item-center mt-5">
-                    <div class="form-group ">
-                        <label class="">Pagos USDT</label>
-                        <label class="">{{ $materialsCierre->name ?? ""}}</label>
+                @if($myWallet > 0 && $myGroup > 0)
+                    <div class="form-row  justify-content-center align-item-center mt-5 py-5" style="border: 1px solid blue">
+
+                        @php 
+                            // dd($balance); 
+                            $myTotal = $balance->Total ?? 0;      
+                        @endphp
+
+                        <div class="form-group col-md-4 col-lg-6 text-xl-center">
+                            <label class=""><b>Saldo pendiente</b></label>
+                        </div>
+
+                        <div class="form-group col-md-6 col-lg-6">
+ 
+
+                            <div class="row">
+                                <label class="col-6">Cantidad:</label>
+                                <label class="col-6">{{ number_format($balance->Cant ?? 0)}}</label>
+                            </div>
+
+                            <label></label>
+                            <label></label>
+                            <div class="row">
+                                <label class="col-6">Monto:</label>
+                                <label class="col-6">{{ number_format($balance->Total ?? 0,2)}}</label>
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <div class="form-row  justify-content-center align-item-center mt-5">
-                    <div class="form-group ">
-                        <label class="">Adquisiciones</label>
-                        <label class="">{{ $materialsCierre->name ?? ""}}</label>
+                    <div class="form-row  justify-content-center align-item-center mt-5 py-5" style="border: 1px solid blue">
+                        <div class="form-group col-md-4 col-lg-6 text-xl-center">
+                            <label class="">Adquisiciones</label>
+                        </div>
+                        <div class="form-group col-md-6 col-lg-6">
+                            <div class="row">
+                                <label class="col-6">Cantidad:</label>
+                                <label class="col-6">{{ number_format($adquisicionesMaterial->Cant ?? 0)}}</label>
+                            </div>
+                            <div class="row">
+                                <label class="col-6">Kilos:</label>
+                                <label class="col-6">{{ number_format($adquisicionesMaterial->MaterialAmountKilos ?? 0)}}</label>
+                            </div>
+                            <div class="row">
+                                <label class="col-6">Gramos:</label>    
+                                <label class="col-6">{{ number_format($adquisicionesMaterial->MaterialAmountGramos ?? 0)}}</label>                                    
+                            </div>
+                            <div class="row">
+                                <label class="col-6">Monto:</label>   
+                                <label class="col-6">{{ number_format($adquisicionesMaterial->MaterialAmountTotalGramos ?? 0)}}</label>                                   
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <div class="form-row  justify-content-center align-item-center mt-5">
-                    <div class="form-group ">
-                        <label class="">Recepciones</label>
-                        <label class="">{{ $materialsCierre->name ?? ""}}</label>
+                    @php 
+                        $myRecepcionAmountKilos = ($recepcionMaterial->RecepcionMaterialAmount ?? 0 )/ 1000;
+                    @endphp
+                    <div class="form-row  justify-content-center align-item-center mt-5 py-5" style="border: 1px solid blue">
+                        <div class="form-group col-md-4 col-lg-6 text-xl-center">
+                            <label class="">Recepciones</label>
+                        </div>
+                        <div class="form-group col-md-6 col-lg-6">         
+                            <div class="row">                   
+                                <label class="col-6">Cantidad:</label>
+                                <label class="col-6">{{ number_format($recepcionMaterial->Cant ?? 0) }}</label>
+                            </div>
+                            <div class="row">
+                                <label class="col-6">Kilos:</label>
+                                <label class="col-6">{{ number_format($myRecepcionAmountKilos ?? 0)}}</label>                                
+                            </div>
+                            <div class="row">
+                                <label class="col-6">Gramos:</label>
+                                <label class="col-6">{{ number_format($recepcionMaterial->RecepcionMaterialAmount ?? 0)}}</label>
+                            </div>
+                            <div class="row">            
+                                <label class="col-6">Monto</label>
+                                <label class="col-6">{{ number_format($recepcionMaterial->RecepcionMaterialTotalAmount ?? 0)}}</label>
+                            </div>
+                            <br>
+                            <div class="row">            
+                                <label class="col-6">Cierre al</label>
+                                <label class="col-6">{{ $materialsCierre->created_at2 }}</label>
+                            </div>
+
+
+                        </div>
                     </div>
-                </div>
-                <div class="form-row  justify-content-center align-item-center mt-5">
-                    <div class="form-group ">
-                        <label class="">Saldo</label>
-                        <label class="">{{ $materialsCierre->name ?? ""}}</label>
+
+                    @php 
+                        $mySaldo = $myTotal - ($recepcionMaterial->RecepcionMaterialTotalAmount ?? 0);
+                    @endphp
+
+                    <div class="form-row  justify-content-center align-item-center mt-5 py-5" style="border: 1px solid blue">
+                        <div class="form-group col-md-4 col-lg-6 text-xl-center">  
+                            <label class="">Saldo</label>
+                        </div>
+                        <div class="form-group col-md-6 col-lg-6">
+                            <div class="row">
+                                <label class="col-6">Monto:</label>
+                                <label class="col-6">{{ number_format($mySaldo ?? 0,2) }}</label>
+                            </div>
+                        </div>
                     </div>
-                </div>
+                @else
+                    Seleccione Criterio de Busqueda..
+                @endif
             </div>
         </div>
     </div>
@@ -206,10 +286,11 @@ $config4 = [
 <script>
 
 
-    const miWallet          = {!! $myWallet !!};
-    const miGroup           = {!! $myGroup !!};
-    const miType_material   = {!! $myType_material!!};
-    
+    const miWallet          = {!! $myWallet         !!};
+    const miGroup           = {!! $myGroup          !!};
+    const miType_material   = {!! $myType_material  !!};
+
+
     BuscaMyElement('wallet',miWallet);
     BuscaMyElement('group',miGroup);
     BuscaMyElement('type_material_id',miType_material);
@@ -283,7 +364,7 @@ $config4 = [
 
     })
 
-    function theRoute(wallet = 0, group = 0, fechaDesde = 0, fechaHasta = 0, type_material = 0){
+    function theRoute(wallet = 0, group = 0, fechaDesde = 0, fechaHasta = 0, type_material = 1){
 
         // alert('leam - cambio');
 
@@ -291,8 +372,16 @@ $config4 = [
         if (group  === "") group  = 0;
         if (type_material  === "") type_material  = 0;
 
+        if (wallet == 0){
+            return;
+        }
+
+        if (group == 0){
+            return;
+        }
+
         let myRoute = "";
-            myRoute = "{{ route('materialsAdquisicionResumenGrupo', ['wallet' => 'wallet2',  'group' => 'group2', 'type_material' => 'type_material2','fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2']) }}";
+            myRoute = "{{ route('materialPosicionConsolidadaGrupo', ['wallet' => 'wallet2',  'group' => 'group2', 'type_material' => 'type_material2','fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2']) }}";
             myRoute = myRoute.replace('wallet2',wallet);
             myRoute = myRoute.replace('fechaDesde2',fechaDesde);
             myRoute = myRoute.replace('fechaHasta2',fechaHasta);
@@ -304,7 +393,7 @@ $config4 = [
         location.href = myRoute;
 
     }
-
+    
     function theRoute2(usuario = 0, grupo = 0, wallet = 0, typeTransactions = 0){
 
         if (usuario === "") usuario = 0;

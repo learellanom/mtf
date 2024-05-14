@@ -3295,6 +3295,18 @@ class statisticsController extends Controller
 
     function materialsCierreGenera(){
 
+                 
+         
+        $materialsCierre =  $this->materialBuscaCierre();
+
+        $parametros ['materialsCierre '] = $materialsCierre;
+        //  dd($parametros);
+        // return view('estadisticas.materialsCierreGenera', $parametros);
+        return view('estadisticas.materialsCierreGenera', ['materialsCierre' => $materialsCierre]);
+
+    }
+    function materialBuscaCierre(){
+
         $myQuery =
             "
             SELECT
@@ -3310,31 +3322,15 @@ class statisticsController extends Controller
                 created_at2
             ";
 
-        // dd($myQuery);
-        
         $materialsCierre = DB::select($myQuery);
-        // var_dump($materialsCierre);
-        //die();
-        // dd($materialsCierre);
-
-        
-        // dd(count($materialsCierre));
 
         if (count($materialsCierre) > 0) {
-            // dd('aqui');
-            // $materialsCierre  = (object) $materialsCierre[0];
              $materialsCierre  = (object) $materialsCierre[0];
         }
-
-         // dd($materialsCierre->name);
-                                           
-        $parametros ['materialsCierre '] = $materialsCierre;
-        //  dd($parametros);
-        // return view('estadisticas.materialsCierreGenera', $parametros);
-        return view('estadisticas.materialsCierreGenera', ['materialsCierre' => $materialsCierre]);
+        
+        return $materialsCierre;
 
     }
-
     /*
     *
     *
@@ -5202,10 +5198,14 @@ class statisticsController extends Controller
         ";
 
         // dd($myQuery);
-        
-        $pagosUSDT = DB::select($myQuery);
-        // dd($Recargas);
+        $pagosUSDT = [];
+        if ($myWallet != 0 && $myGroup != 0){
+            $pagosUSDT = DB::select($myQuery);
+            $pagosUSDT = $pagosUSDT [0] ?? [];
+        }
+        // dd($pagosUSDT->Cant);
 
+        $balance            = $this->getBalance($myGroup, "2001-01-01" , "9999-12-31");
 
         //
         //
@@ -5244,12 +5244,14 @@ class statisticsController extends Controller
             left join   mtf.type_transactions   on mtf.transactions.type_transaction_id = mtf.type_transactions.id
             left join   mtf.groups as wallets   on mtf.transactions.wallet_id           = wallets.id
             left join   mtf.groups              on mtf.Transactions.group_id            = mtf.groups.id
+            and type_material_id        between $myTypeMaterialDesde        and     $myTypeMaterialHasta            
             where
                     status = 'Activo'
                 and wallet_id               between $myWalletDesde              and     $myWalletHasta
                 and group_id                between $myGroupDesde               and     $myGroupHasta
                 and type_transaction_id     between $myTransactionDesde         and     $myTransactionHasta
                 and transaction_date        between '$myFechaDesde'             and     '$myFechaHasta'
+                and type_material_id        between $myTypeMaterialDesde        and     $myTypeMaterialHasta                
             group by
                 mtf.transactions.wallet_id,
                 wallets.name,
@@ -5263,9 +5265,13 @@ class statisticsController extends Controller
         ";
 
         // dd($myQuery);
+        $adquisicionesMaterial = [];
+        if ($myWallet != 0 && $myGroup != 0){
+            $adquisicionesMaterial = DB::select($myQuery);
+            $adquisicionesMaterial = $adquisicionesMaterial[0] ?? [];
+        }
         
-        $adquisicionesMaterial = DB::select($myQuery);
-        // dd($Recargas);
+        // dd($adquisicionesMaterial);
 
 
 
@@ -5295,6 +5301,7 @@ class statisticsController extends Controller
                     wallet_id               between $myWalletDesde              and     $myWalletHasta
                 and group_id                between $myGroupDesde               and     $myGroupHasta
                 and transaction_date        between '$myFechaDesde'             and     '$myFechaHasta'
+                and  recepcion_material_amount <> 0
             group by
                 mtf.materials_balance.wallet_id,
                 wallets.name,
@@ -5306,17 +5313,26 @@ class statisticsController extends Controller
         ";
 
         // dd($myQuery);
-        
-        $recepcionMaterial = DB::select($myQuery);
+        $recepcionMaterial = [];
+        if ($myWallet != 0 && $myGroup != 0){
+            $recepcionMaterial = DB::select($myQuery);
+            $recepcionMaterial = $recepcionMaterial[0] ?? [];
+        }
+
+       // dd($recepcionMaterial);
         // $Recargas3 = array_merge($Recargas, $Recargas2);
         
-       // usort($Recargas3, function($a, $b) {return strcmp($a->TransactionDate, $b->TransactionDate);});
+        // usort($Recargas3, function($a, $b) {return strcmp($a->TransactionDate, $b->TransactionDate);});
 
+        $materialsCierre =  $this->materialBuscaCierre();
+        // dd($materialsCierre);
 
-       $wallet             = $this->getWallet();
-       $group              = $this->getGroups();
-       $type_material      = Type_material::pluck('name', 'id')->toArray();
+        $wallet             = $this->getWallet();
+        $group              = $this->getGroups();
+        $type_material      = Type_material::pluck('name', 'id')->toArray();
 
+        $parametros['materialsCierre']          = $materialsCierre;
+        $parametros['balance']                  = $balance;
 
         $parametros['myWallet']                 = $myWallet;
         $parametros['myGroup']                  = $myGroup;
@@ -5326,7 +5342,8 @@ class statisticsController extends Controller
 
         $parametros['wallet']                   = $wallet;
         $parametros['group']                    = $group;
-        $parametros['type_material']                    = $type_material;
+        $parametros['type_material']            = $type_material;
+
         $parametros['pagosUSDT']                = $pagosUSDT;
         $parametros['adquisicionesMaterial']    = $adquisicionesMaterial;
         $parametros['recepcionMaterial']        = $recepcionMaterial;
