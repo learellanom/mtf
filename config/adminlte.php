@@ -536,7 +536,7 @@ return [
                     'icon_color'    => 'primary',
                 ],    
                 [                    
-                    'text'          => 'Posicion Consolidada por Grupo',
+                    'text'          => 'Consolidado por Grupo',
                     'url'           => 'materialPosicionConsolidadaGrupo',
                     'classes'       =>  'ml-4',
                     'can'           => 'materials.CierreGenera',
