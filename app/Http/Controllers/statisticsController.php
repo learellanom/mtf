@@ -5738,23 +5738,10 @@ class statisticsController extends Controller
              $genericObject->Id                      = $myIdTemp;
              $genericObject->WalletId                = $myWalletIdTemp;
              $genericObject->WalletName              = $myWalletNameTemp;
-             $genericObject->GroupId                 = $myGroupIdTemp ;
-             $genericObject->GroupName               = $myGroupNameTemp;
-             $genericObject->TypeTransactionId       = $myTypeTransactionIdTemp;
-             $genericObject->TypeTransactionName     = $myTypeTransactionName;
-             $genericObject->TransactionDate         = $myTransactionDateTemp;
 
-             $genericObject->Amount                  = $myAmountFechaGrupo;
-             $genericObject->AmountBase              = $myAmountTotalFecha;
-
-             $genericObject->AmountCommission        = $myAmountCommissionFechaGrupo ;
-             $genericObject->AmountCommissionBase    = $myAmountCommissionBaseFechaGrupo ;
-             $genericObject->AmountTotal             = $myAmountTotalFecha;
-             $genericObject->AmountTotalBase         = $myAmountTotalBaseFecha ;
-             $genericObject->AmountCommissionProfit  = $myAmountCommissionProfitFechaGrupo;
 
              $Transacciones4[] = $genericObject;
-             
+
              foreach($theWallets as $walletItem){
 
              }
