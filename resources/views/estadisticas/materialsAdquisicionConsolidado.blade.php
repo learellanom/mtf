@@ -6,6 +6,7 @@
 @php
 
 $heads = [
+    [ 'label' => 'Id', 'visible' => false ],
     'Nro',
     'Caja',    
     'Grupo',    
@@ -30,6 +31,7 @@ $heads = [
 
     ['label' => 'Adqui.', 'no-export' => true, 'width' => 5],
     ['label' => 'Recep.', 'no-export' => true, 'width' => 5],
+
 ];
 
 $btnEdit = '<button class="btn btn-xs btn-default text-primary mx-1 shadow" title="Edit">
@@ -203,7 +205,8 @@ $config4 = [
                         >
                             @foreach($adquisiciones as $row)
                                 <tr>
-                                    <td>{!! $row->Id !!}</td>
+                                    <td style="display: none;">{!! $row->Id !!}</td>
+                                    <td>{!! $row->AdquisicionId !!}</td>
                                     <td>{!! $row->WalletName !!}</td>
                                     <td>{!! $row->GroupName !!}</td>
                                     <td>{!! $row->TransactionDate !!}</td>
@@ -224,28 +227,9 @@ $config4 = [
                                     <td class="text-right">{!! number_format($row->RecepcionMaterialAmount) !!}</td>
                                     <td class="text-right">{!! number_format($row->RecepcionMaterialAmount2) !!}</td>
                                     
-                                    <td>{!! number_format($row->RecepcionBalance,2,",",".") !!}</td>
+                                    <td>{!! number_format($row->RecepcionBalance,2) !!}</td>
 
-                                    <!-- 
-                                    <td class="text-center">
-                                        <button class="btn btn-xl text-teal mx-auto shadow" title="Detalles">
-                                            <i class="fa fa-lg fa-fw fa-eye"></i>
-                                        </button>
-                                    </td> 
-                                    -->
 
-                                    <!--
-                                    <td class="text-center">
-                                        <a
-                                            href="#"
-                                            title="Detalles"
-                                            class="btn btn-xl text-primary mx-1 shadow text-center"
-                                            onClick="theRoute2({{0}}, {{0}}, {{$row->Id}})"
-                                        >
-                                            <i class="fa fa-lg fa-fw fa-eye"></i>
-                                        </a>
-                                    </td>
-                                    -->
                                     <td>
 
                                         <a href="{{ route('transactions.show', $row->Id) }}"
@@ -412,7 +396,7 @@ $config4 = [
             myRoute = myRoute.replace('coin2',coin);
             myRoute = myRoute.replaceAll('amp;','');
         // console.log(myRoute);
-         alert(myRoute);
+         //alert(myRoute);
         location.href = myRoute;
 
     }

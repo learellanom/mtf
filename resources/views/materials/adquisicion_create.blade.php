@@ -357,7 +357,7 @@
         undoOnEscape:true,
         insertMode:false,
         clearIncomplete:true,
-        digits: 2,
+        digits: 3,
         autoClear: true,
         insertMode:true, });
 

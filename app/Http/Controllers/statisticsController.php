@@ -4433,7 +4433,8 @@ class statisticsController extends Controller
         $myQuery =
         "
             select
-                mtf.materials_balance.adquisicion_id                as Id,
+                mtf.materials_balance.id                            as Id,
+                mtf.materials_balance.adquisicion_id                as AdquisicionId,
                 mtf.materials_balance.wallet_id                     as WalletId,
                 wallets.name                                        as WalletName,
                 mtf.materials_balance.group_id                      as GroupId,
@@ -4506,6 +4507,11 @@ class statisticsController extends Controller
     }
 
     function materialsProcesa(Request $request){
+
+
+       // $request->wallet    = 521;
+       // $request->group     = 43;
+
         $myWallet      = 0; 
         $myWalletDesde = 00000;
         $myWalletHasta = 99999;
@@ -4673,6 +4679,8 @@ class statisticsController extends Controller
                 and transaction_date     between '$myFechaDesde2'        and     '$myFechaHasta2'
                 and material_type_adquisicion between 1 and 2
             order by
+                transactions.wallet_id,
+                transactions.group_id,            
                 Transactions.transaction_date ASC,
                 id ASC
         ";
@@ -5742,13 +5750,64 @@ class statisticsController extends Controller
 
              $Transacciones4[] = $genericObject;
 
+
+             $Entradas  = array_merge($Recargas, $Recargas2, $comisiones); // 
+             $Salidas   = array_merge($salidas1, $salidas2, $salidas3, $salidas4); // 
+
              foreach($theWallets as $walletItem){
+
+                $genericObject = new \stdClass();
+                /*
+                $genericObject->WalletId                = $walletItem;
+                $genericObject->EntradaCant                    = ->Cant;
+                $genericObject->EntradaAmountForeignCurrency   = ->AmountForeignCurrency;
+                $genericObject->EntradaAmount                  = ->Amount;
+                $genericObject->EntradaAmountTotal             = ->AmountTotal;
+                $genericObject->EntradaAmountCommission        = ->AmountCommission;
+                $genericObject->EntradaAmountBase              = ->AmountBase;
+                $genericObject->EntradaAmountCommissionBase    = ->AmountCommissionBase;
+                $genericObject->EntradaAmountCommissionProfit  = ->AmountCommissionProfit;
+                
+                $genericObject->SalidaCant                      = ->Cant;
+                $genericObject->SalidaAmountForeignCurrency     = ->AmountForeignCurrency;
+                $genericObject->SalidaAmount                    = ->Amount;
+                $genericObject->SalidaAmountTotal               = ->AmountTotal;
+                $genericObject->SalidaAmountCommission          = ->AmountCommission;
+                $genericObject->SalidaAmountBase                = ->AmountBase;
+                $genericObject->SalidaAmountCommissionBase      = ->AmountCommissionBase;
+                $genericObject->SalidaAmountCommissionProfit    = ->AmountCommissionProfit;
+                */
+
+                foreach($Entradas as $item){
+                    if ($walletItem == $item->WalletId){
+                        $genericObject->EntradaCant                     += $item->Cant;
+                        $genericObject->EntradaAmount                   += $item->Amount;
+                        $genericObject->EntradaAmountForeignCurrency    += $item->AmountForeignCurrency;
+                        $genericObject->EntradaAmountTotal              += $item->AmountTotal;
+                        $genericObject->EntradaAmountCommission         += $item->AmountCommission;
+                        $genericObject->EntradaAmountBase               += $item->AmountBase;
+                        $genericObject->EntradaAmountCommissionBase     += $item->AmountCommissionBase;
+                        $genericObject->EntradaAmountCommissionProfit   += $item->AmountCommissionProfit;
+                    }
+                };
+
+                foreach($Salidas as $item){
+                    if ($walletItem == $item->WalletId){
+                        $genericObject->SalidaCant                     += $item->Cant;
+                        $genericObject->SalidaAmount                   += $item->Amount;
+                        $genericObject->SalidaAmountForeignCurrency    += $item->AmountForeignCurrency;
+                        $genericObject->SalidaAmountTotal              += $item->AmountTotal;
+                        $genericObject->SalidaAmountCommission         += $item->AmountCommission;
+                        $genericObject->SalidaAmountBase               += $item->AmountBase;
+                        $genericObject->SalidaAmountCommissionBase     += $item->AmountCommissionBase;
+                        $genericObject->SalidaAmountCommissionProfit   += $item->AmountCommissionProfit;
+                    }
+                };
 
              }
 
              
         // return $Recargas3;
-
 
     }    
     /*

@@ -189,8 +189,9 @@
                                     <th                     >Material</th>
                                     <th                     >Tipo</th>
                                     <th style="width:1%;"   >Precio/U</th>
-                                    <th style="width:1%;"   >Cantidad</th>
+                                    <th style="width:1%;"   >Cantidad Kilos</th>
                                     <th style="width:10%;"  >Monto</th>
+                                    <th style="width:1%;"   >Cantidad Gramos</th>                                    
                                     <th class="no-exportar" >Agente</th>
                                     <th                     >Tipo de Movimiento</th>
 
@@ -264,11 +265,13 @@
 
                                         <td class="font-weight-bold">{!! number_format($myMaterialPrice,2,".") ?? ''!!} </td>
 
-                                        <td>{!! number_format($myMaterialAmount) ?? '' !!}</td>
+                                        <td>{!! number_format($myMaterialAmount,2) ?? '' !!}</td>
 
                                         <td class="font-weight-bold">{!!  number_format($myMaterialAmountTotal) !!} 
                                             <i class="fas fa-dollar-sign"></i>
                                         </td>
+                                        
+                                        <td>{!! number_format($movimiento->material_amount_gramos,2) ?? '' !!}</td>
 
                                         <td class="font-weight-bold">{!! $movimiento->user->name ?? '' !!}</td>
                                         <td>{!! $movimiento->type_transaction->name !!}</td>
