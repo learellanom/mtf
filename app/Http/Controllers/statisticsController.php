@@ -4308,7 +4308,6 @@ class statisticsController extends Controller
         }
 
 
-
         $adqui              = $this->materialsProcesa($request);
         $Group_roles 	    = $this->getGroupRole(auth()->id());
         $wallet             = $this->getWallet($Group_roles);

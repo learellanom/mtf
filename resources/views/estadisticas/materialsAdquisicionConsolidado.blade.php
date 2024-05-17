@@ -6,7 +6,7 @@
 @php
 
 $heads = [
-    [ 'label' => 'Id', 'visible' => false ],
+    ['label' => 'Secvv', 'class' => 'd-none'],
     'Nro',
     'Caja',    
     'Grupo',    
@@ -18,7 +18,7 @@ $heads = [
     'Cant Gramos',
     'Monto',
 
-    'Saldo Total Gramos',
+    'Saldo Pendiente Gramos',
     'Acumulado Cantidad',
     'Acumulado Total $',
 
@@ -45,12 +45,6 @@ $btnDetails = '<button class="btn btn-xs btn-default text-teal mx-1 shadow" titl
                </button>';
 
 $config = [
-    'data' => [
-        [22, '07-03-2023', 'John Bender',    '4,00', '500.00', '501.00', '2%', '503.00', '504.00', '', '', '505.00', '<nobr>'.$btnEdit.$btnDelete.$btnDetails.'</nobr>'],
-        [19, '07-03-2023', 'Sophia Clemens', '4.00', '500.00', '501.00', '2%', '503.00', '504.00', '', '', '505.00', '<nobr>'.$btnEdit.$btnDelete.$btnDetails.'</nobr>'],
-        [3,  '07-03-2023', 'Peter Sousa',    '4.00', '500.00', '501.00', '2%', '503.00', '504.00', '', '', '505.00', '<nobr>'.$btnEdit.$btnDelete.$btnDetails.'</nobr>'],
-    ],
-    'order' => [[1, 'asc']],
     'columns' => [null, null, null, null, ['orderable' => false]]
 ];
 
@@ -70,11 +64,6 @@ $config3 = [
     'order' => [
         [3, 'asc']
     ],
-];
-
-$config4 = [
-    "placeHolder" => "selecciona...",
-    "allowClear" => true,
 ];
 
 
@@ -205,7 +194,7 @@ $config4 = [
                         >
                             @foreach($adquisiciones as $row)
                                 <tr>
-                                    <td style="display: none;">{!! $row->Id !!}</td>
+                                    <td style="">{!! $row->Id !!}</td>
                                     <td>{!! $row->AdquisicionId !!}</td>
                                     <td>{!! $row->WalletName !!}</td>
                                     <td>{!! $row->GroupName !!}</td>
@@ -232,7 +221,7 @@ $config4 = [
 
                                     <td>
 
-                                        <a href="{{ route('transactions.show', $row->Id) }}"
+                                        <a href="{{ route('transactions.show', $row->AdquisicionId) }}"
 
                                             class="btn btn-xl text-dark mx-1 shadow text-center">
                                             <i class="fa fa-lg fa-fw fa-eye"></i>
