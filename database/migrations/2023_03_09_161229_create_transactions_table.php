@@ -46,15 +46,25 @@ return new class extends Migration
             $table->enum('materials_type_adquisicion', [1, 2, 3])->nullable()->default(1); 					//-> 1. Kilo / 2.Gramos / 3. Cantidad
 
             $table->double('material_amount')->nullable();                                      //-> Monto en Dorales
+
             $table->double('material_amount_kilos')->nullable();                                //-> Monto en Dorales
             $table->double('material_amount_gramos')->nullable();                               //-> Monto en Dorales
+            $table->double('material_amount_cantidad')->nullable();                             //-> Monto en Dorales
 
             $table->double('material_amount_total')->nullable();                                //-> Monto en Dorales
+
             $table->double('material_amount_total_kilos')->nullable();                          //-> Monto en Dorales
             $table->double('material_amount_total_gramos')->nullable();                         //-> Monto en Dorales
+            $table->double('material_amount_total_cantidad')->nullable();                       //-> Monto en Dorales
 
+            $table->double  ('material_price_kilos')->nullable();                                 //-> Monto en Dorales
+            $table->double  ('material_price_gramos')->nullable();                                //-> Monto en Dorales
+            $table->double  ('material_price_cantidad')->nullable();                              //-> Monto en Dorales
 
-            $table->double('material_price')->nullable();                                       //-> Monto en Dorales
+            $table->double  ('material_price')->nullable();                                       //-> Monto en Dorales
+
+            $table->datetime('liquidation_date')->nullable();                                   // fecha de liquidacion
+            $table->double  ('liquidation_number')->nullable();                                   // fecha de liquidacion
 
             $table->index('transaction_date');                                                  // crea indeice en transaction_date
             $table->timestamps();       

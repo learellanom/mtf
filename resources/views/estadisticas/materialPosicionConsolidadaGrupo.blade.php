@@ -402,7 +402,7 @@ $config4 = [
 
         let myFechaDesde, myFechaHasta;
 
-        
+
         let myFechaDesdeCompara =  "{{ $myFechaDesde }}";
         if (myFechaDesdeCompara == "2001-01-01"){
             myFechaDesde = "{{ $myFechaDesde }}";

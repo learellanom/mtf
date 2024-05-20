@@ -4254,6 +4254,87 @@ class statisticsController extends Controller
 
     }
 
+    function materialsLiquidacionCuentaGrupo(Request $request){
+
+        $myWallet      = 0; 
+        $myWalletDesde = 00000;
+        $myWalletHasta = 99999;
+        if ($request->wallet){
+            $myWallet       = $request->wallet; 
+            $myWalletDesde  = $request->wallet;
+            $myWalletHasta  = $request->wallet;
+        }
+
+        $myGroup        = 0;
+        $myGroupDesde = 00000;
+        $myGroupHasta = 99999;
+        if ($request->group){
+            $myGroup        = $request->group;
+            $myGroupDesde   = $request->group;
+            $myGroupHasta   = $request->group;
+        }
+
+        $myType_material        = 0;
+        $myTypeMaterialDesde    = 0;
+        $myTypeMaterialHasta    = 9999;
+
+        if ($request->type_material){
+            $myType_material        = $request->type_material;
+            $myTypeMaterialDesde    = $request->type_material;
+            $myTypeMaterialHasta    = $request->type_material;
+        }
+
+        $Group_roles 	    = $this->getGroupRole(auth()->id());
+        $wallet             = $this->getWallet($Group_roles);
+        $group              = $this->getGroups($Group_roles);
+        $type_material      = Type_material::pluck('name', 'id')->toArray();
+
+        $parametros ['myWallet']        = $myWallet;
+        $parametros ['myGroup']         = $myGroup;
+        $parametros ['myType_material'] = $myType_material;
+        $parametros ['wallet']          = $wallet;
+        $parametros ['group']           = $group;
+        $parametros ['type_material']   = $type_material;
+
+        return view('estadisticas.materialsLiquidacionCuentaGrupo', $parametros);
+
+    }
+    function materialsLiquidacionCuentaGrupoProcess(Request $request){
+
+        $myWallet      = 0; 
+        $myWalletDesde = 00000;
+        $myWalletHasta = 99999;
+        if ($request->wallet){
+            $myWallet       = $request->wallet; 
+            $myWalletDesde  = $request->wallet;
+            $myWalletHasta  = $request->wallet;
+        }
+
+        $myGroup        = 0;
+        $myGroupDesde = 00000;
+        $myGroupHasta = 99999;
+        if ($request->group){
+            $myGroup        = $request->group;
+            $myGroupDesde   = $request->group;
+            $myGroupHasta   = $request->group;
+        }
+
+        $myType_material        = 0;
+        $myTypeMaterialDesde    = 0;
+        $myTypeMaterialHasta    = 9999;
+
+        if ($request->type_material){
+            $myType_material        = $request->type_material;
+            $myTypeMaterialDesde    = $request->type_material;
+            $myTypeMaterialHasta    = $request->type_material;
+        }
+
+        return response()->json(['success' => true, 'result' => 'Procesado', 'message' => 'Liquidacion de Cuenta Grupo Materiales procesada con exito'], 200);
+
+
+    }
+
+
     /*
     *
     *
