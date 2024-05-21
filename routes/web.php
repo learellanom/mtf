@@ -327,4 +327,6 @@ Route::get('materialPosicionConsolidadaGrupo',[App\Http\Controllers\statisticsCo
 
 Route::get('materialsLiquidacionCuentaGrupo',[App\Http\Controllers\statisticsController::class, 'materialsLiquidacionCuentaGrupo'])->middleware('can:materials.adquisicion_cosolidado')->name('materialsLiquidacionCuentaGrupo');
 
+Route::get('materialsLiquidacionCuentaGrupoProcess',[App\Http\Controllers\statisticsController::class, 'materialsLiquidacionCuentaGrupoProcess'])->middleware('can:materials.adquisicion_cosolidado')->name('materialsLiquidacionCuentaGrupoProcess');
+
 ?>

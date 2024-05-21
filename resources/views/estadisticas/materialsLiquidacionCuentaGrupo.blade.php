@@ -6,6 +6,31 @@
 
          
      // dd($materialsCierre);
+
+
+     $config1 =
+[
+    "allowClear" => true,
+];
+
+$config2 =
+[
+    "allowClear" => true,
+];
+
+$config3 = [
+    "locale" => ["format" => "DD-MM-YYYY"],
+    'order' => [
+        [3, 'asc']
+    ],
+];
+
+$config4 = [
+    "placeHolder" => "selecciona...",
+    "allowClear" => true,
+];
+
+
 @endphp
 {{-- dd('aqui ->' . $Cierre) --}}
 
@@ -25,26 +50,29 @@
                               
         <div class="card-body">
 
-            <div class ="form-row col-12 col-sm-2">
-                <x-adminlte-select2 id="wallet"
-                                    name="optionsCliente"
-                                    igroup-size="sm"
-                                    label-class="text-lightblue"
-                                    data-placeholder="Wallet ..."
-                                    :config="$config1"
-                                    >
-                    <x-slot name="prependSlot">
-                        <div class="input-group-text bg-gradient-dark">
-                            <!-- <i class="fas fa-car-side"></i> -->
-                            <i class="fas fa-box"></i>
-                        </div>
-                    </x-slot>
+            <div class ="form-row justify-content-center align-item-center ">
+                <div class="form-group col-md-4">
+                    <x-adminlte-select2 id="wallet"
+                                        name="optionsCliente"
+                                        igroup-size="sm"                                        
+                                        label-class="text-lightblue"
+                                        data-placeholder="Wallet ..."
+                                        :config="$config1"
+                                        >
+                        <x-slot name="prependSlot">
+                            <div class="input-group-text bg-gradient-dark">
+                                <!-- <i class="fas fa-car-side"></i> -->
+                                <i class="fas fa-box"></i>
+                            </div>
+                        </x-slot>
 
-                    <x-adminlte-options :options="$wallet" empty-option="Selecciona un Wallet.."/>
-                </x-adminlte-select2>
+                        <x-adminlte-options :options="$wallet" empty-option="Selecciona un Wallet.."/>
+                    </x-adminlte-select2>
+                </div>
             </div>
-
-            <div class ="form-row col-12 col-sm-2">
+            
+            <div class ="form-row justify-content-center align-item-center ">
+            <div class="form-group col-md-4">
                 <x-adminlte-select2 id="group"
                                     name="optionsGroup"
                                     igroup-size="sm"
@@ -62,8 +90,10 @@
                     <x-adminlte-options :options="$group" empty-option="Selecciona un Grupo.."/>
                 </x-adminlte-select2>
             </div>
+            </div>
 
-            <div class ="form-row col-lg-2">
+            <div class ="form-row justify-content-center align-item-center ">
+            <div class="form-group col-md-4">
                 <x-adminlte-select2 id="type_material_id"
                                     name="type_material_id"
                                     igroup-size="sm"
@@ -83,6 +113,7 @@
                     <x-adminlte-options :options="$type_material" empty-option="Selecciona un material.."/>
 
                 </x-adminlte-select2>
+            </div>
             </div>
 
             <div class="form-row  justify-content-center align-item-center mt-5">
@@ -180,11 +211,13 @@
 
 
 <script>
-   
-
 
     $(() => {
 
+        $('#wallet, #group, #type_material_id')
+        .on('select2:open', () => {
+            document.querySelector('.select2-search__field').focus();
+        });     
 
     });
 
@@ -192,11 +225,55 @@
 
     });
 
-
-
     function generaCierre(){
 
-         $('#myModal').modal('show');
+        
+        wallet              = $('#wallet').val();
+        group               = $('#group').val();
+        typeMaterial        = $('#type_material_id').val();
+        salir               = 0;
+        
+        if (!wallet){
+            salir = 1
+            Swal.fire({
+                            position: 'left',
+                            type: 'error',
+                            title: 'Seleccione la Caja.',
+                            showConfirmButton: true
+                        });
+
+            // alert ('wallet ->' + wallet);
+            return;
+        }
+        if (!group){
+            salir = 1
+            Swal.fire({
+                            position: 'left',
+                            type: 'error',
+                            title: 'Seleccione el grupo.',
+                            showConfirmButton: true
+                        });
+
+            // alert ('wallet ->' + wallet);
+            return;
+        }        
+        if (!typeMaterial){
+            salir = 1
+            Swal.fire({
+                            position: 'left',
+                            type: 'error',
+                            title: 'Seleccione el material',
+                            showConfirmButton: true
+                        });
+
+            // alert ('wallet ->' + wallet);
+            return;
+        }                
+        if (salir == 1){
+            return;
+        }
+
+        $('#myModal').modal('show');
         
         //alert('apiUpdateStatus');
         //return;
@@ -204,12 +281,12 @@
         // let token   = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
         wallet              = $('#wallet').val();
         group               = $('#group').val();
-        typeTransactions    = $('#type_material_id').val();
-
+        typeMaterial        = $('#type_material_id').val();
+        
         myRoute = "{{route('materialsLiquidacionCuentaGrupoProcess', ['wallet' => 'wallet2', 'group' => 'group2', 'type_material' => 'type_material2'])}}";
-        myRoute = myRoute.replace('grupo2',grupo);
+        myRoute = myRoute.replace('group2',group);
         myRoute = myRoute.replace('wallet2',wallet);
-        myRoute = myRoute.replace('typeTransactions2',typeTransactions);
+        myRoute = myRoute.replace('type_material2',typeMaterial);
         myRoute = myRoute.replaceAll('amp;','');
         
 
@@ -237,6 +314,52 @@
 
     function generaCierre2(){
 
+
+        wallet              = $('#wallet').val();
+        group               = $('#group').val();
+        typeMaterial        = $('#type_material_id').val();
+        salir               = 0;
+
+        if (!wallet){
+            salir = 1
+            Swal.fire({
+                            position: 'left',
+                            type: 'error',
+                            title: 'Seleccione la Caja.',
+                            showConfirmButton: true
+                        });
+
+            // alert ('wallet ->' + wallet);
+            return;
+        }
+        if (!group){
+            salir = 1
+            Swal.fire({
+                            position: 'left',
+                            type: 'error',
+                            title: 'Seleccione el grupo.',
+                            showConfirmButton: true
+                        });
+
+            // alert ('wallet ->' + wallet);
+            return;
+        }        
+        if (!typeMaterial){
+            salir = 1
+            Swal.fire({
+                            position: 'left',
+                            type: 'error',
+                            title: 'Seleccione el material',
+                            showConfirmButton: true
+                        });
+
+            // alert ('wallet ->' + wallet);
+            return;
+        }                
+        if (salir == 1){
+            return;
+        }
+
         $('#myModal').modal('show');
 
         //alert('apiUpdateStatus');
@@ -254,7 +377,7 @@
 
 
     $("#myModal2").on('hidden.bs.modal', function () {
-        location.href = "{{route('materialsCierreGenera')}}";
+        location.href = "{{route('materialsLiquidacionCuentaGrupo')}}";
     });
 
 </script>
