@@ -4378,7 +4378,7 @@ class statisticsController extends Controller
                     status = 'Activo'
                 and wallet_id                   between $myWalletDesde          and     $myWalletHasta
                 and group_id                    between $myGroupDesde           and     $myGroupHasta                
-                and type_transaction_id         between 98                      and     98
+                and type_transaction_id         between 48                      and     48
                 and transaction_date            between '$myFechaDesde2'        and     '$myFechaHasta2'
                 and type_material_id            between $myTypeMaterialDesde    and     $myTypeMaterialHasta          
             group by 
@@ -4405,9 +4405,9 @@ class statisticsController extends Controller
 
         $myRecepcionMaterialAmountGramos = $recepciones->RecepcionMaterialAmountGramos ?? 0;
 
-        //dd($myQuery);
+        // dd($myQuery);
         // dd($recepciones);
-        dd($myRecepcionMaterialAmountGramos);
+        // dd($myRecepcionMaterialAmountGramos);
 
          $myQuery =
          "
@@ -4432,7 +4432,9 @@ class statisticsController extends Controller
                  0                                                  as RecepcionMaterialAmountTotalKilos,
                  0                                                  as RecepcionMaterialPriceGramos,
                  0                                                  as RecepcionMaterialAmountGramos,
-                 0                                                  as RecepcionMaterialAmountTotalGramos
+                 0                                                  as RecepcionMaterialAmountTotalGramos,
+                 mtf.transactions.liquidation_date                  as LiquidationDate,
+                 mtf.transactions.liquidation_number                as LiquidationNumber
              from
                          mtf.transactions
              left join   mtf.type_transactions   on mtf.transactions.type_transaction_id = mtf.type_transactions.id
@@ -4457,6 +4459,96 @@ class statisticsController extends Controller
          $adquisiciones = DB::select($myQuery);  
         // dd($myQuery);
         // dd($adquisiciones);
+
+        $myAmount                   = 0;
+        $myMaterialAmmountGramosNew = 0;
+        $myAdquisicionToLiquidate   = [];
+        $myAdquisicionToCreate      = [];
+        $myLiquidationNumber        = date('YmdHis');
+
+        foreach($adquisiciones as $myAdquisicion){
+
+            $myAmount += $myAdquisicion->AdquisicionMaterialAmountGramos;
+
+            echo "<br>";
+            echo "myAmount -> " . $myAmount;
+            echo "<br>";
+            echo "myRecepcionMaterialAmountGramos -> " . $myRecepcionMaterialAmountGramos;
+            echo "<br>";
+
+            if ($myAmount <= $myRecepcionMaterialAmountGramos){
+
+                $myAdquisicionToLiquidate[] = $myAdquisicion;
+
+            }else if ($myAmount > $myRecepcionMaterialAmountGramos){
+                
+                $myAdquisicionToLiquidate[] = $myAdquisicion;
+
+                $myMaterialAmmountGramosNew = $myAmount - $myRecepcionMaterialAmountGramos;
+                $myMaterialAmountKilosNew   = $myMaterialAmmountGramosNew / 1000;
+
+                $myAdquisicion2             = clone $myAdquisicion;
+
+                $myAdquisicion2->AdquisicionMaterialAmountGramos = $myMaterialAmmountGramosNew;
+                $myAdquisicion2->AdquisicionMaterialAmountKilos  = $myMaterialAmountKilosNew;
+                
+                $myAdquisicion2->AdquisicionMaterialAmountTotalGramos = $myAdquisicion->AdquisicionMaterialPriceGramos * $myMaterialAmmountGramosNew;
+                $myAdquisicion2->AdquisicionMaterialAmountTotalKilos  = $myAdquisicion->AdquisicionMaterialPriceKilos   * $myMaterialAmountKilosNew;
+                                                                                        
+                $myAdquisicion2->LiquidationDate   = date("Y-m-d h:i:s"); 
+                $myAdquisicion2->LiquidationNumber = $myLiquidationNumber;
+
+                $myAdquisicionToCreate[] = $myAdquisicion2;
+
+                break;
+            }
+
+        }
+
+        echo "<br>" . "myAdquisicionToLiquidate";
+        echo "<pre>";
+        print_r($myAdquisicionToLiquidate);
+        echo "</pre>";
+
+        echo "<br>";
+        echo "<br>";
+        echo "<br>" . "crear";
+        echo "<pre>";
+        print_r($myAdquisicionToCreate);
+        echo "</pre>";
+        echo "<br>";
+        die('fin');
+
+         dd($myAdquisicionToLiquidate);
+        // dd($myAdquisicionToCreate);
+
+
+
+
+
+        $myQuery =
+        "
+            update      mtf.transactions
+            set
+                status = 'Liquidado',
+                Liquidation_Number = '$myLiquidationNumber'    
+            where
+                    status = 'Activo'
+                and wallet_id                   between $myWalletDesde          and     $myWalletHasta
+                and group_id                    between $myGroupDesde           and     $myGroupHasta                
+                and type_transaction_id         between 48                      and     48
+                and transaction_date            between '$myFechaDesde2'        and     '$myFechaHasta2'
+                and type_material_id            between $myTypeMaterialDesde    and     $myTypeMaterialHasta
+        ";
+
+        $recepciones = DB::update($myQuery);
+
+
+        foreach($myAdquisicionToLiquidate as $ToLiquidate){
+            
+        }
+
+
 
         return response()->json(['success' => true, 'result' => 'Procesado', 'message' => 'Liquidacion de Cuenta Grupo Materiales procesada con exito'], 200);
 
