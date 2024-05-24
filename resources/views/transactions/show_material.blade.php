@@ -195,7 +195,7 @@
                                     Cantidad Kilos<i class="fas fa-hryvnia"></i>
                                 </span>
                                 <span class="info-box-number text-center text-muted mb-0 text-uppercase">
-                                    {{ number_format($transactions->material_amount_kilos,2,",",".") ?? '0.00' }}
+                                    {{ number_format($transactions->material_amount_kilos,3,",",".") ?? '0.000' }}
                                 </span>
                             </div>
                         </div>
@@ -208,7 +208,7 @@
                                 Precio/Kilo:<i class="fas fa-hryvnia"></i>
                                 </span>
                                 <span class="info-box-number text-center text-muted mb-0 text-uppercase">
-                                    {{ number_format($transactions->material_price_kilos,2,",",".") ?? '0.00' }}
+                                    {{ number_format($transactions->material_price_kilos,3,",",".") ?? '0.000' }}
                                 </span>
                             </div>
                         </div>
@@ -223,7 +223,7 @@
                                 Monto $ Total Kilo<i class="fas fa-hryvnia"></i>
                                 </span>
                                 <span class="info-box-number text-center text-muted mb-0 text-uppercase">
-                                    {{ number_format($transactions->material_amount_total_kilos,2,",",".") ?? '0.00' }}
+                                    {{ number_format($transactions->material_amount_total_kilos,3,",",".") ?? '0.000' }}
                                 </span>
                             </div>
                         </div>
@@ -245,7 +245,7 @@
                                     Cantidad Gramos<i class="fas fa-hryvnia"></i>
                                 </span>
                                 <span class="info-box-number text-center text-muted mb-0 text-uppercase">
-                                    {{ number_format($transactions->material_amount_gramos,2,",",".") ?? '0.00' }}
+                                    {{ number_format($transactions->material_amount_gramos,3,",",".") ?? '0.000' }}
                                 </span>
                             </div>
                         </div>
@@ -258,7 +258,7 @@
                                 Precio/Gramo:<i class="fas fa-hryvnia"></i>
                                 </span>
                                 <span class="info-box-number text-center text-muted mb-0 text-uppercase">
-                                    {{ number_format($transactions->material_price_gramos,2,",",".") ?? '0.00' }}
+                                    {{ number_format($transactions->material_price_gramos,3,",",".") ?? '0.000' }}
                                 </span>
                             </div>
                         </div>
@@ -274,7 +274,7 @@
                                 Monto $ Total Gramos<i class="fas fa-hryvnia"></i>
                                 </span>
                                 <span class="info-box-number text-center text-muted mb-0 text-uppercase">
-                                    {{ number_format($transactions->material_amount_total_gramos,2,",",".") ?? '0.00' }}
+                                    {{ number_format($transactions->material_amount_total_gramos,3,",",".") ?? '0.000' }}
                                 </span>
                             </div>
                         </div>

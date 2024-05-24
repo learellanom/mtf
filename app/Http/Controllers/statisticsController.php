@@ -4346,7 +4346,6 @@ class statisticsController extends Controller
         $myQuery =
         "
             select
-                mtf.transactions.id                             as Id,
                 mtf.transactions.wallet_id                      as WalletId,
                 wallets.name                                    as WalletName,
                 mtf.transactions.group_id                       as GroupId,
@@ -4382,8 +4381,7 @@ class statisticsController extends Controller
                 and type_transaction_id         between 48                      and     48
                 and transaction_date            between '$myFechaDesde2'        and     '$myFechaHasta2'
                 and type_material_id            between $myTypeMaterialDesde    and     $myTypeMaterialHasta          
-            group by 
-                mtf.transactions.id,            
+            group by          
                 mtf.transactions.wallet_id,
                 wallets.name,
                 mtf.transactions.group_id,
@@ -4485,6 +4483,7 @@ class statisticsController extends Controller
         $myIdToLiquidate            = [];
         $myAdquisicionToLiquidate   = [];
         $myAdquisicionToCreate      = [];
+        $myLiquidationDate          = date("Y-m-d h:i:s");
         $myLiquidationNumber        = date('YmdHis');
 
         foreach($adquisiciones as $myAdquisicion){
@@ -4510,16 +4509,24 @@ class statisticsController extends Controller
 
                 $myMaterialAmmountGramosNew = $myAmount - $myRecepcionMaterialAmountGramos;
                 $myMaterialAmountKilosNew   = $myMaterialAmmountGramosNew / 1000;
+                $myMaterialAmountKilosNew    = round($myMaterialAmountKilosNew,3);
+
+                $myMaterialAmountTotalGramos = $myAdquisicion->AdquisicionMaterialPriceGramos  * $myMaterialAmmountGramosNew;
+                $myMaterialAmountTotalGramos = round($myMaterialAmountTotalGramos,3);
+
+                $myMaterialAmountTotalKilos = $myAdquisicion->AdquisicionMaterialPriceKilos   * $myMaterialAmountKilosNew;
+                $myMaterialAmountTotalKilos = round($myMaterialAmountTotalKilos,3);
 
                 $myAdquisicion2             = clone $myAdquisicion;
 
                 $myAdquisicion2->AdquisicionMaterialAmountGramos        = $myMaterialAmmountGramosNew;
                 $myAdquisicion2->AdquisicionMaterialAmountKilos         = $myMaterialAmountKilosNew;
                 
-                $myAdquisicion2->AdquisicionMaterialAmountTotalGramos   = $myAdquisicion->AdquisicionMaterialPriceGramos  * $myMaterialAmmountGramosNew;
-                $myAdquisicion2->AdquisicionMaterialAmountTotalKilos    = $myAdquisicion->AdquisicionMaterialPriceKilos   * $myMaterialAmountKilosNew;
+                $myAdquisicion2->AdquisicionMaterialAmountTotalGramos   = $myMaterialAmountTotalGramos;
+
+                $myAdquisicion2->AdquisicionMaterialAmountTotalKilos    = $myMaterialAmountTotalKilos;
                                                                                         
-                $myAdquisicion2->LiquidationDate   = date("Y-m-d h:i:s"); 
+                $myAdquisicion2->LiquidationDate   = $myLiquidationDate;
                 $myAdquisicion2->LiquidationNumber = $myLiquidationNumber;
 
                 $myAdquisicionToCreate[] = $myAdquisicion2;
@@ -4574,18 +4581,26 @@ class statisticsController extends Controller
 
 
 
-         // dd($myAdquisicionToLiquidate);
+        // dd($myAdquisicionToLiquidate);
         // dd($myAdquisicionToCreate);
 
-
-
-
-
+        //
+        //
+        // Inicia transaccion
+         DB::beginTransaction();
+        try{
+        //
+        //
+        //
+        // Liquida recepciones
+        //
+        //
         $myQuery =
         "
             update      mtf.transactions
             set
                 status = 'Liquidado',
+                Liquidation_date    = '$myLiquidationDate',                 
                 Liquidation_Number = '$myLiquidationNumber'    
             where
                     status = 'Activo'
@@ -4596,7 +4611,7 @@ class statisticsController extends Controller
                 and type_material_id            between $myTypeMaterialDesde    and     $myTypeMaterialHasta
         ";
 
-        // $recepciones = DB::update($myQuery);
+        $recepciones = DB::update($myQuery);
         //
         //
         // Liquida todas las adquisiciones hasta la nueva creada
@@ -4604,14 +4619,14 @@ class statisticsController extends Controller
         //
         //
         $myIdToLiquidateString = implode(",",$myIdToLiquidate);
-        $myLiquidationDate     = date("Y-m-d h:i:s"); 
+
 
         $myQuery =
         "
             update      mtf.transactions
             set
                 status = 'Liquidado',
-                Liquidation_date    = $myLiquidationDate, 
+                Liquidation_date    = '$myLiquidationDate', 
                 Liquidation_Number = '$myLiquidationNumber' 
             where
                     status = 'Activo'
@@ -4628,41 +4643,72 @@ class statisticsController extends Controller
         echo "<br>";
 
 
-        // $liquidation = DB::update($myQuery);
+         $liquidation = DB::update($myQuery);
 
-        //
+        // leamxxx
         // crea nueva adquisicion
         //
-        /*
-        $transactions_new = new transactions;
+        
+        $transactions_new = new Transaction;
 
-        $transactions_new->type_coin_id                     = $myAdquisicionToCreate->Id;
-        $transactions_new->type_transaction_id              = $myAdquisicionToCreate->Id;
+        $transactions_new->type_transaction_id              = $myAdquisicionToCreate->TypeTransactionId;
         $transactions_new->user_id                          = auth()->user()->id;
         $transactions_new->group_id                         = $myAdquisicionToCreate->GroupId;
         $transactions_new->wallet_id                        = $myAdquisicionToCreate->WalletId;
         $transactions_new->status                           = "Activo";
-        $transactions_new->transaction_date                 = $myAdquisicionToCreate->TracsactionDate;
+        $transactions_new->transaction_date                 = $myAdquisicionToCreate->TransactionDate;
         $transactions_new->type_material_id                 = $myAdquisicionToCreate->TypeMaterialId;
 
-        $transactions_new->material_type_adquisicion        = $transaccion->MaterialTypeAdquisicion;
+        $transactions_new->material_type_adquisicion        = $myAdquisicionToCreate->MaterialTypeAdquisicion;
 
-        $transactions_new->material_amount_kilos            = $transaccion->WalletId;
-        $transactions_new->material_amount_gramos           = $transaccion->GroupId;
-        $transactions_new->material_amount_total_kilos      = $transaccion->GroupId;
-        $transactions_new->material_amount_total_gramos     = $transaccion->GroupId;        
-        $transactions_new->material_price_kilos             = $transaccion->WalletId;
-        $transactions_new->material_price_gramos            = $transaccion->GroupId;
+        $transactions_new->material_amount_kilos            = $myAdquisicionToCreate->AdquisicionMaterialAmountKilos;
+        $transactions_new->material_amount_gramos           = $myAdquisicionToCreate->AdquisicionMaterialAmountGramos;
+        $transactions_new->material_amount_total_kilos      = $myAdquisicionToCreate->AdquisicionMaterialAmountTotalKilos;
+        $transactions_new->material_amount_total_gramos     = $myAdquisicionToCreate->AdquisicionMaterialAmountTotalGramos;        
+        $transactions_new->material_price_kilos             = $myAdquisicionToCreate->AdquisicionMaterialPriceKilos;
+        $transactions_new->material_price_gramos            = $myAdquisicionToCreate->AdquisicionMaterialPriceGramos;
 
-        $transactions_new->liquidation_date                 = $transaccion->GroupId;
-        $transactions_new->liquidation_number               = $transaccion->GroupId;
+        $transactions_new->liquidation_date                 = $myLiquidationDate;
+        $transactions_new->liquidation_number               = $myLiquidationNumber;
 
         $transactions_new->save();
-        */
+        
+
+        echo "<br>" . "new transactions ********************************************";
+        echo "<pre>";
+        echo "<br> myAdquisicionToCreate->Id                        -> $myAdquisicionToCreate->TypeTransactionId";
+        echo "<br> myAdquisicionToCreate->GroupId                   -> $myAdquisicionToCreate->GroupId";
+        echo "<br> myAdquisicionToCreate->WalletId                  -> $myAdquisicionToCreate->WalletId";
+        echo "<br> myAdquisicionToCreate->TransactionDate           -> $myAdquisicionToCreate->TransactionDate";
+        echo "<br> myAdquisicionToCreate->TypeMaterialId            -> $myAdquisicionToCreate->TypeMaterialId";
+        echo "<br> myAdquisicionToCreate->MaterialTypeAdquisicion   -> $myAdquisicionToCreate->MaterialTypeAdquisicion";
+        echo "<br> myAdquisicionToCreate->AdquisicionMaterialAmountKilos -> $myAdquisicionToCreate->AdquisicionMaterialAmountKilos";
+        echo "<br> myAdquisicionToCreate->AdquisicionMaterialAmountGramos -> $myAdquisicionToCreate->AdquisicionMaterialAmountGramos";
+        echo "<br> myAdquisicionToCreate->AdquisicionMaterialAmountTotalKilos -> $myAdquisicionToCreate->AdquisicionMaterialAmountTotalKilos";
+        echo "<br> myAdquisicionToCreate->AdquisicionMaterialAmountTotalGramos -> $myAdquisicionToCreate->AdquisicionMaterialAmountTotalGramos";
+        echo "<br> myAdquisicionToCreate->AdquisicionMaterialPriceKilos -> $myAdquisicionToCreate->AdquisicionMaterialPriceKilos";
+        echo "<br> myAdquisicionToCreate->AdquisicionMaterialPriceGramos -> $myAdquisicionToCreate->AdquisicionMaterialPriceGramos";
+
+        
+
+        echo "</pre>";
+        echo "<br>";
+        //
+        //
+        //
+         DB::rollback();
+
+        // DB::commit();
 
 
+        } catch(Exception $e){
+            DB::rollback();
+        }
 
-        die('fin');
+        //
+        // fin transaccion
+        //
+         die('fin');
 
 
 
