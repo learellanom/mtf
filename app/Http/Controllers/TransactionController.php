@@ -223,6 +223,7 @@ class TransactionController extends Controller
          die();
         */
         $movimientos = Transaction::where('type_transaction_id', '=', $myTypeTransaction)
+        ->whereIn('status',['Activo','Anulado'])
         ->whereBetween('wallet_id',         [$myWalletDesde, $myWalletHasta])
         ->whereBetween('group_id',          [$myGroupDesde,  $myGroupHasta])
         ->whereBetween('type_material_id',  [$myTypeMaterialDesde,  $myTypeMaterialHasta])
@@ -269,7 +270,174 @@ class TransactionController extends Controller
 
     }
 
+    
+    
+    /**
+     * Display a listing of the resource.
+     */
+    public function liquidacion_adquisicion_index(Request $request, transaction $transaction)
+    {
 
+        $parameters     = $request->query();
+
+        $user           = $request->query('user');        
+        $fechaDesde     = $request->query('fechaDesde') ? $request->query('fechaDesde') : "2000-01-01";
+        $fechaHasta     = $request->query('fechaHasta') ? $request->query('fechaHasta') : "9999-12-31";
+            
+        $myFechaDesde   = "2000-01-01";
+        $myFechaHasta   = "9999-12-31";
+
+        if($request->query('fechaDesde')){
+            $myFechaDesde = $request->fechaDesde;
+         };
+         if($request->query('fechaHasta')){
+            $myFechaHasta = $request->fechaHasta;
+         };
+
+        $myUser         = 0;
+        $myUsuarioDesde = 0;
+        $myUsuarioHasta = 999999;
+        if ($request->query('user')){
+            $myUser         = $request->user;
+            $myUsuarioDesde = $request->user;
+            $myUsuarioHasta = $request->user;
+        }
+
+
+        // $myFechaHasta = date("Y-m-d");
+        // $myFechaDesde = $this->get03DayBefore($myFechaHasta);
+        // $myFechaDesde = $this->get01DayBefore($myFechaHasta);        
+        // $myFechaDesde = $this->get07DayBefore($myFechaHasta);
+
+        //   dd(auth()->user()->roles);
+        //  \Log::info('leam - transaction index - aqui');
+        //  \Log::info('leam - transaction index - fecha desde - ' . $myFechaDesde . ' -- myFecha Hasta ->' . $myFechaHasta);
+        //  \Log::info('leam - transaction index - request fecha desde - ' . $request->fechaDesde . ' -- request myFecha Hasta ->' . $request->fechaHasta);
+        //  \Log::info('leam - transaction index - user  - ' . $myUser );
+        //  \Log::info('leam - transaction index - request  - ' . $request );
+        // dd($request);
+        $myLimit = 0;
+        /*
+        if($this->isAdministrator()){
+            if (!$user){
+                $myUsuarioDesde = auth()->user()->id;
+                $myUsuarioHasta = auth()->user()->id;
+            }
+            $myLimit = 500;
+        }else{
+            $myUsuarioDesde = auth()->user()->id;
+            $myUsuarioHasta = auth()->user()->id;
+            $myLimit = 1000;
+        }
+        */
+        $myCoinDesde    = 0;
+        $myCoinHasta    = 9999;
+        $myCoin = $request->coin ? $request->coin : 0;
+        if ($request->coin){
+            $myCoinDesde    = $request->coin;
+            $myCoinHasta    = $request->coin;
+        }
+
+
+        $myGroup        = $request->group ? $request->group : 0;
+        $myGroupDesde   = 0;
+        $myGroupHasta   = 9999;
+        if ($request->group){
+            $myGroupDesde   = $request->group;
+            $myGroupHasta   = $request->group;
+        }
+        // dd($myGroup);
+        $myWallet        = $request->wallet ? $request->wallet : 0;
+        $myWalletDesde   = 0;
+        $myWalletHasta   = 9999;
+        if ($request->wallet){
+            $myWalletDesde   = $request->wallet;
+            $myWalletHasta   = $request->wallet;
+        }
+        
+        $myTypeMaterial  = $request->type_material ? $request->type_material : 0;
+        $myTypeMaterialDesde   = 0;
+        $myTypeMaterialHasta   = 9999;
+        if ($request->type_material){
+            $myTypeMaterialDesde   = $request->type_material;
+            $myTypeMaterialHasta   = $request->type_material;
+        }
+
+        $myLiquidationNumber = ($request->liquidation_number) ? $request->liquidation_number : 0;
+
+        $wallet             = Group::where('type','=','2')->pluck('name', 'id')->toArray();
+        $group              = Group::where('type','=','1')->pluck('name', 'id')->toArray();
+
+
+        $myTypeTransaction = 47; // Adquisiciones de materiales
+
+
+        /*
+        echo "<br>" . "myTypeTransaction    " . $myTypeTransaction;
+        echo "<br>" . "fechaDesde           " . $fechaDesde;
+        echo "<br>" . "fechaHasta           " . $fechaHasta;
+        echo "<br>" . "myFechaDesde         " . $myFechaDesde;
+        echo "<br>" . "myFechaHasta         " . $myFechaHasta;
+        echo "<br>" . "myWalletDesde        " . $myWalletDesde;
+        echo "<br>" . "myWalletHasta        " . $myWalletHasta;
+        echo "<br>" . "myGroupDesde         " . $myGroupDesde;
+        echo "<br>" . "myGroupHasta         " . $myGroupHasta;
+        echo "<br>" . "myTypeMaterialDesde  " . $myTypeMaterialDesde;
+        echo "<br>" . "myTypeMaterialHasta  " . $myTypeMaterialHasta;        
+        echo "<br>" . "myUsuarioDesde       " . $myUsuarioDesde;
+        echo "<br>" . "myUsuarioHasta       " . $myUsuarioHasta;
+        die();
+        */
+        $movimientos = Transaction::where('type_transaction_id', '=', $myTypeTransaction)
+        ->where('status','Liquidado')
+        ->where('liquidation_number', $myLiquidationNumber)
+        ->whereBetween('wallet_id',         [$myWalletDesde, $myWalletHasta])
+        ->whereBetween('group_id',          [$myGroupDesde,  $myGroupHasta])
+        ->whereBetween('type_material_id',  [$myTypeMaterialDesde,  $myTypeMaterialHasta])
+        ->whereBetween('created_at',        [$myFechaDesde . " 00:00:00", $myFechaHasta . " 23:59:00"])
+        ->whereBetween('user_id',           [$myUsuarioDesde , $myUsuarioHasta])   
+        ->orderBy('created_at','desc')       
+        ->get();
+
+        //dd($movimientos);
+
+        $myFechaDesde2  =  substr($myFechaDesde,8,2) . '-' . substr($myFechaDesde,5,2) . '-' . substr($myFechaDesde,0,4);
+        $myFechaHasta2  =  substr($myFechaHasta,8,2) . '-' . substr($myFechaHasta,5,2) . '-' . substr($myFechaHasta,0,4);
+
+        $user               = User::pluck('name', 'id')->toArray();
+
+        $myTypeCoinBalance  = $myCoin; // dorales siempre por ahora
+        $Type_coin_balance  = Type_coin::pluck('name', 'id')->toArray();
+
+
+        // $myTypeMaterial     = $request->material ? $request->material : 0;
+        $Type_material      = Type_material::pluck('name', 'id')->toArray();
+        
+
+
+        $parametros['wallet']               = $wallet;
+        $parametros['group']                = $group;
+        
+        $parametros['myWallet']               = $myWallet;
+        $parametros['myGroup']                = $myGroup;
+
+        $parametros['fechaDesde']           = $myFechaDesde2;
+        $parametros['fechaHasta']           = $myFechaHasta2;
+        $parametros['movimientos']          = $movimientos;
+        $parametros['myUser']               = $myUser;
+        $parametros['user']                 = $user;
+        $parametros['myTypeCoinBalance']    = $myTypeCoinBalance;
+        $parametros['Type_coin_balance']    = $Type_coin_balance;
+        $parametros['myTypeMaterial']       = $myTypeMaterial;
+        $parametros['Type_material']        = $Type_material;
+
+        // dd($transferencia);
+
+        return view('materials.liquidacion_adquisicion_index', $parametros);
+
+    }
+
+   
     /*
     *
     * Display a listing of the resource.
@@ -391,6 +559,7 @@ class TransactionController extends Controller
         */
         
         $movimientos = Transaction::where('type_transaction_id', '=', $myTypeTransaction)
+        ->whereIn('status',['Activo','Anulado'])
         ->whereBetween('wallet_id',         [$myWalletDesde, $myWalletHasta])
         ->whereBetween('group_id',          [$myGroupDesde,  $myGroupHasta])
         ->whereBetween('type_material_id',  [$myTypeMaterialDesde,  $myTypeMaterialHasta])        
@@ -407,7 +576,7 @@ class TransactionController extends Controller
 
         $Type_material      = Type_material::pluck('name', 'id')->toArray();
         
-        \Log::info('leam - llega el material ->' . $myTypeMaterial);
+        // \Log::info('leam - llega el material ->' . $myTypeMaterial);
 
         $parametros['wallet']               = $wallet;
         $parametros['group']                = $group;
@@ -429,6 +598,176 @@ class TransactionController extends Controller
         return view('materials.recepcion_index', $parametros);
 
     }
+
+    
+    /*
+    *
+    *
+    * Display a listing of the resource.
+    *
+    */
+    public function liquidacion_recepcion_index(Request $request, transaction $transaction)
+    {
+        /*
+        if (!$request->query('user')){
+            \Log::info('leam - transaction controller - no user');
+        }
+        if ($request->query('user')){
+            \Log::info('leam - con user');
+        }
+        */
+        $parameters     = $request->query();
+
+        $user           = $request->query('user');        
+        $fechaDesde     = $request->query('fechaDesde');
+        $fechaHasta     = $request->query('fechaHasta');
+        
+        $myUser         = 0;
+        $myUsuarioDesde = 0;
+        $myUsuarioHasta = 999999;
+        if ($user){
+            $myUser         = $request->user;
+            $myUsuarioDesde = $request->user;
+            $myUsuarioHasta = $request->user;
+        }
+
+
+        //$myFechaHasta = date("Y-m-d");
+        // $myFechaDesde = $this->get03DayBefore($myFechaHasta);
+        // $myFechaDesde = $this->get01DayBefore($myFechaHasta);        
+        //$myFechaDesde = $this->get07DayBefore($myFechaHasta);
+        
+        $myFechaDesde = "2001-01-01";
+        $myFechaHasta = "9999-12-31";
+
+        if($fechaDesde){
+            $myFechaDesde = $request->fechaDesde;
+        };
+        
+        if($fechaHasta){
+            $myFechaHasta = $request->fechaHasta;
+         };
+
+        //   dd(auth()->user()->roles);
+        //  \Log::info('leam - transaction index - aqui');
+        //  \Log::info('leam - transaction index - fecha desde - ' . $myFechaDesde . ' -- myFecha Hasta ->' . $myFechaHasta);
+        //  \Log::info('leam - transaction index - request fecha desde - ' . $request->fechaDesde . ' -- request myFecha Hasta ->' . $request->fechaHasta);
+        //  \Log::info('leam - transaction index - user  - ' . $myUser );
+        //  \Log::info('leam - transaction index - request  - ' . $request );
+        // dd($request);
+        $myLimit = "";
+        /*
+        if($this->isAdministrator()){
+            if (!$user){
+                $myUsuarioDesde = auth()->user()->id;
+                $myUsuarioHasta = auth()->user()->id;
+            }
+            $myLimit = 500;
+        }else{
+            $myUsuarioDesde = auth()->user()->id;
+            $myUsuarioHasta = auth()->user()->id;
+            $myLimit = 1000;
+        }
+        */
+        $myWalletDesde    = 0;
+        $myWalletHasta    = 9999;
+        $myWallet = $request->wallet ? $request->wallet : 0;
+        if ($request->wallet){
+            $myWalletDesde    = $request->wallet;
+            $myWalletHasta    = $request->wallet;
+        }
+
+        $myGroupDesde   = 0;
+        $myGroupHasta   = 9999;
+        $myGroup        = $request->group ? $request->group : 0;
+        if ($request->group){
+            $myGroupDesde    = $request->group;
+            $myGroupHasta    = $request->group;
+        }
+
+
+        $myTypeMaterial  = $request->type_material ? $request->type_material : 0;
+        $myTypeMaterialDesde   = 0;
+        $myTypeMaterialHasta   = 9999;
+        if ($request->type_material){
+            $myTypeMaterialDesde   = $request->type_material;
+            $myTypeMaterialHasta   = $request->type_material;
+        }
+
+        $wallet             = Group::where('type','=','2')->pluck('name', 'id')->toArray();
+        $group              = Group::where('type','=','1')->pluck('name', 'id')->toArray();
+
+
+        $myTypeTransaction = 48; // Recepcion de materiales
+
+        $myLiquidationNumber = ($request->liquidation_number) ? $request->liquidation_number : 0;
+
+
+
+        /*
+        echo "<br>" . "recepcion myTypeTransaction ->". $myTypeTransaction;
+
+        echo "<br>" . "recepcion myWalletDesde ->". $myWalletDesde;
+        echo "<br>" . "recepcion myWalletHasta ->". $myWalletHasta;
+
+        echo "<br>" . "recepcion myGroupDesde ->". $myGroupDesde;
+        echo "<br>" . "recepcion myGroupHasta ->". $myGroupHasta;
+
+        echo "<br>" . "recepcion myTypeMaterialDesde ->". $myTypeMaterialDesde;
+        echo "<br>" . "recepcion myTypeMaterialHasta ->". $myTypeMaterialHasta;
+
+        echo "<br>" . "recepcion myFechaDesde ->". $myFechaDesde;
+        echo "<br>" . "recepcion myFechaHasta ->". $myFechaHasta;
+
+        echo "<br>" . "recepcion myUsuarioDesde ->". $myUsuarioDesde;
+        echo "<br>" . "recepcion myUsuarioHasta ->". $myUsuarioHasta;
+
+        die();
+        */
+        
+        $movimientos = Transaction::where('type_transaction_id', '=', $myTypeTransaction)
+        ->where('status','Liquidado')
+        ->where('liquidation_number', $myLiquidationNumber)    
+        ->whereBetween('wallet_id',         [$myWalletDesde, $myWalletHasta])
+        ->whereBetween('group_id',          [$myGroupDesde,  $myGroupHasta])
+        ->whereBetween('type_material_id',  [$myTypeMaterialDesde,  $myTypeMaterialHasta])  
+        ->whereBetween('created_at',        [$myFechaDesde . " 00:00:00", $myFechaHasta . " 23:59:00"])
+        ->whereBetween('user_id',           [$myUsuarioDesde , $myUsuarioHasta])
+        ->orderBy('created_at','desc')
+        ->limit($myLimit)
+        ->get();
+
+        $myFechaDesde2  =  substr($myFechaDesde,8,2) . '-' . substr($myFechaDesde,5,2) . '-' . substr($myFechaDesde,0,4);
+        $myFechaHasta2  =  substr($myFechaHasta,8,2) . '-' . substr($myFechaHasta,5,2) . '-' . substr($myFechaHasta,0,4);
+
+        $user               = User::pluck('name', 'id')->toArray();
+
+        $Type_material      = Type_material::pluck('name', 'id')->toArray();
+        
+        // \Log::info('leam - llega el material ->' . $myTypeMaterial);
+
+        $parametros['wallet']               = $wallet;
+        $parametros['group']                = $group;
+
+        $parametros['myWallet']             = $myWallet;
+        $parametros['myGroup']              = $myGroup;
+
+        $parametros['fechaDesde']           = $myFechaDesde2;
+        $parametros['fechaHasta']           = $myFechaHasta2;
+        $parametros['movimientos']          = $movimientos;
+        $parametros['myUser']               = $myUser;
+        $parametros['user']                 = $user;
+
+        $parametros['myTypeMaterial']       = $myTypeMaterial;
+        $parametros['Type_material']        = $Type_material;
+
+        // dd($transferencia);
+
+        return view('materials.liquidacion_recepcion_index', $parametros);
+
+    }
+
+
     /*
     *
     *

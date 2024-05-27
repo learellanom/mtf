@@ -4254,6 +4254,251 @@ class statisticsController extends Controller
 
     }
 
+
+    
+    /*
+    *
+    *
+    *        materialsLiquidacion
+    *
+    *
+    */
+    function materialsLiquidacion(Request $request){
+
+        $myWallet      = 0; 
+        $myWalletDesde = 00000;
+        $myWalletHasta = 99999;
+        if ($request->wallet){
+            $myWallet       = $request->wallet; 
+            $myWalletDesde  = $request->wallet;
+            $myWalletHasta  = $request->wallet;
+        }
+
+        $myGroup        = 0;
+        $myGroupDesde = 00000;
+        $myGroupHasta = 99999;
+        if ($request->group){
+            $myGroup        = $request->group;
+            $myGroupDesde   = $request->group;
+            $myGroupHasta   = $request->group;
+        }
+
+        $myTransactionDesde     = 47;
+        $myTransactionHasta     = 47;
+        if ($request->transaction){
+            $myTransactionDesde     = $request->transaction;
+            $myTransactionHasta     = $request->transaction;
+        }
+
+        $myFechaDesde = "2001-01-01";
+        $myFechaHasta = "9999-12-31";
+        if ($request->fechaDesde){
+            $myFechaDesde = $request->fechaDesde;
+        }
+        if ($request->fechaHasta){
+            $myFechaHasta = $request->fechaHasta;
+        }
+
+        $myFechaDesde2 = $myFechaDesde . ' 00:00:00';
+        $myFechaHasta2 = $myFechaHasta . ' 23:59:59';
+
+
+        $myType_material        = 0;
+        $myTypeMaterialDesde    = 0;
+        $myTypeMaterialHasta    = 9999;
+
+        if ($request->type_material){
+            $myType_material        = $request->type_material;
+            $myTypeMaterialDesde    = $request->type_material;
+            $myTypeMaterialHasta    = $request->type_material;
+        }
+
+        /*
+        echo "<br>" . " leam - myTypeMaterial      -> " . $myType_material;
+        echo "<br>" . " leam - myTypeMaterialDesde -> " . $myTypeMaterialDesde;
+        echo "<br>" . " leam - myTypeMaterialHasta -> " . $myTypeMaterialHasta;
+        die();
+        */
+
+
+        
+        //  dd($myCierre);
+        // var_dump($materialsCierre);
+        // die();
+        $myQuery =
+        "
+            select
+                mtf.transactions.liquidation_number               as LiquidationNumber,
+                mtf.transactions.liquidation_date                 as LiquidationDate,
+                mtf.transactions.wallet_id                        as WalletId,
+                wallets.name                                      as WalletName,
+                mtf.transactions.group_id                         as GroupId,
+                mtf.groups.name                                   as GroupName,
+                mtf.transactions.type_transaction_id              as TypeTransactionId,
+                type_transactions.name                            as TypeTransactionName,
+                mtf.transactions.type_material_id                 as TypeMaterialId,
+                mtf.type_materials.name                           as TypeMaterialName,
+                count(mtf.transactions.wallet_id)                 as AdquisicionCant,  
+                sum(mtf.transactions.material_price_kilos)        as AdquisicionMaterialPriceKilos,
+                sum(mtf.transactions.material_amount_kilos)          as AdquisicionMaterialAmountKilos,
+                sum(mtf.transactions.material_amount_total_kilos)    as AdquisicionMaterialAmountTotalKilos,
+                sum(mtf.transactions.material_price_gramos)          as AdquisicionMaterialPriceGramos,
+                sum(mtf.transactions.material_amount_gramos)         as AdquisicionMaterialAmountGramos,
+                sum(mtf.transactions.material_amount_total_gramos)   as AdquisicionMaterialAmountTotalGramos,
+                0                                                    as RecepcionCant,
+                0                                                    as RecepcionMaterialPriceKilos,
+                0                                                    as RecepcionMaterialAmountKilos,
+                0                                                    as RecepcionMaterialAmountTotalKilos,
+                0                                                    as RecepcionMaterialPriceGramos,
+                0                                                    as RecepcionMaterialAmountGramos,
+                0                                                    as RecepcionMaterialAmountTotalGramos
+            from
+                        mtf.transactions
+            left join   mtf.type_transactions   on mtf.transactions.type_transaction_id = mtf.type_transactions.id
+            left join   mtf.groups as wallets   on mtf.transactions.wallet_id           = wallets.id
+            left join   mtf.groups              on mtf.Transactions.group_id            = mtf.groups.id
+            left join   mtf.type_materials      on mtf.Transactions.type_material_id    = mtf.type_materials.id
+            where
+                    status = 'Liquidado'
+                and wallet_id               between $myWalletDesde       and     $myWalletHasta
+                and group_id                between $myGroupDesde        and     $myGroupHasta                
+                and type_transaction_id     between $myTransactionDesde  and     $myTransactionHasta
+                and liquidation_date        between '$myFechaDesde2'     and     '$myFechaHasta2'
+                and type_material_id        between $myTypeMaterialDesde and    $myTypeMaterialHasta
+                and material_type_adquisicion between 1 and 2
+                and liquidation_number is not null
+            group by 
+                mtf.transactions.liquidation_number,
+                mtf.transactions.liquidation_date,
+                mtf.transactions.wallet_id,
+                wallets.name,
+                mtf.transactions.group_id,
+                mtf.groups.name,
+                mtf.transactions.type_transaction_id,
+                type_transactions.name,
+                mtf.transactions.type_material_id,
+                mtf.type_materials.name
+            order by
+                transactions.wallet_id,
+                transactions.group_id
+        ";
+
+        // dd($myQuery);
+        
+        $adquisiciones = DB::select($myQuery);        
+        //var_dump($adquisiciones);
+        //die();
+        
+        // dd($adquisiciones);
+
+        $myTransactionDesde     = 48;
+        $myTransactionHasta     = 48;        
+
+        $myQuery =
+        "
+            select
+                mtf.transactions.liquidation_number             as LiquidationNumber,
+                mtf.transactions.liquidation_date               as LiquidationDate,            
+                mtf.transactions.wallet_id                      as WalletId,
+                wallets.name                                    as WalletName,
+                mtf.transactions.group_id                       as GroupId,
+                mtf.groups.name                                 as GroupName,
+                mtf.transactions.type_transaction_id            as TypeTransactionId,
+                type_transactions.name                          as TypeTransactionName,
+                mtf.transactions.type_material_id               as TypeMaterialId,
+                mtf.type_materials.name                         as TypeMaterialName,              
+                0                                               as AdquisicionCant,
+                0                                               as AdquisicionMaterialPriceKilos,
+                0                                               as AdquisicionMaterialAmountKilos,
+                0                                               as AdquisicionMaterialAmountTotalKilos,
+                0                                               as AdquisicionMaterialPriceGramos,
+                0                                               as AdquisicionMaterialAmountGramos,
+                0                                               as AdquisicionMaterialAmountTotalGramos,
+                count(mtf.transactions.wallet_id )              as RecepcionCant,
+                0                                               as RecepcionMaterialPriceKilos,
+                sum(mtf.transactions.material_amount_kilos)     as RecepcionMaterialAmountKilos,
+                0                                               as RecepcionMaterialAmountTotalKilos,
+                0                                               as RecepcionMaterialPriceGramos,
+                sum(mtf.transactions.material_amount_gramos)    as RecepcionMaterialAmountGramos,
+                0                                               as RecepcionMaterialAmountTotalGramos
+            from
+                        mtf.transactions
+            left join   mtf.type_transactions   on mtf.transactions.type_transaction_id = mtf.type_transactions.id
+            left join   mtf.groups as wallets   on mtf.transactions.wallet_id           = wallets.id
+            left join   mtf.groups              on mtf.Transactions.group_id            = mtf.groups.id
+            left join   mtf.type_materials      on mtf.Transactions.type_material_id    = mtf.type_materials.id
+            where
+                    status = 'Liquidado'
+                and wallet_id               between $myWalletDesde      and     $myWalletHasta
+                and group_id                between $myGroupDesde       and     $myGroupHasta                
+                and type_transaction_id     between $myTransactionDesde and     $myTransactionHasta
+                and liquidation_date        between '$myFechaDesde2'    and     '$myFechaHasta2'
+                and type_material_id        between $myTypeMaterialDesde and    $myTypeMaterialHasta
+                and material_type_adquisicion between 1 and 2             
+                and liquidation_number is not null   
+            group by 
+                mtf.transactions.liquidation_number,
+                mtf.transactions.liquidation_date,            
+                mtf.transactions.wallet_id,
+                wallets.name,
+                mtf.transactions.group_id,
+                mtf.groups.name,
+                mtf.transactions.type_transaction_id,
+                type_transactions.name,
+                mtf.transactions.type_material_id,
+                mtf.type_materials.name
+            order by
+                transactions.wallet_id,
+                transactions.group_id
+        ";
+
+        // dd($myQuery);
+        
+        $recepciones = DB::select($myQuery);    
+        // dd($recepciones);
+
+        $adqui = [];
+
+        // inicio
+
+        foreach($adquisiciones as $myAdquisiciones){
+            foreach($recepciones as $myRecepciones){
+                if($myAdquisiciones->WalletId == $myRecepciones->WalletId){
+                    if($myAdquisiciones->GroupId == $myRecepciones->GroupId){
+
+                        $myAdquisiciones->RecepcionMaterialAmountKilos      = $myRecepciones->RecepcionMaterialAmountKilos;
+                        $myAdquisiciones->RecepcionMaterialAmountGramos     = $myRecepciones->RecepcionMaterialAmountGramos;                                           
+                        $myAdquisiciones->RecepcionCant                     = $myRecepciones->RecepcionCant;
+
+                    }
+                }
+            }
+        }
+
+        // fin
+        // dd($adquisiciones);
+
+        $Group_roles 	    = $this->getGroupRole(auth()->id());
+        $wallet             = $this->getWallet($Group_roles);
+        $group              = $this->getGroups($Group_roles);
+        $type_material      = Type_material::pluck('name', 'id')->toArray();
+
+        $parametros ['myFechaDesde']    = $myFechaDesde;
+        $parametros ['myFechaHasta']    = $myFechaHasta;
+        $parametros ['myWallet']        = $myWallet;
+        $parametros ['myGroup']         = $myGroup;
+        $parametros ['myType_material'] = $myType_material;
+        $parametros ['wallet']          = $wallet;
+        $parametros ['group']           = $group;
+        $parametros ['type_material']   = $type_material;
+        $parametros ['adquisiciones']   = $adquisiciones;
+
+        return view('estadisticas.materialsLiquidacion', $parametros);
+
+    }
+
+
+
     function materialsLiquidacionCuentaGrupo(Request $request){
 
         $myWallet      = 0; 
@@ -4299,6 +4544,12 @@ class statisticsController extends Controller
         return view('estadisticas.materialsLiquidacionCuentaGrupo', $parametros);
 
     }
+
+
+
+
+
+
     function materialsLiquidacionCuentaGrupoProcess(Request $request){
 
         $myWallet      = 0; 
@@ -4410,7 +4661,7 @@ class statisticsController extends Controller
         // dd($myRecepcionMaterialAmountGramos);
 
 
-        echo "<br>" . "recepciones";
+        echo "<br>" . "recepciones total";
         echo "<pre>";
         print_r($recepciones);
         echo "</pre>";
@@ -4471,7 +4722,7 @@ class statisticsController extends Controller
         // dd($adquisiciones);
 
 
-        echo "<br>" . "recepciones";
+        echo "<br>" . "adquisiciones";
         echo "<pre>";
         print_r($adquisiciones);
         echo "</pre>";
@@ -4491,9 +4742,9 @@ class statisticsController extends Controller
             $myAmount += $myAdquisicion->AdquisicionMaterialAmountGramos;
 
             echo "<br>";
-            echo "myAmount -> " . $myAmount;
-            echo "<br>";
-            echo "myRecepcionMaterialAmountGramos -> " . $myRecepcionMaterialAmountGramos;
+            echo "myAmount -> " . number_format($myAmount,2);
+
+            echo "---------- myRecepcionMaterialAmountGramos -> " . number_format($myRecepcionMaterialAmountGramos,2);
             echo "<br>";
 
             if ($myAmount <= $myRecepcionMaterialAmountGramos){
@@ -4526,12 +4777,12 @@ class statisticsController extends Controller
 
                 $myAdquisicion2->AdquisicionMaterialAmountTotalKilos    = $myMaterialAmountTotalKilos;
                                                                                         
-                $myAdquisicion2->LiquidationDate   = $myLiquidationDate;
-                $myAdquisicion2->LiquidationNumber = $myLiquidationNumber;
+                $myAdquisicion2->LiquidationDate                        = $myLiquidationDate;
+                $myAdquisicion2->LiquidationNumber                      = $myLiquidationNumber;
 
                 $myAdquisicionToCreate[] = $myAdquisicion2;
 
-
+                /*
                 echo "<br>" . "myAdquisicionToCreate";
                 echo "<pre>";
                 echo " myMaterialAmmountGramosNew   -> $myMaterialAmmountGramosNew";
@@ -4544,6 +4795,7 @@ class statisticsController extends Controller
                 echo " myMaterialAmmountGramosNew   -> $myMaterialAmmountGramosNew";
                 echo " myMaterialAmountKilosNew     -> $myMaterialAmountKilosNew";
                 echo "</pre>";   
+                */
 
                 break;
             }
@@ -4696,9 +4948,9 @@ class statisticsController extends Controller
         //
         //
         //
-         DB::rollback();
+        // DB::rollback();
 
-        // DB::commit();
+         DB::commit();
 
 
         } catch(Exception $e){

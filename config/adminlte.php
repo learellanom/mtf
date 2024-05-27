@@ -548,7 +548,14 @@ return [
                     'classes'       =>  'ml-4',
                     'can'           => 'materials.CierreGenera',
                     'icon_color'    => 'primary',
-                ],                                             
+                ],     
+                [                    
+                    'text'          => 'Liquidacion de cuenta index',
+                    'url'           => 'materialsLiquidacion',
+                    'classes'       =>  'ml-4',
+                    'can'           => 'materials.CierreGenera',
+                    'icon_color'    => 'primary',
+                ],                                         
             ]
         ],            
         ['header' => 'Operaciones',

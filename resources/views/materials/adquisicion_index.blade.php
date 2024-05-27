@@ -263,11 +263,11 @@
                                         
                                         <td>{!! $myDesTypeAdquisicion ?? '' !!}</td>
 
-                                        <td class="font-weight-bold">{!! number_format($myMaterialPrice,2,".") ?? ''!!} </td>
+                                        <td class="font-weight-bold">{!! number_format($myMaterialPrice,2) ?? ''!!} </td>
 
                                         <td>{!! number_format($myMaterialAmount,2) ?? '' !!}</td>
 
-                                        <td class="font-weight-bold">{!!  number_format($myMaterialAmountTotal) !!} 
+                                        <td class="font-weight-bold">{!!  number_format($myMaterialAmountTotal,2) !!} 
                                             <i class="fas fa-dollar-sign"></i>
                                         </td>
                                         

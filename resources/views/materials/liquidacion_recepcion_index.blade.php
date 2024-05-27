@@ -1,10 +1,10 @@
 @extends('adminlte::page')
 
-@section('title', 'Recepcion')
+@section('title', 'Liquidacion Recepcion')
 
 @section('content_header')
 
-    <h1 class="text-center text-dark font-weight-bold">{{ __('Recepcion de Material') }} <i class="fas fa-people-arrows"></i> </h1></a>
+    <h1 class="text-center text-dark font-weight-bold">{{ __('Liquidacion Recepcion de Material') }} <i class="fas fa-people-arrows"></i> </h1></a>
 
 @stop
 @php
@@ -45,7 +45,7 @@
             <div class="card-header">
                 <div class="row">
                     <p class="text-uppercase font-weight-bold col-12 col-lg-4">
-                        {{ __('Recepcion') }} del {{ $fechaDesde}} al {{ $fechaHasta}}
+                        {{ __('Liquidacion Recepcion') }} del {{ $fechaDesde}} al {{ $fechaHasta}}
                     </p>
                 </div>
                 <div class="row">

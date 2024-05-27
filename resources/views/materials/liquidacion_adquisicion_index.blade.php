@@ -1,10 +1,10 @@
 @extends('adminlte::page')
 
-@section('title', 'Recepcion')
+@section('title', 'ADQUISICIONES')
 
 @section('content_header')
 
-    <h1 class="text-center text-dark font-weight-bold">{{ __('Recepcion de Material') }} <i class="fas fa-people-arrows"></i> </h1></a>
+    <h1 class="text-center text-dark font-weight-bold">{{ __('LIQUIDACION ADQUISICION DE MATERIAL') }} <i class="fas fa-people-arrows"></i> </h1></a>
 
 @stop
 @php
@@ -31,11 +31,7 @@
 
 @section('content')
 
-@can('materials.recepcion_create')
-    <a class="btn btn-dark" title="Crear transaccion" href={{ route('materials.recepcion_create') }} style="width: 5rem">
-        <i class="fas fa-plus-circle"></i>
-    </a>
-@endcan
+
 
 <br><br>
 {{-- Compressed with style options / fill data using the plugin config --}}
@@ -45,8 +41,9 @@
             <div class="card-header">
                 <div class="row">
                     <p class="text-uppercase font-weight-bold col-12 col-lg-4">
-                        {{ __('Recepcion') }} del {{ $fechaDesde}} al {{ $fechaHasta}}
+                        {{ __('Liquidacion Adquisiciones') }} del {{ $fechaDesde}} al {{ $fechaHasta}}
                     </p>
+
                 </div>
                 <div class="row">
 
@@ -104,7 +101,6 @@
                         </x-adminlte-select2>
                     </div>
 
-
                     @if($myAdministrator == true)
                         <div class ="col-12 col-lg-2">
                             <x-adminlte-select2 id="usuario"
@@ -125,8 +121,30 @@
                             </x-adminlte-select2>
                         </div>
                     @endif
+                    {{--
+                    <div class ="col-lg-2">
+                        <x-adminlte-select2 id="coin"
+                                            name="optionsCoin"
+                                            igroup-size="sm"
+                                            label-class="text-lightblue"
+                                            data-placeholder="Moneda ..."
+                                            :config="$config1"
+                                            >
+                            <x-slot name="prependSlot">
+                                <div class="input-group-text bg-gradient-dark">
+                                    <!-- <i class="fas fa-car-side"></i> -->
+                                    <!-- <i class="fas fa-user-tie"></i> -->
+                                    <i class="fas fa-solid fa-dollar-sign"></i>                        
+                                </div>
+                                
+                            </x-slot>
 
-                    <div class ="col-12 col-lg-2">
+                            <x-adminlte-options :options="$Type_coin_balance" empty-option="Selecciona una moneda.."/>
+
+                        </x-adminlte-select2>
+                    </div>
+                    --}}
+                    <div class ="col-lg-2">
                         <x-adminlte-select2 id="type_material_id"
                                             name="type_material_id"
                                             igroup-size="sm"
@@ -159,31 +177,25 @@
                             <thead>
                                 <tr>
                                     <th style="width:1%;"   >Nro</th>
-                                    <th style="width:8%;"   >Caja</th>
-                                    <th style="width:8%;"   >Grupo</th>
-                                    <th style="width:8%;"   >Fecha</th>
-                                    <th style="width:8%;"   >Fecha Creacion</th>
+                                    <th style="width:1%;"   >Caja</th>
+                                    <th style="width:1%;"   >Grupo</th>
+                                    <th                     >Fecha <br> Transaccion</th>
+                                    <th                     >Fecha <br> Creacion</th>
                                     <th                     >Descripción</th>
                                     <th                     >Material</th>
-                                    
-                                    <th style="width:8%;"   >Cantidad</th>
-                                    <th style="width:8%;"   >Tipo Adquisicion</th>
-
+                                    <th                     >Tipo</th>
+                                    <th style="width:1%;"   >Precio/U</th>
+                                    <th style="width:1%;"   >Cantidad Kilos</th>
+                                    <th style="width:10%;"  >Monto</th>
+                                    <th style="width:1%;"   >Cantidad Gramos</th>                                    
                                     <th class="no-exportar" >Agente</th>
-                                    <th style="width:10%;"  >Tipo de Movimiento</th>
+                                    <th                     >Tipo de Movimiento</th>
 
 
-                                    @can('materials.recepcion_update')
-                                        <th style="width:1%;">Activo/Anulado</th>
-                                    @endcan
-                                    
-                                    @can('materials.recepcion_edit')
-                                        <th style="width:1%;" class="no-exportar">Editar</th>
-                                    @endcan
                                     
                                     <th style="width:1%;" class="no-exportar">Ver <i class="fas fa-search"></i></th>
-                                    
-                                    @can('materials.recepcion_audit')
+
+                                    @can('materials.adquisicion_audit')
                                         <th style="width:1%;" class="no-exportar">Historico</th>
                                     @endcan
                                     
@@ -191,91 +203,82 @@
                             </thead>
                             
                                 @foreach($movimientos as $movimiento)
+                                
                                     @php 
                                         $myDesTypeAdquisicion   = $myClass->getDesTyperAdquisicion($movimiento->material_type_adquisicion);
                                         switch($movimiento->material_type_adquisicion){
                                             case 1:
-
+                                                $myMaterialPrice        = $movimiento->material_price_kilos;
                                                 $myMaterialAmount       = $movimiento->material_amount_kilos;
+                                                $myMaterialAmountTotal  = $movimiento->material_amount_total_kilos;
                                                 break;
                                             case 2:
+                                                $myMaterialPrice        = $movimiento->material_price_gramos;
                                                 $myMaterialAmount       = $movimiento->material_amount_gramos;
+                                                $myMaterialAmountTotal  = $movimiento->material_amount_total_gramos; 
                                                 break;
                                             case 3:
+                                                $myMaterialPrice        = $movimiento->material_price_cantidad;
                                                 $myMaterialAmount       = $movimiento->material_amount_cantidad;
+                                                $myMaterialAmountTotal  = $movimiento->material_amount_total_cantidad;                                                
                                                 break;
                                             default:
+                                                $myMaterialPrice        = 0;
                                                 $myMaterialAmount       = 0;
+                                                $myMaterialAmountTotal  = 0;
 
                                         }
 
                                     @endphp
-                                    
-                                    
+
                                     <tr>
                                         <td class="font-weight-bold">{{ $movimiento->id }}</td>
                                         <td class="font-weight-bold">{{ $movimiento->wallet->name ?? "" }}</td>                                    
                                         <td class="font-weight-bold">{{ $movimiento->group->name ?? "" }}</td>
-                                        <td class="font-weight-bold" style="min-width: 80px;">{!! $movimiento->transaction_date !!}</td>
-                                        <td class="font-weight-bold" style="min-width: 80px;">{!! $movimiento->created_at !!}</td>
+                                        <td class="font-weight-bold" style="min-width: 80px;">
+                                            {!! substr($movimiento->transaction_date,0,10) !!}
+                                            <br>
+                                            {!! substr($movimiento->transaction_date,11,8) !!}
+                                        </td>
+                                        <td class="font-weight-bold" style="min-width: 80px;">
+                                            {!! substr($movimiento->created_at,0,10) !!}
+                                            <br>
+                                            {!! substr($movimiento->created_at,11,8) !!}
+                                        </td>
                                         <td class="font-weight-bold">
                                             <div style='width:60px; height:60px; overflow:hidden;'>{!!  $movimiento->description !!}</div>
                                         </td>
                                         <td >{!! $movimiento->type_material->name ?? '' !!}</td>
+                                        
+                                        <td>{!! $myDesTypeAdquisicion ?? '' !!}</td>
 
+                                        <td class="font-weight-bold">{!! number_format($myMaterialPrice,2) ?? ''!!} </td>
 
                                         <td>{!! number_format($myMaterialAmount,2) ?? '' !!}</td>
-                                        <td>{!! $myDesTypeAdquisicion ?? '' !!}</td>
+
+                                        <td class="font-weight-bold">{!!  number_format($myMaterialAmountTotal,2) !!} 
+                                            <i class="fas fa-dollar-sign"></i>
+                                        </td>
+                                        
+                                        <td>{!! number_format($movimiento->material_amount_gramos,2) ?? '' !!}</td>
+
                                         <td class="font-weight-bold">{!! $movimiento->user->name ?? '' !!}</td>
                                         <td>{!! $movimiento->type_transaction->name !!}</td>
 
-                                        @can('materials.recepcion_update_status')
-                                            <td class="text-center">
-                                                {!! Form::model($movimiento->id, ['route' => ['materials.recepcion_update_status', $movimiento->id],'method' => 'put']) !!}
 
-                                                    @if($movimiento->status == 'Activo')
-                                                        <button class="btn btn-xl text-success mx-1 shadow text-center" title="Activo">
-                                                            <i class="fa fa-lg fa-fw fas fa-check"></i><p style="display: none;">Activo</p>
-                                                        </button>
-
-                                                    @elseif($movimiento->status == 'Anulado')
-                                                        <div class="btn btn-xl text-danger mx-1 shadow text-center"">
-                                                            <i class="fa fa-lg fa-fw fas fa-times"></i><p style="display: none;">Anulado</p>
-                                                        </div>
-                                                    @endif
-                                                {!! Form::close() !!}
-                                            </td>
-                                        @endcan
-
-                                        @can('materials.recepcion_edit')
-                                            @if($movimiento->status == 'Activo')
-                                                <td class="text-center">
-                                                    <a 
-                                                        href="{{route('materials.recepcion_edit', ['id' => $movimiento->id])}}" 
-                                                        class="btn btn-xl text-dark mx-1 shadow text-center">
-                                                        <i class="fas fa-lg fa-fw fa-edit"></i>
-                                                    </a>
-                                                </td>
-                                            @elseif($movimiento->status == 'Anulado')
-                                                <td class="text-center">
-                                                    <p class="btn btn-xl text-dark mx-1 shadow text-center" disabled  onclick="noEditar()">
-                                                        <i class="fas fa-lg fa-fw fa-edit"  style="color: gray;"></i>
-                                                    </p>
-                                                </td>                                            
-                                            @endif
-                                        @endcan
 
                                         <td>
-
+                                            
                                             <a href="{{ route('transactions.show', $movimiento->id) }}"
                                             
                                                 class="btn btn-xl text-dark mx-1 shadow text-center">
                                                 <i class="fa fa-lg fa-fw fas fa-search"></i>
                                             </a>
                                         </td>
-                                        @can('materials.recepcion_audit')
+                                        @can('materials.adquisicion_audit')
                                             <td>
-                                                <a  href="{{ route('materials.recepcion_audit', $movimiento) }}"  
+                                                <a  href="{{ route('materials.adquisicion_audit', $movimiento) }}"  
+                                                
                                                     class="btn btn-xl text-dark mx-1 shadow text-center">
                                                     <i class="fa fa-lg fa-fw fas fa-solid fa-list"></i>        
                                                 </a>
@@ -325,84 +328,91 @@
         'buttons':[
             {
                 extend:  'excelHtml5',
-                exportOptions: { columns: [ 1, 2, 3,4,5,6,7,8,9 ] },
+                exportOptions: { columns: [ 1, 2, 3,4,5,6,7,8,9,11,12 ] },
                 text:    '<i class="fas fa-file-excel"></i>',
                 titleAttr: 'Exportar Excel',
                 className: 'btn btn-success',
                 "excelStyles": [
-                    {
-                        "template": ["title_medium", 'blue_gray_medium']
-                    },
+                {
+                    "template": ["title_medium", 'blue_gray_medium']
+                },
 
-                    {
-                        "cells": "2",
-                        "style": {
-                            "font": {
-                                "size": "18",
-                                "color": "FFFFFF"
-                            },
-                            "fill": {
-                                "pattern": {
-                                    "type": "solid",
-                                    "color": "002B5B"
-                                }
-                            },
+                {
+                    "cells": "2",
+                    "style": {
+                        "font": {
+                            "size": "18",
+                            "color": "FFFFFF"
+                        },
+                        "fill": {
+                            "pattern": {
+                                "type": "solid",
+                                "color": "002B5B"
+                            }
+                        },
 
-                        }
-                    },
-                    {
-                        "cells": "1",
-                        "style": {
-                            "font": {
-                                "size": "20",
-                                "color": "FFFFFF"
-                            },
-                            "fill": {
-                                "pattern": {
-                                    "size": "25",
-                                    "type": "solid",
-                                    "color": "0B2447",
-                                }
+                    }
+                },
+                {
+                    "cells": "1",
+                    "style": {
+                        "font": {
+                            "size": "20",
+                            "color": "FFFFFF"
+                        },
+                        "fill": {
+                            "pattern": {
+                                "size": "25",
+                                "type": "solid",
+                                "color": "0B2447",
                             }
                         }
-                    },
+                    }
+                },
+
                     {
                         'cells': "sC",
                         'template': "date_long",
                     },
-                    {
-                        "cells": "A",
-                        "width": "25",
-                    },                    
-                    {
-                        "cells": "B",
-                        "width": "25",
-                    },
-                    {
-                        "cells": "D",
-                        "width": "20",
-                    },                    
-                    {
-                        "cells": "E",
-                        "width": "25",
-                    },
+
                     {
                         "cells": "F",
                         "width": "40",
-                    },   
+                    },
+                    {
+                        "cells": "B",
+                        "width": "12",
+                    },
+                    {
+                        "cells": "D",
+                        "width": "17.5",
+                    },
+                    {
+                        "cells": "I",
+                        "width": "19.15",
+                    },
+                    {
+                        "cells": "J",
+                        "width": "35",
+                    },
+                    {
+                        "cells": "H",
+                        "width": "19.15",
+
+                    },
                     {
                         "cells": "G",
                         "width": "15",
                     },
                     {
-                        "cells": "H",
-                        "width": "19.15",
+                        "cells": "K",
+                        "width": "32",
                     },
                     {
-                        "cells": "I",
-                        "width": "30",
+                        "cells": "B",
+                        "width": "11",
                     }
-                ]
+            ]
 
             },
             {
@@ -457,16 +467,20 @@
     });
     
     const myUsuario = {{ $myUser }};
-    BuscaElemento('usuario', myUsuario);
+    BuscaElemento('usuario',myUsuario);
+
+    // BuscaUsuario();
+    
+    // BuscaTypeMaterial(myTypeMaterial);    
 
     const myTypeMaterial = {!! $myTypeMaterial !!};
-    BuscaElemento('type_material_id', myTypeMaterial);
+    BuscaElemento('type_material_id',myTypeMaterial);
 
     const myWallet = {!! $myWallet !!};
-    BuscaElemento('wallet', myWallet);
+    BuscaElemento('wallet',myWallet);
 
     const myGroup = {!! $myGroup !!};
-    BuscaElemento('group', myGroup);
+    BuscaElemento('group',myGroup);
 
     $(() => {
 
@@ -486,7 +500,7 @@
             document.querySelector('.select2-search__field').focus();
         });
 
-        
+
 		$('#type_material_id').on('change', function (){
             theRoute();   
         })            
@@ -501,8 +515,9 @@
     function theRoute(user = 0, fechaDesde = 0, fechaHasta = 0, coin = 0, material = 0){
 
         user        = $('#usuario').val() == "" ? 0 : $('#usuario').val();
-        wallet      = $('#wallet').val() == ""  ? 0 : $('#wallet').val();
-        group       = $('#group').val() == ""   ? 0 : $('#group').val();
+        
+        let wallet  = $('#wallet').val() == ""  ? 0 : $('#wallet').val();
+        let group   = $('#group').val() == ""   ? 0 : $('#group').val();
 
         fechaDesde =  ($('#drCustomRanges').val()).substr(6,4) +
                     '-' +
@@ -517,6 +532,7 @@
                     '-' +
                     ($('#drCustomRanges').val()).substr(13,2)
                     ;
+
         type_material = ($('#type_material_id').val()) ? $('#type_material_id').val() : 0;
 
 
@@ -524,18 +540,17 @@
         let Route ="";
 
         myRoute = "";
-        myRoute = "{{ route('materials.recepcion_index', ['user' => 'user2', 'fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2', 'type_material' => 'type_material2', 'group' => 'group2', 'wallet' => 'wallet2']) }}"; 
+        myRoute = "{{ route('materials.adquisicion_index', ['user' => 'user2', 'fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2', 'wallet' => 'wallet2', 'group' => 'group2', 'type_material' => 'type_material2']) }}"; 
         // console.log('myRoute ->' + myRoute);
         myRoute = myRoute.replace('user2',user);
-        myRoute = myRoute.replace('wallet2',wallet);
-        myRoute = myRoute.replace('group2',group);
         myRoute = myRoute.replace('fechaDesde2',fechaDesde);
         myRoute = myRoute.replace('fechaHasta2',fechaHasta);
+        myRoute = myRoute.replace('wallet2',wallet);
+        myRoute = myRoute.replace('group2',group);
         myRoute = myRoute.replace('type_material2',type_material);
         myRoute = myRoute.replaceAll('amp;','');
 
         // alert(myRoute);
-        
 
         // alert('la ruta ->' + myRoute);
         location.href = myRoute;
@@ -551,29 +566,6 @@
 
     };
 
-    function BuscaUsuario(){
-
-
-
-        if ({{ $myUser }} == "") {
-            return;
-        }
-        if ({{ $myUser }} == 0) {
-            return;
-        }        
-        const miUsuario = {{ $myUser }};
-        
-        $('#usuario').each( function(index, element){ 
-            $(this).children("option").each(function(){
-                
-                if ($(this).val() === miUsuario.toString()){
-                
-                    $("#usuario option[value="+ miUsuario +"]").attr("selected",true);              
-                    
-                }
-            });
-        });
-    }
     function noEditar(){
         Swal.fire({
                 position: 'center',
@@ -582,27 +574,6 @@
                 showConfirmButton: true
         }
         );          
-    }
-
-
-
-    function BuscaTypeMaterial(myTypeMaterial){
-        // alert("BuscaTypeMaterial - myTypeMaterial -> " + myTypeMaterial);
-
-        let mySelect = "type_material_id";
-        let myValue  = myTypeMaterial;
-
-        $('#' + mySelect).each( function(index, element){
-            // alert ("BuscaMaterial -> " + $(this).val() + " text -> " + $(this).text()+ " y con index -> " + $(this).prop('selectedIndex'));
-            $(this).children("option").each(function(){
-                if ($(this).val() === myValue.toString()){
-                    // alert('Busca Material - encontro');
-                    $("#" + mySelect + " option[value="+ myValue +"]").attr("selected",true);
-                }
-                //alert("BuscaGrupoaqui ->  the val " + $(this).val() + " text -> " + $(this).text());
-            });
-        });
-        //
     }
 
 
