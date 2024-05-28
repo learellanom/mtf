@@ -31,11 +31,7 @@
 
 @section('content')
 
-@can('materials.recepcion_create')
-    <a class="btn btn-dark" title="Crear transaccion" href={{ route('materials.recepcion_create') }} style="width: 5rem">
-        <i class="fas fa-plus-circle"></i>
-    </a>
-@endcan
+
 
 <br><br>
 {{-- Compressed with style options / fill data using the plugin config --}}
@@ -45,11 +41,16 @@
             <div class="card-header">
                 <div class="row">
                     <p class="text-uppercase font-weight-bold col-12 col-lg-4">
-                        {{ __('Liquidacion Recepcion') }} del {{ $fechaDesde}} al {{ $fechaHasta}}
+                        Liquidacion Recepcion
                     </p>
+                    <p class="text-uppercase font-weight-bold col-12 col-lg-4">
+                        Numero Liquidacion : {{ $myLiquidationNumber ?? ''}}
+                        - Fecha Liquidacion : {{ $myLiquidationDate ?? ''}}
+
+                    </p>                    
                 </div>
                 <div class="row">
-
+                    {{--
                     <div class ="col-12 col-lg-2 float-right" >
                         <x-adminlte-date-range
                             id="drCustomRanges"
@@ -64,7 +65,7 @@
                             </x-slot>
                         </x-adminlte-date-range>
                     </div>
-
+                    --}}
 
                     <div class ="col-12 col-sm-2">
                         <x-adminlte-select2 id="wallet"
@@ -73,6 +74,7 @@
                                             label-class="text-lightblue"
                                             data-placeholder="Wallet ..."
                                             :config="$config1"
+                                            disabled
                                             >
                             <x-slot name="prependSlot">
                                 <div class="input-group-text bg-gradient-dark">
@@ -92,6 +94,7 @@
                                             label-class="text-lightblue"
                                             data-placeholder="Grupo ..."
                                             :config="$config2"
+                                            disabled
                                             >
                             <x-slot name="prependSlot">
                                 <div class="input-group-text bg-gradient-dark">
@@ -104,7 +107,7 @@
                         </x-adminlte-select2>
                     </div>
 
-
+                    {{--
                     @if($myAdministrator == true)
                         <div class ="col-12 col-lg-2">
                             <x-adminlte-select2 id="usuario"
@@ -125,7 +128,9 @@
                             </x-adminlte-select2>
                         </div>
                     @endif
+                    --}}
 
+                    {{--
                     <div class ="col-12 col-lg-2">
                         <x-adminlte-select2 id="type_material_id"
                                             name="type_material_id"
@@ -147,6 +152,7 @@
 
                         </x-adminlte-select2>
                     </div>
+                    --}}
 
                 </div>
 
@@ -158,6 +164,7 @@
                         <table class="table table-bordered table-responsive" id="table" style="width:100%;">
                             <thead>
                                 <tr>
+                                    <th style="width:1%;"   >Nro Liquidacion</th> 
                                     <th style="width:1%;"   >Nro</th>
                                     <th style="width:8%;"   >Caja</th>
                                     <th style="width:8%;"   >Grupo</th>
@@ -172,14 +179,6 @@
                                     <th class="no-exportar" >Agente</th>
                                     <th style="width:10%;"  >Tipo de Movimiento</th>
 
-
-                                    @can('materials.recepcion_update')
-                                        <th style="width:1%;">Activo/Anulado</th>
-                                    @endcan
-                                    
-                                    @can('materials.recepcion_edit')
-                                        <th style="width:1%;" class="no-exportar">Editar</th>
-                                    @endcan
                                     
                                     <th style="width:1%;" class="no-exportar">Ver <i class="fas fa-search"></i></th>
                                     
@@ -213,6 +212,7 @@
                                     
                                     
                                     <tr>
+                                        <td class="font-weight-bold">{{ $movimiento->liquidation_number }}</td>
                                         <td class="font-weight-bold">{{ $movimiento->id }}</td>
                                         <td class="font-weight-bold">{{ $movimiento->wallet->name ?? "" }}</td>                                    
                                         <td class="font-weight-bold">{{ $movimiento->group->name ?? "" }}</td>
@@ -228,42 +228,6 @@
                                         <td>{!! $myDesTypeAdquisicion ?? '' !!}</td>
                                         <td class="font-weight-bold">{!! $movimiento->user->name ?? '' !!}</td>
                                         <td>{!! $movimiento->type_transaction->name !!}</td>
-
-                                        @can('materials.recepcion_update_status')
-                                            <td class="text-center">
-                                                {!! Form::model($movimiento->id, ['route' => ['materials.recepcion_update_status', $movimiento->id],'method' => 'put']) !!}
-
-                                                    @if($movimiento->status == 'Activo')
-                                                        <button class="btn btn-xl text-success mx-1 shadow text-center" title="Activo">
-                                                            <i class="fa fa-lg fa-fw fas fa-check"></i><p style="display: none;">Activo</p>
-                                                        </button>
-
-                                                    @elseif($movimiento->status == 'Anulado')
-                                                        <div class="btn btn-xl text-danger mx-1 shadow text-center"">
-                                                            <i class="fa fa-lg fa-fw fas fa-times"></i><p style="display: none;">Anulado</p>
-                                                        </div>
-                                                    @endif
-                                                {!! Form::close() !!}
-                                            </td>
-                                        @endcan
-
-                                        @can('materials.recepcion_edit')
-                                            @if($movimiento->status == 'Activo')
-                                                <td class="text-center">
-                                                    <a 
-                                                        href="{{route('materials.recepcion_edit', ['id' => $movimiento->id])}}" 
-                                                        class="btn btn-xl text-dark mx-1 shadow text-center">
-                                                        <i class="fas fa-lg fa-fw fa-edit"></i>
-                                                    </a>
-                                                </td>
-                                            @elseif($movimiento->status == 'Anulado')
-                                                <td class="text-center">
-                                                    <p class="btn btn-xl text-dark mx-1 shadow text-center" disabled  onclick="noEditar()">
-                                                        <i class="fas fa-lg fa-fw fa-edit"  style="color: gray;"></i>
-                                                    </p>
-                                                </td>                                            
-                                            @endif
-                                        @endcan
 
                                         <td>
 

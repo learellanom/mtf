@@ -363,6 +363,33 @@
 
                 </div>
 
+
+                <div class="form-row">
+                                            
+                    <div class="col-xl-3 col-sm-12">
+                        <div class="info-box bg-light">
+                            <div class="info-box-content">
+                                <span class="info-box-text text-center text-muted">Nro Liquidacion <i class="fas fa-text-width"></i></span>
+                                <span class="info-box-number text-center text-muted mb-0 text-uppercase">{{ $transactions->liquidation_number ?? '' }}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-3 col-sm-12">
+                        <div class="info-box bg-light">
+                            <div class="info-box-content">
+                                <span class="info-box-text text-center text-muted">Fecha Liquidacion<i class="fas fa-text-width"></i></span>
+                                <span class="info-box-number text-center text-muted mb-0 text-uppercase">{{ $transactions->liquidation_date ?? '' }}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <br>
+                <br>
+                <br>
+
             </div>
 
         </div>

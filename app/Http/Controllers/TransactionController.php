@@ -388,6 +388,10 @@ class TransactionController extends Controller
         echo "<br>" . "myUsuarioHasta       " . $myUsuarioHasta;
         die();
         */
+
+        $liquidation        = Transaction::where('liquidation_number', $myLiquidationNumber)->first();
+        $myLiquidationDate  = $liquidation->liquidation_date;
+
         $movimientos = Transaction::where('type_transaction_id', '=', $myTypeTransaction)
         ->where('status','Liquidado')
         ->where('liquidation_number', $myLiquidationNumber)
@@ -414,6 +418,9 @@ class TransactionController extends Controller
         $Type_material      = Type_material::pluck('name', 'id')->toArray();
         
 
+        
+        $parametros['myLiquidationNumber']  = $myLiquidationNumber;
+        $parametros['myLiquidationDate']    = $myLiquidationDate;
 
         $parametros['wallet']               = $wallet;
         $parametros['group']                = $group;
@@ -702,6 +709,9 @@ class TransactionController extends Controller
 
         $myLiquidationNumber = ($request->liquidation_number) ? $request->liquidation_number : 0;
 
+        $liquidation        = Transaction::where('liquidation_number', $myLiquidationNumber)->first();
+        $myLiquidationDate  = $liquidation->liquidation_date;
+
 
 
         /*
@@ -746,20 +756,23 @@ class TransactionController extends Controller
         
         // \Log::info('leam - llega el material ->' . $myTypeMaterial);
 
-        $parametros['wallet']               = $wallet;
-        $parametros['group']                = $group;
+        $parametros['myLiquidationNumber']      = $myLiquidationNumber;
+        $parametros['myLiquidationDate']        = $myLiquidationDate;
 
-        $parametros['myWallet']             = $myWallet;
-        $parametros['myGroup']              = $myGroup;
+        $parametros['wallet']                   = $wallet;
+        $parametros['group']                    = $group;
 
-        $parametros['fechaDesde']           = $myFechaDesde2;
-        $parametros['fechaHasta']           = $myFechaHasta2;
-        $parametros['movimientos']          = $movimientos;
-        $parametros['myUser']               = $myUser;
-        $parametros['user']                 = $user;
+        $parametros['myWallet']                 = $myWallet;
+        $parametros['myGroup']                  = $myGroup;
 
-        $parametros['myTypeMaterial']       = $myTypeMaterial;
-        $parametros['Type_material']        = $Type_material;
+        $parametros['fechaDesde']               = $myFechaDesde2;
+        $parametros['fechaHasta']               = $myFechaHasta2;
+        $parametros['movimientos']              = $movimientos;
+        $parametros['myUser']                   = $myUser;
+        $parametros['user']                     = $user;
+
+        $parametros['myTypeMaterial']           = $myTypeMaterial;
+        $parametros['Type_material']            = $Type_material;
 
         // dd($transferencia);
 

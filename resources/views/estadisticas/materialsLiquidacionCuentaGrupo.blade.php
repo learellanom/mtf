@@ -304,8 +304,19 @@ $config4 = [
                     $('#myModal2').modal('show');
                 }
                 // $('#myBtnAnular').attr('disabled',true);
+
+
             }else{
-              console.log('no genero comisiones ->');
+
+                $('#myModal').modal('hide');
+
+                Swal.fire({
+                    position: 'left',
+                    type: 'error',
+                    title: 'No se genero el Cierre de la cuenta correctamente',
+                    showConfirmButton: true
+                });
+
             }
 
         }).catch(error => console.log( 'Error en Fetch -> ' + error));

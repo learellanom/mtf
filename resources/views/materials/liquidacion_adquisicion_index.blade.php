@@ -41,12 +41,17 @@
             <div class="card-header">
                 <div class="row">
                     <p class="text-uppercase font-weight-bold col-12 col-lg-4">
-                        {{ __('Liquidacion Adquisiciones') }} del {{ $fechaDesde}} al {{ $fechaHasta}}
+                        Liquidacion Adquisiciones
+                        {{-- {{ __('Liquidacion Adquisiciones') }} del {{ $fechaDesde}} al {{ $fechaHasta}} --}}
                     </p>
+                    <p class="text-uppercase font-weight-bold col-12 col-lg-4">
+                        Numero Liquidacion : {{ $myLiquidationNumber ?? ''}}
+                        - Fecha Liquidacion : {{ $myLiquidationDate ?? ''}}
 
+                    </p>
                 </div>
                 <div class="row">
-
+                    {{--
                     <div class ="col-12 col-lg-2 float-right" >
                         <x-adminlte-date-range
                             id="drCustomRanges"
@@ -61,7 +66,7 @@
                             </x-slot>
                         </x-adminlte-date-range>
                     </div>
-
+                    --}}
 
                     <div class ="col-12 col-sm-2">
                         <x-adminlte-select2 id="wallet"
@@ -70,6 +75,7 @@
                                             label-class="text-lightblue"
                                             data-placeholder="Wallet ..."
                                             :config="$config1"
+                                            disabled
                                             >
                             <x-slot name="prependSlot">
                                 <div class="input-group-text bg-gradient-dark">
@@ -89,6 +95,7 @@
                                             label-class="text-lightblue"
                                             data-placeholder="Grupo ..."
                                             :config="$config2"
+                                            disabled
                                             >
                             <x-slot name="prependSlot">
                                 <div class="input-group-text bg-gradient-dark">
@@ -101,6 +108,7 @@
                         </x-adminlte-select2>
                     </div>
 
+                    {{--
                     @if($myAdministrator == true)
                         <div class ="col-12 col-lg-2">
                             <x-adminlte-select2 id="usuario"
@@ -121,6 +129,8 @@
                             </x-adminlte-select2>
                         </div>
                     @endif
+                    --}}
+
                     {{--
                     <div class ="col-lg-2">
                         <x-adminlte-select2 id="coin"
@@ -144,6 +154,8 @@
                         </x-adminlte-select2>
                     </div>
                     --}}
+
+                    {{--
                     <div class ="col-lg-2">
                         <x-adminlte-select2 id="type_material_id"
                                             name="type_material_id"
@@ -165,6 +177,8 @@
 
                         </x-adminlte-select2>
                     </div>
+                    --}}
+
 
                 </div>
 
@@ -176,6 +190,7 @@
                         <table class="table table-bordered table-responsive" id="table" style="width:100%;">
                             <thead>
                                 <tr>
+                                    <th style="width:1%;"   >Nro Liquidacion</th>                                    
                                     <th style="width:1%;"   >Nro</th>
                                     <th style="width:1%;"   >Caja</th>
                                     <th style="width:1%;"   >Grupo</th>
@@ -232,6 +247,7 @@
                                     @endphp
 
                                     <tr>
+                                        <td class="font-weight-bold">{{ $movimiento->liquidation_number }}</td>
                                         <td class="font-weight-bold">{{ $movimiento->id }}</td>
                                         <td class="font-weight-bold">{{ $movimiento->wallet->name ?? "" }}</td>                                    
                                         <td class="font-weight-bold">{{ $movimiento->group->name ?? "" }}</td>
@@ -278,7 +294,7 @@
                                         @can('materials.adquisicion_audit')
                                             <td>
                                                 <a  href="{{ route('materials.adquisicion_audit', $movimiento) }}"  
-                                                
+
                                                     class="btn btn-xl text-dark mx-1 shadow text-center">
                                                     <i class="fa fa-lg fa-fw fas fa-solid fa-list"></i>        
                                                 </a>

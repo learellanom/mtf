@@ -4552,6 +4552,8 @@ class statisticsController extends Controller
 
     function materialsLiquidacionCuentaGrupoProcess(Request $request){
 
+        $indLog = 0;
+
         $myWallet      = 0; 
         $myWalletDesde = 00000;
         $myWalletHasta = 99999;
@@ -4660,12 +4662,12 @@ class statisticsController extends Controller
         // dd($recepciones);
         // dd($myRecepcionMaterialAmountGramos);
 
-
-        echo "<br>" . "recepciones total";
-        echo "<pre>";
-        print_r($recepciones);
-        echo "</pre>";
-
+        if ($indLog ==1){
+            echo "<br>" . "recepciones total";
+            echo "<pre>";
+            print_r($recepciones);
+            echo "</pre>";
+        }
 
          $myQuery =
          "
@@ -4694,7 +4696,7 @@ class statisticsController extends Controller
                  0                                                  as RecepcionMaterialPriceGramos,
                  0                                                  as RecepcionMaterialAmountGramos,
                  0                                                  as RecepcionMaterialAmountTotalGramos,
-                 mtf.transactions.liquidation_date                  as LiquidationDate,
+                 mtf.transactions.liquidation_date                  as LiquidationDate, 
                  mtf.transactions.liquidation_number                as LiquidationNumber
              from
                          mtf.transactions
@@ -4721,12 +4723,12 @@ class statisticsController extends Controller
         // dd($myQuery);
         // dd($adquisiciones);
 
-
-        echo "<br>" . "adquisiciones";
-        echo "<pre>";
-        print_r($adquisiciones);
-        echo "</pre>";
-
+        if ($indLog == 1){
+            echo "<br>" . "adquisiciones";
+            echo "<pre>";
+            print_r($adquisiciones);
+            echo "</pre>";
+        }
 
 
         $myAmount                   = 0;
@@ -4741,11 +4743,13 @@ class statisticsController extends Controller
 
             $myAmount += $myAdquisicion->AdquisicionMaterialAmountGramos;
 
-            echo "<br>";
-            echo "myAmount -> " . number_format($myAmount,2);
+            if ($indLog == 1){
+                echo "<br>";
+                echo "myAmount -> " . number_format($myAmount,2);
 
-            echo "---------- myRecepcionMaterialAmountGramos -> " . number_format($myRecepcionMaterialAmountGramos,2);
-            echo "<br>";
+                echo "---------- myRecepcionMaterialAmountGramos -> " . number_format($myRecepcionMaterialAmountGramos,2);
+                echo "<br>";
+            }
 
             if ($myAmount <= $myRecepcionMaterialAmountGramos){
 
@@ -4783,6 +4787,7 @@ class statisticsController extends Controller
                 $myAdquisicionToCreate[] = $myAdquisicion2;
 
                 /*
+                if ($indLog ==1){
                 echo "<br>" . "myAdquisicionToCreate";
                 echo "<pre>";
                 echo " myMaterialAmmountGramosNew   -> $myMaterialAmmountGramosNew";
@@ -4795,6 +4800,7 @@ class statisticsController extends Controller
                 echo " myMaterialAmmountGramosNew   -> $myMaterialAmmountGramosNew";
                 echo " myMaterialAmountKilosNew     -> $myMaterialAmountKilosNew";
                 echo "</pre>";   
+                }
                 */
 
                 break;
@@ -4804,31 +4810,29 @@ class statisticsController extends Controller
 
         $myAdquisicionToCreate = (object) $myAdquisicionToCreate[0];
 
-        echo "<br>" . "myAdquisicionToLiquidate";
-        echo "<pre>";
-        print_r($myAdquisicionToLiquidate);
-        echo "</pre>";
+        if ($indLog ==1){
+            echo "<br>" . "myAdquisicionToLiquidate";
+            echo "<pre>";
+            print_r($myAdquisicionToLiquidate);
+            echo "</pre>";
 
-        echo "<br>";
-        echo "<br>";
-        echo "<br>" . "crear";
-        echo "<pre>";
-        print_r($myAdquisicionToCreate);
-        echo "</pre>";
-        echo "<br>";
+            echo "<br>";
+            echo "<br>";
+            echo "<br>" . "crear";
+            echo "<pre>";
+            print_r($myAdquisicionToCreate);
+            echo "</pre>";
+            echo "<br>";
 
+            echo "<br>";
+            echo "<br>";
+            echo "<br>" . "IdToLiquidate";
+            echo "<pre>";
+            print_r($myIdToLiquidate);
+            echo "</pre>";
+            echo "<br>";
 
-
-
-        echo "<br>";
-        echo "<br>";
-        echo "<br>" . "IdToLiquidate";
-        echo "<pre>";
-        print_r($myIdToLiquidate);
-        echo "</pre>";
-        echo "<br>";
-
-
+        }
 
 
 
@@ -4885,15 +4889,15 @@ class statisticsController extends Controller
                 and id  in ($myIdToLiquidateString)
         ";
         
-
-        echo "<br>";
-        echo "<br>";
-        echo "<br>" . "myQuery";
-        echo "<pre>";
-        echo $myQuery;
-        echo "</pre>";
-        echo "<br>";
-
+        if ($indLog ==1){
+            echo "<br>";
+            echo "<br>";
+            echo "<br>" . "myQuery";
+            echo "<pre>";
+            echo $myQuery;
+            echo "</pre>";
+            echo "<br>";
+        }
 
          $liquidation = DB::update($myQuery);
 
@@ -4925,32 +4929,33 @@ class statisticsController extends Controller
 
         $transactions_new->save();
         
+        if ($indLog ==1){
+            echo "<br>" . "new transactions ********************************************";
+            echo "<pre>";
+            echo "<br> myAdquisicionToCreate->Id                        -> $myAdquisicionToCreate->TypeTransactionId";
+            echo "<br> myAdquisicionToCreate->GroupId                   -> $myAdquisicionToCreate->GroupId";
+            echo "<br> myAdquisicionToCreate->WalletId                  -> $myAdquisicionToCreate->WalletId";
+            echo "<br> myAdquisicionToCreate->TransactionDate           -> $myAdquisicionToCreate->TransactionDate";
+            echo "<br> myAdquisicionToCreate->TypeMaterialId            -> $myAdquisicionToCreate->TypeMaterialId";
+            echo "<br> myAdquisicionToCreate->MaterialTypeAdquisicion   -> $myAdquisicionToCreate->MaterialTypeAdquisicion";
+            echo "<br> myAdquisicionToCreate->AdquisicionMaterialAmountKilos -> $myAdquisicionToCreate->AdquisicionMaterialAmountKilos";
+            echo "<br> myAdquisicionToCreate->AdquisicionMaterialAmountGramos -> $myAdquisicionToCreate->AdquisicionMaterialAmountGramos";
+            echo "<br> myAdquisicionToCreate->AdquisicionMaterialAmountTotalKilos -> $myAdquisicionToCreate->AdquisicionMaterialAmountTotalKilos";
+            echo "<br> myAdquisicionToCreate->AdquisicionMaterialAmountTotalGramos -> $myAdquisicionToCreate->AdquisicionMaterialAmountTotalGramos";
+            echo "<br> myAdquisicionToCreate->AdquisicionMaterialPriceKilos -> $myAdquisicionToCreate->AdquisicionMaterialPriceKilos";
+            echo "<br> myAdquisicionToCreate->AdquisicionMaterialPriceGramos -> $myAdquisicionToCreate->AdquisicionMaterialPriceGramos";
 
-        echo "<br>" . "new transactions ********************************************";
-        echo "<pre>";
-        echo "<br> myAdquisicionToCreate->Id                        -> $myAdquisicionToCreate->TypeTransactionId";
-        echo "<br> myAdquisicionToCreate->GroupId                   -> $myAdquisicionToCreate->GroupId";
-        echo "<br> myAdquisicionToCreate->WalletId                  -> $myAdquisicionToCreate->WalletId";
-        echo "<br> myAdquisicionToCreate->TransactionDate           -> $myAdquisicionToCreate->TransactionDate";
-        echo "<br> myAdquisicionToCreate->TypeMaterialId            -> $myAdquisicionToCreate->TypeMaterialId";
-        echo "<br> myAdquisicionToCreate->MaterialTypeAdquisicion   -> $myAdquisicionToCreate->MaterialTypeAdquisicion";
-        echo "<br> myAdquisicionToCreate->AdquisicionMaterialAmountKilos -> $myAdquisicionToCreate->AdquisicionMaterialAmountKilos";
-        echo "<br> myAdquisicionToCreate->AdquisicionMaterialAmountGramos -> $myAdquisicionToCreate->AdquisicionMaterialAmountGramos";
-        echo "<br> myAdquisicionToCreate->AdquisicionMaterialAmountTotalKilos -> $myAdquisicionToCreate->AdquisicionMaterialAmountTotalKilos";
-        echo "<br> myAdquisicionToCreate->AdquisicionMaterialAmountTotalGramos -> $myAdquisicionToCreate->AdquisicionMaterialAmountTotalGramos";
-        echo "<br> myAdquisicionToCreate->AdquisicionMaterialPriceKilos -> $myAdquisicionToCreate->AdquisicionMaterialPriceKilos";
-        echo "<br> myAdquisicionToCreate->AdquisicionMaterialPriceGramos -> $myAdquisicionToCreate->AdquisicionMaterialPriceGramos";
+            
 
-        
-
-        echo "</pre>";
-        echo "<br>";
+            echo "</pre>";
+            echo "<br>";
+        }
         //
         //
         //
         // DB::rollback();
 
-         DB::commit();
+            DB::commit();
 
 
         } catch(Exception $e){
@@ -4960,8 +4965,9 @@ class statisticsController extends Controller
         //
         // fin transaccion
         //
-         die('fin');
-
+        if ($indLog ==1){
+            die('fin');
+        }
 
 
         return response()->json(['success' => true, 'result' => 'Procesado', 'message' => 'Liquidacion de Cuenta Grupo Materiales procesada con exito'], 200);

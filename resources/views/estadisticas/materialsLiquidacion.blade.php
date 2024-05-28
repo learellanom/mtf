@@ -87,10 +87,10 @@ $config4 = [
 
 
 @can('materials.adquisicion_create')
-                <a class="btn btn-dark" title="Crear transaccion" href={{ route('materials.adquisicion_create') }} style="width: 5rem">
-                    <i class="fas fa-plus-circle"></i>
-                </a>
-            @endcan
+    <a class="btn btn-dark" title="Crear transaccion" href={{ route('materialsLiquidacionCuentaGrupo') }} style="width: 5rem">
+        <i class="fas fa-plus-circle"></i>
+    </a>
+@endcan
 
 <br>
 <br>
@@ -101,90 +101,86 @@ $config4 = [
     <div class="col-md-12">
         <div class="card mb-4">
 
-
-
-
             <div class="card-header">
                 <h3 class="card-title text-uppercase font-weight-bold mb-3">{{ __('Estadisticas| Materiales liquidacion de cuentas') }}</h3>
                 
                 <div class="container-left">
-    <div class="row col-12 d-flex">
+                    <div class="row col-12 d-flex">
 
-        <div class ="col-12 col-sm-2">
-            <x-adminlte-select2 id="wallet"
-                                name="optionsCliente"
-                                igroup-size="sm"
-                                label-class="text-lightblue"
-                                data-placeholder="Wallet ..."
-                                :config="$config1"
-                                >
-                <x-slot name="prependSlot">
-                    <div class="input-group-text bg-gradient-dark">
-                        <!-- <i class="fas fa-car-side"></i> -->
-                        <i class="fas fa-box"></i>
+                        <div class ="col-12 col-sm-2">
+                            <x-adminlte-select2 id="wallet"
+                                                name="optionsCliente"
+                                                igroup-size="sm"
+                                                label-class="text-lightblue"
+                                                data-placeholder="Wallet ..."
+                                                :config="$config1"
+                                                >
+                                <x-slot name="prependSlot">
+                                    <div class="input-group-text bg-gradient-dark">
+                                        <!-- <i class="fas fa-car-side"></i> -->
+                                        <i class="fas fa-box"></i>
+                                    </div>
+                                </x-slot>
+
+                                <x-adminlte-options :options="$wallet" empty-option="Selecciona un Wallet.."/>
+                            </x-adminlte-select2>
+                        </div>
+
+                        <div class ="col-12 col-sm-2">
+                            <x-adminlte-select2 id="group"
+                                                name="optionsGroup"
+                                                igroup-size="sm"
+                                                label-class="text-lightblue"
+                                                data-placeholder="Grupo ..."
+                                                :config="$config2"
+                                                >
+                                <x-slot name="prependSlot">
+                                    <div class="input-group-text bg-gradient-dark">
+                                        <!-- <i class="fas fa-car-side"></i> -->
+                                        <i class="fas fa-user-tie"></i>
+                                    </div>
+                                </x-slot>
+
+                                <x-adminlte-options :options="$group" empty-option="Selecciona un Grupo.."/>
+                            </x-adminlte-select2>
+                        </div>
+
+
+                        <div class ="col-12 col-sm-2">
+                            <x-adminlte-date-range name="drCustomRanges" enable-default-ranges="Last 30 Days" style="height: 30px;" :config="$config3">
+                                <x-slot name="prependSlot">
+                                    <div class="input-group-text bg-gradient-dark">
+                                        <i class="fas fa-calendar-alt"></i>
+                                    </div>
+                                </x-slot>
+                            </x-adminlte-date-range>
+                        </div>
+
+                        <div class ="col-lg-2">
+                            <x-adminlte-select2 id="type_material_id"
+                                                name="type_material_id"
+                                                igroup-size="sm"
+                                                label-class="text-lightblue"
+                                                data-placeholder="Material ..."
+                                                :config="$config1"
+                                                >
+                                <x-slot name="prependSlot">
+                                    <div class="input-group-text bg-gradient-dark">
+                                        <!-- <i class="fas fa-car-side"></i> -->
+                                        <!-- <i class="fas fa-user-tie"></i> -->
+                                        <i class="fas fa-solid fa-dollar-sign"></i>                        
+                                    </div>
+                                    
+                                </x-slot>
+
+                                <x-adminlte-options :options="$type_material" empty-option="Selecciona un material.."/>
+
+                            </x-adminlte-select2>
+                            </div>
+
                     </div>
-                </x-slot>
 
-                <x-adminlte-options :options="$wallet" empty-option="Selecciona un Wallet.."/>
-            </x-adminlte-select2>
-        </div>
-
-        <div class ="col-12 col-sm-2">
-            <x-adminlte-select2 id="group"
-                                name="optionsGroup"
-                                igroup-size="sm"
-                                label-class="text-lightblue"
-                                data-placeholder="Grupo ..."
-                                :config="$config2"
-                                >
-                <x-slot name="prependSlot">
-                    <div class="input-group-text bg-gradient-dark">
-                        <!-- <i class="fas fa-car-side"></i> -->
-                        <i class="fas fa-user-tie"></i>
-                    </div>
-                </x-slot>
-
-                <x-adminlte-options :options="$group" empty-option="Selecciona un Grupo.."/>
-            </x-adminlte-select2>
-        </div>
-
-
-        <div class ="col-12 col-sm-2">
-            <x-adminlte-date-range name="drCustomRanges" enable-default-ranges="Last 30 Days" style="height: 30px;" :config="$config3">
-                <x-slot name="prependSlot">
-                    <div class="input-group-text bg-gradient-dark">
-                        <i class="fas fa-calendar-alt"></i>
-                    </div>
-                </x-slot>
-            </x-adminlte-date-range>
-        </div>
-
-        <div class ="col-lg-2">
-            <x-adminlte-select2 id="type_material_id"
-                                name="type_material_id"
-                                igroup-size="sm"
-                                label-class="text-lightblue"
-                                data-placeholder="Material ..."
-                                :config="$config1"
-                                >
-                <x-slot name="prependSlot">
-                    <div class="input-group-text bg-gradient-dark">
-                        <!-- <i class="fas fa-car-side"></i> -->
-                        <!-- <i class="fas fa-user-tie"></i> -->
-                        <i class="fas fa-solid fa-dollar-sign"></i>                        
-                    </div>
-                    
-                </x-slot>
-
-                <x-adminlte-options :options="$type_material" empty-option="Selecciona un material.."/>
-
-            </x-adminlte-select2>
-            </div>
-
-    </div>
-
-</div>
-
+                </div>
 
             </div>
 

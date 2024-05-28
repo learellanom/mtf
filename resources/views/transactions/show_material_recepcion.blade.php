@@ -170,38 +170,33 @@
 
             <hr>                        
             <div class="row">
-                <div class="col-12">
-
-                <div class="row">
-
-
-                    @php 
-                        $myDate = date_create($transactions->transaction_date);
-                    @endphp 
-                    
-                    <div class="col-12 col-sm-4 col-xl-3">
-                        <div class="info-box bg-light">
-                            <div class="info-box-content">
-                                <span class="info-box-text text-center text-muted">Fecha Transaccion <i class="fas fa-calendar"></i></span>
-                                <span class="info-box-number text-center text-muted mb-0 text-danger">{{ date_format($myDate,"d/m/Y H:i:s") }}</span>
-                            </div>
-                        </div>
-                    </div>         
-
-
-                    <div class="col-12 col-sm-4 col-xl-3">
-                    </div>
-
-                    <div class="col-12 col-sm-4 col-xl-3">
-                        <div class="info-box bg-light">
-                            <div class="info-box-content">
-                                <span class="info-box-text text-center text-muted">Agente <i class="fas fa-user"></i></span>
-                                <span class="info-box-number text-center text-muted mb-0 text-uppercase">{{ $transactions->user->name }}</span>
-                            </div>
+                
+                @php 
+                    $myDate = date_create($transactions->transaction_date);
+                @endphp 
+                
+                <div class="col-12 col-sm-4 col-xl-3">
+                    <div class="info-box bg-light">
+                        <div class="info-box-content">
+                            <span class="info-box-text text-center text-muted">Fecha Transaccion <i class="fas fa-calendar"></i></span>
+                            <span class="info-box-number text-center text-muted mb-0 text-danger">{{ date_format($myDate,"d/m/Y H:i:s") }}</span>
                         </div>
                     </div>
+                </div>         
 
+
+                <div class="col-12 col-sm-4 col-xl-3">
                 </div>
+
+                <div class="col-12 col-sm-4 col-xl-3">
+                    <div class="info-box bg-light">
+                        <div class="info-box-content">
+                            <span class="info-box-text text-center text-muted">Agente <i class="fas fa-user"></i></span>
+                            <span class="info-box-number text-center text-muted mb-0 text-uppercase">{{ $transactions->user->name }}</span>
+                        </div>
+                    </div>
+                </div>
+
             </div>
 
 
@@ -218,6 +213,36 @@
                     </div>
                 </div>
             </div>
+
+
+
+            <div class="row">
+                                            
+                <div class="col-xl-3 col-sm-12">
+                    <div class="info-box bg-light">
+                        <div class="info-box-content">
+                            <span class="info-box-text text-center text-muted">Nro Liquidacion <i class="fas fa-text-width"></i></span>
+                            <span class="info-box-number text-center text-muted mb-0 text-uppercase">{{ $transactions->liquidation_number ?? '' }}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xl-3 col-sm-12">
+                    <div class="info-box bg-light">
+                        <div class="info-box-content">
+                            <span class="info-box-text text-center text-muted">Fecha Liquidacion<i class="fas fa-text-width"></i></span>
+                            <span class="info-box-number text-center text-muted mb-0 text-uppercase">{{ $transactions->liquidation_date ?? '' }}</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <br>
+            <br>
+            <br>
+
+
 
         </div>
 
