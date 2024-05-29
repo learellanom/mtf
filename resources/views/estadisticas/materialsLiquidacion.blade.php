@@ -260,29 +260,13 @@ $config4 = [
         // BuscaFechas();
         BuscaFechasBlade();
         
-        $('#wallet, #group, #type_material_id, #drCustomRanges').on('change', function (){
+        $('#wallet, #group, #type_material_id').on('change', function (){
 
             const wallet        = $('#wallet').val();
             const group         = $('#group').val();
-            const type_material = $('#type_material_id').val();
-
-            let myFechaDesde, myFechaHasta;
+            const type_material = $('#type_material_id').val() == "" ? undefined : $('#type_material_id').val();
             
-            myFechaDesde =  ($('#drCustomRanges').val()).substr(6,4) +
-                            '-' +
-                            ($('#drCustomRanges').val()).substr(3,2) +
-                            '-' +
-                            ($('#drCustomRanges').val()).substr(0,2)
-                            ;
-
-            myFechaHasta =  ($('#drCustomRanges').val()).substr(19,4) +
-                            '-' +
-                            ($('#drCustomRanges').val()).substr(16,2) +
-                            '-' +
-                            ($('#drCustomRanges').val()).substr(13,2)
-                            ;
-
-            theRoute(wallet,group,myFechaDesde,myFechaHasta, type_material);
+            theRoute(wallet,group, undefined, undefined, type_material);
 
         }).on('select2:open', () => {
              document.querySelector('.select2-search__field').focus();
@@ -297,7 +281,7 @@ $config4 = [
 
             // alert('ggggg ' + $('#drCustomRanges').val());
             let myFechaDesde, myFechaHasta;
-
+ 
             myFechaDesde =  ($('#drCustomRanges').val()).substr(6,4) +
                             '-' +
                             ($('#drCustomRanges').val()).substr(3,2) +
@@ -312,6 +296,9 @@ $config4 = [
                             ($('#drCustomRanges').val()).substr(13,2)
                             ;
 
+            myFechaDesde = $('#drCustomRanges').data('daterangepicker').startDate.format('YYYY-MM-DD');
+            myFechaHasta = $('#drCustomRanges').data('daterangepicker').endDate.format('YYYY-MM-DD');
+
             //alert('Fecha Desde ' + myFechaDesde + 'Fecha Hasta ' + myFechaHasta);
 
             
@@ -322,13 +309,15 @@ $config4 = [
 
     })
 
-    function theRoute(wallet = 0, group = 0, fechaDesde = 0, fechaHasta = 0, type_material = 0){
+    function theRoute(wallet = 0, group = 0, fechaDesde = '2001-01-01', fechaHasta = '9999-12-31', type_material = 1){
 
-        // alert('leam - cambio');
+
 
         if (wallet  === "") wallet  = 0;
         if (group  === "") group  = 0;
-        if (type_material  === "") type_material  = 0;
+        if (type_material  === "") type_material  = 1;
+        // alert('leam - type_material ->' + type_material);
+
 
         let myRoute = "";
             myRoute = "{{ route('materialsLiquidacion', ['wallet' => 'wallet2',  'group' => 'group2', 'type_material' => 'type_material2','fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2']) }}";

@@ -4479,7 +4479,7 @@ class statisticsController extends Controller
         // dd($adquisiciones);
 
         $Group_roles 	    = $this->getGroupRole(auth()->id());
-        $wallet             = $this->getWallet($Group_roles);
+        $wallet             = Group::where('type', '=', '2')->whereBetween('id', [0, 9999])->orderBY('name','ASC')->pluck('name', 'id')->toArray();
         $group              = $this->getGroups($Group_roles);
         $type_material      = Type_material::pluck('name', 'id')->toArray();
 
@@ -4944,8 +4944,6 @@ class statisticsController extends Controller
             echo "<br> myAdquisicionToCreate->AdquisicionMaterialAmountTotalGramos -> $myAdquisicionToCreate->AdquisicionMaterialAmountTotalGramos";
             echo "<br> myAdquisicionToCreate->AdquisicionMaterialPriceKilos -> $myAdquisicionToCreate->AdquisicionMaterialPriceKilos";
             echo "<br> myAdquisicionToCreate->AdquisicionMaterialPriceGramos -> $myAdquisicionToCreate->AdquisicionMaterialPriceGramos";
-
-            
 
             echo "</pre>";
             echo "<br>";
