@@ -568,7 +568,10 @@
                                             <tr>
                                                 <td>Materiales Resumen</td>  
                                                 <td>
-                                                    @for($i = 176; $i <= 178; $i++)
+                                                    @for($i = 176; $i <= 180; $i++)
+                                                        @if($i == 177 || $i == 179)
+                                                            @continue
+                                                        @endif
                                                         @php
                                                             $myKey          = $i;
                                                             $myDescription  = $permisos[$myKey]->description ?? 'Sin descripcion';
@@ -590,27 +593,6 @@
                                                         <br><br>
                                                     @endfor          
                                                     
-                                                    @for($i = 180; $i <= 180; $i++)
-                                                        @php
-                                                            $myKey          = $i;
-                                                            $myDescription  = $permisos[$myKey]->description ?? 'Sin descripcion';
-                                                            $myId           = $permisos[$myKey]->id ?? 0;
-
-
-                                                            $myName         = "permissions[]";
-
-                                                            $myChecked      = "";
-                                                            //foreach($roles->permissions as $myPermission){
-                                                            //    if ($myPermission->id == $myKey){
-                                                            //        $myChecked      = 'checked=checked';
-                                                            //    }
-                                                            //}
-                                                        
-                                                        @endphp
-                                                        <input type="checkbox" id="{{$myId}}" name="permissions[]" value="{{$myId}}" {{$myChecked}}>
-                                                        <label for="fname">{{$myDescription}}</label>
-                                                        <br><br>
-                                                    @endfor    
 
                                                 </td>
 
@@ -618,9 +600,12 @@
 
 
                                             <tr>
-                                                <td>Materiales Cierre</td>  
+                                                <td>Materiales Liquidacion y Cierre</td>  
                                                 <td>
-                                                    @for($i = 179; $i <= 179; $i++)
+                                                    @for($i = 177; $i <= 179; $i++)
+                                                        @if($i == 178)
+                                                            @continue
+                                                        @endif
                                                         @php
                                                             $myKey          = $i;
                                                             $myDescription  = $permisos[$myKey]->description ?? 'Sin descripcion';

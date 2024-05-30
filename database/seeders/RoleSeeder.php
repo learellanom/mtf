@@ -139,11 +139,11 @@ class RoleSeeder extends Seeder
         Permission::create(['name' => 'materials.recepcion_update_status',    'description'   => 'Anular/ Activar Materiales Recepcion'])->assignRole($role1);
         Permission::create(['name' => 'materials.recepcion_audit',            'description'   => 'Ver Auditoria Materiales Recepcion'])->assignRole($role1);
 
-        Permission::create(['name' => 'materials.adquisicion_rescajagrupo',     'description'   => 'Resumen Adquisicion por Caja - Grupo'])->assignRole($role1);
-        Permission::create(['name' => 'materials.recepcion_rescajagrupo',       'description'   => 'Resumen Recepcion por Caja - Grupo'])->assignRole($role1);
-        Permission::create(['name' => 'materials.adquisicion_consolidado',      'description'   => 'Resumen Consolidado de Aquisicion'])->assignRole($role1);
-
-
+        Permission::create(['name' => 'materials.adquisicion_rescajagrupo',         'description'   => 'Resumen Adquisicion por Caja - Grupo'])->assignRole($role1);
+        Permission::create(['name' => 'materials.liquidacion_cuenta',               'description'   => 'Liquidacion de cuenta'])->assignRole($role1);
+        Permission::create(['name' => 'materials.adquisicion_consolidado',          'description'   => 'Resumen Consolidado de Aquisicion'])->assignRole($role1);
+        Permission::create(['name' => 'materials.consolidado_grupo',                'description'   => 'Consolidado por grupo'])->assignRole($role1);
+        Permission::create(['name' => 'materials.cierre',                           'description'   => 'Cierre de materiales'])->assignRole($role1);
 
     }
 }

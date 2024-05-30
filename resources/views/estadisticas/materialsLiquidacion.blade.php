@@ -197,6 +197,7 @@ $config4 = [
                             hoverable 
                             with-buttons
                         >
+                            @if(count($adquisiciones) >0)
                             @foreach($adquisiciones as $row)
                                 <tr>                               
                                     <td>{!! $row->LiquidationNumber !!}</td>
@@ -230,6 +231,13 @@ $config4 = [
 
                                 </tr>
                             @endforeach
+                            @else
+                                <tr>
+                                    <td colspan=14>
+                                        <h4 class="text-center mt-5 mb-5"> Sin liquidaciones registradas para el criterio de busqueda</h4>
+                                    </td>
+                                </tr>
+                            @endif
                         </x-adminlte-datatable>
                     </div>
                 </div>
