@@ -1,9 +1,16 @@
 @extends('adminlte::page')
-@section('title', 'Adquisicion Consolidado')
+
+@php 
+    $myTitle = "Consolidado de Adquisición";
+@endphp 
+
+
+@section('title', $myTitle)
 @section('content')
 {{-- Setup data for datatables --}}
 
 @php
+
 
 $heads = [
     ['label' => 'Secvv', 'class' => 'd-none'],
@@ -81,7 +88,7 @@ $config3 = [
 </script>
 <br>
 <br>
-<h1 class="text-center text-dark font-weight-bold text-uppercase">{{ __('Adquisicion Consolidado') }}<i class="fas fa-w fa-box"></i></h1>
+<h1 class="text-center text-dark font-weight-bold text-uppercase">{{ $myTitle }}<i class="fas fa-w fa-box"></i></h1>
 <br>
 <br>
 {{-- Disabled --}}
@@ -176,7 +183,7 @@ $config3 = [
             <div class="card-header">
 
                     <h3 class="card-title  font-weight-bold col-xl-6">
-                        {{ __('Estadisticas| Adquisicion Consolidado')}}
+                    {{ $myTitle }}
                     </h3>
                     <h3 class="card-title font-weight-bold text-xl-right col-xl-6">
                         Cierre al {{ $myCierre->created_at2 ?? ""}}

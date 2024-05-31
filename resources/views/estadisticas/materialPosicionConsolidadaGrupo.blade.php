@@ -1,5 +1,11 @@
 @extends('adminlte::page')
-@section('title', 'Material - Consolidado por Grupo')
+
+@php 
+    $myTitle = "Material - Consolidado por Grupo";
+@endphp
+
+@section('title', $myTitle)
+
 @section('content')
 {{-- Setup data for datatables --}}
 
@@ -74,7 +80,7 @@ $config4 = [
 </script>
 <br>
 <br>
-<h1 class="text-center text-dark font-weight-bold text-uppercase">{{ __('Material - Consolidado por Grupo') }} <i class="fas fa-w fa-box"></i></h1>
+<h1 class="text-center text-dark font-weight-bold text-uppercase">{{ $myTitle }} <i class="fas fa-w fa-box"></i></h1>
 <br>
 <br>
 {{-- Disabled --}}
@@ -168,7 +174,7 @@ $config4 = [
     <div class="col-md-12">
         <div class="card mb-4">
             <div class="card-header">
-                <h3 class="card-title text-uppercase font-weight-bold">{{ __('Material - Consolidado por Grupo') }}</h3>
+                <h3 class="card-title font-weight-bold">{{ $myTitle }}</h3>
             </div>
             <div class="card-body">
                 @if($myWallet > 0 && $myGroup > 0)

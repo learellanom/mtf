@@ -1,5 +1,5 @@
 @extends('adminlte::page')
-@section('title', 'Adquisicion Consolidado')
+@section('title', 'Resumen Adquisicion/Grupo')
 @section('content')
 {{-- Setup data for datatables --}}
 
@@ -74,7 +74,7 @@ $config4 = [
 </script>
 <br>
 <br>
-<h1 class="text-center text-dark font-weight-bold text-uppercase">{{ __('Adquisicion Consolidado') }} <i class="fas fa-w fa-box"></i></h1>
+<h1 class="text-center text-dark font-weight-bold text-uppercase">Resumen de Adquisicion / Grupo<i class="fas fa-w fa-box"></i></h1>
 <br>
 <br>
 {{-- Disabled --}}
@@ -167,7 +167,7 @@ $config4 = [
     <div class="col-md-12">
         <div class="card mb-4">
             <div class="card-header">
-                <h3 class="card-title text-uppercase font-weight-bold">{{ __('Estadisticas| Adquisicion Consolidado') }}</h3>
+                <h3 class="card-title font-weight-bold">Resumen de Adquisicion / Grupo</h3>
             </div>
             <div class="card-body">
                 <div class="row">

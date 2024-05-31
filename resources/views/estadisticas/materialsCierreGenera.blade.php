@@ -1,12 +1,15 @@
 @extends('adminlte::page')
-@section('title', 'Estadisticas')
 
 @php
+    $myTitle = "Cierre de Materiales";
+@endphp
 
+@section('title', $myTitle)
 
-         
+@php
      // dd($materialsCierre);
 @endphp
+
 {{-- dd('aqui ->' . $Cierre) --}}
 
 @section('content')
@@ -18,7 +21,7 @@
 <div class="container justify-content-center" style="display: contents;">
 
     <div class="row col-12 col-md-12 justify-content-center text-center align-items-center" style="min-height: 5rem !important">
-        <h4>Generacion de Cierre de Materiales</h4>
+        <h4>{{ $myTitle }}</h4>
     </div>
     
     <div class="card">
