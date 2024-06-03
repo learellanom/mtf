@@ -438,6 +438,13 @@ return [
                     'can'  => 'USDTResumenDiario',
                     'icon_color' => 'primary',                    
                 ],
+                [
+                    'text' => 'Resumen de Movimientos',
+                    'url'  => 'USDTResumen',
+                    'classes'   =>  'ml-4',              
+                    'can'  => 'USDTResumenDiario' ,
+                    'icon_color' => 'primary',                    
+                ],                
             ]
         ],
         [ 

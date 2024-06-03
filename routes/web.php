@@ -5,6 +5,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\TransactionController;
+use App\Http\Controllers\StatisticsController;
 use App\Http\Controllers\TransactionMasterController;
 use App\Http\Controllers\TransactionSupplierController;
 use App\Http\Controllers\ClientController;
@@ -99,6 +100,8 @@ Route::get('dashboardComisionesGrupoRes3/{wallet?}/{grupo?}/{fechaDesde?}/{fecha
 
 
 Route::get('USDTResumenDiario/{wallet?}/{fechaDesde?}/{fechaHasta?}', [App\Http\Controllers\HomeController::class, 'USDTResumenDiario'])->name('USDTResumenDiario');
+
+Route::get('USDTResumen',                 [StatisticsController::class,  'USDTResumen'])->name('USDTResumen');
 
 Route::get('consolidadoMovimientosGrupo', [App\Http\Controllers\statisticsController::class, 'consolidadoMovimientosGrupo'])->name('consolidadoMovimientosGrupo');
 

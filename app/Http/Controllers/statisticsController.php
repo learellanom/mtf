@@ -6087,6 +6087,9 @@ class statisticsController extends Controller
     * leamx
     */
     function USDTResumen(Request $request){
+
+        return;
+
         // \Log::info('leam - statisticsController - commissionsProfit - el wallet es ->' . $request->wallet);
         // $request->wallet        = 89;   // abu mahmud
         // $request->wallet        = 93;   // caja usdt
@@ -6111,10 +6114,6 @@ class statisticsController extends Controller
             $myGroupDesde = $request->group;
             $myGroupHasta = $request->group;
         }
-
-
-
-
 
         $myTransactionDesde     = 0000;
         $myTransactionHasta     = 9999;
@@ -6144,8 +6143,17 @@ class statisticsController extends Controller
 
         $myTable = "mtf.transactions";
 
-        
+        $myUSDTWallets [] = 93;
+        $myUSDTWallets [] = 139;
+        $myUSDTWallets [] = 511;
 
+        $myUSDTWallets = implode(",", $myUSDTWallets);
+
+        //
+        //
+        //  pagos que se hacen a la caja (groupid debe ser la caja)
+        //
+        //
 
         $myQuery =
         "
@@ -6169,14 +6177,14 @@ class statisticsController extends Controller
             left join   mtf.groups              on mtf.Transactions.group_id            = mtf.groups.id
             where
                     status = 'Activo'
-                and group_id                in(93,139,511)
+                and group_id                in($myUSDTWallets)
                 and type_transaction_id     = 11
                 and transaction_date        between '$myFechaDesde'             and     '$myFechaHasta'
             group by
-                mtf.transactions.wallet_id,
-                wallets.name
+                WalletId,
+                WalletName
             order by
-                wallets.name ASC
+                WalletName ASC
         ";
 
         // dd($myQuery);
@@ -6186,7 +6194,11 @@ class statisticsController extends Controller
 
         $myTransactionDesde     = 13; // 13 cobros usdt
         $myTransactionHasta     = 13;
-
+        //
+        //
+        // cobros que haga la caja (el wallet_id debe ser igual a la caja)
+        //
+        //
         $myQuery =
         "
             select
@@ -6213,14 +6225,18 @@ class statisticsController extends Controller
             left join   mtf.groups              on mtf.Transactions.group_id            = mtf.groups.id
             where
                     status = 'Activo'
-                and wallet_id                in(93,139,511)
-                and type_transaction_id      13
+                and mtf.transactions.wallet_id                in($myUSDTWallets)
+                and type_transaction_id     = 13
                 and transaction_date         between '$myFechaDesde'             and     '$myFechaHasta'
             group by
-                mtf.transactions.wallet_id,
-                wallets.name 
+                WalletId,
+                WalletName,
+                GroupId,
+                GroupName,
+                TypeTransactionId,
+                TypeTransactionName
             order by
-                wallets.name ASC
+                WalletName ASC
         ";
  
         //dd($myQuery);
@@ -6237,7 +6253,11 @@ class statisticsController extends Controller
         
         $request->groups    = $myJsonData['groupsEntrada1'];
         $myGroups           = implode(",",$request->groups);
-
+        //
+        //
+        // entradas por comision son pagos (11) y cobros (13) que se gana a grupos desde el wallet usdt
+        //
+        //
         $myQuery =
         "
             select
@@ -6264,13 +6284,17 @@ class statisticsController extends Controller
             left join   mtf.groups              on mtf.Transactions.group_id            = mtf.groups.id
             where
                     status = 'Activo'
-                and wallet_id                in(93,139,511)
+                and wallet_id                in($myUSDTWallets)
                 and group_id                 in($myGroups)
                 and type_transaction_id      in(11,13)
                 and transaction_date         between '$myFechaDesde'             and     '$myFechaHasta'
             group by
-                mtf.transactions.wallet_id,
-                wallets.name 
+                WalletId,
+                WalletName,
+                GroupId,
+                GroupName,
+                TypeTransactionId,
+                TypeTransactionName
             order by
                 wallets.name ASC
         ";
@@ -6281,7 +6305,11 @@ class statisticsController extends Controller
 
          $request->groups = $myJsonData['groupsSalida1'];
          $myGroups = implode(",",$request->groups);
-
+        //
+        //
+        // salidas - pagos (11) que la caja ahaga a grupos
+        //
+        //
          $myQuery =
          "
              select
@@ -6308,13 +6336,17 @@ class statisticsController extends Controller
              left join   mtf.groups              on mtf.Transactions.group_id            = mtf.groups.id
              where
                      status = 'Activo'
-                 and wallet_id                in(93,139,511)
+                 and wallet_id                in($myUSDTWallets)
                  and group_id                 in($myGroups)
                  and type_transaction_id      in(11)
                  and transaction_date         between '$myFechaDesde'             and     '$myFechaHasta'
              group by
-                 mtf.transactions.wallet_id,
-                 wallets.name 
+                WalletId,
+                WalletName,
+                GroupId,
+                GroupName,
+                TypeTransactionId,
+                TypeTransactionName
              order by
                  wallets.name ASC
          ";
@@ -6327,7 +6359,11 @@ class statisticsController extends Controller
 
           $request->groups = $myJsonData['groupsSalida2'];
           $myGroups = implode(",",$request->groups);
- 
+         //
+        //
+        // salidas - pagos (11) que la caja ahaga a grupos
+        //
+        //
           $myQuery =
           "
               select
@@ -6354,13 +6390,17 @@ class statisticsController extends Controller
               left join   mtf.groups              on mtf.Transactions.group_id            = mtf.groups.id
               where
                       status = 'Activo'
-                  and wallet_id                in(93,139,511)
+                  and wallet_id                in($myUSDTWallets)
                   and group_id                 in($myGroups)
                   and type_transaction_id      in(11)
                   and transaction_date         between '$myFechaDesde'             and     '$myFechaHasta'
               group by
-                  mtf.transactions.wallet_id,
-                  wallets.name 
+                WalletId,
+                WalletName,
+                GroupId,
+                GroupName,
+                TypeTransactionId,
+                TypeTransactionName
               order by
                   wallets.name ASC
           ";
@@ -6374,7 +6414,11 @@ class statisticsController extends Controller
 
            $request->groups = $myJsonData['groupsSalida2'];
            $myGroups = implode(",",$request->groups);
-  
+          //
+        //
+        // salidas - pagos (11) que la caja ahaga a grupos
+        //
+        //
            $myQuery =
            "
                select
@@ -6401,25 +6445,33 @@ class statisticsController extends Controller
                left join   mtf.groups              on mtf.Transactions.group_id            = mtf.groups.id
                where
                        status = 'Activo'
-                   and wallet_id                in(93,139,511)
+                   and wallet_id                in($myUSDTWallets)
                    and group_id                 in($myGroups)
                    and type_transaction_id      in(11)
                    and transaction_date         between '$myFechaDesde'             and     '$myFechaHasta'
                group by
-                   mtf.transactions.wallet_id,
-                   wallets.name 
+                WalletId,
+                WalletName,
+                GroupId,
+                GroupName,
+                TypeTransactionId,
+                TypeTransactionName
                order by
                    wallets.name ASC
            ";
     
-           //dd($myQuery);
+            //dd($myQuery);
             $salidas3 = DB::select($myQuery);
 
 
 
             $request->groups = $myJsonData['walletsSalida3'];
             $myGroups = implode(",",$request->groups);
-   
+            //
+            //
+            // salidas - pagos (11) que la caja ahaga a grupos
+            //
+            //
             $myQuery =
             "
                 select
@@ -6446,13 +6498,17 @@ class statisticsController extends Controller
                 left join   mtf.groups              on mtf.Transactions.group_id            = mtf.groups.id
                 where
                         status = 'Activo'
-                    and wallet_id                in(93,139,511)
+                    and wallet_id                in($myUSDTWallets)
                     and group_id                 in($myGroups)
                     and type_transaction_id      in(11)
                     and transaction_date         between '$myFechaDesde'             and     '$myFechaHasta'
                 group by
-                    mtf.transactions.wallet_id,
-                    wallets.name 
+                    WalletId,
+                    WalletName,
+                    GroupId,
+                    GroupName,
+                    TypeTransactionId,
+                    TypeTransactionName
                 order by
                     wallets.name ASC
             ";
