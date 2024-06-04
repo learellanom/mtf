@@ -6088,7 +6088,7 @@ class statisticsController extends Controller
     */
     function USDTResumen(Request $request){
 
-        return;
+          return;
 
         // \Log::info('leam - statisticsController - commissionsProfit - el wallet es ->' . $request->wallet);
         // $request->wallet        = 89;   // abu mahmud
@@ -6104,8 +6104,15 @@ class statisticsController extends Controller
             $myWalletHasta = $request->wallet;
         }
 
-        $theWallets = [93,139,511];
+        $theWallets[]   = 93;
+        $theWallets[]   = 139;
+        $theWallets[]   = 511;
 
+        $myUSDTWallets  = implode(",", $theWallets);
+
+        $wallets        = Group::where('type', '=', '2')->whereIn('id', $theWallets)->orderBY('name','ASC')->get();
+
+        // dd($wallets);
 
         $myGroupDesde = 00000;
         $myGroupHasta = 99999;
@@ -6143,12 +6150,8 @@ class statisticsController extends Controller
 
         $myTable = "mtf.transactions";
 
-        $myUSDTWallets [] = 93;
-        $myUSDTWallets [] = 139;
-        $myUSDTWallets [] = 511;
 
-        $myUSDTWallets = implode(",", $myUSDTWallets);
-
+        //dd($myUSDTWallets);
         //
         //
         //  pagos que se hacen a la caja (groupid debe ser la caja)
@@ -6203,11 +6206,7 @@ class statisticsController extends Controller
         "
             select
                 mtf.transactions.wallet_id                          as WalletId,
-                wallets.name                                        as WalletName,
-                mtf.transactions.group_id                           as GroupId,
-                mtf.groups.name                                     as GroupName,
-                mtf.transactions.type_transaction_id                as TypeTransactionId,
-                type_transactions.name                              as TypeTransactionName,                    
+                wallets.name                                        as WalletName,                
                 count(mtf.transactions.amount)                      as Cant,
                 sum(mtf.transactions.amount_foreign_currency)       as AmountForeignCurrency,
                 sum(mtf.transactions.amount)                        as Amount,
@@ -6230,16 +6229,12 @@ class statisticsController extends Controller
                 and transaction_date         between '$myFechaDesde'             and     '$myFechaHasta'
             group by
                 WalletId,
-                WalletName,
-                GroupId,
-                GroupName,
-                TypeTransactionId,
-                TypeTransactionName
+                WalletName
             order by
                 WalletName ASC
         ";
  
-        //dd($myQuery);
+        // dd($myQuery);
          $Recargas2 = DB::select($myQuery);
         // dd($Recargas2);
 
@@ -6255,18 +6250,14 @@ class statisticsController extends Controller
         $myGroups           = implode(",",$request->groups);
         //
         //
-        // entradas por comision son pagos (11) y cobros (13) que se gana a grupos desde el wallet usdt
+        // entradas por comision son pagos (11) y cobros (13) que se paga a grupos desde el wallet usdt
         //
         //
         $myQuery =
         "
             select
                 mtf.transactions.wallet_id                          as WalletId,
-                wallets.name                                        as WalletName,
-                mtf.transactions.group_id                           as GroupId,
-                mtf.groups.name                                     as GroupName,
-                mtf.transactions.type_transaction_id                as TypeTransactionId,
-                type_transactions.name                              as TypeTransactionName,                    
+                wallets.name                                        as WalletName,                
                 count(mtf.transactions.amount)                      as Cant,
                 sum(mtf.transactions.amount_foreign_currency)       as AmountForeignCurrency,
                 sum(mtf.transactions.amount)                        as Amount,
@@ -6290,35 +6281,34 @@ class statisticsController extends Controller
                 and transaction_date         between '$myFechaDesde'             and     '$myFechaHasta'
             group by
                 WalletId,
-                WalletName,
-                GroupId,
-                GroupName,
-                TypeTransactionId,
-                TypeTransactionName
+                WalletName
             order by
                 wallets.name ASC
         ";
  
         //dd($myQuery);
          $comisiones = DB::select($myQuery);
+        // dd($comisiones);
+
+        // echo"<p>comisiones</p>";
+        // echo "<pre>";
+        // echo print_r($comisiones);
+        // echo "</pre>";
+        // die();
 
 
          $request->groups = $myJsonData['groupsSalida1'];
          $myGroups = implode(",",$request->groups);
         //
         //
-        // salidas - pagos (11) que la caja ahaga a grupos
+        // salidas - pagos (11) que la caja haga a grupos
         //
         //
          $myQuery =
          "
              select
                  mtf.transactions.wallet_id                          as WalletId,
-                 wallets.name                                        as WalletName,
-                 mtf.transactions.group_id                           as GroupId,
-                 mtf.groups.name                                     as GroupName,
-                 mtf.transactions.type_transaction_id                as TypeTransactionId,
-                 type_transactions.name                              as TypeTransactionName,                    
+                 wallets.name                                        as WalletName,              
                  count(mtf.transactions.amount)                      as Cant,
                  sum(mtf.transactions.amount_foreign_currency)       as AmountForeignCurrency,
                  sum(mtf.transactions.amount)                        as Amount,
@@ -6342,18 +6332,18 @@ class statisticsController extends Controller
                  and transaction_date         between '$myFechaDesde'             and     '$myFechaHasta'
              group by
                 WalletId,
-                WalletName,
-                GroupId,
-                GroupName,
-                TypeTransactionId,
-                TypeTransactionName
+                WalletName
              order by
                  wallets.name ASC
          ";
   
          //dd($myQuery);
           $salidas1 = DB::select($myQuery);
-
+            // echo "<pre>";
+            // echo print_r($salidas1);
+            // echo "</pre>";
+            // die();
+        //   dd($salidas1);
 
 
 
@@ -6361,18 +6351,14 @@ class statisticsController extends Controller
           $myGroups = implode(",",$request->groups);
          //
         //
-        // salidas - pagos (11) que la caja ahaga a grupos
+        // salidas - pagos (11) que la caja haga a grupos
         //
         //
           $myQuery =
           "
               select
                   mtf.transactions.wallet_id                          as WalletId,
-                  wallets.name                                        as WalletName,
-                  mtf.transactions.group_id                           as GroupId,
-                  mtf.groups.name                                     as GroupName,
-                  mtf.transactions.type_transaction_id                as TypeTransactionId,
-                  type_transactions.name                              as TypeTransactionName,                    
+                  wallets.name                                        as WalletName,               
                   count(mtf.transactions.amount)                      as Cant,
                   sum(mtf.transactions.amount_foreign_currency)       as AmountForeignCurrency,
                   sum(mtf.transactions.amount)                        as Amount,
@@ -6396,38 +6382,34 @@ class statisticsController extends Controller
                   and transaction_date         between '$myFechaDesde'             and     '$myFechaHasta'
               group by
                 WalletId,
-                WalletName,
-                GroupId,
-                GroupName,
-                TypeTransactionId,
-                TypeTransactionName
+                WalletName
               order by
                   wallets.name ASC
           ";
    
           //dd($myQuery);
-           $salidas2 = DB::select($myQuery);          
+        $salidas2 = DB::select($myQuery);          
+            // echo "<p>Salidas 2</p>";
+            // echo "<pre>";
+            // echo print_r($salidas2);
+            // echo "</pre>";
+            // die();
 
 
 
 
-
-           $request->groups = $myJsonData['groupsSalida2'];
-           $myGroups = implode(",",$request->groups);
+        $request->groups = $myJsonData['groupsSalida2'];
+        $myGroups = implode(",",$request->groups);
           //
         //
         // salidas - pagos (11) que la caja ahaga a grupos
         //
         //
-           $myQuery =
+        $myQuery =
            "
                select
                    mtf.transactions.wallet_id                          as WalletId,
-                   wallets.name                                        as WalletName,
-                   mtf.transactions.group_id                           as GroupId,
-                   mtf.groups.name                                     as GroupName,
-                   mtf.transactions.type_transaction_id                as TypeTransactionId,
-                   type_transactions.name                              as TypeTransactionName,                    
+                   wallets.name                                        as WalletName,                
                    count(mtf.transactions.amount)                      as Cant,
                    sum(mtf.transactions.amount_foreign_currency)       as AmountForeignCurrency,
                    sum(mtf.transactions.amount)                        as Amount,
@@ -6450,37 +6432,34 @@ class statisticsController extends Controller
                    and type_transaction_id      in(11)
                    and transaction_date         between '$myFechaDesde'             and     '$myFechaHasta'
                group by
-                WalletId,
-                WalletName,
-                GroupId,
-                GroupName,
-                TypeTransactionId,
-                TypeTransactionName
+                    WalletId,
+                    WalletName
                order by
                    wallets.name ASC
            ";
     
             //dd($myQuery);
-            $salidas3 = DB::select($myQuery);
+        $salidas3 = DB::select($myQuery);
+      
+            // echo "<p>Salidas 3</p>";
+            // echo "<pre>";
+            // echo print_r($salidas3);
+            // echo "</pre>";
+            // die();
 
 
-
-            $request->groups = $myJsonData['walletsSalida3'];
-            $myGroups = implode(",",$request->groups);
+        $request->groups = $myJsonData['walletsSalida3'];
+        $myGroups = implode(",",$request->groups);
             //
             //
             // salidas - pagos (11) que la caja ahaga a grupos
             //
             //
-            $myQuery =
+        $myQuery =
             "
                 select
                     mtf.transactions.wallet_id                          as WalletId,
-                    wallets.name                                        as WalletName,
-                    mtf.transactions.group_id                           as GroupId,
-                    mtf.groups.name                                     as GroupName,
-                    mtf.transactions.type_transaction_id                as TypeTransactionId,
-                    type_transactions.name                              as TypeTransactionName,                    
+                    wallets.name                                        as WalletName,               
                     count(mtf.transactions.amount)                      as Cant,
                     sum(mtf.transactions.amount_foreign_currency)       as AmountForeignCurrency,
                     sum(mtf.transactions.amount)                        as Amount,
@@ -6504,34 +6483,45 @@ class statisticsController extends Controller
                     and transaction_date         between '$myFechaDesde'             and     '$myFechaHasta'
                 group by
                     WalletId,
-                    WalletName,
-                    GroupId,
-                    GroupName,
-                    TypeTransactionId,
-                    TypeTransactionName
+                    WalletName
                 order by
                     wallets.name ASC
             ";
      
             //dd($myQuery);
              $salidas4 = DB::select($myQuery);
-     
-             $genericObject = new \stdClass();
 
-             $genericObject->Id                      = $myIdTemp;
-             $genericObject->WalletId                = $myWalletIdTemp;
-             $genericObject->WalletName              = $myWalletNameTemp;
+            //  echo "<p>Salidas 4</p>";
+            //  echo "<pre>";
+            //  echo print_r($salidas4);
+            //  echo "</pre>";
+            //  die();
 
-
-             $Transacciones4[] = $genericObject;
-
-
+             
              $Entradas  = array_merge($Recargas, $Recargas2, $comisiones); // 
              $Salidas   = array_merge($salidas1, $salidas2, $salidas3, $salidas4); // 
+            // dd($wallets);
+             foreach($wallets as $walletItem){
 
-             foreach($theWallets as $walletItem){
+
+                if ($walletItem->id > 0){
+                    // 
+                    $balance        = $this->getBalanceWallet($walletItem->id);
+                    $balance        = $balance->Total;
+
+                    $balanceBefore  = $this->getBalanceWalletBefore($walletItem->id, $myFechaDesde, $myFechaHasta);
+                     
+                }
+
 
                 $genericObject = new \stdClass();
+
+                $genericObject->WalletId                = $walletItem->id;
+                $genericObject->WalletName              = $walletItem->name;
+
+                $genericObject->balance                 = $balance;
+                $genericObject->balanceBefore           = $balanceBefore;
+
                 /*
                 $genericObject->WalletId                = $walletItem;
                 $genericObject->EntradaCant                    = ->Cant;
@@ -6553,8 +6543,19 @@ class statisticsController extends Controller
                 $genericObject->SalidaAmountCommissionProfit    = ->AmountCommissionProfit;
                 */
 
+
+                $genericObject->EntradaCant                     = 0;
+                $genericObject->EntradaAmount                   = 0;
+                $genericObject->EntradaAmountForeignCurrency    = 0;
+                $genericObject->EntradaAmountTotal              = 0;
+                $genericObject->EntradaAmountCommission         = 0;
+                $genericObject->EntradaAmountBase               = 0;
+                $genericObject->EntradaAmountCommissionBase     = 0;
+                $genericObject->EntradaAmountCommissionProfit   = 0;
+
+
                 foreach($Entradas as $item){
-                    if ($walletItem == $item->WalletId){
+                    if ($walletItem->id == $item->WalletId){
                         $genericObject->EntradaCant                     += $item->Cant;
                         $genericObject->EntradaAmount                   += $item->Amount;
                         $genericObject->EntradaAmountForeignCurrency    += $item->AmountForeignCurrency;
@@ -6566,8 +6567,17 @@ class statisticsController extends Controller
                     }
                 };
 
+                $genericObject->SalidaCant                     = 0;
+                $genericObject->SalidaAmount                   = 0;
+                $genericObject->SalidaAmountForeignCurrency    = 0;
+                $genericObject->SalidaAmountTotal              = 0;
+                $genericObject->SalidaAmountCommission         = 0;
+                $genericObject->SalidaAmountBase               = 0;
+                $genericObject->SalidaAmountCommissionBase     = 0;
+                $genericObject->SalidaAmountCommissionProfit   = 0;
+
                 foreach($Salidas as $item){
-                    if ($walletItem == $item->WalletId){
+                    if ($walletItem->id == $item->WalletId){
                         $genericObject->SalidaCant                     += $item->Cant;
                         $genericObject->SalidaAmount                   += $item->Amount;
                         $genericObject->SalidaAmountForeignCurrency    += $item->AmountForeignCurrency;
@@ -6579,10 +6589,19 @@ class statisticsController extends Controller
                     }
                 };
 
+                $Transacciones4[] = $genericObject;
+
              }
 
-             
-        // return $Recargas3;
+            //   echo "<p>Transacciones4</p>";
+            //   echo "<pre>";
+            //   echo print_r($Transacciones4);
+            //   echo "</pre>";
+            //   die();
+
+            $parametros['Transacciones'] = $Transacciones4;
+            return view('estadisticas.ResumenMovientosUSDT', $parametros); 
+            // return $Transacciones4;
 
     }    
     /*
@@ -6906,13 +6925,13 @@ class statisticsController extends Controller
         //$myFechaDesde = "2001-01-01";
         //$myFechaHasta = "9999-12-31";
 
-        $horaDesde = " 00:00:00";
-        $horaHasta = " 23:59:00";
+        $horaDesde      = " 00:00:00";
+        $horaHasta      = " 23:59:00";
 
-        $myFechaDesde = $myFechaDesde . $horaDesde;
-        $myFechaHasta = $myFechaHasta . $horaHasta;
+        $myFechaDesde   = $myFechaDesde . $horaDesde;
+        $myFechaHasta   = $myFechaHasta . $horaHasta;
 
-        $myTable = "mtf.transactions";
+        $myTable        = "mtf.transactions";
 
 
         $myQuery =
