@@ -2330,7 +2330,7 @@ class statisticsController extends Controller
     *
     */
     function getTypeTransactions(){
-        // leamx
+        // 
         /*
         $Type_transactions = Type_transaction::select('type_transactions.id', 'type_transactions.name')
         ->get();
@@ -5108,7 +5108,7 @@ class statisticsController extends Controller
             $myTypeMaterialHasta    = $request->type_material;
         }
 
-            // leamx
+            // 
 
         $myQuery =
         "
@@ -5513,7 +5513,7 @@ class statisticsController extends Controller
                         $myAdquisicion2->RecepcionMaterialAmount2   = $myRecepcion->MaterialAmount;
                         $myAdquisicion2->RecepcionBalance           = $myRecepcionBalance;
 
-                        $myAdquisicion2->RecepcionMaterialAmountTotal= $myAdquisicion2->MaterialPrice * $myRecepcion->MaterialAmount; // leamx
+                        $myAdquisicion2->RecepcionMaterialAmountTotal= $myAdquisicion2->MaterialPrice * $myRecepcion->MaterialAmount;
 
                         $indRecepcion = 1;
 
@@ -5546,7 +5546,7 @@ class statisticsController extends Controller
 
                         $myRecepcion->Saldo                         = 0;                        // sal que queda de la recepcion
 
-                        $myAdquisicion2->RecepcionMaterialAmountTotal= $myAdquisicion2->MaterialPrice * $myRecepcion->MaterialAmount; // leamx
+                        $myAdquisicion2->RecepcionMaterialAmountTotal= $myAdquisicion2->MaterialPrice * $myRecepcion->MaterialAmount;
 
                         $indRecepcion                               = 1;
 
@@ -5580,7 +5580,7 @@ class statisticsController extends Controller
                         
                         $myRecepcion->Saldo                 = abs($myMaterialAmount);
 
-                        $myAdquisicion2->RecepcionMaterialAmountTotal= $myAdquisicion2->MaterialPrice * $myRecepcion->MaterialAmount; // leamx
+                        $myAdquisicion2->RecepcionMaterialAmountTotal= $myAdquisicion2->MaterialPrice * $myRecepcion->MaterialAmount;
 
                         $myAdquisicion2->RecepcionBalance           = $myRecepcionBalance;
 
@@ -5628,7 +5628,7 @@ class statisticsController extends Controller
 
                     $myAdquisicion2->RecepcionBalance           = $myRecepcionBalance;
                     
-                    $myAdquisicion2->RecepcionMaterialAmountTotal = 0; // leamx
+                    $myAdquisicion2->RecepcionMaterialAmountTotal = 0;
 
                     if ($verLog == 1){
                         echo "<br>" . "sin recepcion  nnn *************************************************** indRecepcion -> " . $indRecepcion;
@@ -5817,7 +5817,7 @@ class statisticsController extends Controller
     *
     *       materialPosicionConsolidadaGrupo
     *
-    * leamx
+    * 
     */
     function materialPosicionConsolidadaGrupo(Request $request){
         // \Log::info('leam - statisticsController - commissionsProfit - el wallet es ->' . $request->wallet);
@@ -6088,31 +6088,33 @@ class statisticsController extends Controller
     */
     function USDTResumen(Request $request){
 
-          return;
+        //  return;
 
         // \Log::info('leam - statisticsController - commissionsProfit - el wallet es ->' . $request->wallet);
         // $request->wallet        = 89;   // abu mahmud
         // $request->wallet        = 93;   // caja usdt
         // $request->wallet        = 139;  // caja principal usdt
 
-
-
-        $myWalletDesde = 00000;
-        $myWalletHasta = 99999;
-        if ($request->wallet){
-            $myWalletDesde = $request->wallet;
-            $myWalletHasta = $request->wallet;
-        }
-
         $theWallets[]   = 93;
         $theWallets[]   = 139;
         $theWallets[]   = 511;
-
         $myUSDTWallets  = implode(",", $theWallets);
+        $wallets        = Group::where('type', '=', '2')->whereIn('id', $theWallets)->orderBY('name','ASC')->pluck('name', 'id')->toArray();
+        // dd($wallets);
+        // $wallets        = Group::where('type', '=', '2')->whereIn('id', $theWallets)->orderBY('name','ASC')->get();
 
-        $wallets        = Group::where('type', '=', '2')->whereIn('id', $theWallets)->orderBY('name','ASC')->get();
+        $myWallet       = 0;
+        $myWalletDesde  = 00000;
+        $myWalletHasta  = 99999;
+        if ($request->wallet){
+            $myWallet       = $request->wallet;
+            $myUSDTWallets  = $request->wallet;
+            $myWalletDesde  = $request->wallet;
+            $myWalletHasta  = $request->wallet;
+        }
 
         // dd($wallets);
+        // dd($myUSDTWallets);
 
         $myGroupDesde = 00000;
         $myGroupHasta = 99999;
@@ -6129,6 +6131,13 @@ class statisticsController extends Controller
             $myTransactionHasta     = $request->transaction;
         }
         $request->transaction   = 11; // 11 pago usdt 
+        /*
+        echo "<pre>";
+        echo"fechaDesde - >" . $request->fechaDesde;
+        echo"fechaHasta - >" . $request->fechaHasta;
+        echo "</pre>";
+        die();
+        */
 
         $myFechaDesde = "2001-01-01";
         $myFechaHasta = "9999-12-31";
@@ -6139,14 +6148,24 @@ class statisticsController extends Controller
             $myFechaHasta = $request->fechaHasta;
         }
         // dd('statiscticController -> ' . $request->fechaDesde . ' -- ' . $request->fechaHasta);
+
+        /*
+        echo "<pre>";
+        echo"myFechaDesde - >" . $myFechaDesde;
+        echo"myFechaHasta - >" . $myFechaHasta;
+        echo "</pre>";
+        die();
+        */
+
+
         //$myFechaDesde = "2001-01-01";
         //$myFechaHasta = "9999-12-31";
 
         $horaDesde = " 00:00:00";
         $horaHasta = " 23:59:00";
 
-        $myFechaDesde = $myFechaDesde . $horaDesde;
-        $myFechaHasta = $myFechaHasta . $horaHasta;
+        $myFechaDesde2 = $myFechaDesde . $horaDesde;
+        $myFechaHasta2 = $myFechaHasta . $horaHasta;
 
         $myTable = "mtf.transactions";
 
@@ -6182,7 +6201,7 @@ class statisticsController extends Controller
                     status = 'Activo'
                 and group_id                in($myUSDTWallets)
                 and type_transaction_id     = 11
-                and transaction_date        between '$myFechaDesde'             and     '$myFechaHasta'
+                and transaction_date        between '$myFechaDesde2'             and     '$myFechaHasta2'
             group by
                 WalletId,
                 WalletName
@@ -6226,7 +6245,7 @@ class statisticsController extends Controller
                     status = 'Activo'
                 and mtf.transactions.wallet_id                in($myUSDTWallets)
                 and type_transaction_id     = 13
-                and transaction_date         between '$myFechaDesde'             and     '$myFechaHasta'
+                and transaction_date         between '$myFechaDesde2'             and     '$myFechaHasta2'
             group by
                 WalletId,
                 WalletName
@@ -6278,7 +6297,7 @@ class statisticsController extends Controller
                 and wallet_id                in($myUSDTWallets)
                 and group_id                 in($myGroups)
                 and type_transaction_id      in(11,13)
-                and transaction_date         between '$myFechaDesde'             and     '$myFechaHasta'
+                and transaction_date         between '$myFechaDesde2'             and     '$myFechaHasta2'
             group by
                 WalletId,
                 WalletName
@@ -6329,7 +6348,7 @@ class statisticsController extends Controller
                  and wallet_id                in($myUSDTWallets)
                  and group_id                 in($myGroups)
                  and type_transaction_id      in(11)
-                 and transaction_date         between '$myFechaDesde'             and     '$myFechaHasta'
+                 and transaction_date         between '$myFechaDesde2'             and     '$myFechaHasta2'
              group by
                 WalletId,
                 WalletName
@@ -6343,7 +6362,7 @@ class statisticsController extends Controller
             // echo print_r($salidas1);
             // echo "</pre>";
             // die();
-        //   dd($salidas1);
+        //  dd($salidas1);
 
 
 
@@ -6379,7 +6398,7 @@ class statisticsController extends Controller
                   and wallet_id                in($myUSDTWallets)
                   and group_id                 in($myGroups)
                   and type_transaction_id      in(11)
-                  and transaction_date         between '$myFechaDesde'             and     '$myFechaHasta'
+                  and transaction_date         between '$myFechaDesde2'             and     '$myFechaHasta2'
               group by
                 WalletId,
                 WalletName
@@ -6398,7 +6417,7 @@ class statisticsController extends Controller
 
 
 
-        $request->groups = $myJsonData['groupsSalida2'];
+        $request->groups = $myJsonData['groupsSalida3'];
         $myGroups = implode(",",$request->groups);
           //
         //
@@ -6430,7 +6449,7 @@ class statisticsController extends Controller
                    and wallet_id                in($myUSDTWallets)
                    and group_id                 in($myGroups)
                    and type_transaction_id      in(11)
-                   and transaction_date         between '$myFechaDesde'             and     '$myFechaHasta'
+                   and transaction_date         between '$myFechaDesde2'             and     '$myFechaHasta2'
                group by
                     WalletId,
                     WalletName
@@ -6480,7 +6499,7 @@ class statisticsController extends Controller
                     and wallet_id                in($myUSDTWallets)
                     and group_id                 in($myGroups)
                     and type_transaction_id      in(11)
-                    and transaction_date         between '$myFechaDesde'             and     '$myFechaHasta'
+                    and transaction_date         between '$myFechaDesde2'             and     '$myFechaHasta2'
                 group by
                     WalletId,
                     WalletName
@@ -6501,23 +6520,39 @@ class statisticsController extends Controller
              $Entradas  = array_merge($Recargas, $Recargas2, $comisiones); // 
              $Salidas   = array_merge($salidas1, $salidas2, $salidas3, $salidas4); // 
             // dd($wallets);
-             foreach($wallets as $walletItem){
+            /*
+              echo "<p>Salidas 4</p>";
+              echo "<pre>";
+              echo print_r($Salidas);
+              echo "</pre>";
+              die();
+            */
 
 
-                if ($walletItem->id > 0){
+            foreach($wallets as $key => $walletItem){
+
+                if ($myWallet != 0){
+                    if ($key != $myWallet){
+                        continue;
+                    }
+                }
+
+                $balance        = 0;
+                $balanceBefore  = 0;
+                if ($key > 0){
                     // 
-                    $balance        = $this->getBalanceWallet($walletItem->id);
+                    $balance        = $this->getBalanceWallet($key);
                     $balance        = $balance->Total;
 
-                    $balanceBefore  = $this->getBalanceWalletBefore($walletItem->id, $myFechaDesde, $myFechaHasta);
+                    $balanceBefore  = $this->getBalanceWalletBefore($key, $myFechaDesde, $myFechaHasta);
                      
                 }
 
 
                 $genericObject = new \stdClass();
 
-                $genericObject->WalletId                = $walletItem->id;
-                $genericObject->WalletName              = $walletItem->name;
+                $genericObject->WalletId                = $key;
+                $genericObject->WalletName              = $walletItem;
 
                 $genericObject->balance                 = $balance;
                 $genericObject->balanceBefore           = $balanceBefore;
@@ -6555,7 +6590,7 @@ class statisticsController extends Controller
 
 
                 foreach($Entradas as $item){
-                    if ($walletItem->id == $item->WalletId){
+                    if ($key == $item->WalletId){
                         $genericObject->EntradaCant                     += $item->Cant;
                         $genericObject->EntradaAmount                   += $item->Amount;
                         $genericObject->EntradaAmountForeignCurrency    += $item->AmountForeignCurrency;
@@ -6577,7 +6612,7 @@ class statisticsController extends Controller
                 $genericObject->SalidaAmountCommissionProfit   = 0;
 
                 foreach($Salidas as $item){
-                    if ($walletItem->id == $item->WalletId){
+                    if ($key == $item->WalletId){
                         $genericObject->SalidaCant                     += $item->Cant;
                         $genericObject->SalidaAmount                   += $item->Amount;
                         $genericObject->SalidaAmountForeignCurrency    += $item->AmountForeignCurrency;
@@ -6589,6 +6624,10 @@ class statisticsController extends Controller
                     }
                 };
 
+
+                $genericObject->totalPendienteUSDTMonto  = ($balanceBefore + $genericObject->EntradaAmount) - $genericObject->SalidaAmount;
+
+
                 $Transacciones4[] = $genericObject;
 
              }
@@ -6599,7 +6638,12 @@ class statisticsController extends Controller
             //   echo "</pre>";
             //   die();
 
-            $parametros['Transacciones'] = $Transacciones4;
+            $parametros['Transacciones']    = $Transacciones4;
+            $parametros['wallet']           = $wallets;
+            $parametros['myWallet']         = $myWallet;
+            $parametros['myFechaDesde']     = $myFechaDesde;
+            $parametros['myFechaHasta']     = $myFechaHasta;
+
             return view('estadisticas.ResumenMovientosUSDT', $parametros); 
             // return $Transacciones4;
 
@@ -8788,7 +8832,7 @@ class statisticsController extends Controller
         $myFechaHastaBefore = "9999-12-31";
         
         
-        // leamx
+        //
         $wallet                         = $this->getWalletUSDT();
         $wallet2                        = $this->getWallet();
         $grupo                          = $this->getGroups();

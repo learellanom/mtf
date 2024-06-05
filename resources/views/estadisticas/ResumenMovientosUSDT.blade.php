@@ -23,8 +23,9 @@
         "allowClear" => true,
     ];
 
-    // $myClass	        = new app\Http\Controllers\TransactionController;
-    // $myAdministrator    = $myClass->isAdministrator();
+    
+    $myClass	        = new App\Http\Controllers\TransactionController;
+    $myAdministrator    = $myClass->isAdministrator();
 
 @endphp 
 
@@ -43,7 +44,7 @@
             </p>
         </div>
         <div class="row">
-            {{--
+            
             <div class ="col-12 col-lg-2 float-right" >
                 <x-adminlte-date-range
                     id="drCustomRanges"
@@ -58,7 +59,7 @@
                     </x-slot>
                 </x-adminlte-date-range>
             </div>
-            --}}
+            
 
             <div class ="col-12 col-sm-2">
                 <x-adminlte-select2 id="wallet"
@@ -67,7 +68,6 @@
                                     label-class="text-lightblue"
                                     data-placeholder="Wallet ..."
                                     :config="$config1"
-                                    disabled
                                     >
                     <x-slot name="prependSlot">
                         <div class="input-group-text bg-gradient-dark">
@@ -181,28 +181,29 @@
                 <table class="table table-bordered table-responsive" id="table" style="width:100%;">
                     <thead>
                         <tr>
-                            <th style="width:1%;"   >Wallet</th>                                    
-                            <th style="width:1%;"   >Saldo</th>
-                            <th style="width:1%;"   >Entrada  <br> Cant</th>
-                            <th style="width:1%;"   >Entrada  <br> Monto</th>
-                            <th                     >Salida <br> Cant</th>
-                            <th                     >Salida <br> Monto</th>
-                            <th                     >Saldo</th>                          
+                            <th style="width:1%;"   >Id</th>
+                            <th style="width:1%;"   >Wallet</th>
+                            <th style="width:1%;"   >Saldo<br>Anterior</th>
+                            <th style="width:1%;"   >Entrada <br> Cant</th>
+                            <th style="width:1%;"   >Entrada <br> Monto</th>
+                            <th style="width:1%;"   >Salida <br> Cant</th>
+                            <th  style="width:1%;"  >Salida <br> Monto</th>
+                            <th  style="width:1%;"  >Saldo</th>                          
                             <th style="width:1%;" class="no-exportar">Ver <i class="fas fa-search"></i></th>
                         </tr>
                     </thead>
-                        @foreach($Transacciones as $moviento)
+                        @foreach($Transacciones as $movimiento)
                             <tr>
                                 <td class="font-weight-bold">{{ $movimiento->WalletId }}</td>
                                 <td class="font-weight-bold">{{ $movimiento->WalletName ?? "" }}</td>
                                 <td>{!! number_format($movimiento->balanceBefore,2)       ?? '' !!}</td>
                                 <td>{!! number_format($movimiento->EntradaCant)     ?? '' !!}</td>
-                                <td>{!! number_format($movimiento->EntradaMonto,2)  ?? '' !!}</td>
+                                <td>{!! number_format($movimiento->EntradaAmount,2)  ?? '' !!}</td>
                                 <td>{!! number_format($movimiento->SalidaCant)      ?? '' !!}</td>
-                                <td>{!! number_format($movimiento->SalidaMonto,2)   ?? '' !!}</td>
-                                <td>{!! number_format($movimiento->balance,2)       ?? '' !!}</td>
+                                <td>{!! number_format($movimiento->SalidaAmount,2)   ?? '' !!}</td>
+                                <td>{!! number_format($movimiento->totalPendienteUSDTMonto,2)       ?? '' !!}</td>
                                 <td>
-                                    <a href="{{ route('transactions.show', $movimiento->id) }}"
+                                    <a href="{{ route('USDTResumenDiario', $movimiento->WalletId ) }}"
                                         class="btn btn-xl text-dark mx-1 shadow text-center">
                                         <i class="fa fa-lg fa-fw fas fa-search"></i>
                                     </a>
@@ -386,28 +387,34 @@
         ]
         });
     });
-    
-    const myUsuario = {{ $myUser }};
-    BuscaElemento('usuario',myUsuario);
-
-    // BuscaUsuario();
-    
-    // BuscaTypeMaterial(myTypeMaterial);    
-
-    const myTypeMaterial = {!! $myTypeMaterial !!};
-    BuscaElemento('type_material_id',myTypeMaterial);
 
     const myWallet = {!! $myWallet !!};
     BuscaElemento('wallet',myWallet);
 
-    const myGroup = {!! $myGroup !!};
-    BuscaElemento('group',myGroup);
-
     $(() => {
 
         BuscaFechas();
-        
-        $('#drCustomRanges, #wallet, #group').on('change', function () {
+
+        $('#drCustomRanges').on('change', function () {
+
+            fechaDesde =  ($('#drCustomRanges').val()).substr(6,4) +
+                        '-' +
+                        ($('#drCustomRanges').val()).substr(3,2) +
+                        '-' +
+                        ($('#drCustomRanges').val()).substr(0,2)
+                        ;
+
+            fechaHasta =  ($('#drCustomRanges').val()).substr(19,4) +
+                        '-' +
+                        ($('#drCustomRanges').val()).substr(16,2) +
+                        '-' +
+                        ($('#drCustomRanges').val()).substr(13,2)
+                        ;
+            theRoute(fechasDesde, fechaHasta);
+
+        });
+
+        $('#wallet, #group').on('change', function () {
             theRoute();
         })
         .on('select2:open', () => {
@@ -437,26 +444,21 @@
 
         let wallet  = $('#wallet').val() == ""  ? 0 : $('#wallet').val();
 
-        fechaDesde =  ($('#drCustomRanges').val()).substr(6,4) +
-                    '-' +
-                    ($('#drCustomRanges').val()).substr(3,2) +
-                    '-' +
-                    ($('#drCustomRanges').val()).substr(0,2)
-                    ;
-
-        fechaHasta =  ($('#drCustomRanges').val()).substr(19,4) +
-                    '-' +
-                    ($('#drCustomRanges').val()).substr(16,2) +
-                    '-' +
-                    ($('#drCustomRanges').val()).substr(13,2)
-                    ;
-
 
         // let user = "";
         let Route ="";
 
         myRoute = "";
-        myRoute = "{{ route('USDTResumen', ['fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2', 'wallet' => 'wallet2']) }}"; 
+
+        if (fechaDesde == 0){
+            myRoute = "{{ route('USDTResumen', ['wallet' => 'wallet2']) }}"; 
+
+        }else{
+            myRoute = "{{ route('USDTResumen', ['fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2', 'wallet' => 'wallet2']) }}"; 
+
+        }
+
+
         // console.log('myRoute ->' + myRoute);
         myRoute = myRoute.replace('fechaDesde2',fechaDesde);
         myRoute = myRoute.replace('fechaHasta2',fechaHasta);
@@ -472,10 +474,17 @@
 
     function BuscaFechas(){
         
-        //console.log('fechaDesde ->' + '{{$fechaDesde}}');
-        //console.log('fechaHasta ->' + '{{$fechaHasta}}');
-         $('#drCustomRanges').data('daterangepicker').setStartDate('{{$fechaDesde}}');
-         $('#drCustomRanges').data('daterangepicker').setEndDate('{{$fechaHasta}}');
+        // console.log('myFechaDesde ->' + '{{$myFechaDesde}}');
+
+        let fechaDesde = {{$myFechaDesde}} ? '{{$myFechaDesde}}'  : "2001-01-01";
+        if (fechaDesde == "2001-01-01"){
+            return;
+        }
+        
+        //console.log('fechaDesde ->' + '{{$myFechaDesde}}');
+        //console.log('fechaHasta ->' + '{{$myFechaHasta}}');
+         $('#drCustomRanges').data('daterangepicker').setStartDate('{{$myFechaDesde}}');
+         $('#drCustomRanges').data('daterangepicker').setEndDate('{{$myFechaHasta}}');
 
     };
 
