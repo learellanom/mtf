@@ -6098,6 +6098,7 @@ class statisticsController extends Controller
         $theWallets[]   = 93;
         $theWallets[]   = 139;
         $theWallets[]   = 511;
+
         $myUSDTWallets  = implode(",", $theWallets);
         $wallets        = Group::where('type', '=', '2')->whereIn('id', $theWallets)->orderBY('name','ASC')->pluck('name', 'id')->toArray();
         // dd($wallets);
@@ -6112,6 +6113,12 @@ class statisticsController extends Controller
             $myWalletDesde  = $request->wallet;
             $myWalletHasta  = $request->wallet;
         }
+
+
+        //$wallet                         = $this->getWalletUSDT();
+        $wallet2                        = $this->getWallet();
+        $grupo                          = $this->getGroups();
+
 
         // dd($wallets);
         // dd($myUSDTWallets);
@@ -6643,6 +6650,9 @@ class statisticsController extends Controller
             $parametros['myWallet']         = $myWallet;
             $parametros['myFechaDesde']     = $myFechaDesde;
             $parametros['myFechaHasta']     = $myFechaHasta;
+
+            $parametros['wallet2']          = $wallet2;
+            $parametros['grupo']            = $grupo;
 
             return view('estadisticas.ResumenMovientosUSDT', $parametros); 
             // return $Transacciones4;
