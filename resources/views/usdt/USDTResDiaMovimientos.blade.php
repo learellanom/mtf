@@ -420,6 +420,32 @@ $salidaMonto    = 0;
                 </div>
             </div>
 
+
+            <div class="card mb-4">
+                <div class="card-header" style="background-color: red; color: white">
+                    <h3 class="card-title text-uppercase font-weight-bold">Grupos sin asignar en filtro</h3>
+                </div>
+                <div class="card-body">
+
+                    <br>
+                    <br>
+                    <div class="row justify-content-center text-center align-items-center">
+                        <div class="col-12 col-md-6 col-lg-6 col-xl-4 justify-content-center text-center align-items-center">
+                            <div class="mt-4 mb-4">
+                                <label>Grupos sin asignar</label>
+                            </div>                            
+                            <select multiple="multiple" id="my-select6" name="" style="width:50%; height: 250px;"></select>
+                        </div>  
+
+                    </div>  
+                    <br>
+                    <br>
+
+                </div>
+            </div>
+
+
+
         </div>
         @endcan
     </div>
@@ -2213,6 +2239,32 @@ $salidaMonto    = 0;
             });
         }
 
+
+        
+        let myGroup;
+        @foreach($grupo as $key => $group2)
+            myGroup = {{ $key }};
+
+
+            indExiste = 0;
+            for(let i = 1; i<= 5; i++){
+                $("#my-select" + i + " option:selected").each(function(){
+                    if (myGroup == $(this).attr('value')){
+                        indExiste = 1;
+                        return false;
+                    }
+                }); 
+                if (indExiste == 1){
+                    break;
+                }
+            }
+            if (indExiste == 0){
+                $('#my-select6').append($('<option>', {value: myGroup, text: '{{$group2}}'}));
+            }
+
+        @endforeach
+
+        
     }
 
 

@@ -420,8 +420,8 @@
 
             
             <div class="card mb-4">
-                <div class="card-header" style="background-color: #BB8FCE; color: white">
-                    <h3 class="card-title text-uppercase font-weight-bold">Grupos sin asignar </h3>
+                <div class="card-header" style="background-color: red; color: white">
+                    <h3 class="card-title text-uppercase font-weight-bold">Grupos sin asignar en filtro</h3>
                 </div>
                 <div class="card-body">
 
@@ -430,10 +430,9 @@
                     <div class="row justify-content-center text-center align-items-center">
                         <div class="col-12 col-md-6 col-lg-6 col-xl-4 justify-content-center text-center align-items-center">
                             <div class="mt-4 mb-4">
-                                <label>Grupos</label>
+                                <label>Grupos sin asignar</label>
                             </div>                            
-                            <select multiple="multiple" id="my-select6" name="" style="width:50%; height: 250px;">
-                            </select>   
+                            <select multiple="multiple" id="my-select6" name="" style="width:50%; height: 250px;"></select>
                         </div>  
 
                     </div>  
@@ -486,93 +485,14 @@
         "order": [[ 3, 'desc' ]],
         'dom' : 'Bfrtip',
         'buttons':[
-            {
+            { 
                 extend:  'excelHtml5',
-                exportOptions: { columns: [ 1, 2, 3,4,5,6,7,8,9,11,12 ] },
                 text:    '<i class="fas fa-file-excel"></i>',
-                titleAttr: 'Exportar Excel',
                 className: 'btn btn-success',
-                "excelStyles": [
-                {
-                    "template": ["title_medium", 'blue_gray_medium']
-                },
-
-                {
-                    "cells": "2",
-                    "style": {
-                        "font": {
-                            "size": "18",
-                            "color": "FFFFFF"
-                        },
-                        "fill": {
-                            "pattern": {
-                                "type": "solid",
-                                "color": "002B5B"
-                            }
-                        },
-
-                    }
-                },
-                {
-                    "cells": "1",
-                    "style": {
-                        "font": {
-                            "size": "20",
-                            "color": "FFFFFF"
-                        },
-                        "fill": {
-                            "pattern": {
-                                "size": "25",
-                                "type": "solid",
-                                "color": "0B2447",
-                            }
-                        }
-                    }
-                },
-
-                    {
-                        'cells': "sC",
-                        'template': "date_long",
-                    },
-
-                    {
-                        "cells": "F",
-                        "width": "40",
-                    },
-                    {
-                        "cells": "B",
-                        "width": "12",
-                    },
-                    {
-                        "cells": "D",
-                        "width": "17.5",
-                    },
-                    {
-                        "cells": "I",
-                        "width": "19.15",
-                    },
-                    {
-                        "cells": "J",
-                        "width": "35",
-                    },
-                    {
-                        "cells": "H",
-                        "width": "19.15",
-
-                    },
-                    {
-                        "cells": "G",
-                        "width": "15",
-                    },
-                    {
-                        "cells": "K",
-                        "width": "32",
-                    },
-                    {
-                        "cells": "B",
-                        "width": "11",
-                    }
-            ]
+                exportOptions: { columns: [ 1, 2, 3,4,5,6,7 ] },
+                "excelStyles": {
+                    "template": "blue_medium"
+                }
 
             },
             {
@@ -767,6 +687,7 @@
             
         });
 
+
     });
 
 
@@ -957,7 +878,7 @@
             $('#my-select5').multiSelect('addOption', { value: '{!! $key !!}', text: '{!! $wallet22 !!}' });
         @endforeach
 
-        $('#my-select6').append('<option>test...</option>');
+        // $('#my-select6').append('<option>test...</option>');
     }
 
 
@@ -1025,7 +946,7 @@
                 });
             });
         }
-
+        
         let myGroup;
         @foreach($grupo as $key => $group2)
             myGroup = {{ $key }};
@@ -1048,7 +969,7 @@
             }
 
         @endforeach
-
+    
 
     }
 
