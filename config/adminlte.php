@@ -442,7 +442,7 @@ return [
                     'text' => 'Resumen de Movimientos',
                     'url'  => 'USDTResumen',
                     'classes'   =>  'ml-4',              
-                    'can'  => 'USDTResumenDiario' ,
+                    'can'  => 'USDTResumenMovimientos' ,
                     'icon_color' => 'primary',                    
                 ],                
             ]

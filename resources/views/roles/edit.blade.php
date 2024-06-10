@@ -338,7 +338,7 @@
                                             <tr>
                                                 <td>Comisiones - Genera Comisiones USDT</td>  
                                                 <td>
-                                                @php
+                                                    @php
                                                         $myKey          = 145;
                                                         $myDescription  = $permisos[$myKey]->description ?? 'Sin descripcion';
                                                         $myId           = $permisos[$myKey]->id ?? 0;
@@ -362,7 +362,7 @@
 
 
                                             <tr>
-                                                <td>USDT - Cuadro de Mvoimientos</td>  
+                                                <td>USDT</td>  
                                                 <td>
                                                     @php
                                                         $myKey          = 132;
@@ -383,7 +383,25 @@
                                                     <input type="checkbox" id="{{$myId}}" name="permissions[]" value="{{$myId}}" {{$myChecked}}>
                                                     <label for="fname">{{$myDescription}}</label>
                                                     <br><br>
+                                                    @php
+                                                        $myKey          = 181;
+                                                        $myDescription  = $permisos[$myKey]->description ?? 'Sin descripcion';
+                                                        $myId           = $permisos[$myKey]->id ?? 0;
 
+
+                                                        $myName         = "permissions[]";
+
+                                                        $myChecked      = "";
+                                                        foreach($roles->permissions as $myPermission){
+                                                            if ($myPermission->id == $myKey){
+                                                                $myChecked      = 'checked=checked';
+                                                            }
+                                                        }
+                                                    
+                                                    @endphp
+                                                    <input type="checkbox" id="{{$myId}}" name="permissions[]" value="{{$myId}}" {{$myChecked}}>
+                                                    <label for="fname">{{$myDescription}}</label>
+                                                    <br><br>
                                                     @php
                                                         $myKey          = 133;
                                                         $myDescription  = $permisos[$myKey]->description ?? 'Sin descripcion';
