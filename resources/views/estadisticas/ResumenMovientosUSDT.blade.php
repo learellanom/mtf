@@ -948,8 +948,8 @@
         }
         
         let myGroup;
-        @foreach($grupo as $key => $group2)
-            myGroup = {{ $key }};
+        @foreach($pagosUSDTGrupos as $group2)
+            myGroup = {{ $group2->group_id }};
 
 
             indExiste = 0;
@@ -965,7 +965,7 @@
                 }
             }
             if (indExiste == 0){
-                $('#my-select6').append($('<option>', {value: myGroup, text: '{{$group2}}'}));
+                $('#my-select6').append($('<option>', {value: myGroup, text: '{{$group2->name}}'}));
             }
 
         @endforeach

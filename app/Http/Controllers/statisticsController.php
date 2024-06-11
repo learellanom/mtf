@@ -6645,6 +6645,30 @@ class statisticsController extends Controller
             //   echo "</pre>";
             //   die();
 
+            $myQuery =
+            "
+                SELECT  distinct
+                    group_id,
+                    mtf.groups.name
+                FROM mtf.transactions
+                    left join
+                    mtf.groups on mtf.transactions.group_id = mtf.groups.id 
+                where
+                    type_transaction_id = 11
+                and mtf.groups.type     = 1
+                order by
+                    group_id
+            ";
+     
+            //dd($myQuery);
+            $pagosUSDTGrupos = DB::select($myQuery);
+             /*
+             echo "<pre>";
+             echo print_r($pagosUSDTGrupos);
+             echo "</pre>";
+             die();
+             */
+            
             $parametros['Transacciones']    = $Transacciones4;
             $parametros['wallet']           = $wallets;
             $parametros['myWallet']         = $myWallet;
@@ -6654,6 +6678,8 @@ class statisticsController extends Controller
             $parametros['wallet2']          = $wallet2;
             $parametros['grupo']            = $grupo;
 
+            $parametros['pagosUSDTGrupos']  = $pagosUSDTGrupos;
+            // dd($pagosUSDTGrupos);
             return view('estadisticas.ResumenMovientosUSDT', $parametros); 
             // return $Transacciones4;
 

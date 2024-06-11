@@ -878,8 +878,28 @@ class HomeController extends Controller
 
         // dd('transacciones 2 ->' . print_r($Transacciones2,true));
 
+
+        $myQuery =
+        "
+            SELECT  distinct
+                group_id,
+                mtf.groups.name
+            FROM mtf.transactions
+                left join
+                mtf.groups on mtf.transactions.group_id = mtf.groups.id 
+            where
+                type_transaction_id = 11
+            and mtf.groups.type     = 1
+            order by
+                group_id
+        ";
+ 
+        //dd($myQuery);
+        $pagosUSDTGrupos = DB::select($myQuery);
+
+
         $parametros['wallet']                       = $wallet;
-        $parametros['wallet2']                       = $wallet2;
+        $parametros['wallet2']                      = $wallet2;
         $parametros['grupo']                        = $grupo;
         $parametros['typeTransactions']             = $typeTransactions;
         $parametros['myWallet']                     = $myWallet;
@@ -901,6 +921,9 @@ class HomeController extends Controller
         $parametros['transaccionesGrupoSalida2']    = $transaccionesGrupoSalida2;
         $parametros['transaccionesGrupoSalida3']    = $transaccionesGrupoSalida3;
         $parametros['transaccionesWalletsSalida3']  = $transaccionesWalletsSalida3;
+
+        $parametros['pagosUSDTGrupos']              = $pagosUSDTGrupos;
+
 
         // dd($RecargasWallet);
         // dd($transaccionesGrupoComision);
