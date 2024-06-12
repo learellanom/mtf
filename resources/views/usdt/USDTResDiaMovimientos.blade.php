@@ -423,7 +423,7 @@ $salidaMonto    = 0;
 
             <div class="card mb-4">
                 <div class="card-header" style="background-color: red; color: white">
-                    <h3 class="card-title text-uppercase font-weight-bold">Grupos sin asignar en filtro</h3>
+                    <h3 class="card-title text-uppercase font-weight-bold">Grupos con pagos USDT sin asignar en filtro</h3>
                 </div>
                 <div class="card-body">
 
@@ -432,7 +432,7 @@ $salidaMonto    = 0;
                     <div class="row justify-content-center text-center align-items-center">
                         <div class="col-12 col-md-6 col-lg-6 col-xl-4 justify-content-center text-center align-items-center">
                             <div class="mt-4 mb-4">
-                                <label>Grupos sin asignar</label>
+                                <label>Grupos con pagos USDT sin asignar</label>
                             </div>                            
                             <select multiple="multiple" id="my-select6" name="" style="width:50%; height: 250px;"></select>
                         </div>  
@@ -443,8 +443,6 @@ $salidaMonto    = 0;
 
                 </div>
             </div>
-
-
 
         </div>
         @endcan
