@@ -391,6 +391,7 @@ return [
                     'can'       => 'dashboardComisionesGrupo2',
                     'icon_color' => 'primary',
                 ],
+                // commissions_usdt
                 [
                     'text'      => 'Detalle  USDT',
                     'url'       => 'dashboardComisionesGrupo3',

@@ -144,7 +144,7 @@ class RoleSeeder extends Seeder
         Permission::create(['name' => 'materials.adquisicion_consolidado',          'description'   => 'Resumen Consolidado de Aquisicion'])->assignRole($role1);
         Permission::create(['name' => 'materials.consolidado_grupo',                'description'   => 'Consolidado por grupo'])->assignRole($role1);
         Permission::create(['name' => 'materials.CierreGenera',                     'description'   => 'Cierre de materiales'])->assignRole($role1);
-
+        Permission::create(['name' => 'USDTResumenMovimientos',                     'description'   => 'Resumen de Movimientos USDT'])->assignRole($role1);
 
 
     }
