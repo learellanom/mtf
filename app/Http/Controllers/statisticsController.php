@@ -3819,7 +3819,7 @@ class statisticsController extends Controller
             order by
                 Transactions.transaction_date ASC,
                 wallets.name ASC,
-                mtf.groups.name ASC
+                mtf.groups.name ASC 
 
         ";
 
@@ -6668,7 +6668,7 @@ class statisticsController extends Controller
              echo "</pre>";
              die();
              */
-            
+
             $parametros['Transacciones']    = $Transacciones4;
             $parametros['wallet']           = $wallets;
             $parametros['myWallet']         = $myWallet;
