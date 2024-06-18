@@ -88,10 +88,9 @@ $config4 = [
 <div class="container-left">
     <div class="row col-12 d-flex">
 
-        <div class ="col-lg-3">
+        <div class ="col-xl-3">
             <x-adminlte-select2 id="wallet"
                                 name="optionsCliente"
-                                igroup-size="sm"
                                 label-class="text-lightblue"
                                 data-placeholder="Wallet ..."
                                 :config="$config1"
@@ -107,10 +106,9 @@ $config4 = [
             </x-adminlte-select2>
         </div>
 
-        <div class ="col-lg-3">
+        <div class ="col-xl-3">
             <x-adminlte-select2 id="group"
                                 name="optionsGroup"
-                                igroup-size="sm"
                                 label-class="text-lightblue"
                                 data-placeholder="Grupo ..."
                                 :config="$config2"
@@ -126,10 +124,9 @@ $config4 = [
             </x-adminlte-select2>
         </div>
 
-        <div class ="col-lg-3">
+        <div class ="col-xl-3">
             <x-adminlte-select2 id="type_material_id"
                                 name="type_material_id"
-                                igroup-size="sm"
                                 label-class="text-lightblue"
                                 data-placeholder="Material ..."
                                 :config="$config1"
@@ -148,8 +145,11 @@ $config4 = [
             </x-adminlte-select2>
         </div>
         
-        <div class ="col-lg-3">
-            <x-adminlte-date-range name="drCustomRanges" enable-default-ranges="Last 30 Days" style="height: 30px;" :config="$config3">
+        <div class ="col-xl-3">
+            <x-adminlte-date-range  name="drCustomRanges" 
+                                    enable-default-ranges="Last 30 Days" 
+                                    style="height: 30px;" 
+                                    :config="$config3">
                 <x-slot name="prependSlot">
                     <div class="input-group-text bg-gradient-dark">
                         <i class="fas fa-calendar-alt"></i>
