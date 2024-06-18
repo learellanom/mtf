@@ -4033,7 +4033,9 @@ class statisticsController extends Controller
         $myWallet      = 0; 
         $myWalletDesde = 00000;
         $myWalletHasta = 99999;
+        
         if ($request->wallet){
+            
             $myWallet       = $request->wallet; 
             $myWalletDesde  = $request->wallet;
             $myWalletHasta  = $request->wallet;
@@ -4078,11 +4080,20 @@ class statisticsController extends Controller
             $myTypeMaterialHasta    = $request->type_material;
         }
 
+        
         /*
+        echo "<br>" . " leam - myWallet      -> " . $myWallet;
+        echo "<br>" . " leam - myWalletDesde -> " . $myWalletDesde;
+        echo "<br>" . " leam - myWalletHasta -> " . $myWalletHasta;
+
+        echo "<br>" . " leam - myGroup      -> " . $myGroup;
+        echo "<br>" . " leam - myGroupDesde -> " . $myGroupDesde;
+        echo "<br>" . " leam - myGroupHasta -> " . $myGroupHasta;
+
         echo "<br>" . " leam - myTypeMaterial      -> " . $myType_material;
         echo "<br>" . " leam - myTypeMaterialDesde -> " . $myTypeMaterialDesde;
         echo "<br>" . " leam - myTypeMaterialHasta -> " . $myTypeMaterialHasta;
-        die();
+         die();
         */
 
 
@@ -4234,7 +4245,7 @@ class statisticsController extends Controller
         // dd($adquisiciones);
 
         $Group_roles 	    = $this->getGroupRole(auth()->id());
-        $wallet             = $this->getWallet($Group_roles);
+        $wallet             = $this->getWallet();
         $group              = $this->getGroups($Group_roles);
         $type_material      = Type_material::pluck('name', 'id')->toArray();
 

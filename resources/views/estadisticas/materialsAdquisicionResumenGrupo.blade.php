@@ -240,29 +240,14 @@ $config4 = [
         // BuscaFechas();
         BuscaFechasBlade();
         
-        $('#wallet, #group, #type_material_id, #drCustomRanges').on('change', function (){
+        $('#wallet, #group, #type_material_id').on('change', function (){
 
             const wallet        = $('#wallet').val();
             const group         = $('#group').val();
             const type_material = $('#type_material_id').val();
 
-            let myFechaDesde, myFechaHasta;
-            
-            myFechaDesde =  ($('#drCustomRanges').val()).substr(6,4) +
-                            '-' +
-                            ($('#drCustomRanges').val()).substr(3,2) +
-                            '-' +
-                            ($('#drCustomRanges').val()).substr(0,2)
-                            ;
 
-            myFechaHasta =  ($('#drCustomRanges').val()).substr(19,4) +
-                            '-' +
-                            ($('#drCustomRanges').val()).substr(16,2) +
-                            '-' +
-                            ($('#drCustomRanges').val()).substr(13,2)
-                            ;
-
-            theRoute(wallet,group,myFechaDesde,myFechaHasta, type_material);
+            theRoute(wallet,group,undefined,undefined, type_material);
 
         }).on('select2:open', () => {
              document.querySelector('.select2-search__field').focus();
@@ -302,24 +287,29 @@ $config4 = [
 
     })
 
-    function theRoute(wallet = 0, group = 0, fechaDesde = 0, fechaHasta = 0, type_material = 0){
+    function theRoute(wallet = 0, group = 0, fechaDesde = 0, fechaHasta = 0, type_material = 1){
 
         // alert('leam - cambio');
 
-        if (wallet  === "") wallet  = 0;
-        if (group  === "") group  = 0;
-        if (type_material  === "") type_material  = 0;
+        if (wallet  === "")         wallet  = 0;
+        if (group  === "")          group  = 0;
+        if (type_material  === "")  type_material  = 0;
 
         let myRoute = "";
+        if (fechaDesde != 0) {
             myRoute = "{{ route('materialsAdquisicionResumenGrupo', ['wallet' => 'wallet2',  'group' => 'group2', 'type_material' => 'type_material2','fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2']) }}";
-            myRoute = myRoute.replace('wallet2',wallet);
-            myRoute = myRoute.replace('fechaDesde2',fechaDesde);
-            myRoute = myRoute.replace('fechaHasta2',fechaHasta);
-            myRoute = myRoute.replace('group2',group);
-            myRoute = myRoute.replace('type_material2',type_material);
-            myRoute = myRoute.replaceAll('amp;','');
+        }else{
+            myRoute = "{{ route('materialsAdquisicionResumenGrupo', ['wallet' => 'wallet2',  'group' => 'group2', 'type_material' => 'type_material2']) }}";
+        }
+
+        myRoute = myRoute.replace('wallet2',wallet);
+        myRoute = myRoute.replace('fechaDesde2',fechaDesde);
+        myRoute = myRoute.replace('fechaHasta2',fechaHasta);
+        myRoute = myRoute.replace('group2',group);
+        myRoute = myRoute.replace('type_material2',type_material);
+        myRoute = myRoute.replaceAll('amp;','');
         // console.log(myRoute);
-         // alert(myRoute);
+        // alert(myRoute);
         location.href = myRoute;
 
     }

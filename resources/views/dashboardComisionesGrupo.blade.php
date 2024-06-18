@@ -347,12 +347,6 @@ $totalComisionGanancia2General  = 0;
         const   myArray   = text.split("/");
         const   myLength  = myArray.length;
 
-        if (window.location.href.indexOf("?") === -1) {
-            $('.esconder').show();
-        } else {
-            $('.esconder').hide();
-        }
-
         let     myFechaDesde = {!! $myFechaDesde !!};
         // console.log({!! $myFechaDesde !!});
         const   myFechaHasta = {!! $myFechaHasta !!};
@@ -1000,6 +994,7 @@ $totalComisionGanancia2General  = 0;
 
             </div>
         `;
+        
         $("#myCanvasGeneral").append(myElement);
 
         const COLORS = [
