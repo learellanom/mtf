@@ -232,7 +232,7 @@ class TransactionController extends Controller
         ->orderBy('created_at','desc')       
         ->get();
 
-        //dd($movimientos);
+        // dd($movimientos);
 
         $myFechaDesde2  =  substr($myFechaDesde,8,2) . '-' . substr($myFechaDesde,5,2) . '-' . substr($myFechaDesde,0,4);
         $myFechaHasta2  =  substr($myFechaHasta,8,2) . '-' . substr($myFechaHasta,5,2) . '-' . substr($myFechaHasta,0,4);

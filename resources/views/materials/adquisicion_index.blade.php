@@ -51,7 +51,7 @@
                 </div>
                 <div class="row">
 
-                    <div class ="col-12 col-lg-2 float-right" >
+                    <div class ="col-12 col-xl-2 float-right" >
                         <x-adminlte-date-range
                             id="drCustomRanges"
                             name="drCustomRanges"
@@ -67,10 +67,10 @@
                     </div>
 
 
-                    <div class ="col-12 col-sm-2">
+                    <div class ="col-12 col-xl-2">
                         <x-adminlte-select2 id="wallet"
                                             name="optionsCliente"
-                                            igroup-size="sm"
+                                            
                                             label-class="text-lightblue"
                                             data-placeholder="Wallet ..."
                                             :config="$config1"
@@ -86,10 +86,10 @@
                         </x-adminlte-select2>
                     </div>
 
-                    <div class ="col-12 col-sm-2">
+                    <div class ="col-12 col-xl-2">
                         <x-adminlte-select2 id="group"
                                             name="optionsGroup"
-                                            igroup-size="sm"
+                                            
                                             label-class="text-lightblue"
                                             data-placeholder="Grupo ..."
                                             :config="$config2"
@@ -106,10 +106,10 @@
                     </div>
 
                     @if($myAdministrator == true)
-                        <div class ="col-12 col-lg-2">
+                        <div class ="col-12 col-xl-2">
                             <x-adminlte-select2 id="usuario"
                                                 name="optionsUsuario"
-                                                igroup-size="sm"
+                                                
                                                 label-class="text-lightblue"
                                                 data-placeholder="Usuario ..."
                                                 :config="$config2"
@@ -129,7 +129,7 @@
                     <div class ="col-lg-2">
                         <x-adminlte-select2 id="coin"
                                             name="optionsCoin"
-                                            igroup-size="sm"
+                                            
                                             label-class="text-lightblue"
                                             data-placeholder="Moneda ..."
                                             :config="$config1"
@@ -148,10 +148,10 @@
                         </x-adminlte-select2>
                     </div>
                     --}}
-                    <div class ="col-lg-2">
+                    <div class ="col-12 col-xl-2">
                         <x-adminlte-select2 id="type_material_id"
                                             name="type_material_id"
-                                            igroup-size="sm"
+                                            
                                             label-class="text-lightblue"
                                             data-placeholder="Material ..."
                                             :config="$config1"
@@ -180,6 +180,7 @@
                         <table class="table table-bordered table-responsive" id="table" style="width:100%;">
                             <thead>
                                 <tr>
+
                                     <th style="width:1%;"   >Nro</th>
                                     <th style="width:1%;"   >Caja</th>
                                     <th style="width:1%;"   >Grupo</th>
@@ -213,36 +214,42 @@
                                 </tr>
                             </thead>
                             
-                                @foreach($movimientos as $movimiento)
-                                
-                                    @php 
-                                        $myDesTypeAdquisicion   = $myClass->getDesTyperAdquisicion($movimiento->material_type_adquisicion);
-                                        switch($movimiento->material_type_adquisicion){
-                                            case 1:
-                                                $myMaterialPrice        = $movimiento->material_price_kilos;
-                                                $myMaterialAmount       = $movimiento->material_amount_kilos;
-                                                $myMaterialAmountTotal  = $movimiento->material_amount_total_kilos;
-                                                break;
-                                            case 2:
-                                                $myMaterialPrice        = $movimiento->material_price_gramos;
-                                                $myMaterialAmount       = $movimiento->material_amount_gramos;
-                                                $myMaterialAmountTotal  = $movimiento->material_amount_total_gramos; 
-                                                break;
-                                            case 3:
-                                                $myMaterialPrice        = $movimiento->material_price_cantidad;
-                                                $myMaterialAmount       = $movimiento->material_amount_cantidad;
-                                                $myMaterialAmountTotal  = $movimiento->material_amount_total_cantidad;                                                
-                                                break;
-                                            default:
-                                                $myMaterialPrice        = 0;
-                                                $myMaterialAmount       = 0;
-                                                $myMaterialAmountTotal  = 0;
+                            @foreach($movimientos as $movimiento)
+                            
+                                @php 
+                                    $myDesTypeAdquisicion   = $myClass->getDesTyperAdquisicion($movimiento->material_type_adquisicion);
+                                    switch($movimiento->material_type_adquisicion){
+                                        case 1:
+                                            $myMaterialPrice        = $movimiento->material_price_kilos;
+                                            $myMaterialAmount       = $movimiento->material_amount_kilos;
+                                            $myMaterialAmountTotal  = $movimiento->material_amount_total_kilos;
+                                            break;
+                                        case 2:
+                                            $myMaterialPrice        = $movimiento->material_price_gramos;
+                                            $myMaterialAmount       = $movimiento->material_amount_gramos;
+                                            $myMaterialAmountTotal  = $movimiento->material_amount_total_gramos; 
+                                            break;
+                                        case 3:
+                                            $myMaterialPrice        = $movimiento->material_price_cantidad;
+                                            $myMaterialAmount       = $movimiento->material_amount_cantidad;
+                                            $myMaterialAmountTotal  = $movimiento->material_amount_total_cantidad;                                                
+                                            break;
+                                        default:
+                                            $myMaterialPrice        = 0;
+                                            $myMaterialAmount       = 0;
+                                            $myMaterialAmountTotal  = 0;
 
-                                        }
+                                    }
+                                    
+                                    $myStyle = "color: black";
 
-                                    @endphp
+                                    if ($movimiento->status == "Anulado"){
+                                        $myStyle = "color: red";
+                                    }
+                                @endphp
 
-                                    <tr>
+                                    <tr style="{{$myStyle}}">
+
                                         <td class="font-weight-bold">{{ $movimiento->id }}</td>
                                         <td class="font-weight-bold">{{ $movimiento->wallet->name ?? "" }}</td>                                    
                                         <td class="font-weight-bold">{{ $movimiento->group->name ?? "" }}</td>
@@ -286,7 +293,7 @@
                                                         </button>
 
                                                     @elseif($movimiento->status == 'Anulado')
-                                                        <div class="btn btn-xl text-danger mx-1 shadow text-center"">
+                                                        <div class="btn btn-xl text-danger mx-1 shadow text-center">
                                                             <i class="fa fa-lg fa-fw fas fa-times"></i><p style="display: none;">Anulado</p>
                                                         </div>
                                                     @endif
@@ -349,25 +356,38 @@
         $('#table').DataTable( {
 
             language: {
-            "decimal": "",
-            "emptyTable": "Sin transacciones registradas, seleccione un criterio de busqueda.",
-            "info": "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
-            "infoEmpty": "Mostrando 0 to 0 de 0 Entradas",
-            "infoFiltered": "(Filtrado de _MAX_ total entradas)",
-            "infoPostFix": "",
-            "thousands": ",",
-            "lengthMenu": "Mostrar _MENU_ Entradas",
+            "decimal"       : "",
+            "emptyTable"    : "Sin transacciones registradas, seleccione un criterio de busqueda.",
+            "info"          : "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
+            "infoEmpty"     : "Mostrando 0 to 0 de 0 Entradas",
+            "infoFiltered"  : "(Filtrado de _MAX_ total entradas)",
+            "infoPostFix"   : "",
+            "thousands"     : ",",
+            "lengthMenu"    : "Mostrar _MENU_ Entradas",
             "loadingRecords": "Cargando...",
-            "processing": "Procesando...",
-            "search": "Buscar:",
-            "zeroRecords": "Sin resultados encontrados",
+            "processing"    : "Procesando...",
+            "search"        : "Buscar:",
+            "zeroRecords"   : "Sin resultados encontrados",
             "paginate": {
-                "first": "Primero",
-                "last": "Ultimo",
-                "next": "Siguiente",
-                "previous": "Anterior"
+                "first"     : "Primero",
+                "last"      : "Ultimo",
+                "next"      : "Siguiente",
+                "previous"  : "Anterior"
             }
-        },
+        },     
+        // responsive: {
+        //     details: {
+        //         type: 'column',
+        //         target: 'tr'    
+        //     }
+        // },
+        // columnDefs: [
+        //     {
+        //         className: 'dtr-control',
+        //         orderable: false,
+        //         targets: 0
+        //     },
+        // ],
         "order": [[ 3, 'desc' ]],
         'dom' : 'Bfrtip',
         'buttons':[

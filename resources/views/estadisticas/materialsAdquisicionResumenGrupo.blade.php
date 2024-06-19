@@ -17,8 +17,8 @@ $heads = [
     'Recepcion Kilos',
     'Recepcion Gramos',
 
-    ['label' => 'Actions', 'no-export' => true, 'width' => 5],
-    ['label' => 'Actions', 'no-export' => true, 'width' => 5],
+    ['label' => 'Adquisiciones', 'no-export' => true, 'width' => 5],
+    ['label' => 'Recepciones', 'no-export' => true, 'width' => 5],
 ];
 
 $btnEdit = '<button class="btn btn-xs btn-default text-primary mx-1 shadow" title="Edit">
