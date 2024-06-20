@@ -641,7 +641,8 @@
 
             let myDays;
             myDays = 30;
-            
+            myDays = 90; // plazo transaccion
+
             let myDateBefore = new Date();
                 myDateBefore.setDate(myDateBefore.getDate() - myDays);
 

@@ -4575,8 +4575,8 @@ class statisticsController extends Controller
         }
 
         $myGroup        = 0;
-        $myGroupDesde = 00000;
-        $myGroupHasta = 99999;
+        $myGroupDesde   = 00000;
+        $myGroupHasta   = 99999;
         if ($request->group){
             $myGroup        = $request->group;
             $myGroupDesde   = $request->group;
@@ -4610,28 +4610,28 @@ class statisticsController extends Controller
         $myQuery =
         "
             select
-                mtf.transactions.wallet_id                      as WalletId,
-                wallets.name                                    as WalletName,
-                mtf.transactions.group_id                       as GroupId,
-                mtf.groups.name                                 as GroupName,
-                mtf.transactions.type_transaction_id            as TypeTransactionId,
-                type_transactions.name                          as TypeTransactionName,
-                mtf.transactions.type_material_id               as TypeMaterialId,
-                mtf.type_materials.name                         as TypeMaterialName,              
-                0                                               as AdquisicionCant,
-                0                                               as AdquisicionMaterialPriceKilos,
-                0                                               as AdquisicionMaterialAmountKilos,
-                0                                               as AdquisicionMaterialAmountTotalKilos,
-                0                                               as AdquisicionMaterialPriceGramos,
-                0                                               as AdquisicionMaterialAmountGramos,
-                0                                               as AdquisicionMaterialAmountTotalGramos,
-                count(mtf.transactions.wallet_id )              as RecepcionCant,
-                0                                               as RecepcionMaterialPriceKilos,
-                sum(mtf.transactions.material_amount_kilos)     as RecepcionMaterialAmountKilos,
-                0                                               as RecepcionMaterialAmountTotalKilos,
-                0                                               as RecepcionMaterialPriceGramos,
-                sum(mtf.transactions.material_amount_gramos)    as RecepcionMaterialAmountGramos,
-                0                                               as RecepcionMaterialAmountTotalGramos
+                mtf.transactions.wallet_id                          as WalletId,
+                wallets.name                                        as WalletName,
+                mtf.transactions.group_id                           as GroupId,
+                mtf.groups.name                                     as GroupName,
+                mtf.transactions.type_transaction_id                as TypeTransactionId,
+                type_transactions.name                              as TypeTransactionName,
+                mtf.transactions.type_material_id                   as TypeMaterialId,
+                mtf.type_materials.name                             as TypeMaterialName,              
+                0                                                   as AdquisicionCant,
+                0                                                   as AdquisicionMaterialPriceKilos,
+                0                                                   as AdquisicionMaterialAmountKilos,
+                0                                                   as AdquisicionMaterialAmountTotalKilos,
+                0                                                   as AdquisicionMaterialPriceGramos,
+                0                                                   as AdquisicionMaterialAmountGramos,
+                0                                                   as AdquisicionMaterialAmountTotalGramos,
+                count(mtf.transactions.wallet_id )                  as RecepcionCant,
+                0                                                   as RecepcionMaterialPriceKilos,
+                sum(mtf.transactions.material_amount_kilos)         as RecepcionMaterialAmountKilos,
+                sum(mtf.transactions.material_amount_total_kilos)   as RecepcionMaterialAmountTotalKilos,
+                0                                                   as RecepcionMaterialPriceGramos,
+                sum(mtf.transactions.material_amount_gramos)        as RecepcionMaterialAmountGramos,
+                sum(mtf.transactions.material_amount_total_gramos)  as RecepcionMaterialAmountTotalGramos
             from
                         mtf.transactions
             left join   mtf.type_transactions   on mtf.transactions.type_transaction_id = mtf.type_transactions.id
@@ -4665,9 +4665,8 @@ class statisticsController extends Controller
             $recepciones = (object) $recepciones[0];
         }
         
+        $myRecepcionMaterialAmountGramos        = $recepciones->RecepcionMaterialAmountGramos       ?? 0;
 
-
-        $myRecepcionMaterialAmountGramos = $recepciones->RecepcionMaterialAmountGramos ?? 0;
 
         // dd($myQuery);
         // dd($recepciones);
@@ -4680,7 +4679,7 @@ class statisticsController extends Controller
             echo "</pre>";
         }
 
-         $myQuery =
+        $myQuery =
          "
              select
                  mtf.transactions.id                                as Id,
@@ -4743,6 +4742,7 @@ class statisticsController extends Controller
 
 
         $myAmount                   = 0;
+        $myAmountTotal              = 0;
         $myMaterialAmmountGramosNew = 0;
         $myIdToLiquidate            = [];
         $myAdquisicionToLiquidate   = [];
@@ -4768,22 +4768,28 @@ class statisticsController extends Controller
 
                 $myIdToLiquidate[] = $myAdquisicion->Id;
 
+                $myAmountTotal              += $myAdquisicion->AdquisicionMaterialAmountTotalGramos;
+
             }else if ($myAmount > $myRecepcionMaterialAmountGramos){
                 
-                $myAdquisicionToLiquidate[] = $myAdquisicion;
-                $myIdToLiquidate[]          = $myAdquisicion->Id;
+                $myAdquisicionToLiquidate[]     = $myAdquisicion;
+                $myIdToLiquidate[]              = $myAdquisicion->Id;
 
-                $myMaterialAmmountGramosNew = $myAmount - $myRecepcionMaterialAmountGramos;
-                $myMaterialAmountKilosNew   = $myMaterialAmmountGramosNew / 1000;
-                $myMaterialAmountKilosNew    = round($myMaterialAmountKilosNew,3);
 
-                $myMaterialAmountTotalGramos = $myAdquisicion->AdquisicionMaterialPriceGramos  * $myMaterialAmmountGramosNew;
-                $myMaterialAmountTotalGramos = round($myMaterialAmountTotalGramos,3);
+                $myAmountTotal              += $myAdquisicion->AdquisicionMaterialAmountTotalGramos;
 
-                $myMaterialAmountTotalKilos = $myAdquisicion->AdquisicionMaterialPriceKilos   * $myMaterialAmountKilosNew;
-                $myMaterialAmountTotalKilos = round($myMaterialAmountTotalKilos,3);
 
-                $myAdquisicion2             = clone $myAdquisicion;
+                $myMaterialAmmountGramosNew     = $myAmount - $myRecepcionMaterialAmountGramos;
+                $myMaterialAmountKilosNew       = $myMaterialAmmountGramosNew / 1000;
+                $myMaterialAmountKilosNew       = round($myMaterialAmountKilosNew,3);
+
+                $myMaterialAmountTotalGramos    = $myAdquisicion->AdquisicionMaterialPriceGramos  * $myMaterialAmmountGramosNew;
+                $myMaterialAmountTotalGramos    = round($myMaterialAmountTotalGramos,3);
+
+                $myMaterialAmountTotalKilos     = $myAdquisicion->AdquisicionMaterialPriceKilos   * $myMaterialAmountKilosNew;
+                $myMaterialAmountTotalKilos     = round($myMaterialAmountTotalKilos,3);
+
+                $myAdquisicion2                 = clone $myAdquisicion;
 
                 $myAdquisicion2->AdquisicionMaterialAmountGramos        = $myMaterialAmmountGramosNew;
                 $myAdquisicion2->AdquisicionMaterialAmountKilos         = $myMaterialAmountKilosNew;
@@ -4940,6 +4946,40 @@ class statisticsController extends Controller
 
         $transactions_new->save();
         
+        //
+        // crear una nota de debito por lo liquidado en el total de recepciones
+        //
+
+        /*
+        $transactions_new = new Transaction;
+
+        $transactions_new->type_transaction_id              = 8;
+        $transactions_new->user_id                          = auth()->user()->id;
+        $transactions_new->group_id                         = $myAdquisicionToCreate->GroupId;
+        
+        $transactions_new->status                           = "Activo";
+        $transactions_new->transaction_date                 = ;
+        
+
+        $transactions_new->description                      = "Nota de debito por liquidacion de cuenta de materiales";
+
+        $transactions_new->amount                           = $myAmountTotal;
+        $transactions_new->amount_total                     = $myAmountTotal;
+        $transactions_new->amount_total_base                = $myAmountTotal;
+        $transactions_new->amount_comission_profit          = 0;
+
+        $transactions_new->exonerate                        = 0;    
+        $transactions_new->exonerate_base                   = 0;    
+
+        $transactions_new->type_coin_balance_id             = 1;
+        $transactions_new->exchange_rate_orientation        = 1;
+    
+        $transactions_new->liquidation_date                 = $myLiquidationDate;
+        $transactions_new->liquidation_number               = $myLiquidationNumber;    
+
+        $transactions_new->save();
+        */
+
         if ($indLog ==1){
             echo "<br>" . "new transactions ********************************************";
             echo "<pre>";
