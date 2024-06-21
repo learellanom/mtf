@@ -50,7 +50,7 @@
                 </div>
                 <div class="row">
 
-                    <div class ="col-12 col-lg-2 float-right" >
+                    <div class ="col-12 col-xl-2 float-right" >
                         <x-adminlte-date-range
                             id="drCustomRanges"
                             name="drCustomRanges"
@@ -66,7 +66,7 @@
                     </div>
 
 
-                    <div class ="col-12 col-sm-2">
+                    <div class ="col-12 col-xl-2">
                         <x-adminlte-select2 id="wallet"
                                             name="optionsCliente"
                                             igroup-size="sm"
@@ -85,7 +85,7 @@
                         </x-adminlte-select2>
                     </div>
 
-                    <div class ="col-12 col-sm-2">
+                    <div class ="col-12 col-xl-2">
                         <x-adminlte-select2 id="group"
                                             name="optionsGroup"
                                             igroup-size="sm"
@@ -106,7 +106,7 @@
 
 
                     @if($myAdministrator == true)
-                        <div class ="col-12 col-lg-2">
+                        <div class ="col-12 col-xl-2">
                             <x-adminlte-select2 id="usuario"
                                                 name="optionsUsuario"
                                                 igroup-size="sm"
@@ -126,7 +126,7 @@
                         </div>
                     @endif
 
-                    <div class ="col-12 col-lg-2">
+                    <div class ="col-12 col-xl-2">
                         <x-adminlte-select2 id="type_material_id"
                                             name="type_material_id"
                                             igroup-size="sm"
@@ -208,22 +208,33 @@
                                                 $myMaterialAmount       = 0;
 
                                         }
-
+                                        $myStyle = "color: black";
+                                        if ($movimiento->status == 'Anulado'){
+                                            $myStyle = "color: red";
+                                        }
                                     @endphp
                                     
                                     
-                                    <tr>
+                                    <tr style="{{$myStyle}}">
                                         <td class="font-weight-bold">{{ $movimiento->id }}</td>
                                         <td class="font-weight-bold">{{ $movimiento->wallet->name ?? "" }}</td>                                    
                                         <td class="font-weight-bold">{{ $movimiento->group->name ?? "" }}</td>
-                                        <td class="font-weight-bold" style="min-width: 80px;">{!! $movimiento->transaction_date !!}</td>
-                                        <td class="font-weight-bold" style="min-width: 80px;">{!! $movimiento->created_at !!}</td>
+                                        <td class="font-weight-bold" style="min-width: 85px;">
+                                            {!! substr($movimiento->transaction_date,0,10) !!}
+                                            <br>
+                                            {!! substr($movimiento->transaction_date,11) !!}
+                                        </td>
+                                        <td class="font-weight-bold" style="min-width: 85px;">
+                                            {!! substr($movimiento->created_at,1,10) !!}
+                                            <br>
+                                            {!! substr($movimiento->created_at,11) !!}
+                                        </td>
                                         <td class="font-weight-bold">
-                                            <div style='width:60px; height:60px; overflow:hidden;'>{!!  $movimiento->description !!}</div>
+                                            <div style='width:90px; height:60px; overflow:hidden;'>
+                                                {!!  $movimiento->description !!}
+                                            </div>
                                         </td>
                                         <td >{!! $movimiento->type_material->name ?? '' !!}</td>
-
-
                                         <td>{!! number_format($myMaterialAmount,2) ?? '' !!}</td>
                                         <td>{!! $myDesTypeAdquisicion ?? '' !!}</td>
                                         <td class="font-weight-bold">{!! $movimiento->user->name ?? '' !!}</td>
@@ -500,7 +511,13 @@
 
     function theRoute(user = 0, fechaDesde = 0, fechaHasta = 0, coin = 0, material = 0){
 
-        user        = $('#usuario').val() == "" ? 0 : $('#usuario').val();
+
+        if($('#usuario').val()){
+            user        = $('#usuario').val() == "" ? 0 : $('#usuario').val();
+        }else{
+            user= 0;
+        }
+
         wallet      = $('#wallet').val() == ""  ? 0 : $('#wallet').val();
         group       = $('#group').val() == ""   ? 0 : $('#group').val();
 
