@@ -104,7 +104,7 @@
                             <x-adminlte-options :options="$group" empty-option="Selecciona un Grupo.."/>
                         </x-adminlte-select2>
                     </div>
-
+                    
                     @if($myAdministrator == true)
                         <div class ="col-12 col-xl-2">
                             <x-adminlte-select2 id="usuario"
@@ -125,6 +125,7 @@
                             </x-adminlte-select2>
                         </div>
                     @endif
+                    
                     {{--
                     <div class ="col-lg-2">
                         <x-adminlte-select2 id="coin"
@@ -579,8 +580,12 @@
 
     function theRoute(user = 0, fechaDesde = 0, fechaHasta = 0, coin = 0, material = 0){
 
-        user        = $('#usuario').val() == "" ? 0 : $('#usuario').val();
-        
+        if ($('#usuario').val()) {
+            user        = $('#usuario').val() == "" ? 0 : $('#usuario').val();
+        }else{
+            user = 0;
+        }
+
         let wallet  = $('#wallet').val() == ""  ? 0 : $('#wallet').val();
         let group   = $('#group').val() == ""   ? 0 : $('#group').val();
 
