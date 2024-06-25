@@ -19,6 +19,10 @@
 
 @endphp 
 
+@php
+    $myDays = config('transactions.transaction_days',30);
+@endphp
+
 @section('content')
 
 <div class="d-flex justify-content-center">
@@ -386,6 +390,8 @@
 
     $(document).ready(function() {
 
+        let myDays = {{ $myDays ?? 0}};
+
         $(".typecoin").select2({
             placeholder: "Seleccionar Moneda",
             theme: 'bootstrap4',
@@ -494,10 +500,9 @@
 
             // valida cuantos dias hacia atras se permite cargar una transaccion
 
-            let myDays;
-            myDays = 4;
-            myDays = 30;
-            // myDays = 240;
+
+            
+            // alert("myDays ->" + myDays);
 
             let myDateBefore = new Date();
                 myDateBefore.setDate(myDateBefore.getDate() - myDays);

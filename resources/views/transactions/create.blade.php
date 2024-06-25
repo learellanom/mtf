@@ -11,6 +11,10 @@
 @stop
 
 
+@php
+    $myDays = config('transactions.transaction_days',30);
+@endphp
+
 @section('content')
 
 <div class="d-flex justify-content-center">
@@ -603,6 +607,9 @@
     
     
     $(document).ready(function() {
+
+        let myDays = {{ $myDays ?? 0}};
+        // alert (' myDays ->' . myDays);
         inicializaComisionPorcentaje();
         // submit del form 
 
@@ -639,10 +646,12 @@
 
             // valida cuantos dias hacia atras se permite cargar una transaccion
 
-            let myDays;
-            myDays = 30;
-            myDays = 90; // plazo transaccion
-
+            //let myDays;
+            //myDays = 30;
+            //myDays = 90; // plazo transaccion
+            //myDays = 150; // plazo transaccion
+            // alert("myDays -> " + myDays);
+            
             let myDateBefore = new Date();
                 myDateBefore.setDate(myDateBefore.getDate() - myDays);
 

@@ -562,7 +562,7 @@ return [
         ['header' => 'Operaciones',
         'classes' =>'text-uppercase font-weight-bold text-light',],
         [
-            'text'        => 'Transacciónes',
+            'text'        => 'Transacciones',
             'url'         => 'movimientos',
             'active'      => ['movimientos', 'regex:@^movimientos/[0-9]+/*@', 'movimientos/create'],
             'can'         => 'transactions.index',
@@ -571,7 +571,7 @@ return [
             'label_color' =>'success',
         ],
         [
-            'text'        => 'Transacciónes v2',
+            'text'        => 'Transacciones v2',
             'url'         => 'movimientos3',
             'active'      => ['movimientos', 'regex:@^movimientos/[0-9]+/*@', 'movimientos/create'],
             'can'         => 'transactions.index3',
@@ -580,7 +580,7 @@ return [
             'label_color' =>'success',
         ],
         [
-            'text'        => 'Transacciónes en efectivo',   
+            'text'        => 'Transacciones en efectivo',   
             'url'         => 'movimientos/efectivo',
             'active'      => ['movimientos/create_efectivo'],
             'can'         => 'transactions.create_efectivo',

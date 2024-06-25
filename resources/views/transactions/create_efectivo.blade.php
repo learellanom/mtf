@@ -9,7 +9,10 @@
 
 
 @stop
-
+			
+@php
+    $myDays = config('transactions.transaction_days',30);
+@endphp
 
 @section('content')
 
@@ -386,68 +389,6 @@
 @section('js')
 <script>
 
-$('#entre').on('submit', function() {
-
-
-
-
-
-    exonerar = $('#radio1').is(':checked');
-    if(!exonerar){
-        if ($('#percentage').val() <= 0) {
-            Swal.fire('Porcentaje, no puede ser cero o menor a cero. :(');
-            return false;
-        }
-    }
-    if ($('#monto_dolares').val() <= 0) {
-        Swal.fire('Monto en dolares, no puede ser cero o menor a cero. ');
-        return false;
-    }
-    else if($('#monto_dolares').val().length == 0){
-        Swal.fire('Monto en dolares, no puede estar vacio :( ');
-        return false;
-    }
-
-
-
-    let myDate      = new Date($('#fecha').val());
-    let myDateNow   = new Date();
-
-    // valida cuantos dias hacia atras se permite cargar una transaccion
-
-    let myDays;
-    myDays = 4;
-    myDays = 30;
-    // myDays = 240;
-
-    let myDateBefore = new Date();
-        myDateBefore.setDate(myDateBefore.getDate() - myDays);
-
-    if (myDate <= myDateBefore){
-        Swal.fire({
-            position: 'left',
-            type: 'error',
-            title: `Error: Fecha de transacción no puede ser menor a ${myDays} dias anteriores a la fecha`,
-            showConfirmButton: true
-        });                 
-        return false;
-    }
-
-
-    if (myDate > myDateNow){
-        
-        Swal.fire({
-            position: 'left',
-            type: 'error',
-            title: 'Error: Fecha de transacción no puede ser mayor a la fecha',
-            showConfirmButton: true
-        });                
-        return false;
-    }
-
-
-    
-});
 
 
 $(".clientes").select2({
@@ -497,6 +438,8 @@ $("#typetrasnferencia").val("")
 $("#typetrasnferencia").trigger("change");
 
 $(document).ready(function() {
+
+    let myDays = {{ $myDays ?? 0}};
 
      $('#monto_dolares').on('input', function() {
         var input1Value = $('#monto_dolares').val();
@@ -774,7 +717,70 @@ $(document).ready(function() {
 
         } //ELSE
     });
+
+
+    $('#entre').on('submit', function() {
+
+        exonerar = $('#radio1').is(':checked');
+        if(!exonerar){
+            if ($('#percentage').val() <= 0) {
+                Swal.fire('Porcentaje, no puede ser cero o menor a cero. :(');
+                return false;
+            }
+        }
+        if ($('#monto_dolares').val() <= 0) {
+            Swal.fire('Monto en dolares, no puede ser cero o menor a cero. ');
+            return false;
+        }
+        else if($('#monto_dolares').val().length == 0){
+            Swal.fire('Monto en dolares, no puede estar vacio ');
+            return false;
+        }
+
+
+
+        let myDate      = new Date($('#fecha').val());
+        let myDateNow   = new Date();
+
+        // valida cuantos dias hacia atras se permite cargar una transaccion
+
+        //myDays = 4;
+        //myDays = 30;
+        // myDays = 240;
+        
+        let myDateBefore = new Date();
+            myDateBefore.setDate(myDateBefore.getDate() - myDays);
+
+        if (myDate <= myDateBefore){
+            Swal.fire({
+                position: 'left',
+                type: 'error',
+                title: `Error: Fecha de transacción no puede ser menor a ${myDays} dias anteriores a la fecha`,
+                showConfirmButton: true
+            });                 
+            return false;
+        }
+
+        if (myDate > myDateNow){
+            
+            Swal.fire({
+                position: 'left',
+                type: 'error',
+                title: 'Error: Fecha de transacción no puede ser mayor a la fecha',
+                showConfirmButton: true
+            });                
+            return false;
+        }
+
+    });
+
+
+
 });
+
+
+
+
 
 $("#file").fileinput({
     uploadUrl: '{{ route('transactions.store') }}'
