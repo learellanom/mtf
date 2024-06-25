@@ -26,8 +26,8 @@ $heads = [
     'Monto',
 
     'Saldo Pendiente Gramos',
-    'Acumulado Cantidad',
-    'Acumulado Total $',
+    'Cantidad Acumulado',
+    'Monto Acumulado Total $',
 
     
     'Nro Recepcion',
@@ -80,6 +80,10 @@ $config3 = [
  //    dd('aqui');
  // echo "aqui";
 // die();
+
+$myDays = config('transactions.transaction_days',30);
+
+
 @endphp
 
 <script>
@@ -207,14 +211,14 @@ $config3 = [
                                     <td>{!! $row->GroupName !!}</td>
                                     <td>{!! $row->TransactionDate !!}</td>
                                     <td>{!! $row->TypeMaterialName !!}</td>
-                                    <td>{!! number_format($row->MaterialPrice*1000,2) !!}</td>
-                                    <td>{!! number_format($row->MaterialAmount / 1000,2)!!}</td>
-                                    <td>{!! number_format($row->MaterialPrice,2) !!}</td>
+                                    <td>{!! number_format($row->MaterialPrice*1000,3) !!}</td>
+                                    <td>{!! number_format($row->MaterialAmount / 1000,3)!!}</td>
+                                    <td>{!! number_format($row->MaterialPrice,3) !!}</td>
                                     <td>{!! number_format($row->MaterialAmount) !!}</td>
-                                    <td>{!! number_format($row->MaterialAmountTotal,2) !!}</td>
+                                    <td>{!! number_format($row->MaterialAmountTotal,3) !!}</td>
                                     <td>{!! number_format($row->Saldo2,2) !!}</td>
                                     <td>{!! number_format($row->AdquisicionCierreCant) !!}</td>
-                                    <td>{!! number_format($row->AdquisicionCierreAmount,2) !!}</td>
+                                    <td>{!! number_format($row->AdquisicionCierreAmount,3) !!}</td>
 
                                     <td>{!! $row->RecepcionId !!}</td>                                    
                                     <td>{!! $row->RecepcionTransactionDate !!}</td>
@@ -267,8 +271,11 @@ $config3 = [
     BuscaMyElement('group',miGroup);
     BuscaMyElement('type_material_id',miType_material);
 
-    
     $(() => {
+
+        let myDays = {!! $myDays ?? 0 !!};
+        console.log ("myDays ->" + myDays);
+
 
         InicializaFechas();
         // BuscaFechas();
