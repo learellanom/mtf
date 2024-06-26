@@ -14,8 +14,7 @@
     
     $fecha = now();
 
-    //echo $fecha;
-    //die();
+    $myDays = config('transactions.transaction_days',30);
 
 @endphp 
 
@@ -437,96 +436,6 @@
 <meta name="csrf-token" content="{{ csrf_token() }}">
 
 <style>
-.file-preview-thumbnails{
-    overflow-y: scroll;
-    height: 350px;
-	width: 750px;
-
-}
-
-@media screen and (max-width: 1880px) {
-  .file-preview {
-    min-width: 290px;
-    min-height: 450px;
-  }
-  .file-preview-thumbnails {
-    width:500px;
-  }
-}
-
-
-@media screen and (max-width: 1780px) {
-  .file-preview {
-    min-width: 290px;
-    min-height: 450px;
-  }
-  .file-preview-thumbnails {
-    width:500px;
-  }
-}
-
-
-@media screen and (max-width: 1680px) {
-  .file-preview {
-    min-width: 290px;
-    min-height: 450px;
-  }
-  .file-preview-thumbnails {
-    width:500px;
-  }
-}
-
-
-@media screen and (max-width: 1580px) {
-  .file-preview {
-    min-width: 290px;
-    min-height: 450px;
-  }
-  .file-preview-thumbnails {
-    width:400px;
-  }
-}
-
-@media screen and (max-width: 1280px) {
-  .file-preview {
-    min-width: 290px;
-    min-height: 450px;
-  }
-  .file-preview-thumbnails {
-    width:400px;
-  }
-}
-@media screen and (max-width: 800px) {
-  .file-preview {
-    min-width: 290px;
-    min-height: 450px;
-  }
-  .file-preview-thumbnails {
-    width:400px;
-  }
-}
-@media screen and (max-width: 480px) {
-  .file-preview {
-    min-width: 350px;
-    min-height: 450px;
-  }
-  .file-preview-thumbnails {
-    width:200px;
-  }
-}
-@media screen and (max-height: 280px) {
-  .file-preview {
-    min-width: 350px;
-    min-height: 300px;
-  }
-  .file-preview-thumbnails {
-    width:400px;
-  }
-}
-
-
-
-
 
 </style>
 @endsection
@@ -544,7 +453,8 @@
 
     $(document).ready(function() {
         
-         
+        let myDays = {{ $myDays ?? 0}};
+
         $("#type_coin_id, #type_coin_balance_id, #type_coin_balance_id2").select2({
             placeholder: "Seleccionar Moneda",
             theme: 'bootstrap4',
@@ -585,24 +495,7 @@
          
          
         $("#type_coin_id").on("change", function() {
-            /*
-            if ($(this).val() == 1) {
-                
-                $('#exchange_rate').attr('readonly','true');
-                $('#amount_foreign_currency').attr('readonly','true');
 
-                $('#amount').removeAttr('readonly');
-
-            }else{
-                
-                $('#exchange_rate').removeAttr('readonly');
-                $('#amount_foreign_currency').removeAttr('readonly');
-                
-                $('#exchange_rate2').removeAttr('disabled');
-                
-                $('#amount').attr('readonly','true');
-            }
-            */
             BuscaMonedaDestino($(this).val());
             $('#type_coin_id22').val($(this).val())
             
@@ -664,19 +557,8 @@
 
         $('#entre').on('submit', function() {
 
-            
-
-
-
             let myDate      = new Date($('#fecha').val());
-            let myDateNow   = new Date();
-
-            // valida cuantos dias hacia atras se permite cargar una transaccion
-
-            let myDays;
-            myDays = 4;
-            myDays = 30;
-            // myDays = 240;
+            let myDateNow   = new Date();            
 
             let myDateBefore = new Date();
                 myDateBefore.setDate(myDateBefore.getDate() - myDays);
@@ -740,7 +622,6 @@
         });
 
 
-
         $('#radio1_base').on('click', function() {
             $('#percentage_base').val("");
             $('#comision_base').val("");
@@ -798,131 +679,6 @@
             $("#descripcion").val('Transferido a la caja ' + texto + '/' + texto2);
         });
 
-        /* REFERENCIAS PARA RESPALDO DE MOVIMIENTO */
-        $("#file").fileinput({
-            uploadUrl: '{{ route('transactions.store') }}'
-            , language: 'es'
-            , showUpload: false
-            , dropZoneEnabled: false
-            , theme:"fas"
-            , mainClass: "input-group-md"
-            , overwriteInitial: false
-            , fileActionSettings: {
-                showRemove: true,
-                showUpload: false,
-                showZoom: true,
-                showDrag: false,
-            }
-            , initialPreviewAsData: true
-            , allowedPreviewTypes: ['text', 'image']
-            , uploadExtraData: function () {  // callback example
-
-                var documentos = [];
-
-                $.each($(this)[0].filenames, function (i, v) {
-                    var nombre = v;
-                    //Busco la extension
-                    var lastPoint = nombre.lastIndexOf(".");
-                    var extension = nombre.substring(lastPoint + 1);
-
-                    var b;
-
-                    switch (extension.toUpperCase()) {
-                        case "ZIP":
-                        case "RAR":
-                        case "JPG":
-                        case "PNG":
-                        case "JPEG":
-                            b = {
-                                'id': i + 1,
-                                'nombre': nombre,
-                                'mensaje': '',
-                                'tipo': extension.toUpperCase(),
-                                'procesado': false
-                            };
-                            documentos.push(b);
-                            break;
-
-                        case "PDF":
-                            b = {
-                                'id': i + 1,
-                                'nombre': nombre,
-                                'mensaje': '',
-                                'tipo': extension.toUpperCase(),
-                                'procesado': false
-                            };
-                            pdf.push(b);
-                            documentos.push(b);
-                            break;
-                        case "XML":
-                            b = {
-                                'id': i + 1,
-                                'nombre': nombre,
-                                'mensaje': '',
-                                'tipo': extension.toUpperCase(),
-                                'procesado': false
-                            };
-                            xml.push(b);
-                            documentos.push(b);
-                            break;
-                        default:
-                            b = {
-                                'id': i + 1,
-                                'nombre': nombre,
-                                'mensaje': msgWrongFileType,
-                                'tipo': extension.toUpperCase(),
-                                'procesado': false
-                            };
-                            documentos.push(b);
-                            break;
-                    }
-                });
-
-                //Recorro todos los xmls y pdfs, los que no tenga par se marcaran como bad
-                $.each(xml, function (i, v) {
-                    if (v.tienePar == false) {
-                        v.mensaje = msgNoPdf;
-                        //bad.push(v);
-                    }
-                });
-
-
-                var data = {
-                    Documentos: documentos
-                    , DatoExtra: "Información EXTRA"
-                }
-
-                // alert(JSON.stringify(data));
-                return { datos: JSON.stringify(data) }; //Este objeto mandarias al SERVER al presionar upload
-            }
-        });
-
-
-        $('#file').on('filebatchpreupload', function (event, data) {
-            //Si quieres que haga algo antes de enviar la informacion
-            $("#divResult").text("Enviando...");
-        });
-
-        //Para procesar los archivos despues de haberlos subido
-        $('#file').on('filebatchuploadsuccess', function (event, data) {
-            var response = data.response;
-            $("#divResult").text("Procesados...");
-            //Despues de procesar la informacion el servidor respondera con esto... puedes decidir que hacer.. ya se mostrar un mensaje al usuairo
-        });
-
-        $('#file').on('filecleared', function () {
-            //Si queires que haga algo al limpiar los archivos
-            //alert('0 archivos');
-            Swal.fire(
-            'Cancelada la subida de archivos',
-            '',
-            'error'
-            )
-
-        });
-
-        /* REFERENCIAS PARA RESPALDO DE MOVIMIENTO */
-
     });
 
     
@@ -936,7 +692,7 @@
     
     function updateMontorealBase() {
         
-        console.log('leam - pasa updateMontorealBase ->');
+        // console.log('leam - pasa updateMontorealBase ->');
 
         let comision_base               = parseFloat($('#comision_base').val());
         let porcentage_base             = parseFloat($('#percentage_base').val());
@@ -1190,8 +946,8 @@
         
         let monto_balance = $('#amount').val();
         
-        console.log('leam - ammonto_balanceount Porcentaje ->' + monto_balance);
-        console.log('leam - amount              $val ->' + $('#amount').val());
+        // console.log('leam - ammonto_balanceount Porcentaje ->' + monto_balance);
+        // console.log('leam - amount              $val ->' + $('#amount').val());
 
         $('#radio1'         ).attr('checked', 'checked');
         $('#radio1_base'    ).attr('checked', 'checked');

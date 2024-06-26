@@ -10,6 +10,9 @@
 
 @stop
 
+@php
+    $myDays = config('transactions.transaction_days',30);
+@endphp
 
 @section('content')
 
@@ -295,18 +298,14 @@
      $(".oculta").trigger("change");
 
      $('#entre').on('submit', function() {
-
+        let myDays = {{ $myDays ?? 0}};
 
         let myDate      = new Date($('#fecha').val());
         let myDateNow   = new Date();
 
         // valida cuantos dias hacia atras se permite cargar una transaccion
 
-        let myDays;
-        myDays = 4;
-        myDays = 30;
-        // myDays = 240;
-
+        
         let myDateBefore = new Date();
             myDateBefore.setDate(myDateBefore.getDate() - myDays);
 

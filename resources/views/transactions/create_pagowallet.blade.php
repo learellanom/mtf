@@ -14,8 +14,7 @@
     
     $fecha = now();
 
-    //echo $fecha;
-    //die();
+    $myDays = config('transactions.transaction_days',30);
 
 @endphp 
 
@@ -207,95 +206,6 @@
 
 
 <style>
-.file-preview-thumbnails{
-    overflow-y: scroll;
-    height: 350px;
-	width: 750px;
-
-}
-
-@media screen and (max-width: 1880px) {
-  .file-preview {
-    min-width: 290px;
-    min-height: 450px;
-  }
-  .file-preview-thumbnails {
-    width:500px;
-  }
-}
-
-
-@media screen and (max-width: 1780px) {
-  .file-preview {
-    min-width: 290px;
-    min-height: 450px;
-  }
-  .file-preview-thumbnails {
-    width:500px;
-  }
-}
-
-
-@media screen and (max-width: 1680px) {
-  .file-preview {
-    min-width: 290px;
-    min-height: 450px;
-  }
-  .file-preview-thumbnails {
-    width:500px;
-  }
-}
-
-
-@media screen and (max-width: 1580px) {
-  .file-preview {
-    min-width: 290px;
-    min-height: 450px;
-  }
-  .file-preview-thumbnails {
-    width:400px;
-  }
-}
-
-@media screen and (max-width: 1280px) {
-  .file-preview {
-    min-width: 290px;
-    min-height: 450px;
-  }
-  .file-preview-thumbnails {
-    width:400px;
-  }
-}
-@media screen and (max-width: 800px) {
-  .file-preview {
-    min-width: 290px;
-    min-height: 450px;
-  }
-  .file-preview-thumbnails {
-    width:400px;
-  }
-}
-@media screen and (max-width: 480px) {
-  .file-preview {
-    min-width: 350px;
-    min-height: 450px;
-  }
-  .file-preview-thumbnails {
-    width:200px;
-  }
-}
-@media screen and (max-height: 280px) {
-  .file-preview {
-    min-width: 350px;
-    min-height: 300px;
-  }
-  .file-preview-thumbnails {
-    width:400px;
-  }
-}
-
-
-
 
 
 </style>
@@ -306,6 +216,9 @@
 
 
     $(document).ready(function() {
+
+
+        let myDays = {{ $myDays ?? 0}};
 
         $(".typecoin").select2({
             placeholder: "Seleccionar Moneda",
@@ -397,11 +310,6 @@
             let myDateNow   = new Date();
 
             // valida cuantos dias hacia atras se permite cargar una transaccion
-
-            let myDays;
-            myDays = 4;
-            myDays = 30;
-            // myDays = 240;
 
             let myDateBefore = new Date();
                 myDateBefore.setDate(myDateBefore.getDate() - myDays);

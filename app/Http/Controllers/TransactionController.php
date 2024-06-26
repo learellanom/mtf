@@ -1724,8 +1724,8 @@ class TransactionController extends Controller
     public function transfer_walletop(Request $request)
     {
         //    dd('leam - aqui');
-        $user = Auth::id();
-        $transactions = new Transaction;
+        $user           = Auth::id();
+        $transactions   = new Transaction;
 
         
         $number_referencia = date('YmdHis'). rand(100,200) . '-OP';
