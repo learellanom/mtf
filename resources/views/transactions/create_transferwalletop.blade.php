@@ -5,7 +5,7 @@
 @section('title', 'Pagos del Proveedor')
 @section('content_header')
 
-    <h1 class="text-center text-dark font-weight-bold text-uppercase">{{ __('Transferencia entre cajas - otras operaciones') }}<i class="fas fa-donate"></i> </h1></a>
+    <h1 class="text-center text-dark font-weight-bold text-uppercase">{{ __('Transferencia entre cajas - otras operacionesxx') }}<i class="fas fa-donate"></i> </h1></a>
 
 
 @stop
@@ -492,8 +492,6 @@
 
 
         $('#entre').on('submit', function() {
-
-
 
             let myDate      = new Date($('#fecha').val());
             let myDateNow   = new Date();

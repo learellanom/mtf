@@ -10,6 +10,9 @@
 
 @stop
 
+@php
+    $myDays = config('transactions.transaction_days',30);
+@endphp
 
 @section('content')
 
@@ -284,90 +287,6 @@
 
 <style>
 
-.file-preview-thumbnails{
-    overflow-y: scroll;
-    height: 350px;
-	width: 750px;
-
-}
-
-@media screen and (max-width: 1880px) {
-  .file-preview {
-    min-width: 290px;
-    min-height: 450px;
-  }
-  .file-preview-thumbnails {
-    width:500px;
-  }
-}
-
-@media screen and (max-width: 1780px) {
-  .file-preview {
-    min-width: 290px;
-    min-height: 450px;
-  }
-  .file-preview-thumbnails {
-    width:500px;
-  }
-}
-
-@media screen and (max-width: 1680px) {
-  .file-preview {
-    min-width: 290px;
-    min-height: 450px;
-  }
-  .file-preview-thumbnails {
-    width:500px;
-  }
-}
-
-@media screen and (max-width: 1580px) {
-  .file-preview {
-    min-width: 290px;
-    min-height: 450px;
-  }
-  .file-preview-thumbnails {
-    width:400px;
-  }
-}
-
-@media screen and (max-width: 1280px) {
-  .file-preview {
-    min-width: 290px;
-    min-height: 450px;
-  }
-  .file-preview-thumbnails {
-    width:400px;
-  }
-}
-@media screen and (max-width: 800px) {
-  .file-preview {
-    min-width: 290px;
-    min-height: 450px;
-  }
-  .file-preview-thumbnails {
-    width:400px;
-  }
-}
-@media screen and (max-width: 480px) {
-  .file-preview {
-    min-width: 350px;
-    min-height: 450px;
-  }
-  .file-preview-thumbnails {
-    width:200px;
-  }
-}
-@media screen and (max-height: 280px) {
-  .file-preview {
-    min-width: 350px;
-    min-height: 300px;
-  }
-  .file-preview-thumbnails {
-    width:400px;
-  }
-}
-
 </style>
 
 @endsection
@@ -376,117 +295,109 @@
 
 <script>
 
-  $(".typecoin").select2({
-    placeholder: "Seleccionar Moneda",
-    theme: 'bootstrap4',
-    allowClear: true,
-    width:'100%'
-  });
+    $(".typecoin").select2({
+        placeholder: "Seleccionar Moneda",
+        theme: 'bootstrap4',
+        allowClear: true,
+        width:'100%'
+    });
 
-  $("#typecoin").val("")
-  $("#typecoin").trigger("change");
+    $("#typecoin").val("")
+    $("#typecoin").trigger("change");
 
-  $("#typetransaccion").select2({
-    placeholder: "Selecciona tipo transferencia",
-    theme: 'bootstrap4',
-    search: false,
-    width: '100%'
-  })
-  .on('select2:open', () => {
-            document.querySelector('.select2-search__field').focus();
-        })  
-  ;
+    $("#typetransaccion").select2({
+        placeholder: "Selecciona tipo transferencia",
+        theme: 'bootstrap4',
+        search: false,
+        width: '100%'
+    })
+    .on('select2:open', () => {
+                document.querySelector('.select2-search__field').focus();
+    });
 
   //$("#typetransaccion").val("")
   //$("#typetransaccion").trigger("change");
 
 
-  $("#typetrasnferencia2Debit").select2({
-    placeholder: "Selecciona tipo transferencia Origen",
-    theme: 'bootstrap4',
-    search: false,
-    width: '100%',
-    allowClear: true,
-  })
-  .on('select2:open', () => {
-            document.querySelector('.select2-search__field').focus();
-        })  
-  ;
-  $("#typetrasnferencia2Debit").val("")
-  $("#typetrasnferencia2Debit").trigger("change");
+    $("#typetrasnferencia2Debit").select2({
+        placeholder: "Selecciona tipo transferencia Origen",
+        theme: 'bootstrap4',
+        search: false,
+        width: '100%',
+        allowClear: true,
+    })
+    .on('select2:open', () => {
+        document.querySelector('.select2-search__field').focus();
+    });
 
-  $("#typetrasnferencia2Credit").select2({
-    placeholder: "Selecciona tipo transferencia Origen",
-    theme: 'bootstrap4',
-    search: false,
-    width: '100%',
-    allowClear: true,
-  })
-  .on('select2:open', () => {
-            document.querySelector('.select2-search__field').focus();
-        })  
-  ;
-  $("#typetrasnferencia2Credit").val("")
-  $("#typetrasnferencia2Credit").trigger("change");
+    $("#typetrasnferencia2Debit").val("")
+    $("#typetrasnferencia2Debit").trigger("change");
 
+    $("#typetrasnferencia2Credit").select2({
+        placeholder: "Selecciona tipo transferencia Origen",
+        theme: 'bootstrap4',
+        search: false,
+        width: '100%',
+        allowClear: true,
+    })
+    .on('select2:open', () => {
+        document.querySelector('.select2-search__field').focus();
+    });
 
+    $("#typetrasnferencia2Credit").val("")
+    $("#typetrasnferencia2Credit").trigger("change");
 
+    $('.general').inputmask({
+        alias: 'decimal',
+        allowMinus: true,
+        autoUnmask:true,
+        removeMaskOnSubmit:true,
+        rightAlign: true,
+        groupSeparator:".",
+        undoOnEscape:true,
+        insertMode:false,
+        clearIncomplete:true,
+        digits: 2,
+            autoClear: true,
+        insertMode:true,
+    });
 
+    $(".rateMasks").attr("minlength","8");
+    $(".rateMasks").attr("maxlength","8");
+    $(".rateMasks").inputmask({
+        alias: 'decimal',
+        repeat: 4,
+        allowMinus: false,
+        autoUnmask:true,
+        removeMaskOnSubmit:true,
+        rightAlign: true,
+        autoClear: true,
+        groupSeparator:".",
+        undoOnEscape:true,
+        insertMode: false,
+        clearIncomplete:true,
+        digits: 7,
+        insertMode:true,
+    });
 
-  $('.general').inputmask({
-    alias: 'decimal',
-    allowMinus: true,
-    autoUnmask:true,
-    removeMaskOnSubmit:true,
-    rightAlign: true,
-    groupSeparator:".",
-    undoOnEscape:true,
-    insertMode:false,
-    clearIncomplete:true,
-    digits: 2,
-          autoClear: true,
-    insertMode:true,
-  });
+    $('#monto_dolares').on('input', function() {
+        var dolar = $('#monto_dolares').val();
+        $('#montototal').val(dolar).inputmask({
+                alias: 'decimal',
+                allowMinus: false,
+                autoUnmask:true,
+                removeMaskOnSubmit:true,
+                rightAlign: true,
+                groupSeparator:".",
+                undoOnEscape:true,
+                insertMode:false,
+                clearIncomplete:true,
+                digits: 2,
+                insertMode:true,
+            });
 
-
-  $(".rateMasks").attr("minlength","8");
-  $(".rateMasks").attr("maxlength","8");
-  $(".rateMasks").inputmask({
-    alias: 'decimal',
-    repeat: 4,
-    allowMinus: false,
-    autoUnmask:true,
-    removeMaskOnSubmit:true,
-    rightAlign: true,
-    autoClear: true,
-    groupSeparator:".",
-    undoOnEscape:true,
-    insertMode: false,
-    clearIncomplete:true,
-    digits: 7,
-    insertMode:true,
-  });
-
-
-
-  $('#monto_dolares').on('input', function() {
-      var dolar = $('#monto_dolares').val();
-      $('#montototal').val(dolar).inputmask({
-              alias: 'decimal',
-              allowMinus: false,
-              autoUnmask:true,
-              removeMaskOnSubmit:true,
-              rightAlign: true,
-              groupSeparator:".",
-              undoOnEscape:true,
-              insertMode:false,
-              clearIncomplete:true,
-              digits: 2,
-              insertMode:true,
-          });
-
-      $('#montototal').val(dolar);
-  });
+        $('#montototal').val(dolar);
+    });
 
   
     $('#wallet').select2({
@@ -519,17 +430,19 @@
 
     $('#entre').on('submit', function() {
 
-
+        let myDays = {{ $myDays ?? 0}};
 
         let myDate      = new Date($('#fecha').val());
         let myDateNow   = new Date();
 
         // valida cuantos dias hacia atras se permite cargar una transaccion
 
-        let myDays;
-        myDays = 4;
-        myDays = 30;
+        //let myDays;
+        //myDays = 4;
+        //myDays = 30;
         // myDays = 240;
+
+        // alert("myDays ->" + myDays);
 
         let myDateBefore = new Date();
             myDateBefore.setDate(myDateBefore.getDate() - myDays);
@@ -552,7 +465,7 @@
                 type: 'error',
                 title: 'Error: Fecha de transacción no puede ser mayor a la fecha',
                 showConfirmButton: true
-            });                
+            });
             return false;
         }
 
@@ -568,7 +481,7 @@
         }
 
         if ($('#monto_dolares').val().length == 0) {
-            Swal.fire('Monto en dolares, no puede estar vacio :(');
+            Swal.fire('Monto en dolares, no puede estar vacio');
             return false;
         }
 
@@ -643,9 +556,6 @@
         $('#percentage_base2').attr("readonly", false);
     });
 
-
-
-
     /* OCULTAR LA CAJA SELECCIONADA */
 
     tasa            = document.getElementById("tasa");
@@ -712,135 +622,6 @@
 
         $("#descripcion2").val('Recibido de cliente ' + texto + "/" + texto2);
     });
-
-
-    $('#observacionOrigen').input(function() {});
-
-    /* REFERENCIAS PARA RESPALDO DE MOVIMIENTO */
-
-    $("#file").fileinput({
-        uploadUrl: '{{ route('transactions.store') }}'
-        , language: 'es'
-        , showUpload: false
-        , dropZoneEnabled: false
-        , theme:"fas"
-        , mainClass: "input-group-md"
-        , overwriteInitial: false
-        , fileActionSettings: {
-            showRemove: true,
-            showUpload: false,
-            showZoom: true,
-            showDrag: false,
-        }
-        , initialPreviewAsData: true
-        , allowedPreviewTypes: ['text', 'image']
-        , uploadExtraData: function () {  // callback example
-
-            var documentos = [];
-
-            $.each($(this)[0].filenames, function (i, v) {
-                var nombre = v;
-                //Busco la extension
-                var lastPoint = nombre.lastIndexOf(".");
-                var extension = nombre.substring(lastPoint + 1);
-
-                var b;
-
-                switch (extension.toUpperCase()) {
-                    case "ZIP":
-                    case "RAR":
-                    case "JPG":
-                    case "PNG":
-                    case "JPEG":
-                        b = {
-                            'id': i + 1,
-                            'nombre': nombre,
-                            'mensaje': '',
-                            'tipo': extension.toUpperCase(),
-                            'procesado': false
-                        };
-                        documentos.push(b);
-                        break;
-
-                    case "PDF":
-                        b = {
-                            'id': i + 1,
-                            'nombre': nombre,
-                            'mensaje': '',
-                            'tipo': extension.toUpperCase(),
-                            'procesado': false
-                        };
-                        pdf.push(b);
-                        documentos.push(b);
-                        break;
-                    case "XML":
-                        b = {
-                            'id': i + 1,
-                            'nombre': nombre,
-                            'mensaje': '',
-                            'tipo': extension.toUpperCase(),
-                            'procesado': false
-                        };
-                        xml.push(b);
-                        documentos.push(b);
-                        break;
-                    default:
-                        b = {
-                            'id': i + 1,
-                            'nombre': nombre,
-                            'mensaje': msgWrongFileType,
-                            'tipo': extension.toUpperCase(),
-                            'procesado': false
-                        };
-                        documentos.push(b);
-                        break;
-                }
-            });
-
-            //Recorro todos los xmls y pdfs, los que no tenga par se marcaran como bad
-            $.each(xml, function (i, v) {
-                if (v.tienePar == false) {
-                    v.mensaje = msgNoPdf;
-                    //bad.push(v);
-                }
-            });
-
-
-            var data = {
-                Documentos: documentos
-                , DatoExtra: "Información EXTRA"
-            }
-
-            alert(JSON.stringify(data));
-            return { datos: JSON.stringify(data) }; //Este objeto mandarias al SERVER al presionar upload
-          }
-    });
-
-    $('#file').on('filebatchpreupload', function (event, data) {
-        //Si quieres que haga algo antes de enviar la informacion
-        $("#divResult").text("Enviando...");
-    });
-
-    //Para procesar los archivos despues de haberlos subido
-    $('#file').on('filebatchuploadsuccess', function (event, data) {
-        var response = data.response;
-        $("#divResult").text("Procesados...");
-        //Despues de procesar la informacion el servidor respondera con esto... puedes decidir que hacer.. ya se mostrar un mensaje al usuairo
-    });
-
-    $('#file').on('filecleared', function () {
-        //Si queires que haga algo al limpiar los archivos
-        //alert('0 archivos');
-        Swal.fire(
-        'Cancelada la subida de archivos',
-        '',
-        'error'
-        )
-
-    });
-
-    /* REFERENCIAS PARA RESPALDO DE MOVIMIENTO */
-
 
     function updateMontorealBase() {
 

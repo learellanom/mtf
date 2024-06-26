@@ -3186,7 +3186,9 @@ class statisticsController extends Controller
         Commissions_usdt::truncate();
 
         
-
+        //
+        // Determina todas las cajas que han recibido pagos usdt (11)
+        //
         $myTransaction = 11;
         $myQuery =
         "
