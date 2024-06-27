@@ -39,7 +39,7 @@
                     <label class="">Fecha de Generacion</label>
                     
                     <div class="input-group-text">
-                        <label class="col-md-3 col-12">{{ $comisionesUSDT-> created_at2}}</label>
+                        <label class="col-md-3 col-12">{{ $comisionesUSDT-> created_at2 ?? ""}}</label>
                     </div>
                 </div>
             </div>

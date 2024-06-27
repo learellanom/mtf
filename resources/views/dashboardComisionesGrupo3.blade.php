@@ -286,7 +286,7 @@ $totalComisionGanancia2General  = 0;
 
         </div>
         {{-- Filtros --}}
-                    {{--
+        {{--
         <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">Filtros
 
             <div class="card mb-4">
@@ -1017,7 +1017,7 @@ $totalComisionGanancia2General  = 0;
                 <table class="table thead-light" style="background-color: white;" id="myTable">
                     <thead class="thead-dark">
                         <tr>
-                            <th class="" style="width: 100px;">Wallet Id</th>                        
+                            <th class="" style="width: 100px;">Trans Id</th>                        
                             <th class="myWidth22"             >Wallet</th>
                             <th class="myWidth22"             >Transacción</th>
                             <th class="myWidth22"             >Grupo</th>                                
@@ -1053,41 +1053,60 @@ $totalComisionGanancia2General  = 0;
                          // dd($myFechaHastaDate);
                          
                          $Recargas2= [];
+
+                         $myTransactionId = 0;
+                         $myStyle = "color: red;";
+
                     @endphp
                     
                     @if(count($Transacciones)>0)
                         @foreach($Transacciones as $key => $wallet2)
                             @php 
-                                    $myDate = new DateTime($wallet2->TransactionDate);
+                                $myDate = new DateTime($wallet2->TransactionDate);
 
-                                    $myDate2 = Date(substr($wallet2->TransactionDate,0,10));~
+                                $myDate2 = Date(substr($wallet2->TransactionDate,0,10));
 
-                                    // dd($myDate);
+                                // dd($myDate);
 
-                                    //
-                                    // filtra
-                                    //
-                                    $myContinue = 0;
-                                    if ($myDate2 >= $myFechaDesdeDate && $myDate2 <= $myFechaHastaDate) {                                    
+                                //
+                                // filtra
+                                //
+                                $myContinue = 0;
+                                if ($myDate2 >= $myFechaDesdeDate && $myDate2 <= $myFechaHastaDate) {                                    
+                                    $myContinue = 1;
+                                    
+                                    // \Log::info("leam - myDate -> " . print_r($myDate2, true) . " - myFechaDesdeDate -> " . print_r($myFechaDesdeDate,true) . " - myFechaHastaDate -> " . print_r($myFechaHastaDate,true) . " - continue ->" . $myContinue);
+
+                                    if ($myGrupo == 0) {
                                         $myContinue = 1;
-                                        
-                                        // \Log::info("leam - myDate -> " . print_r($myDate2, true) . " - myFechaDesdeDate -> " . print_r($myFechaDesdeDate,true) . " - myFechaHastaDate -> " . print_r($myFechaHastaDate,true) . " - continue ->" . $myContinue);
-
-                                        if ($myGrupo == 0) {
+                                    }else{
+                                        if ($myGrupo == $wallet2->GroupId){
                                             $myContinue = 1;
                                         }else{
-                                            if ($myGrupo == $wallet2->GroupId){
-                                                $myContinue = 1;
-                                            }else{
-                                                $myContinue = 0;
-                                            }
+                                            $myContinue = 0;
                                         }
-                                    }                                    
+                                    }
+                                }                                    
                             @endphp
                             @if($myContinue == 0)
                                     @continue
                             @endif
-                            <tr class="myTr">
+                            @php 
+                                
+                                if ($myTransactionId == $wallet2->TransactionId){
+                                }else{
+                                    
+                                    $myTransactionId = $wallet2->TransactionId;
+
+                                    if ($myStyle == "color: red;"){
+                                        $myStyle = "color: black;";
+                                    }else{
+                                        $myStyle = "color: red;";
+                                    }
+                                }
+                                
+                            @endphp
+                            <tr class="myTr" style="{{ $myStyle}}">
                                 @php
 
                                     if ($cant == 0){
