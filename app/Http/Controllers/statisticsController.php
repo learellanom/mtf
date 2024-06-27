@@ -3166,13 +3166,17 @@ class statisticsController extends Controller
         
         $comisionesUSDT = DB::select($myQuery);
         
-
+        // dd($comisionesUSDT);
 
         // return redirect()->route("home");
-        
-        $comisionesUSDT = (object) $comisionesUSDT[0];
+        if( count($comisionesUSDT) > 0){
+            $comisionesUSDT = (object) $comisionesUSDT[0];
+        }else{
 
-        // dd($comisionesUSDT);
+        
+        }
+
+        
 
         $parametros ['comisionesUSDT'] = $comisionesUSDT;
         // dd($parametros);
@@ -3201,6 +3205,7 @@ class statisticsController extends Controller
             where
                     status              = 'Activo'
                 and type_transaction_id = $myTransaction
+                and wallet_id = 93
             group by
                 wallet_id,
                 wallets.name
@@ -3591,10 +3596,8 @@ class statisticsController extends Controller
     */
     function commissionsProfit(Request $request){
         // \Log::info('leam - statisticsController - commissionsProfit - el wallet es ->' . $request->wallet);
-        // $request->wallet        = 89;   // abu mahmud
-        // $request->wallet        = 93;   // caja usdt
-        // $request->wallet        = 139;  // caja principal usdt
-        
+
+
         $request->transaction   = 11; // 11 pago usdt y 13 cobro usdt
 
         $myWalletDesde = 00000;
@@ -3611,13 +3614,6 @@ class statisticsController extends Controller
             $myGroupHasta = $request->group;
         }
 
-        $myTransactionDesde     = 0000;
-        $myTransactionHasta     = 9999;
-        if ($request->transaction){
-            $myTransactionDesde     = $request->transaction;
-            $myTransactionHasta     = $request->transaction;
-        }
-
         $myFechaDesde = "2001-01-01";
         $myFechaHasta = "9999-12-31";
         if ($request->fechaDesde){
@@ -3627,16 +3623,21 @@ class statisticsController extends Controller
             $myFechaHasta = $request->fechaHasta;
         }
 
-        $myFechaDesde = "2001-01-01";
-        $myFechaHasta = "9999-12-31";
+        $myFechaDesde   = "2001-01-01";
+        $myFechaHasta   = "9999-12-31";
 
-        $horaDesde = " 00:00:00";
-        $horaHasta = " 23:59:00";
+        $horaDesde      = " 00:00:00";
+        $horaHasta      = " 23:59:00";
 
-        $myFechaDesde = $myFechaDesde . $horaDesde;
-        $myFechaHasta = $myFechaHasta . $horaHasta;
+        $myFechaDesde   = $myFechaDesde . $horaDesde;
+        $myFechaHasta   = $myFechaHasta . $horaHasta;
 
-        $myTable = "mtf.transactions";
+        
+        //
+        // 11 pago usdt 
+        //
+        $myTransactionDesde     = 11;
+        $myTransactionHasta     = 11;
 
         $myQuery =
         "
@@ -3676,9 +3677,15 @@ class statisticsController extends Controller
                 Transactions.transaction_date ASC,
                 id ASC
         ";
-
-        // dd($myQuery);
         
+        /*
+        echo "<pre>";
+        echo var_dump($myQuery);
+        echo "</pre>";
+        */
+        //die();
+        
+
         $Recargas = DB::select($myQuery);
         // dd($Recargas);
 
@@ -3724,7 +3731,11 @@ class statisticsController extends Controller
                  id ASC
  
          ";
- 
+        /*
+         echo "<pre>";
+         echo var_dump($myQuery);
+         echo "</pre>";
+        */
         //dd($myQuery);
          $Recargas2 = DB::select($myQuery);
         // dd($Recargas2);
@@ -3732,7 +3743,12 @@ class statisticsController extends Controller
         $Recargas3 = array_merge($Recargas, $Recargas2);
         
         usort($Recargas3, function($a, $b) {return strcmp($a->TransactionDate, $b->TransactionDate);});
-
+        /*
+        echo '<pre>';
+        echo var_dump($Recargas3);
+        echo '</pre>';
+        die();
+        */
         // dd($Recargas3);
         //
         //
