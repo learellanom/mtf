@@ -2,6 +2,6 @@
 
 return [
 
-     'transaction_days' => 150,
+     'transaction_days' => 30,
 
 ];
