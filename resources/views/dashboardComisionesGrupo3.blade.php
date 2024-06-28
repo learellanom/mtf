@@ -1093,10 +1093,10 @@ $totalComisionGanancia2General  = 0;
                             @endif
                             @php 
                                 
-                                if ($myTransactionId == $wallet2->TransactionId){
+                                if ($myTransactionId == $wallet2->RecargaId){
                                 }else{
                                     
-                                    $myTransactionId = $wallet2->TransactionId;
+                                    $myTransactionId = $wallet2->RecargaId;
 
                                     if ($myStyle == "color: red;"){
                                         $myStyle = "color: black;";

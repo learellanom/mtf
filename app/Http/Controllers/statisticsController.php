@@ -3205,7 +3205,6 @@ class statisticsController extends Controller
             where
                     status              = 'Activo'
                 and type_transaction_id = $myTransaction
-                and wallet_id = 93
             group by
                 wallet_id,
                 wallets.name
@@ -3647,6 +3646,7 @@ class statisticsController extends Controller
                 wallets.name                                    as WalletName,
                 mtf.transactions.group_id                       as GroupId,
                 mtf.groups.name                                 as GroupName,
+                mtf.groups.type                                 as GroupType,
                 mtf.transactions.type_transaction_id            as TypeTransactionId,
                 type_transactions.name                          as TypeTransactionName,
                 transaction_date                                as TransactionDate,
@@ -3673,9 +3673,10 @@ class statisticsController extends Controller
                 and group_id            between $myWalletDesde              and     $myWalletHasta
                 and type_transaction_id between $myTransactionDesde         and     $myTransactionHasta
                 and transaction_date    between '$myFechaDesde'             and     '$myFechaHasta'
+                and mtf.groups.type     = 2
             order by
-                Transactions.transaction_date ASC,
-                id ASC
+                mtf.transactions.group_id       ASC,
+                Transactions.transaction_date   ASC
         ";
         
         /*
@@ -3727,14 +3728,14 @@ class statisticsController extends Controller
                  and type_transaction_id between $myTransactionDesde         and     $myTransactionHasta
                  and transaction_date    between '$myFechaDesde'             and     '$myFechaHasta'
              order by
-                 Transactions.transaction_date ASC,
-                 id ASC
- 
+                mtf.transactions.wallet_id asc,
+                Transactions.transaction_date ASC
          ";
         /*
          echo "<pre>";
          echo var_dump($myQuery);
          echo "</pre>";
+        die();  
         */
         //dd($myQuery);
          $Recargas2 = DB::select($myQuery);
