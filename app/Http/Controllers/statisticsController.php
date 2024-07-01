@@ -3205,6 +3205,7 @@ class statisticsController extends Controller
             where
                     status              = 'Activo'
                 and type_transaction_id = $myTransaction
+                and wallet_id = 93
             group by
                 wallet_id,
                 wallets.name
@@ -3684,11 +3685,42 @@ class statisticsController extends Controller
         echo var_dump($myQuery);
         echo "</pre>";
         */
+
+
         //die();
         
 
         $Recargas = DB::select($myQuery);
         // dd($Recargas);
+        /*
+        foreach($Recargas as $myRecargas){
+            
+            echo "<br>";
+            echo         $myRecargas->Id;
+            echo "," . $myRecargas->WalletId;
+            echo "," . $myRecargas->WalletName;
+            echo "," . $myRecargas->GroupId;
+            echo "," . $myRecargas->GroupName;
+            echo "," . $myRecargas->GroupType;
+            echo "," . $myRecargas->TypeTransactionId;
+            echo "," . $myRecargas->TypeTransactionName;
+            echo "," . $myRecargas->TransactionDate;
+            echo "," . $myRecargas->Percentage;
+            echo "," . $myRecargas->PercentageBase;
+           
+            echo "," . $myRecargas->Amount;
+            echo "," . $myRecargas->AmountTotal;
+            echo "," . $myRecargas->AmountCommission;
+            echo "," . $myRecargas->AmountBase;
+            echo "," . $myRecargas->AmountTotalBase;
+            echo "," . $myRecargas->AmountCommissionBase;
+            echo "," . $myRecargas->AmountCommissionProfit;
+            echo "," . $myRecargas->Saldo;
+
+        }
+        */
+        //die('fin');
+       // echo "<br> *************************************************************";
 
         $myTransactionDesde     = 13; // 13 cobros usdt
         $myTransactionHasta     = 13;
@@ -3701,6 +3733,7 @@ class statisticsController extends Controller
                  wallets.name                                    as WalletName,
                  mtf.transactions.group_id                       as GroupId,
                  mtf.groups.name                                 as GroupName,
+                 mtf.groups.type                                 as GroupType,
                  mtf.transactions.type_transaction_id            as TypeTransactionId,
                  type_transactions.name                          as TypeTransactionName,
                  transaction_date                                as TransactionDate,
@@ -3741,6 +3774,37 @@ class statisticsController extends Controller
          $Recargas2 = DB::select($myQuery);
         // dd($Recargas2);
 
+
+        /*
+        foreach($Recargas2 as $myRecargas){
+            echo "<br>";
+            echo       $myRecargas->Id;
+            echo "," . $myRecargas->WalletId;
+            echo "," . $myRecargas->WalletName;
+            echo "," . $myRecargas->GroupId;
+            echo "," . $myRecargas->GroupName;
+            echo "," . $myRecargas->GroupType;
+            echo "," . $myRecargas->TypeTransactionId;
+            echo "," . $myRecargas->TypeTransactionName;
+            echo "," . $myRecargas->TransactionDate;
+            echo "," . $myRecargas->Percentage;
+            echo "," . $myRecargas->PercentageBase;
+           
+            echo "," . $myRecargas->Amount;
+            echo "," . $myRecargas->AmountTotal;
+            echo "," . $myRecargas->AmountCommission;
+            echo "," . $myRecargas->AmountBase;
+            echo "," . $myRecargas->AmountTotalBase;
+            echo "," . $myRecargas->AmountCommissionBase;
+            echo "," . $myRecargas->AmountCommissionProfit;
+            echo "," . $myRecargas->Saldo;
+        }
+        */
+
+        // die('fin');
+
+
+
         $Recargas3 = array_merge($Recargas, $Recargas2);
         
         usort($Recargas3, function($a, $b) {return strcmp($a->TransactionDate, $b->TransactionDate);});
@@ -3751,6 +3815,35 @@ class statisticsController extends Controller
         die();
         */
         // dd($Recargas3);
+        /*
+        
+        foreach($Recargas3 as $myRecargas){
+            
+            echo "<br>";
+            echo         $myRecargas->Id;
+            echo "," . $myRecargas->WalletId;
+            echo "," . $myRecargas->WalletName;
+            echo "," . $myRecargas->GroupId;
+            echo "," . $myRecargas->GroupName;
+            echo "," . $myRecargas->GroupType;
+            echo "," . $myRecargas->TypeTransactionId;
+            echo "," . $myRecargas->TypeTransactionName;
+            echo "," . $myRecargas->TransactionDate;
+            echo "," . $myRecargas->Percentage;
+            echo "," . $myRecargas->PercentageBase;
+           
+            echo "," . $myRecargas->Amount;
+            echo "," . $myRecargas->AmountTotal;
+            echo "," . $myRecargas->AmountCommission;
+            echo "," . $myRecargas->AmountBase;
+            echo "," . $myRecargas->AmountTotalBase;
+            echo "," . $myRecargas->AmountCommissionBase;
+            echo "," . $myRecargas->AmountCommissionProfit;
+            echo "," . $myRecargas->Saldo;
+
+        }
+        die('fin 3');
+        */
         //
         //
         // Busca transacciones de pagos
@@ -3805,6 +3898,7 @@ class statisticsController extends Controller
                 wallets.name                                    as WalletName,
                 mtf.transactions.group_id                       as GroupId,
                 lcase(mtf.groups.name)                          as GroupName,
+                mtf.groups.type                                 as GroupType,                
                 mtf.transactions.type_transaction_id            as TypeTransactionId,
                 type_transactions.name                          as TypeTransactionName,
                 transaction_date                                as TransactionDate,
@@ -3843,10 +3937,38 @@ class statisticsController extends Controller
         // \Log::info('leam My query *** -> ' . $myQuery);
 
         $Transacciones  = DB::select($myQuery);
-       
+        /*
+        foreach($Transacciones as $myRecargas){
+            
+            echo "<br>";
+            echo         $myRecargas->Id;
+            echo "," . $myRecargas->WalletId;
+            echo "," . $myRecargas->WalletName;
+            echo "," . $myRecargas->GroupId;
+            echo "," . $myRecargas->GroupName;
+            echo "," . $myRecargas->GroupType;
+            echo "," . $myRecargas->TypeTransactionId;
+            echo "," . $myRecargas->TypeTransactionName;
+            echo "," . $myRecargas->TransactionDate;
+            echo "," . $myRecargas->Percentage;
+            echo "," . $myRecargas->PercentageBase;
+           
+            echo "," . $myRecargas->Amount;
+            echo "," . $myRecargas->AmountTotal;
+            echo "," . $myRecargas->AmountCommission;
+            echo "," . $myRecargas->AmountBase;
+            echo "," . $myRecargas->AmountTotalBase;
+            echo "," . $myRecargas->AmountCommissionBase;
+            echo "," . $myRecargas->AmountCommissionProfit;
+            echo "," . $myRecargas->Saldo;
+
+        }
+        */
+        // die('transacciones');
+
         $Transacciones2 = [];
         $verLog         = 0;
-       
+
         foreach($Transacciones as $key => $myTransaccion){
 
             $cant = 0;
@@ -3855,8 +3977,9 @@ class statisticsController extends Controller
             $myTransaccion2             = clone $myTransaccion;
 
             $myTransaccion2->Amount2    = $myTransaccion->Amount;
-
+            
             foreach($Recargas3 as $myRecarga){
+                
                 //
                 // Busca solo las recargas que tengan saldo
                 //
@@ -4027,7 +4150,39 @@ class statisticsController extends Controller
             die();
         }
         // dd($Transacciones2);
+        // dd('aqui');
+        \Log::info('aqui termina');
+        \Log::info(print_r($Transacciones2,true));
+        die();
+        /*
+        foreach($Transacciones2 as $myRecargas){
+            
+            echo "<br>";
+            echo         $myRecargas->Id;
+            echo "," . $myRecargas->WalletId;
+            echo "," . $myRecargas->WalletName;
+            echo "," . $myRecargas->GroupId;
+            echo "," . $myRecargas->GroupName;
+            echo "," . $myRecargas->GroupType;
+            echo "," . $myRecargas->TypeTransactionId;
+            echo "," . $myRecargas->TypeTransactionName;
+            echo "," . $myRecargas->TransactionDate;
+            echo "," . $myRecargas->Percentage;
+            echo "," . $myRecargas->PercentageBase;
+           
+            echo "," . $myRecargas->Amount;
+            echo "," . $myRecargas->AmountTotal;
+            echo "," . $myRecargas->AmountCommission;
+            echo "," . $myRecargas->AmountBase;
+            echo "," . $myRecargas->AmountTotalBase;
+            echo "," . $myRecargas->AmountCommissionBase;
+            echo "," . $myRecargas->AmountCommissionProfit;
+            echo "," . $myRecargas->Saldo;
 
+        }
+        
+         die('transacciones2');
+        */
 
         // dd($Transacciones4);
 
