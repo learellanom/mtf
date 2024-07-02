@@ -4151,9 +4151,9 @@ class statisticsController extends Controller
         }
         // dd($Transacciones2);
         // dd('aqui');
-        \Log::info('aqui termina');
-        \Log::info(print_r($Transacciones2,true));
-        die();
+        //\Log::info('aqui termina');
+        //\Log::info(print_r($Transacciones2,true));
+        //die();
         /*
         foreach($Transacciones2 as $myRecargas){
             
@@ -4936,7 +4936,7 @@ class statisticsController extends Controller
 
                 $myAdquisicionToLiquidate[] = $myAdquisicion;
 
-                $myIdToLiquidate[] = $myAdquisicion->Id;
+                $myIdToLiquidate[]          = $myAdquisicion->Id;
 
 
 
@@ -5027,7 +5027,7 @@ class statisticsController extends Controller
         //
         //
         // Inicia transaccion
-         DB::beginTransaction();
+        DB::beginTransaction();
         try{
         //
         //
@@ -5125,26 +5125,29 @@ class statisticsController extends Controller
         // crear una nota de debito por lo liquidado en el total de recepciones
         //
 
-        /*
-        $transactions_new = new Transaction;
+        $myAmount           = $myRecepcionMaterialAmountGramos * $myAdquisicionToCreate->AdquisicionMaterialPriceGramos;
+
+        
+        
+        // dd($myAmount);
+
+        $transactions_new   = new Transaction;
 
         $transactions_new->type_transaction_id              = 8;
         $transactions_new->user_id                          = auth()->user()->id;
         $transactions_new->group_id                         = $myAdquisicionToCreate->GroupId;
         
         $transactions_new->status                           = "Activo";
-        $transactions_new->transaction_date                 = ;
+        $transactions_new->transaction_date                 = $myLiquidationDate;
         
 
-        $transactions_new->description                      = "Nota de debito por liquidacion de cuenta de materiales";
+        $transactions_new->description                      = "Nota de debito por liquidacion de cuenta de materiales recibidos, liquidacion nro. $myLiquidationNumber";
 
-        $transactions_new->amount                           = $myRecepcionMaterialAmountTotalGramos;
-        $transactions_new->amount_total                     = $myRecepcionMaterialAmountTotalGramos;
-        $transactions_new->amount_total_base                = $myRecepcionMaterialAmountTotalGramos;
-        $transactions_new->amount_comission_profit          = 0;
-
-        $transactions_new->exonerate                        = 0;    
-        $transactions_new->exonerate_base                   = 0;    
+        $transactions_new->amount                           = $myAmount;
+        $transactions_new->amount_total                     = $myAmount;
+        $transactions_new->amount_total_base                = $myAmount;
+        $transactions_new->amount_commission_profit          = 0;
+ 
 
         $transactions_new->type_coin_balance_id             = 1;
         $transactions_new->exchange_rate_orientation        = 1;
@@ -5163,7 +5166,7 @@ class statisticsController extends Controller
             echo "</pre>";
         }
         
-        */
+        
 
         if ($indLog ==1){
             echo "<br>" . "new transactions ********************************************";
