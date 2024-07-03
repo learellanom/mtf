@@ -21,6 +21,7 @@ $heads = [
 
     ['label' => 'Adquisiciones', 'no-export' => true, 'width' => 5],
     ['label' => 'Recepciones', 'no-export' => true, 'width' => 5],
+    ['label' => 'Liquidacion', 'no-export' => true, 'width' => 5],
 ];
 
 $btnEdit = '<button class="btn btn-xs btn-default text-primary mx-1 shadow" title="Edit">
@@ -223,6 +224,14 @@ $config4 = [
 
                                     <td>
                                         <a href="{{ route('materials.liquidacionRecepcion_index', [ 'liquidation_number' => $row->LiquidationNumber, 'wallet' => $row->WalletId, 'group' => $row->GroupId]) }}"
+
+                                            class="btn btn-xl text-dark mx-1 shadow text-center">
+                                            <i class="fa fa-lg fa-fw fa-eye"></i>
+                                        </a>
+                                    </td>
+
+                                    <td>
+                                        <a href="{{ route('materials.liquidacion_index', [ 'liquidation_number' => $row->LiquidationNumber, 'wallet' => $row->WalletId, 'group' => $row->GroupId]) }}"
 
                                             class="btn btn-xl text-dark mx-1 shadow text-center">
                                             <i class="fa fa-lg fa-fw fa-eye"></i>
