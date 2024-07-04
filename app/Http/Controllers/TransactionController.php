@@ -1523,14 +1523,17 @@ class TransactionController extends Controller
 
         foreach(auth()->user()->roles as $roles)
         {
-            $transactiones = DB::select("
+
+            $myLimit = "limit 1000";
+
+            $myQuery = "
                 select
                     mtf.transactions.id as TransactionId,
                     transfer_number             as TransferNumber,
                     IF(
                         type_transactions.name = 'Nota de Credito a Caja de efectivo' 
                     or  type_transactions.name = 'Nota de credito', 'Destino', 'Origen'
-                    ) as TransferType,                        
+                    )                           as TransferType,                        
                     wallet_id                   as WalletIdOrigen,
                     groups.name                 as WalletNameOrigen,
                     amount_total                as Amount,
@@ -1545,7 +1548,14 @@ class TransactionController extends Controller
                     left join  mtf.type_transactions on mtf.transactions.type_transaction_id    = mtf.type_transactions.id
                     left join  mtf.users on mtf.transactions.user_id                            = mtf.users.id
                 where transfer_number like '%-OP'
-                order by transfer_number, TransferType desc");
+                order by 
+                    TransactionDate desc,
+                    transfer_number, 
+                    TransferType desc    
+                $myLimit                   
+            ";
+
+            $transactiones = DB::select($myQuery);
 
         }
 
@@ -1564,14 +1574,17 @@ class TransactionController extends Controller
 
         foreach(auth()->user()->roles as $roles)
         {
-            $transactiones = DB::select("
+
+            $myLimit = "limit 1000";
+
+            $myQuery = "
                 select
-                    mtf.transactions.id as TransactionId,
+                    mtf.transactions.id         as TransactionId,
                     transfer_number             as TransferNumber,
                     IF(
                         type_transactions.name = 'Nota de Credito a Caja de efectivo' 
                     or  type_transactions.name = 'Nota de credito', 'Destino', 'Origen'
-                    ) as TransferType,                        
+                    )                           as TransferType,                        
                     wallet_id                   as WalletIdOrigen,
                     groups.name                 as WalletNameOrigen,
                     amount_total                as Amount,
@@ -1586,13 +1599,21 @@ class TransactionController extends Controller
                     type_coin_balance_id        as TypeCoinBalanceId,
                     type_coins_balance.name     as TypeCoinBalanceName
                 from mtf.transactions
-                    left join  mtf.groups               on mtf.transactions.wallet_id                           = groups.id
-                    left join  mtf.type_transactions    on mtf.transactions.type_transaction_id                 = mtf.type_transactions.id
-                    left join  mtf.users                on mtf.transactions.user_id                             = mtf.users.id
-                    left join  mtf.type_coins           on mtf.transactions.type_coin_id                        = mtf.type_coins.id
-                    left join  mtf.type_coins   as type_coins_balance         on mtf.transactions.type_coin_balance_id  = type_coins_balance.id
+                left join  mtf.groups               on mtf.transactions.wallet_id                           = groups.id
+                left join  mtf.type_transactions    on mtf.transactions.type_transaction_id                 = mtf.type_transactions.id
+                left join  mtf.users                on mtf.transactions.user_id                             = mtf.users.id
+                left join  mtf.type_coins           on mtf.transactions.type_coin_id                        = mtf.type_coins.id
+                left join  mtf.type_coins   as type_coins_balance         on mtf.transactions.type_coin_balance_id  = type_coins_balance.id
                 where transfer_number like '%-OP'
-                order by transfer_number, TransferType desc");
+                order by 
+                    TransactionDate desc,
+                    transfer_number, 
+                    TransferType desc          
+                $myLimit
+                ";
+                // dd($myQuery);
+
+            $transactiones = DB::select($myQuery);
 
         }
         // dd($transactiones);
