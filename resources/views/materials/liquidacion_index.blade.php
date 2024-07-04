@@ -203,11 +203,11 @@
                                     <th                     >Tipo</th>
                                     <th style="width:1%;"   >Cantidad Kilos</th>
                                     <th style="width:1%;"   >Cantidad Gramos</th>
-                                    <th style="width:1%;"   >Cantidad Kilos</th>
-                                    <th style="width:1%;"   >Cantidad Gramos</th>                                    
                                     <th style="width:1%;"   >Precio/U</th>
                                     <th style="width:10%;"  >Monto</th>
+                                    <th style="width:1%;"   >Cantidad Gramos <br> Recepcion</th>                                        
                                     <th class="no-exportar" >Agente</th>
+
                                     <th style="width:1%;" class="no-exportar">Ver <i class="fas fa-search"></i></th>
 
                                     @can('materials.adquisicion_audit')
@@ -221,26 +221,26 @@
                                 
                                     @php 
                                         $myDesTypeAdquisicion   = $myClass->getDesTyperAdquisicion($movimiento->material_type_adquisicion);
-                                        switch($movimiento->material_type_adquisicion){
-                                            case 1:
-                                                $myMaterialPrice        = $movimiento->material_price_kilos;
-                                                $myMaterialAmount       = $movimiento->material_amount_kilos;
-                                                $myMaterialAmountTotal  = $movimiento->material_amount_total_kilos;
-                                                break;
-                                            case 2:
-                                                $myMaterialPrice        = $movimiento->material_price_gramos;
-                                                $myMaterialAmount       = $movimiento->material_amount_gramos;
-                                                $myMaterialAmountTotal  = $movimiento->material_amount_total_gramos; 
-                                                break;
-                                            case 3:
-                                                $myMaterialPrice        = $movimiento->material_price_cantidad;
-                                                $myMaterialAmount       = $movimiento->material_amount_cantidad;
-                                                $myMaterialAmountTotal  = $movimiento->material_amount_total_cantidad;                                                
-                                                break;
-                                            default:
-                                                $myMaterialPrice        = 0;
-                                                $myMaterialAmount       = 0;
-                                                $myMaterialAmountTotal  = 0;
+
+                                        if ($movimiento->TypeTransactionId == 47){
+
+                                            $myMaterialAdquisicionAmountKilos   = $movimiento->material_amount_kilos;
+                                            $myMaterialAdquisicionAmountGramos  = $movimiento->material_amount_gramos;
+
+                                            $myMaterialAdquisicionPrice         = $movimiento->material_price_gramos;
+                                            $myMaterialAmountTotal              = $movimiento->material_amount_total_gramos;
+
+                                            $myMaterialRecepcionAmountGramos    = 0;    
+
+                                        }elseif ($movimiento->TypeTransactionId == 48){
+
+                                            $myMaterialAdquisicionAmountKilos   = $movimiento->material_amount_kilos;
+                                            $myMaterialAdquisicionAmountGramos  = 0;
+
+                                            $myMaterialAdquisicionPrice         = $movimiento->material_price_gramos;
+                                            $myMaterialAmountTotal              = $movimiento->material_amount_total_gramos;
+
+                                            $myMaterialRecepcionAmountGramos    = $movimiento->material_amount_gramos;
 
                                         }
 
@@ -252,42 +252,40 @@
                                         <td class="font-weight-bold">{{ $movimiento->Status }}</td>
                                         <td class="font-weight-bold">{{ $movimiento->wallet->name ?? "" }}</td>                                    
                                         <td class="font-weight-bold">{{ $movimiento->group->name ?? "" }}</td>
+
                                         <td class="font-weight-bold" style="min-width: 80px;">
                                             {!! substr($movimiento->transaction_date,0,10) !!}
                                             <br>
                                             {!! substr($movimiento->transaction_date,11,8) !!}
                                         </td>
+
                                         <td class="font-weight-bold" style="min-width: 80px;">
                                             {!! substr($movimiento->created_at,0,10) !!}
                                             <br>
                                             {!! substr($movimiento->created_at,11,8) !!}
                                         </td>
+
                                         <td class="font-weight-bold">
                                             <div style='width:60px; height:60px; overflow:hidden;'>{!!  $movimiento->description !!}</div>
                                         </td>
+
                                         <td>{!! $movimiento->type_transaction->name !!}</td>
+
                                         <td>{!! $movimiento->type_material->name ?? '' !!}</td>
                                         
                                         <td>{!! $myDesTypeAdquisicion ?? '' !!}</td>
 
-                                        <td class="font-weight-bold">{!! number_format($myMaterialAdquisicionPrice,2) ?? ''!!} </td>
-
-                                        <td>{!! number_format($myMaterialAdquisicionAmount,2) ?? '' !!}</td>
-
-                                        <td class="font-weight-bold">{!! number_format($myMaterialRecepcionPrice,2) ?? ''!!} </td>
-
-                                        <td>{!! number_format($myMaterialRecepcionAmount,2) ?? '' !!}</td>
+                                        <td>{!! number_format($myMaterialAdquisicionAmountKilos,2)  ?? '' !!}</td>
+                                        <td>{!! number_format($myMaterialAdquisicionAmountGramos,2) ?? '' !!}</td>
+                                        <td>{!! number_format($myMaterialAdquisicionPrice,2)        ?? ''!!} </td>
 
                                         <td class="font-weight-bold">{!!  number_format($myMaterialAmountTotal,2) !!} 
                                             <i class="fas fa-dollar-sign"></i>
                                         </td>
+
+                                        <td>{!! number_format($myMaterialRecepcionAmount,2) ?? '' !!}</td>
                                         
-                                        <td>{!! number_format($movimiento->material_amount_gramos,2) ?? '' !!}</td>
-
                                         <td class="font-weight-bold">{!! $movimiento->user->name ?? '' !!}</td>
-
-
-
 
                                         <td>
                                             
