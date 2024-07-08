@@ -469,7 +469,7 @@ class TransactionController extends Controller
          if($request->query('fechaHasta')){
             $myFechaHasta = $request->fechaHasta;
          };
-
+         
         $myUser         = 0;
         $myUsuarioDesde = 0;
         $myUsuarioHasta = 999999;
@@ -589,19 +589,20 @@ class TransactionController extends Controller
             group_id                        as GroupId,
             mtf.groups.name                 as GroupName,
             transaction_date                as TransactionDate,
+            mtf.transactions.created_at     as CreatedAt,
             type_material_id                as TypeMaterialId,
             mtf.type_materials.name         as TypeMaterialName,
             material_amount_kilos           as MaterialAmountKilos,
             material_amount_gramos          as MaterialAmountGramos,
             material_amount_total_kilos     as MaterialAmountTotalKilos,
             material_amount_total_gramos    as MaterialAmountTotalGramos,
-            material_amount_price_kilos     as MaterialAmountPriceKilos,
-            material_amount_price_gramos    as MaterialAmountPriceGramos,            
+            material_price_kilos            as MaterialPriceKilos,
+            material_price_gramos           as MaterialPriceGramos,            
             material_type_adquisicion       as MaterialTypeAdquisicion,
             case
-                when material_type_adquisicion = 1  'Kilos'
-                when material_type_adquisicion = 2  'Gramos'
-                when material_type_adquisicion = 3  'Cantidad'
+                when material_type_adquisicion = 1  then 'Kilos'
+                when material_type_adquisicion = 2  then 'Gramos'
+                when material_type_adquisicion = 3  then 'Cantidad'
                 else                                ' '
             end
                                             as MaterialTypeAdquisicionName,
@@ -619,22 +620,22 @@ class TransactionController extends Controller
         left join   mtf.users               on mtf.transactions.user_id                 = mtf.users.id
         left join   mtf.type_materials      on mtf.transactions.type_material_id        = mtf.type_materials.id
         where 
-                status              = 'Liquidado'
-            and liquidation_number  = $myLiquidationNumber
-            and wallet_id           between $myWalletDede               and $myWalletHasta
-            and group_id            between $myGroupDesde               and $myGroupHasta
-            and type_material_id    between $myTypeMaterialDesde        and $myTypeMaterialHasta
-            and created_at          between $myFechaDesde 00:00:00      and $myFechaHasta 23:59:00
-            and user_id             between $myUsuarioDesde             and $myUsuarioHasta
-            and type_transaction_id in(47,48)
+                status                          = 'Liquidado'
+            and liquidation_number              = $myLiquidationNumber
+            and wallet_id                       between $myWalletDesde              and $myWalletHasta
+            and group_id                        between $myGroupDesde               and $myGroupHasta
+            and type_material_id                between $myTypeMaterialDesde        and $myTypeMaterialHasta
+            and mtf.transactions.created_at     between '$myFechaDesde 00:00:00'    and '$myFechaHasta 23:59:00'
+            and user_id                         between $myUsuarioDesde             and $myUsuarioHasta
+            and type_transaction_id             in(47,48)
         order by 
             transaction_date,
             type_transaction_id
         ";
 
-    // dd($myQuery);
-    // $transactiones = DB::select($myQuery);
-    
+     //dd($myQuery);
+     $movimientos = DB::select($myQuery);
+    // dd($movimientos);
     
 
         //dd($movimientos);
@@ -674,7 +675,7 @@ class TransactionController extends Controller
 
         // dd($transferencia);
 
-        return view('materials.liquidacion_adquisicion_index', $parametros);
+        return view('materials.liquidacion_index', $parametros);
 
     }
 

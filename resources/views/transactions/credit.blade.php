@@ -82,6 +82,10 @@
                       {!! Form::text('amount', null, ['class' => 'form-control general', 'required' => true, 'id' => 'monto_dolares', 'readonly' => true]) !!}
                       </div>
                   </div>
+
+                </div>
+
+                <div class="form-row">
                   <div class="form-group col-md-6">
                       {!! Form::Label('fecha', "Fecha:") !!}
                       <div class="input-group-text">
@@ -90,7 +94,7 @@
                       </div>
                   </div>
                 </div>
-
+                        {!! Form::hidden('type_coin_balance_id',null, ['class' => 'form-control montototal', 'required' => true, 'min' => 0, 'id' => 'type_coin_balance_id', 'readonly' => true]) !!}
                         {!! Form::hidden('amount_total',null, ['class' => 'form-control montototal', 'required' => true, 'min' => 0, 'id' => 'montototal', 'readonly' => true]) !!}
                         {!! Form::hidden('amount_total_base',null, ['class' => 'form-control monto_base', 'required' => true, 'min' => 0, 'id' => 'monto_base', 'readonly' => true]) !!}
                         {!! Form::hidden('amount_base',null, ['class' => 'form-control monto_base', 'required' => true, 'min' => 0, 'id' => 'monto_base_extranjera', 'readonly' => true]) !!}
@@ -257,6 +261,7 @@
 @endsection
 
 @section('js')
+
 <script>
 /* $('#monto_dolares').mask('###0.00', { reverse: true });
 $('#monto').mask('###0.00', { reverse: true }); */
@@ -365,229 +370,102 @@ $('#entre').on('submit', function() {
 $(document).ready(function() {
   //$('#monto_dolares').toFixed(2);
 
-  $('.typecoin').change(function(e) {
+    $('.typecoin').change(function(e) {
 
-      $('#tasa').val(""); // LIMPIAR TASA DE CAMBIO
-      $('#monto').val(""); // LIMPIAR MONTO DE MONEDA EXTRANJERA
+        $('#tasa').val(""); // LIMPIAR TASA DE CAMBIO
+        $('#monto').val(""); // LIMPIAR MONTO DE MONEDA EXTRANJERA
 
-      $('#comision').val(""); // LIMPIAR COMISION
-      $('#percentage').val("");  // LIMPIAR PORCENTAJE
-      $('#monto_dolares').val(""); // LIMPIAR MONTO EN DOLARES
-      $('#montototal').val(""); // LIMPIAR MONTO TOTAL
+        $('#comision').val(""); // LIMPIAR COMISION
+        $('#percentage').val("");  // LIMPIAR PORCENTAJE
+        $('#monto_dolares').val(""); // LIMPIAR MONTO EN DOLARES
+        $('#montototal').val(""); // LIMPIAR MONTO TOTAL
+        // alert($('#type_coin_balance_id').val());
+        //$('#type_coin_balance_id').val(
+        //     $('#type_coin_id').val();
+        //);
 
-    if ($(this).val() == 1) {
+        if ($(this).val() == 1) {
+            $('#tasa').attr("readonly", true);
+            $('#monto').attr("readonly", true);
+            $('#monto_dolares').attr("readonly", false);
+
+            tasa = document.getElementById("tasa");
+            monto = document.getElementById("monto");
+            monto_dolares = document.getElementById("monto_dolares");
+            montototal =   document.getElementById("montototal");
+            monto_base =   document.getElementById("monto_base");
+            monto_base =   document.getElementById("monto_base");
+
+            onkeyup = function(){
+                if(tasa.value == null && monto.value == null){
+                    monto_total = monto_dolares;
+                    monto_dolares.value =  monto_total.toFixed(2);
+                }
+            }
+            onkeyup = function(){
+                if(monto_dolares.value){
+                    //monto_total = monto_dolares;
+                    montototal.value = monto_dolares.value;
+                    monto_base.value = monto_dolares.value;
+                    monto_base_extranjera.value = monto_dolares.value;
+                }
+            }
+        }
+        else if ($(this).val() == null)
+        {
         $('#tasa').attr("readonly", true);
         $('#monto').attr("readonly", true);
-        $('#monto_dolares').attr("readonly", false);
-
-        tasa = document.getElementById("tasa");
-        monto = document.getElementById("monto");
-        monto_dolares = document.getElementById("monto_dolares");
-        montototal =   document.getElementById("montototal");
-        monto_base =   document.getElementById("monto_base");
-        monto_base =   document.getElementById("monto_base");
-
-        onkeyup = function(){
-            if(tasa.value == null && monto.value == null){
-                monto_total = monto_dolares;
-                monto_dolares.value =  monto_total.toFixed(2);
-            }
-        }
-        onkeyup = function(){
-            if(monto_dolares.value){
-                //monto_total = monto_dolares;
-                montototal.value = monto_dolares.value;
-                monto_base.value = monto_dolares.value;
-                monto_base_extranjera.value = monto_dolares.value;
-            }
-        }
-    }
-    else if ($(this).val() == null)
-    {
-      $('#tasa').attr("readonly", true);
-      $('#monto').attr("readonly", true);
-      $('#monto_dolares').prop('readonly', true);
-
-      $('#tasa').val("");
-      $('#monto').val("");
-      $('#monto_dolares').val("");
-
-    }
-    else {
-        $('#tasa').prop("readonly", false);
-        $('#monto').prop("readonly", false);
         $('#monto_dolares').prop('readonly', true);
 
+        $('#tasa').val("");
+        $('#monto').val("");
+        $('#monto_dolares').val("");
 
-        tasa = document.getElementById("tasa");
-        monto = document.getElementById("monto");
-
-        monto_dolares = document.getElementById("monto_dolares");
-        montototal =   document.getElementById("montototal");
-
-        onkeyup = function(){
-            if(tasa.value > 0 && monto.value > 0){
-                monto_total = (monto.value / tasa.value);
-                monto_dolares.value =  monto_total.toFixed(2);
-            }
-            else if(monto_dolares.value == NaN){
-                monto_dolares.value = 'Por favor use punto en vez de coma.'
-
-            }else{
-                monto_dolares.value = 'Por favor llene el campo tasa.'
-            }
-
-        };
-
-        onkeyup = function(){
-            if(tasa.value!="" && monto.value!=""){
-                monto_total = (monto.value / tasa.value);
-                monto_dolares.value =  monto_total.toFixed(2);
-                montototal.value =  monto_total.toFixed(2);
-                monto_base.value = monto_total.toFixed(2);
-                monto_base_extranjera.value = monto_total.toFixed(2);
-            }
-            else{
-                monto_dolares.value = montototal.toFixed(2);
-            }
-
-        };
-
-     }
-  })
-
-})//CIERRE DEL READY
-
-
-
-/* REFERENCIAS PARA RESPALDO DE MOVIMIENTO */
-     $("#file").fileinput({
-        uploadUrl: '{{ route('transactions.store') }}'
-        , language: 'es'
-        , showUpload: false
-        , dropZoneEnabled: false
-        , theme:"fas"
-        , mainClass: "input-group-md"
-        , overwriteInitial: false
-        , fileActionSettings: {
-            showRemove: true,
-            showUpload: false,
-            showZoom: true,
-            showDrag: false,
         }
-        , initialPreviewAsData: true
-        , allowedPreviewTypes: ['text', 'image']
-        , uploadExtraData: function () {  // callback example
+        else {
+            $('#tasa').prop("readonly", false);
+            $('#monto').prop("readonly", false);
+            $('#monto_dolares').prop('readonly', true);
 
-            var documentos = [];
 
-            $.each($(this)[0].filenames, function (i, v) {
-                var nombre = v;
-                //Busco la extension
-                var lastPoint = nombre.lastIndexOf(".");
-                var extension = nombre.substring(lastPoint + 1);
+            tasa = document.getElementById("tasa");
+            monto = document.getElementById("monto");
 
-                var b;
+            monto_dolares = document.getElementById("monto_dolares");
+            montototal =   document.getElementById("montototal");
 
-                switch (extension.toUpperCase()) {
-                    case "ZIP":
-                    case "RAR":
-                    case "JPG":
-                    case "PNG":
-                    case "JPEG":
-                        b = {
-                            'id': i + 1,
-                            'nombre': nombre,
-                            'mensaje': '',
-                            'tipo': extension.toUpperCase(),
-                            'procesado': false
-                        };
-                        documentos.push(b);
-                        break;
-
-                    case "PDF":
-                        b = {
-                            'id': i + 1,
-                            'nombre': nombre,
-                            'mensaje': '',
-                            'tipo': extension.toUpperCase(),
-                            'procesado': false
-                        };
-                        pdf.push(b);
-                        documentos.push(b);
-                        break;
-                    case "XML":
-                        b = {
-                            'id': i + 1,
-                            'nombre': nombre,
-                            'mensaje': '',
-                            'tipo': extension.toUpperCase(),
-                            'procesado': false
-                        };
-                        xml.push(b);
-                        documentos.push(b);
-                        break;
-                    default:
-                        b = {
-                            'id': i + 1,
-                            'nombre': nombre,
-                            'mensaje': msgWrongFileType,
-                            'tipo': extension.toUpperCase(),
-                            'procesado': false
-                        };
-                        documentos.push(b);
-                        break;
+            onkeyup = function(){
+                if(tasa.value > 0 && monto.value > 0){
+                    monto_total = (monto.value / tasa.value);
+                    monto_dolares.value =  monto_total.toFixed(2);
                 }
-            });
+                else if(monto_dolares.value == NaN){
+                    monto_dolares.value = 'Por favor use punto en vez de coma.'
 
-            //Recorro todos los xmls y pdfs, los que no tenga par se marcaran como bad
-            $.each(xml, function (i, v) {
-                if (v.tienePar == false) {
-                    v.mensaje = msgNoPdf;
-                    //bad.push(v);
+                }else{
+                    monto_dolares.value = 'Por favor llene el campo tasa.'
                 }
-            });
 
+            };
 
-            var data = {
-                Documentos: documentos
-                , DatoExtra: "Información EXTRA"
-            }
+            onkeyup = function(){
+                if(tasa.value!="" && monto.value!=""){
+                    monto_total = (monto.value / tasa.value);
+                    monto_dolares.value =  monto_total.toFixed(2);
+                    montototal.value =  monto_total.toFixed(2);
+                    monto_base.value = monto_total.toFixed(2);
+                    monto_base_extranjera.value = monto_total.toFixed(2);
+                }
+                else{
+                    monto_dolares.value = montototal.toFixed(2);
+                }
 
-            alert(JSON.stringify(data));
-            return { datos: JSON.stringify(data) }; //Este objeto mandarias al SERVER al presionar upload
-          }
-        });
+            };
 
+        }
+  });
 
-
-$('#file').on('filebatchpreupload', function (event, data) {
-    //Si quieres que haga algo antes de enviar la informacion
-    $("#divResult").text("Enviando...");
-});
-
-//Para procesar los archivos despues de haberlos subido
-$('#file').on('filebatchuploadsuccess', function (event, data) {
-    var response = data.response;
-    $("#divResult").text("Procesados...");
-    //Despues de procesar la informacion el servidor respondera con esto... puedes decidir que hacer.. ya se mostrar un mensaje al usuairo
-});
-
-$('#file').on('filecleared', function () {
-    //Si queires que haga algo al limpiar los archivos
-    //alert('0 archivos');
-    Swal.fire(
-    'Cancelada la subida de archivos',
-    '',
-    'error'
-    )
-
-});
-
-/* REFERENCIAS PARA RESPALDO DE MOVIMIENTO */
-
-
-
+});//CIERRE DEL READY
 
 </script>
 
