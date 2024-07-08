@@ -220,58 +220,58 @@
                                 @foreach($movimientos as $movimiento)
                                 
                                     @php 
-                                        $myDesTypeAdquisicion   = $myClass->getDesTyperAdquisicion($movimiento->material_type_adquisicion);
+                                        $myDesTypeAdquisicion   = $myClass->getDesTyperAdquisicion($movimiento->MaterialTypeAdquisicion);
 
                                         if ($movimiento->TypeTransactionId == 47){
 
-                                            $myMaterialAdquisicionAmountKilos   = $movimiento->material_amount_kilos;
-                                            $myMaterialAdquisicionAmountGramos  = $movimiento->material_amount_gramos;
+                                            $myMaterialAdquisicionAmountKilos   = $movimiento->MaterialAmountKilos;
+                                            $myMaterialAdquisicionAmountGramos  = $movimiento->MaterialAmountGramos;
 
-                                            $myMaterialAdquisicionPrice         = $movimiento->material_price_gramos;
-                                            $myMaterialAmountTotal              = $movimiento->material_amount_total_gramos;
+                                            $myMaterialAdquisicionPrice         = $movimiento->MaterialPriceGramos;
+                                            $myMaterialAmountTotal              = $movimiento->MaterialAmountTotalGramos;
 
                                             $myMaterialRecepcionAmountGramos    = 0;    
 
                                         }elseif ($movimiento->TypeTransactionId == 48){
 
-                                            $myMaterialAdquisicionAmountKilos   = $movimiento->material_amount_kilos;
+                                            $myMaterialAdquisicionAmountKilos   = $movimiento->MaterialAmountKilos;
                                             $myMaterialAdquisicionAmountGramos  = 0;
 
-                                            $myMaterialAdquisicionPrice         = $movimiento->material_price_gramos;
-                                            $myMaterialAmountTotal              = $movimiento->material_amount_total_gramos;
+                                            $myMaterialAdquisicionPrice         = $movimiento->MaterialPriceGramos;
+                                            $myMaterialAmountTotal              = $movimiento->MaterialAmountTotalGramos;
 
-                                            $myMaterialRecepcionAmountGramos    = $movimiento->material_amount_gramos;
+                                            $myMaterialRecepcionAmountGramos    = $movimiento->MaterialAmountGramos;
 
                                         }
 
                                     @endphp
 
                                     <tr>
-                                        <td class="font-weight-bold">{{ $movimiento->liquidation_number }}</td>
-                                        <td class="font-weight-bold">{{ $movimiento->id }}</td>
+                                        <td class="font-weight-bold">{{ $movimiento->LiquidationNumber }}</td>
+                                        <td class="font-weight-bold">{{ $movimiento->Id }}</td>
                                         <td class="font-weight-bold">{{ $movimiento->Status }}</td>
-                                        <td class="font-weight-bold">{{ $movimiento->wallet->name ?? "" }}</td>                                    
-                                        <td class="font-weight-bold">{{ $movimiento->group->name ?? "" }}</td>
+                                        <td class="font-weight-bold">{{ $movimiento->WalletName ?? "" }}</td>                                    
+                                        <td class="font-weight-bold">{{ $movimiento->GroupName ?? "" }}</td>
 
                                         <td class="font-weight-bold" style="min-width: 80px;">
-                                            {!! substr($movimiento->transaction_date,0,10) !!}
+                                            {!! substr($movimiento->TransactionDate,0,10) !!}
                                             <br>
-                                            {!! substr($movimiento->transaction_date,11,8) !!}
+                                            {!! substr($movimiento->TransactionDate,11,8) !!}
                                         </td>
 
                                         <td class="font-weight-bold" style="min-width: 80px;">
-                                            {!! substr($movimiento->created_at,0,10) !!}
+                                            {!! substr($movimiento->CreatedAt,0,10) !!}
                                             <br>
-                                            {!! substr($movimiento->created_at,11,8) !!}
+                                            {!! substr($movimiento->CreatedAt,11,8) !!}
                                         </td>
 
                                         <td class="font-weight-bold">
-                                            <div style='width:60px; height:60px; overflow:hidden;'>{!!  $movimiento->description !!}</div>
+                                            <div style='width:60px; height:60px; overflow:hidden;'>{!!  $movimiento->Description !!}</div>
                                         </td>
 
-                                        <td>{!! $movimiento->type_transaction->name !!}</td>
+                                        <td>{!! $movimiento->TypeTransactionName !!}</td>
 
-                                        <td>{!! $movimiento->type_material->name ?? '' !!}</td>
+                                        <td>{!! $movimiento->TypeMaterialName ?? '' !!}</td>
                                         
                                         <td>{!! $myDesTypeAdquisicion ?? '' !!}</td>
 
@@ -283,13 +283,13 @@
                                             <i class="fas fa-dollar-sign"></i>
                                         </td>
 
-                                        <td>{!! number_format($myMaterialRecepcionAmount,2) ?? '' !!}</td>
+                                        <td>{!! number_format($myMaterialRecepcionAmountGramos,2) ?? '' !!}</td>
                                         
-                                        <td class="font-weight-bold">{!! $movimiento->user->name ?? '' !!}</td>
+                                        <td class="font-weight-bold">{!! $movimiento->Agente ?? '' !!}</td>
 
                                         <td>
                                             
-                                            <a href="{{ route('transactions.show', $movimiento->id) }}"
+                                            <a href="{{ route('transactions.show', $movimiento->Id) }}"
                                             
                                                 class="btn btn-xl text-dark mx-1 shadow text-center">
                                                 <i class="fa fa-lg fa-fw fas fa-search"></i>

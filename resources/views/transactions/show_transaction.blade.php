@@ -249,7 +249,7 @@
                                 <div class="info-box bg-light">
                                     <div class="info-box-content">
                                         <span class="info-box-text text-center text-muted">Tipo de moneda balance<i class="fas fa-lock"></i></span>
-                                        <span class="info-box-number text-center text-muted mb-0 text-uppercase">{{ $transactions->type_coin_balance->name  }}</span>
+                                        <span class="info-box-number text-center text-muted mb-0 text-uppercase">{{ $transactions->type_coin_balance->name  ?? '' }}</span>
                                     </div>
                                 </div>                            
                             </div>
