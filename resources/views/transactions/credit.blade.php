@@ -14,22 +14,20 @@
 @section('content')
 
 <div class="d-flex justify-content-center">
-  <div class="card col-md-6" style="min-height: 500px !important; max-height:100%; height:100%; widht:100%"">
-    <div class="card-body">
+    <div class="card col-md-6" style="min-height: 500px !important; max-height:100%; height:100%; widht:100%"">
+        <div class="card-body">
+            {!! Form::open(['route' => 'transactions.store', 'autocomplete' => 'off', 'files' => true, 'enctype' =>'multipart/form-data', 'id' => 'entre']) !!}
 
-      {!! Form::open(['route' => 'transactions.store', 'autocomplete' => 'off', 'files' => true, 'enctype' =>'multipart/form-data', 'id' => 'entre']) !!}
-
-
-          <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+            <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
                 <li class="nav-item" role="presentation">
                   <button class="nav-link active" id="pills-home-tab" data-toggle="pill" data-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">{{ __('Movimiento') }}</button>
                 </li>
                 <li class="nav-item" role="presentation">
                   <button class="nav-link" id="pills-profile-tab" data-toggle="pill" data-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">{{ __('Referencias') }}</button>
                 </li>
-              </ul>
+            </ul>
 
-              <div class="tab-content" id="pills-tabContent">
+            <div class="tab-content" id="pills-tabContent">
                 <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
                     {!! Form::hidden('user_id',auth()->id(), null, ['class' => 'form-control', 'required' => true]) !!}
 
@@ -53,117 +51,107 @@
                     </div>
                     <div class="form-row">
 
-                    <div class="form-group col-md-6">
-                        {!! Form::Label('tasa', "Tasa:") !!}
-                        <div class="input-group-text">
-                            <i class="fa-fw fas fa-random mr-2"></i>
-                        {!! Form::text('exchange_rate',null, ['class' => 'form-control rateMask', 'required' => true, 'id' => 'tasa', 'readonly' => true]) !!}
+                        <div class="form-group col-md-6">
+                            {!! Form::Label('tasa', "Tasa:") !!}
+                            <div class="input-group-text">
+                                <i class="fa-fw fas fa-random mr-2"></i>
+                            {!! Form::text('exchange_rate',null, ['class' => 'form-control rateMask', 'required' => true, 'id' => 'tasa', 'readonly' => true]) !!}
+                            </div>
+                        </div>
+
+                        <div class="form-group col-md-6">
+
+                            {!! Form::Label('monto', "Monto en moneda extranjera:") !!}
+                            <div class="input-group-text">
+                                <i class="fa-fw fas fa-coins mr-2"></i>
+                            {!! Form::text('amount_foreign_currency',null, ['class' => 'form-control general', 'required' => true, 'id' => 'monto', 'min' => 0, 'readonly' => true]) !!}
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            {!! Form::Label('monto_dolares', "Monto en dolares:") !!}
+                            <div class="input-group-text">
+                                <i class="fa-fw fas fas fa-funnel-dollar mr-2"></i>
+                                {!! Form::text('amount', null, ['class' => 'form-control general', 'required' => true, 'id' => 'monto_dolares', 'readonly' => true]) !!}
+                            </div>
                         </div>
                     </div>
 
-                    <div class="form-group col-md-6">
-
-                        {!! Form::Label('monto', "Monto en moneda extranjera:") !!}
-                        <div class="input-group-text">
-                            <i class="fa-fw fas fa-coins mr-2"></i>
-                        {!! Form::text('amount_foreign_currency',null, ['class' => 'form-control general', 'required' => true, 'id' => 'monto', 'min' => 0, 'readonly' => true]) !!}
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            {!! Form::Label('fecha', "Fecha:") !!}
+                            <div class="input-group-text">
+                                <i class="fa-fw fas fas fa-calendar-week mr-2"></i>
+                                {!! Form::datetimeLocal('transaction_date', $fecha, ['class' => 'form-control', 'required' => true, 'id' => 'fecha']) !!}
+                            </div>
                         </div>
-
                     </div>
 
-                </div>
-
-
-                <div class="form-row">
-                  <div class="form-group col-md-6">
-                      {!! Form::Label('monto_dolares', "Monto en dolares:") !!}
-                      <div class="input-group-text">
-                          <i class="fa-fw fas fas fa-funnel-dollar mr-2"></i>
-                      {!! Form::text('amount', null, ['class' => 'form-control general', 'required' => true, 'id' => 'monto_dolares', 'readonly' => true]) !!}
-                      </div>
-                  </div>
-
-                </div>
-
-                <div class="form-row">
-                  <div class="form-group col-md-6">
-                      {!! Form::Label('fecha', "Fecha:") !!}
-                      <div class="input-group-text">
-                          <i class="fa-fw fas fas fa-calendar-week mr-2"></i>
-                      {!! Form::datetimeLocal('transaction_date', $fecha, ['class' => 'form-control', 'required' => true, 'id' => 'fecha']) !!}
-                      </div>
-                  </div>
-                </div>
-                        {!! Form::hidden('type_coin_balance_id',null, ['class' => 'form-control montototal', 'required' => true, 'min' => 0, 'id' => 'type_coin_balance_id', 'readonly' => true]) !!}
-                        {!! Form::hidden('amount_total',null, ['class' => 'form-control montototal', 'required' => true, 'min' => 0, 'id' => 'montototal', 'readonly' => true]) !!}
-                        {!! Form::hidden('amount_total_base',null, ['class' => 'form-control monto_base', 'required' => true, 'min' => 0, 'id' => 'monto_base', 'readonly' => true]) !!}
-                        {!! Form::hidden('amount_base',null, ['class' => 'form-control monto_base', 'required' => true, 'min' => 0, 'id' => 'monto_base_extranjera', 'readonly' => true]) !!}
-                        {!! Form::hidden('status', 'Activo', null, ['class' => 'form-control']) !!}
+                    {!! Form::hidden('type_coin_balance_id',null, ['class' => 'form-control montototal', 'required' => true, 'min' => 0, 'id' => 'type_coin_balance_id', 'readonly' => true]) !!}
+                    {!! Form::hidden('amount_total',null, ['class' => 'form-control montototal', 'required' => true, 'min' => 0, 'id' => 'montototal', 'readonly' => true]) !!}
+                    {!! Form::hidden('amount_total_base',null, ['class' => 'form-control monto_base', 'required' => true, 'min' => 0, 'id' => 'monto_base', 'readonly' => true]) !!}
+                    {!! Form::hidden('amount_base',null, ['class' => 'form-control monto_base', 'required' => true, 'min' => 0, 'id' => 'monto_base_extranjera', 'readonly' => true]) !!}
+                    {!! Form::hidden('status', 'Activo', null, ['class' => 'form-control']) !!}
                     {{-- {{ dd($type_transaction) }} --}}
 
                     <div class="form-group col-md-12">
                         {!! Form::Label('type_transaction_id', "Tipo de transacción:") !!}
                         <div class="input-group-text">
                             <i class="fa-fw fas fas fa-trademark mr-2"></i>
-                        {!! Form::select('type_transaction_id', $type_transaction, null, ['class' => 'form-control transaccion']) !!}
+                            {!! Form::select('type_transaction_id', $type_transaction, null, ['class' => 'form-control transaccion']) !!}
+                        </div>
                     </div>
-                </div>
 
-
-                <div class="form-group">
-                    {!! Form::Label('description', "Descripción:") !!}
+                    <div class="form-group">
+                        {!! Form::Label('description', "Descripción:") !!}
                         <div class="input-group-text">
                             <i class="fa-fw fas fa-text-width mr-2"></i>
                         {!! Form::textarea('description',null, ['rows' => 3, 'class' => 'form-control', 'required' => true]) !!}
                         </div>
+                    </div>
+
+                    {!! Form::Submit('GUARDAR', ['class' => 'btn btn-primary btn-block font-weight-bold', 'style' => "max-height: 400px;" , 'id' => 'publish']) !!}
+
                 </div>
 
-                {!! Form::Submit('GUARDAR', ['class' => 'btn btn-primary btn-block font-weight-bold', 'style' => "max-height: 400px;" , 'id' => 'publish']) !!}
+            </div>
 
-                </div>
-
-
-                <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
-
-                    <div class="form-group">
-                        <div class="custom-file col-md-12">
+            <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+                <div class="form-group">
+                    <div class="custom-file col-md-12">
                         {!! Form::label('file', 'Referencia:') !!}
 
-
-                      <div class="file-loading">
+                        <div class="file-loading">
                             {!! Form::file('file[]', ['class' => 'form-file-input file', 'accept' => 'image/*', 'multiple' => 'multiple', 'id' => 'file', 'data-allowed-file-extensions' => '["pdf","jpg","jpeg","png","gif"]']) !!}
+                        </div>
 
-
-                      </div>
-
-                    @error('file')
-                        <small class="text-danger">{{$message}}</small>
-                    @enderror
-
-
+                        @error('file')
+                            <small class="text-danger">{{$message}}</small>
+                        @enderror
+                    </div>
                 </div>
             </div>
 
-
-
-            {!! Form::Submit('GUARDAR', ['class' => 'btn btn-primary btn-block font-weight-bold', 'style' => "max-height: 400px;" , 'id' => 'publish']) !!}
-          </div>
-
         </div>
-      {!! Form::close() !!}
+
+        {!! Form::Submit('GUARDAR', ['class' => 'btn btn-primary btn-block font-weight-bold', 'style' => "max-height: 400px;" , 'id' => 'publish']) !!}
+        
     </div>
-  </div>
+
 </div>
+
+{!! Form::close() !!}
+
 
 @endsection
 
-
-
-
 @section('css')
+
 <meta name="csrf-token" content="{{ csrf_token() }}">
-
-
 
 <style>
 .file-preview-thumbnails{
@@ -379,10 +367,12 @@ $(document).ready(function() {
         $('#percentage').val("");  // LIMPIAR PORCENTAJE
         $('#monto_dolares').val(""); // LIMPIAR MONTO EN DOLARES
         $('#montototal').val(""); // LIMPIAR MONTO TOTAL
+
+        let myTypeCoin_Balance_Id = $('#typecoin').val();
+        
+        $('#type_coin_balance_id').val(myTypeCoin_Balance_Id);
+
         // alert($('#type_coin_balance_id').val());
-        //$('#type_coin_balance_id').val(
-        //     $('#type_coin_id').val();
-        //);
 
         if ($(this).val() == 1) {
             $('#tasa').attr("readonly", true);
