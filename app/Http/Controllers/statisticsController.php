@@ -217,7 +217,7 @@ class statisticsController extends Controller
     */
     public function index_all2(Request $request)
     {
-
+        \Log::info('Inicio index_all2');
         $myGroup        = 0;
         $myGroupDesde   = 0;
         $myGroupHasta   = 9999;        
@@ -307,6 +307,7 @@ class statisticsController extends Controller
             if ($myWallet > 0){
                 
                 $balance        = $this->getBalanceWallet($myWallet, "2001-01-01", "9999-12-31", $myCoin);
+                
                 $balanceBefore  = $this->getBalanceWalletBefore($myWallet,$myFechaDesde, $myFechaHasta, $myCoin);
 
             }
@@ -2565,10 +2566,13 @@ class statisticsController extends Controller
         ";
 
         //  dd($myQuery);
+        // \Log::info($myQuery);
         
+
         $Transacciones = DB::select($myQuery);
 
         // dd($Transacciones);
+        // \Log::info($Transacciones);
 
         if($grupo == 316){
             // \Log::info('leam grupo query  *** -> ' . print_r($myQuery,true));
@@ -2685,6 +2689,11 @@ class statisticsController extends Controller
     function getBalanceBefore($myGroup = 0, $myFechaDesde = "2001-01-01", $myFechaHasta = "9999-12-31", $myCoin = 1){
 
 
+        \Log::info('paso en before ');
+        \Log::info('paso en before - myFechaDesde ->' . $myFechaDesde);
+        \Log::info('paso en before - myFechaHasta ->' . $myFechaHasta);
+        \Log::info('paso en before - myCoin       ->' . $myCoin);
+
 
         $myFechaDesdeBefore = "2001-01-01";
         $myFechaHastaBefore = "9999-12-31";
@@ -2696,12 +2705,10 @@ class statisticsController extends Controller
             return $balanceDetail;
         }
 
-
-
         if ($myGroup > 0){
             // dd($indRecibeFecha);      
             if ($myFechaDesde != "2001-01-01"){
-
+                $myFechaDesdeBefore = $myFechaDesde;
                 $myFechaHastaBefore = $this->getDayBefore($myFechaDesde);
 
             }
@@ -2716,7 +2723,9 @@ class statisticsController extends Controller
                 $balanceDetail = 0;
             }
         }
-
+        
+        \Log::info('Balance detail -> ' . $balanceDetail);
+        
         return $balanceDetail;   
     }    
     /*
@@ -2726,13 +2735,19 @@ class statisticsController extends Controller
     *
     *
     */
-    function getBalanceWalletBefore($myWallet = 0, $myFechaDesde = "2001-01-01", $myFechaHasta = "9999-12-31"){
+    function getBalanceWalletBefore($myWallet = 0, $myFechaDesde = "2001-01-01", $myFechaHasta = "9999-12-31", $myCoin = 1){
 
         $myFechaDesdeBefore = "2001-01-01";
         $myFechaHastaBefore = "9999-12-31";
         $balance3 = 0;
 
         $balanceDetail = 0;
+
+        \Log::info('leam getBalanceBefore -> $myWallet      ' . $myWallet);
+        \Log::info('leam getBalanceBefore -> $myFechaDesde  ' . $myFechaDesde);
+        \Log::info('leam getBalanceBefore -> $myFechaHasta  ' . $myFechaHasta);
+        \Log::info('leam getBalanceBefore -> $myCoin        ' . $myCoin);
+
 
         if ($myFechaDesde === "2001-01-01"){
             return $balanceDetail;
@@ -2745,7 +2760,7 @@ class statisticsController extends Controller
                 $myFechaHastaBefore = $this->getDayBefore($myFechaDesde);
 
             }
-            $balance3           = $this->getBalanceWallet($myWallet, $myFechaDesdeBefore, $myFechaHastaBefore);
+            $balance3           = $this->getBalanceWallet($myWallet, $myFechaDesdeBefore, $myFechaHastaBefore, $myCoin);
             if(isset($balance3->Total)){
                 $balanceDetail  = $balance3->Total;
             }else{
@@ -2772,10 +2787,10 @@ class statisticsController extends Controller
             $walletDesde = $wallet;
             $walletHasta = $wallet;
         }
-         //\Log::info('leam wallet      getBalanceWallet *** -> ' . $wallet);
-        // \Log::info('leam fecha Desde getBalanceWallet *** -> ' . $fechaDesde);
-        // \Log::info('leam fecha Hasta getBalanceWallet *** -> ' . $fechaHasta);
-        // \Log::info('leam coin        getBalanceWallet *** -> ' . $myCoin);
+         \Log::info('leam saldo wallet      getBalanceWallet *** -> ' . $wallet);
+         \Log::info('leam saldo fecha Desde getBalanceWallet *** -> ' . $fechaDesde);
+         \Log::info('leam saldo fecha Hasta getBalanceWallet *** -> ' . $fechaHasta);
+         \Log::info('leam saldo coin        getBalanceWallet *** -> ' . $myCoin);
 
         $horaDesde      = " 00:00:00";
         $horaHasta      = " 23:59:00";
@@ -2790,15 +2805,15 @@ class statisticsController extends Controller
         $myTempCredits  = $this->getWalletCredits();
         $myTempDebits   = $this->getWalletDebits();
 
-        $Group_roles = $this->getGroupRole(auth()->id());
+        $Group_roles    = $this->getGroupRole(auth()->id());
 
 
         $busquedaWalletFilter     = "";
 
-            if($Group_roles->allWallets == 0){
-                $theWallets             = implode(",", $Group_roles->wallets);
-                $busquedaWalletFilter   = " and wallet_id in ($theWallets)";
-            }
+        if($Group_roles->allWallets == 0){
+            $theWallets             = implode(",", $Group_roles->wallets);
+            $busquedaWalletFilter   = " and wallet_id in ($theWallets)";
+        }
 
 
          // dd("wallet debits ->" . $myTempDebits . " wallet credits ->" . $myTempCredits ); // ajuax
@@ -2893,10 +2908,12 @@ class statisticsController extends Controller
         ";
 
         // dd($myQuery);
+        
+
         $Transacciones = DB::select($myQuery);
 
-        //  \Log::info('leam - getBalanceWallet *** -> ' . print_r($myQuery,true));
-         // \Log::info('leam grupo transacciones  getBalanceWallet *** -> ' . print_r($Transacciones,true));
+          \Log::info('leam - getBalanceWallet *** -> ' . print_r($myQuery,true));
+          \Log::info('leam grupo transacciones  getBalanceWallet *** -> ' . print_r($Transacciones,true));
 
         if (empty($Transacciones)) {
             // \Log::info('leam vacio *** -> ' . print_r($Transacciones,true));

@@ -71,10 +71,10 @@ if (isset($balance->Total)){
     <div class="row col-12">
 
         {{-- dd($wallet) --}}
-        <div class ="col-12 col-sm-2">
+        <div class ="col-xl-2 col-sm-6">
             <x-adminlte-select2 id="wallet"
                                 name="optionsWallets"
-                                igroup-size="sm"
+
                                 label-class="text-lightblue"
                                 data-placeholder="Wallet..."
                                 :config="$config4"
@@ -90,10 +90,10 @@ if (isset($balance->Total)){
             </x-adminlte-select2>
         </div>
 
-        <div class ="col-12 col-sm-2">
+        <div class ="col-xl-2 col-sm-6">
             <x-adminlte-select2 id="group"
                                 name="optionsGroup"
-                                igroup-size="sm"
+
                                 label-class="text-lightblue"
                                 data-placeholder="Grupo ..."
                                 :config="$config2"
@@ -109,10 +109,10 @@ if (isset($balance->Total)){
             </x-adminlte-select2>
         </div>
 
-        <div class ="col-12 col-sm-2">
+        <div class ="col-xl-2 col-sm-6">
             <x-adminlte-select2 id="typeTransactions"
                                 name="optionstypeTransactions"
-                                igroup-size="sm"
+
                                 label-class="text-lightblue"
                                 data-placeholder="Tipo Transaccion ..."
                                 :config="$config2"
@@ -128,11 +128,11 @@ if (isset($balance->Total)){
             </x-adminlte-select2>
         </div>
 
-        <div class ="col-12 col-sm-2">
+        <div class ="col-xl-2 col-sm-6">
             <x-adminlte-select2 id="userole"
                                 class="mySelect"
                                 name="optionsUsers"
-                                igroup-size="sm"
+
                                 label-class="text-lightblue"
                                 data-placeholder="Agente..."
                                 :config="$config1"
@@ -150,12 +150,12 @@ if (isset($balance->Total)){
 
 
 
-        <div class ="col-12 col-sm-2">
+        <div class ="col-xl-2 col-sm-6">
             <x-adminlte-date-range
                 id="drCustomRanges"
                 name="drCustomRanges"
                 enable-default-ranges="Last 30 Days"
-                style="height: 30px;"
+                style="height: 35px;"
                 :config="$config3">
                 <x-slot name="prependSlot">
                     <div class="input-group-text bg-gradient-dark">
@@ -165,10 +165,10 @@ if (isset($balance->Total)){
             </x-adminlte-date-range>
         </div>
         
-        <div class ="col-sm-2">
+        <div class ="col-xl-2 col-sm-6">
 			<x-adminlte-select2 id="coin"
 								name="optionsCoin"
-								igroup-size="sm"
+
 								label-class="text-lightblue"
 								data-placeholder="MonedaGrupo ..."
 								:config="$config1"
@@ -201,11 +201,13 @@ if (isset($balance->Total)){
 <div class="row">
     <div class="col-md-12">
         <div class="card mb-4">
+
             <div class="card-header">
-                <div class="card-title col-md-12" style="height: 2rem;">
-                    <div class="card-body">
+                <div class="card-title col-md-12" style="">
+                    <div class="">
                         <div class= "row">
-                            <div class="col-md-3">
+                            
+                            <div class="col-sm-12 col-xl-3">
                                 <p class="text-uppercase font-weight-bold">{{ __('Detalles|Movimientos') }}</p>
                             </div>
                             @php
@@ -218,25 +220,25 @@ if (isset($balance->Total)){
                             @endphp
 
                             @if($indWallet == 1)
-                                <div class="col-md-3">
+                                <div class="col-sm-12 col-xl-3">
                                     @if($myTotal< 0)
                                         <p class='font-weight-bold'>{{__('Saldo a Favor' )}}: {{ number_format(0,2,",",".") }} $</p>
                                     @else
                                         <p class='font-weight-bold'>{{__('Saldo a Favor' )}}: {{ number_format(abs($myTotal),2,",",".") }} $</p>
                                     @endif
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-sm-12 col-xl-3">
                                     @if($myTotal< 0)
                                         <p class='font-weight-bold'>{{__('Saldo Pendiente' )}}: {{ number_format(abs($myTotal),2,",",".") }} $</p>                                    
                                     @else
                                         <p class='font-weight-bold'>{{__('Saldo Pendiente' )}}: {{ number_format(0,2,",",".") }} $</p>
                                     @endif
                                 </div>
-                                <div class="col-3">
+                                <div class="col-sm-12 col-xl-3">
                                     <p class="font-weight-bold">Saldo al Corte <span id="myFecha"> {{$myFechadesdeInvertida}} </span> : {{ number_format($balanceBefore,2,",",".") }} $</p>
                                 </div>
                             @else
-                                <div class="col-md-3">
+                                <div class="col-sm-12 col-xl-3">
 
                                     @if($myTotal< 0)
                                         <p class='font-weight-bold'>{{__('Saldo A favor' )}}: {{ number_format(abs($myTotal),2,",",".") }} $</p>
@@ -245,7 +247,7 @@ if (isset($balance->Total)){
                                     @endif
 
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-sm-12 col-xl-3">
 
                                     @if($myTotal< 0)
                                         <p class='font-weight-bold'>{{__('Saldo Pendiente' )}}: {{ number_format(0,2,",",".") }} $</p>
@@ -253,7 +255,7 @@ if (isset($balance->Total)){
                                         <p class='font-weight-bold'>{{__('Saldo Pendiente' )}}: {{ number_format($myTotal,2,",",".") }} $</p>
                                     @endif
                                 </div>
-                                <div class="col-3">
+                                <div class="col-sm-12 col-xl-3">
 
                                     <p class="font-weight-bold">Saldo al Corte <span id="myFecha"> {{ $myFechadesdeInvertida }}</span> : {{ number_format($balanceBefore,2,",",".") }} $</p>
 
@@ -374,6 +376,12 @@ if (isset($balance->Total)){
                                     }else{
 
                                         $myTransaction  = $myClass->getCreditDebitWallet($row->TransactionId);
+                                        
+                                        if ($row->Id == 81813 || $row->Id == 81601){
+                                             \Log::info(' row -> ' . print_r($row,true) );
+                                             \Log::info(' myTotal -> ' . $myTotal);
+                                        }
+                                        
                                         // echo "myTransaction  $row->TransactionId -- $myTransaction";
                                         // dd($myTransaction . ' ' . $myTotal2 . ' y total es ' . $myTotal);
                                         switch  ($myTransaction){
