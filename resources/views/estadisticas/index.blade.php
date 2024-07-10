@@ -300,6 +300,7 @@ if (isset($balance->Total)){
                             @php
                                 $myTotal = 0;
                                 $myTotal = $balanceBefore; // asigna el saldo al corte para que calcule desde ahi
+                                \Log::info('leam - balanceBefore -> ' . $balanceBefore);
                             @endphp
                           
                             @foreach($config['data'] as $row)
@@ -377,10 +378,10 @@ if (isset($balance->Total)){
 
                                         $myTransaction  = $myClass->getCreditDebitWallet($row->TransactionId);
                                         
-                                        if ($row->Id == 81813 || $row->Id == 81601){
+                                        
                                              \Log::info(' row -> ' . print_r($row,true) );
                                              \Log::info(' myTotal -> ' . $myTotal);
-                                        }
+                                        
                                         
                                         // echo "myTransaction  $row->TransactionId -- $myTransaction";
                                         // dd($myTransaction . ' ' . $myTotal2 . ' y total es ' . $myTotal);
