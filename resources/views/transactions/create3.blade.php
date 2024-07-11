@@ -833,12 +833,12 @@
         */
         /* TASA BASE */
         $('#tasa_base').on('input', function() {
-            console.log('leam - aqui ->' + $('#monto_dolares').val());
-            let exchange_rate        = parseFloat($('#exchange_rate').val());
-            let monto       = parseFloat($('#monto').val());
 
-            let tasa_base   = parseFloat($('#tasa_base').val());
-            let monto_b     = parseFloat($('#monto_extranjera_base').val());
+            let exchange_rate       = parseFloat($('#exchange_rate').val());
+            let monto               = parseFloat($('#monto').val());
+
+            let tasa_base           = parseFloat($('#tasa_base').val());
+            let monto_b             = parseFloat($('#monto_extranjera_base').val());
 
             // $('#montototal').val($('#monto_dolares').val());
 
@@ -915,17 +915,6 @@
             }
 
         });
-
-
-
-        $('#c_porcentaje').on('click', function(){
-            
-        });
-
-
-        $('#c_tasa').on('click', function(){
-            
-        });
         
         $('#c_porcentaje').on('change', function() { //FUNCION DE PORCENTAJE
              console.log('leam - c_porcentaje pasa');
@@ -962,7 +951,7 @@
             //exonerar.removeAttribute('checked');
             //exonerar_base.removeAttribute('checked');
 
-        // }// THIS CHEKED
+            // }// THIS CHEKED
             inicializaComisionPorcentaje();
         });
 
@@ -1007,7 +996,7 @@
 
     
     $("#typetrasnferencia").on("change", function() {
-        console.log('leam - typetransferencia pasa');
+        
         // Capturar dato seleccionado
         var selectedValue   = this.value;
         var option          = $("#typetrasnferencia option:selected").text();
