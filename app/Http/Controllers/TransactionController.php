@@ -1145,7 +1145,7 @@ class TransactionController extends Controller
 
      
         $myTypeCoinBalance  = $myCoin; // dorales siempre por ahora
-        $Type_coin_balance  = Type_coin::pluck('name', 'id')->toArray();     
+        $Type_coin_balance  = Type_coin::pluck('name', 'id')->toArray();
 
         $parametros['wallet']               = $wallet;
         $parametros['group']                = $group;
@@ -1155,7 +1155,7 @@ class TransactionController extends Controller
 
         $parametros['myTypeCoinBalance']    = $myTypeCoinBalance;
         $parametros['Type_coin_balance']    = $Type_coin_balance;
-        $parametros['Type_coin_balance']    = $Type_coin_balance;
+        
 
         $parametros['fechaDesde']           = $myFechaDesde2;
         $parametros['fechaHasta']           = $myFechaHasta2;
@@ -1173,6 +1173,7 @@ class TransactionController extends Controller
     {
 
         $type_coin          = Type_coin::pluck('name', 'id');
+        $type_coin_balance  = Type_coin::pluck('name', 'id')->toArray();
         $type_transaction   = Type_transaction::whereIn('type_transaction', ['Credito'])->pluck('name', 'id');
         $type_transaction   = Type_transaction::whereIn('id', ['6','7','8','12'])->pluck('name', 'id');
 
@@ -1181,7 +1182,15 @@ class TransactionController extends Controller
         $user               = User::pluck('name', 'id');
         $fecha              = Carbon::now();
 
-        return view('transactions.credit', compact('type_coin', 'type_transaction', 'wallet', 'group', 'fecha', 'user', 'transaction'));
+        $parametros['type_coin']            = $type_coin;
+        $parametros['type_coin_balance']    = $type_coin_balance;
+        $parametros['type_transaction']     = $type_transaction;
+        $parametros['wallet']               = $wallet;
+        $parametros['group']                = $group;
+        $parametros['user']                 = $user;
+        $parametros['fecha']                = $fecha;
+
+        return view('transactions.credit', $parametros);
 
     }
 
@@ -1193,6 +1202,7 @@ class TransactionController extends Controller
         $imagen             = Transaction::findOrFail($transaction)->image;
 
         $type_coin          = Type_coin::pluck('name', 'id');
+
         $type_transaction   = Type_transaction::whereIn('type_transaction', ['Credito'])->pluck('name', 'id');
         $wallet             = Group::where('type','=','2')->whereIn('type_wallet', ['efectivo'])->pluck('name', 'id');
         $group              = Group::where('type','=','1')->pluck('name', 'id');
@@ -1226,6 +1236,7 @@ class TransactionController extends Controller
         // return Redirect::route('transactions.index3');
         
         $type_coin          = Type_coin::pluck('name', 'id');
+
         $type_transaction   = Type_transaction::whereIn('type_transaction', ['Transacciones'])->pluck('name', 'id');
         $wallet             = Group::whereIn('type_wallet', ['transacciones', 'efectivo'])->where('type','=',2)->pluck('name', 'id');
         $group              = Group::whereIn('type', [1])->pluck('name', 'id');
@@ -1236,7 +1247,16 @@ class TransactionController extends Controller
         //     return view('transactions.create2', compact('type_coin', 'type_transaction', 'wallet', 'group', 'user', 'transaction', 'fecha'));
             
         // }
-        return view('transactions.create3', compact('type_coin', 'type_transaction', 'wallet', 'group', 'user', 'transaction', 'fecha'));
+
+        $parametros['type_coin']            = $type_coin;
+        $parametros['type_coin_balance']    = $type_coin_balance;
+        $parametros['type_transaction']     = $type_transaction;
+        $parametros['wallet']               = $wallet;
+        $parametros['group']                = $group;
+        $parametros['user']                 = $user;
+        $parametros['fecha']                = $fecha;
+
+        return view('transactions.create3', $parametros);
     }
     
      /**

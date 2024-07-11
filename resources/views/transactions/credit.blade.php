@@ -72,6 +72,15 @@
                     </div>
 
                     <div class="form-row">
+                        {{--
+                        <div class="form-group col-md-6">
+                            {!! Form::Label('type_coin_balance_id', "Tipo de moneda Balance:") !!}
+                            <div class="input-group-text">
+                                <i class="fa-fw fas fa-dollar-sign mr-2"></i>
+                            {!! Form::select('type_coin_balance_id',$type_coin_balance, null, ['class' => 'form-control', 'required' => true, 'id' => 'type_coin_balance_id', 'readonly' => false]) !!}
+                            </div>
+                        </div>
+                        --}}
                         <div class="form-group col-md-6">
                             {!! Form::Label('monto_dolares', "Monto en dolares:") !!}
                             <div class="input-group-text">
