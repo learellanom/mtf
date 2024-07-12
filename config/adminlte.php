@@ -361,7 +361,7 @@ return [
             'url'  => 'estadisticasDetalle',
             'active' => ['estadisticasDetalle', 'regex:@^estadisticasDetalle/[0-9]+/*@'],
             'icon' => 'fas fa-fw fas fa-chart-bar',
-            'can'  => 'estadisticasDetalle.index',
+            'can'  => 'estadisticasDetalle.index',  
         ],
         [
             'text'          => 'Comisiones',

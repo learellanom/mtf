@@ -14,7 +14,9 @@
 @section('content')
 
 <div class="d-flex justify-content-center">
-    <div class="card col-md-6" style="min-height: 500px !important; max-height:100%; height:100%; widht:100%"">
+
+    <div class="card col-xl-8" style="min-height: 500px !important; max-height:100%; height:100%; widht:100%"">
+
         <div class="card-body">
             {!! Form::open(['route' => 'transactions.store', 'autocomplete' => 'off', 'files' => true, 'enctype' =>'multipart/form-data', 'id' => 'entre']) !!}
 
@@ -324,47 +326,57 @@ $(".rateMask").inputmask({
 
 
 
-$('#entre').on('submit', function() {
-
-    //
-    // Valida fecha
-    //
-    let myDate      = new Date($('#fecha').val());
-    let myDateNow   = new Date();
-
-    // valida cuantos dias hacia atras se permite cargar una transaccion
-
-    let myDays;
-    myDays = 30;
-
-    let myDateBefore = new Date();
-        myDateBefore.setDate(myDateBefore.getDate() - myDays);
-
-    if (myDate <= myDateBefore){
-        Swal.fire({
-            position: 'left',
-            type: 'error',
-            title: `Error: Fecha de transacción no puede ser menor a ${myDays} dias anteriores a la fecha`,
-            showConfirmButton: true
-        });                 
-        return false;
-    }
-
-
-    if (myDate > myDateNow){
-        
-        Swal.fire({
-            position: 'left',
-            type: 'error',
-            title: 'Error: Fecha de transacción no puede ser mayor a la fecha',
-            showConfirmButton: true
-        });                
-        return false;
-    }
-
-});
-
 $(document).ready(function() {
+
+
+
+
+    $('#entre').on('submit', function() {
+        
+
+        //
+        // Valida fecha
+        //
+        let myDate      = new Date($('#fecha').val());
+        let myDateNow   = new Date();
+
+        // valida cuantos dias hacia atras se permite cargar una transaccion
+
+        let myDays = config('transactions.transaction_days',30);
+        //let myDays;
+        //myDays = 30;
+        alert();
+        return false;
+
+        let myDateBefore = new Date();
+            myDateBefore.setDate(myDateBefore.getDate() - myDays);
+        alert(" myDays -> " + myDays + " myDateBefore -> " + myDateBefore);
+        if (myDate <= myDateBefore){
+            Swal.fire({
+                position: 'left',
+                type: 'error',
+                title: `Error: Fecha de transacción no puede ser menor a ${myDays} dias anteriores a la fecha`,
+                showConfirmButton: true
+            });                 
+            return false;
+        }
+
+
+        if (myDate > myDateNow){
+            
+            Swal.fire({
+                position: 'left',
+                type: 'error',
+                title: 'Error: Fecha de transacción no puede ser mayor a la fecha',
+                showConfirmButton: true
+            });                
+            return false;
+        }
+        
+
+    });
+
+
   //$('#monto_dolares').toFixed(2);
 
     $('.typecoin').change(function(e) {
@@ -388,37 +400,22 @@ $(document).ready(function() {
             $('#monto').attr("readonly", true);
             $('#monto_dolares').attr("readonly", false);
 
-            tasa = document.getElementById("tasa");
-            monto = document.getElementById("monto");
-            monto_dolares = document.getElementById("monto_dolares");
-            montototal =   document.getElementById("montototal");
-            monto_base =   document.getElementById("monto_base");
-            monto_base =   document.getElementById("monto_base");
+            //tasa            = document.getElementById("tasa");
+            //monto           = document.getElementById("monto");
+            //monto_dolares   = document.getElementById("monto_dolares");
+            //montototal      = document.getElementById("montototal");
+            //monto_base      = document.getElementById("monto_base");
 
-            onkeyup = function(){
-                if(tasa.value == null && monto.value == null){
-                    monto_total = monto_dolares;
-                    monto_dolares.value =  monto_total.toFixed(2);
-                }
-            }
-            onkeyup = function(){
-                if(monto_dolares.value){
-                    //monto_total = monto_dolares;
-                    montototal.value = monto_dolares.value;
-                    monto_base.value = monto_dolares.value;
-                    monto_base_extranjera.value = monto_dolares.value;
-                }
-            }
         }
         else if ($(this).val() == null)
         {
-        $('#tasa').attr("readonly", true);
-        $('#monto').attr("readonly", true);
-        $('#monto_dolares').prop('readonly', true);
+            $('#tasa').attr("readonly", true);
+            $('#monto').attr("readonly", true);
+            $('#monto_dolares').prop('readonly', true);
 
-        $('#tasa').val("");
-        $('#monto').val("");
-        $('#monto_dolares').val("");
+            $('#tasa').val("");
+            $('#monto').val("");
+            $('#monto_dolares').val("");
 
         }
         else {
@@ -427,44 +424,43 @@ $(document).ready(function() {
             $('#monto_dolares').prop('readonly', true);
 
 
-            tasa = document.getElementById("tasa");
-            monto = document.getElementById("monto");
-
-            monto_dolares = document.getElementById("monto_dolares");
-            montototal =   document.getElementById("montototal");
-
-            onkeyup = function(){
-                if(tasa.value > 0 && monto.value > 0){
-                    monto_total = (monto.value / tasa.value);
-                    monto_dolares.value =  monto_total.toFixed(2);
-                }
-                else if(monto_dolares.value == NaN){
-                    monto_dolares.value = 'Por favor use punto en vez de coma.'
-
-                }else{
-                    monto_dolares.value = 'Por favor llene el campo tasa.'
-                }
-
-            };
-
-            onkeyup = function(){
-                if(tasa.value!="" && monto.value!=""){
-                    monto_total = (monto.value / tasa.value);
-                    monto_dolares.value =  monto_total.toFixed(2);
-                    montototal.value =  monto_total.toFixed(2);
-                    monto_base.value = monto_total.toFixed(2);
-                    monto_base_extranjera.value = monto_total.toFixed(2);
-                }
-                else{
-                    monto_dolares.value = montototal.toFixed(2);
-                }
-
-            };
+            //tasa            = document.getElementById("tasa");
+            //monto           = document.getElementById("monto");
+            //monto_dolares   = document.getElementById("monto_dolares");
+            //montototal      = document.getElementById("montototal");
+            
+            //console.log(monto_dolares);
 
         }
-  });
+    });
+
+    $('#tasa, #monto').on("input", function() {
+        calcula();
+    });
+
 
 });//CIERRE DEL READY
+
+
+function calcula(){
+    
+
+    tasa    = $('#tasa').val()  ? $('#tasa').val()  : 0;
+    monto   = $('#monto').val() ? $('#monto').val() : 0;
+
+    monto_total     = 0;
+    if (tasa > 0){
+        monto_total = monto / tasa;
+    }
+
+    monto_total = monto_total.toFixed(2);
+    
+    $('#monto_dolares').val(monto_total);
+    $('#montotal').val(monto_total);
+    $('#monto_base').val(monto_total);
+    $('#monto_base_extranjera').val(monto_total);
+
+}
 
 </script>
 
