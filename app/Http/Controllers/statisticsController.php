@@ -2574,15 +2574,9 @@ class statisticsController extends Controller
         // dd($Transacciones);
         // \Log::info($Transacciones);
 
-        if($grupo == 316){
-            // \Log::info('leam grupo query  *** -> ' . print_r($myQuery,true));
-            \Log::info('leam grupo transacciones *** -> ' . print_r($Transacciones,true));
-        }
         if (empty($Transacciones)) {
-            // \Log::info('leam vacio *** -> ' . print_r($Transacciones,true));
             return $Transacciones;
         }else {
-            // \Log::info('*** leam gettype -> ' . gettype($Transacciones));
             if ($grupoDesde === $grupoHasta){
                 return $Transacciones[0];
             };
@@ -2787,10 +2781,10 @@ class statisticsController extends Controller
             $walletDesde = $wallet;
             $walletHasta = $wallet;
         }
-         \Log::info('leam saldo wallet      getBalanceWallet *** -> ' . $wallet);
-         \Log::info('leam saldo fecha Desde getBalanceWallet *** -> ' . $fechaDesde);
-         \Log::info('leam saldo fecha Hasta getBalanceWallet *** -> ' . $fechaHasta);
-         \Log::info('leam saldo coin        getBalanceWallet *** -> ' . $myCoin);
+         \Log::info('leam  getBalanceWallet - wallet      *** -> ' . $wallet);
+         \Log::info('leam  getBalanceWallet - fecha Desde *** -> ' . $fechaDesde);
+         \Log::info('leam  getBalanceWallet - fecha Hasta *** -> ' . $fechaHasta);
+         \Log::info('leam  getBalanceWallet - coin        *** -> ' . $myCoin);
 
         $horaDesde      = " 00:00:00";
         $horaHasta      = " 23:59:00";
@@ -2912,14 +2906,12 @@ class statisticsController extends Controller
 
         $Transacciones = DB::select($myQuery);
 
-          \Log::info('leam - getBalanceWallet *** -> ' . print_r($myQuery,true));
-          \Log::info('leam grupo transacciones  getBalanceWallet *** -> ' . print_r($Transacciones,true));
+        \Log::info('leam getBalanceWallet - query        *** -> ' . print_r($myQuery,true));
+        \Log::info('leam getBalanceWallet - transcciones *** -> ' . print_r($Transacciones,true));
 
-        if (empty($Transacciones)) {
-            // \Log::info('leam vacio *** -> ' . print_r($Transacciones,true));
+        if (empty($Transacciones)) {    
             return $Transacciones;
         }else {
-            // \Log::info('*** leam gettype -> ' . gettype($Transacciones));
             if ($walletDesde === $walletHasta){
                 return $Transacciones[0];
             };

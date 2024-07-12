@@ -379,8 +379,8 @@ if (isset($balance->Total)){
                                         $myTransaction  = $myClass->getCreditDebitWallet($row->TransactionId);
                                         
                                         
-                                             \Log::info(' row -> ' . print_r($row,true) );
-                                             \Log::info(' myTotal -> ' . $myTotal);
+                                        //     \Log::info(' row -> ' . print_r($row,true) );
+                                        //     \Log::info(' myTotal -> ' . $myTotal);
                                         
                                         
                                         // echo "myTransaction  $row->TransactionId -- $myTransaction";
@@ -415,7 +415,12 @@ if (isset($balance->Total)){
                                 
                                 <tr>
                                     <td style="display: none;">{!! $row->Id !!}</td>                                    
-                                    <td>{!! $row->FechaTransaccion !!}</td>
+                                    <td>
+                                        {{ substr($row->FechaTransaccion,0,10) }}
+                                        <br>
+                                        {{ substr($row->FechaTransaccion,11) }}
+
+                                    </td>
                                     <td>{!! $row->TipoTransaccion !!}</td>
                                     <td>{!! $row->Descripcion !!}</td>
                                     <td>{!! $row->token !!}</td>

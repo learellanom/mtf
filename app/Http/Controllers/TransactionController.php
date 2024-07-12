@@ -1249,7 +1249,7 @@ class TransactionController extends Controller
         // }
 
         $parametros['type_coin']            = $type_coin;
-        $parametros['type_coin_balance']    = $type_coin_balance;
+        
         $parametros['type_transaction']     = $type_transaction;
         $parametros['wallet']               = $wallet;
         $parametros['group']                = $group;
