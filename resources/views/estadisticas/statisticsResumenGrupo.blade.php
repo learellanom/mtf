@@ -168,9 +168,8 @@ $config4 = [
                             <div class="col-md-12">
                                 <table class="table table-bordered table-responsive-lg" id="table" style="width:100%;">
                                     <thead>
-
-                                    <tr>
-                                            <th style="width:1%; display: none;">Id</th>
+                                        <tr>
+                                            {{-- <th style="width:1%; display: none;">Id</th> --}}
                                             <th style="width:10%;">Cliente</th>
                                             <th style="width:10%;">Cant</th>
                                             <th style="width:10%;">Monto Creditos</th>
@@ -181,8 +180,8 @@ $config4 = [
                                         </tr>
                                     </thead>
                                     @foreach($Transacciones as $row)
-                                        <tr>
-                                            <td style="display: none;">{!! $row->IdGrupo !!}</td>                                        
+                                        <tr>    
+                                            {{-- <td style="display: none;">{!! $row->IdGrupo !!}</td> --}}
                                             <td>{!! $row->NombreGrupo !!}</td>
                                             <td>{!! number_format($row->Cant,0,".") !!}</td>
                                             <td>{!! number_format($row->Creditos,2,".") !!}</td>
@@ -275,18 +274,18 @@ $(document).ready(function () {
 
     $('#table').DataTable( {
         language: {
-            "decimal": "",
-            "emptyTable": "No hay transacciones.",
-            "info": "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
-            "infoEmpty": "Mostrando 0 to 0 de 0 Entradas",
-            "infoFiltered": "(Filtrado de _MAX_ total entradas)",
-            "infoPostFix": "",
-            "thousands": ",",
-            "lengthMenu": "Mostrar _MENU_ Entradas",
+            "decimal"       : "",
+            "emptyTable"    : "No hay transacciones.",
+            "info"          : "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
+            "infoEmpty"     : "Mostrando 0 to 0 de 0 Entradas",
+            "infoFiltered"  : "(Filtrado de _MAX_ total entradas)",
+            "infoPostFix"   : "",
+            "thousands"     : ",",
+            "lengthMenu"    : "Mostrar _MENU_ Entradas",
             "loadingRecords": "Cargando...",
-            "processing": "Procesando...",
-            "search": "Buscar:",
-            "zeroRecords": "Sin resultados encontrados",
+            "processing"    : "Procesando...",
+            "search"        : "Buscar:",
+            "zeroRecords"   : "Sin resultados encontrados",
             "paginate": {
                 "first": "Primero",
                 "last": "Ultimo",
@@ -294,12 +293,40 @@ $(document).ready(function () {
                 "previous": "Anterior"
             }
         },
+        fixedHeader: true,
+         responsive: true, 
+        columns: [
+            { responsivePriority: 1},
+            { responsivePriority: 2},
+            { responsivePriority: 4},
+            { responsivePriority: 5},
+            { responsivePriority: 3},
+            { responsivePriority: 6},
+        ],
+        // responsive: {
+        //     details: {
+        //         type: 'column'
+        //     }
+        // },
+        //columnDefs: [
+            //{
+            //    className: 'dtr-control',
+            //    orderable: false,
+            //    targets: 0
+            //},
+            //{ responsivePriority: 1, targets: 0 },
+            // { responsivePriority: 4, targets: 5 },
+            //{ responsivePriority: 5, targets: 3 },
+            //{ responsivePriority: 6, targets: 4 },
+            // { responsivePriority: 2, targets: 5 },
+
+        //],              
         "order": [[ 1, 'asc' ]],
         'dom' : 'Bfrtilp',
         'buttons':[
             {
                 extend:  'excelHtml5',
-                exportOptions: { columns: [ 0, 1, 2, 3, 4, 5 ] },
+                exportOptions: { columns: [ 1, 2, 3, 4, 5 ] },
                 title: "Resumen de Movimiento por Grupo",
                 text:    '<i class="fas fa-file-excel"></i>',
                 titleAttr: 'Exportar Excel',
