@@ -24,10 +24,26 @@
 
             <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link active" id="pills-home-tab" data-toggle="pill" data-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">{{ __('Movimiento') }}</button>
+                    <button 
+                        class="nav-link active" 
+                        id="pills-home-tab" 
+                        data-toggle="pill" 
+                        data-target="#pills-home" 
+                        type="button" 
+                        role="tab" 
+                        aria-controls="pills-home" 
+                        aria-selected="true">{{ __('Movimiento') }}</button>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="pills-profile-tab" data-toggle="pill" data-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">{{ __('Referencias') }}</button>
+                    <button 
+                        class="nav-link" 
+                        id="pills-profile-tab" 
+                        data-toggle="pill" 
+                        data-target="#pills-profile" 
+                        type="button" 
+                        role="tab" 
+                        aria-controls="pills-profile" 
+                        aria-selected="false">{{ __('Referencias') }}</button>
                 </li>
             </ul>
 
@@ -123,7 +139,8 @@
                                 <i class="fa-fw fas fa-dollar-sign mr-2"></i>
                                 {!! Form::select('type_coin_balance_id',$type_coin, null, ['class' => 'form-control ', 'required' => true, 'id' => 'type_coin_balance_id', 'readonly' => false]) !!}
                             </div>
-                        </div>                    
+                        </div>
+
                         <div class="form-group col-xl-8">
                             {!! Form::Label('monto_dolares', "Monto :") !!}
                             <div class="input-group-text">
@@ -534,8 +551,10 @@
         allowClear: true,
         clearing: true,
         width: '100%'
-    });
-
+    })
+    .on('select2:open', () => {
+				 document.querySelector('.select2-search__field').focus();
+	});    
     $("#clientes").val(null)
     $("#clientes").trigger("change");
 
@@ -544,7 +563,29 @@
         theme: 'bootstrap4',
         allowClear: true,
         width: '100%'
-    });
+    })
+    .on('select2:open', () => {
+				 document.querySelector('.select2-search__field').focus();
+	});    
+
+
+    $("#type_coin_balance_id").select2({
+        placeholder: "Seleccionar Moneda",
+        theme: 'bootstrap4',
+        allowClear: true,
+        width: '100%'
+    })
+    .on('select2:open', () => {
+				 document.querySelector('.select2-search__field').focus();
+	});    
+
+
+    
+
+
+
+
+
     $("#typecoin").val("")
     $("#typecoin").trigger("change");
 
@@ -555,14 +596,20 @@
         width: '100%'
     });
 
+
+
+
     $(".wallet").select2({
         placeholder: "Seleccionar Caja | Wallet",
         theme: 'bootstrap4',
         search: false,
         allowClear: true,
         width: '100%'
-    });
-    $("#wallet").val(null)
+    })
+    .on('select2:open', () => {
+        document.querySelector('.select2-search__field').focus();
+	});    
+    $("#wallet").val(null);
     $("#wallet").trigger("change");
 
     $(".typetrasnferencia").select2({
@@ -570,7 +617,11 @@
         theme: 'bootstrap4',
         allowClear: true,
         width: '100%'
-    });
+    })
+    .on('select2:open', () => {
+        document.querySelector('.select2-search__field').focus();
+	});    
+
     $("#typetrasnferencia").val("")
     $("#typetrasnferencia").trigger("change");
 

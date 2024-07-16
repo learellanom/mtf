@@ -293,34 +293,15 @@ $(document).ready(function () {
                 "previous": "Anterior"
             }
         },
-        fixedHeader: true,
-         responsive: true, 
+        responsive: true, 
         columns: [
             { responsivePriority: 1},
-            { responsivePriority: 2},
+            { responsivePriority: 3},
             { responsivePriority: 4},
             { responsivePriority: 5},
-            { responsivePriority: 3},
+            { responsivePriority: 2},
             { responsivePriority: 6},
-        ],
-        // responsive: {
-        //     details: {
-        //         type: 'column'
-        //     }
-        // },
-        //columnDefs: [
-            //{
-            //    className: 'dtr-control',
-            //    orderable: false,
-            //    targets: 0
-            //},
-            //{ responsivePriority: 1, targets: 0 },
-            // { responsivePriority: 4, targets: 5 },
-            //{ responsivePriority: 5, targets: 3 },
-            //{ responsivePriority: 6, targets: 4 },
-            // { responsivePriority: 2, targets: 5 },
-
-        //],              
+        ],            
         "order": [[ 1, 'asc' ]],
         'dom' : 'Bfrtilp',
         'buttons':[
