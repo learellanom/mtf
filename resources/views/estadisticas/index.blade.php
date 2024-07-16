@@ -275,7 +275,8 @@ if (isset($balance->Total)){
                             style="width:100%;">
                             <thead>
                                 <tr>
-                                    <th style="width:10%; display: none">Id</th>
+                                    <th class="dtr-control arrow-right" style="display: none;"></th>
+                                    {{-- <th style="width:10%; display: none">Id</th> --}}
                                     <th style="width:7%;">Fecha</th>
                                     <th style="width:1%;">Transacción</th>
                                     <th style="width:10%;">Descripción</th>
@@ -292,9 +293,9 @@ if (isset($balance->Total)){
                                     <th style="width:1%;">Grupo</th>
                                     <th style="width:1%;">Agente</th>
                                     <th style="width:1%;">Caja</th>
-
                                     <th style="width:1%;">Ver <i class="fas fa-search"></i></th>
                                     <th style="width:1%;" class="no-exportar">Historico</th>
+
                                 </tr>
                             </thead>
                             @php
@@ -359,7 +360,7 @@ if (isset($balance->Total)){
                                             //
                                             // resta
                                             //
-                                            case "Debito":                                             
+                                            case "Debito":                                     
                                                 // $myTotal = $myTotal + ($row->MontoTotal * -1);
                                                 $myTotal = $myTotal + ($myTotal2 * -1);                                                
                                                 break;
@@ -414,7 +415,9 @@ if (isset($balance->Total)){
                                 {{-- dd($row)--}}
                                 
                                 <tr>
-                                    <td style="display: none;">{!! $row->Id !!}</td>                                    
+                                    
+                                    <td><i class="fas fa-plus"></i></td>
+                                    {{-- <td style="display: none;">{!! $row->Id !!}</td> --}}
                                     <td>
                                         {{ substr($row->FechaTransaccion,0,10) }}
                                         <br>
@@ -448,7 +451,7 @@ if (isset($balance->Total)){
                                         <a
                                             href="{{ route('transactions.show', ['movimiento'=> $row->Id]) }}"
                                             title="Detalles"
-                                            class="btn btn-xl text-dark mx-1 shadow text-center">
+                                            class="btn text-dark mx-1 shadow text-center">
                                             <i class="fa fa-lg fa-fw fa-eye"></i>
                                         </a>
                                     </td>
@@ -459,15 +462,16 @@ if (isset($balance->Total)){
 
                                     <td>
                                         <a  href="{{ route('transactions.audit', $row->Id) }}" 
-                                            class="btn btn-xl text-dark mx-1 shadow text-center">
+                                            class="btn text-dark mx-1 shadow text-center">
                                             <i class="fa fa-lg fa-fw fas fa-solid fa-list"></i>
                                         </a>
                                     </td>
+
                                 </tr>
                             @endforeach
                             {{--
-                            <tfoot style="background-color: black; color: white;">
-                                    <td style="display: none;"></td>                            
+                            <tfoot style="background-color: black; color: white;">                       
+                                    <td style="display: none;"></td>     
                                     <td>Total</td>
                                     <td></td>
                                     <td></td>
@@ -546,19 +550,47 @@ if (isset($balance->Total)){
             "search"        : "Buscar:",
             "zeroRecords"   : "Sin resultados encontrados",
             "paginate": {
-                "first": "Primero",
-                "last": "Ultimo",
-                "next": "Siguiente",
-                "previous": "Anterior"
+                "first"     : "Primero",
+                "last"      : "Ultimo",
+                "next"      : "Siguiente",
+                "previous"  : "Anterior"
             }
         },
+        
+        // responsive: true,
+        // columnDefs: [
+        //      {
+        //          className: 'dtr-control',
+        //          orderable: false,
+        //          targets: -1
+        //      },                 
+        //     { responsivePriority: 1, targets: 1 },
+        //     { responsivePriority: 2, targets: 2 },
+        //     { responsivePriority: 3, targets: 9 },
+        //     { responsivePriority: 4, targets: 10 },
+        //     { responsivePriority: 5, targets: 11 },
+
+        // ],  
+        columnDefs: [
+             {
+                 className: 'dtr-control arrow-right',
+                 orderable: false,
+                 target: 0
+             },
+            { responsivePriority: 1, targets: 1 },
+            { responsivePriority: 2, targets: 2 },
+            { responsivePriority: 3, targets: 9 },
+            { responsivePriority: 4, targets: 10 },
+            { responsivePriority: 5, targets: 11 },             
+        ],  
+        responsive: true,
          "order": [[ 1, 'desc' ]],
         'dom' : 'Bfrtilp',
         'pageLength' : 7, 
         'buttons':[
             {
                 extend:  'excelHtml5',
-                exportOptions: { columns: [ 0, 1, 2, 3,4,5,6,7,8,9,10,11,12] },
+                exportOptions: { columns: [1, 2, 3,4,5,6,7,8,9,10,11,12,13] },
                 text:    '<i class="fas fa-file-excel"></i>',
                 title: `Detalle de Movimientos`,
                 titleAttr: 'Exportar Excel',
