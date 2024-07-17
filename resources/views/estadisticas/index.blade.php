@@ -506,6 +506,21 @@ if (isset($balance->Total)){
 
 @section('js')
 @routes
+<style>
+    @media screen and (max-width: 767px) {
+    li.paginate_button.previous {
+        display: inline;
+    }
+ 
+    li.paginate_button.next {
+        display: inline;
+    }
+ 
+    li.paginate_button {
+        display: none;
+    }
+    }
+</style>
 <script>
     
 
@@ -585,7 +600,7 @@ if (isset($balance->Total)){
         ],  
         responsive: true,
          "order": [[ 1, 'desc' ]],
-        'dom' : 'Bfrtilp',
+        'dom' : '<"row" <"col-12 col-md-6" B> <"col-12 col-md-6 text-align-right" f> >ti <"row" <"col-12 col-md-6" l> <"col-12 col-md-6" p>>',
         'pageLength' : 7, 
         'buttons':[
             {
