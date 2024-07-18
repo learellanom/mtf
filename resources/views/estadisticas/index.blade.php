@@ -507,18 +507,24 @@ if (isset($balance->Total)){
 @section('js')
 @routes
 <style>
+    /*
+    
+     Paging bar para mobiles 
+     solo 2 botones
+    
+    */
     @media screen and (max-width: 767px) {
-    li.paginate_button.previous {
-        display: inline;
-    }
- 
-    li.paginate_button.next {
-        display: inline;
-    }
- 
-    li.paginate_button {
-        display: none;
-    }
+        li.paginate_button.previous {
+            display: inline;
+        }
+    
+        li.paginate_button.next {
+            display: inline;
+        }
+    
+        li.paginate_button {
+            display: none;
+        }
     }
 </style>
 <script>

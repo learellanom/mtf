@@ -297,7 +297,7 @@
                                         </td>
                                         @can('materials.adquisicion_audit')
                                             <td>
-                                                <a  href="{{ route('materials.adquisicion_audit', $movimiento) }}"  
+                                                <a  href="{{ route('materials.adquisicion_audit', $movimiento->Id) }}"  
 
                                                     class="btn btn-xl text-dark mx-1 shadow text-center">
                                                     <i class="fa fa-lg fa-fw fas fa-solid fa-list"></i>        
