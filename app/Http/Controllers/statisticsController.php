@@ -490,7 +490,7 @@ class statisticsController extends Controller
         ";
         
         // return $myQuery;
-        // \Log::info('leam - myQuery indexall2 ->' . $myQuery);
+        //  \Log::info('leam - myQuery indexall2 ->' . $myQuery);
 
         $Transacciones = DB::select($myQuery);
         
