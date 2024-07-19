@@ -275,7 +275,7 @@ if (isset($balance->Total)){
                             style="width:100%;">
                             <thead>
                                 <tr>
-                                    <th class="dtr-control arrow-right" style="display: none;"></th>
+                                    {{-- <th class="dtr-control arrow-right" style="display: none;"></th> --}}
                                     {{-- <th style="width:10%; display: none">Id</th> --}}
                                     <th style="width:7%;">Fecha</th>
                                     <th style="width:1%;">Transacción</th>
@@ -416,7 +416,7 @@ if (isset($balance->Total)){
                                 
                                 <tr>
                                     
-                                    <td><i class="fas fa-plus"></i></td>
+                                    {{-- <td><i class="fas fa-plus"></i></td> --}}
                                     {{-- <td style="display: none;">{!! $row->Id !!}</td> --}}
                                     <td>
                                         {{ substr($row->FechaTransaccion,0,10) }}
@@ -592,6 +592,8 @@ if (isset($balance->Total)){
         //     { responsivePriority: 5, targets: 11 },
 
         // ],  
+        //
+        /*
         columnDefs: [
              {
                  className: 'dtr-control arrow-right',
@@ -605,7 +607,8 @@ if (isset($balance->Total)){
             { responsivePriority: 5, targets: 11 },             
         ],  
         responsive: true,
-         "order": [[ 1, 'desc' ]],
+        */
+        "order": [[ 0, 'desc' ]],
         'dom' : '<"row" <"col-12 col-md-6" B> <"col-12 col-md-6 text-align-right" f> >ti <"row" <"col-12 col-md-6" l> <"col-12 col-md-6" p>>',
         'pageLength' : 7, 
         'buttons':[

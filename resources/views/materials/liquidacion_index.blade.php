@@ -4,7 +4,7 @@
 
 @section('content_header')
 
-    <h1 class="text-center text-dark font-weight-bold">{{ __('LIQUIDACION ADQUISICION DE MATERIAL') }} <i class="fas fa-people-arrows"></i> </h1></a>
+    <h1 class="text-center text-dark font-weight-bold">{{ __('LIQUIDACION DE CUENTA DE MATERIAL') }} <i class="fas fa-people-arrows"></i> </h1></a>
 
 @stop
 @php
@@ -41,7 +41,7 @@
             <div class="card-header">
                 <div class="row">
                     <p class="text-uppercase font-weight-bold col-12 col-lg-4">
-                        Liquidacion Adquisiciones
+                        Liquidacion de Cuenta de Materiales
                         {{-- {{ __('Liquidacion Adquisiciones') }} del {{ $fechaDesde}} al {{ $fechaHasta}} --}}
                     </p>
                     <p class="text-uppercase font-weight-bold col-12 col-lg-4">
@@ -68,7 +68,7 @@
                     </div>
                     --}}
 
-                    <div class ="col-12 col-sm-2">
+                    <div class ="col-12 col-sm-3">
                         <x-adminlte-select2 id="wallet"
                                             name="optionsCliente"
                                             igroup-size="sm"
@@ -88,7 +88,7 @@
                         </x-adminlte-select2>
                     </div>
 
-                    <div class ="col-12 col-sm-2">
+                    <div class ="col-12 col-sm-3">
                         <x-adminlte-select2 id="group"
                                             name="optionsGroup"
                                             igroup-size="sm"
@@ -205,7 +205,7 @@
                                     <th style="width:1%;"   >Cantidad Gramos</th>
                                     <th style="width:1%;"   >Precio/U</th>
                                     <th style="width:10%;"  >Monto</th>
-                                    <th style="width:1%;"   >Cantidad Gramos <br> Recepcion</th>                                        
+                                    {{-- <th style="width:1%;"   >Cantidad Gramos <br> Recepcion</th> --}}
                                     <th class="no-exportar" >Agente</th>
 
                                     <th style="width:1%;" class="no-exportar">Ver <i class="fas fa-search"></i></th>
@@ -220,6 +220,7 @@
                                 @foreach($movimientos as $movimiento)
                                 
                                     @php 
+                                        $myStyle = "";
                                         $myDesTypeAdquisicion   = $myClass->getDesTyperAdquisicion($movimiento->MaterialTypeAdquisicion);
 
                                         if ($movimiento->TypeTransactionId == 47){
@@ -231,22 +232,23 @@
                                             $myMaterialAmountTotal              = $movimiento->MaterialAmountTotalGramos;
 
                                             $myMaterialRecepcionAmountGramos    = 0;    
-
+                                            $myStyle = "color: black;";
                                         }elseif ($movimiento->TypeTransactionId == 48){
 
-                                            $myMaterialAdquisicionAmountKilos   = $movimiento->MaterialAmountKilos;
-                                            $myMaterialAdquisicionAmountGramos  = 0;
+                                            // $myMaterialAdquisicionAmountKilos   = $movimiento->MaterialAmountKilos;
+                                            $myMaterialAdquisicionAmountKilos   = 0;
+                                            $myMaterialAdquisicionAmountGramos  = $movimiento->MaterialAmountGramos;
 
                                             $myMaterialAdquisicionPrice         = $movimiento->MaterialPriceGramos;
                                             $myMaterialAmountTotal              = $movimiento->MaterialAmountTotalGramos;
 
                                             $myMaterialRecepcionAmountGramos    = $movimiento->MaterialAmountGramos;
-
+                                            $myStyle = "color: blue; font-weight: bold";
                                         }
 
                                     @endphp
 
-                                    <tr>
+                                    <tr style='{{$myStyle}}'>
                                         <td class="font-weight-bold">{{ $movimiento->LiquidationNumber }}</td>
                                         <td class="font-weight-bold">{{ $movimiento->Id }}</td>
                                         <td class="font-weight-bold">{{ $movimiento->Status }}</td>
@@ -275,15 +277,15 @@
                                         
                                         <td>{!! $myDesTypeAdquisicion ?? '' !!}</td>
 
-                                        <td>{!! number_format($myMaterialAdquisicionAmountKilos,2)  ?? '' !!}</td>
-                                        <td>{!! number_format($myMaterialAdquisicionAmountGramos,2) ?? '' !!}</td>
-                                        <td>{!! number_format($myMaterialAdquisicionPrice,2)        ?? ''!!} </td>
+                                        <td>{!! $myMaterialAdquisicionAmountKilos == 0      ? '' : number_format($myMaterialAdquisicionAmountKilos,2) !!}</td>
+                                        <td>{!! $myMaterialAdquisicionAmountGramos == 0     ? '' : number_format($myMaterialAdquisicionAmountGramos,2) !!}</td>
+                                        <td>{!! $myMaterialAdquisicionPrice == 0            ? '' : number_format($myMaterialAdquisicionPrice,2) !!} </td>
 
                                         <td class="font-weight-bold">{!!  number_format($myMaterialAmountTotal,2) !!} 
                                             <i class="fas fa-dollar-sign"></i>
                                         </td>
 
-                                        <td>{!! number_format($myMaterialRecepcionAmountGramos,2) ?? '' !!}</td>
+                                        {{-- <td>{!! number_format($myMaterialRecepcionAmountGramos,2) ?? '' !!}</td> --}}
                                         
                                         <td class="font-weight-bold">{!! $movimiento->Agente ?? '' !!}</td>
 
@@ -319,32 +321,57 @@
 
 @endsection
 @section('js')
+
+<style>
+
+    /*
+
+       Barra de botones de pagineo responsive
+       solo muestra anterior y siguiente
+
+    */
+    @media screen and (max-width: 767px) {
+        li.paginate_button.previous {
+            display: inline;
+        }
+    
+        li.paginate_button.next {
+            display: inline;
+        }
+    
+        li.paginate_button {
+            display: none;
+        }
+    }
+
+</style>
+
 <script>
     $(document).ready(function () {
         $('#table').DataTable( {
 
             language: {
-            "decimal": "",
-            "emptyTable": "Sin transacciones registradas, seleccione un criterio de busqueda.",
-            "info": "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
-            "infoEmpty": "Mostrando 0 to 0 de 0 Entradas",
-            "infoFiltered": "(Filtrado de _MAX_ total entradas)",
-            "infoPostFix": "",
-            "thousands": ",",
-            "lengthMenu": "Mostrar _MENU_ Entradas",
+            "decimal"       : "",
+            "emptyTable"    : "Sin transacciones registradas, seleccione un criterio de busqueda.",
+            "info"          : "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
+            "infoEmpty"     : "Mostrando 0 to 0 de 0 Entradas",
+            "infoFiltered"  : "(Filtrado de _MAX_ total entradas)",
+            "infoPostFix"   : "",
+            "thousands"     : ",",
+            "lengthMenu"    : "Mostrar _MENU_ Entradas",
             "loadingRecords": "Cargando...",
-            "processing": "Procesando...",
-            "search": "Buscar:",
-            "zeroRecords": "Sin resultados encontrados",
+            "processing"    : "Procesando...",
+            "search"        : "Buscar:",
+            "zeroRecords"   : "Sin resultados encontrados",
             "paginate": {
-                "first": "Primero",
-                "last": "Ultimo",
-                "next": "Siguiente",
-                "previous": "Anterior"
+                "first"     : "Primero",
+                "last"      : "Ultimo",
+                "next"      : "Siguiente",
+                "previous"  : "Anterior"
             }
         },
         "order": [[ 3, 'desc' ]],
-        'dom' : 'Bfrtip',
+        'dom' : '<"row" <"col-12 col-md-6" B> <"col-12 col-md-6 text-align-right" f> >ti <"row" <"col-12 col-md-6" l> <"col-12 col-md-6" p>>',
         'buttons':[
             {
                 extend:  'excelHtml5',
@@ -484,6 +511,8 @@
             },
         ]
         });
+
+
     });
     
     const myUsuario = {{ $myUser }};
@@ -505,8 +534,12 @@
     $(() => {
 
         BuscaFechas();
-        
-        $('#drCustomRanges, #wallet, #group').on('change', function () {
+
+        // $('#drCustomRanges').on('change', function () {
+        //     theRoute();
+        // });  
+
+        $('#wallet, #group').on('change', function () {
             theRoute();
         })
         .on('select2:open', () => {
@@ -581,8 +614,8 @@
         
         //console.log('fechaDesde ->' + '{{$fechaDesde}}');
         //console.log('fechaHasta ->' + '{{$fechaHasta}}');
-         $('#drCustomRanges').data('daterangepicker').setStartDate('{{$fechaDesde}}');
-         $('#drCustomRanges').data('daterangepicker').setEndDate('{{$fechaHasta}}');
+        // $('#drCustomRanges').data('daterangepicker').setStartDate('{{$fechaDesde}}');
+        // $('#drCustomRanges').data('daterangepicker').setEndDate('{{$fechaHasta}}');
 
     };
 
