@@ -19,8 +19,8 @@ $heads = [
     'Recepcion Kilos',
     'Recepcion Gramos',
 
-    ['label' => 'Adquisiciones', 'no-export' => true, 'width' => 5],
-    ['label' => 'Recepciones', 'no-export' => true, 'width' => 5],
+    // ['label' => 'Adquisiciones', 'no-export' => true, 'width' => 5],
+    // ['label' => 'Recepciones', 'no-export' => true, 'width' => 5],
     ['label' => 'Liquidacion', 'no-export' => true, 'width' => 5],
 ];
 
@@ -213,7 +213,7 @@ $config4 = [
                                     <td>{!! number_format($row->RecepcionCant) !!}</td>
                                     <td>{!! number_format($row->RecepcionMaterialAmountKilos,2) !!}</td>
                                     <td>{!! number_format($row->RecepcionMaterialAmountGramos,2) !!}</td>
-                                    
+                                    {{--
                                     <td>
                                         <a href="{{ route('materials.liquidacionAdquisicion_index', [ 'liquidation_number' => $row->LiquidationNumber, 'wallet' => $row->WalletId, 'group' => $row->GroupId] ) }}"
 
@@ -229,7 +229,7 @@ $config4 = [
                                             <i class="fa fa-lg fa-fw fa-eye"></i>
                                         </a>
                                     </td>
-
+                                    --}}
                                     <td>
                                         <a href="{{ route('materials.liquidacion_index', [ 'liquidation_number' => $row->LiquidationNumber, 'wallet' => $row->WalletId, 'group' => $row->GroupId]) }}"
 

@@ -533,7 +533,7 @@
 
     $(() => {
 
-        BuscaFechas();
+        {{-- BuscaFechas(); --}} 
 
         // $('#drCustomRanges').on('change', function () {
         //     theRoute();
