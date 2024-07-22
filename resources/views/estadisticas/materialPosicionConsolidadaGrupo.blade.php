@@ -278,7 +278,15 @@ $config4 = [
                         </div>
                     </div>
                 @else
-                    Seleccione Criterio de Busqueda..
+                    <div class="row align-item-center justify-content-center mt-5">
+                        Seleccione Criterio de Busqueda..
+                    </div>
+                    <div class="row align-item-center justify-content-center mt-2">
+                        Wallet
+                    </div>        
+                    <div class="row align-item-center justify-content-center mt-2">
+                        Grupo
+                    </div>                                   
                 @endif
             </div>
         </div>

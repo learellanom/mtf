@@ -154,6 +154,7 @@
 
 
             </div>
+            
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-12">
@@ -378,10 +379,28 @@
     <!-- </div> -->
 <!-- </div> -->
 @endsection
-@section('css')
-
-@endsection
 @section('js')
+<style>
+    /*
+
+       Barra de botones de pagineo responsive
+       solo muestra anterior y siguiente
+
+    */	
+    @media screen and (max-width: 767px) {
+		li.paginate_button.previous {
+			display: inline;
+		}
+ 
+		li.paginate_button.next {
+			display: inline;
+		}
+ 
+		li.paginate_button {
+			display: none;
+		}
+    }
+</style>
 <script>
     $(document).ready(function () {
         $('#table').DataTable( {
@@ -407,7 +426,7 @@
                 }
             },
             "order": [[ 3, 'desc' ]],
-            'dom' : 'Bfrtip',
+	        'dom' : '<"row" <"col-12 col-md-6" B> <"col-12 col-md-6 text-align-right" f> >ti <"row" <"col-12 col-md-6" l> <"col-12 col-md-6" p>>',
             'buttons':[
                 {
                     extend:  'excelHtml5',
@@ -672,17 +691,16 @@
     }
 
     function BuscaFechas(){
-        
-        console.log('fechaDesde ->' + '{{$fechaDesde}}');
-        console.log('fechaHasta ->' + '{{$fechaHasta}}');
+        {{--        
+        // console.log('fechaDesde ->' + '{{$fechaDesde}}');
+        // console.log('fechaHasta ->' + '{{$fechaHasta}}');
+        --}}
          $('#drCustomRanges').data('daterangepicker').setStartDate('{{$fechaDesde}}');
          $('#drCustomRanges').data('daterangepicker').setEndDate('{{$fechaHasta}}');
 
     };
 
     function BuscaUsuario(){
-
-
 
         if ({{ $myUser }} == "") {
             return;
@@ -703,6 +721,7 @@
             });
         });
     }
+
     function noEditar(){
         Swal.fire({
                 position: 'center',
@@ -713,23 +732,7 @@
         );          
     }
 
-    function BuscaMoneda(myTypeCoinBalance){
-        //alert("BuscaGrupo - miGrupo -> " + miGrupo);
-        $('#coin').each( function(index, element){
-            //alert ("Buscagrupo -> " + $(this).val() + " text -> " + $(this).text()+ " y con index -> " + $(this).prop('selectedIndex'));
-            $(this).children("option").each(function(){
-                if ($(this).val() === myTypeCoinBalance.toString()){
-                    //alert('Buscagrupo - encontro');
-                    $("#coin option[value="+ myTypeCoinBalance +"]").attr("selected",true);
-                }
-                //alert("BuscaGrupoaqui ->  the val " + $(this).val() + " text -> " + $(this).text());
-            });
-        });
-        //
-    }
-
-
-    function BuscaElemento(myControl, myElement){
+     function BuscaElemento(myControl, myElement){
 
         let mySelect = myControl;
         let myValue  = myElement;
