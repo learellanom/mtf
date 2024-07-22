@@ -4459,25 +4459,31 @@ class statisticsController extends Controller
         $myWalletDesde = 00000;
         $myWalletHasta = 99999;
         if ($request->wallet){
-            $myWallet       = $request->wallet; 
-            $myWalletDesde  = $request->wallet;
-            $myWalletHasta  = $request->wallet;
+            if ($request->wallet !=0 ){
+                $myWallet       = $request->wallet; 
+                $myWalletDesde  = $request->wallet;
+                $myWalletHasta  = $request->wallet;
+            }
         }
 
         $myGroup        = 0;
         $myGroupDesde = 00000;
         $myGroupHasta = 99999;
         if ($request->group){
-            $myGroup        = $request->group;
-            $myGroupDesde   = $request->group;
-            $myGroupHasta   = $request->group;
+            if ($request->group !=0 ){
+                $myGroup        = $request->group;
+                $myGroupDesde   = $request->group;
+                $myGroupHasta   = $request->group;
+            }
         }
 
         $myTransactionDesde     = 47;
         $myTransactionHasta     = 47;
         if ($request->transaction){
-            $myTransactionDesde     = $request->transaction;
-            $myTransactionHasta     = $request->transaction;
+            if ($request->transaction !=0){
+                $myTransactionDesde     = $request->transaction;
+                $myTransactionHasta     = $request->transaction;
+            }
         }
 
         $myFechaDesde = "2001-01-01";
