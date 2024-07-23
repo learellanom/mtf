@@ -150,6 +150,29 @@
                         </x-adminlte-select2>
                     </div>
 
+
+                    <div class ="col-xl-2">
+                        <x-adminlte-select2 id="typeTransaction"
+                                            name="optionsTypeTransaction"
+                                            igroup-size="sm"
+                                            label-class="text-lightblue"
+                                            data-placeholder="Transaccion ..."
+                                            :config="$config1"
+                                            >
+                            <x-slot name="prependSlot">
+                                <div class="input-group-text bg-gradient-dark">
+                                    <!-- <i class="fas fa-car-side"></i> -->
+                                    <!-- <i class="fas fa-user-tie"></i> -->
+                                    <i class="fas fa-solid fa-dollar-sign"></i>                        
+                                </div>
+                                
+                            </x-slot>
+
+                            <x-adminlte-options :options="$Type_transaction" empty-option="Seleccion.."/>
+
+                        </x-adminlte-select2>
+                    </div>
+
                 </div>
 
 
@@ -590,11 +613,14 @@
     const myTypeCoinBalance = {!! $myTypeCoinBalance !!};
     BuscaElemento('coin', myTypeCoinBalance);   
 
+    const myTypeTransaction = {!! $myTypeTransaction !!};
+    BuscaElemento('typeTransaction', myTypeTransaction);  
+
     $(() => {
 
         BuscaFechas();
         
-        $('#wallet, #group, #usuario, #coin').on('change', function (){
+        $('#wallet, #group, #usuario, #coin, #typeTransaction').on('change', function (){
             let myFechaDesde, myFechaHasta;
 
             myFechaDesde =  ($('#drCustomRanges').val()).substr(6,4) +
@@ -655,20 +681,22 @@
     function theRoute(user = 0, fechaDesde = 0, fechaHasta = 0){
         // let user = "";
 
-        const myUsuario = $('#usuario').val()   ? $('#usuario').val()   : 0;
-        const myWallet  = $('#wallet').val()    ? $('#wallet').val()    : 0;
-        const myGroup   = $('#group').val()     ? $('#group').val()     : 0;
-        const coin      = $('#coin').val()      ? $('#coin').val()      : 0;
+        const myUsuario         = $('#usuario').val()           ? $('#usuario').val()           : 0;
+        const myWallet          = $('#wallet').val()            ? $('#wallet').val()            : 0;
+        const myGroup           = $('#group').val()             ? $('#group').val()             : 0;
+        const coin              = $('#coin').val()              ? $('#coin').val()              : 0;
+        const myTypeTransaction = $('#typeTransaction').val()   ? $('#typeTransaction').val()   : 0;
 
         @php
 
-            $myParameters ['wallet']       = 'wallet2';
-            $myParameters ['group']        = 'group2'; 
+            $myParameters ['wallet']            = 'wallet2';
+            $myParameters ['group']             = 'group2'; 
 
-            $myParameters ['user']         = 'user2';
-            $myParameters ['fechaDesde']   = 'fechaDesde2';
-            $myParameters ['fechaHasta']   = 'fechaHasta2';
-            $myParameters ['coin']         = 'coin2';
+            $myParameters ['user']              = 'user2';
+            $myParameters ['fechaDesde']        = 'fechaDesde2';
+            $myParameters ['fechaHasta']        = 'fechaHasta2';
+            $myParameters ['coin']              = 'coin2';
+            $myParameters ['typeTransaction']   = 'typeTransaction2';
         
         @endphp
 
@@ -682,8 +710,8 @@
         myRoute = myRoute.replace('fechaDesde2',fechaDesde);
         myRoute = myRoute.replace('fechaHasta2',fechaHasta);
         myRoute = myRoute.replace('coin2',coin);
+        myRoute = myRoute.replace('typeTransaction2',myTypeTransaction);
         myRoute = myRoute.replaceAll('amp;','');
-
 
         // alert('la ruta ->' + myRoute);
          location.href = myRoute;
