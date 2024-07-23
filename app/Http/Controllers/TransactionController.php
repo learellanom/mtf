@@ -1102,6 +1102,15 @@ class TransactionController extends Controller
             $myCoinDesde    = $request->coin;
             $myCoinHasta    = $request->coin;
         }
+   
+        $myTypeTransactionDesde     = 0;
+        $myTypeTransactionHasta     = 9999;
+        $myTypeTransaction          = $request->typeTransaction ? $request->typeTransaction : 0;
+        if ($request->typeTransaction){
+            $myTypeTransactionDesde    = $request->typeTransaction;
+            $myTypeTransactionHasta    = $request->typeTransaction;
+        }
+
         /*
         echo "<br>" . "coin         - > $request->coin";
         echo "<br>" . "myCoinDesde  - > $myCoinDesde";
@@ -1131,8 +1140,9 @@ class TransactionController extends Controller
         ->whereBetween('created_at',            [$myFechaDesde . " 00:00:00", $myFechaHasta . " 23:59:00"])
         ->whereBetween('user_id',               [$myUsuarioDesde , $myUsuarioHasta])
         ->whereBetween('type_coin_balance_id',  [$myCoinDesde , $myCoinHasta])
+        ->whereBetween('type_transaction_id',   [$myTypeTransactionDesde , $myTypeTransactionHasta])
         ->orderBy('created_at','desc')
-        ->limit($myLimit)            
+        ->limit($myLimit)
         ->get();
         
         $myFechaDesde2      =  substr($myFechaDesde,8,2) . '-' . substr($myFechaDesde,5,2) . '-' . substr($myFechaDesde,0,4);
@@ -1147,6 +1157,8 @@ class TransactionController extends Controller
         $myTypeCoinBalance  = $myCoin; // dorales siempre por ahora
         $Type_coin_balance  = Type_coin::pluck('name', 'id')->toArray();
 
+        $Type_transaction                   = Type_transaction::orderBy('name','ASC')->pluck('name','id')->toArray();
+
         $parametros['wallet']               = $wallet;
         $parametros['group']                = $group;
 
@@ -1155,7 +1167,9 @@ class TransactionController extends Controller
 
         $parametros['myTypeCoinBalance']    = $myTypeCoinBalance;
         $parametros['Type_coin_balance']    = $Type_coin_balance;
-        
+
+        $parametros['myTypeTransaction']    = $myTypeTransaction;
+        $parametros['Type_transaction']     = $Type_transaction;
 
         $parametros['fechaDesde']           = $myFechaDesde2;
         $parametros['fechaHasta']           = $myFechaHasta2;
