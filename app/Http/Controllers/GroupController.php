@@ -101,4 +101,5 @@ class GroupController extends Controller
         return Redirect::route('groups.index');
 
     }
+    
 }

@@ -2406,18 +2406,22 @@ class statisticsController extends Controller
                 case 1:
                     //\Log::info('leam - all wallets -> ');
                     $wallet2 = Group::where('type', '=', '2')->whereBetween('id', [0, 9999])->orderBY('name','ASC')->pluck('name', 'id')->toArray();
+                    $wallet2 = Group::whereIn('type', ['2','3'])->whereBetween('id', [0, 9999])->orderBY('name','ASC')->pluck('name', 'id')->toArray();
                     break;
                 case 0:
                     //\Log::info('leam - algunos wallets -> ');
                     $wallet2 = Group::where('type', '=', '2')->whereBetween('id', [0, 9999])->whereIn('id', $Group_roles->wallets)->orderBY('name','ASC')->pluck('name', 'id')->toArray();     
+                    $wallet2 = Group::whereIn('type', ['2','3'])->whereBetween('id', [0, 9999])->whereIn('id', $Group_roles->wallets)->orderBY('name','ASC')->pluck('name', 'id')->toArray();     
                     break;
 
             }
+            \Log::info('leam - statisticsController - getWallet -> ' . print_r($wallet2,true));
             return $wallet2;
         }
 
 
         $wallet2 = Group::where('type', '=', '2')->whereBetween('id', [0, 9999])->orderBY('name','ASC')->pluck('name', 'id')->toArray();
+        $wallet2 = Group::whereIn('type', [2,3])->whereBetween('id', [0, 9999])->orderBY('name','ASC')->pluck('name', 'id')->toArray();
 
         return $wallet2;
 

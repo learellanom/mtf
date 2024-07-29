@@ -177,13 +177,23 @@ $config4 = [
                 <h3 class="card-title font-weight-bold">{{ $myTitle }}</h3>
             </div>
             <div class="card-body">
+                {{--
                 @if($myWallet > 0 && $myGroup > 0)
-                    <div class="form-row  justify-content-center align-item-center mt-5 py-5" style="border: 1px solid blue">
+                --}}
+                
+                    @if(!$myWallet   && !$myGroup)
+                        <div class="row align-item-center justify-content-center">
+                            Seleccione Criterio de Busqueda.. Wallet y Grupo
+                        </div>
+                    @endif
 
+                    <div class="form-row  justify-content-center align-item-center mt-5 py-5" style="border: 1px solid blue">
+                        
                         @php 
                             // dd($balance); 
                             $myTotal = $balance->Total ?? 0;      
                         @endphp
+
 
                         <div class="form-group col-md-4 col-lg-6 text-xl-center">
                             <label class=""><b>Saldo pendiente</b></label>
@@ -277,6 +287,7 @@ $config4 = [
                             </div>
                         </div>
                     </div>
+                {{--
                 @else
                     <div class="row align-item-center justify-content-center mt-5">
                         Seleccione Criterio de Busqueda..
@@ -288,6 +299,7 @@ $config4 = [
                         Grupo
                     </div>                                   
                 @endif
+                --}}
             </div>
         </div>
     </div>
@@ -315,9 +327,14 @@ $config4 = [
         InicializaFechas();
         // BuscaFechas();
         BuscaFechasBlade();
-        
-        $('#wallet, #group, #type_material_id, #drCustomRanges').on('change', function (){
 
+        $('#group').on('select2:clear', function (e) {
+            // Do something
+            alert('Limpio grupo');
+        });
+
+        $('#wallet, #group, #type_material_id, #drCustomRanges').on('change', function (){
+            
             const wallet        = $('#wallet').val();
             const group         = $('#group').val();
             const type_material = $('#type_material_id').val();
