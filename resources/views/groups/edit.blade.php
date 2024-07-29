@@ -30,7 +30,7 @@
 
                 <div class="form-group">
                     {!! Form::Label('phone', "Telefono del administrador:") !!}
-                    {!! Form::text('phone', null, ['class' => 'form-control', 'required' => true]) !!}
+                    {!! Form::text('phone', null, ['class' => 'form-control', 'required' => false]) !!}
 
 
                     @error('phone')
@@ -62,7 +62,10 @@
                         {!! Form::radio('type','2', null, ['id' => 'radio2', 'class' => 'custom-control-input caja', 'required' => false]) !!}
                         <label class="custom-control-label" for="radio2">Caja</label>
                     </div>
-                    
+                    <div class="custom-control custom-radio custom-control-inline">
+                        {!! Form::radio('type','3', null, ['id' => 'radio3', 'class' => 'custom-control-input caja', 'required' => false]) !!}
+                        <label class="custom-control-label" for="radio3">Caja</label>
+                    </div>                    
                 </div>
                 {{--
 
@@ -122,63 +125,6 @@
             maximumSelectionLength: 5,
             width:'100%',
         });
-        {{--
-        const cliente           = document.getElementById('radio1');
-        const caja              = document.getElementById('radio2');
-
-        const efectivo          = document.getElementById('radio3');
-        const transferencias    = document.getElementById('radio4');
-
-        const efectivo_radio    = document.getElementById('radio5');
-        const transferencias_radio = document.getElementById('radio6');
-
-        caja.addEventListener('change', () => {
-        if (caja.checked) {
-            efectivo.style.display = 'block';
-            transferencias.style.display = 'block';
-            $('#radio1').prop('required', false);
-
-            $('#radio2').prop('required', true);
-            $('#radio5').prop('required', true);
-            $('#radio6').prop('required', true);
-        }
-        });
-
-        if (caja.checked) {
-            efectivo.style.display          = 'block';
-            transferencias.style.display    = 'block';
-
-            $('#radio1').prop('required', false);
-
-            $('#radio2').prop('required', true);
-            $('#radio5').prop('required', true);
-            $('#radio6').prop('required', true);
-        }
-
-        cliente.addEventListener('change', () => {
-        if (cliente.checked) {
-            efectivo.style.display          = 'none';
-            transferencias.style.display    = 'none';
-            efectivo_radio.checked          = false;
-            transferencias_radio.checked    = false;
-
-            $('#radio2').prop('required', false);
-            $('#radio5').prop('required', false);
-            $('#radio6').prop('required', false);
-
-         }
-        });
-
-        if (cliente.checked) {
-            efectivo.style.display = 'none';
-            transferencias.style.display = 'none';
-            efectivo_radio.checked = false;
-            transferencias_radio.checked = false;
-            $('#radio2').prop('required', false);
-            $('#radio5').prop('required', false);
-            $('#radio6').prop('required', false);
-         }
-         --}}
 
 
 
@@ -198,7 +144,7 @@
 
         });
 
-        $('#radio2').on('click', function (){
+        $('#radio2, #radio3').on('click', function (){
 
             $('input[name=proveedor]').prop('checked',false); 
             $("#proveedor").attr("disabled",false);

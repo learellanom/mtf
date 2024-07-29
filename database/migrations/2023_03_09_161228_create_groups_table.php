@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('groups', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
-            $table->string('phone');
+            $table->string('phone')->nullable();
             $table->string('description');
-            $table->enum('type', [1, 2])->nullable()->default(1); // 1 : grupo , 2 : wallet
+            $table->enum('type', [1, 2, 3])->nullable()->default(1); // 1 : grupo , 2 : wallet, 3: Wallet y grupo
             $table->enum('type_wallet', ['Efectivo','Transacciones'])->nullable();
             $table->boolean('provider')->nullable();
             $table->timestamps();

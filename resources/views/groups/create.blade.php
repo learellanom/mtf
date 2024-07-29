@@ -24,21 +24,20 @@
                 <span class="text-danger">{{$message}}</span>
 
                 @enderror
-                </div>
+            </div>
 
-                
-                <div class="form-group">
-                    {!! Form::Label('phone', "Telefono del administrador:") !!}
-                    {!! Form::text('phone', null, ['class' => 'form-control', 'required' => true]) !!}
+            <!-- Telefono -->
 
+            <div class="form-group">
+                {!! Form::Label('phone', "Telefono del administrador:") !!}
+                {!! Form::text('phone', null, ['class' => 'form-control', 'required' => false]) !!}
 
-                    @error('phone')
-
+                @error('phone')
                     <span class="text-danger">{{$message}}</span>
+                @enderror
+            </div>
 
-                    @enderror
-                </div>
-
+            <!--  Agente -->
 
             <div class="form-group">
 
@@ -61,7 +60,11 @@
                 <div class="custom-control custom-radio custom-control-inline">
                     {!! Form::radio('type','2', null, ['id' => 'radio2', 'class' => 'custom-control-input caja', 'required' => true]) !!}
                     <label class="custom-control-label" for="radio2">Caja</label>
-                </div>              
+                </div>
+                <div class="custom-control custom-radio custom-control-inline">
+                    {!! Form::radio('type','3', null, ['id' => 'radio3', 'class' => 'custom-control-input caja', 'required' => true]) !!}
+                    <label class="custom-control-label" for="radio3">Caja - Grupo</label>
+                </div>          
             </div>
 
             
@@ -76,8 +79,6 @@
             --}}
             <br>
             <div class="form-group col-12">
-                
-
                 <div class="custom-control custom-control-inline">
                     {!! Form::checkbox('provider','1', false, ['id' => 'proveedor', 'class' => 'custom-control-input cliente', 'required' => false]) !!}
                     <label class="custom-control-label" for="proveedor">Proveedor</label>
@@ -119,6 +120,7 @@
 
 @section('js')
 <script>
+    
     $(".user").select2({
         allowClear: true,
         placeholder: "Seleccionar Agentes",
@@ -144,7 +146,7 @@
           
       });
 
-      $('#radio2').on('click', function (){
+      $('#radio2, #radio3').on('click', function (){
 
           $('input[name=provider]').prop('checked',false); 
           $("#proveedor").attr("disabled",false);
