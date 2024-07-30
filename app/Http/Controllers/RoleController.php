@@ -222,7 +222,7 @@ class RoleController extends Controller
 
             foreach($request->myselect as $myselect){
 
-                //\Log::info("Cada caja -> $myselect con role_id -> $roles->id"); 
+                \Log::info("Cada caja -> $myselect con role_id -> $roles->id"); 
 
                 $Group_role                 = new Group_role;
 
@@ -303,7 +303,7 @@ class RoleController extends Controller
                 left join mtf.roles               on mtf.group_roles.role_id            = mtf.roles.id
             where
                 role_id                 between $theRole                and $theRole 
-                and groups.type  = '2'
+                and groups.type  in('2','3')
         ";
         
 
@@ -484,7 +484,7 @@ class RoleController extends Controller
                 where
                     role_id                 between $myRoleDesde                and $myRoleHasta 
                 having
-                    GroupType = 2
+                    GroupType = 2 or GroupType = 3
                 order by
                     RoleID
             ";
