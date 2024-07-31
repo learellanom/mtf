@@ -64,7 +64,7 @@
                     </div>
                     <div class="custom-control custom-radio custom-control-inline">
                         {!! Form::radio('type','3', null, ['id' => 'radio3', 'class' => 'custom-control-input caja', 'required' => false]) !!}
-                        <label class="custom-control-label" for="radio3">Caja</label>
+                        <label class="custom-control-label" for="radio3">Caja - Grupo</label>
                     </div>                    
                 </div>
                 {{--
