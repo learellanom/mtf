@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Redirect;
 
 use App\Models\Group_role;
 use App\Models\User;
+use App\Models\Group;
 
 use Illuminate\Support\Facades\DB;
 
@@ -80,10 +81,13 @@ class RoleController extends Controller
 
                 // echo "Cada caja -> $myselect con role_id -> $role->id"; 
 
+                $myType                     = $this->findGroupType($myselect);
+
                 $Group_role                 = new Group_role;
 
                 $Group_role->role_id        = $role->id;
                 $Group_role->group_id       = $myselect;
+                $Group_role->group_type     = $myType;
                 $Group_role->all_wallets    = '0';
                 $Group_role->all_groups     = '0';
 
@@ -107,11 +111,13 @@ class RoleController extends Controller
             foreach($request->myselect2 as $myselect){
 
                 // echo "Cada grupo -> $myselect con role_id -> $role->id"; 
+                $myType                     = $this->findGroupType($myselect);
 
                 $Group_role                 = new Group_role;
 
                 $Group_role->role_id        = $role->id;
                 $Group_role->group_id       = $myselect;
+                $Group_role->group_type     = $myType;                
                 $Group_role->all_wallets    = '0';
                 $Group_role->all_groups     = '0';
 
@@ -207,9 +213,11 @@ class RoleController extends Controller
 
         $delete = Group_role::where('role_id', '=', $roles->id)->delete();
         
+        \Log::info(' RoleController - update - Delete groups role -> ' . $delete);
+        // dd($delete);
         if (!$request->myselect){
            // echo "todas las cajas con el role id ->" . $role->id; 
-            
+
             $Group_role                 = new Group_role;
 
             $Group_role->role_id        = $roles->id;
@@ -223,11 +231,14 @@ class RoleController extends Controller
             foreach($request->myselect as $myselect){
 
                 \Log::info("Cada caja -> $myselect con role_id -> $roles->id"); 
+                
+                $myType                     = $this->findGroupType($myselect);
 
                 $Group_role                 = new Group_role;
 
                 $Group_role->role_id        = $roles->id;
                 $Group_role->group_id       = $myselect;
+                $Group_role->group_type     = $myType;                      
                 $Group_role->all_wallets    = '0';
                 $Group_role->all_groups     = '0';
 
@@ -248,15 +259,17 @@ class RoleController extends Controller
             $Group_role->save();
             //\Log::info("leam - role - update - roles->id $roles->id -> graba todos los grupos");
         }else{
-
+            \Log::info('RoleController - myselect2 -> ' . print_r($request->myselect2,true));
             foreach($request->myselect2 as $myselect){
 
                //\Log::info("Cada grupo -> $myselect con role_id -> $roles->id"); 
+               $myType                     = $this->findGroupType($myselect);
 
                 $Group_role                 = new Group_role;
 
                 $Group_role->role_id        = $roles->id;
                 $Group_role->group_id       = $myselect;
+                $Group_role->group_type     = $myType;                
                 $Group_role->all_wallets    = '0';
                 $Group_role->all_groups     = '0';
 
@@ -327,7 +340,7 @@ class RoleController extends Controller
                 left join mtf.roles               on mtf.group_roles.role_id            = mtf.roles.id
             where
                 role_id                 between $theRole                and $theRole 
-                and groups.type  = '1'
+                and groups.type  in('1','3')
         ";
         
 
@@ -516,7 +529,7 @@ class RoleController extends Controller
                 where
                     role_id                 between $myRoleDesde                and $myRoleHasta 
                 having
-                    GroupType = 1
+                    GroupType = 1 or GroupType = 3
                 order by
                     RoleID
             ";
@@ -579,6 +592,22 @@ class RoleController extends Controller
         // die();
         return $myObject;
     }
+
+
+    // Busca el tipo de grupo de un Id de grupo
+    public function findGroupType($myGroup = 0)
+    {
+        $myType     = "0";
+        
+        if ($myGroup == 0) return $myType;
+
+        $theGroup   = Group::find($myGroup);
+
+        if ($theGroup) $myType = $theGroup->type;
+
+        return $myType;
+    }
+
 
 
 }

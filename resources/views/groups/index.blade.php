@@ -31,61 +31,65 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-12">
-                <table id="grupo" class="table table-bordered table-responsive-lg">
-                <thead>
-                    <tr>
-                        <th>Nombre</th>
-                        <th>Telefono</th>
-                        <th>Descripción</th>
-                        <th>Tipo</th>
-                        <th class="text-center">Ver/Editar</th>
-                        <th class="text-center">Eliminar</th>
-                    </tr>
+                        <table id="grupo" class="table table-bordered table-responsive-lg">
+                            <thead>
+                                <tr>
+                                    <th>Nombre</th>
+                                    <th>Telefono</th>
+                                    <th>Descripción</th>
+                                    <th>Tipo</th>
+                                    <th class="text-center">Ver/Editar</th>
+                                    <th class="text-center">Eliminar</th>
+                                </tr>
+                            </thead>
 
+                            @foreach($groups as $group)
+                                <tr>
 
-                </thead>
+                                    <td>{!! $group->name !!}</td>
+                                    <td>{!! $group->phone !!}</td>
+                                    <td>{!! $group->description !!}</td>
 
-                @foreach($groups as $group)
-                    <tr>
+                                    @switch($group->type)
+                                        @case('1')
+                                            <td>Grupo</td>
+                                            @break
+                                        @case('2')
+                                            <td>Wallet</td>
+                                            @break
+                                        @case('3')
+                                            <td>Caja - Grupo</td>
+                                            @break                                
+                                        @default
+                                            <td>Grupo</td>
+                                            @break
+                                    @endswitch
 
-                        <td>{!! $group->name !!}</td>
-                        <td>{!! $group->phone !!}</td>
-                        <td>{!! $group->description !!}</td>
-                        @switch($group->type)
-                            @case('1')
-                                <td>Grupo</td>
-                                @break
-                            @case('2')
-                                <td>Wallet</td>
-                                @break
-                            @default
-                                <td>Grupo</td>
-                                @break
-                        @endswitch
-                        <td class="text-center">
-                            <a class="btn btn-xl text-primary mx-1 shadow" href="{{ route('groups.edit', $group) }}" title="Editar">
-                                <i class="fa fa-lg fa-fw fa-pen"></i>
-                            </a>
-                        </td>
+                                    <td class="text-center">
+                                        <a class="btn btn-xl text-primary mx-1 shadow" href="{{ route('groups.edit', $group) }}" title="Editar">
+                                            <i class="fa fa-lg fa-fw fa-pen"></i>
+                                        </a>
+                                    </td>
 
-                        <td class="text-center">
-                            <form method="post" action="{{ route('groups.destroy', $group->id) }}">
-                                @csrf
-                                @method('delete')
-                                <button class="btn btn-xl text-danger mx-1 shadow" type="submit" title="Borrar">
-                                    <i class="fa fa-lg fa-fw fa-trash"></i>
-                                </button>
-                            </form>
-                        </td>
+                                    <td class="text-center">
+                                        <form method="post" action="{{ route('groups.destroy', $group->id) }}">
+                                            @csrf
+                                            @method('delete')
+                                            <button class="btn btn-xl text-danger mx-1 shadow" type="submit" title="Borrar">
+                                                <i class="fa fa-lg fa-fw fa-trash"></i>
+                                            </button>
+                                        </form>
+                                    </td>
 
-                    </tr>
-                @endforeach
-                </table>
-
+                                </tr>
+                            @endforeach
+                        </table>
+                    </div>
                 </div>
-               </div>
             </div>
         </div>
+    </div>
+</div>
 @endsection
 
 @section('js')
@@ -94,30 +98,26 @@ $(document).ready(function () {
     $('#grupo').DataTable( {
 
         language: {
-        "decimal": "",
-        "emptyTable": "No hay información",
-        "info": "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
-        "infoEmpty": "Mostrando 0 to 0 of 0 Entradas",
-        "infoFiltered": "(Filtrado de _MAX_ total entradas)",
-        "infoPostFix": "",
-        "thousands": ",",
-        "lengthMenu": "Mostrar _MENU_ Entradas",
-        "loadingRecords": "Cargando...",
-        "processing": "Procesando...",
-        "search": "Buscar:",
-        "zeroRecords": "Sin resultados encontrados",
-        "paginate": {
-            "first": "Primero",
-            "last": "Ultimo",
-            "next": "Siguiente",
-            "previous": "Anterior"
-        }
-    },
-    "order": [[ 1, 'asc' ]],
-
-
-
-
+            "decimal": "",
+            "emptyTable": "No hay información",
+            "info": "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
+            "infoEmpty": "Mostrando 0 to 0 of 0 Entradas",
+            "infoFiltered": "(Filtrado de _MAX_ total entradas)",
+            "infoPostFix": "",
+            "thousands": ",",
+            "lengthMenu": "Mostrar _MENU_ Entradas",
+            "loadingRecords": "Cargando...",
+            "processing": "Procesando...",
+            "search": "Buscar:",
+            "zeroRecords": "Sin resultados encontrados",
+            "paginate": {
+                "first": "Primero",
+                "last": "Ultimo",
+                "next": "Siguiente",
+                "previous": "Anterior"
+            }
+        },
+        "order": [[ 0, 'asc' ]],
     });
 });
 </script>
