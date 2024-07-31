@@ -16,7 +16,19 @@ class GroupController extends Controller
      */
     public function index()
     {
-        $groups = Group::all();
+
+
+        // $transferencia = Transaction::whereNull(['transfer_number','pay_number'])
+        // ->whereBetween('created_at',    [$myFechaDesde . " 00:00:00", $myFechaHasta . " 23:59:00"])
+        // ->whereBetween('user_id',       [$myUsuarioDesde , $myUsuarioHasta])
+        // ->orderBy('created_at','desc')
+        // ->limit($myLimit)            
+        // ->get();
+
+
+
+        // $groups = Group::all()->orderBy('name');
+        $groups = Group::orderBy('name','ASC')->get();
         return view('groups.index', compact('groups'));
 
     }
@@ -101,5 +113,5 @@ class GroupController extends Controller
         return Redirect::route('groups.index');
 
     }
-    
+
 }
