@@ -33,13 +33,11 @@ class RoleController extends Controller
     {
        // $permisos = Permission::all();
 
-
-        $permisos    = Permission::all();
-        $permisos    = Permission::get()->keyBy('id');
+        $permisos               = Permission::all();
+        $permisos               = Permission::get()->keyBy('id');
         
-        
-        $wallet                     = app(statisticsController::class)->getWallet();
-        $group                      = app(statisticsController::class)->getGroups();
+        $wallet                 = app(statisticsController::class)->getWallet();
+        $group                  = app(statisticsController::class)->getGroups();
 
         $parametros['wallet']   = $wallet;
         $parametros['group']    = $group;
@@ -63,7 +61,9 @@ class RoleController extends Controller
         // print_r($request->myselect,false);
 
         $delete = Group_role::where('role_id', '=', $role->role_id)->delete();
-
+        //
+        // Todas la CAJAS asignadas al Role
+        //
         if (!$request->myselect){
            // echo "todas las cajas con el role id ->" . $role->id; 
             
@@ -85,16 +85,19 @@ class RoleController extends Controller
 
                 $Group_role                 = new Group_role;
 
-                $Group_role->role_id        = $role->id;
-                $Group_role->group_id       = $myselect;
-                $Group_role->group_type     = $myType;
-                $Group_role->all_wallets    = '0';
-                $Group_role->all_groups     = '0';
+                $Group_role->role_id         = $role->id;
+                $Group_role->wallet_id       = $myselect;
+                $Group_role->group_id        = $myselect;
+                $Group_role->group_type      = $myType;
+                $Group_role->all_wallets     = '0';
+                $Group_role->all_groups      = '0';
 
                 $Group_role->save();
             }        
         }
-
+        //
+        // Todas los GRUPOS asignados al Role
+        //
         if (!$request->myselect2){
             // echo "todas los grupos con el role id ->" . $role->id; 
             
@@ -116,6 +119,7 @@ class RoleController extends Controller
                 $Group_role                 = new Group_role;
 
                 $Group_role->role_id        = $role->id;
+                $Group_role->wallet_id      = $myselect;                
                 $Group_role->group_id       = $myselect;
                 $Group_role->group_type     = $myType;                
                 $Group_role->all_wallets    = '0';
@@ -152,7 +156,7 @@ class RoleController extends Controller
          // dd($permisos2[53]);
         $wallet                     = app(statisticsController::class)->getWallet();
         $group                      = app(statisticsController::class)->getGroups();
-
+        // dd($group);
         $myRole                     = $roles->id;
         //\Log::info("leam - roles - edit - roles->id -- $roles->id");
 
@@ -163,7 +167,7 @@ class RoleController extends Controller
 
         $myRoleAllWallets           = count($myRoleAllWallets) > 0 ? $myRoleAllWallets[0]->all_wallets : 0;
         $myRoleWallets              = $this->getRolesWalletsByRole($roles->id);
-        
+        // dd($myRoleWallets);
 
         //\Log::info('leam - roles- edit - myRoleAllWallets 2 -> ' . $myRoleAllWallets);
         //\Log::info('leam - roles- edit -wallets -> ' . print_r($myRoleWallets,true));
@@ -237,7 +241,8 @@ class RoleController extends Controller
                 $Group_role                 = new Group_role;
 
                 $Group_role->role_id        = $roles->id;
-                $Group_role->group_id       = $myselect;
+                $Group_role->wallet_id      = $myselect;                
+                // $Group_role->group_id       = $myselect;
                 $Group_role->group_type     = $myType;                      
                 $Group_role->all_wallets    = '0';
                 $Group_role->all_groups     = '0';
@@ -268,6 +273,7 @@ class RoleController extends Controller
                 $Group_role                 = new Group_role;
 
                 $Group_role->role_id        = $roles->id;
+                // $Group_role->wallet_id       = $myselect;
                 $Group_role->group_id       = $myselect;
                 $Group_role->group_type     = $myType;                
                 $Group_role->all_wallets    = '0';
@@ -277,16 +283,18 @@ class RoleController extends Controller
             }        
         }
 
-        
-
         flash()->addInfo('Role modificado..', 'Roles', ['timeOut' => 3000]);
 
         return Redirect::route('roles.index')->with('update', 'ok');
-    }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+    }
+    // ------------------------------------------------------------------------
+    //
+    //
+    // Remove the specified resource from storage.
+    //
+    //
+    // ------------------------------------------------------------------------
     public function destroy($role)
     {
         $role = Role::find($role);
@@ -300,37 +308,52 @@ class RoleController extends Controller
 
         return Redirect::route('roles.index')->with('destroy','ok');
     }
-
+    // ------------------------------------------------------------------------
+    //
+    //
+    // Obtiene Wallets para un RoleId determinado
+    //
+    //
+    // ------------------------------------------------------------------------
     public function getRolesWalletsByRole( $theRole = 0){
+
         $wallets            = array();     
         
         $myQuery =
         "
             select
+                group_roles.wallet_id                   as WalletID,            
                 group_roles.group_id                    as GroupID,
-                groups.name                             as GroupName,
-                groups.type                             as GroupType
+                mtf.groups.name                             as GroupName,
+                mtf.groups.type                             as GroupType
             from
                 mtf.group_roles
-                left join mtf.groups              on mtf.group_roles.group_id           = mtf.groups.id
+                left join mtf.groups              on mtf.group_roles.wallet_id           = mtf.groups.id
                 left join mtf.roles               on mtf.group_roles.role_id            = mtf.roles.id
             where
                 role_id                 between $theRole                and $theRole 
-                and groups.type  in('2','3')
+                and mtf.groups.type  in('2','3')
         ";
         
-
+        
         $wallets = DB::select($myQuery);
-
+        // dd($myQuery);
         return $wallets;
     }
-
+    // ------------------------------------------------------------------------
+    //
+    //
+    // Obtiene los Grupos de un RoleID determinado
+    //
+    //
+    // ------------------------------------------------------------------------
     public function getRolesGroupsByRole( $theRole = 0){
         $groups            = array();     
         
         $myQuery =
         "
             select
+                group_roles.wallet_id                   as WalletID,            
                 group_roles.group_id                    as GroupID,
                 groups.name                             as GroupName,
                 groups.type                             as GroupType
@@ -343,12 +366,17 @@ class RoleController extends Controller
                 and groups.type  in('1','3')
         ";
         
-
         $groups = DB::select($myQuery);
 
         return $groups;
     }    
-
+    // ------------------------------------------------------------------------
+    //
+    //
+    // Obtiene wallets y Groups para un UserID determinado
+    //
+    //
+    // ------------------------------------------------------------------------
     public function getRoleWallets ( $theUserId = 0){
 
         $wallets            = array();
@@ -410,14 +438,16 @@ class RoleController extends Controller
             // $myRoleDesde = 38;
             // $myRoleHasta = 38;
 
-
-
+            //
+            // Busca indicador de todos los wallets
+            //
             $myQuery =
             "
                 select
                     group_roles.id                          as Id,
                     group_roles.role_id                     as RoleID,
                     roles.name                              as RoleName,
+                    group_roles.wallet_id                   as WalletID,
                     group_roles.group_id                    as GroupID,
                     groups.name                             as GroupName,
                     groups.type                             as GroupType,
@@ -441,16 +471,16 @@ class RoleController extends Controller
                 $all_wallets = 1;
             }
 
-
-            // busca todos los grupos
-
-
+            //
+            // Busca indicador de todos los grupos
+            //
             $myQuery =
             "
                 select
                     group_roles.id                          as Id,
                     group_roles.role_id                     as RoleID,
                     roles.name                              as RoleName,
+                    group_roles.wallet_id                   as WalletID,                    
                     group_roles.group_id                    as GroupID,
                     groups.name                             as GroupName,
                     groups.type                             as GroupType,
@@ -472,19 +502,18 @@ class RoleController extends Controller
                 $all_groups = 1;
             }
 
-
-
-
-
             // dd(' all groups -> ' . $all_groups);
 
-
+            //
+            // Busca los Wallets de un UserID
+            //
             $myQuery =
             "
                 select
                     group_roles.id                          as Id,
                     group_roles.role_id                     as RoleID,
                     roles.name                              as RoleName,
+                    group_roles.wallet_id                   as WalletID,
                     group_roles.group_id                    as GroupID,
                     groups.name                             as GroupName,
                     groups.type                             as GroupType,
@@ -510,13 +539,16 @@ class RoleController extends Controller
                 $wallets[] = $item->GroupID;
             }
             // dd('wallets ->'. count($wallets));
-
+            //
+            // Busca los grupos de un UserID
+            //
             $myQuery =
             "
                 select
                     group_roles.id                          as Id,
                     group_roles.role_id                     as RoleID,
                     roles.name                              as RoleName,
+                    group_roles.wallet_id                   as WalletID,
                     group_roles.group_id                    as GroupID,
                     groups.name                             as GroupName,
                     groups.type                             as GroupType,
@@ -592,9 +624,13 @@ class RoleController extends Controller
         // die();
         return $myObject;
     }
-
-
+    // ------------------------------------------------------------------------
+    //
+    //
     // Busca el tipo de grupo de un Id de grupo
+    //
+    //
+    // ------------------------------------------------------------------------
     public function findGroupType($myGroup = 0)
     {
         $myType     = "0";
