@@ -114,4 +114,16 @@ class GroupController extends Controller
 
     }
 
+
+    public function getGroups(){
+        $group = Group::whereIn('type',['1','3'])->pluck('name', 'id');
+        return $group;   
+    }
+
+
+    public function getWallets(){
+        $wallet = Group::whereIn('type',['2','3'])->pluck('name', 'id');
+        return $wallet;
+    }
+
 }
