@@ -2316,11 +2316,20 @@ class statisticsController extends Controller
                     $group2 = Group::whereIn('type', ['1','3'])->whereBetween('id', [0, 9999])->whereIn('id', $Group_roles->groups)->orderBY('name','ASC')->pluck('name', 'id')->toArray();
                     break;
             }
-            return $group2;
+            // dd($group2);
+            
+        } else {
+            $group2 = Group::whereIn('type', ['1','3'])->whereBetween('id', [0, 9999])->orderBY('name','ASC')->pluck('name', 'id')->toArray();
         }
 
         // $group2 = Group::where('type', '=', '1')->whereBetween('id', [0, 9999])->orderBY('name','ASC')->pluck('name', 'id')->toArray();
-        $group2 = Group::whereIn('type', ['1','3'])->whereBetween('id', [0, 9999])->orderBY('name','ASC')->pluck('name', 'id')->toArray();
+
+        // echo "aqui - general";
+        // echo "<pre>";
+        // echo print_r($group2,true);
+        // echo "</pre>";
+        // die();
+
         return $group2;
     }
     
