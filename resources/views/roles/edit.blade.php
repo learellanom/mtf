@@ -2056,13 +2056,11 @@
         }else{
         
             $('#all_wallets').prop('checked',false);
-
-
-
+            
             @foreach($myRoleWallets as $myWallets)
                 $("#myselect option").each(function(){
-                    console.log( 'leam - el valor -> ' +  $(this).val() + ' mi valor -> ' + {{ $myWallets->GroupID }});
-                    if($(this).val() == {{ $myWallets->GroupID }}){
+                    console.log( 'leam - el valor -> ' +  $(this).val() + ' mi valor -> ' + {{ $myWallets->WalletID }});
+                    if($(this).val() == {{ $myWallets->WalletID }}){
                         console.log('leam - encontro');
                         $('#myselect').multiSelect('select', $(this).val());
                     }
