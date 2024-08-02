@@ -116,14 +116,50 @@ class GroupController extends Controller
 
 
     public function getGroups(){
-        $group = Group::whereIn('type',['1','3'])->pluck('name', 'id');
+        $group = Group::whereIn('type',['1','3'])->orderBy('name','ASC')->pluck('name', 'id');
         return $group;   
     }
 
 
     public function getWallets(){
-        $wallet = Group::whereIn('type',['2','3'])->pluck('name', 'id');
+        $wallet = Group::whereIn('type',['2','3'])->orderBy('name','ASC')->pluck('name', 'id');
         return $wallet;
     }
+
+    public function getWalletsEfectivo(){
+        $wallet = Group::whereIn('type',['2','3'])->whereIn('type_wallet', ['efectivo'])->orderBy('name','ASC')->pluck('name', 'id');
+        return $wallet;
+    }
+
+
+    function getWallets2($Group_roles = null){
+
+        //    \Log::info('leam -  Group_roles -> ' . print_r($Group_roles,true));
+       
+        if (isset($Group_roles->allWallets)){
+            switch ($Group_roles->allWallets){
+                case 1:
+                    \Log::info('leam - GroupController - all wallets -> ');
+                    
+                    $wallet2 = Group::whereIn('type', ['2','3'])->whereBetween('id', [0, 9999])->orderBY('name','ASC')->pluck('name', 'id')->toArray();
+                    break;
+                case 0:
+                    $wallet2 = Group::whereIn('type', ['2','3'])->whereBetween('id', [0, 9999])->whereIn('id', $Group_roles->wallets)->orderBY('name','ASC')->pluck('name', 'id')->toArray();     
+                    break;
+                default:
+                    $wallet2 = Group::whereIn('type', ['2','3'])->whereBetween('id', [0, 9999])->orderBY('name','ASC')->pluck('name', 'id')->toArray();
+            }
+            \Log::info('leam - GroupController - getWallet -> ' . print_r($wallet2,true));
+        }
+        else {
+            $wallet2 = Group::whereIn('type', ['2','3'])->whereBetween('id', [0, 9999])->orderBY('name','ASC')->pluck('name', 'id')->toArray();
+        }
+        \Log::info('leam - GroupController - getWallet general -> ' . print_r($wallet2,true));
+
+        return $wallet2;
+
+    }
+
+
 
 }
