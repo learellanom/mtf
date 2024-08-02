@@ -230,7 +230,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::match(['put', 'patch'], 'recepcion/{movimiento}/estatus',    [TransactionController::class, 'materials_recepcion_update_status'])->name('materials.recepcion_update_status');
     Route::get('recepcion/audit/{movimiento}',                          [TransactionController::class,'indexAudit'])->middleware('auth')->name('materials.recepcion_audit');
     
-    Route::get('materialsLiquidacion',                                  [App\Http\Controllers\statisticsControllebr::class, 'materialsLiquidacion']  )->name('materialsLiquidacion');
+    Route::get('materialsLiquidacion',                                  [App\Http\Controllers\statisticsController::class, 'materialsLiquidacion']  )->name('materialsLiquidacion');
     Route::get('liquidacionAdquisicion',                                [TransactionController::class, 'liquidacion_adquisicion_index']             )->name('materials.liquidacionAdquisicion_index');
     Route::get('liquidacionRecepcion',                                  [TransactionController::class, 'liquidacion_recepcion_index']               )->name('materials.liquidacionRecepcion_index');
     Route::get('liquidacionIndex',                                      [TransactionController::class, 'liquidacion_index']                         )->name('materials.liquidacion_index');

@@ -307,13 +307,12 @@ class statisticsController extends Controller
             if ($myWallet > 0){
                 
                 $balance        = $this->getBalanceWallet($myWallet, "2001-01-01", "9999-12-31", $myCoin);
-                
                 $balanceBefore  = $this->getBalanceWalletBefore($myWallet,$myFechaDesde, $myFechaHasta, $myCoin);
 
             }
         };
         // dd($balance);
-
+        //   dd($balanceBefore);
 
         $myUser         = 0;
         $myUserDesde    = 0;
@@ -503,6 +502,12 @@ class statisticsController extends Controller
         $userole            = $this->getUser();
         $wallet             = $this->getWallet($Group_roles);
         $group              = $this->getGroups($Group_roles);
+
+
+        // dd($wallet);
+
+        // $wallet             = app(GroupController::class)->getWallets($Group_roles);
+        // $group              = app(GroupController::class)->getGroups($Group_roles); 
 
         // dd($wallet);
 
@@ -844,8 +849,10 @@ class statisticsController extends Controller
         // die();
 
         $userole            = $this->getUser();
+
         $wallet             = $this->getWallet();
         $group              = $this->getGroups();
+
         $typeTransactions   = $this->getTypeTransactions();
 
         if ($myFechaDesde === "2001-01-01"){
@@ -2415,30 +2422,31 @@ class statisticsController extends Controller
 
         //\Log::info('leam - wallet3 -> ' . print_r($wallet2, true));
         //\Log::info('leam - myTest -> ' . print_r($this->myTest,true));
-        
+        // dd($Group_roles);
+
         if (isset($Group_roles->allWallets)){
             switch ($Group_roles->allWallets){
                 case 1:
-                    \Log::info('leam - all wallets -> ');
+                  //  \Log::info('leam - all wallets -> ');
                     $wallet2 = Group::where('type', '=', '2')->whereBetween('id', [0, 9999])->orderBY('name','ASC')->pluck('name', 'id')->toArray();
                     $wallet2 = Group::whereIn('type', ['2','3'])->whereBetween('id', [0, 9999])->orderBY('name','ASC')->pluck('name', 'id')->toArray();
                     break;
                 case 0:
-                    \Log::info('leam - algunos wallets -> ');
-                    \Log::info('leam - algunos wallets - group_roles -> ' . print_r($Group_roles,true));
+                  //  \Log::info('leam - algunos wallets -> ');
+                  //  \Log::info('leam - algunos wallets - group_roles -> ' . print_r($Group_roles,true));
                     $wallet2 = Group::where('type', '=', '2')->whereBetween('id', [0, 9999])->whereIn('id', $Group_roles->wallets)->orderBY('name','ASC')->pluck('name', 'id')->toArray();     
                     $wallet2 = Group::whereIn('type', ['2','3'])->whereBetween('id', [0, 9999])->whereIn('id', $Group_roles->wallets)->orderBY('name','ASC')->pluck('name', 'id')->toArray();     
                     break;
 
             }
-            \Log::info('leam - statisticsController - getWallet -> ' . print_r($wallet2,true));
+            // \Log::info('leam - statisticsController - getWallet -> ' . print_r($wallet2,true));
             return $wallet2;
         }
 
 
         $wallet2 = Group::where('type', '=', '2')->whereBetween('id', [0, 9999])->orderBY('name','ASC')->pluck('name', 'id')->toArray();
         $wallet2 = Group::whereIn('type', [2,3])->whereBetween('id', [0, 9999])->orderBY('name','ASC')->pluck('name', 'id')->toArray();
-        \Log::info('leam - statisticsController - getWallet general -> ' . print_r($wallet2,true));
+        // \Log::info('leam - statisticsController - getWallet general -> ' . print_r($wallet2,true));
         return $wallet2;
 
     }
@@ -2704,6 +2712,7 @@ class statisticsController extends Controller
 
 
         \Log::info('paso en before ');
+        \Log::info('paso en before - myGroup      ->' . $myGroup);
         \Log::info('paso en before - myFechaDesde ->' . $myFechaDesde);
         \Log::info('paso en before - myFechaHasta ->' . $myFechaHasta);
         \Log::info('paso en before - myCoin       ->' . $myCoin);
@@ -2722,15 +2731,22 @@ class statisticsController extends Controller
         if ($myGroup > 0){
             // dd($indRecibeFecha);      
             if ($myFechaDesde != "2001-01-01"){
-                $myFechaDesdeBefore = $myFechaDesde;
+                // $myFechaDesdeBefore = $myFechaDesde;
                 $myFechaHastaBefore = $this->getDayBefore($myFechaDesde);
 
             }
             
-        
+            \Log::info('paso en before - calcula antes ');
+            \Log::info('paso en before - calcula antes myGroup      ->' . $myGroup);
+            \Log::info('paso en before - calcula antes myFechaDesde ->' . $myFechaDesdeBefore);
+            \Log::info('paso en before - calcula antes myFechaHasta ->' . $myFechaHastaBefore);
+            \Log::info('paso en before - calcula antes myCoin       ->' . $myCoin);
+           
 
             $balance3           = $this->getBalance($myGroup, $myFechaDesdeBefore, $myFechaHastaBefore, $myCoin);
-            // dd('las fechas - ' . $balance3->Total . ' grupo ' . $myGroup . 'fecha desde -> ' . $myFechaDesdeBefore . ' fecha hasta -> ' . $myFechaHastaBefore);
+
+
+             // dd('las fechas - ' . $balance3->Total . ' grupo ' . $myGroup . 'fecha desde -> ' . $myFechaDesdeBefore . ' fecha hasta -> ' . $myFechaHastaBefore);
             if(isset($balance3->Total)){
                 $balanceDetail  = $balance3->Total;
             }else{

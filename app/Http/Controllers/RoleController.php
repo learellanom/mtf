@@ -515,29 +515,37 @@ class RoleController extends Controller
                     roles.name                              as RoleName,
                     group_roles.wallet_id                   as WalletID,
                     group_roles.group_id                    as GroupID,
-                    groups.name                             as GroupName,
-                    groups.type                             as GroupType,
+                    case
+                       when group_roles.group_type = 1 then mtf.groups.name
+					   when group_roles.group_type = 2 then wallets.name
+					   when group_roles.group_type = 3 then mtf.groups.name
+                    end
+					as GroupName,                                        
+                    group_roles.group_type                  as GroupType,
                     group_roles.all_wallets                 as AllWallets,
                     group_roles.all_groups                  as AllGroups
                 from
                     mtf.group_roles
                     left join mtf.groups              on mtf.group_roles.group_id           = mtf.groups.id
+                    left join mtf.groups as wallets   on mtf.group_roles.wallet_id          = wallets.id                    
                     left join mtf.roles               on mtf.group_roles.role_id            = mtf.roles.id
                 where
-                    role_id                 between $myRoleDesde                and $myRoleHasta 
-                having
-                    GroupType = 2 or GroupType = 3
+                        role_id                 between $myRoleDesde                and $myRoleHasta 
+                    and group_roles.group_type  in(2,3)            
+                    and group_roles.wallet_id is not null        
                 order by
                     RoleID
             ";
             
 
             $Group_roles = DB::select($myQuery);
+             // dd($myQuery);
             // dd($Group_roles);
             
             foreach($Group_roles as $item){
-                $wallets[] = $item->GroupID;
+                $wallets[] = $item->WalletID;
             }
+            //  dd($wallets);
             // dd('wallets ->'. count($wallets));
             //
             // Busca los grupos de un UserID
@@ -550,18 +558,24 @@ class RoleController extends Controller
                     roles.name                              as RoleName,
                     group_roles.wallet_id                   as WalletID,
                     group_roles.group_id                    as GroupID,
-                    groups.name                             as GroupName,
-                    groups.type                             as GroupType,
+                    case
+                       when group_roles.group_type = 1 then mtf.groups.name
+					   when group_roles.group_type = 2 then wallets.name
+					   when group_roles.group_type = 3 then mtf.groups.name
+                    end
+					as GroupName,
+                    group_roles.group_type                  as GroupType,
                     group_roles.all_wallets                 as AllWallets,
                     group_roles.all_groups                  as AllGroups
                 from
                     mtf.group_roles
                     left join mtf.groups              on mtf.group_roles.group_id           = mtf.groups.id
+                    left join mtf.groups as wallets   on mtf.group_roles.wallet_id          = wallets.id                           
                     left join mtf.roles               on mtf.group_roles.role_id            = mtf.roles.id
                 where
-                    role_id                 between $myRoleDesde                and $myRoleHasta 
-                having
-                    GroupType = 1 or GroupType = 3
+                        role_id                 between $myRoleDesde                and $myRoleHasta 
+                    and group_roles.group_type  in(1,3)      
+                    and group_roles.group_id is not null                                             
                 order by
                     RoleID
             ";
@@ -572,6 +586,8 @@ class RoleController extends Controller
             foreach($Group_roles as $item){
                 $groups[] = $item->GroupID;
             }
+            // dd($myQuery);
+            // dd($groups);
             // \Log::info('leam - ***************');
             // \Log::info('leam - Role id      -> ' . $role);
             // \Log::info('leam - Role desde   -> ' . $myRoleDesde);
