@@ -198,10 +198,11 @@ class TransactionController extends Controller
             $myTypeMaterialHasta   = $request->type_material;
         }
 
+        $wallet             = app(GroupController::class)->getWallets();
+        $group              = app(GroupController::class)->getGroups();
 
-        $wallet             = Group::where('type','=','2')->pluck('name', 'id')->toArray();
-        $group              = Group::where('type','=','1')->pluck('name', 'id')->toArray();
-
+	    $wallet             = $wallet->toArray();
+	    $group              = $group->toArray();
 
         $myTypeTransaction = 47; // Adquisiciones de materiales
 
@@ -365,9 +366,11 @@ class TransactionController extends Controller
 
         $myLiquidationNumber = ($request->liquidation_number) ? $request->liquidation_number : 0;
 
-        $wallet             = Group::where('type','=','2')->pluck('name', 'id')->toArray();
-        $group              = Group::where('type','=','1')->pluck('name', 'id')->toArray();
+        $wallet             = app(GroupController::class)->getWallets();
+        $group              = app(GroupController::class)->getGroups();
 
+	    $wallet             = $wallet->toArray();
+	    $group              = $group->toArray();
 
         $myTypeTransaction = 47; // Adquisiciones de materiales
 
@@ -541,8 +544,11 @@ class TransactionController extends Controller
 
         $myLiquidationNumber = ($request->liquidation_number) ? $request->liquidation_number : 0;
 
-        $wallet             = Group::where('type','=','2')->pluck('name', 'id')->toArray();
-        $group              = Group::where('type','=','1')->pluck('name', 'id')->toArray();
+        $wallet             = app(GroupController::class)->getWallets();
+        $group              = app(GroupController::class)->getGroups();
+
+	    $wallet             = $wallet->toArray();
+	    $group              = $group->toArray();
 
 
         $myTypeTransaction = 47; // Adquisiciones de materiales
@@ -773,8 +779,11 @@ class TransactionController extends Controller
             $myTypeMaterialHasta   = $request->type_material;
         }
 
-        $wallet             = Group::where('type','=','2')->pluck('name', 'id')->toArray();
-        $group              = Group::where('type','=','1')->pluck('name', 'id')->toArray();
+        $wallet             = app(GroupController::class)->getWallets();
+        $group              = app(GroupController::class)->getGroups();
+
+	    $wallet             = $wallet->toArray();
+	    $group              = $group->toArray();
 
 
         $myTypeTransaction = 48; // Recepcion de materiales
@@ -936,9 +945,11 @@ class TransactionController extends Controller
             $myTypeMaterialHasta   = $request->type_material;
         }
 
-        $wallet             = Group::where('type','=','2')->pluck('name', 'id')->toArray();
-        $group              = Group::where('type','=','1')->pluck('name', 'id')->toArray();
+        $wallet             = app(GroupController::class)->getWallets();
+        $group              = app(GroupController::class)->getGroups();
 
+        $wallet             = $wallet->toArray();
+        $group              = $group->toArray();
 
         $myTypeTransaction = 48; // Recepcion de materiales
 
@@ -1149,11 +1160,13 @@ class TransactionController extends Controller
         $myFechaHasta2      =  substr($myFechaHasta,8,2) . '-' . substr($myFechaHasta,5,2) . '-' . substr($myFechaHasta,0,4);
 
         $user               = User::pluck('name', 'id')->toArray();
-        $wallet             = Group::where('type','=','2')->orderBy('name','asc')->pluck('name', 'id')->toArray();
-        $group              = Group::where('type','=','1')->orderBy('name','asc')->pluck('name', 'id')->toArray();
 
-
+        $wallet             = app(GroupController::class)->getWallets();
+        $group              = app(GroupController::class)->getGroups();
      
+        $wallet             = $wallet->toArray();
+        $group              = $group->toArray();
+
         $myTypeCoinBalance  = $myCoin; // dorales siempre por ahora
         $Type_coin_balance  = Type_coin::pluck('name', 'id')->toArray();
 
@@ -1191,8 +1204,8 @@ class TransactionController extends Controller
         $type_transaction   = Type_transaction::whereIn('type_transaction', ['Credito'])->pluck('name', 'id');
         $type_transaction   = Type_transaction::whereIn('id', ['6','7','8','12'])->pluck('name', 'id');
 
-        $wallet             = Group::where('type','=','2')->pluck('name', 'id');
-        $group              = Group::where('type','=','1')->pluck('name', 'id');
+        $wallet             = app(GroupController::class)->getWallets();
+        $group              = app(GroupController::class)->getGroups();
         $user               = User::pluck('name', 'id');
         $fecha              = Carbon::now();
 
@@ -1218,8 +1231,10 @@ class TransactionController extends Controller
         $type_coin          = Type_coin::pluck('name', 'id');
 
         $type_transaction   = Type_transaction::whereIn('type_transaction', ['Credito'])->pluck('name', 'id');
-        $wallet             = Group::where('type','=','2')->whereIn('type_wallet', ['efectivo'])->pluck('name', 'id');
-        $group              = Group::where('type','=','1')->pluck('name', 'id');
+
+        $wallet             = app(GroupController::class)->getWalletsEfectivo();        
+        $group              = app(GroupController::class)->getGroups();    
+
         $user               = User::pluck('name', 'id');
 
         return view('transactions.credit_edit', compact('transactions', 'imagen', 'type_coin', 'type_transaction', 'wallet', 'group', 'user'));
@@ -1234,8 +1249,8 @@ class TransactionController extends Controller
         
         $type_coin          = Type_coin::pluck('name', 'id');
         $type_transaction   = Type_transaction::whereIn('type_transaction', ['Transacciones'])->pluck('name', 'id');
-        $wallet             = Group::whereIn('type_wallet', ['transacciones', 'efectivo'])->where('type','=',2)->pluck('name', 'id');
-        $group              = Group::whereIn('type', [1])->pluck('name', 'id');
+        $wallet             = app(GroupController::class)->getWallets();        
+        $group              = app(GroupController::class)->getGroups();         
         $user               = User::pluck('name', 'id');
         $fecha              = Carbon::now();
 
@@ -1252,8 +1267,9 @@ class TransactionController extends Controller
         $type_coin          = Type_coin::pluck('name', 'id');
 
         $type_transaction   = Type_transaction::whereIn('type_transaction', ['Transacciones'])->pluck('name', 'id');
-        $wallet             = Group::whereIn('type_wallet', ['transacciones', 'efectivo'])->where('type','=',2)->pluck('name', 'id');
-        $group              = Group::whereIn('type', [1])->pluck('name', 'id');
+        $wallet             = app(GroupController::class)->getWallets();
+        $group              = app(GroupController::class)->getGroups(); 
+        
         $user               = User::pluck('name', 'id');
         $fecha              = Carbon::now();
 
@@ -1281,8 +1297,11 @@ class TransactionController extends Controller
 
         $type_coin          = Type_coin::pluck('name', 'id');
         $type_transaction   = Type_transaction::whereIn('type_transaction', ['Transacciones'])->pluck('name', 'id');
-        $wallet             = Group::whereIn('type_wallet', ['transacciones', 'efectivo'])->where('type','=',2)->pluck('name', 'id');
-        $group              = Group::whereIn('type', [1])->pluck('name', 'id');
+
+        $wallet             = app(GroupController::class)->getWallets();
+        $group              = app(GroupController::class)->getGroups();
+
+
         $user               = User::pluck('name', 'id');
         $fecha              = Carbon::now();
 
@@ -1295,8 +1314,10 @@ class TransactionController extends Controller
 
         $type_coin          = Type_coin::pluck('name', 'id');
         $type_transaction   = Type_transaction::whereIn('type_transaction', ['Efectivo'])->pluck('name', 'id');
-        $wallet             = Group::where('type','=','2')->whereIn('type_wallet', ['efectivo'])->pluck('name', 'id');
-        $group              = Group::where('type','=','1')->pluck('name', 'id');
+
+        $wallet             = app(GroupController::class)->getWalletsEfectivo();
+        $group              = app(GroupController::class)->getGroups();
+
         //$client = Client::pluck('name', 'id');
         $user               = User::pluck('name', 'id');
         $fecha              = Carbon::now();
@@ -1314,8 +1335,11 @@ class TransactionController extends Controller
 
         $type_coin                      = Type_coin::pluck('name', 'id');
         $type_transaction               = Type_transaction::where('id','=',$myTypeTransaction)->whereIn('type_transaction', ['Material'])->pluck('name', 'id');
-        $wallet                         = Group::whereIn('type_wallet', ['transacciones', 'efectivo'])->where('type','=',2)->pluck('name', 'id');
-        $group                          = Group::whereIn('type', [1])->pluck('name', 'id');
+
+
+        $wallet                         = app(GroupController::class)->getWallets();
+        $group                          = app(GroupController::class)->getGroups();
+
         $user                           = User::pluck('name', 'id');
         $type_material                  = Type_material::pluck('name', 'id');    
         $fecha                          = Carbon::now();
@@ -1342,8 +1366,10 @@ class TransactionController extends Controller
 
         $type_coin                      = Type_coin::pluck('name', 'id');
         $type_transaction               = Type_transaction::where('name','like','%Recepción%')->where('name','like','%Recepcion%')->whereIn('type_transaction', ['Material'])->pluck('name', 'id');
-        $wallet                         = Group::whereIn('type_wallet', ['transacciones', 'efectivo'])->where('type','=',2)->pluck('name', 'id');
-        $group                          = Group::whereIn('type', [1])->pluck('name', 'id');
+
+        $wallet             = app(GroupController::class)->getWallets();
+        $group              = app(GroupController::class)->getGroups();
+
         $user                           = User::pluck('name', 'id');
         $type_material                  = Type_material::pluck('name', 'id');    
         $fecha                          = Carbon::now();
@@ -1370,8 +1396,10 @@ class TransactionController extends Controller
 
         $type_coin          = Type_coin::pluck('name', 'id');
         $type_transaction   = Type_transaction::whereIn('type_transaction', ['Efectivo'])->pluck('name', 'id');
-        $wallet             = Group::pluck('name', 'id');
-        $group              = Group::pluck('name', 'id');
+
+        $wallet             = app(GroupController::class)->getWallets();
+        $group              = app(GroupController::class)->getGroups();
+
         $user               = User::pluck('name', 'id');
 
 
@@ -1787,7 +1815,10 @@ class TransactionController extends Controller
         $type_transaction   = Type_transaction::whereIn('id', [12])->pluck('id');   // 12 Salida de efectivo
         $type_transaction2  = Type_transaction::whereIn('id', [6])->pluck('id');    // 6 Entrada de efectivo o nota de credito
 
-        $wallet             = Group::whereIn('type_wallet', ['Efectivo'])->where('type','=','2')->pluck('name', 'id');
+        // $wallet             = Group::whereIn('type_wallet', ['Efectivo'])->where('type','=','2')->pluck('name', 'id');
+
+        $wallet             = app(GroupController::class)->getWalletsEfectivo();
+
         $user               = User::pluck('name', 'id');
         $fecha              = Carbon::now();
 
@@ -1798,8 +1829,8 @@ class TransactionController extends Controller
 
     public function transfer_wallet(Request $request)
     {
-        $user = Auth::id();
-        $transaction = new Transaction;
+        $user           = Auth::id();
+        $transaction    = new Transaction;
 
         $number_referencia = date('YmdHis'). rand(100,200);
 
@@ -1850,8 +1881,12 @@ class TransactionController extends Controller
         $type_transaction2  = Type_transaction::whereIn('name', ['Nota de Credito a Caja de efectivo', 'Nota de credito'])->pluck('name','id');
         //$type_transaction2  = Type_transaction::whereIn('id', [6])->pluck('name','id');
 
-        $wallet             = Group::whereIn('type_wallet', ['transacciones', 'efectivo'])->where('type','=','2')->pluck('name', 'id')->toArray();
-        $wallet2            = Group::whereIn('type_wallet', ['transacciones', 'efectivo'])->where('type','=','2')->pluck('name', 'id')->toArray();
+        //$wallet             = Group::whereIn('type_wallet', ['transacciones', 'efectivo'])->where('type','=','2')->pluck('name', 'id')->toArray();
+        //$wallet2            = Group::whereIn('type_wallet', ['transacciones', 'efectivo'])->where('type','=','2')->pluck('name', 'id')->toArray();
+
+        $wallet             = app(GroupController::class)->getWallets()->toArray();
+        $wallet2            = app(GroupController::class)->getWallets()->toArray();
+
         $user               = User::pluck('name', 'id');
         $fecha              = Carbon::now();
 
@@ -1887,8 +1922,9 @@ class TransactionController extends Controller
         $type_transaction2  = Type_transaction::whereIn('id', [7])->pluck('name','id');
         //$type_transaction2  = Type_transaction::whereIn('id', [6])->pluck('name','id');
 
-        $wallet             = Group::whereIn('type_wallet', ['transacciones', 'efectivo'])->where('type','=','2')->pluck('name', 'id')->toArray();
-        $wallet2            = Group::whereIn('type_wallet', ['transacciones', 'efectivo'])->where('type','=','2')->pluck('name', 'id')->toArray();
+        $wallet             = app(GroupController::class)->getWallets()->toArray();
+        $wallet2            = app(GroupController::class)->getWallets()->toArray();
+
         $user               = User::pluck('name', 'id');
         $fecha              = Carbon::now();
 
@@ -1931,8 +1967,12 @@ class TransactionController extends Controller
         $type_transaction2  = Type_transaction::whereIn('id', [7])->pluck('name','id');
         //$type_transaction2  = Type_transaction::whereIn('id', [6])->pluck('name','id');
 
-        $wallet             = Group::whereIn('type_wallet', ['transacciones', 'efectivo'])->where('type','=','2')->pluck('name', 'id')->toArray();
-        $wallet2            = Group::whereIn('type_wallet', ['transacciones', 'efectivo'])->where('type','=','2')->pluck('name', 'id')->toArray();
+        //$wallet             = Group::whereIn('type_wallet', ['transacciones', 'efectivo'])->where('type','=','2')->pluck('name', 'id')->toArray();
+        //$wallet2            = Group::whereIn('type_wallet', ['transacciones', 'efectivo'])->where('type','=','2')->pluck('name', 'id')->toArray();
+
+        $wallet             = app(GroupController::class)->getWallets()->toArray();
+        $wallet2            = app(GroupController::class)->getWallets()->toArray();
+
         $user               = User::pluck('name', 'id');
         $fecha              = Carbon::now();
 
@@ -1990,8 +2030,13 @@ class TransactionController extends Controller
         $type_coin          = Type_coin::pluck('name', 'id');
         $type_transaction   = Type_transaction::whereIn('name', ['Pago Efectivo', 'Pago en Transferencia', 'Pago Mercancia','Pago USDT','Swift'])->pluck('name','id');
         $type_transaction2  = Type_transaction::whereIn('name', ['Nota de Credito a Caja de efectivo', 'Nota de credito'])->pluck('name','id');
-        $wallet             = Group::whereIn('type_wallet', ['transacciones', 'efectivo'])->where('type','=','2')->pluck('name', 'id')->toArray();
-        $wallet2            = Group::whereIn('type_wallet', ['transacciones', 'efectivo'])->where('type','=','2')->pluck('name', 'id')->toArray();
+        //$wallet             = Group::whereIn('type_wallet', ['transacciones', 'efectivo'])->where('type','=','2')->pluck('name', 'id')->toArray();
+        //$wallet2            = Group::whereIn('type_wallet', ['transacciones', 'efectivo'])->where('type','=','2')->pluck('name', 'id')->toArray();
+
+        $wallet             = app(GroupController::class)->getWallets()->toArray();
+        $wallet2            = app(GroupController::class)->getWallets()->toArray();
+
+
         $user               = User::pluck('name', 'id');
         $fecha              = Carbon::now();
 
@@ -2077,8 +2122,12 @@ class TransactionController extends Controller
         $type_coin          = Type_coin::pluck('name', 'id');
         $type_transaction   = Type_transaction::whereIn('name', ['Pago Efectivo', 'Pago en Transferencia', 'Pago Mercancia','Pago USDT','Swift'])->pluck('name','id');
         $type_transaction2  = Type_transaction::whereIn('name', ['Nota de Credito a Caja de efectivo', 'Nota de credito'])->pluck('name','id');
-        $wallet             = Group::whereIn('type_wallet', ['transacciones', 'efectivo'])->where('type','=','2')->pluck('name', 'id')->toArray();
-        $wallet2            = Group::whereIn('type_wallet', ['transacciones', 'efectivo'])->where('type','=','2')->pluck('name', 'id')->toArray();
+        //$wallet             = Group::whereIn('type_wallet', ['transacciones', 'efectivo'])->where('type','=','2')->pluck('name', 'id')->toArray();
+        //$wallet2            = Group::whereIn('type_wallet', ['transacciones', 'efectivo'])->where('type','=','2')->pluck('name', 'id')->toArray();
+
+        $wallet             = app(GroupController::class)->getWallets()->toArray();
+        $wallet2            = app(GroupController::class)->getWallets()->toArray();
+
         $user               = User::pluck('name', 'id');
         $fecha              = Carbon::now();
 
@@ -2233,8 +2282,12 @@ class TransactionController extends Controller
         $type_coin          = Type_coin::pluck('name', 'id');
         $type_transaction   = Type_transaction::whereIn('name', ['Pago Efectivo', 'Pago en Transferencia', 'Pago Mercancia','Pago USDT','Swift'])->pluck('name','id');
         $type_transaction2  = Type_transaction::whereIn('name', ['Nota de Credito a Caja de efectivo', 'Nota de credito'])->pluck('name','id');
-        $wallet             = Group::whereIn('type_wallet', ['transacciones', 'efectivo'])->where('type','=','2')->pluck('name', 'id')->toArray();
-        $wallet2            = Group::whereIn('type_wallet', ['transacciones', 'efectivo'])->where('type','=','2')->pluck('name', 'id')->toArray();
+        //$wallet             = Group::whereIn('type_wallet', ['transacciones', 'efectivo'])->where('type','=','2')->pluck('name', 'id')->toArray();
+        //$wallet2            = Group::whereIn('type_wallet', ['transacciones', 'efectivo'])->where('type','=','2')->pluck('name', 'id')->toArray();
+
+        $wallet             = app(GroupController::class)->getWallets()->toArray();
+        $wallet2            = app(GroupController::class)->getWallets()->toArray();
+
         $user               = User::pluck('name', 'id');
         $fecha              = Carbon::now();
 
@@ -2319,8 +2372,12 @@ class TransactionController extends Controller
         $type_transaction2                      = Type_transaction::whereIn('name', ['Pago Efectivo'])->pluck('id');
 
         $wallet                                 = Group::where('type','=','2')->whereIn('name', ['Caja Puente'])->pluck('id');
-        $group                                  = Group::where('type','=','1')->pluck('name', 'id');
-        $group2                                 = Group::where('type','=','1')->pluck('name', 'id');
+        //$group                                  = Group::where('type','=','1')->pluck('name', 'id');
+        //$group2                                 = Group::where('type','=','1')->pluck('name', 'id');
+
+        $group              = app(GroupController::class)->getGroups();
+        $group2             = app(GroupController::class)->getGroups();
+
         $user                                   = User::pluck('name', 'id');
         $fecha                                  = Carbon::now();
 
@@ -2550,8 +2607,12 @@ class TransactionController extends Controller
         $type_coin          = Type_coin::pluck('name', 'id');
         $type_transaction   = Type_transaction::whereIn('name', ['Cobro en efectivo', 'Cobro en Transferencia', 'Cobro Mercancia'])->pluck('name','id');
         $type_transaction2  = Type_transaction::whereIn('name', ['Nota de Debito a Caja de Efectivo', 'Nota de debito'])->pluck('name','id');
-        $wallet             = Group::whereIn('type_wallet', ['transacciones', 'efectivo'])->where('type','=','2')->pluck('name', 'id');
-        $wallet2            = Group::whereIn('type_wallet', ['transacciones', 'efectivo'])->where('type','=','2')->pluck('name', 'id');
+        //$wallet             = Group::whereIn('type_wallet', ['transacciones', 'efectivo'])->where('type','=','2')->pluck('name', 'id');
+        //$wallet2            = Group::whereIn('type_wallet', ['transacciones', 'efectivo'])->where('type','=','2')->pluck('name', 'id');
+
+        $wallet             = app(GroupController::class)->getWallets();
+        $wallet2            = app(GroupController::class)->getWallets();
+
         $user               = User::pluck('name', 'id');
         $fecha              = Carbon::now();
 
@@ -2737,8 +2798,12 @@ class TransactionController extends Controller
 
         $type_coin          = Type_coin::pluck('name', 'id');
         $type_transaction   = Type_transaction::pluck('name', 'id');
-        $wallet             = Group::where('type','=','2')->pluck('name', 'id');
-        $group              = Group::where('type','=','1')->pluck('name', 'id');
+
+
+        $wallet             = app(GroupController::class)->getWallets();
+        $group              = app(GroupController::class)->getGroups();
+        
+        
         $user               = User::pluck('name', 'id');
 
         $myName = "";
@@ -2808,8 +2873,10 @@ class TransactionController extends Controller
         
         $type_coin          = Type_coin::pluck('name', 'id');
         $type_transaction   = Type_transaction::pluck('name', 'id');
-        $wallet             = Group::where('type','=','2')->pluck('name', 'id');
-        $group              = Group::where('type','=','1')->pluck('name', 'id');
+
+        $wallet             = app(GroupController::class)->getWallets();
+        $group              = app(GroupController::class)->getGroups();
+
         $user               = User::pluck('name', 'id');
         
         $myName = "";
@@ -2871,8 +2938,10 @@ class TransactionController extends Controller
         
         $type_coin          = Type_coin::pluck('name', 'id');
         $type_transaction   = Type_transaction::pluck('name', 'id');
-        $wallet             = Group::where('type','=','2')->pluck('name', 'id');
-        $group              = Group::where('type','=','1')->pluck('name', 'id');
+
+        $wallet             = app(GroupController::class)->getWallets();
+        $group              = app(GroupController::class)->getGroups();
+
         $user               = User::pluck('name', 'id');
         
         $myName = "";
@@ -2943,8 +3012,10 @@ class TransactionController extends Controller
 
         $type_coin          = Type_coin::pluck('name', 'id');
         $type_transaction   = Type_transaction::pluck('name', 'id');
-        $wallet             = Group::where('type','=','2')->pluck('name', 'id');
-        $group              = Group::where('type','=','1')->pluck('name', 'id');
+
+        $wallet             = app(GroupController::class)->getWallets();
+        $group              = app(GroupController::class)->getGroups();
+
         $user               = User::pluck('name', 'id');
         $type_coin_balance  = Type_coin::pluck('name', 'id');
 
@@ -3035,8 +3106,10 @@ class TransactionController extends Controller
 
         
         $type_transaction   = Type_transaction::pluck('name', 'id');
-        $wallet             = Group::where('type','=','2')->pluck('name', 'id');
-        $group              = Group::where('type','=','1')->pluck('name', 'id');
+
+        $wallet             = app(GroupController::class)->getWallets();
+        $group              = app(GroupController::class)->getGroups();
+
         $myTypeMaterial     = $request->material ? $request->material : 0;
         $type_material      = Type_material::pluck('name', 'id')->toArray();
 
