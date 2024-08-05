@@ -335,8 +335,6 @@ class statisticsController extends Controller
         $myLimitDesde       = 0;
         $myLimitHasta       = 5000;
 
-  
-        
         $myLimitCondition   = "limit 1000";
 
         //\Log::info('leam - el user id es -> ' . $request->user()->id);
@@ -2428,13 +2426,11 @@ class statisticsController extends Controller
             switch ($Group_roles->allWallets){
                 case 1:
                   //  \Log::info('leam - all wallets -> ');
-                    $wallet2 = Group::where('type', '=', '2')->whereBetween('id', [0, 9999])->orderBY('name','ASC')->pluck('name', 'id')->toArray();
                     $wallet2 = Group::whereIn('type', ['2','3'])->whereBetween('id', [0, 9999])->orderBY('name','ASC')->pluck('name', 'id')->toArray();
                     break;
                 case 0:
                   //  \Log::info('leam - algunos wallets -> ');
                   //  \Log::info('leam - algunos wallets - group_roles -> ' . print_r($Group_roles,true));
-                    $wallet2 = Group::where('type', '=', '2')->whereBetween('id', [0, 9999])->whereIn('id', $Group_roles->wallets)->orderBY('name','ASC')->pluck('name', 'id')->toArray();     
                     $wallet2 = Group::whereIn('type', ['2','3'])->whereBetween('id', [0, 9999])->whereIn('id', $Group_roles->wallets)->orderBY('name','ASC')->pluck('name', 'id')->toArray();     
                     break;
 
@@ -2443,8 +2439,6 @@ class statisticsController extends Controller
             return $wallet2;
         }
 
-
-        $wallet2 = Group::where('type', '=', '2')->whereBetween('id', [0, 9999])->orderBY('name','ASC')->pluck('name', 'id')->toArray();
         $wallet2 = Group::whereIn('type', [2,3])->whereBetween('id', [0, 9999])->orderBY('name','ASC')->pluck('name', 'id')->toArray();
         // \Log::info('leam - statisticsController - getWallet general -> ' . print_r($wallet2,true));
         return $wallet2;
