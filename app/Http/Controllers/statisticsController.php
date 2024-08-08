@@ -498,9 +498,10 @@ class statisticsController extends Controller
         // die();
 
         $userole            = $this->getUser();
-        $wallet             = $this->getWallet($Group_roles);
-        $group              = $this->getGroups($Group_roles);
-
+        // $wallet             = $this->getWallet($Group_roles);
+        $wallet             = app(GroupController::class)->getWallets2($Group_roles);
+        // $group              = $this->getGroups($Group_roles);
+        $group              = app(GroupController::class)->getGroups2($Group_roles);
 
         // dd($wallet);
 
@@ -609,7 +610,7 @@ class statisticsController extends Controller
     *
     *
     */
-    public function index_all(Request $request)
+/*     public function index_all(Request $request)
     {
         
         $myGroup        = 0;
@@ -703,25 +704,25 @@ class statisticsController extends Controller
             $myUserHasta = $myUser;
         }
 
-        /*
-        \Log::info('leam usuario *** -> ' . $request->usuario);
-        \Log::info('leam cliente *** -> ' . $request->cliente);
-        \Log::info('leam wallet ***  -> ' . $request->wallet);
-        \Log::info('leam wallet desde        *** -> ' . $myWalletDesde);
-        \Log::info('leam wallet hasta        *** -> ' . $myWalletHasta);        
-        \Log::info('leam wallet  hasta       *** -> ' . $myGroup);        
-        \Log::info('leam group  desde        *** -> ' . $myGroupDesde);
-        \Log::info('leam group  Hasta        *** -> ' . $myGroupHasta);     
-        \Log::info('leam transaction         *** -> ' . $myTypeTransactions);
-        \Log::info('leam transaction  desde  *** -> ' . $myTypeTransactionsDesde);
-        \Log::info('leam transaction  Hasta  *** -> ' . $myTypeTransactionsHasta);              
-        \Log::info('leam typeTransactions    *** -> ' . $request->typeTransactions);             
-        \Log::info('leam token               ***   -> ' . $request->token);
-        \Log::info('leam fecha desde         ***   -> ' . $myFechaDesde);
-        \Log::info('leam fecha hasta         ***   -> ' . $myFechaHasta);
-        \Log::info('leam fecha desde request ***   -> ' . $request->fechaDesde);
-        \Log::info('leam fecha hasta request ***   -> ' . $request->fechaHasta);
-        */
+        
+        // \Log::info('leam usuario *** -> ' . $request->usuario);
+        // \Log::info('leam cliente *** -> ' . $request->cliente);
+        // \Log::info('leam wallet ***  -> ' . $request->wallet);
+        // \Log::info('leam wallet desde        *** -> ' . $myWalletDesde);
+        // \Log::info('leam wallet hasta        *** -> ' . $myWalletHasta);        
+        // \Log::info('leam wallet  hasta       *** -> ' . $myGroup);        
+        // \Log::info('leam group  desde        *** -> ' . $myGroupDesde);
+        // \Log::info('leam group  Hasta        *** -> ' . $myGroupHasta);     
+        // \Log::info('leam transaction         *** -> ' . $myTypeTransactions);
+        // \Log::info('leam transaction  desde  *** -> ' . $myTypeTransactionsDesde);
+        // \Log::info('leam transaction  Hasta  *** -> ' . $myTypeTransactionsHasta);              
+        // \Log::info('leam typeTransactions    *** -> ' . $request->typeTransactions);             
+        // \Log::info('leam token               ***   -> ' . $request->token);
+        // \Log::info('leam fecha desde         ***   -> ' . $myFechaDesde);
+        // \Log::info('leam fecha hasta         ***   -> ' . $myFechaHasta);
+        // \Log::info('leam fecha desde request ***   -> ' . $request->fechaDesde);
+        // \Log::info('leam fecha hasta request ***   -> ' . $request->fechaHasta);
+        
 
         //  print_r($myGroup);
          // dd($myGroup);
@@ -879,7 +880,7 @@ class statisticsController extends Controller
         // \Log::info('leam ----> ' .  json_encode($Transacciones, JSON_PRETTY_PRINT));
         return view('estadisticas.index', $parametros);
 
-    }
+    } */
     /*
     *
     *
@@ -1019,13 +1020,13 @@ class statisticsController extends Controller
             $Transacciones = [$Transacciones];
         }
 
-        $Type_transactions  = $this->getTypeTransactions();
-        $wallets            = $this->getWallet($Group_roles);
-		$myTypeCoinBalance  = $myCoin; // dorales siempre por ahora
-		$Type_coin_balance  = Type_coin::pluck('name', 'id')->toArray();
+        $Type_transactions                  = $this->getTypeTransactions();
+        $wallets                            = $this->getWallet($Group_roles);
+		$myTypeCoinBalance                  = $myCoin; // dorales siempre por ahora
+		$Type_coin_balance                  = Type_coin::pluck('name', 'id')->toArray();
 
-        $parametros['myFechaDesde'] = $fechaDesde;
-        $parametros['myFechaHasta'] = $fechaHasta;
+        $parametros['myFechaDesde']         = $fechaDesde;
+        $parametros['myFechaHasta']         = $fechaHasta;
 
         $parametros['myWallet']             = $myWallet;
         $parametros['wallets']              = $wallets;
@@ -1034,7 +1035,6 @@ class statisticsController extends Controller
         $parametros['myTypeCoinBalance']    = $myTypeCoinBalance;
         $parametros['Type_coin_balance']    = $Type_coin_balance;
 
-        // aquix
         return view('estadisticas.statisticsResumenWallet', $parametros);
     }
 
@@ -1149,8 +1149,8 @@ class statisticsController extends Controller
 
 
         $Type_transactions                  = $this->getTypeTransactions();
-        $wallet                             = $this->getWallet($Group_roles);
-
+        //$wallet                             = $this->getWallet($Group_roles);
+        $wallet             = app(GroupController::class)->getWallets2($Group_roles);
         // dd($Transacciones);             
         // dd($Transacciones2);
 		$parametros['myTypeCoinBalance']    = $myTypeCoinBalance;
@@ -1174,7 +1174,6 @@ class statisticsController extends Controller
     *
     *
     *       walletTransactionGroupSummary
-    *       ajuax
     *
     */
     public function walletTransactionGroupSummary(Request $request)
@@ -1237,25 +1236,20 @@ class statisticsController extends Controller
             $myGroup        = $request->group;
         }
 
-		$myCoin = ($request->coin) ? $request->coin : 1;
+		$myCoin                 = ($request->coin) ? $request->coin : 1;
 
-        $myTypeCoinBalance  = $myCoin; // dorales siempre por ahora
-        $Type_coin_balance  = Type_coin::orderBy('name','ASC')->pluck('name', 'id')->toArray();
+        $myTypeCoinBalance      = $myCoin; // dorales siempre por ahora
+        $Type_coin_balance      = Type_coin::orderBy('name','ASC')->pluck('name', 'id')->toArray();
 
-        
-
-        $Group_roles = $this->getGroupRole(auth()->id());
-
-
-
+        $Group_roles            = $this->getGroupRole(auth()->id());
 
         // $Transacciones1         = $this->getWalletTransactionSummary($request);
         $Transacciones2         = $this->getWalletTransactionGroupSummary($request);
-        $groups                 = $this->getGroups($Group_roles);
-
+        // $groups                 = $this->getGroups($Group_roles);
+        $groups                 = app(GroupController::class)->getGroups2($Group_roles);
         // $this->getWalletTransactionGroupTotal($Transacciones1, $Transacciones2);
 
-        $Transacciones       = $Transacciones2;
+        $Transacciones          = $Transacciones2;
 
         // dd($Transacciones);
 
@@ -1269,7 +1263,7 @@ class statisticsController extends Controller
         };
         // dd($balance);
         // ajuax
-        $balanceDetail = 0;
+        $balanceDetail      = 0;
         // Resto 1 dia a la fecha desde
         $myFechaDesdeBefore = "2001-01-01";
         $myFechaHastaBefore = $this->getDayBefore($myFechaDesde);
@@ -1288,8 +1282,8 @@ class statisticsController extends Controller
             };
         }
         $Type_transactions  = Type_transaction::orderBy('name','ASC')->pluck('name','id')->toArray();
-        $wallet             = $this->getWallet($Group_roles);
-
+        // $wallet             = $this->getWallet($Group_roles);
+        $wallet             = app(GroupController::class)->getWallets2($Group_roles);
         // dd($Transacciones2); 
         // dd($Transacciones2);
 
@@ -1315,17 +1309,15 @@ class statisticsController extends Controller
         $parametros['myFechaDesdeBefore']   = $myFechaDesdeBefore;
         $parametros['myFechaHastaBefore']   = $myFechaHastaBefore;
 
-
+        // dd('leam - aqui');
         return view('estadisticas.statisticsResumenWalletTransaccionGroup', $parametros);
 
-        
 
     }    
     /*
     *
     *
     *       walletGroupTransactionSummary
-    *       ajua
     *
     */
     public function walletGroupTransactionSummary(Request $request)
@@ -1396,8 +1388,11 @@ class statisticsController extends Controller
        // dd($balance);
 
         $Type_transactions  = $this->getTypeTransactions();
-        $group              = $this->getGroups();
-        $wallet             = $this->getWallet();
+        //$group              = $this->getGroups();
+        //$wallet             = $this->getWallet();
+
+        $wallet             = app(GroupController::class)->getWallets2();
+        $group              = app(GroupController::class)->getGroups2();
 
         $Transacciones = DB::table('transactions')
             ->select(DB::raw('
@@ -2042,7 +2037,7 @@ class statisticsController extends Controller
     *       resumen por grupo
     *
     */
-    public function groupSummary(Request $request)
+/*     public function groupSummary(Request $request)
     {
         // echo "aqui" . $request->fullUrl();
         // die();
@@ -2079,24 +2074,22 @@ class statisticsController extends Controller
             $myCoin = $request->coin;
         }
 
-       /* 
-        $Transacciones      = $this->getBalance($myGroup, $myFechaDesde, $myFechaHasta);
-
-        //
-        // si es un solo grupo devuelve un objeto y debe convertirse a array de 1
-        //
-        if (gettype($Transacciones) == "object"){
-            $Transacciones = [$Transacciones];
-        }
-        */
-
+    
+    //     $Transacciones      = $this->getBalance($myGroup, $myFechaDesde, $myFechaHasta);
+    //     //
+    //     // si es un solo grupo devuelve un objeto y debe convertirse a array de 1
+    //     //
+    //     if (gettype($Transacciones) == "object"){
+    //         $Transacciones = [$Transacciones];
+    //     }
+    
         $Transacciones      = $this->getGroupSummary($request);
 
         $myTypeCoinBalance  = $myCoin; // dorales siempre por ahora
         $Type_coin_balance  = Type_coin::pluck('name', 'id')->toArray();
         $Type_transactions  = $this->getTypeTransactions();
-        $groups             = $this->getGroups();
-
+        // $groups             = $this->getGroups();
+           $groups             = app(GroupController::class)->getGroups2();
         // dd($Transacciones);
         // dd($Type_coin_balance);
 
@@ -2109,9 +2102,9 @@ class statisticsController extends Controller
         $parametros['myFechaDesde']             = $myFechaDesde;
         $parametros['myFechaHasta']             = $myFechaHasta;
         // return view('estadisticas.statisticsResumenGrupo', compact('myGroup','groups','Type_transactions','Transacciones'));
-
+        
         return view('estadisticas.statisticsResumenGrupo', $parametros);
-    }
+    } */
 
     /*
     *
@@ -2166,7 +2159,8 @@ class statisticsController extends Controller
         $myTypeCoinBalance  = $myCoin; // dorales siempre por ahora
         $Type_coin_balance  = Type_coin::pluck('name', 'id')->toArray();
         $Type_transactions  = $this->getTypeTransactions();
-        $groups             = $this->getGroups($Group_roles);
+        // $groups             = $this->getGroups($Group_roles);
+        $groups             = app(GroupController::class)->getGroups2($Group_roles);
 
         // dd($Transacciones);
         // dd($Type_coin_balance);
@@ -2237,7 +2231,8 @@ class statisticsController extends Controller
     *       resumen por grupo wallet
     *
     */
-    public function groupSummaryWallet(Request $request)
+
+/*     public function groupSummaryWallet(Request $request)
     {
         $myGroup = 0;
         if ($request->grupo) {
@@ -2285,9 +2280,9 @@ class statisticsController extends Controller
         $parametros['myFechaDesde']             = $myFechaDesde;
         $parametros['myFechaHasta']             = $myFechaHasta;
         // return view('estadisticas.statisticsResumenGrupo', compact('myGroup','groups','Type_transactions','Transacciones'));
-
+        
         return view('estadisticas.statisticsResumenGrupoWallet', $parametros);
-    }    
+    }     */
     /*
     *
     *   Carga los grupos id y nombre
