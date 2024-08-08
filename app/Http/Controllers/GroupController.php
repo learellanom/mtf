@@ -160,6 +160,48 @@ class GroupController extends Controller
 
     }
 
+    function getGroups2($Group_roles = null){
+
+        // $group = Group::select('groups.id', 'groups.name')
+        //         ->where('type','=','1')
+        //         ->orderBy('groups.name')
+        //         ->get();
+
+        // $group2 = array();
+        // foreach($group as $gr){
+        //     $group2 [$gr->id] =  $gr->name;
+        // }
+        // return $group2;
 
 
+
+        if (isset($Group_roles->allGroups)){
+            switch ($Group_roles->allGroups){
+                case 1:
+                    // \Log::info('leam - all groups -> ');
+                    // $group2 = Group::where('type', '=', '1')->whereBetween('id', [0, 9999])->orderBY('name','ASC')->pluck('name', 'id')->toArray();
+                    $group2 = Group::whereIn('type', ['1','3'])->whereBetween('id', [0, 9999])->orderBY('name','ASC')->pluck('name', 'id')->toArray();
+                    break;
+                case 0:
+                    // \Log::info('leam - algunos groups -> ');
+                    // $group2 = Group::where('type', '=', '1')->whereBetween('id', [0, 9999])->whereIn('id', $Group_roles->groups)->orderBY('name','ASC')->pluck('name', 'id')->toArray();
+                    $group2 = Group::whereIn('type', ['1','3'])->whereBetween('id', [0, 9999])->whereIn('id', $Group_roles->groups)->orderBY('name','ASC')->pluck('name', 'id')->toArray();
+                    break;
+            }
+            // dd($group2);
+            
+        } else {
+            $group2 = Group::whereIn('type', ['1','3'])->whereBetween('id', [0, 9999])->orderBY('name','ASC')->pluck('name', 'id')->toArray();
+        }
+
+        // $group2 = Group::where('type', '=', '1')->whereBetween('id', [0, 9999])->orderBY('name','ASC')->pluck('name', 'id')->toArray();
+
+        // echo "aqui - general";
+        // echo "<pre>";
+        // echo print_r($group2,true);
+        // echo "</pre>";
+        // die();
+
+        return $group2;
+    }
 }
