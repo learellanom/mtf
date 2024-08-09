@@ -4449,8 +4449,13 @@ class statisticsController extends Controller
         // dd($adquisiciones);
 
         $Group_roles 	    = $this->getGroupRole(auth()->id());
-        $wallet             = $this->getWallet();
-        $group              = $this->getGroups($Group_roles);
+        
+        // $wallet             = $this->getWallet();
+        $wallet             = app(GroupController::class)->getWallets2();
+
+        // $group              = $this->getGroups($Group_roles);
+        $group              = app(GroupController::class)->getGroups2($Group_roles);
+
         $type_material      = Type_material::pluck('name', 'id')->toArray();
 
 
@@ -4464,7 +4469,7 @@ class statisticsController extends Controller
         $parametros ['type_material']   = $type_material;
         $parametros ['adquisiciones']   = $adquisiciones;
 
-
+        
         return view('estadisticas.materialsAdquisicionResumenGrupo', $parametros);
 
     }
@@ -4700,8 +4705,13 @@ class statisticsController extends Controller
         // dd($adquisiciones);
 
         $Group_roles 	    = $this->getGroupRole(auth()->id());
-        $wallet             = Group::where('type', '=', '2')->whereBetween('id', [0, 9999])->orderBY('name','ASC')->pluck('name', 'id')->toArray();
-        $group              = $this->getGroups($Group_roles);
+        
+        // $wallet             = Group::where('type', '=', '2')->whereBetween('id', [0, 9999])->orderBY('name','ASC')->pluck('name', 'id')->toArray();
+        // $group              = $this->getGroups($Group_roles);
+
+        $wallet             = app(GroupController::class)->getWallets2();
+        $group              = app(GroupController::class)->getGroups2($Group_roles);
+        
         $type_material      = Type_material::pluck('name', 'id')->toArray();
 
         $parametros ['myFechaDesde']    = $myFechaDesde;
@@ -4751,8 +4761,13 @@ class statisticsController extends Controller
         }
 
         $Group_roles 	    = $this->getGroupRole(auth()->id());
-        $wallet             = Group::where('type', '=', '2')->whereBetween('id', [0, 9999])->orderBY('name','ASC')->pluck('name', 'id')->toArray();
-        $group              = $this->getGroups($Group_roles);
+
+        // $wallet             = Group::where('type', '=', '2')->whereBetween('id', [0, 9999])->orderBY('name','ASC')->pluck('name', 'id')->toArray();
+        // $group              = $this->getGroups($Group_roles);
+
+        $wallet             = app(GroupController::class)->getWallets2();
+        $group              = app(GroupController::class)->getGroups2($Group_roles);
+
         $type_material      = Type_material::pluck('name', 'id')->toArray();
 
         $parametros ['myWallet']        = $myWallet;
@@ -4761,14 +4776,10 @@ class statisticsController extends Controller
         $parametros ['wallet']          = $wallet;
         $parametros ['group']           = $group;
         $parametros ['type_material']   = $type_material;
-
+        
         return view('estadisticas.materialsLiquidacionCuentaGrupo', $parametros);
 
     }
-
-
-
-
 
 
     function materialsLiquidacionCuentaGrupoProcess(Request $request){
@@ -5314,8 +5325,14 @@ class statisticsController extends Controller
 
         $adqui              = $this->materialsProcesa($request);
         $Group_roles 	    = $this->getGroupRole(auth()->id());
-        $wallet             = $this->getWallet($Group_roles);
-        $group              = $this->getGroups($Group_roles);
+        // $wallet             = $this->getWallet($Group_roles);
+        // $group              = $this->getGroups($Group_roles);
+
+        $wallet             = app(GroupController::class)->getWallets2($Group_roles);
+
+        $group              = app(GroupController::class)->getGroups2($Group_roles);
+
+
         $type_material      = Type_material::pluck('name', 'id')->toArray();
 
 
@@ -5488,8 +5505,14 @@ class statisticsController extends Controller
 
 
         $Group_roles 	    = $this->getGroupRole(auth()->id());
-        $wallet             = $this->getWallet($Group_roles);
-        $group              = $this->getGroups($Group_roles);
+        // $wallet             = $this->getWallet($Group_roles);
+        // $group              = $this->getGroups($Group_roles);
+
+        $wallet             = app(GroupController::class)->getWallets2($Group_roles);
+
+        $group              = app(GroupController::class)->getGroups2($Group_roles);
+
+
         $type_material      = Type_material::pluck('name', 'id')->toArray();
 
         // dd($adqui);
@@ -5505,7 +5528,6 @@ class statisticsController extends Controller
         $parametros ['myCierre']        = $myCierre;
         // dd($adquisiciones2);
 
-        
         return view('estadisticas.materialsAdquisicionConsolidado', $parametros);
 
     }
@@ -6338,8 +6360,12 @@ class statisticsController extends Controller
         $materialsCierre =  $this->materialBuscaCierre();
         // dd($materialsCierre);
 
-        $wallet             = $this->getWallet();
-        $group              = $this->getGroups();
+        // $wallet             = $this->getWallet();
+        // $group              = $this->getGroups();
+
+        $wallet             = app(GroupController::class)->getWallets2();
+        $group              = app(GroupController::class)->getGroups2();
+
         $type_material      = Type_material::pluck('name', 'id')->toArray();
 
         $parametros['materialsCierre']          = $materialsCierre;
@@ -6400,10 +6426,12 @@ class statisticsController extends Controller
 
 
         //$wallet                         = $this->getWalletUSDT();
-        $wallet2                        = $this->getWallet();
-        $grupo                          = $this->getGroups();
+        //$wallet2                        = $this->getWallet();
+        //$grupo                          = $this->getGroups();
 
-
+        $wallet2            = app(GroupController::class)->getWallets2();
+        $grupo              = app(GroupController::class)->getGroups2();
+        
         // dd($wallets);
         // dd($myUSDTWallets);
 
