@@ -204,4 +204,32 @@ class GroupController extends Controller
 
         return $group2;
     }
+
+
+
+    /*
+    *
+    *
+    *   getWalletUSDT
+    *
+    *
+    */
+    function getWalletUSDT2(){
+        $wallet = Group::select('groups.id', 'groups.name')
+            ->where('type','=','2')
+            ->where('type','=','3')
+            ->where('name','like','%USDT%')
+            ->where('name','like','%usdt%')
+            ->orderBy('groups.name')
+        ->get();
+        // dd($wallet);
+        foreach($wallet as $wallet){
+           $wallet2 [$wallet->id] =  $wallet->name;
+        }
+        return $wallet2;
+
+    }  
+    
+    
+
 }
