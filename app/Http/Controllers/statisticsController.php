@@ -698,7 +698,9 @@ class statisticsController extends Controller
         }
 
         $Type_transactions                  = $this->getTypeTransactions();
-        $wallets                            = $this->getWallet($Group_roles);
+
+        $wallets                            = app(GroupController::class)->getWallets2($Group_roles);        
+
 		$myTypeCoinBalance                  = $myCoin; // dorales siempre por ahora
 		$Type_coin_balance                  = Type_coin::pluck('name', 'id')->toArray();
 
@@ -711,7 +713,7 @@ class statisticsController extends Controller
 
         $parametros['myTypeCoinBalance']    = $myTypeCoinBalance;
         $parametros['Type_coin_balance']    = $Type_coin_balance;
-
+        
         return view('estadisticas.statisticsResumenWallet', $parametros);
     }
 
@@ -1060,8 +1062,6 @@ class statisticsController extends Controller
        // dd($balance);
 
         $Type_transactions  = $this->getTypeTransactions();
-        //$group              = $this->getGroups();
-        //$wallet             = $this->getWallet();
 
         $wallet             = app(GroupController::class)->getWallets2();
         $group              = app(GroupController::class)->getGroups2();
@@ -1826,6 +1826,7 @@ class statisticsController extends Controller
     *   Carga los grupos id y nombre
     *
     */
+    /* 
     function getGroups($Group_roles = null){
 
         // $group = Group::select('groups.id', 'groups.name')
@@ -1870,7 +1871,7 @@ class statisticsController extends Controller
 
         return $group2;
     }
-    
+     */
     /*
     *
     *
@@ -1942,6 +1943,7 @@ class statisticsController extends Controller
     *
     *
     */
+/* 
     function getWallet($Group_roles = null){
 
         //    \Log::info('leam -  Group_roles -> ' . print_r($Group_roles,true));
@@ -1977,6 +1979,7 @@ class statisticsController extends Controller
         return $wallet2;
 
     }
+     */
     /*
     *
     *
@@ -3988,10 +3991,8 @@ class statisticsController extends Controller
 
         $Group_roles 	    = $this->getGroupRole(auth()->id());
         
-        // $wallet             = $this->getWallet();
         $wallet             = app(GroupController::class)->getWallets2();
 
-        // $group              = $this->getGroups($Group_roles);
         $group              = app(GroupController::class)->getGroups2($Group_roles);
 
         $type_material      = Type_material::pluck('name', 'id')->toArray();
@@ -4243,9 +4244,6 @@ class statisticsController extends Controller
         // dd($adquisiciones);
 
         $Group_roles 	    = $this->getGroupRole(auth()->id());
-        
-        // $wallet             = Group::where('type', '=', '2')->whereBetween('id', [0, 9999])->orderBY('name','ASC')->pluck('name', 'id')->toArray();
-        // $group              = $this->getGroups($Group_roles);
 
         $wallet             = app(GroupController::class)->getWallets2();
         $group              = app(GroupController::class)->getGroups2($Group_roles);
@@ -4299,9 +4297,6 @@ class statisticsController extends Controller
         }
 
         $Group_roles 	    = $this->getGroupRole(auth()->id());
-
-        // $wallet             = Group::where('type', '=', '2')->whereBetween('id', [0, 9999])->orderBY('name','ASC')->pluck('name', 'id')->toArray();
-        // $group              = $this->getGroups($Group_roles);
 
         $wallet             = app(GroupController::class)->getWallets2();
         $group              = app(GroupController::class)->getGroups2($Group_roles);
@@ -4863,8 +4858,6 @@ class statisticsController extends Controller
 
         $adqui              = $this->materialsProcesa($request);
         $Group_roles 	    = $this->getGroupRole(auth()->id());
-        // $wallet             = $this->getWallet($Group_roles);
-        // $group              = $this->getGroups($Group_roles);
 
         $wallet             = app(GroupController::class)->getWallets2($Group_roles);
 
@@ -5043,8 +5036,6 @@ class statisticsController extends Controller
 
 
         $Group_roles 	    = $this->getGroupRole(auth()->id());
-        // $wallet             = $this->getWallet($Group_roles);
-        // $group              = $this->getGroups($Group_roles);
 
         $wallet             = app(GroupController::class)->getWallets2($Group_roles);
 
@@ -5898,9 +5889,6 @@ class statisticsController extends Controller
         $materialsCierre =  $this->materialBuscaCierre();
         // dd($materialsCierre);
 
-        // $wallet             = $this->getWallet();
-        // $group              = $this->getGroups();
-
         $wallet             = app(GroupController::class)->getWallets2();
         $group              = app(GroupController::class)->getGroups2();
 
@@ -5964,8 +5952,7 @@ class statisticsController extends Controller
 
 
         //$wallet                         = $this->getWalletUSDT();
-        //$wallet2                        = $this->getWallet();
-        //$grupo                          = $this->getGroups();
+
         $wallets            = app(GroupController::class)->getWalletUSDT2();
         $wallet2            = app(GroupController::class)->getWallets2();
         $grupo              = app(GroupController::class)->getGroups2();
@@ -7753,7 +7740,7 @@ class statisticsController extends Controller
             $TransaccionesUSDT = [];
         }
 
-        $grupo                           = app(statisticsController::class)->getGroups();
+        $grupo                           = app(statisticsController::class)->getGroups2();
 
 		$parametros['myTypeCoinBalance']        = $myTypeCoinBalance;
         $parametros['Type_coin_balance']        = $Type_coin_balance;
@@ -8635,10 +8622,6 @@ class statisticsController extends Controller
 
      function getGroupRole( $myId = 0){
 
-    
-
-
-
         // $myUserId = Auth()->User()->id;
         // $myUserId = Auth::User()->id;
         // dd($myUserId);
@@ -8719,14 +8702,10 @@ class statisticsController extends Controller
         
         
         // 
-        // $wallet                         = $this->getWalletUSDT();
-        // $wallet2                        = $this->getWallet();
-        // $grupo                          = $this->getGroups();
-
 
         $wallet             = app(GroupController::class)->getWalletUSDT2();
         $wallet2            = app(GroupController::class)->getWallets2();
-        $group              = app(GroupController::class)->getGroups2();
+        $grupo              = app(GroupController::class)->getGroups2();
         
         
         $typeTransactions               = Type_transaction::pluck('name', 'id')->toArray();

@@ -92,7 +92,7 @@ class TransactionController extends Controller
         $myFechaDesde2  =  substr($myFechaDesde,8,2) . '-' . substr($myFechaDesde,5,2) . '-' . substr($myFechaDesde,0,4);
         $myFechaHasta2  =  substr($myFechaHasta,8,2) . '-' . substr($myFechaHasta,5,2) . '-' . substr($myFechaHasta,0,4);
 
-        $user           = User::pluck('name', 'id')->toArray();
+        $user                           = User::pluck('name', 'id')->toArray();
 
         $parametros['fechaDesde']       = $myFechaDesde2;
         $parametros['fechaHasta']       = $myFechaHasta2;
