@@ -36,8 +36,11 @@ class RoleController extends Controller
         $permisos               = Permission::all();
         $permisos               = Permission::get()->keyBy('id');
         
-        $wallet                 = app(statisticsController::class)->getWallet();
-        $group                  = app(statisticsController::class)->getGroups();
+        //$wallet                 = app(statisticsController::class)->getWallet();
+        //$group                  = app(statisticsController::class)->getGroups();
+
+        $wallet                 = app(GroupController::class)->getWallets2();
+        $group                  = app(GroupController::class)->getGroups2();
 
         $parametros['wallet']   = $wallet;
         $parametros['group']    = $group;
@@ -154,8 +157,14 @@ class RoleController extends Controller
         $permisos    = Permission::get()->keyBy('id');
         // dd($roles->permissions);
          // dd($permisos2[53]);
-        $wallet                     = app(statisticsController::class)->getWallet();
-        $group                      = app(statisticsController::class)->getGroups();
+        // $wallet                     = app(statisticsController::class)->getWallet();
+        // $group                      = app(statisticsController::class)->getGroups();
+
+
+        $wallet                     = app(GroupController::class)->getWallets2();
+        $group                      = app(GroupController::class)->getGroups2();
+
+
         // dd($group);
         $myRole                     = $roles->id;
         //\Log::info("leam - roles - edit - roles->id -- $roles->id");

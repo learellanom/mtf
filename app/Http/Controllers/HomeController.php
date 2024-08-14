@@ -755,8 +755,8 @@ class HomeController extends Controller
         
 
         $wallet                         = app(statisticsController::class)->getWalletUSDT();
-        $wallet2                        = app(statisticsController::class)->getWallet();
-        $grupo                          = app(statisticsController::class)->getGroups();
+        $wallet2                        = app(GroupController::class)->getWallets2();
+        $grupo                          = app(GroupController::class)->getGroups2();
         $typeTransactions               = app(statisticsController::class)->getTypeTransactions();
 
         $balance                        = 0;
