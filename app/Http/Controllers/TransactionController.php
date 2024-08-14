@@ -1237,6 +1237,14 @@ class TransactionController extends Controller
 
         $user               = User::pluck('name', 'id');
 
+        $parametros['transactions']         = $transactions;
+        $parametros['imagen']               = $imagen;
+        $parametros['type_coin']            = $type_coin;
+        $parametros['type_transaction']     = $type_transaction;
+        $parametros['wallet']               = $wallet;
+        $parametros['group']                = $group;
+        $parametros['user']                 = $user;
+        die('test');
         return view('transactions.credit_edit', compact('transactions', 'imagen', 'type_coin', 'type_transaction', 'wallet', 'group', 'user'));
 
     }
@@ -1249,8 +1257,8 @@ class TransactionController extends Controller
         
         $type_coin          = Type_coin::pluck('name', 'id');
         $type_transaction   = Type_transaction::whereIn('type_transaction', ['Transacciones'])->pluck('name', 'id');
-        $wallet             = app(GroupController::class)->getWallets();        
-        $group              = app(GroupController::class)->getGroups();         
+        $wallet             = app(GroupController::class)->getWallets2();   
+        $group              = app(GroupController::class)->getGroups2();
         $user               = User::pluck('name', 'id');
         $fecha              = Carbon::now();
 
@@ -1267,8 +1275,8 @@ class TransactionController extends Controller
         $type_coin          = Type_coin::pluck('name', 'id');
 
         $type_transaction   = Type_transaction::whereIn('type_transaction', ['Transacciones'])->pluck('name', 'id');
-        $wallet             = app(GroupController::class)->getWallets();
-        $group              = app(GroupController::class)->getGroups(); 
+        $wallet             = app(GroupController::class)->getWallets2();
+        $group              = app(GroupController::class)->getGroups2(); 
         
         $user               = User::pluck('name', 'id');
         $fecha              = Carbon::now();
@@ -1298,8 +1306,8 @@ class TransactionController extends Controller
         $type_coin          = Type_coin::pluck('name', 'id');
         $type_transaction   = Type_transaction::whereIn('type_transaction', ['Transacciones'])->pluck('name', 'id');
 
-        $wallet             = app(GroupController::class)->getWallets();
-        $group              = app(GroupController::class)->getGroups();
+        $wallet             = app(GroupController::class)->getWallets2();
+        $group              = app(GroupController::class)->getGroups2();
 
 
         $user               = User::pluck('name', 'id');
@@ -1316,7 +1324,7 @@ class TransactionController extends Controller
         $type_transaction   = Type_transaction::whereIn('type_transaction', ['Efectivo'])->pluck('name', 'id');
 
         $wallet             = app(GroupController::class)->getWalletsEfectivo();
-        $group              = app(GroupController::class)->getGroups();
+        $group              = app(GroupController::class)->getGroups2();
 
         //$client = Client::pluck('name', 'id');
         $user               = User::pluck('name', 'id');
@@ -1337,8 +1345,8 @@ class TransactionController extends Controller
         $type_transaction               = Type_transaction::where('id','=',$myTypeTransaction)->whereIn('type_transaction', ['Material'])->pluck('name', 'id');
 
 
-        $wallet                         = app(GroupController::class)->getWallets();
-        $group                          = app(GroupController::class)->getGroups();
+        $wallet                         = app(GroupController::class)->getWallets2();
+        $group                          = app(GroupController::class)->getGroups2();
 
         $user                           = User::pluck('name', 'id');
         $type_material                  = Type_material::pluck('name', 'id');    
@@ -1367,8 +1375,8 @@ class TransactionController extends Controller
         $type_coin                      = Type_coin::pluck('name', 'id');
         $type_transaction               = Type_transaction::where('name','like','%Recepción%')->where('name','like','%Recepcion%')->whereIn('type_transaction', ['Material'])->pluck('name', 'id');
 
-        $wallet             = app(GroupController::class)->getWallets();
-        $group              = app(GroupController::class)->getGroups();
+        $wallet             = app(GroupController::class)->getWallets2();
+        $group              = app(GroupController::class)->getGroups2();
 
         $user                           = User::pluck('name', 'id');
         $type_material                  = Type_material::pluck('name', 'id');    
@@ -1397,8 +1405,8 @@ class TransactionController extends Controller
         $type_coin          = Type_coin::pluck('name', 'id');
         $type_transaction   = Type_transaction::whereIn('type_transaction', ['Efectivo'])->pluck('name', 'id');
 
-        $wallet             = app(GroupController::class)->getWallets();
-        $group              = app(GroupController::class)->getGroups();
+        $wallet             = app(GroupController::class)->getWallets2();
+        $group              = app(GroupController::class)->getGroups2();
 
         $user               = User::pluck('name', 'id');
 
@@ -1884,16 +1892,24 @@ class TransactionController extends Controller
         //$wallet             = Group::whereIn('type_wallet', ['transacciones', 'efectivo'])->where('type','=','2')->pluck('name', 'id')->toArray();
         //$wallet2            = Group::whereIn('type_wallet', ['transacciones', 'efectivo'])->where('type','=','2')->pluck('name', 'id')->toArray();
 
-        $wallet             = app(GroupController::class)->getWallets()->toArray();
-        $wallet2            = app(GroupController::class)->getWallets()->toArray();
+        $wallet             = app(GroupController::class)->getWallets2();
+        $wallet2            = app(GroupController::class)->getWallets2();
 
         $user               = User::pluck('name', 'id');
         $fecha              = Carbon::now();
 
 
+        $parametros['type_coin']            = $type_coin;
+        $parametros['type_transaction']     = $type_transaction;
+        $parametros['type_transaction2']    = $type_transaction2;
+        $parametros['wallet']               = $wallet;
+        $parametros['wallet2']              = $wallet2;
+        $parametros['user']                 = $user;
+        $parametros['transaction']          = $transaction;
+        $parametros['fecha']                = $fecha;
+        
+        return view('transactions.create_pagowallet', $parametros);
 
-
-        return view('transactions.create_pagowallet', compact('type_coin', 'type_transaction', 'type_transaction2', 'wallet', 'wallet2', 'user', 'transaction', 'fecha'));
     }
 
     public function create_transferwalletop(transaction $transaction)
@@ -1939,7 +1955,6 @@ class TransactionController extends Controller
     
         return view('transactions.create_transferwalletop', $parametros);
 
-        // return view('transactions.create_transferwalletop', compact('type_coin', 'type_transaction', 'type_transaction2', 'wallet', 'wallet2', 'user', 'transaction', 'fecha'));
     }
     public function create_transferwalletop2(transaction $transaction)
     {
@@ -1976,7 +1991,19 @@ class TransactionController extends Controller
         $user               = User::pluck('name', 'id');
         $fecha              = Carbon::now();
 
-        return view('transactions.create_transferwalletop2', compact('type_coin', 'type_transaction', 'type_transaction2', 'wallet', 'wallet2', 'user', 'transaction', 'fecha'));
+        $parametros['type_coin']            = $type_coin;
+        $parametros['type_transaction']     = $type_transaction;
+        $parametros['type_transaction2']    = $type_transaction2;
+        $parametros['wallet']               = $wallet;
+        $parametros['wallet2']              = $wallet2;
+        $parametros['user']                 = $user;
+        $parametros['transaction']          = $transaction;
+        $parametros['fecha']                = $fecha;
+        
+        return view('transactions.create_transferwalletop2', $parametros);
+
+        // return view('transactions.create_transferwalletop2', compact('type_coin', 'type_transaction', 'type_transaction2', 'wallet', 'wallet2', 'user', 'transaction', 'fecha'));
+
     }    
     public function store_pagowallet(Request $request)
     {
@@ -2617,9 +2644,17 @@ class TransactionController extends Controller
         $fecha              = Carbon::now();
 
         //$number = date('YmdHis').'C-G';
+        $parametros['type_coin']            = $type_coin;
+        $parametros['type_transaction']     = $type_transaction;
+        $parametros['type_transaction2']    = $type_transaction2;
+        $parametros['wallet']               = $wallet;
+        $parametros['wallet2']              = $wallet2;
+        $parametros['user']                 = $user;
+        $parametros['transaction']          = $transaction;
+        $parametros['fecha']                = $fecha;
+        
+        return view('transactions.create_cobrowallet', $parametros);
 
-
-        return view('transactions.create_cobrowallet', compact('type_coin', 'type_transaction', 'type_transaction2', 'wallet', 'wallet2', 'user', 'transaction', 'fecha'));
     }
 
     public function store_cobrowallet(Request $request)
@@ -2856,7 +2891,18 @@ class TransactionController extends Controller
         // dd($transactions);
         // dd(var_dump($type_transaction));
         // dd('type transaction ->' . $transactions->type_transaction_id . 'myName ->' . $myName);
-        return view('transactions.edit', compact('transactions', 'imagen', 'type_coin', 'type_transaction', 'wallet', 'group', 'user'));
+
+        $parametros['transactions']     = $transactions;
+        $parametros['imagen']           = $imagen;
+        $parametros['type_coin']        = $type_coin;
+        $parametros['type_transaction'] = $type_transaction;
+        $parametros['wallet']           = $wallet;
+        $parametros['group']            = $group;
+        $parametros['user']             = $user;
+        
+        return view('transactions.edit', $parametros);
+
+        // return view('transactions.edit', compact('transactions', 'imagen', 'type_coin', 'type_transaction', 'wallet', 'group', 'user'));
     }
 
 
@@ -2915,14 +2961,16 @@ class TransactionController extends Controller
         }
         $transactions->group_name = $myName;
 
+        $parametros['transactions']     = $transactions;
+        $parametros['imagen']           = $imagen;
+        $parametros['type_coin']        = $type_coin;
+        $parametros['type_transaction'] = $type_transaction;
+        $parametros['wallet']           = $wallet;
+        $parametros['group']            = $group;
+        $parametros['user']             = $user;
+        
+        return view('transactions.edit2', $parametros);
 
-
-        // $myPos              = array_search($transactions->type_transction_id,$type_transaction);
-        // $myName             = $type_transactions($myPos);
-        // dd($transactions);
-        // dd(var_dump($type_transaction));
-        // dd('type transaction ->' . $transactions->type_transaction_id . 'myName ->' . $myName);
-        return view('transactions.edit2', compact('transactions', 'imagen', 'type_coin', 'type_transaction', 'wallet', 'group', 'user'));
     }
     
     /**
@@ -2994,7 +3042,15 @@ class TransactionController extends Controller
         // dd($transactions);
         // dd(var_dump($type_transaction));
         // dd('type transaction ->' . $transactions->type_transaction_id . 'myName ->' . $myName);
-        return view('transactions.edit3', compact('transactions', 'imagen', 'type_coin', 'type_transaction', 'wallet', 'group', 'user'));
+        $parametros['transactions']     = $transactions;
+        $parametros['imagen']           = $imagen;
+        $parametros['type_coin']        = $type_coin;
+        $parametros['type_transaction'] = $type_transaction;
+        $parametros['wallet']           = $wallet;
+        $parametros['group']            = $group;
+        $parametros['user']             = $user;
+        return view('transactions.edit3', $parametros);
+        // return view('transactions.edit3', compact('transactions', 'imagen', 'type_coin', 'type_transaction', 'wallet', 'group', 'user'));
     }
 
 
@@ -3626,9 +3682,10 @@ class TransactionController extends Controller
         // dd('leam - indexAudit ' . print_r($audit->getModified(),true));
         //  dd('leam - indexAudit ' . print_r($myAudit->getModified(),true));
         // Transaction::audits;
-        $parametros['transaccion'] = $transaction;
-        $parametros['audits'] = $audits;
+        $parametros['transaccion']  = $transaction;
+        $parametros['audits']       = $audits;
         $parametros['myMovimiento'] = $myMovimiento;
+        
         return view('transactions.transactionAudit', $parametros);
 
 
