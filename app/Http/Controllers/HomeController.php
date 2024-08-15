@@ -61,7 +61,7 @@ class HomeController extends Controller
 
         $wallet_groupsummary        = app(statisticsController::class)->getWalletTransactionGroupSummary($request);
         // dd($wallet_groupsummary);
-        $wallet                     = app(statisticsController::class)->getWallet();
+        $wallet                     = app(GroupController::class)->getWallets2();
         // dd($wallet);
 
         $typeTransactions           = Type_transaction::orderBY('name','ASC')->pluck('name', 'id')->toArray();
@@ -207,7 +207,7 @@ class HomeController extends Controller
         // dd($wallet_summary);
         $wallet_groupsummary        = app(statisticsController::class)->getWalletTransactionGroupSummary($request);
         // dd($wallet_groupsummary);
-        $wallet                     = app(statisticsController::class)->getWallet();
+        $wallet                     = app(GroupController::class)->getWallets2();        
         // dd($wallet);
         $typeTransactions           = app(statisticsController::class)->getTypeTransactions();
 
@@ -328,16 +328,6 @@ class HomeController extends Controller
 
     public function comisionesGrupo(request $request)
     {
-        
-        // dd($request->fechaDesde . ' ' . $request->fechaHasta);
-        
-        
-        // new
-       // if (auth()->id() == 2){
-
-
-        // }
-
 
         $wallet_summary             = app(statisticsController::class)->getWalletTransactionSummary($request);
         // dd($wallet_summary );
@@ -353,8 +343,8 @@ class HomeController extends Controller
         // dd($requestGeneral->wallet);
         $wallet_groupsummaryGeneral = app(statisticsController::class)->getWalletTransactionGroupSummary($requestGeneral);
         // dd($wallet_groupsummary);
-
-        $wallet                     = app(statisticsController::class)->getWallet();
+        
+        $wallet                     = app(GroupController::class)->getWallets2();        
         // dd($wallet);
         $typeTransactions           = app(statisticsController::class)->getTypeTransactions();
 
@@ -416,8 +406,6 @@ class HomeController extends Controller
             $myFechaHasta2 = $myFechaHasta . " 12:59:00";
             /* MANTENER VALOR BUSCADO EN EL URL */
         }
-
-
 
         $balance = 0;
 
@@ -550,6 +538,9 @@ class HomeController extends Controller
         $wallet                          = app(statisticsController::class)->getWallet();
         $grupo                           = app(statisticsController::class)->getGroups();
         
+        $wallet                         = app(GroupController::class)->getWallets2();
+        $grupo                          = app(GroupController::class)->getGroups2();
+
         if ($myWallet != 0){
             
             list($Recargas, $Transacciones2) = app(statisticsController::class)->commissionsProfit($request);
@@ -648,10 +639,10 @@ class HomeController extends Controller
         
         $myFechaDesdeBefore = "2001-01-01";
         $myFechaHastaBefore = "9999-12-31";
-        
-        $wallet                          = app(statisticsController::class)->getWallet();
-        $grupo                           = app(statisticsController::class)->getGroups();
-        
+ 
+        $wallet                         = app(GroupController::class)->getWallets2();
+        $grupo                          = app(GroupController::class)->getGroups2();
+
         if ($myWallet != 0){
             
             list($Recargas, $Transacciones2) = app(statisticsController::class)->commissionsProfit3($request);
@@ -1000,9 +991,9 @@ class HomeController extends Controller
         $myFechaDesdeBefore = "2001-01-01";
         $myFechaHastaBefore = "9999-12-31";
         
-        $wallet                          = app(statisticsController::class)->getWallet();
-        $grupo                           = app(statisticsController::class)->getGroups();
-        
+        $wallet                         = app(GroupController::class)->getWallets2();
+        $grupo                          = app(GroupController::class)->getGroups2();
+
         if ($myWallet != 0){
             list($Recargas3, $Transacciones4, $Transacciones2) = app(statisticsController::class)->commissionsProfitRes($request);
         }else{
@@ -1100,8 +1091,8 @@ class HomeController extends Controller
         $myFechaDesdeBefore = "2001-01-01";
         $myFechaHastaBefore = "9999-12-31";
         
-        $wallet                          = app(statisticsController::class)->getWallet();
-        $grupo                           = app(statisticsController::class)->getGroups();
+        $wallet             = app(GroupController::class)->getWallets2();
+        $grupo              = app(GroupController::class)->getGroups2();
         
         if ($myWallet != 0){
             list($Recargas3, $Transacciones) = app(statisticsController::class)->commissionsProfitRes3($request);
@@ -1150,9 +1141,9 @@ class HomeController extends Controller
 
         // dd($group_summary);
         
-        $wallet                     = app(statisticsController::class)->getWallet();
-        // dd($wallet);
-        $group                      = app(statisticsController::class)->getGroups();
+        $wallet                     = app(GroupController::class)->getWallets2();
+        $group                      = app(GroupController::class)->getGroups2();
+        
         $typeTransactions           = app(statisticsController::class)->getTypeTransactions();
 
         // dd($transaction_summary);
@@ -1475,9 +1466,6 @@ class HomeController extends Controller
             $myFiltroGroup  = $request->filtroGroup;
         }        
 
-
-
-
         $myFiltroWalletB     = "";
         $myFiltroGroupB      = "";
         if ($request->filtroWalletB) {
@@ -1487,10 +1475,6 @@ class HomeController extends Controller
         if ($request->filtroGroupB) {
             $myFiltroGroupB  = $request->filtroGroupB;
         } 
-
-
-
-
 
         //
         // obtiene saldo anterior wallets
@@ -1619,7 +1603,9 @@ class HomeController extends Controller
 
         $wallet_groupsummary        = app(statisticsController::class)->getWalletTransactionGroupSummary($request);
         // dd($wallet_groupsummary);
-        $wallet                     = app(statisticsController::class)->getWallet();
+        // $wallet                     = app(statisticsController::class)->getWallet();
+        $wallet                     = app(GroupController::class)->getWallets2();
+        
         // dd($wallet);
         $typeTransactions           = app(statisticsController::class)->getTypeTransactions();
 
@@ -1733,7 +1719,9 @@ class HomeController extends Controller
 
         $wallet_groupsummary        = app(statisticsController::class)->getWalletTransactionGroupSummary($request);
         // dd($wallet_groupsummary);
-        $wallet                     = app(statisticsController::class)->getWallet();
+        // $wallet                     = app(statisticsController::class)->getWallet();
+        $wallet                     = app(GroupController::class)->getWallets2();
+        
         // dd($wallet);
         $typeTransactions           = app(statisticsController::class)->getTypeTransactions();
 
