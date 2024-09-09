@@ -3210,6 +3210,7 @@ class statisticsController extends Controller
         
         //
         // 11 pago usdt 
+        // busca todos loas pagos que se le hagan al wallet
         //
         $myTransactionDesde     = 11;
         $myTransactionHasta     = 11;
@@ -3259,11 +3260,8 @@ class statisticsController extends Controller
         echo "<pre>";
         echo var_dump($myQuery);
         echo "</pre>";
+        die();
         */
-
-
-        //die();
-        
 
         $Recargas = DB::select($myQuery);
         // dd($Recargas);
@@ -3296,7 +3294,10 @@ class statisticsController extends Controller
         */
         //die('fin');
        // echo "<br> *************************************************************";
-
+        //
+        //
+        // busca todos los cobros que se hagan al wallet
+        //
         $myTransactionDesde     = 13; // 13 cobros usdt
         $myTransactionHasta     = 13;
 
@@ -3422,6 +3423,7 @@ class statisticsController extends Controller
         //
         //
         // Busca transacciones de pagos
+        // que el wallet haga
         //
         //
         $request->transaction   = 11; // pago usdt
@@ -3543,7 +3545,11 @@ class statisticsController extends Controller
 
         $Transacciones2 = [];
         $verLog         = 0;
-
+        //
+        //
+        // por cada pago que haga el wallet se ubica la recarga de donde sale y su comision 
+        //
+        //
         foreach($Transacciones as $key => $myTransaccion){
 
             $cant = 0;
