@@ -301,7 +301,7 @@ if (isset($balance->Total)){
                             @php
                                 $myTotal = 0;
                                 $myTotal = $balanceBefore; // asigna el saldo al corte para que calcule desde ahi
-                                \Log::info('leam - balanceBefore -> ' . $balanceBefore);
+                                // \Log::info('leam - balanceBefore -> ' . $balanceBefore);
                             @endphp
                           
                             @foreach($config['data'] as $row)
