@@ -139,7 +139,7 @@ class GroupController extends Controller
         if (isset($Group_roles->allWallets)){
             switch ($Group_roles->allWallets){
                 case 1:
-                    \Log::info('leam - GroupController - all wallets -> ');
+                   // \Log::info('leam - GroupController - all wallets -> ');
                     
                     $wallet2 = Group::whereIn('type', ['2','3'])->whereBetween('id', [0, 9999])->orderBY('name','ASC')->pluck('name', 'id')->toArray();
                     break;
@@ -149,12 +149,12 @@ class GroupController extends Controller
                 default:
                     $wallet2 = Group::whereIn('type', ['2','3'])->whereBetween('id', [0, 9999])->orderBY('name','ASC')->pluck('name', 'id')->toArray();
             }
-            \Log::info('leam - GroupController - getWallet -> ' . print_r($wallet2,true));
+            // \Log::info('leam - GroupController - getWallet -> ' . print_r($wallet2,true));
         }
         else {
             $wallet2 = Group::whereIn('type', ['2','3'])->whereBetween('id', [0, 9999])->orderBY('name','ASC')->pluck('name', 'id')->toArray();
         }
-        \Log::info('leam - GroupController - getWallet general -> ' . print_r($wallet2,true));
+        // \Log::info('leam - GroupController - getWallet general -> ' . print_r($wallet2,true));
 
         return $wallet2;
 
