@@ -2302,12 +2302,12 @@ class statisticsController extends Controller
         $balance3 = 0;
 
         $balanceDetail = 0;
-
+        /*
         \Log::info('leam getBalanceBefore -> $myWallet      ' . $myWallet);
         \Log::info('leam getBalanceBefore -> $myFechaDesde  ' . $myFechaDesde);
         \Log::info('leam getBalanceBefore -> $myFechaHasta  ' . $myFechaHasta);
         \Log::info('leam getBalanceBefore -> $myCoin        ' . $myCoin);
-
+        */
 
         if ($myFechaDesde === "2001-01-01"){
             return $balanceDetail;
@@ -2347,11 +2347,12 @@ class statisticsController extends Controller
             $walletDesde = $wallet;
             $walletHasta = $wallet;
         }
+        /*
          \Log::info('leam  getBalanceWallet - wallet      *** -> ' . $wallet);
          \Log::info('leam  getBalanceWallet - fecha Desde *** -> ' . $fechaDesde);
          \Log::info('leam  getBalanceWallet - fecha Hasta *** -> ' . $fechaHasta);
          \Log::info('leam  getBalanceWallet - coin        *** -> ' . $myCoin);
-
+        */
         $horaDesde      = " 00:00:00";
         $horaHasta      = " 23:59:00";
 
@@ -2471,10 +2472,10 @@ class statisticsController extends Controller
         
 
         $Transacciones = DB::select($myQuery);
-
+        /*
         \Log::info('leam getBalanceWallet - query        *** -> ' . print_r($myQuery,true));
         \Log::info('leam getBalanceWallet - transcciones *** -> ' . print_r($Transacciones,true));
-
+        */
         if (empty($Transacciones)) {    
             return $Transacciones;
         }else {
@@ -2501,11 +2502,12 @@ class statisticsController extends Controller
             $walletDesde = $wallet;
             $walletHasta = $wallet;
         }
+        /*
          \Log::info('leam wallet      getBalanceWallet2 *** -> ' . $wallet);
          \Log::info('leam fecha Desde getBalanceWallet2 *** -> ' . $fechaDesde);
          \Log::info('leam fecha Hasta getBalanceWallet2 *** -> ' . $fechaHasta);
          \Log::info('leam coin        getBalanceWallet2 *** -> ' . $myCoin);
-
+        */
         $horaDesde      = " 00:00:00";
         $horaHasta      = " 23:59:00";
 
@@ -3256,12 +3258,12 @@ class statisticsController extends Controller
                 Transactions.transaction_date   ASC
         ";
         
-        /*
-        echo "<pre>";
+        
+/*         echo "<pre>";
         echo var_dump($myQuery);
         echo "</pre>";
-        die();
-        */
+        die(); */
+        
 
         $Recargas = DB::select($myQuery);
         // dd($Recargas);
@@ -3508,7 +3510,12 @@ class statisticsController extends Controller
                 mtf.groups.name ASC 
 
         ";
-
+        /*
+        echo '<pre>';
+        echo var_dump($myQuery);
+        echo '</pre>';
+        die();
+        */
         // dd($myQuery);
          // dd($Transacciones);
         // \Log::info('leam My query *** -> ' . $myQuery);
@@ -3544,7 +3551,7 @@ class statisticsController extends Controller
         // die('transacciones');
 
         $Transacciones2 = [];
-        $verLog         = 0;
+        $verLog         = 1;
         //
         //
         // por cada pago que haga el wallet se ubica la recarga de donde sale y su comision 
