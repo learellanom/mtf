@@ -3258,11 +3258,12 @@ class statisticsController extends Controller
                 Transactions.transaction_date   ASC
         ";
         
-        
-/*         echo "<pre>";
+        /* 
+        echo "<pre>";
         echo var_dump($myQuery);
         echo "</pre>";
-        die(); */
+        die(); 
+        */
         
 
         $Recargas = DB::select($myQuery);
@@ -3516,6 +3517,7 @@ class statisticsController extends Controller
         echo '</pre>';
         die();
         */
+        // die('fin');
         // dd($myQuery);
          // dd($Transacciones);
         // \Log::info('leam My query *** -> ' . $myQuery);
@@ -3579,6 +3581,7 @@ class statisticsController extends Controller
                 // if ($cant > 100) { dd($Transacciones2); }
 
                 if ($verLog ==1){
+                    /*
                     echo "<br>";
                     echo "<br>";
                     echo "<br> Transaccion2  ********************************************************************************************  " . $key;
@@ -3597,9 +3600,56 @@ class statisticsController extends Controller
                     echo "<pre>";
                     echo print_r($myRecarga,true);
                     echo "</pre>";
-                                       
-                }
+                    */
+                    /*************************** */
+                    \Log::info("<br>");
+                    \Log::info("<br>");
+                    \Log::info("<br> Transaccion2  ********************************************************************************************  " . $key);
 
+                    \Log::info("<br>");
+                    \Log::info("<br>");
+                    \Log::info("<br> Transaccion2  ------ ");
+                    \Log::info("<br>");
+                    \Log::info("<br>");
+                    \Log::info("<pre>");
+                    \Log::info(print_r($myTransaccion2,true));  
+                    \Log::info("</pre>");
+                    \Log::info("<br>");
+                    \Log::info("<br>" . "recarga -------");
+                    \Log::info("<br>");
+                    \Log::info("<pre>");
+                    \Log::info(print_r($myRecarga,true));
+                    \Log::info("</pre>");
+
+
+                    \Log::info(json_encode($myTransaccion2));
+                    
+                    /*
+                    [GroupId] => 68
+                    [GroupName] => grupo usdt salidas
+                    [GroupType] => 1
+                    [TypeTransactionId] => 11
+                    [TypeTransactionName] => Pago USDT
+                    [TransactionDate] => 2023-07-17 08:47:00
+                    [Percentage] => 0
+                    [PercentageBase] => 
+                    [ExchangeRate] => 1
+                    [ExchangeRateBase] => 
+                    [AmountForeignCurrency] => 188000
+                    [Amount] => 188000
+                    [AmountTotal] => 188000
+                    [AmountCommission] => 
+                    [AmountBase] => 
+                    [AmountTotalBase] => 188000
+                    [AmountCommissionBase] => 
+                    [AmountCommissionProfit] => 0
+                    [Saldo] => 0
+                    [Amount2] => 188000
+                    */
+                }
+                //
+                // si el monto de la transaccion es menor al monto de la recarga
+                //
                 if($myTransaccion2->Amount2 <= $myRecarga->Saldo) {
                     $myTransaccion2->RecargaSaldoAntes          = $myRecarga->Saldo;       
                     $myTransaccion2->RecargaPercentageBase      = $myRecarga->PercentageBase;
