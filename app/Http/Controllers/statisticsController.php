@@ -2804,7 +2804,10 @@ class statisticsController extends Controller
             $transacciones [] = $Transacciones2;
             // echo "<br>";
             // echo "paso con -> " . $pos . " con el count ->" . count($Transacciones2);
-            if ($pos == 2){
+            // dd( "paso con -> " . $pos . " con el count ->" . count($Transacciones2));
+            //  dd(auth()->user()->id);
+            
+            // if ($pos == 2){
                 // dd($Transacciones2);
 
 
@@ -2818,7 +2821,7 @@ class statisticsController extends Controller
                     $CommissionUsdt->amount_commission          = $transaccion->AmountCommission;
                     $CommissionUsdt->percentage                 = $transaccion->Percentage;
                     $CommissionUsdt->type_transaction_id        = $transaccion->TypeTransactionId;
-                    $CommissionUsdt->user_id                    = auth()->user()->id;
+                    $CommissionUsdt->user_id                    = auth()->user()->id ?? 2;
                     // $CommissionUsdt->user_id                    = 2;
                     $CommissionUsdt->group_id                   = $transaccion->GroupId;
                     $CommissionUsdt->wallet_id                  = $transaccion->WalletId;
@@ -2836,7 +2839,7 @@ class statisticsController extends Controller
 
                 }
 
-            }
+            // }
             
         }
         
@@ -3605,14 +3608,14 @@ class statisticsController extends Controller
                     \Log::info("<br>");
                     \Log::info("<br>");
                     \Log::info("<br> Transaccion2  ********************************************************************************************  " . $key);
-
+                    /*
                     \Log::info("<br>");
                     \Log::info("<br>");
                     \Log::info("<br> Transaccion2  ------ ");
                     \Log::info("<br>");
                     \Log::info("<br>");
                     \Log::info("<pre>");
-                    \Log::info(print_r($myTransaccion2,true));  
+                    \Log::info(print_r($myTransaccion2,true)); 
                     \Log::info("</pre>");
                     \Log::info("<br>");
                     \Log::info("<br>" . "recarga -------");
@@ -3620,9 +3623,10 @@ class statisticsController extends Controller
                     \Log::info("<pre>");
                     \Log::info(print_r($myRecarga,true));
                     \Log::info("</pre>");
-
+                    */
 
                     \Log::info(json_encode($myTransaccion2));
+                    \Log::info(json_encode($myRecarga));
                     
                     /*
                     [GroupId] => 68
@@ -3671,6 +3675,7 @@ class statisticsController extends Controller
                     $Transacciones2 [] = $myTransaccion2;
 
                     if ($verLog ==1){
+                        /*
                         echo "<br>";
                         echo "<br>";
                         echo "<br> Transaccion2 despues menor ------ ";
@@ -3685,7 +3690,11 @@ class statisticsController extends Controller
                         echo "<pre>";
                         echo print_r($myRecarga,true);
                         echo "</pre>";
-                                           
+                          */      
+                        \Log::info('Monto transaccion menor a recagra');                        
+                        \Log::info('          ' . json_encode($myTransaccion2));
+                        \Log::info('          ' . json_encode($myRecarga));
+                        
                     }
 
                     break;
@@ -3718,6 +3727,7 @@ class statisticsController extends Controller
                        // $Transacciones2 []                          = $myTransaccion2;
                         array_push($Transacciones2,$myTransaccion2);
                         if ($verLog ==1){
+                            /*
                             echo "<br>";
                             echo "<br>";
                             echo "<br> Transaccion2 despues mayor ------ ";
@@ -3732,7 +3742,10 @@ class statisticsController extends Controller
                             echo "<pre>";
                             echo print_r($myRecarga,true);
                             echo "</pre>";
-                                               
+                            */
+                            \Log::info('Monto transaccion mayor a recagra');                        
+                            \Log::info('         ' . json_encode($myTransaccion2));
+                            \Log::info('         ' . json_encode($myRecarga));                                               
                             
                         }
 
@@ -3785,7 +3798,7 @@ class statisticsController extends Controller
         };
          
         if ($verLog == 1){
-            die();
+           // die();
         }
         // dd($Transacciones2);
         // dd('aqui');
