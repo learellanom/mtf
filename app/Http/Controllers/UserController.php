@@ -29,6 +29,7 @@ class UserController extends Controller
     public function index()
     {
         $users = User::all();
+        
         return view('users.index', compact('users'));
     }
 
@@ -52,6 +53,7 @@ class UserController extends Controller
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
+        // dd($request->roles);
         User::create([
             'name' => $request->name,
             'email' => $request->email,
