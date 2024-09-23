@@ -46,9 +46,9 @@
                                         @endcan
                                     </tr>
                                 </thead>
-
+                                <tbody>
                                     @foreach ($users as $usuario)
-                                    <tbody>
+
                                         <tr>
                                             <td>{{ $usuario->name }}</td>
                                             <td>{{ $usuario->email }}</td>
@@ -89,63 +89,64 @@
 
 @section('js')
 <script type="text/javascript">
+
 $(document).ready(function () {
-  $('.borrar_users').submit(function (e) {
-            e.preventDefault();
-            //e.stopImmediatePropagation();
-            swal.fire({
-                title: "¿Desea eliminar al usuario?",
-                text: "Una vez eliminado/a, no se podra recuperar a este usuario.",
-                icon: "warning",
-                confirmButtonText: 'Si, eliminar',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                cancelButtonText: 'Cancelar',
 
-            }).then((result) => {
-                    if (result.value) {
+    $('.borrar_users').submit(function (e) {
+        e.preventDefault();
+        //e.stopImmediatePropagation();
+        swal.fire({
+            title: "¿Desea eliminar al usuario?",
+            text: "Una vez eliminado/a, no se podra recuperar a este usuario.",
+            icon: "warning",
+            confirmButtonText: 'Si, eliminar',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            cancelButtonText: 'Cancelar',
+
+        }).then((result) => {
+            if (result.value) {
 
 
-                        this.submit();
+                this.submit();
 
-                    }else{
+            }else{
 
-                            swal.fire(
-                            'Cancelado',
-                            'La eliminación del usuario ha sido cancelada.',
-                            'error'
-                        )
+                    swal.fire(
+                    'Cancelado',
+                    'La eliminación del usuario ha sido cancelada.',
+                    'error'
+                )
 
-                    }
-                });
+            }
         });
     });
-$(document).ready( function () {
-$('#usuarios').DataTable({
-    language: {
-        "decimal": "",
-        "emptyTable": "No hay información",
-        "info": "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
-        "infoEmpty": "Mostrando 0 to 0 of 0 Entradas",
-        "infoFiltered": "(Filtrado de _MAX_ total entradas)",
-        "infoPostFix": "",
-        "thousands": ",",
-        "lengthMenu": "Mostrar _MENU_ Entradas",
-        "loadingRecords": "Cargando...",
-        "processing": "Procesando...",
-        "search": "Buscar:",
-        "zeroRecords": "Sin resultados encontrados",
-        "paginate": {
-            "first": "Primero",
-            "last": "Ultimo",
-            "next": "Siguiente",
-            "previous": "Anterior"
-        }
-    },
+
+    $('#usuarios').DataTable({
+        language: {
+            "decimal": "",
+            "emptyTable": "No hay información",
+            "info": "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
+            "infoEmpty": "Mostrando 0 to 0 of 0 Entradas",
+            "infoFiltered": "(Filtrado de _MAX_ total entradas)",
+            "infoPostFix": "",
+            "thousands": ",",
+            "lengthMenu": "Mostrar _MENU_ Entradas",
+            "loadingRecords": "Cargando...",
+            "processing": "Procesando...",
+            "search": "Buscar:",
+            "zeroRecords": "Sin resultados encontrados",
+            "paginate": {
+                "first": "Primero",
+                "last": "Ultimo",
+                "next": "Siguiente",
+                "previous": "Anterior"
+            }
+        },
+    });
+
 });
 
-
-});
 </script>
 @endsection
