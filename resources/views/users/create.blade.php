@@ -54,14 +54,28 @@
         </div>
         <h5 class="font-weight-bold text-center">{{ __('ROLES|PERFIL') }}</h5>
         <hr>
+        {{--
         @foreach($role as $roles)
-        <label class="">
+            <label class="">
 
-            {!! Form::radio('roles[]', $roles->id, null, ['class'=>'mx-4', 'required' => true]) !!}
-            {{$roles->name}}
+                {!! Form::radio('roles[]', $roles->id, null, ['class'=>'mx-4', 'required' => true]) !!}
+                {{$roles->name}}
 
-        </label>
+            </label>
         @endforeach
+            --}}
+
+        @foreach($role as $roles)
+            <div>
+                <label>
+                    {!! Form::checkbox('roles[]', $roles->id, null, ['class'=>'mr-1']) !!}
+                    {{$roles->name}}
+
+                </label>
+            </div>
+        @endforeach
+        
+        
         <hr>
 
             <button class="btn btn-primary text-uppercase font-weight-bold btn-block" type="submit">Guardar</button>
