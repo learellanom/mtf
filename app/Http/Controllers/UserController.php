@@ -39,7 +39,16 @@ class UserController extends Controller
     public function create()
     {
         $role = Role::all();
-        return view('users.create', compact('role'));
+
+        $wallet                 = app(GroupController::class)->getWallets2();
+        $group                  = app(GroupController::class)->getGroups2();
+        
+        $parametros['role']     = $role;
+        $parametros['wallet']   = $wallet;
+        $parametros['group']    = $group;
+
+        return view('users.create', $parametros);
+        
     }
 
     /**
