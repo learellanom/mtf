@@ -14,6 +14,7 @@ class RoleSeeder extends Seeder
      */
     public function run(): void
     {
+        $role4 = Role::create(['name'=>'Externo']);
         $role1 = Role::create(['name'=>'Administrador']);
         $role2 = Role::create(['name'=>'Agente']);
         $role3 = Role::create(['name'=>'Supervisor']);
@@ -146,6 +147,10 @@ class RoleSeeder extends Seeder
         Permission::create(['name' => 'materials.CierreGenera',                     'description'   => 'Cierre de materiales'])->assignRole($role1);
         Permission::create(['name' => 'USDTResumenMovimientos',                     'description'   => 'Resumen de Movimientos USDT'])->assignRole($role1);
 
+        /*
+            Externo
+        */
+        Permission::create(['name' => 'externoDetalle',                     'description'   => 'Detalles de Movimientos'])->assignRole($role4);
 
     }
 }
