@@ -58,7 +58,7 @@ class UserController extends Controller
     {
 
         // dd($request->type);
-        dd($request->roles);
+         dd($request->roles);
 
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
