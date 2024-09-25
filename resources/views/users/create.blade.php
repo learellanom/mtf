@@ -16,6 +16,9 @@
         <div class="card-body">
             <form action={{ route('users.store')}} method="POST">
                 @csrf
+
+                <button class="btn btn-primary text-uppercase font-weight-bold btn-block" type="submit">Guardar</button>
+
                 <div class="form-group">
                     {!! Form::Label('name', "Nombre:") !!}
                     {!! Form::text('name', null, ['class' => 'form-control', 'required' => true]) !!}
@@ -48,19 +51,30 @@
                 </div>
                 <h5 class="font-weight-bold text-center">{{ __('ROLES|PERFIL') }}</h5>
                 <hr>
-
+                {{--
                 <nav>
                     <div class="nav nav-tabs" id="nav-tab" role="tablist">
                         <button class="nav-link active" id="nav-home-tab"       data-toggle="tab" data-target="#nav-home"       type="button" role="tab" aria-controls="nav-home"       aria-selected="true">Administrativo</button>
                         <button class="nav-link"        id="nav-profile-tab"    data-toggle="tab" data-target="#nav-profile"    type="button" role="tab" aria-controls="nav-profile"    aria-selected="false">Externo</button>
                     </div>
                 </nav>
+                --}}
 
+                <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist" style="border-bottom: 1px solid">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="pills-home-tab"     data-toggle="pill" data-target="#pills-home"    type="button" role="tab" aria-controls="pills-home"     aria-selected="true">Administrativo</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link"        id="pills-profile-tab" data-toggle="pill" data-target="#pills-profile"  type="button" role="tab" aria-controls="pills-profile" aria-selected="false">Externo</button>
+                    </li>
+                </ul>
+                
                 <br>
                 <br>
 
-                <div class="tab-content" id="nav-tabContent">
-                    <div class="tab-pane fade show active"  id="nav-home"       role="tabpanel" aria-labelledby="nav-home-tab">...
+                <div class="tab-content" id="pills-tabContent">
+                    <div class="tab-pane fade show active"  id="pills-home"       role="tabpanel" aria-labelledby="pills-home-tab">
+
 
                         @foreach($role as $roles)
                             <div>
@@ -72,97 +86,98 @@
                             </div>
                         @endforeach
 
-                    </div>
 
-                    <div class="tab-pane fade"              id="nav-profile"    role="tabpanel" aria-labelledby="nav-profile-tab">
+                        <label>
+                            <input class="mr-1" name="roles[]" type="checkbox" value="10">
+                            Administrador
+
+                        </label>
 
 
+                    </div>  
 
+                    <div class="tab-pane fade"              id="pills-profile"    role="tabpanel" aria-labelledby="pills-profile-tab">
+
+                        <label>
+                            <input class="mr-1" name="roles[]" type="checkbox" value="1" checked>
+                            Externo
+                        </label>         
 
                         <div class="row card-deck mt-4 justify-content-center">
-                                <div class="card mb-4 col-12 col-sm-6">
-                                    <div class="card-header">   
-                                        <h3 class="card-title text-uppercase font-weight-bold">Wallet</h3>
-                                    </div>
-                                    <div class="card-body">  
-                                        {{--
-                                        <div class="row justify-content-center text-center align-items-center mt-4 mb-4"> 
-                                            <input type="checkbox" id="all_wallets" name="all_wallets" value="1">
-                                            <label for="all_wallets" style="margin-top: 0.4rem; margin-left: 0.4rem;">Todas las Cajas</label><br>
-                                        </div>                                
-                                        --}}
-                                        <div class="row justify-content-center text-center align-items-center">
-                                            <select multiple="multiple" id="myselect" name="myselect[]" readonly>
-                                            </select>
-                                        </div>     
-                                        <br>
-                                        <br>
-                                        {{--
-                                        <div class="row justify-content-center text-center align-items-center">
-                                            <div class="col-12 col-sm-3 mt-2">
-                                                <button id="myButtonAplicar" type="button" class="btn btn-outline-primary btn-sm ">Aplicar</button>
-                                            </div>
-                                            <div class="col-12 col-sm-3 mt-2">
-                                                <button id="myButtonLimpiar" type="button" class="btn btn-outline-primary btn-sm ">Limpiar</button>
-                                            </div>                    
+                            <div class="card mb-4 col-12 col-sm-6">
+                                <div class="card-header">   
+                                    <h3 class="card-title text-uppercase font-weight-bold">Wallet</h3>
+                                </div>
+                                <div class="card-body">  
+                                    {{--
+                                    <div class="row justify-content-center text-center align-items-center mt-4 mb-4"> 
+                                        <input type="checkbox" id="all_wallets" name="all_wallets" value="1">
+                                        <label for="all_wallets" style="margin-top: 0.4rem; margin-left: 0.4rem;">Todas las Cajas</label><br>
+                                    </div>                                
+                                    --}}
+                                    <div class="row justify-content-center text-center align-items-center">
+                                        <select multiple="multiple" id="myselect" name="myselect[]" readonly>
+                                        </select>
+                                    </div>     
+                                    <br>
+                                    <br>
+                                    {{--
+                                    <div class="row justify-content-center text-center align-items-center">
+                                        <div class="col-12 col-sm-3 mt-2">
+                                            <button id="myButtonAplicar" type="button" class="btn btn-outline-primary btn-sm ">Aplicar</button>
                                         </div>
-                                        --}}
+                                        <div class="col-12 col-sm-3 mt-2">
+                                            <button id="myButtonLimpiar" type="button" class="btn btn-outline-primary btn-sm ">Limpiar</button>
+                                        </div>                    
                                     </div>
+                                    --}}
                                 </div>
                             </div>
 
-                            <div class="row card-deck justify-content-center">
-                                <div class="card mb-4 col-12 col-sm-6 lm-2">
-                                    <div class="card-header">
-                                        <h3 class="card-title text-uppercase font-weight-bold">Grupos</h3>
-                                    </div>
-                                    <div class="card-body">    
-                                        {{--
-                                        <div class="row justify-content-center text-center align-items-center mt-4 mb-4"> 
-                                            <input type="checkbox" id="all_groups" name="all_groups" value="1">
-                                            <label for="all_groups" style="margin-top: 0.4rem; margin-left: 0.4rem;">Todos los Grupos</label><br>
-
-                                        </div>
-                                        --}}
-                                        <div class="row justify-content-center text-center align-items-center">
-                                            <select multiple="multiple" id="myselect2" name="myselect2[]">
-                                            </select>   
-                                        </div>     
-                                        <br>
-                                        <br>
-
-                                        {{--
-                                        <div class="row justify-content-center text-center align-items-center">
-                                            <div class="col-12 col-sm-3 mt-2">
-                                                <button id="myButtonAplicar2" type="button" class="btn btn-outline-primary btn-sm ">Aplicar</button>
-                                            </div>
-                                            <div class="col-12 col-sm-3 mt-2">
-                                                <button id="myButtonLimpiar2" type="button" class="btn btn-outline-primary btn-sm ">Limpiar</button>                        
-                                            </div>                
-                                        </div>
-                                        --}}
-                                    </div>
-                                </div>
-                            </div>          
-
                         </div>
+
+                        <div class="row card-deck justify-content-center">
+                            <div class="card mb-4 col-12 col-sm-6 lm-2">
+                                <div class="card-header">
+                                    <h3 class="card-title text-uppercase font-weight-bold">Grupos</h3>
+                                </div>
+                                <div class="card-body">    
+                                    {{--
+                                    <div class="row justify-content-center text-center align-items-center mt-4 mb-4"> 
+                                        <input type="checkbox" id="all_groups" name="all_groups" value="1">
+                                        <label for="all_groups" style="margin-top: 0.4rem; margin-left: 0.4rem;">Todos los Grupos</label><br>
+
+                                    </div>
+                                    --}}
+                                    <div class="row justify-content-center text-center align-items-center">
+                                        <select multiple="multiple" id="myselect2" name="myselect2[]">
+                                        </select>   
+                                    </div>     
+                                    <br>
+                                    <br>
+
+                                    {{--
+                                    <div class="row justify-content-center text-center align-items-center">
+                                        <div class="col-12 col-sm-3 mt-2">
+                                            <button id="myButtonAplicar2" type="button" class="btn btn-outline-primary btn-sm ">Aplicar</button>
+                                        </div>
+                                        <div class="col-12 col-sm-3 mt-2">
+                                            <button id="myButtonLimpiar2" type="button" class="btn btn-outline-primary btn-sm ">Limpiar</button>                        
+                                        </div>                
+                                    </div>
+                                    --}}
+                                </div>
+                            </div>
+                        </div> 
+
                     </div>
                 </div>
-                {{--
-                @foreach($role as $roles)
-                    <label class="">
+      
+                {!! Form::hidden('type',null, ['class' => 'form-control general', 'min' => 0, 'readonly' => true, 'id' => 'type']) !!}
 
-                        {!! Form::radio('roles[]', $roles->id, null, ['class'=>'mx-4', 'required' => true]) !!}
-                        {{$roles->name}}
-
-                    </label>
-                @endforeach
-                --}}
-        
         
                 <hr>
 
-                <button class="btn btn-primary text-uppercase font-weight-bold btn-block" type="submit">Guardar</button>
 
             </form>
         </div>
@@ -182,6 +197,18 @@ $(document).ready(function () {
     cargaGrupos();
     cargaWallets();
     inicializaFiltroWalllets();
+
+    $('#type').val('1');
+    
+    $('#pills-home-tab').on('click', function (){
+        //alert('paso');
+        $('#type').val('1');
+    });
+
+    $('#pills-profile-tab').on('click', function (){
+        //alert('paso 2');  
+        $('#type').val('2');
+    });
 
 });
 
