@@ -48,7 +48,7 @@ class UserController extends Controller
         $parametros['group']    = $group;
 
         return view('users.create', $parametros);
-        
+
     }
 
     /**
@@ -56,6 +56,10 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
+
+        // dd($request->type);
+        dd($request->roles);
+
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:'.User::class],
