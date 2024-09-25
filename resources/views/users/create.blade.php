@@ -77,22 +77,23 @@
 
 
                         @foreach($role as $roles)
-                            <div>
-                                <label>
-                                    {!! Form::checkbox('roles[]', $roles->id, null, ['class'=>'mr-1']) !!}
-                                    {{$roles->name}}
 
-                                </label>
-                            </div>
+                            {{-- Si no es 1: externo el rol --}}
+
+                            @if($roles->id != 1) 
+                                
+                            
+                                <div>
+                                    <label>
+                                        {!! Form::checkbox('roles[]', $roles->id, null, ['class'=>'mr-1 myCheckBox']) !!}
+                                        {{$roles->name}}
+
+                                    </label>
+                                </div>
+
+                            @endif
+
                         @endforeach
-
-
-                        <label>
-                            <input class="mr-1" name="roles[]" type="checkbox" value="10">
-                            Administrador
-
-                        </label>
-
 
                     </div>  
 
@@ -203,14 +204,43 @@ $(document).ready(function () {
     $('#pills-home-tab').on('click', function (){
         //alert('paso');
         $('#type').val('1');
+        InicializaRoles();
     });
 
     $('#pills-profile-tab').on('click', function (){
         //alert('paso 2');  
+        InicializaRoles();
         $('#type').val('2');
     });
 
 });
+
+function InicializaRoles(){
+    // alert('viene' + $('.myCheckBox').val());
+   
+    /*
+    $(".myCheckBox").each(function(){ 
+        console.log('aqui esta');           
+        $(this).removeAttr( "checked" )
+    });
+    */
+   
+    /*
+    $("input:checkbox[class='mr-1 myCheckBox']:checked").each(function(){
+        let value = $(this).val()
+        console.log(value)
+        $(this).attr( "checked" ,false)
+    });
+    */
+
+    $("input:checkbox[name='roles[]']:checked").each(function(){
+        let value = $(this).val()
+        console.log(value)
+        // $(this).attr( "checked" ,false)
+        $(this).prop( "checked", false );
+    });
+
+}
 
 function InicializaMultiselects(){
         $('#myselect').multiSelect({
