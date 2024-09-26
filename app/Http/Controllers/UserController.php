@@ -6,6 +6,8 @@ use App\Models\User;
 use App\Models\Transaction;
 use App\Models\Client;
 use App\Models\Wallet;
+use App\Models\Group_user;
+
 use Spatie\Permission\Models\Role;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -67,15 +69,58 @@ class UserController extends Controller
         ]);
 
         // dd($request->roles);
-        User::create([
+        $myUser = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ])->assignRole($request->roles);
 
+        //dd($myUser->id);
+
+        $delete = Group_user::where('user_id', '=', $myUser->id)->delete();
+
+
+        if (!$request->myselect){
+
+ 
+         }else{
+ 
+             foreach($request->myselect as $myselect){
+ 
+                 // echo "Cada caja -> $myselect con role_id -> $role->id"; 
+ 
+                 $Group_user                 = new Group_user;
+ 
+                 $Group_user->user_id         = $role->id;
+                 $Group_user->group_id        = $myselect;
+ 
+                 $Group_user->save();
+
+             }        
+         }
+
+        if (!$request->myselect2){
+
+ 
+         }else{
+ 
+             foreach($request->myselect2 as $myselect){
+ 
+                 // echo "Cada caja -> $myselect con role_id -> $role->id"; 
+ 
+                 $Group_user                 = new Group_user;
+ 
+                 $Group_user->user_id         = $role->id;
+                 $Group_user->group_id        = $myselect;
+ 
+                 $Group_user->save();
+                 
+             }        
+         }    
 
 
         return redirect()->route('users.index')->with('success', 'Agente creado con exito.');
+        
     }
 
     /**

@@ -14,7 +14,7 @@
 <div class="d-flex justify-content-center">
     <div class="card col-md-4">
         <div class="card-body">
-            <form action={{ route('users.store')}} method="POST">
+            <form action={{ route('users.store')}} method="POST" id="entre">
                 @csrf
 
                 <button class="btn btn-primary text-uppercase font-weight-bold btn-block" type="submit">Guardar</button>
@@ -79,9 +79,8 @@
                         @foreach($role as $roles)
 
                             {{-- Si no es 1: externo el rol --}}
+                            
 
-                            @if($roles->id != 1) 
-                                
                             
                                 <div>
                                     <label>
@@ -91,7 +90,7 @@
                                     </label>
                                 </div>
 
-                            @endif
+
 
                         @endforeach
 
@@ -100,7 +99,7 @@
                     <div class="tab-pane fade"              id="pills-profile"    role="tabpanel" aria-labelledby="pills-profile-tab">
 
                         <label>
-                            <input class="mr-1" name="roles[]" type="checkbox" value="1" checked>
+                            <input class="mr-1" name="roles[]" type="checkbox" value="1" checked id="myCheckExterno">
                             Externo
                         </label>         
 
@@ -204,42 +203,124 @@ $(document).ready(function () {
     $('#pills-home-tab').on('click', function (){
         //alert('paso');
         $('#type').val('1');
-        InicializaRoles();
+        
+        $('#myCheckExterno').prop("checked",false);
+
+        InicializaRoles(1);
+        console.log('Valida cuales estan marcados en 1 - Inicio');
+        $("input:checkbox[name='roles[]']:checked").each(function(){
+            let value = $(this).val()
+            console.log("por marcado  1 " + value)
+            // $(this).prop( "checked", true );
+        });
+        console.log('Valida cuales estan marcados en 1 - Fin');
+        
     });
 
     $('#pills-profile-tab').on('click', function (){
         //alert('paso 2');  
         InicializaRoles();
         $('#type').val('2');
+
+        console.log('pasa por marcado -> ' +   $("input:checkbox[name='roles[]']").val());
+
+        $('#myCheckExterno').prop("checked",true);
+
+        console.log('Valida cuales estan marcados en 2 - Inicio');
+        $("input:checkbox[name='roles[]']:checked").each(function(){
+            let value = $(this).val()
+            console.log("por marcado  2 " + value)
+            // $(this).prop( "checked", true );
+        });
+        console.log('Valida cuales estan marcados en 2 - Fin');
+
+    });
+
+    $('#entre').on('submit', function() {
+
+        /* Validar que se slecciono por lo menos 1 rol para el usuario */
+        let Cant = 0;
+        $("input:checkbox[name='roles[]']:checked").each(function(){
+            Cant++;
+            // let value = $(this).val()
+            
+            // $(this).prop( "checked", true );
+        });
+        // alert("cantidad -> " + Cant);
+        if (Cant == 0){
+            Swal.fire({
+                position: 'left',
+                type: 'error',
+                title: 'Seleccione  Rol de usuario.',
+                showConfirmButton: true
+            });
+            return false;
+        }
+
+        let myType = $('#type').val();
+        alert('paso - type -> ' + myType);
+        if (myType == '2'){
+   
+            
+            let myDataWallet    = buscaFiltrosWallet('myselect');
+            let myDataGroup     = buscaFiltrosGroup('myselect2');
+
+            // alert('myDataWallet ' + myDataWallet.length);
+
+            let Cant2 = 0;
+            $("#myselect option:selected").each(function(){
+                Cant2++;
+            });
+
+            let Cant3 = 0;
+            $("#myselect2 option:selected").each(function(){
+                Cant3++;
+            });
+            if(Cant2 ==0 && Cant3 ==0){
+                Swal.fire({
+                    position: 'left',
+                    type: 'error',
+                    title: 'Seleccione un Wallet o un Grupo por lo menos.',
+                    showConfirmButton: true
+                });
+                return false;
+            }
+            /*
+            if (Cant3 ==0){
+                Swal.fire({
+                    position: 'left',
+                    type: 'error',
+                    title: 'Seleccione un Grupo.',
+                    showConfirmButton: true
+                });
+                return false;
+            }
+            alert('Cant3 -> ' + Cant3);
+            */
+        }
+
     });
 
 });
 
-function InicializaRoles(){
+function InicializaRoles(Cant = 0){
     // alert('viene' + $('.myCheckBox').val());
-   
-    /*
-    $(".myCheckBox").each(function(){ 
-        console.log('aqui esta');           
-        $(this).removeAttr( "checked" )
-    });
-    */
-   
-    /*
-    $("input:checkbox[class='mr-1 myCheckBox']:checked").each(function(){
-        let value = $(this).val()
-        console.log(value)
-        $(this).attr( "checked" ,false)
-    });
-    */
-
-    $("input:checkbox[name='roles[]']:checked").each(function(){
-        let value = $(this).val()
-        console.log(value)
-        // $(this).attr( "checked" ,false)
-        $(this).prop( "checked", false );
-    });
-
+   console.log('Inicializa roles');
+    if (Cant ==0){
+        $("input:checkbox[name='roles[]']:checked").each(function(){
+            let value = $(this).val()
+            console.log(value)
+            $(this).prop( "checked", false );
+        });
+    }else{
+        console.log('pasa por 1 ');
+        $("input:checkbox[name='roles[1]']:checked").each(function(){
+            let value = $(this).val()
+            console.log("por 1 " + value)
+            $(this).prop( "checked", false );
+        });
+            
+    }
 }
 
 function InicializaMultiselects(){
@@ -406,7 +487,7 @@ function InicializaMultiselects(){
         $("#" + myMultiSelect + " option:selected").each(function(){
             filtrosSeleccionado.push($(this).attr('value'));
         });
-        // alert ("filtros de wallet ->" + filtrosSeleccionado.toString());
+         // alert ("filtros de wallet ->" + filtrosSeleccionado.toString());
         return filtrosSeleccionado;
     }
 
@@ -509,6 +590,7 @@ function InicializaMultiselects(){
         $("#all_groups").prop("checked",true);
         $("#myselect").prop("enable",false);
     }
+
 </script>
 
 @endsection
