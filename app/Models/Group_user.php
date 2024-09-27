@@ -10,4 +10,7 @@ use Illuminate\Notifications\Notifiable;
 class Group_user extends Model
 {
     use Notifiable, HasFactory;
+
+    // protected $table = “group_user”;
+
 }
