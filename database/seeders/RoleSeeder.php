@@ -14,11 +14,11 @@ class RoleSeeder extends Seeder
      */
     public function run(): void
     {
-        $role4 = Role::create(['name'=>'Externo']);
+
         $role1 = Role::create(['name'=>'Administrador']);
         $role2 = Role::create(['name'=>'Agente']);
         $role3 = Role::create(['name'=>'Supervisor']);
-
+        $role4 = Role::create(['name'=>'Externo']);
 
         Permission::create(['name' => 'home','description' => 'Ver el inicio del sistema'])->syncRoles([$role1, $role2, $role3]);
         Permission::create(['name' => 'dashboardtest','description' => 'Ver graficos del sistema'])->syncRoles([$role1, $role2, $role3]);
@@ -99,10 +99,10 @@ class RoleSeeder extends Seeder
 
         Permission::create(['name' => 'transactions.update_status', 'description' => 'Cambiar estatus de la transacción'])->syncRoles([$role1, $role2, $role3]);
 
-        Permission::create(['name' => 'transactions.transfer_wallet', 'description' => 'Crear transacciones de caja a caja'])->syncRoles([$role1, $role2, $role3]);
+        Permission::create(['name' => 'transactions.transfer_wallet',       'description' => 'Crear transacciones de caja a caja'])->syncRoles([$role1, $role2, $role3]);
         Permission::create(['name' => 'transactions.index_transfer_wallet', 'description' => 'Ver transacciones de caja a caja'])->syncRoles([$role1, $role2, $role3]);
-        Permission::create(['name' => 'transactions.create_pagowallet', 'description' => 'Crear pagos entre cajas'])->syncRoles([$role1, $role2, $role3]);
-        Permission::create(['name' => 'transactions.index_pagowallet', 'description' => 'Ver pagos de caja a caja'])->syncRoles([$role1, $role2, $role3]);
+        Permission::create(['name' => 'transactions.create_pagowallet',     'description' => 'Crear pagos entre cajas'])->syncRoles([$role1, $role2, $role3]);
+        Permission::create(['name' => 'transactions.index_pagowallet',      'description' => 'Ver pagos de caja a caja'])->syncRoles([$role1, $role2, $role3]);
 
         Permission::create(['name' => 'transactions.index_pagoclientes', 'description' => 'Ver pagos entre clientes'])->syncRoles([$role1, $role2, $role3]);
         Permission::create(['name' => 'transactions.create_pagoclientes', 'description' => 'Crear pagos entre clientes'])->syncRoles([$role1, $role2, $role3]);
