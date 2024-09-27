@@ -20,6 +20,7 @@ use Pest\Support\Str;
 use App\Exports\UsersExport;
 use Maatwebsite\Excel\Facades\Excel;
 
+use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
@@ -59,8 +60,9 @@ class UserController extends Controller
     public function store(Request $request)
     {
 
-        // dd($request->type);
-         dd($request->roles);
+          // dd($request->type);
+         //dd($request->roles);
+
 
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
@@ -73,13 +75,11 @@ class UserController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'type' => $request->type,
         ])->assignRole($request->roles);
-
-        //dd($myUser->id);
-
+        
         $delete = Group_user::where('user_id', '=', $myUser->id)->delete();
-
-
+        
         if (!$request->myselect){
 
  
@@ -91,7 +91,7 @@ class UserController extends Controller
  
                  $Group_user                 = new Group_user;
  
-                 $Group_user->user_id         = $role->id;
+                 $Group_user->user_id         = $myUser->id;
                  $Group_user->group_id        = $myselect;
  
                  $Group_user->save();
@@ -110,7 +110,7 @@ class UserController extends Controller
  
                  $Group_user                 = new Group_user;
  
-                 $Group_user->user_id         = $role->id;
+                 $Group_user->user_id         = $myUser->id;
                  $Group_user->group_id        = $myselect;
  
                  $Group_user->save();
@@ -120,7 +120,7 @@ class UserController extends Controller
 
 
         return redirect()->route('users.index')->with('success', 'Agente creado con exito.');
-        
+
     }
 
     /**
@@ -138,7 +138,26 @@ class UserController extends Controller
     {
         $user = User::find($user);
         $roles = Role::all();
-        return view('users.edit', compact('user', 'roles'));
+
+        $wallet                     = app(GroupController::class)->getWallets2();
+        $group                      = app(GroupController::class)->getGroups2();
+
+
+        $userWallets    = $this->getWalletsByUserExterno($user->id);
+        $userGroups     = $this->getGroupsByUserExterno($user->id);
+
+        $parametros['user']         = $user;
+        $parametros['roles']        = $roles;
+        $parametros['wallet']       = $wallet;
+        $parametros['group']        = $group;
+
+        $parametros['userWallets']  = $userWallets;
+        $parametros['userGroups']   = $userGroups;
+
+         // dd($userWallets);
+        // dd($userGroups);
+
+        return view('users.edit', $parametros);
     }
 
     public function password($user)
@@ -170,6 +189,48 @@ class UserController extends Controller
             $user->syncRoles($request->roles);
 
 
+               
+        $delete = Group_user::where('user_id', '=', $user->id)->delete();
+        
+        if (!$request->myselect){
+
+ 
+         }else{
+ 
+             foreach($request->myselect as $myselect){
+ 
+                 // echo "Cada caja -> $myselect con role_id -> $role->id"; 
+ 
+                 $Group_user                 = new Group_user;
+ 
+                 $Group_user->user_id         = $user->id;
+                 $Group_user->group_id        = $myselect;
+ 
+                 $Group_user->save();
+
+             }        
+         }
+
+        if (!$request->myselect2){
+
+ 
+         }else{
+ 
+             foreach($request->myselect2 as $myselect){
+ 
+                 // echo "Cada caja -> $myselect con role_id -> $role->id"; 
+ 
+                 $Group_user                 = new Group_user;
+ 
+                 $Group_user->user_id         = $user->id;
+                 $Group_user->group_id        = $myselect;
+ 
+                 $Group_user->save();
+                 
+             }        
+         }    
+
+         
             return Redirect::route('users.index')->with('info', 'Agente/Usuario modificado  <strong># '. $user->name . '</strong>');
     }
 
@@ -187,6 +248,55 @@ class UserController extends Controller
         return Redirect::route('users.index')->with('error', 'Agente/Usuario eliminado  <strong># '. $usuario->name . '</strong>');
     }
 
+
+
+    public function getWalletsByUserExterno( $myUser = 0){
+
+        $wallets            = array();     
+        
+        $myQuery =
+        "
+            select
+                group_users.group_id  as GroupID,
+                mtf.groups.name       as GroupName,
+                mtf.groups.type       as GroupType
+            from
+                mtf.group_users
+                left join mtf.groups              on mtf.group_users.group_id           = mtf.groups.id
+            where
+                user_id                 between $myUser                and $myUser
+                and mtf.groups.type  in('2','3')
+        ";
+        
+        
+        $wallets = DB::select($myQuery);
+        // dd($myQuery);
+        return $wallets;
+    }
+
+    public function getGroupsByUserExterno( $myUser = 0){
+
+        $groups            = array();     
+        
+        $myQuery =
+        "
+            select
+                group_users.group_id  as GroupID,
+                mtf.groups.name       as GroupName,
+                mtf.groups.type       as GroupType
+            from
+                mtf.group_users
+                left join mtf.groups              on mtf.group_users.group_id           = mtf.groups.id
+            where
+                user_id                 between $myUser                and $myUser
+                and mtf.groups.type  in('1')
+        ";
+        
+        
+        $groups = DB::select($myQuery);
+        // dd($myQuery);
+        return $groups;
+    }
 
 }
 

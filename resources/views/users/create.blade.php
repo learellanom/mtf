@@ -51,14 +51,6 @@
                 </div>
                 <h5 class="font-weight-bold text-center">{{ __('ROLES|PERFIL') }}</h5>
                 <hr>
-                {{--
-                <nav>
-                    <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                        <button class="nav-link active" id="nav-home-tab"       data-toggle="tab" data-target="#nav-home"       type="button" role="tab" aria-controls="nav-home"       aria-selected="true">Administrativo</button>
-                        <button class="nav-link"        id="nav-profile-tab"    data-toggle="tab" data-target="#nav-profile"    type="button" role="tab" aria-controls="nav-profile"    aria-selected="false">Externo</button>
-                    </div>
-                </nav>
-                --}}
 
                 <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist" style="border-bottom: 1px solid">
                     <li class="nav-item" role="presentation">
