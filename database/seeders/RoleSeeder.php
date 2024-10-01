@@ -150,7 +150,7 @@ class RoleSeeder extends Seeder
         /*
             Externo
         */
-        Permission::create(['name' => 'externoDetalle',                     'description'   => 'Detalles de Movimientos'])->assignRole($role4);
+        Permission::create(['name' => 'estadisticasDetalleExterno',                 'description'   => 'Detalle de Movimientos usuarios externos'])->assignRole($role4);
 
     }
 }
