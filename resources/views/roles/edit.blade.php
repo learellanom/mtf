@@ -1832,6 +1832,56 @@
                         </div>    
 
 
+                        <div class="row card-deck justify-content-center">
+                            <div class="card mb-4 col-12 col-sm-8 lm-2">
+                                <div class="card-header">
+                                    <h3 class="card-title text-uppercase font-weight-bold">Usuario Externos</h3>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row card-deck justify-content-center">
+                            <div class="card mb-4 col-12 col-sm-8 lm-2">
+                                <div class="card-header">
+                                    <h3 class="card-title text-uppercase font-weight-bold">Estadisticas</h3>
+                                </div>
+                                <div class="card-body">    
+
+                                    <table id="myTable" class="table table-bordered table-responsive-lg">   
+
+                                        <tbody>
+                                            <tr>
+                                                <td>Detalle de Movimientos</td>  
+                                                <td>
+
+                                                    @php
+                                                        $myKey          = 182;
+                                                        $myDescription  = $permisos[$myKey]->description ?? 'Sin descripcion';
+                                                        $myId           = $permisos[$myKey]->id ?? 0;
+
+                                                        $myName         = "permissions[]";
+
+                                                        $myChecked      = "";
+                                                        foreach($roles->permissions as $myPermission){
+                                                            if ($myPermission->id == $myKey){
+                                                                $myChecked      = 'checked=checked';
+                                                            }
+                                                        }
+                                                    
+                                                    @endphp
+                                                    <input type="checkbox" id="{{$myId}}" name="permissions[]" value="{{$myId}}" {{$myChecked}}>
+                                                    <label for="fname">{{$myDescription}}</label>
+                                                    <br><br>
+
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>                       
+                        
+
                     </div>
 
 
