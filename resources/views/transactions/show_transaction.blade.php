@@ -99,7 +99,8 @@
                                 <div class="info-box bg-light">
                                     <div class="info-box-content">
                                         <span class="info-box-text text-center text-muted">Caja <i class="fas fa-box"></i></span>
-                                        <span class="info-box-number text-center text-muted mb-0 text-uppercase">{{ ($transactions->wallet->name) ?  $transactions->wallet->name :  ""}}</span>
+
+                                        <span class="info-box-number text-center text-muted mb-0 text-uppercase">{{ $transactions->wallet->name ??   ""}}</span>                                        
                                     </div>
                                 </div>
                             </div>
@@ -122,11 +123,11 @@
 
                                         @if($transactions->group_id)
                                                 @if($transactions->group->type == 2)   
-                                                    {{ $transactions->group->name }} 
+                                                    {{ $transactions->group->name ?? "" }} 
                                                     {{-- $transactions->wallet->name --}} 
 
                                                 @else
-                                                {{ $transactions->group->name }} 
+                                                    {{ $transactions->group->name ?? "" }} 
                                                 @endif
                                             @endif
                                         

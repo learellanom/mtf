@@ -1862,33 +1862,10 @@
 
                                         <tbody>
                                             <tr>
-                                                <td class="col-12 col-md-6" style="width: 30rem;">Estadisticas</td>
-                                                <td class="col-12 col-md-6">
-                                                    @php
-                                                        $myKey          = 53;
-                                                        $myDescription  = $permisos[$myKey]->description ?? 'Sin descripcion';
-                                                        $myId           = $permisos[$myKey]->id ?? 0;
-                                                        $myName         = "permissions[]";
-
-                                                        $myChecked      = "";
-                                                        //foreach($roles->permissions as $myPermission){
-                                                        //    if ($myPermission->id == $myKey){
-                                                        //        $myChecked      = 'checked=checked';
-                                                        //    }
-                                                        //}
-
-                                                    @endphp
-                                                    <input type="checkbox" id="{{$myId}}" name="permissions[]" value="{{$myId}}" {{$myChecked}}>
-                                                    <label for="fname">{{$myDescription}}</label>
-                                                    <br><br>
-                                                </td>
-                                            </tr>
-
-                                            <tr>
                                                 <td>Detalle de Movimientos</td>  
                                                 <td>
-                                                @php
-                                                        $myKey          = 84;
+                                                    @php
+                                                        $myKey          = 182;
                                                         $myDescription  = $permisos[$myKey]->description ?? 'Sin descripcion';
                                                         $myId           = $permisos[$myKey]->id ?? 0;
 
@@ -1906,7 +1883,7 @@
                                                     <label for="fname">{{$myDescription}}</label>
                                                     <br><br>
                                                 </td>
-                                            </tr>                                            
+                                            </tr>
                                         </tbody>
                                     </table>
                                 </div>

@@ -7816,7 +7816,7 @@ class statisticsController extends Controller
             $TransaccionesUSDT = [];
         }
 
-        $grupo                           = app(statisticsController::class)->getGroups2();
+        $grupo                           = app(GroupController::class)->getGroups2();
 
 		$parametros['myTypeCoinBalance']        = $myTypeCoinBalance;
         $parametros['Type_coin_balance']        = $Type_coin_balance;
