@@ -101,23 +101,27 @@ class HomeController extends Controller
 
         }
 
-        $myFechaDesde = "2001-01-01";
-        $myFechaHasta = "9999-12-31";
+        $myFechaDesde       = "2001-01-01";
+        $myFechaHasta       = "9999-12-31";
 
-        $myFechaDesde2 = "2001-01-01";
-        $myFechaHasta2 = "9999-12-31";
+        $myFechaDesde2      = "2001-01-01";
+        $myFechaHasta2      = "9999-12-31";
 
+        $myFechaDesdeBefore = "2001-01-01";
+        $myFechaHastaBefore = "9999-12-31";
+        
+        
         if ($request->fechaDesde){
-            $myFechaDesde = $request->fechaDesde;
-            $myFechaHasta = $request->fechaHasta;
+            $myFechaDesde   = $request->fechaDesde;
+            $myFechaHasta   = $request->fechaHasta;
 
-            $myFechaDesde2 = $myFechaDesde . " 00:00:00";
-            $myFechaHasta2 = $myFechaHasta . " 12:59:00";
+            $myFechaDesde2  = $myFechaDesde . " 00:00:00";
+            $myFechaHasta2  = $myFechaHasta . " 12:59:00";
         }
 
         if ($request->fechaHasta){
-            $myFechaHasta = $request->fechaHasta;
-            $myFechaHasta2 = $myFechaHasta . " 12:59:00";
+            $myFechaHasta   = $request->fechaHasta;
+            $myFechaHasta2  = $myFechaHasta . " 12:59:00";
             /* MANTENER VALOR BUSCADO EN EL URL */
         }
 
@@ -140,9 +144,8 @@ class HomeController extends Controller
 
        // dd($myFechaDesde);
         $balanceDetail      = 0;
-        $myFechaDesdeBefore = "2001-01-01";
-        $myFechaHastaBefore = "9999-12-31";
-        $balance3 = 0;
+
+        $balance3           = 0;
 
         $balanceDetail = 0;
         if ($myWallet > 0){

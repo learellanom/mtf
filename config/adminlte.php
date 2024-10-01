@@ -330,8 +330,8 @@ return [
         // Estadisticas
         //
         ['header' => 'Estadisticas',
-        'classes' =>'text-uppercase font-weight-bold text-light',],
-
+        'classes' =>'text-uppercase font-weight-bold text-light',
+        ],
         [
             'text' => 'Estadisticas',
             'url'  => 'dashboardest',
@@ -340,7 +340,6 @@ return [
             'can'  => 'dashboardtest',
             'classes' => '',
         ],
-
         [
             'text' => 'Consolidado de Saldos',
             'url'  => 'dashboardSaldos',
@@ -530,11 +529,11 @@ return [
                     'icon_color' => 'primary',       
                 ],                   
                 [                    
-                    'text'      => 'Consolidado de Aquisicion',
-                    'url'       => 'materialsAdquisicionConsolidado', 
-                    'classes'   =>  'ml-4',                    
-                    'can'       => 'materials.adquisicion_consolidado',
-                    'icon_color' => 'primary',       
+                    'text'          => 'Consolidado de Aquisicion',
+                    'url'           => 'materialsAdquisicionConsolidado', 
+                    'classes'       =>  'ml-4',                    
+                    'can'           => 'materials.adquisicion_consolidado',
+                    'icon_color'    => 'primary',       
                 ],                                           
                 [                    
                     'text'          => 'Cierre de Materiales',
@@ -558,9 +557,21 @@ return [
                     'icon_color'    => 'primary',
                 ],                                         
             ]
-        ],            
+        ],
+        ['header'   => 'Estadisticas ue',
+        'classes'   =>'text-uppercase font-weight-bold text-light',
+        'can'       => 'estadisticasDetalleExterno'
+        ],
+        [
+            'text' => 'Detalles de movimiento ue',
+            'url'  => 'estadisticasDetalle',
+            'active' => ['estadisticasDetalleExterno', 'regex:@^estadisticasDetalleExterno/[0-9]+/*@'],
+            'icon' => 'fas fa-fw fas fa-chart-bar',
+            'can'  => 'estadisticasDetalleExterno',  
+        ],
         ['header' => 'Operaciones',
-        'classes' =>'text-uppercase font-weight-bold text-light',],
+        'classes' =>'text-uppercase font-weight-bold text-light',
+        ],
         [
             'text'        => 'Transacciones',
             'url'         => 'movimientos',
@@ -680,7 +691,9 @@ return [
         // Configuracion
         //
         ['header' => 'Configuración',
-         'classes' =>'text-uppercase font-weight-bold text-light', 'can'  => ['users.index', 'roles.index', 'wallets.index', 'type_transactions.index', 'type_coins.index', 'groups.index']],
+         'classes' =>'text-uppercase font-weight-bold text-light', 
+         'can'  => ['users.index', 'roles.index', 'wallets.index', 'type_transactions.index', 'type_coins.index', 'groups.index']
+        ],
         [
             'text'    => 'Usuarios',
             'url'  => 'usuarios',
@@ -689,25 +702,25 @@ return [
             'can'         => 'users.index',
         ],
         [
-            'text' => 'Roles',
-            'url'  => 'roles',
-            'active'      => ['roles*'],
-            'icon'    => 'fas fa-fw fa-id-card-alt',
-            'can'         => 'roles.index',
+            'text'      => 'Roles',
+            'url'       => 'roles',
+            'active'    => ['roles*'],
+            'icon'      => 'fas fa-fw fa-id-card-alt',
+            'can'       => 'roles.index',
         ],
         [
-            'text' => 'Permisos',
-            'url'  => 'permisos',
-            'active'      => ['permisos*'],
-            'icon'    => 'fas fa-fw fa-key',
-            'can'         => 'permissions.index',
+            'text'      => 'Permisos',
+            'url'       => 'permisos',
+            'active'    => ['permisos*'],
+            'icon'      => 'fas fa-fw fa-key',
+            'can'       => 'permissions.index',
         ],
         [
-            'text' => 'Grupos',
-            'url'  => 'grupos',
-            'active'      => ['grupos*'],
-            'icon' => 'fas fa-fw fa-users',
-            'can'         => 'groups.index'
+            'text'      => 'Grupos',
+            'url'       => 'grupos',
+            'active'    => ['grupos*'],
+            'icon'      => 'fas fa-fw fa-users',
+            'can'       => 'groups.index'
         ],
         // [
         //     'text'        => 'Cajas',
