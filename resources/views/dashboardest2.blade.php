@@ -1582,8 +1582,24 @@ $config4 = [
     }
 
     function InicializaFechas(){
-         $('#drCustomRanges').data('daterangepicker').setStartDate('01-01-2001');
-
+         
+        // $('#drCustomRanges').data('daterangepicker').setStartDate('01-01-2001');
+        
+        $('#drCustomRanges').daterangepicker({
+            "showDropdowns": true,
+            ranges: {
+                'Today':        [moment(), moment()],
+                'Yesterday':    [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                'Last 7 Days':  [moment().subtract(6, 'days'), moment()],
+                'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+                'This Month':   [moment().startOf('month'), moment().endOf('month')],
+                'Last Month':   [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+            },            
+            "locale" : {
+                "format" : "DD/MM/YYYY",
+            }
+        });
+        
     }
 
     function BuscaFechas(FechaDesde = 0,FechaHasta = 0){
@@ -1866,8 +1882,8 @@ $config4 = [
         console.log('myFechaDesde2 ->' + myFechaDesde2);
         console.log('myFechaHasta2 ->' + myFechaHasta2);
 
-        $('#drCustomRanges').data('daterangepicker').setStartDate(myFechaDesde2);
-        $('#drCustomRanges').data('daterangepicker').setEndDate(myFechaHasta2);
+        //$('#drCustomRanges').data('daterangepicker').setStartDate(myFechaDesde2);
+        // $('#drCustomRanges').data('daterangepicker').setEndDate(myFechaHasta2);
 
     }
     
