@@ -294,6 +294,10 @@ Route::get('estadisticasDetalle',
             [App\Http\Controllers\statisticsController::class, 'index_all2'])
             ->middleware('can:estadisticasDetalle.index')
             ->name('estadisticasDetalle');
+//
+Route::get('estadisticasDetalle2',
+            [App\Http\Controllers\statisticsController::class, 'index_all2'])
+            ->name('estadisticasDetalle2');
 
 // Route::get('estadisticasDetalleUsuario',[App\Http\Controllers\statisticsController::class, 'userDetail'])->name('estadisticasDetalleUsuario');
 // Route::get('estadisticasDetalleUsuario/{usuario}/{fechaDesde?}/{fechaHasta?}',[App\Http\Controllers\statisticsController::class, 'userDetail'])->name('estadisticasDetalleUsuario');
