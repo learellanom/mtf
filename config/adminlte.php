@@ -1,3 +1,4 @@
+
 <?php
 
 return [
@@ -329,8 +330,34 @@ return [
         //
         // Estadisticas
         //
-        ['header' => 'Estadisticas',
-        'classes' =>'text-uppercase font-weight-bold text-light',
+        [
+            'header' => 'Estadisticas',
+            'classes' =>'text-uppercase font-weight-bold text-light',
+            'can'     => [
+                'dashboardtest',
+                'dashboardSaldos',
+                'estadisticasDetalle.index',
+                'dashboardComisiones',
+                'dashboardComisionesGrupo',
+                'dashboardComisionesGrupo2',
+                'dashboardComisionesGrupo3',
+                'dashboardComisionesGrupoRes',
+                'dashboardComisionesGrupoRes3',
+                'dashboardComisionesUSDTGenera',
+                'USDTResumenDiario',
+                'USDTResumenMovimientos',
+                'estadisticasDetalle.statisticsResumenGrupo',
+                'estadisticasDetalle.statisticsResumenWallet',
+                'estadisticasDetalle.estadisticasResumenWalletTran',
+                'estadisticasDetalle.estadisticasResumenWalletTranGroup',
+                'estadisticasDetalle.estadisticasFechaTokens',
+                'statistics.consolidadoMovimientos',
+                'materials.adquisicion_rescajagrupo',
+                'materials.adquisicion_consolidado',
+                'materials.CierreGenera',
+                'materials.consolidado_grupo',
+                'materials.liquidacion_cuenta',
+            ],
         ],
         [
             'text' => 'Estadisticas',
@@ -360,7 +387,7 @@ return [
             'url'  => 'estadisticasDetalle',
             'active' => ['estadisticasDetalle', 'regex:@^estadisticasDetalle/[0-9]+/*@'],
             'icon' => 'fas fa-fw fas fa-chart-bar',
-            'can'  => 'estadisticasDetalle.index',  
+            'can'  => ['estadisticasDetalle.index']
         ],
         [
             'text'          => 'Comisiones',
@@ -558,19 +585,46 @@ return [
                 ],                                         
             ]
         ],
-        ['header'   => 'Estadisticas ue',
-        'classes'   =>'text-uppercase font-weight-bold text-light',
-        'can'       => 'estadisticasDetalleExterno'
+        //
+        //
+        // Estadisticas usuarios externos
+        //
+        //
+        [
+            'header'   => 'Estadisticas ue',
+            'classes'   =>'text-uppercase font-weight-bold text-light',
+            'can'       => [
+                'estadisticasDetalleExterno',
+            ],
         ],
         [
             'text' => 'Detalles de movimiento ue',
-            'url'  => 'estadisticasDetalle',
-            'active' => ['estadisticasDetalleExterno', 'regex:@^estadisticasDetalleExterno/[0-9]+/*@'],
+            'url'  => 'estadisticasDetalle2',
             'icon' => 'fas fa-fw fas fa-chart-bar',
             'can'  => 'estadisticasDetalleExterno',  
         ],
-        ['header' => 'Operaciones',
-        'classes' =>'text-uppercase font-weight-bold text-light',
+        //
+        //
+        //          Menu de Operaciones
+        //
+        //
+        [
+            'header'    => 'Operaciones',
+            'classes'   =>'text-uppercase font-weight-bold text-light',
+            'can'       => [
+                'transactions.index',
+                'transactions.index3',
+                'transactions.create_efectivo',
+                'transactions.index_transfer_wallet',
+                'transactions.index_transfer_walletop',
+                'transactions.index_transfer_walletop2',   
+                'transactions.index_pagowallet',
+                'transactions.index_cobrowallet',
+                'transactions.index_pagoclientes',
+                'transactions.credit',
+                'materials.adquisicion_index',
+                'materials.recepcion_index',                
+            ],
         ],
         [
             'text'        => 'Transacciones',
@@ -669,26 +723,31 @@ return [
             'text'          => 'Materiales',
             'icon'          => 'fas fa-fw fa-share',
             'icon_color'    => 'primary',
-            //'can'           => ['materials.adquisicion_index', 'materials.recepcion_index'],
+            'can'           => [
+                'materials.adquisicion_index', 
+                'materials.recepcion_index'
+            ],
             'submenu'   => [
                 [
                     'text'        => 'Adquisicion',
                     'classes'   =>  'ml-4',     
                     'url'         => 'adquisicion',
-                    //'can'         => 'materials.adquisicion_index',
+                    'can'         => 'materials.adquisicion_index',
                     'label_color' =>'success'
                 ],
                 [
                     'text'        => 'Recepcion',
                     'classes'   =>  'ml-4',     
                     'url'         => 'recepcion',
-                    //'can'         => 'materials.recepcion_index',
+                    'can'         => 'materials.recepcion_index',
                     'label_color' =>'success'
                 ],         
             ],
         ],        
         //
-        // Configuracion
+        //
+        //      Menu Configuracion
+        //
         //
         ['header' => 'Configuración',
          'classes' =>'text-uppercase font-weight-bold text-light', 
