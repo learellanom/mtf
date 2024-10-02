@@ -83,7 +83,7 @@
                             
                                 <div>
                                     <label>
-                                        {!! Form::checkbox('roles[]', $role->id, null, ['class'=>'mr-1 myCheckBox']) !!}
+                                        {!! Form::checkbox('roles[]', $role->id, null, ['class'=>'mr-1 myCheckBox', 'id' => 'theRole']) !!}
                                          {{$role->name}}
 
                                     </label>
@@ -168,6 +168,19 @@ $(document).ready(function () {
 
     $('#type').val('1');
     
+    /*
+    $('.myCheckBox').on('click', function (){
+        $("input:checkbox[name='roles[]']:checked").each(function(){
+            let value = $(this).val();
+            if (value ==1){
+                alert('si es externo' + value);
+            }
+            
+            // $(this).prop( "checked", true );
+        }); 
+    });
+    */  
+
     $('#pills-home-tab').on('click', function (){
         //alert('paso');
         $('#type').val('1');
@@ -351,8 +364,7 @@ function leeWallets(){
                 $('#myselect').multiSelect('select', $(this).val());
             }
         }); 
-    @endforeach
-                 
+    @endforeach             
 }
 
 function leeGroups(){
@@ -373,7 +385,7 @@ function leeGroups(){
 
 function InicializaRoles(Cant = 0){
     // alert('viene' + $('.myCheckBox').val());
-   console.log('Inicializa roles');
+   //console.log('Inicializa roles');
     if (Cant ==0){
         $("input:checkbox[name='roles[]']:checked").each(function(){
             let value = $(this).val()
