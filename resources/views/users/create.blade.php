@@ -67,34 +67,26 @@
                 <div class="tab-content" id="pills-tabContent">
                     <div class="tab-pane fade show active"  id="pills-home"       role="tabpanel" aria-labelledby="pills-home-tab">
 
-
                         @foreach($role as $roles)
-
-                            {{-- Si no es 1: externo el rol --}}
-                            
-
-                            
-                                <div>
-                                    <label>
-                                        {!! Form::checkbox('roles[]', $roles->id, null, ['class'=>'mr-1 myCheckBox']) !!}
-                                        {{$roles->name}}
-
-                                    </label>
-                                </div>
-
-
+                      
+                            <div>
+                                <label>
+                                    {!! Form::checkbox('roles[]', $roles->id, null, ['class'=>'mr-1 myCheckBox']) !!}
+                                    {{$roles->name}}
+                                </label>
+                            </div>
 
                         @endforeach
 
                     </div>  
 
                     <div class="tab-pane fade"              id="pills-profile"    role="tabpanel" aria-labelledby="pills-profile-tab">
-
+                        {{--
                         <label>
                             <input class="mr-1" name="roles[]" type="checkbox" value="1" checked id="myCheckExterno">
                             Externo
                         </label>         
-
+                        --}}
                         <div class="row card-deck mt-4 justify-content-center">
                             <div class="card mb-4 col-12 col-sm-6">
                                 <div class="card-header">   
@@ -189,42 +181,107 @@ $(document).ready(function () {
     cargaGrupos();
     cargaWallets();
     inicializaFiltroWalllets();
-
-    $('#type').val('1');
     
+    $('#type').val(1);
+    
+
+    $("input:checkbox[name='roles[]']").each(function(){
+
+        let value   = $(this).val();
+        let myCheck = $(this).prop("checked");
+
+        // console.log('si es externo ->' + value + ' checked ->' + $(this).prop("checked"));
+        if (value ==1){
+            if (myCheck == false){
+                //console.log('deshabilita');
+                $('#pills-profile-tab').prop("disabled",true);
+            }else{
+                //console.log('habilita');
+                $('#pills-profile-tab').prop("disabled",false);
+            }
+        }
+        // $(this).prop( "checked", true );
+    }); 
+
+
+    $('.myCheckBox').on('click', function (){
+        $("input:checkbox[name='roles[]']").each(function(){
+
+            let value   = $(this).val();
+            let myCheck = $(this).prop("checked");
+
+            // console.log('si es externo ->' + value + ' checked ->' + $(this).prop("checked"));
+            if (value ==1){
+                if (myCheck == false){
+                    //console.log('deshabilita');
+                    $('#pills-profile-tab').prop("disabled",true);
+                    $('#type').val('1');
+                }else{
+                    //console.log('habilita');
+                    $('#pills-profile-tab').prop("disabled",false);
+                    $('#type').val('2');
+                }
+            }
+
+
+
+
+            }); 
+            //
+            //
+            // SI no es Externo el rol borra el wallet o grupo seleccionado 
+            //
+            //
+            let myExterno = 0;
+            $("input:checkbox[name='roles[]']:checked").each(function(){
+                let value = $(this).val()
+                if (value == 1) myExterno = 1;
+            });
+            if (myExterno == 1){
+                $('#type').val('2');
+            }else{
+                $("#myselect option").each(function(){
+                    $('#myselect').multiSelect('deselect', $(this).val());
+                }); 
+                
+                $("#myselect2 option").each(function(){
+                    $('#myselect2').multiSelect('deselect', $(this).val());
+                });             
+                $('#type').val('1');
+            }            
+                // $(this).prop( "checked", true );
+    });    
+
+
     $('#pills-home-tab').on('click', function (){
         //alert('paso');
-        $('#type').val('1');
+       
         
-        $('#myCheckExterno').prop("checked",false);
 
-        InicializaRoles(1);
-        console.log('Valida cuales estan marcados en 1 - Inicio');
+        let myExterno = 0;
         $("input:checkbox[name='roles[]']:checked").each(function(){
             let value = $(this).val()
-            console.log("por marcado  1 " + value)
-            // $(this).prop( "checked", true );
+            if (value == 1) myExterno = 1;
         });
-        console.log('Valida cuales estan marcados en 1 - Fin');
+        if (myExterno == 1){
+            $('#type').val('2');
+        }else{
+            $("#myselect option").each(function(){
+                $('#myselect').multiSelect('deselect', $(this).val());
+            }); 
+            
+            $("#myselect2 option").each(function(){
+                $('#myselect2').multiSelect('deselect', $(this).val());
+            });             
+            $('#type').val('1');
+        }
+
         
     });
 
     $('#pills-profile-tab').on('click', function (){
-        //alert('paso 2');  
-        InicializaRoles();
+
         $('#type').val('2');
-
-        console.log('pasa por marcado -> ' +   $("input:checkbox[name='roles[]']").val());
-
-        $('#myCheckExterno').prop("checked",true);
-
-        console.log('Valida cuales estan marcados en 2 - Inicio');
-        $("input:checkbox[name='roles[]']:checked").each(function(){
-            let value = $(this).val()
-            console.log("por marcado  2 " + value)
-            // $(this).prop( "checked", true );
-        });
-        console.log('Valida cuales estan marcados en 2 - Fin');
 
     });
 
@@ -232,11 +289,15 @@ $(document).ready(function () {
 
         /* Validar que se slecciono por lo menos 1 rol para el usuario */
         let Cant = 0;
+        let myExterno   = 0;
         $("input:checkbox[name='roles[]']:checked").each(function(){
             Cant++;
-            // let value = $(this).val()
+            let value = $(this).val()
             
             // $(this).prop( "checked", true );
+            if(value == 1){
+                myExterno = 1;
+            }
         });
         // alert("cantidad -> " + Cant);
         if (Cant == 0){
@@ -248,9 +309,19 @@ $(document).ready(function () {
             });
             return false;
         }
-
+        if (myExterno ==1){
+            if (Cant > 1){
+                Swal.fire({
+                    position: 'left',
+                    type: 'error',
+                    title: 'Si el usuario tiene rol Externo no puede tener otros roles. Debe tener solo Externo como rol',
+                    showConfirmButton: true
+                });
+                return false;
+            }
+        }
         let myType = $('#type').val();
-        alert('paso - type -> ' + myType);
+        
         if (myType == '2'){
    
             
@@ -272,11 +343,43 @@ $(document).ready(function () {
                 Swal.fire({
                     position: 'left',
                     type: 'error',
-                    title: 'Seleccione un Wallet o un Grupo por lo menos.',
+                    title: 'Debe seleccionar un Wallet o un Grupo.',
                     showConfirmButton: true
                 });
                 return false;
             }
+
+            if(Cant2 >= 1 && Cant3 >= 1){
+                Swal.fire({
+                    position: 'left',
+                    type: 'error',
+                    title: 'Debe seleccionar solo (1) un Wallet o (1) un Grupo.',
+                    showConfirmButton: true
+                });
+                return false;
+            }
+
+            if(Cant2 > 1){
+                Swal.fire({
+                    position: 'left',
+                    type: 'error',
+                    title: 'Debe seleccionar solo (1) un Wallet.',
+                    showConfirmButton: true
+                });
+                return false;
+            }
+
+
+            if(Cant3 > 1){
+                Swal.fire({
+                    position: 'left',
+                    type: 'error',
+                    title: 'Debe seleccionar solo (1) un Grupo.',
+                    showConfirmButton: true
+                });
+                return false;
+            }
+
             /*
             if (Cant3 ==0){
                 Swal.fire({

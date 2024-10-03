@@ -191,7 +191,13 @@ class UserController extends Controller
 
                
         $delete = Group_user::where('user_id', '=', $user->id)->delete();
-        
+        /*
+        \Log::info('UserCOntroller - update_users - borra el user id de groups ' . $user->id . ' delete ' 
+            . print_r($delete,true)
+            . ' myselect ' 
+            . print_r($request->myselect ,true)
+        );
+        */
         if (!$request->myselect){
 
  
