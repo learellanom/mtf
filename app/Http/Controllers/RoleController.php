@@ -402,18 +402,21 @@ class RoleController extends Controller
 
         // dd($myUserId);
 
-        $userole2 = User::select('users.id', 'users.name', 'model_has_roles.role_id')
+        $userole2 = User::select('users.id', 'users.name', 'users.type', 'model_has_roles.role_id')
                 ->join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
                 ->join('roles', 'roles.id', '=', 'model_has_roles.role_id')
                 ->where('users.id', '=', $myUserId)
                 ->get();
-
         
 
+        $myUserType = $userole2[0]->type ?? 1;
+
+        // \Log::info('leam - RoleController - getRoleWallets - userole2 - > ' . $myUserType);
+        
         $userole = array();
         foreach($userole2 as $user){
-            $myUserName         = $user->name;
-            $userole [] =  $user->role_id;
+            $myUserName     = $user->name;
+            $userole []     = $user->role_id;
         }
 
 
@@ -425,187 +428,237 @@ class RoleController extends Controller
         $all_wallets    = 0;
         $all_groups     = 0;
 
-        foreach($myUserRoles as $role){
-            
-            //     if($roles->name == 'Administrador' || $roles->name == 'Supervisor'){        
-            //         dd($roles->id . ' ' . $roles->name);
-            //          return true;
-            //     }
-            //  }
+        if ($myUserType == 1){
+            foreach($myUserRoles as $role){
+                
+                //     if($roles->name == 'Administrador' || $roles->name == 'Supervisor'){        
+                //         dd($roles->id . ' ' . $roles->name);
+                //          return true;
+                //     }
+                //  }
 
 
-            $myRoleDesde = 0;
-            $myRoleHasta = 9999;
-            // if ($request->role_id){
-            //     $myRoleDesde = $request->role_id;
-            //     $myRoleHasta = $request->role_id;
-            // }
+                $myRoleDesde = 0;
+                $myRoleHasta = 9999;
+                // if ($request->role_id){
+                //     $myRoleDesde = $request->role_id;
+                //     $myRoleHasta = $request->role_id;
+                // }
 
-            $myRoleDesde = $role;
-            $myRoleHasta = $role;
+                $myRoleDesde = $role;
+                $myRoleHasta = $role;
 
-            // $myRoleDesde = 38;
-            // $myRoleHasta = 38;
-
-            //
-            // Busca indicador de todos los wallets
-            //
-            $myQuery =
-            "
-                select
-                    group_roles.id                          as Id,
-                    group_roles.role_id                     as RoleID,
-                    roles.name                              as RoleName,
-                    group_roles.wallet_id                   as WalletID,
-                    group_roles.group_id                    as GroupID,
-                    groups.name                             as GroupName,
-                    groups.type                             as GroupType,
-                    group_roles.all_wallets                 as AllWallets,
-                    group_roles.all_groups                  as AllGroups
-                from
-                    mtf.group_roles
-                    left join mtf.groups              on mtf.group_roles.group_id           = mtf.groups.id
-                    left join mtf.roles               on mtf.group_roles.role_id            = mtf.roles.id
-                where
-                    role_id                 between $myRoleDesde                and $myRoleHasta 
-                    and all_wallets = '1'
-            ";
-            
-
-            $Group_roles = DB::select($myQuery);
-
-
-
-            if (count($Group_roles) > 0) {
-                $all_wallets = 1;
-            }
-
-            //
-            // Busca indicador de todos los grupos
-            //
-            $myQuery =
-            "
-                select
-                    group_roles.id                          as Id,
-                    group_roles.role_id                     as RoleID,
-                    roles.name                              as RoleName,
-                    group_roles.wallet_id                   as WalletID,                    
-                    group_roles.group_id                    as GroupID,
-                    groups.name                             as GroupName,
-                    groups.type                             as GroupType,
-                    group_roles.all_wallets                 as AllWallets,
-                    group_roles.all_groups                  as AllGroups
-                from
-                    mtf.group_roles
-                    left join mtf.groups              on mtf.group_roles.group_id           = mtf.groups.id
-                    left join mtf.roles               on mtf.group_roles.role_id            = mtf.roles.id
-                where
-                    role_id                 between $myRoleDesde                and $myRoleHasta 
-                    and all_groups = '1'
-            ";
-            
-
-            $Group_roles = DB::select($myQuery);
-
-            if (count($Group_roles) > 0) {
-                $all_groups = 1;
-            }
-
-            // dd(' all groups -> ' . $all_groups);
-
-            //
-            // Busca los Wallets de un UserID
-            //
-            $myQuery =
-            "
-                select
-                    group_roles.id                          as Id,
-                    group_roles.role_id                     as RoleID,
-                    roles.name                              as RoleName,
-                    group_roles.wallet_id                   as WalletID,
-                    group_roles.group_id                    as GroupID,
-                    case
-                       when group_roles.group_type = 1 then mtf.groups.name
-					   when group_roles.group_type = 2 then wallets.name
-					   when group_roles.group_type = 3 then mtf.groups.name
-                    end
-					as GroupName,                                        
-                    group_roles.group_type                  as GroupType,
-                    group_roles.all_wallets                 as AllWallets,
-                    group_roles.all_groups                  as AllGroups
-                from
-                    mtf.group_roles
-                    left join mtf.groups              on mtf.group_roles.group_id           = mtf.groups.id
-                    left join mtf.groups as wallets   on mtf.group_roles.wallet_id          = wallets.id                    
-                    left join mtf.roles               on mtf.group_roles.role_id            = mtf.roles.id
-                where
+                // $myRoleDesde = 38;
+                // $myRoleHasta = 38;
+                //
+                //
+                // Busca indicador de todos los wallets
+                //
+                //
+                $myQuery =
+                "
+                    select
+                        group_roles.id                          as Id,
+                        group_roles.role_id                     as RoleID,
+                        roles.name                              as RoleName,
+                        group_roles.wallet_id                   as WalletID,
+                        group_roles.group_id                    as GroupID,
+                        groups.name                             as GroupName,
+                        groups.type                             as GroupType,
+                        group_roles.all_wallets                 as AllWallets,
+                        group_roles.all_groups                  as AllGroups
+                    from
+                        mtf.group_roles
+                        left join mtf.groups              on mtf.group_roles.group_id           = mtf.groups.id
+                        left join mtf.roles               on mtf.group_roles.role_id            = mtf.roles.id
+                    where
                         role_id                 between $myRoleDesde                and $myRoleHasta 
-                    and group_roles.group_type  in(2,3)            
-                    and group_roles.wallet_id is not null        
-                order by
-                    RoleID
-            ";
-            
+                        and all_wallets = '1'
+                ";
+                
 
-            $Group_roles = DB::select($myQuery);
-             // dd($myQuery);
-            // dd($Group_roles);
-            
-            foreach($Group_roles as $item){
-                $wallets[] = $item->WalletID;
+                $Group_roles = DB::select($myQuery);
+
+
+
+                if (count($Group_roles) > 0) {
+                    $all_wallets = 1;
+                }
+                //
+                //
+                // Busca indicador de todos los grupos
+                //
+                //
+                $myQuery =
+                "
+                    select
+                        group_roles.id                          as Id,
+                        group_roles.role_id                     as RoleID,
+                        roles.name                              as RoleName,
+                        group_roles.wallet_id                   as WalletID,                    
+                        group_roles.group_id                    as GroupID,
+                        groups.name                             as GroupName,
+                        groups.type                             as GroupType,
+                        group_roles.all_wallets                 as AllWallets,
+                        group_roles.all_groups                  as AllGroups
+                    from
+                        mtf.group_roles
+                        left join mtf.groups              on mtf.group_roles.group_id           = mtf.groups.id
+                        left join mtf.roles               on mtf.group_roles.role_id            = mtf.roles.id
+                    where
+                        role_id                 between $myRoleDesde                and $myRoleHasta 
+                        and all_groups = '1'
+                ";
+                
+
+                $Group_roles = DB::select($myQuery);
+
+                if (count($Group_roles) > 0) {
+                    $all_groups = 1;
+                }
+
+                // dd(' all groups -> ' . $all_groups);
+
+                //
+                // Busca los Wallets de un UserID
+                //
+                $myQuery =
+                "
+                    select
+                        group_roles.id                          as Id,
+                        group_roles.role_id                     as RoleID,
+                        roles.name                              as RoleName,
+                        group_roles.wallet_id                   as WalletID,
+                        group_roles.group_id                    as GroupID,
+                        case
+                        when group_roles.group_type = 1 then mtf.groups.name
+                        when group_roles.group_type = 2 then wallets.name
+                        when group_roles.group_type = 3 then mtf.groups.name
+                        end
+                        as GroupName,                                        
+                        group_roles.group_type                  as GroupType,
+                        group_roles.all_wallets                 as AllWallets,
+                        group_roles.all_groups                  as AllGroups
+                    from
+                        mtf.group_roles
+                        left join mtf.groups              on mtf.group_roles.group_id           = mtf.groups.id
+                        left join mtf.groups as wallets   on mtf.group_roles.wallet_id          = wallets.id                    
+                        left join mtf.roles               on mtf.group_roles.role_id            = mtf.roles.id
+                    where
+                            role_id                 between $myRoleDesde                and $myRoleHasta 
+                        and group_roles.group_type  in(2,3)            
+                        and group_roles.wallet_id is not null        
+                    order by
+                        RoleID
+                ";
+                
+
+                $Group_roles = DB::select($myQuery);
+                // dd($myQuery);
+                // dd($Group_roles);
+                
+                foreach($Group_roles as $item){
+                    $wallets[] = $item->WalletID;
+                }
+                //  dd($wallets);
+                // dd('wallets ->'. count($wallets));
+                //
+                // Busca los grupos de un UserID
+                //
+                $myQuery =
+                "
+                    select
+                        group_roles.id                          as Id,
+                        group_roles.role_id                     as RoleID,
+                        roles.name                              as RoleName,
+                        group_roles.wallet_id                   as WalletID,
+                        group_roles.group_id                    as GroupID,
+                        case
+                        when group_roles.group_type = 1 then mtf.groups.name
+                        when group_roles.group_type = 2 then wallets.name
+                        when group_roles.group_type = 3 then mtf.groups.name
+                        end
+                        as GroupName,
+                        group_roles.group_type                  as GroupType,
+                        group_roles.all_wallets                 as AllWallets,
+                        group_roles.all_groups                  as AllGroups
+                    from
+                        mtf.group_roles
+                        left join mtf.groups              on mtf.group_roles.group_id           = mtf.groups.id
+                        left join mtf.groups as wallets   on mtf.group_roles.wallet_id          = wallets.id                           
+                        left join mtf.roles               on mtf.group_roles.role_id            = mtf.roles.id
+                    where
+                            role_id                 between $myRoleDesde                and $myRoleHasta 
+                        and group_roles.group_type  in(1,3)      
+                        and group_roles.group_id is not null                                             
+                    order by
+                        RoleID
+                ";
+                
+
+                $Group_roles = DB::select($myQuery);
+
+                foreach($Group_roles as $item){
+                    $groups[] = $item->GroupID;
+                }
+                // dd($myQuery);
+                // dd($groups);
+                // \Log::info('leam - ***************');
+                // \Log::info('leam - Role id      -> ' . $role);
+                // \Log::info('leam - Role desde   -> ' . $myRoleDesde);
+                // \Log::info('leam - Role Hasta   -> ' . $myRoleHasta);
+                // \Log::info('leam - all_wallets  -> ' . $all_wallets);
+                // \Log::info('leam - all_groups   -> ' . $all_groups);
+                // \Log::info('leam - wallets      -> ' . print_r($wallets,true));
+                // \Log::info('leam - groups       -> ' . print_r($groups,true));
+
+
             }
-            //  dd($wallets);
-            // dd('wallets ->'. count($wallets));
+
+
+        }else{
             //
-            // Busca los grupos de un UserID
+            //
+            // Busca los wallets y grupos del usuario externo
+            //
             //
             $myQuery =
             "
                 select
-                    group_roles.id                          as Id,
-                    group_roles.role_id                     as RoleID,
-                    roles.name                              as RoleName,
-                    group_roles.wallet_id                   as WalletID,
-                    group_roles.group_id                    as GroupID,
-                    case
-                       when group_roles.group_type = 1 then mtf.groups.name
-					   when group_roles.group_type = 2 then wallets.name
-					   when group_roles.group_type = 3 then mtf.groups.name
-                    end
-					as GroupName,
-                    group_roles.group_type                  as GroupType,
-                    group_roles.all_wallets                 as AllWallets,
-                    group_roles.all_groups                  as AllGroups
+                    group_users.id                          as Id,
+                    group_users.user_id                     as UserID,
+                    group_users.group_id                    as GroupID,
+                    mtf.groups.type                         as GroupType,
+                    mtf.groups.name                         ad GroupName
                 from
-                    mtf.group_roles
-                    left join mtf.groups              on mtf.group_roles.group_id           = mtf.groups.id
-                    left join mtf.groups as wallets   on mtf.group_roles.wallet_id          = wallets.id                           
-                    left join mtf.roles               on mtf.group_roles.role_id            = mtf.roles.id
+                    mtf.group_users
+                    left join mtf.groups              on mtf.group_users.group_id = mtf.groups.id
                 where
-                        role_id                 between $myRoleDesde                and $myRoleHasta 
-                    and group_roles.group_type  in(1,3)      
-                    and group_roles.group_id is not null                                             
+                        user_id                 between $myUserId                and $myUserId
                 order by
-                    RoleID
+                    UserID
             ";
             
-
-            $Group_roles = DB::select($myQuery);
-
-            foreach($Group_roles as $item){
-                $groups[] = $item->GroupID;
-            }
+             $Group_userss = DB::select($myQuery);
             // dd($myQuery);
-            // dd($groups);
-            // \Log::info('leam - ***************');
-            // \Log::info('leam - Role id      -> ' . $role);
-            // \Log::info('leam - Role desde   -> ' . $myRoleDesde);
-            // \Log::info('leam - Role Hasta   -> ' . $myRoleHasta);
-            // \Log::info('leam - all_wallets  -> ' . $all_wallets);
-            // \Log::info('leam - all_groups   -> ' . $all_groups);
-            // \Log::info('leam - wallets      -> ' . print_r($wallets,true));
-            // \Log::info('leam - groups       -> ' . print_r($groups,true));
-
+            // dd($Group_users);
+            
+            foreach($Group_users as $item){
+                switch ($item->GroupType) {
+                    case 1:
+                        $groups[]   = $item->GroupID;
+                        break;
+                    case 2:
+                        $wallets[]  = $item->GroupID;    
+                        break;
+                    case 3:
+                        $wallets[]  = $item->GroupID;
+                        break;
+                    default:
+                        $groups[]   = $item->GroupID;
+                        break;
+                }
+            }
 
         }
 
