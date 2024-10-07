@@ -207,7 +207,7 @@ class statisticsController extends Controller
         // \Log::info('Inicio index_all2');
         $myGroup        = 0;
         $myGroupDesde   = 0;
-        $myGroupHasta   = 9999;        
+        $myGroupHasta   = 9999;
         if ($request->grupo) {
             $myGroup        = $request->grupo;
             $myGroupDesde   = $request->grupo;
@@ -2347,8 +2347,9 @@ class statisticsController extends Controller
             $walletDesde = $wallet;
             $walletHasta = $wallet;
         }
-        /*
-         \Log::info('leam  getBalanceWallet - wallet      *** -> ' . $wallet);
+        
+        // \Log::info('leam  getBalanceWallet - wallet      *** -> ' . $wallet);
+         /*
          \Log::info('leam  getBalanceWallet - fecha Desde *** -> ' . $fechaDesde);
          \Log::info('leam  getBalanceWallet - fecha Hasta *** -> ' . $fechaHasta);
          \Log::info('leam  getBalanceWallet - coin        *** -> ' . $myCoin);
@@ -2368,12 +2369,16 @@ class statisticsController extends Controller
 
         $Group_roles    = $this->getGroupRole(auth()->id());
 
+        \Log::info('leam ddd - statisticsController - print_r -> ' . print_r($Group_roles,true));
+        \Log::info('leam ddd - statisticsController - Count (group_roles_wallets) ->' . count($Group_roles->wallets));
 
         $busquedaWalletFilter     = "";
 
         if($Group_roles->allWallets == 0){
-            $theWallets             = implode(",", $Group_roles->wallets);
-            $busquedaWalletFilter   = " and wallet_id in ($theWallets)";
+            if (count($Group_roles->wallets) > 0){ 
+                $theWallets             = implode(",", $Group_roles->wallets);
+                $busquedaWalletFilter   = " and wallet_id in ($theWallets)";
+            }
         }
 
 
@@ -2469,13 +2474,14 @@ class statisticsController extends Controller
         ";
 
         // dd($myQuery);
-        
+         $Transacciones = array();
 
         $Transacciones = DB::select($myQuery);
-        /*
-        \Log::info('leam getBalanceWallet - query        *** -> ' . print_r($myQuery,true));
-        \Log::info('leam getBalanceWallet - transcciones *** -> ' . print_r($Transacciones,true));
-        */
+        
+        // \Log::info('leam getBalanceWallet - query        *** -> ' . print_r($myQuery,true));
+
+        \Log::info('leam getBalanceWallet - transacciones *** -> ' . print_r($Transacciones,true));
+        
         if (empty($Transacciones)) {    
             return $Transacciones;
         }else {
