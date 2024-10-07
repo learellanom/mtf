@@ -391,6 +391,9 @@ class RoleController extends Controller
         $wallets            = array();
         $groups             = array();
 
+
+        \Log::info('leam 1234 - RoleController - getRoleWallets -> ' . $theUserId);
+
         // if ($theUserId == 0) {
         //     $myUserId           = Auth()->User()->id;
         // }else{
@@ -409,10 +412,23 @@ class RoleController extends Controller
                 ->get();
         
 
-        $myUserType = $userole2[0]->type ?? 1;
+        $myUserType = 1;
+        $userole3   = User::find($myUserId);
+        // $userole3   = User::find(88);
+        if($userole3){
+            if (isset($userole3->type)){
+                $myUserType = $userole3->type;
+            }
+        }else{
+            \Log::info('leam - no existe ***');
+        }
+        // $myUserType = $userole3->type ?? 1;
 
-        // \Log::info('leam - RoleController - getRoleWallets - userole2 - > ' . $myUserType);
+        \Log::info('leam 1234 - RoleController - getRoleWallets - userole3 - > ' . print_r($userole3,true)); 
+         
+        \Log::info('leam 1234 - RoleController - getRoleWallets - userole3 test - > ' . $myUserType);
         
+
         $userole = array();
         foreach($userole2 as $user){
             $myUserName     = $user->name;
@@ -427,8 +443,8 @@ class RoleController extends Controller
         // dd($myUserRoles);
         $all_wallets    = 0;
         $all_groups     = 0;
-
         if ($myUserType == 1){
+        // if ($myUserType == 1 or 2){            
             foreach($myUserRoles as $role){
                 
                 //     if($roles->name == 'Administrador' || $roles->name == 'Supervisor'){        
@@ -611,11 +627,8 @@ class RoleController extends Controller
                 // \Log::info('leam - all_groups   -> ' . $all_groups);
                 // \Log::info('leam - wallets      -> ' . print_r($wallets,true));
                 // \Log::info('leam - groups       -> ' . print_r($groups,true));
-
-
+                
             }
-
-
         }else{
             //
             //
@@ -629,7 +642,7 @@ class RoleController extends Controller
                     group_users.user_id                     as UserID,
                     group_users.group_id                    as GroupID,
                     mtf.groups.type                         as GroupType,
-                    mtf.groups.name                         ad GroupName
+                    mtf.groups.name                         as GroupName
                 from
                     mtf.group_users
                     left join mtf.groups              on mtf.group_users.group_id = mtf.groups.id
@@ -639,10 +652,11 @@ class RoleController extends Controller
                     UserID
             ";
             
-             $Group_userss = DB::select($myQuery);
+             $Group_users = DB::select($myQuery);
             // dd($myQuery);
             // dd($Group_users);
-            
+             \Log::info(' leam 1234 - Group_users - >' . print_r($Group_users, true ));
+
             foreach($Group_users as $item){
                 switch ($item->GroupType) {
                     case 1:
@@ -659,12 +673,15 @@ class RoleController extends Controller
                         break;
                 }
             }
-
+            
         }
+        
 
         sort($wallets);
         sort($groups);
 
+         \Log::info('leam 1234 - wallets -> ' . print_r($wallets,true));
+         \Log::info('leam 1234 - groups  -> ' . print_r($groups,true));
 
         if(count($wallets) > 0)  $all_wallets = 0;
         if(count($groups) > 0)   $all_groups = 0;
@@ -697,7 +714,7 @@ class RoleController extends Controller
         // dd($myObject);
         // dd(json_encode($myObject));
 
-        //\Log::info('leam - myObject ->' . print_r($myObject,true));
+         \Log::info('leam 1234 - myObject ->' . print_r($myObject,true));
 
         // die();
         return $myObject;
