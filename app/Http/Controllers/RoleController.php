@@ -392,7 +392,7 @@ class RoleController extends Controller
         $groups             = array();
 
 
-        \Log::info('leam 1234 - RoleController - getRoleWallets -> ' . $theUserId);
+        // \Log::info('leam 1234 - RoleController - getRoleWallets -> ' . $theUserId);
 
         // if ($theUserId == 0) {
         //     $myUserId           = Auth()->User()->id;
@@ -424,9 +424,9 @@ class RoleController extends Controller
         }
         // $myUserType = $userole3->type ?? 1;
 
-        \Log::info('leam 1234 - RoleController - getRoleWallets - userole3 - > ' . print_r($userole3,true)); 
+        //\Log::info('leam 1234 - RoleController - getRoleWallets - userole3 - > ' . print_r($userole3,true)); 
          
-        \Log::info('leam 1234 - RoleController - getRoleWallets - userole3 test - > ' . $myUserType);
+        //\Log::info('leam 1234 - RoleController - getRoleWallets - userole3 test - > ' . $myUserType);
         
 
         $userole = array();
@@ -655,7 +655,7 @@ class RoleController extends Controller
              $Group_users = DB::select($myQuery);
             // dd($myQuery);
             // dd($Group_users);
-             \Log::info(' leam 1234 - Group_users - >' . print_r($Group_users, true ));
+             //\Log::info(' leam 1234 - Group_users - >' . print_r($Group_users, true ));
 
             foreach($Group_users as $item){
                 switch ($item->GroupType) {
@@ -680,8 +680,8 @@ class RoleController extends Controller
         sort($wallets);
         sort($groups);
 
-         \Log::info('leam 1234 - wallets -> ' . print_r($wallets,true));
-         \Log::info('leam 1234 - groups  -> ' . print_r($groups,true));
+        // \Log::info('leam 1234 - wallets -> ' . print_r($wallets,true));
+        // \Log::info('leam 1234 - groups  -> ' . print_r($groups,true));
 
         if(count($wallets) > 0)  $all_wallets = 0;
         if(count($groups) > 0)   $all_groups = 0;
@@ -705,6 +705,7 @@ class RoleController extends Controller
             
         $myObject->userId       = $myUserId;
         $myObject->userName     = $myUserName;
+        $myObject->userType     = $myUserType;        
         $myObject->userRoles    = $myUserRoles;
         $myObject->allWallets   = $all_wallets;
         $myObject->allGroups    = $all_groups;
@@ -714,7 +715,7 @@ class RoleController extends Controller
         // dd($myObject);
         // dd(json_encode($myObject));
 
-         \Log::info('leam 1234 - myObject ->' . print_r($myObject,true));
+        // \Log::info('leam 1234 - myObject ->' . print_r($myObject,true));
 
         // die();
         return $myObject;

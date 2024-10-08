@@ -568,6 +568,395 @@ class statisticsController extends Controller
     /*
     *
     *
+    *   index_allExterno
+    *
+    *
+    */
+    public function index_allExterno(Request $request)
+    {
+        // \Log::info('Inicio index_all2');
+
+        $Group_roles = $this->getGroupRole(auth()->id());
+         \Log::info('leam - el user id es index_allExterno -> ' . print_r($Group_roles,true));
+         \Log::info('leam - el user id es index_allExterno - count(wallets) -> ' . print_r(count($Group_roles->wallets),true));
+         \Log::info('leam - el user id es index_allExterno - count(groups) -> ' . print_r(count($Group_roles->groups),true));
+
+        if (count($Group_roles->wallets) > 0){
+            $request->wallet = $Group_roles->wallets[0];
+        } 
+        if (count($Group_roles->groups) > 0){
+            $request->grupo = $Group_roles->groups[0];
+        }
+        
+        $myUserType = 2;
+        if (isset($Group_roles->type)){
+            $myUserType = $Group_roles->type;
+        }
+
+        
+        \Log::info('leam - index_allExterno - $request->wallet - > ' . $request->wallet);
+        \Log::info('leam - index_allExterno - $request->grupo - > '  . $request->grupo);
+
+        $myGroup        = 0;
+        $myGroupDesde   = 0;
+        $myGroupHasta   = 9999;
+        if ($request->grupo) {
+            $myGroup        = $request->grupo;
+            $myGroupDesde   = $request->grupo;
+            $myGroupHasta   = $request->grupo;
+        }else{
+            if ($request->group) {
+                $myGroup        = $request->group;
+                $myGroupDesde   = $request->group;
+                $myGroupHasta   = $request->group;
+            }
+        }
+
+        $myWallet       = 0;
+        $myWalletDesde  = 0;
+        $myWalletHasta  = 9999;
+        if ($request->wallet) {
+            $myWallet       = $request->wallet;
+            $myWalletDesde  = $request->wallet;
+            $myWalletHasta  = $request->wallet;
+        }
+        // dd('myWalletDesde -> ' . $myWalletDesde . 'myWalletDesde ->  ' . $myWalletHasta);
+        $myHoraDesde    = "00:00:00";
+        $myHoraHasta    = "23:59:00";
+
+        $myFechaDesde   = "2001-01-01";
+        $myFechaHasta   = "9999-12-31";
+        if ($request->fechaDesde){
+            $myFechaDesde = $request->fechaDesde;
+            $myFechaHasta = $request->fechaHasta;
+
+            $myFechaDesde = $myFechaDesde;
+            $myFechaHasta = $myFechaHasta;
+
+
+        }
+
+        if ($request->fechaHasta){
+            $myFechaHasta = $request->fechaHasta;
+            $myFechaHasta = $myFechaHasta;           
+        }
+
+        $myTypeTransactions         = 0;
+        $myTypeTransactionsDesde    = 0;
+        $myTypeTransactionsHasta    = 9999;
+        if ($request->typeTransactions) {
+            $myTypeTransactions         = $request->typeTransactions;
+            $myTypeTransactionsDesde    = $request->typeTransactions;
+            $myTypeTransactionsHasta    = $request->typeTransactions;
+        }
+
+        // token
+
+        $myToken            = 0;
+        $myTokenDesde       = "";
+        $myTokenHasta       = "ZZZZZZZZZZZZZZZZZZZZZZZZZZZZ";
+        $myTokenCondition   = "";
+
+        if ($request->token){
+            if($request->token == 1){
+                $myTokenCondition = " and token    between '$myTokenDesde'             and '$myTokenHasta'";
+                $myTokenDesde       = "0";
+                $myTokenHasta       = "ZZZZZZZZZZZZZZZZZZZZZZZZZZZZ";        
+            }
+        }
+
+        $balance        = "";
+        $balanceBefore  = 0;
+
+
+        $myCoin             = ($request->coin) ? $request->coin : 1;
+     
+        $myTypeCoinBalance  = $myCoin; // dorales siempre por ahora
+        $Type_coin_balance  = Type_coin::pluck('name', 'id')->toArray();   
+
+
+        if ($myGroup > 0){
+
+            $balance            = $this->getBalance($myGroup, "2001-01-01" , "9999-12-31" ,$myCoin);
+            $balanceBefore      = $this->getBalanceBefore($myGroup,$myFechaDesde, $myFechaHasta, $myCoin);
+
+        }
+        else
+        {
+            if ($myWallet > 0){
+                
+                $balance        = $this->getBalanceWallet($myWallet, "2001-01-01", "9999-12-31", $myCoin);
+                $balanceBefore  = $this->getBalanceWalletBefore($myWallet,$myFechaDesde, $myFechaHasta, $myCoin);
+
+            }
+        };
+        // dd($balance);
+        // dd($balanceBefore);
+
+        $myUser         = 0;
+        $myUserDesde    = 0;
+        $myUserHasta    = 9999;
+
+        if ($request->usuario) {
+            $myUser = $request->usuario;
+            $myUserDesde = $myUser;
+            $myUserHasta = $myUser;            
+        }
+        // \Log::info('leam - usuario    ->' . $request->usuario);
+        // \Log::info('leam - user desde ->' . $myUserDesde);
+        // \Log::info('leam - user hasta ->' . $myUserHasta);
+
+        //  print_r($myGroup);
+         // dd($myGroup);
+        $Transacciones      = [];
+
+        $myLimit            = 0;
+        $myLimitDesde       = 0;
+        $myLimitHasta       = 5000;
+
+        $myLimitCondition   = "limit 1000";
+
+        // \Log::info('leam - el user id es -> ' . $request->user()->id);
+        // $Group_roles = app(RoleController::class)->getRoleWallets($request->user()->id);
+        // $Group_roles = $this->getGroupRole($request->user()->id);
+
+        //if ($myWallet == 0 and $myGroup == 0) {
+        //    $myLimit            = 1000;
+        //    $myLimitDesde       = 0;
+        //   $myLimitHasta       = 1000;
+        //}
+        /*
+        // Permite asignar que 
+        // si es administrador vea todos los usuarios
+        // si es usuario solo ve sus rtansacciones
+        //
+        if (!$request->usuario){
+            if($this->isAdministrator()){
+                $myUserDesde = auth()->user()->id;
+                $myUserHasta = auth()->user()->id;
+
+                $myUserDesde = 0;
+                $myUserHasta = 9999;
+            }
+            else{
+                $myUserDesde = auth()->user()->id;
+                $myUserHasta = auth()->user()->id;
+            }
+        }
+        */
+        
+        //\Log::info('leam usuario desde       ***    -> ' . $myUserDesde);
+        //\Log::info('leam usuario hasta       ***    -> ' . $myUserHasta);
+
+        // \Log::info('leam wallet desde   44444     ***    -> ' . $myWallet);
+        //\Log::info('leam wallet desde        ***    -> ' . $myWalletDesde);
+        //\Log::info('leam wallet hasta        ***    -> ' . $myWalletHasta);        
+
+        //\Log::info('leam myGroup             ***    -> ' . $myGroup);        
+        //\Log::info('leam group  desde        ***    -> ' . $myGroupDesde);
+        //\Log::info('leam group  Hasta        ***    -> ' . $myGroupHasta);     
+
+        //\Log::info('leam transaction         ***    -> ' . $myTypeTransactions);
+        //\Log::info('leam transaction  desde  ***    -> ' . $myTypeTransactionsDesde);
+        //\Log::info('leam transaction  Hasta  ***    -> ' . $myTypeTransactionsHasta);              
+        
+
+        // \Log::info('leam token desde         ***    -> ' . $myTokenDesde);
+        // \Log::info('leam token hasta         ***    -> ' . $myTokenHasta);
+        
+        // \Log::info('leam fecha desde         ***    -> ' . $myFechaDesde);
+        // \Log::info('leam fecha hasta         ***    -> ' . $myFechaHasta);
+        
+        // \Log::info('leam fecha desde request ***    -> ' . $request->fechaDesde);
+        // \Log::info('leam fecha hasta request ***    -> ' . $request->fechaHasta);
+        
+        // \Log::info('leam Lmit                ***    -> ' . $myLimit);
+
+        // \Log::info('leam - pasa sin  grupo');
+        
+        $busquedaGroup  = "";
+        $busquedaWallet = "";
+        
+        if ($myGroup != 0 && $myWallet == 0){
+            $busquedaGroup = " and group_id between $myGroup and $myGroup ";
+        }
+        // if ($myGroup == 0 && $myWallet == 0){
+        //     $busquedaGroup = " and group_id between 0 and 999999 ";
+        // }
+        if ($myGroup == 0 && $myWallet != 0){
+            $busquedaWallet  = " and wallet_id between $myWalletDesde and $myWalletHasta ";
+        }
+        if ($myGroup != 0 && $myWallet != 0){
+            $busquedaGroup = " and group_id between $myGroupDesde and $myGroupHasta ";
+            $busquedaWallet  = " and wallet_id between $myWalletDesde and $myWalletHasta ";
+        }
+        
+        $busquedaGroupFilter      = "";
+        $busquedaWalletFilter     = "";
+        if ($myGroup != 0){
+            if($Group_roles->allGroups == 0){
+                $theGroups              = implode(",",$Group_roles->groups );
+                $busquedaGroupFilter    = " and group_id in ($theGroups)";
+            }
+        }
+        if ($myWallet != 0){
+            if($Group_roles->allWallets == 0){
+                $theWallets             = implode(",", $Group_roles->wallets);
+                $busquedaWalletFilter   = " and wallet_id in ($theWallets)";
+            }
+        }
+    
+
+        $myQuery =
+        "
+            select
+                Transactions.id                        as Id,
+                Transactions.amount_foreign_currency   as MontoMoneda,
+                Transactions.exchange_rate             as TasaCambio,
+                Transactions.exchange_rate_base        as TasaCambioBase,
+                Transactions.type_coin_id              as TipoMonedaId,
+                type_coins.name                        as TipoMoneda,
+                type_coins_balance.name                as TipoMonedaBalance,
+                users.name                             as AgenteName,
+                Transactions.amount                    as Monto,            
+                Transactions.amount_total              as MontoTotal,
+                Transactions.percentage                as PorcentajeComision,
+                Transactions.amount_commission         as MontoComision,
+                Transactions.amount_base               as MontoBase,              
+                Transactions.amount_total_base         as MontoTotalBase,
+                Transactions.percentage_base           as PorcentajeComisionBase,
+                Transactions.amount_commission_base    as MontoComisionBase,
+                Transactions.type_transaction_id       as TransactionId,
+                type_transactions.name                 as TipoTransaccion,
+                transactions.wallet_id                 as WalletId,
+                wallets.name                           as WalletName,
+                transactions.description               as Descripcion,
+                transactions.transaction_date          as FechaTransaccion,
+                transactions.group_id                  as ClienteId,                    
+                IFNULL(transactions.group_id,0)        as ClienteId2,
+                mtf.groups.name                        as ClientName,
+                IFNULL(transactions.token, '')         as token                    
+            from
+                    mtf.transactions
+                left join mtf.type_transactions   on mtf.transactions.type_transaction_id = mtf.type_transactions.id
+                left join mtf.groups as wallets   on mtf.transactions.wallet_id           = wallets.id
+                left join mtf.users               on mtf.transactions.user_id             = mtf.users.id
+                left join mtf.type_coins          on mtf.transactions.type_coin_id        = mtf.type_coins.id
+                left join mtf.groups              on mtf.Transactions.group_id            = mtf.groups.id
+                left join mtf.type_coins as type_coins_balance  on mtf.transactions.type_coin_balance_id        = type_coins_balance.id                
+            where
+                    status = 'Activo'
+                and user_id             between $myUserDesde                and $myUserHasta 
+                and type_transaction_id between $myTypeTransactionsDesde    and $myTypeTransactionsHasta 
+                and transaction_date    between '$myFechaDesde  00:00:00'   and '$myFechaHasta 23:59:00' 
+                and     type_coin_balance_id  = $myCoin
+                $busquedaWallet 
+                $busquedaGroup 
+                $myTokenCondition
+                $busquedaWalletFilter
+                $busquedaGroupFilter
+            order by
+                Transactions.transaction_date desc
+            $myLimitCondition
+        ";
+        
+        // return $myQuery;
+        //  \Log::info('leam - myQuery indexall2 ->' . $myQuery);
+
+        $Transacciones = DB::select($myQuery);
+        
+        // }
+
+        //  dd($Transacciones);
+        // \Log::info('index transacciones -> ' . print_r($Transacciones,true));
+        // die();
+
+        $userole            = $this->getUser();
+        $wallet             = app(GroupController::class)->getWallets2($Group_roles);
+        $group              = app(GroupController::class)->getGroups2($Group_roles);
+
+        // dd($wallet);
+
+        // $typeTransactions   = $this->getTypeTransactions();
+         $typeTransactions   = Type_transaction::orderBy('name','ASC')->pluck('name','id')->toArray();
+
+
+        if ($Group_roles->allGroups == 0){
+            if ($myWallet == 0){
+                $existGroup = 0;
+                foreach($Group_roles->groups as  $value){
+                    // \Log::info("leam - key -> $value y el mygroup -> $myGroup");
+                    if ($value == $myGroup){
+                        $existGroup = 1;
+                    }
+                }
+                // \Log::info("leam -  - existgroup $existGroup es " );
+
+                // \Log::info("leam -  - array keys es " . print_r(array_keys($Group_roles->groups, true)));
+
+
+                if ($existGroup == 0 ){
+                    $balance        = 0;
+                    $balanceBefore  = 0;
+                }
+            }
+        }
+
+        if ($Group_roles->allWallets == 0){
+            if ($myWallet !=  0){
+            $existWallet = 0;
+            foreach($Group_roles->wallets as  $value){
+                // \Log::info("leam - key -> $value y el myWallet -> $myWallet");
+                if ($value == $myWallet){
+                    $existWallet = 1;
+                }
+            }
+            // \Log::info("leam -  - existgroup $existGroup es " );
+
+            // \Log::info("leam -  - array keys es " . print_r(array_keys($Group_roles->groups, true)));
+
+
+            if ($existWallet == 0 ){
+                $balance        = 0;
+                $balanceBefore  = 0;
+            }
+            }
+        }
+
+
+        if ($myFechaDesde === "2001-01-01"){
+            $myFechadesdeInvertida = "";
+        }else{
+            $myFechaDesdeBefore     = $this->getDayBefore($myFechaDesde);
+            $myFechadesdeInvertida  = substr($myFechaDesdeBefore,8,2) . "-" . substr($myFechaDesdeBefore,5,2) . "-" . substr($myFechaDesdeBefore,0,4);
+        }
+
+        $parametros['myTypeCoinBalance']        = $myTypeCoinBalance;
+        $parametros['Type_coin_balance']        = $Type_coin_balance;
+
+        $parametros['userole']                  = $userole;
+        $parametros['wallet']                   = $wallet;
+        $parametros['group']                    = $group;
+        $parametros['typeTransactions']         = $typeTransactions;
+        $parametros['Transacciones']            = $Transacciones;
+        $parametros['myUser']                   = $myUser;
+        $parametros['myGroup']                  = $myGroup;
+        $parametros['myWallet']                 = $myWallet;
+        $parametros['balance']                  = $balance;
+        $parametros['myTypeTransactions']       = $myTypeTransactions;
+        $parametros['myFechaDesde']             = $myFechaDesde;
+        $parametros['myFechaHasta']             = $myFechaHasta;
+        $parametros['balanceBefore']            = $balanceBefore;
+        $parametros['myFechadesdeInvertida']    = $myFechadesdeInvertida;
+
+        // dd($myFechadesdeInvertida);
+        // \Log::info('leam ----> ' .  json_encode($Transacciones, JSON_PRETTY_PRINT));
+        return view('estadisticasExterno.index', $parametros);
+
+    }    
+    /*
+    *
+    *
     *       fechaTokensSummary
     * 
     *
@@ -2369,8 +2758,8 @@ class statisticsController extends Controller
 
         $Group_roles    = $this->getGroupRole(auth()->id());
 
-        \Log::info('leam ddd - statisticsController - print_r -> ' . print_r($Group_roles,true));
-        \Log::info('leam ddd - statisticsController - Count (group_roles_wallets) ->' . count($Group_roles->wallets));
+        //\Log::info('leam ddd - statisticsController - print_r -> ' . print_r($Group_roles,true));
+        //\Log::info('leam ddd - statisticsController - Count (group_roles_wallets) ->' . count($Group_roles->wallets));
 
         $busquedaWalletFilter     = "";
 
@@ -2477,10 +2866,10 @@ class statisticsController extends Controller
          $Transacciones = array();
 
         $Transacciones = DB::select($myQuery);
-        
+
         // \Log::info('leam getBalanceWallet - query        *** -> ' . print_r($myQuery,true));
 
-        \Log::info('leam getBalanceWallet - transacciones *** -> ' . print_r($Transacciones,true));
+        //\Log::info('leam getBalanceWallet - transacciones *** -> ' . print_r($Transacciones,true));
         
         if (empty($Transacciones)) {    
             return $Transacciones;
