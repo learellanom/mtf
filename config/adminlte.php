@@ -599,7 +599,7 @@ return [
         ],
         [
             'text' => 'Detalles de movimiento ue',
-            'url'  => 'estadisticasDetalle2',
+            'url'  => 'estadisticasDetalleEU',
             'icon' => 'fas fa-fw fas fa-chart-bar',
             'can'  => 'estadisticasDetalleExterno',  
         ],
