@@ -61,7 +61,7 @@ if (isset($balance->Total)){
 
 <br>
 <br>
-<h1 class="text-center text-dark font-weight-bold text-uppercase">{{ __('Detalles de Transacciones EU') }} <i class="fas fa-chart-pie fa-spin"></i></h1>
+<h1 class="text-center text-dark font-weight-bold text-uppercase">{{ __('Detalles de Movimientos EU') }} <i class="fas fa-chart-pie fa-spin"></i></h1>
 <br>
 <br>
 {{-- Disabled --}}
@@ -275,7 +275,7 @@ if (isset($balance->Total)){
                             style="width:100%;">
                             <thead>
                                 <tr>
-                                    {{-- <th class="dtr-control arrow-right" style="display: none;"></th> --}}
+                                     <th class="dtr-control arrow-right" style="display: none;"></th> 
                                     <th style="width:1%;">Id</th>
                                     <th style="width:7%;">Fecha</th>
                                     <th style="width:1%;">Transacción</th>
@@ -416,7 +416,7 @@ if (isset($balance->Total)){
                                 
                                 <tr>
                                     
-                                    {{-- <td><i class="fas fa-plus"></i></td> --}}
+                                     <td><i class="fas fa-plus"></i></td> 
                                     <td>{!! $row->Id !!}</td>
                                     <td>
                                         {{ substr($row->FechaTransaccion,0,10) }}
@@ -469,7 +469,7 @@ if (isset($balance->Total)){
                                     --}}
                                 </tr>
                             @endforeach
-                            {{--
+                            <!-- 
                             <tfoot style="background-color: black; color: white;">                       
                                     <td ></td>     
                                     <td>Total</td>
@@ -490,7 +490,7 @@ if (isset($balance->Total)){
                                     <td></td>
                                     {{-- <td></td>  --}}
                             </tfoot>
-                            --}}
+                                    -->
                         </table>
 
                     </div>
@@ -592,43 +592,24 @@ if (isset($balance->Total)){
             }
         },
         
-        // responsive: true,
-        // columnDefs: [
-        //      {
-        //          className: 'dtr-control',
-        //          orderable: false,
-        //          targets: -1
-        //      },                 
-        //     { responsivePriority: 1, targets: 1 },
-        //     { responsivePriority: 2, targets: 2 },
-        //     { responsivePriority: 3, targets: 9 },
-        //     { responsivePriority: 4, targets: 10 },
-        //     { responsivePriority: 5, targets: 11 },
-
-        // ],  
-        //
-        /*
         columnDefs: [
              {
                  className: 'dtr-control arrow-right',
                  orderable: false,
-                 target: 0
+                 target: 1
              },
-            { responsivePriority: 1, targets: 1 },
-            { responsivePriority: 2, targets: 2 },
-            { responsivePriority: 3, targets: 9 },
-            { responsivePriority: 4, targets: 10 },
-            { responsivePriority: 5, targets: 11 },             
+            { responsivePriority: 1,    targets: 2 },
+            { responsivePriority: 2,    targets: 10 },
         ],  
         responsive: true,
-        */
+        
         "order": [[ 0, 'desc' ]],
         'dom' : '<"row" <"col-12 col-md-6" B> <"col-12 col-md-6 text-align-right" f> >ti <"row" <"col-12 col-md-6" l> <"col-12 col-md-6" p>>',
         'pageLength' : 7, 
         'buttons':[
             {
                 extend:  'excelHtml5',
-                exportOptions: { columns: [0,1, 2, 3,4,5,6,7,8,9,10,11,12,13,14] },
+                exportOptions: { columns: [0,1, 2, 3,4,7,8,9,10,11,12] },
                 text:    '<i class="fas fa-file-excel"></i>',
                 title: `Detalle de Movimientos`,
                 titleAttr: 'Exportar Excel',
@@ -832,6 +813,8 @@ if (isset($balance->Total)){
                 title: 'MTF | LISTA DE TRANSACIÓNES',
                 titleAttr: 'Exportar PDF',
                 className: 'btn btn-danger',
+                exportOptions: { 
+                    columns: [ 0, 1, 2, 3,4,8,9,10,11,12 ] }                
 
             },
             {
@@ -852,6 +835,22 @@ if (isset($balance->Total)){
         //BuscaFechas(myFechaDesde, myFechaHasta);
 
         BuscaFechasBlade(myFechaDesde, myFechaHasta);
+
+        $('#drCustomRanges').daterangepicker({
+            "showDropdowns": true,
+                ranges: {
+                    'Today':        [moment(), moment()],
+                    'Yesterday':    [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                    'Last 7 Days':  [moment().subtract(6, 'days'), moment()],
+                    'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+                    'This Month':   [moment().startOf('month'), moment().endOf('month')],
+                    'Last Month':   [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+                },            
+                "locale" : {
+                    "format" : "DD/MM/YYYY",
+                }
+        });
+
 
         $('#wallet').on('change', function (){
 
