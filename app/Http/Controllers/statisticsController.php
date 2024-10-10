@@ -46,10 +46,7 @@ class statisticsController extends Controller
 
     public function __construct() 
     {
-        
-        //$this->myTest = $this->getGroupRole(auth()->id());
-        //\Log::info('leam - controller construct busco -> ' . print_r($this->myTest,true));
-
+        $this->middleware('auth');
     }
     public function getCredits(){
 
@@ -587,7 +584,7 @@ class statisticsController extends Controller
         if (count($Group_roles->groups) > 0){
             $request->grupo = $Group_roles->groups[0];
         }
-        
+
         $myUserType = 2;
         if (isset($Group_roles->type)){
             $myUserType = $Group_roles->type;
