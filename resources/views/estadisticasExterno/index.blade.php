@@ -275,7 +275,7 @@ if (isset($balance->Total)){
                             style="width:100%;">
                             <thead>
                                 <tr>
-                                     <th class="dtr-control arrow-right" style="display: none;"></th> 
+                                    {{-- <th class="dtr-control arrow-right" style="display: none;"></th>  --}}
                                     <th style="width:1%;">Id</th>
                                     <th style="width:7%;">Fecha</th>
                                     <th style="width:1%;">Transacción</th>
@@ -416,7 +416,7 @@ if (isset($balance->Total)){
                                 
                                 <tr>
                                     
-                                     <td><i class="fas fa-plus"></i></td> 
+                                    {{-- <td><i class="fas fa-plus"></i></td> --}}
                                     <td>{!! $row->Id !!}</td>
                                     <td>
                                         {{ substr($row->FechaTransaccion,0,10) }}
@@ -591,7 +591,7 @@ if (isset($balance->Total)){
                 "previous"  : "Anterior"
             }
         },
-        
+        /*
         columnDefs: [
              {
                  className: 'dtr-control arrow-right',
@@ -602,14 +602,14 @@ if (isset($balance->Total)){
             { responsivePriority: 2,    targets: 10 },
         ],  
         responsive: true,
-        
+        */
         "order": [[ 0, 'desc' ]],
         'dom' : '<"row" <"col-12 col-md-6" B> <"col-12 col-md-6 text-align-right" f> >ti <"row" <"col-12 col-md-6" l> <"col-12 col-md-6" p>>',
         'pageLength' : 7, 
         'buttons':[
             {
                 extend:  'excelHtml5',
-                exportOptions: { columns: [0,1, 2, 3,4,7,8,9,10,11,12] },
+                exportOptions: { columns: [0, 1, 2, 3,4,7,8,9,10,11,12] },
                 text:    '<i class="fas fa-file-excel"></i>',
                 title: `Detalle de Movimientos`,
                 titleAttr: 'Exportar Excel',
@@ -687,22 +687,46 @@ if (isset($balance->Total)){
                     //         }
                     //     }
                     // },     
+
+                    //
+                    // id
+                    //
                     {
                         "cells": "sA",
-                        "width": 19
+                        "width": 10
                     },                                        
+                    //
+                    //     Fecha
+                    //
+                    {
+                        "cells": "sB",
+                        "width": 15
+                    },   
+
+                    //
+                    //     Transaccion
+                    //
                     {
                         "cells": "sC",
-                        "width": 45
+                        "width": 30
                     },     
+
+                    //
+                    //
+                    //      Descripcion
+                    //
+                    //
                     {
                         "cells": "sD",
-                        "width": 12
-                    },                                     
+                        "width": 30
+                    },       
+                    
+                    //
+                    //    Token
+                    //
                     {
-                        // moneda
                         "cells": "sE",
-                        "width": 20,                        
+                        "width": 10,                        
                         "style": {
                             "alignment":{
                                 "vertical": "right",
@@ -710,8 +734,11 @@ if (isset($balance->Total)){
                             }
                         }
                     },
+
+                    //
+                    //      Tasa
+                    //
                     {
-                        // monto
                         "cells": "sF",
                         "width": 11,
                         "style": {
@@ -722,10 +749,14 @@ if (isset($balance->Total)){
                             }
                         }
                     },
+
+                    //
+                    //      Moneda
+                    //
                     {
                         // tasa
                         "cells": "sG",
-                        "width": 9,
+                        "width": 20,
                         "style": {
                             "numFmt": "#,##0.00;(#,##0.00)",
                             "alignment":{
@@ -734,8 +765,11 @@ if (isset($balance->Total)){
                             }
                         }
                     }, 
+
+                    //
+                    //      Monto
+                    //
                     {
-                        // monto $
                         "cells": "sH",
                         "width": 21,
                         "style": {
@@ -745,10 +779,13 @@ if (isset($balance->Total)){
                                 "horizontal" : "right"
                             }
                         }
-                    },                     
+                    },    
+                    
+                    //
+                    //      %
+                    //
                     {
-                        // %
-                        "cells": "I",
+                        "cells": "sI",
                         "width": 20,
                         "style": {
                             "numFmt": "#,##0.00;(#,##0.00)",
@@ -758,8 +795,11 @@ if (isset($balance->Total)){
                             }
                         }
                     },
+
+                    //
+                    //      Comision
+                    //
                     {
-                        // comision
                         "cells": "sJ",
                         "width": 20,
                         "style": {
@@ -769,6 +809,10 @@ if (isset($balance->Total)){
                             }
                         }
                     },
+
+                    //
+                    //      Monto Total
+                    //
                     {
                         // monto total
                         "cells": "sK",
@@ -779,19 +823,7 @@ if (isset($balance->Total)){
                                 "horizontal" : "right"
                             }
                         }
-                    } ,
-                    {
-                        // saldo
-                        "cells": "l",
-                        "width": 20,
-                        "style": {
-                            "numFmt": "#,##0.00;(#,##0.00)",                            
-                            "alignment":{
-                                "vertical": "left",                                
-                                "horizontal" : "left"
-                            }
-                        }
-                    }           
+                    }          
                 ],
                 insertCells: [                  // Add an insertCells config option 
                     // {
