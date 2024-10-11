@@ -840,17 +840,43 @@ $config4 = [
                 let myBorderColor       = [];
 
                 // {{-- dd ($wallet_groupsummary) --}}
+
+               //
+               //       calcula el promedio para filtrar por el monto
+               //
+                @php
+
+                    $myPromedioSum      = 0;
+                    $myPromedioCount    = 0;
+                    $myPromedio         = 0;
+
+                    foreach($wallet_groupsummary as $wallet2){
+                        if ($wallet2->TypeTransactionId == $wallet->TypeTransactionId ){
+                            $myPromedioSum +=  $wallet2->total_amount;
+                        $myPromedioCount++;
+                            
+                        }
+                        
+                    }
+                    if ($myPromedioCount > 0){
+                        $myPromedio = $myPromedioSum / $myPromedioCount;
+                    }
+                @endphp 
+                
+                console.log('aqui ->' + {{ $myPromedio}} + ' ' + {{ $wallet->TypeTransactionId }} + ' ' + {{ $wallet2->TypeTransactionId }});
+                // \Log::info('myPromedio -> ' . $myPromedio);
+
                 @foreach($wallet_groupsummary as $wallet2)
 
                         @if($wallet2->TypeTransactionId == $wallet->TypeTransactionId )
-
+                        {{-- @if($wallet2->total_amount > 500000) --}}
                             // alert('Aqui -> ' + "{{$wallet2->GroupName}}" + " total amount -> " + "{{$wallet2->total_amount}}");
 
                             myLabel.push("{{$wallet2->GroupName ?? $wallet2->WalletName }}");
                             myData.push({{$wallet2->total_amount . ',' }});
                             myBackGroudColor.push('rgb(0, 173, 181)');
                             myBorderColor.push('rgb(0, 173, 181)');
-
+                        {{-- @endif  --}}
                         @endif
 
                 @endforeach
