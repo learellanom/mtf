@@ -1711,7 +1711,7 @@ class statisticsController extends Controller
        if (isset($Group_roles->allWallets)){
             if($Group_roles->allWallets == 0){
                 $theWallets             = implode(",", $Group_roles->wallets);
-                $busquedaWalletFilter   = " and wallet_id in ($theWallets)";
+                //$busquedaWalletFilter   = " and wallet_id in ($theWallets)";
             }
         }
 
@@ -1720,7 +1720,7 @@ class statisticsController extends Controller
         if (isset($Group_roles->allGroups)){
             if($Group_roles->allGroups == 0){
                 $theGroups              = implode(",",$Group_roles->groups );
-                $busquedaGroupFilter    = " and group_id in ($theGroups)";
+                //$busquedaGroupFilter    = " and group_id in ($theGroups)";
             }
         }
 
@@ -1785,7 +1785,7 @@ class statisticsController extends Controller
         $Transacciones = DB::select($myQuery);
        // dd($Transacciones);
         // \Log::info('leam *** $myQuery getWalletTransactionGroupSummary -> ' . $myQuery);
-       //  \Log::info('leam *** $Transacciones3 -> ' . print_r($Transacciones3,true));
+        // \Log::info('leam *** $Transacciones3 -> ' . print_r($Transacciones,true));
        
        return $Transacciones;
 
