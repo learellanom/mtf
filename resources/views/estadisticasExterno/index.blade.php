@@ -275,7 +275,7 @@ if (isset($balance->Total)){
                             style="width:100%;">
                             <thead>
                                 <tr>
-                                    {{-- <th class="dtr-control arrow-right" style="display: none;"></th>  --}}
+                                    {{-- <th class="dtr-control arrow-right" style="display: none;"></th> --}}
                                     <th style="width:1%;">Id</th>
                                     <th style="width:7%;">Fecha</th>
                                     <th style="width:1%;">Transacción</th>
@@ -591,36 +591,37 @@ if (isset($balance->Total)){
                 "previous"  : "Anterior"
             }
         },
-        /*
+        
         columnDefs: [
              {
                  className: 'dtr-control arrow-right',
                  orderable: false,
                  target: 1
              },
-            { responsivePriority: 1,    targets: 2 },
-            { responsivePriority: 2,    targets: 10 },
+            { responsivePriority: 3,    targets: 0 },
+            { responsivePriority: 1,    targets: 1 },
+            { responsivePriority: 2,    targets: 9 },
         ],  
         responsive: true,
-        */
-        "order": [[ 0, 'desc' ]],
+        
+        "order": [[ 1, 'desc' ]],
         'dom' : '<"row" <"col-12 col-md-6" B> <"col-12 col-md-6 text-align-right" f> >ti <"row" <"col-12 col-md-6" l> <"col-12 col-md-6" p>>',
         'pageLength' : 7, 
         'buttons':[
             {
-                extend:  'excelHtml5',
+                extend:     'excelHtml5',
                 exportOptions: { columns: [0, 1, 2, 3,4,7,8,9,10,11,12] },
-                text:    '<i class="fas fa-file-excel"></i>',
-                title: `Detalle de Movimientos`,
-                titleAttr: 'Exportar Excel',
-                className: 'btn btn-success',
+                text:       '<i class="fas fa-file-excel"></i>',
+                title:      `Detalle de Movimientos`,
+                titleAttr:  'Exportar Excel',
+                className:  'btn btn-success',
                 excelStyles: [
                     {
                         "template": ["title_medium", "gold_medium"]
                     },
 
                     {
-                        "cells": "1",
+                        "cells": "sh1",
                         "content": "prueba",
                         "height": 40,
                         "style": {
@@ -640,6 +641,7 @@ if (isset($balance->Total)){
 
                     {
                         "cells": "2",
+                        'content': 'New column C',
                         "style": {
                             "font": {
                                 "size": "18",
@@ -671,6 +673,23 @@ if (isset($balance->Total)){
 
                         }
                     },
+                    {
+                        "cells": "3",
+                        "content": "eee",
+                        "style": {
+                            "font": {
+                                "size": "18",
+                                "color": "FFFFFF"
+                            },
+                            "fill": {
+                                "pattern": {
+                                    "type": "solid",
+                                    "color": "000000"
+                                }
+                            },
+
+                        }
+                    },                    
                     // {
                     //     "cells": "3",
                     //     "style": {
@@ -726,7 +745,8 @@ if (isset($balance->Total)){
                     //
                     {
                         "cells": "sE",
-                        "width": 10,                        
+                        "width": 10,    
+                        "content" : "",                    
                         "style": {
                             "alignment":{
                                 "vertical": "right",
@@ -833,7 +853,7 @@ if (isset($balance->Total)){
                     // },
                     {
                         cells: 'sh',                // Target data row 5 and 6
-                        content: '',           // Add empty content
+                        content: '',                // Add empty content
                         pushRow: true               // push the rows down to insert the content
                     },                    
                 ],                                                                                                               
