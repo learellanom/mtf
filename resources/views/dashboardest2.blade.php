@@ -780,7 +780,9 @@ $config4 = [
 
 
                 let myElement;
-
+                //
+                // Encabezados de graficos
+                //
                 myElement = `
                     <div class="row " data-id="{{$wallet->TypeTransactionId}}" >
                         <div class="col-md-6">
@@ -863,20 +865,34 @@ $config4 = [
                     }
                 @endphp 
                 
-                console.log('aqui ->' + {{ $myPromedio}} + ' ' + {{ $wallet->TypeTransactionId }} + ' ' + {{ $wallet2->TypeTransactionId }});
+                 console.log('aqui ->' + {{ $myPromedio}} + ' ' + {{ $wallet->TypeTransactionId }} + ' ' + {{ $wallet2->TypeTransactionId }});
                 // \Log::info('myPromedio -> ' . $myPromedio);
-
+                //
+                //
+                //  Calcula los grupos y operaciones
+                //
+                //
+                let myColor;
                 @foreach($wallet_groupsummary as $wallet2)
 
                         @if($wallet2->TypeTransactionId == $wallet->TypeTransactionId )
-                        {{-- @if($wallet2->total_amount > 500000) --}}
+                         @if($wallet2->total_amount > 500000) 
                             // alert('Aqui -> ' + "{{$wallet2->GroupName}}" + " total amount -> " + "{{$wallet2->total_amount}}");
 
                             myLabel.push("{{$wallet2->GroupName ?? $wallet2->WalletName }}");
                             myData.push({{$wallet2->total_amount . ',' }});
-                            myBackGroudColor.push('rgb(0, 173, 181)');
-                            myBorderColor.push('rgb(0, 173, 181)');
-                        {{-- @endif  --}}
+                            //
+                             myBackGroudColor.push('rgb(0, 173, 181)');
+                             myBorderColor.push('rgb(0, 173, 181)');
+                            //
+                            // genera color distinto a cada grupo en la barra
+                            //
+                            //myColor = generarNuevoColor();
+                            //myBackGroudColor.push(myColor);
+                            //myBorderColor.push(myColor);
+                            
+                            
+                         @endif 
                         @endif
 
                 @endforeach
@@ -890,16 +906,32 @@ $config4 = [
                     data: {
                         labels: myLabel,
                         datasets: [{
-                            label: '',
-                            data: myData,
-                            backgroundColor: myBackGroudColor,
-                            borderColor: myBorderColor,
-                            borderWidth: 6
+                            label:              '',
+                            data:               myData,
+                            backgroundColor:    myBackGroudColor,
+                            borderColor:        myBorderColor,
+                            borderWidth:        6
                         }]
+                    },
+                    options:{
+                        plugins: {
+                            title: {
+                                display: true,
+                                position: 'top',
+                                text: "Solo Operaciones Mayores a 500T"
+                            },                            
+                            subtitle: {
+                                display: true,
+                                text: "Solo Operaciones Mayores a 500"
+                            }
+                        }
                     }
-
                 });
-
+                //
+                //
+                //   Tablas de datos
+                //
+                //
                 myElement = `
                     <style>
                         .myTr {
@@ -1672,7 +1704,8 @@ $config4 = [
             color = color + simbolos[Math.floor(Math.random() * 16)];
         }
 
-        document.body.style.background = color;
+        // document.body.style.background = color;
+        return color;
     }
 
     function cargaTransacciones(){

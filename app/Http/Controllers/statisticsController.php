@@ -2626,13 +2626,13 @@ class statisticsController extends Controller
     */
     function getBalanceBefore($myGroup = 0, $myFechaDesde = "2001-01-01", $myFechaHasta = "9999-12-31", $myCoin = 1){
 
-
+        /*
         \Log::info('paso en before ');
         \Log::info('paso en before - myGroup      ->' . $myGroup);
         \Log::info('paso en before - myFechaDesde ->' . $myFechaDesde);
         \Log::info('paso en before - myFechaHasta ->' . $myFechaHasta);
         \Log::info('paso en before - myCoin       ->' . $myCoin);
-
+        */
 
         $myFechaDesdeBefore = "2001-01-01";
         $myFechaHastaBefore = "9999-12-31";
@@ -2651,13 +2651,13 @@ class statisticsController extends Controller
                 $myFechaHastaBefore = $this->getDayBefore($myFechaDesde);
 
             }
-            
+            /*
             \Log::info('paso en before - calcula antes ');
             \Log::info('paso en before - calcula antes myGroup      ->' . $myGroup);
             \Log::info('paso en before - calcula antes myFechaDesde ->' . $myFechaDesdeBefore);
             \Log::info('paso en before - calcula antes myFechaHasta ->' . $myFechaHastaBefore);
             \Log::info('paso en before - calcula antes myCoin       ->' . $myCoin);
-           
+           */
 
             $balance3           = $this->getBalance($myGroup, $myFechaDesdeBefore, $myFechaHastaBefore, $myCoin);
 
@@ -2670,7 +2670,7 @@ class statisticsController extends Controller
             }
         }
         
-        \Log::info('Balance detail -> ' . $balanceDetail);
+        // \Log::info('Balance detail -> ' . $balanceDetail);
         
         return $balanceDetail;   
     }    
