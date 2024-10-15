@@ -289,17 +289,10 @@ $config4 = [
         const myArray   = text.split("/");
         const myLength  = myArray.length;
 
-        if (window.location.href.indexOf("?") === -1) {
-            $('.esconder').show();
-        } else {
-            $('.esconder').hide();
-        }
-        
-
         let  myFechaDesde   = '{!! $myFechaDesde !!}';
-        // console.log({!! $myFechaDesde !!});
         const myFechaHasta  = '{!! $myFechaHasta !!}';
 
+        // console.log({!! $myFechaDesde !!});
         // alert('Fechas -> desde -> ' + myFechaDesde + ' ');
 
         InicializaFechas();
@@ -330,6 +323,7 @@ $config4 = [
                             ;
             theRoute(wallet, transaccion, myFechaDesde, myFechaHasta, coin);            
 
+            
 
         });
 
@@ -753,11 +747,16 @@ $config4 = [
             }
         @endforeach
     }
-    
+    //
+    //
+    //          calculos2
+    //          calcula cda grupo cuando posee wallet
+    //
+    //
     function calculos2 (){
 
         let ctx3, myId, myobj, myChart3, ctx4, myChart4;
-
+        
         @foreach($wallet_summary as $wallet)
 
             myId                = "{{$wallet->TypeTransactionId }}";
@@ -766,7 +765,7 @@ $config4 = [
             theTypeTransaction  = {!! $myTypeTransaction !!};
             myIndMuestra        = 1;
 
-             // alert('$wallet->TypeTransactionId' + "{{$wallet->TypeTransactionId }}" + " myId-> " + myId + " myobj-> " + myobj + " thewallet -> " + theWallet + " theTypeTransaction -> " + theTypeTransaction);
+              console.log('$wallet->TypeTransactionId -> ' + "{{$wallet->TypeTransactionId }}" + " myId-> " + myId + " myobj-> " + myobj + " thewallet -> " + theWallet + " theTypeTransaction -> " + theTypeTransaction);
 
              if (theTypeTransaction){
                  if (theTypeTransaction != 0){
@@ -797,11 +796,58 @@ $config4 = [
                             <div class="card">
                                 <div class="card-body">
                                     <h3 class="text-center text-uppercase font-weight-bold">{{ $wallet->TypeTransaccionName }}</h3>
+                                    <h5 class="text-center  font-weight-bold">Operaciones más 500m</h5>                                    
                                     <canvas id=M{{ $wallet->TypeTransactionId. 'A' }}></canvas>
                                 </div>
                             </div>
+
+
+                            <!-- Button trigger modal -->
+                            
+                            <div>
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal{{$wallet->TypeTransactionId}}">
+                                    ver...
+                                </button>
+                            </div>
+                            
+                            <br>
+                            <br>
+
+                            <!-- Modal -->
+
+                            <div class="modal fade" id="exampleModal{{$wallet->TypeTransactionId}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-xl" >
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <h3 class="text-center text-uppercase font-weight-bold">{{ $wallet->TypeTransaccionName }}</h3>
+                                                    <h5 class="text-center  font-weight-bold">Operaciones</h5>                                    
+                                                    <canvas id=M{{ $wallet->TypeTransactionId. 'B' }}></canvas>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                            <button type="button" class="btn btn-primary">Save changes</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
                         </div>
                     </div>
+
+
+
                 `;
 
                 $("#myCanvas").append(myElement);
@@ -840,6 +886,11 @@ $config4 = [
                 let myData              = [];
                 let myBackGroudColor    = [];
                 let myBorderColor       = [];
+
+                let myLabel2             = [];
+                let myData2              = [];
+                let myBackGroudColor2    = [];
+                let myBorderColor2       = [];
 
                 // {{-- dd ($wallet_groupsummary) --}}
 
@@ -912,21 +963,53 @@ $config4 = [
                             borderColor:        myBorderColor,
                             borderWidth:        6
                         }]
-                    },
-                    options:{
-                        plugins: {
-                            title: {
-                                display: true,
-                                position: 'top',
-                                text: "Solo Operaciones Mayores a 500T"
-                            },                            
-                            subtitle: {
-                                display: true,
-                                text: "Solo Operaciones Mayores a 500"
-                            }
-                        }
                     }
                 });
+
+
+
+
+
+                @foreach($wallet_groupsummary as $wallet2)
+
+                        @if($wallet2->TypeTransactionId == $wallet->TypeTransactionId )
+                         
+                            // alert('Aqui -> ' + "{{$wallet2->GroupName}}" + " total amount -> " + "{{$wallet2->total_amount}}");
+
+                            myLabel2.push("{{$wallet2->GroupName ?? $wallet2->WalletName }}");
+                            myData2.push({{$wallet2->total_amount . ',' }});
+                            //
+                             myBackGroudColor2.push('rgb(0, 173, 181)');
+                             myBorderColor2.push('rgb(0, 173, 181)');
+                            //
+                            // genera color distinto a cada grupo en la barra
+                            //
+                            //myColor = generarNuevoColor();
+                            //myBackGroudColor.push(myColor);
+                            //myBorderColor.push(myColor);
+                            
+                            
+
+                        @endif
+
+                @endforeach
+
+                ctx5 = document.getElementById(
+                    "M{{$wallet->TypeTransactionId. 'B' }}",
+                );
+                myChart5 = new Chart(ctx5, {
+                    type: 'bar',
+                    data: {
+                        labels: myLabel2,
+                        datasets: [{
+                            label:              '',
+                            data:               myData2,
+                            backgroundColor:    myBackGroudColor2,
+                            borderColor:        myBorderColor2,
+                            borderWidth:        6
+                        }]
+                    }
+                });                
                 //
                 //
                 //   Tablas de datos
