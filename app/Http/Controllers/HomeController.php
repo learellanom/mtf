@@ -58,7 +58,7 @@ class HomeController extends Controller
         $request2->transaction      = 0;
         $wallet_summary             = app(statisticsController::class)->getwalletTransactionSummary($request2);
         //dd($wallet_summary );
-
+        // \Log::info('wallet summary -> ' . print_r($wallet_summary,true));
         $wallet_groupsummary        = app(statisticsController::class)->getWalletTransactionGroupSummary($request);
         // dd($wallet_groupsummary);
         $wallet                     = app(GroupController::class)->getWallets2();
