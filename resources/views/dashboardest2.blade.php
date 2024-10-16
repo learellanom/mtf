@@ -87,10 +87,18 @@ $config4 = [
                                 <i class="fas fa-calendar-alt"></i>
                             </div>
                         </x-slot>
+                        {{--
+                        <x-slot name="appendSlot">
+                            <div class="input-group-text bg-dark">
+                                <i class="fa fa-solid  fa-times" aria-hidden="true"></i>
+                            </div>
+                        </x-slot>
+                        --}}
+
                     </x-adminlte-date-range>
                 </div>
                 
-                <div class ="col-12 col-md-3">
+                <div class ="col-12 col-md-2">
                     <x-adminlte-select2 id="coin"
                                         name="optionsCoin"
                                         
@@ -99,7 +107,7 @@ $config4 = [
                                         :config="$config1"
                                         >
                         <x-slot name="prependSlot">
-                            <div class="input-group-text bg-gradient-dark">
+                            <div class="input-group-text ">
 
                                 <i class="fas fa-solid fa-dollar-sign"></i>                        
                             </div>
@@ -111,9 +119,19 @@ $config4 = [
                     </x-adminlte-select2>
                 </div>
                 
-
+                <div class ="col-12 col-md-1">
+                    <div class="input-group-text " style="height: 2.25rem; cursor: pointer;">
+                        <i class="fa fa-solid  fa-search" aria-hidden="true"></i>
+                    </div>
+                </div>         
 
             </div>
+
+            <input type="hidden" name="theWalleyId"             id="theWalletId">
+            <input type="hidden" name="theTypeTransactionId"    id="theTypeTransactionId">
+            <input type="hidden" name="theFechaDesde"           id="theFechaDesde" >
+            <input type="hidden" name="theFechaHasta"           id="theFechaHasta">
+            <input type="hidden" name="theTypeCoinId"           id="theTypeCoinId">
 
             <div class="row">
                 <div class ="col-12">
@@ -292,7 +310,7 @@ $config4 = [
         let  myFechaDesde   = '{!! $myFechaDesde !!}';
         const myFechaHasta  = '{!! $myFechaHasta !!}';
 
-        // console.log({!! $myFechaDesde !!});
+         // console.log('{!! $myFechaDesde !!}');
         // alert('Fechas -> desde -> ' + myFechaDesde + ' ');
 
         InicializaFechas();
@@ -305,6 +323,10 @@ $config4 = [
             const wallet        = $('#wallet').val();
             const transaccion   = $('#typeTransactions').val();
             const coin          = ($('#coin').val())    ? $('#coin').val()  : 1;
+
+            $('#theWalletId').val(wallet);
+
+            // alert('leam - la fecha es -> ' + $('#drCustomRanges').val());
 
             let myFechaDesde, myFechaHasta;
 
@@ -332,6 +354,8 @@ $config4 = [
             const wallet        = $('#wallet').val();
             const transaccion   = $('#typeTransactions').val();
             const coin          = ($('#coin').val())    ? $('#coin').val()  : 1;
+
+            $('#theTypeTransactionId').val(transaccion);
 
             let myFechaDesde, myFechaHasta;
 
@@ -372,6 +396,10 @@ $config4 = [
                 const wallet        = $('#wallet').val();
                 const transaccion   = $('#typeTransactions').val();
                 const coin          = ($('#coin').val())    ? $('#coin').val()  : 1;
+
+                $('#theFechaDesde').val(myFechaDesde);
+                $('#theFechaHasta').val(myFechaHasta);
+
                 theRoute(wallet, transaccion, myFechaDesde,myFechaHasta, coin);
 
         });
@@ -495,6 +523,8 @@ $config4 = [
             
             const coin      = ($('#coin').val())    ? $('#coin').val()  : 1;
 
+            $('#theTypeCoin').val(coin);
+
             let myFechaDesde, myFechaHasta;
 
             myFechaDesde =  ($('#drCustomRanges').val()).substr(6,4) +
@@ -575,9 +605,54 @@ $config4 = [
                             <div class="card">
                                 <div class="card-body">
                                     <h3 class="text-center text-uppercase font-weight-bold">{{ $wallet->TypeTransaccionName }}</h3>
+                                    <h5 class="text-center font-weight-bold">Operaciones mas de 500m</h5>
                                     <canvas id=M{{ $wallet->TypeTransactionId. 'A' }}></canvas>
                                 </div>
                             </div>
+
+
+
+                            <!-- Button trigger modal -->
+                            
+                            <div>
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal{{$wallet->TypeTransactionId}}">
+                                    ver...
+                                </button>
+                            </div>
+                            
+                            <br>
+                            <br>
+
+                            <!-- Modal -->
+
+                            <div class="modal fade" id="exampleModal{{$wallet->TypeTransactionId}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-xl" >
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <!-- <h5 class="modal-title" id="exampleModalLabel">{{ $wallet->TypeTransaccionName }}</h5> -->
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <h3 class="text-center text-uppercase font-weight-bold">{{ $wallet->TypeTransaccionName }}</h3>
+                                                    <h5 class="text-center  font-weight-bold">Operaciones</h5>                                    
+                                                    <canvas id=M{{ $wallet->TypeTransactionId. 'B' }}></canvas>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                            <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+        
                         </div>
                     </div>
                 `;
@@ -601,7 +676,9 @@ $config4 = [
                             label: 'Otras transacciónes',
                             data: [
                                 @foreach($transaction_summary as $wallet2)
-                                    {{$wallet2->cant_transactions. ',' }}
+                                // {{$wallet2->cant_transactions . ',' }}
+                                {{$wallet2->total . ',' }}
+
                                 @endforeach],
                             backgroundColor:[
                                 @foreach($transaction_summary as $wallet2)
@@ -627,20 +704,20 @@ $config4 = [
                 @foreach($wallet_groupsummary as $wallet2)
 
                     @if($wallet2->TypeTransactionId == $wallet->TypeTransactionId )
+                        @if($wallet2->total_amount  > 500000)
+                            // alert('Aqui -> ' + "{{$wallet2->GroupName}}" + " total amount -> " + "{{$wallet2->total_amount}}");
 
-                        // alert('Aqui -> ' + "{{$wallet2->GroupName}}" + " total amount -> " + "{{$wallet2->total_amount}}");
+                            myLabel.push("{{$wallet2->GroupName ?? $wallet2->WalletName }}");
 
-                        myLabel.push("{{$wallet2->GroupName ?? $wallet2->WalletName }}");
+                            @if( $wallet->TypeTransactionId == 48 || $wallet->TypeTransactionId == 47)
+                                myData.push({{$wallet2->cant_transactions  == ""? 0 : $wallet2->cant_transactions . ',' }});
+                            @else
+                                myData.push({{$wallet2->total_amount == ""? 0 : $wallet2->total_amount . ',' }});
+                            @endif
 
-                        @if( $wallet->TypeTransactionId == 48 || $wallet->TypeTransactionId == 47)
-                            myData.push({{$wallet2->cant_transactions  == ""? 0 : $wallet2->cant_transactions . ',' }});
-                        @else
-                            myData.push({{$wallet2->total_amount == ""? 0 : $wallet2->total_amount . ',' }});
+                            myBackGroudColor.push('rgb(0, 173, 181)');
+                            myBorderColor.push('rgb(0, 173, 181)');
                         @endif
-
-                        myBackGroudColor.push('rgb(0, 173, 181)');
-                        myBorderColor.push('rgb(0, 173, 181)');
-
                     @endif
 
                 @endforeach
@@ -682,6 +759,65 @@ $config4 = [
                     },
                     options: myOptions
                 });
+
+
+
+                //
+                //
+                //      Barras en el modal
+                //
+                //
+                //
+                let myLabel2             = [];
+                let myData2              = [];
+                let myBackGroudColor2    = [];
+                let myBorderColor2       = [];
+
+
+                @foreach($wallet_groupsummary as $wallet2)
+
+                        @if($wallet2->TypeTransactionId == $wallet->TypeTransactionId )
+                         
+                            // alert('Aqui -> ' + "{{$wallet2->GroupName}}" + " total amount -> " + "{{$wallet2->total_amount}}");
+
+                            myLabel2.push("{{$wallet2->GroupName ?? $wallet2->WalletName }}");
+                            myData2.push({{$wallet2->total_amount . ',' }});
+                            //
+                             myBackGroudColor2.push('rgb(0, 173, 181)');
+                             myBorderColor2.push('rgb(0, 173, 181)');
+                            //
+                            // genera color distinto a cada grupo en la barra
+                            //
+                            //myColor = generarNuevoColor();
+                            //myBackGroudColor.push(myColor);
+                            //myBorderColor.push(myColor);
+                            
+                            
+
+                        @endif
+
+                @endforeach
+
+                ctx5 = document.getElementById(
+                    "M{{$wallet->TypeTransactionId. 'B' }}",
+                );
+                myChart5 = new Chart(ctx5, {
+                    type: 'bar',
+                    data: {
+                        labels: myLabel2,
+                        datasets: [{
+                            label:              '',
+                            data:               myData2,
+                            backgroundColor:    myBackGroudColor2,
+                            borderColor:        myBorderColor2,
+                            borderWidth:        6
+                        }]
+                    }
+                });    
+
+
+
+
 
                 myElement = `
                     <style>
@@ -765,7 +901,7 @@ $config4 = [
             theTypeTransaction  = {!! $myTypeTransaction !!};
             myIndMuestra        = 1;
 
-              console.log('$wallet->TypeTransactionId -> ' + "{{$wallet->TypeTransactionId }}" + " myId-> " + myId + " myobj-> " + myobj + " thewallet -> " + theWallet + " theTypeTransaction -> " + theTypeTransaction);
+            //  console.log('$wallet->TypeTransactionId -> ' + "{{$wallet->TypeTransactionId }}" + " myId-> " + myId + " myobj-> " + myobj + " thewallet -> " + theWallet + " theTypeTransaction -> " + theTypeTransaction);
 
              if (theTypeTransaction){
                  if (theTypeTransaction != 0){
@@ -819,7 +955,7 @@ $config4 = [
                                 <div class="modal-dialog modal-xl" >
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                                            <!-- <h5 class="modal-title" id="exampleModalLabel">{{ $wallet->TypeTransaccionName }}</h5> -->
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                             </button>
@@ -835,7 +971,7 @@ $config4 = [
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                            <button type="button" class="btn btn-primary">Save changes</button>
+                                            <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
                                         </div>
                                     </div>
                                 </div>
@@ -1351,6 +1487,24 @@ $config4 = [
             </div>
         `;
         $("#myCanvasGeneral").append(myElement);
+        // leamxxx
+
+        
+        let myColor2 = [];
+        let myColor2Count = {{ count($wallet_summary) ? count($wallet_summary) : 0}};
+        for(let i=0; i<myColor2Count; i++){
+            myColor2.push(generarNuevoColorRGB());
+            console.log('color rgb -> ' + generarNuevoColorRGB());
+        }
+        
+        /*
+        @foreach($wallet_summary as $wallet) 
+            //myColor2 = generarNuevoColor();
+            myColor2.push( '{{$wallet->cant_transactions. ',' }}');
+        @endforeach
+        */
+        console.log(myColor2);
+        console.log(myColor2Count);
 
         const COLORS = [
             'rgb(0, 173, 181)',
@@ -1380,9 +1534,9 @@ $config4 = [
                 datasets: [
                     {
                     label: 'Dataset 1',
-                    data: [@foreach($wallet_summary as $wallet) {{$wallet->cant_transactions. ',' }} @endforeach],
-                    backgroundColor:COLORS.slice(0, DATA_COUNT2),
-
+                    data: [@foreach($wallet_summary as $wallet) {{$wallet->total. ',' }} @endforeach],
+                    // backgroundColor:COLORS.slice(0, DATA_COUNT2),
+                     backgroundColor:myColor2,
                     hoverOffset: 4
                 }]
             },
@@ -1604,13 +1758,25 @@ $config4 = [
     function theRoute(wallet = 0, transaction = 0, fechaDesde = 0, fechaHasta = 0, coin = 1){
 
 
+        console.log('leam - theWalletId -> '            + $('#theWalletId').val());
+        console.log('leam - theTypeTransactionId -> '   + $('#theTypeTransactionId').val());
+        console.log('leam - theFechaDesde -> '          + $('#theFechaDesde').val());
+        console.log('leam - theFechaHasta -> '          + $('#theFechaHasta').val());
+        console.log('leam - theTypeCoinId -> '          + $('#theTypeCoinId').val());
+        console.log('----------------------------');
+        console.log('leam - wallet -> '                 + wallet);
+        console.log('leam - transaction -> '            + transaction);
+        console.log('leam - fechaDesde -> '             + fechaDesde);
+        console.log('leam - fechaHasta -> '             + fechaHasta);
+        console.log('leam - coin -> '                   + coin);
+
+        // alert('');
+
         if (wallet   === "")        wallet          = 0;
         if (transaction   === "")   transaction     = 0;
 
         let myRoute = "";
         
-
-
         myRoute = "{{ route('dashboardest', ['wallet' => 'wallet2' , 'transaction' => 'transaction2', 'fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2', 'coin' => 'coin2']) }}";
         myRoute = myRoute.replace('wallet2',wallet);
         myRoute = myRoute.replace('transaction2',transaction);
@@ -1790,7 +1956,15 @@ $config4 = [
         // document.body.style.background = color;
         return color;
     }
+    function generarNuevoColorRGB(){
+        let r = Math.floor(Math.random()*(255 + 1));
+        let g = Math.floor(Math.random()*(255 + 1));
+        let b = Math.floor(Math.random()*(255 + 1));
+        
+        let myText = 'rgb(' + r + ',' + g +  ',' + b + ')';
 
+        return myText;
+    }
     function cargaTransacciones(){
         @foreach($typeTransactions as $key => $value)
             // console.log('el grupo con key {!! $key !!} es {!! $value !!}');
