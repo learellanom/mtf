@@ -126,7 +126,7 @@ class HomeController extends Controller
         }
 
 
-        $myCoin             = ($request->coin) ? $request->coin : 1;
+        $myCoin             = ($request->coin) ? $request->coin : 0;
 
         $myTypeCoinBalance  = $myCoin; // dorales siempre por ahora
 		$Type_coin_balance  = Type_coin::pluck('name', 'id')->toArray();
@@ -171,7 +171,6 @@ class HomeController extends Controller
 
         };
 
-
         $parametros['transaction_group_summary']    = $transaction_group_summary;
         $parametros['transaction_summary']          = $transaction_summary;
         $parametros['wallet_summary']               = $wallet_summary;
@@ -189,9 +188,7 @@ class HomeController extends Controller
         $parametros['balance']                      = $balance;
         $parametros['myTypeCoinBalance']            = $myTypeCoinBalance;
         $parametros['Type_coin_balance']            = $Type_coin_balance;
-
-        
-        
+   
         return view('dashboardest2', $parametros);
 
     }
@@ -264,8 +261,6 @@ class HomeController extends Controller
             /* MANTENER VALOR BUSCADO EN EL URL */
         }
 
-
-
         $balance = 0;
 
         if ($myWallet > 0){
@@ -297,8 +292,6 @@ class HomeController extends Controller
             // \Log::info("leam 1-> myFechaHastaBefore -> $myFechaHastaBefore");
 
             $balanceDetail           = app(statisticsController::class)->getBalanceWalletBefore($myWallet, $myFechaDesde, $myFechaHasta);
-
-
 
             // \Log::info("leam 2-> balance3 -> " . print_r($balance3,true));
             // \Log::info("leam 2-> balanceDetail -> " . print_r($balanceDetail,true));
