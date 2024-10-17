@@ -103,7 +103,7 @@ $config4 = [
                                         name="optionsCoin"
                                         
                                         label-class="text-lightblue"
-                                        data-placeholder="MonedaGrupo ..."
+                                        data-placeholder="Moneda ..."
                                         :config="$config1"
                                         >
                         <x-slot name="prependSlot">
@@ -313,6 +313,12 @@ $config4 = [
          // console.log('{!! $myFechaDesde !!}');
         // alert('Fechas -> desde -> ' + myFechaDesde + ' ');
 
+
+
+        console.log('leam - miWallet -> ' + miWallet);
+        inicializaVariables();
+        logVariables();
+
         InicializaFechas();
 
         
@@ -325,6 +331,7 @@ $config4 = [
             const coin          = ($('#coin').val())    ? $('#coin').val()  : 1;
 
             $('#theWalletId').val(wallet);
+            logVariables();
 
             // alert('leam - la fecha es -> ' + $('#drCustomRanges').val());
 
@@ -356,6 +363,7 @@ $config4 = [
             const coin          = ($('#coin').val())    ? $('#coin').val()  : 1;
 
             $('#theTypeTransactionId').val(transaccion);
+            logVariables();
 
             let myFechaDesde, myFechaHasta;
 
@@ -378,6 +386,9 @@ $config4 = [
 
         $('#drCustomRanges').on('change', function () {
 
+
+
+
             let myFechaDesde, myFechaHasta;
             myFechaDesde =  ($('#drCustomRanges').val()).substr(6,4) +
                             '-' +
@@ -399,6 +410,7 @@ $config4 = [
 
                 $('#theFechaDesde').val(myFechaDesde);
                 $('#theFechaHasta').val(myFechaHasta);
+                logVariables();
 
                 theRoute(wallet, transaccion, myFechaDesde,myFechaHasta, coin);
 
@@ -524,6 +536,7 @@ $config4 = [
             const coin      = ($('#coin').val())    ? $('#coin').val()  : 1;
 
             $('#theTypeCoin').val(coin);
+            logVariables();
 
             let myFechaDesde, myFechaHasta;
 
@@ -545,8 +558,8 @@ $config4 = [
             const wallet        = $('#wallet').val();
             const transaccion   = $('#typeTransactions').val();
             
-            theRoute(wallet, transaccion, myFechaDesde,myFechaHasta, coin);
-                
+            // theRoute(wallet, transaccion, myFechaDesde,myFechaHasta, coin);
+            theRoute(wallet, transaccion, undefined , undefined , coin);
 
 
         }
@@ -1063,23 +1076,23 @@ $config4 = [
                 @foreach($wallet_groupsummary as $wallet2)
 
                         @if($wallet2->TypeTransactionId == $wallet->TypeTransactionId )
-                         @if($wallet2->total_amount > 500000) 
-                            // alert('Aqui -> ' + "{{$wallet2->GroupName}}" + " total amount -> " + "{{$wallet2->total_amount}}");
+                            @if($wallet2->total_amount > 500000) 
+                                // alert('Aqui -> ' + "{{$wallet2->GroupName}}" + " total amount -> " + "{{$wallet2->total_amount}}");
 
-                            myLabel.push("{{$wallet2->GroupName ?? $wallet2->WalletName }}");
-                            myData.push({{$wallet2->total_amount . ',' }});
-                            //
-                             myBackGroudColor.push('rgb(0, 173, 181)');
-                             myBorderColor.push('rgb(0, 173, 181)');
-                            //
-                            // genera color distinto a cada grupo en la barra
-                            //
-                            //myColor = generarNuevoColor();
-                            //myBackGroudColor.push(myColor);
-                            //myBorderColor.push(myColor);
-                            
-                            
-                         @endif 
+                                myLabel.push("{{$wallet2->GroupName ?? $wallet2->WalletName }}");
+                                myData.push({{$wallet2->total_amount . ',' }});
+                                //
+                                myBackGroudColor.push('rgb(0, 173, 181)');
+                                myBorderColor.push('rgb(0, 173, 181)');
+                                //
+                                // genera color distinto a cada grupo en la barra
+                                //
+                                //myColor = generarNuevoColor();
+                                //myBackGroudColor.push(myColor);
+                                //myBorderColor.push(myColor);
+                                
+                                
+                            @endif 
                         @endif
 
                 @endforeach
@@ -1487,14 +1500,13 @@ $config4 = [
             </div>
         `;
         $("#myCanvasGeneral").append(myElement);
-        // leamxxx
 
         
         let myColor2 = [];
         let myColor2Count = {{ count($wallet_summary) ? count($wallet_summary) : 0}};
         for(let i=0; i<myColor2Count; i++){
             myColor2.push(generarNuevoColorRGB());
-            console.log('color rgb -> ' + generarNuevoColorRGB());
+            // console.log('color rgb -> ' + generarNuevoColorRGB());
         }
         
         /*
@@ -1776,8 +1788,37 @@ $config4 = [
         if (transaction   === "")   transaction     = 0;
 
         let myRoute = "";
+
+        let parametros = "";
+       
+        parametros += "{{ route('dashboardest', [";
+        {{--
+        if (wallet != 0){
+            parametros += "'wallet' => 'wallet2' ,";
+        }
+
+        if (transaction != 0 ){
+            parametros += "'transaction' => 'transaction2',";
+        }
+
+        if (fechaDesde  != 0){
+            parametros += "'fechaDesde' => 'fechaDesde2',";
+        }
+
+        if (fechaHasta  != 0){
+            parametros +=  "'fechaHasta' => 'fechaHasta2',";
+        }
+       
+        if (coin != 0){
+            parametros +=  "'coin' => 'coin2'";
+        }
+        --}}  
+        parametros += "]) }}";
         
+        // alert('leam - parametros -> ' + parametros);
+        // alert();
         myRoute = "{{ route('dashboardest', ['wallet' => 'wallet2' , 'transaction' => 'transaction2', 'fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2', 'coin' => 'coin2']) }}";
+
         myRoute = myRoute.replace('wallet2',wallet);
         myRoute = myRoute.replace('transaction2',transaction);
         myRoute = myRoute.replace('fechaDesde2',fechaDesde);
@@ -1791,17 +1832,19 @@ $config4 = [
 
     function theRoute2(usuario = 0, grupo = 0, wallet = 0, typeTransactions = 0, fechaDesde = 0, fechaHasta = 0){
 
-        if (usuario  === "") usuario  = 0;
-        if (grupo  === "") grupo  = 0;
-        if (wallet  === "") wallet  = 0;
-        if (typeTransactions  === "") typeTransactions  = 0;
+        if (usuario  === "")            usuario  = 0;
+        if (grupo  === "")              grupo  = 0;
+        if (wallet  === "")             wallet  = 0;
+        if (typeTransactions  === "")   typeTransactions  = 0;
 
         let type_material = 0;
 
-        fechaDesde = $('#drCustomRanges').data('daterangepicker').startDate.format('YYYY-MM-DD')
-        fechaHasta = $('#drCustomRanges').data('daterangepicker').endDate.format('YYYY-MM-DD')
-
-        let myTypeTransaction = BuscaTypeTransactionDetail(typeTransactions);
+        if ($('#theFechaDesde').val() !=  ""){
+            alert('cambio ');
+            //fechaDesde = $('#drCustomRanges').data('daterangepicker').startDate.format('YYYY-MM-DD')
+            //fechaHasta = $('#drCustomRanges').data('daterangepicker').endDate.format('YYYY-MM-DD')
+        }
+            let myTypeTransaction = BuscaTypeTransactionDetail(typeTransactions);
         // alert('leam -  myTypeTransaction ->' + myTypeTransaction + ' y el typeTransactions ->' + typeTransactions);
 
         let myRoute = "";
@@ -2221,7 +2264,46 @@ $config4 = [
         return myDetailTypeTransaction;
 
     }
+
+    function logVariables(){
     
+    console.log('theWalletId            -> ' + $('#theWalletId').val());
+    console.log('theTypeTransactionId   -> ' + $('#theTypeTransactionId').val());
+    console.log('theFechaDesde          -> ' + $('#theFechaDesde').val());
+    console.log('theFechaHasta          -> ' + $('#theFechaHasta').val());
+    console.log('theTypeCoinId          -> ' + $('#theTypeCoinId').val());
+     //   alert();
+
+    }
+
+    function inicializaVariables(){
+        const miWallet              = {!! $myWallet !!};
+        const miTypeTransaction     = {!! $myTypeTransaction !!};
+        const myTypeCoinBalance     = {!! $myTypeCoinBalance !!};
+        const myFechaDesde          = '{!! $myFechaDesde !!}';
+        const myFechaHasta          = '{!! $myFechaHasta !!}';
+        
+        console.log('llega myFechaHasta' + myFechaHasta);
+
+        if (miWallet != 0) {
+            $('#theWalletId').val(miWallet);
+        } 
+        if (miTypeTransaction != 0) {
+            $('#theTypeTransactionId').val(miTypeTransaction);
+        }
+
+        if (myTypeCoinBalance != 1) {
+            $('#theTypeCoinId').val(myTypeCoinBalance);
+        }
+
+        if (myFechaDesde != "2001-01-01"){
+            $('#theFechaDesde').val(myFechaDesde);
+        }
+        if (myFechaHasta != "9999-12-31"){
+            $('#theFechaHasta').val(myFechaHasta);
+        }                
+    }
+
 </script>
 
 @endsection
