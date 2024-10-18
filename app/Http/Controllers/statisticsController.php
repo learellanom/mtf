@@ -1734,7 +1734,7 @@ class statisticsController extends Controller
             type_transaction_id             as TypeTransactionId,
             type_transactions.name          as TypeTransaccionName,                       
             group_id                        as GroupId,
-            groups.name                     as GroupName,
+            mtf.groups.name                 as GroupName,
             count(*)                        as cant_transactions,
             sum(amount)                     as total_amount,
             sum(amount_base)                as total_amount_base,
@@ -1784,8 +1784,8 @@ class statisticsController extends Controller
 
         $Transacciones = DB::select($myQuery);
        // dd($Transacciones);
-        // \Log::info('leam *** $myQuery getWalletTransactionGroupSummary -> ' . $myQuery);
-        // \Log::info('leam *** $Transacciones3 -> ' . print_r($Transacciones,true));
+         \Log::info('leam *** $myQuery getWalletTransactionGroupSummary -> ' . $myQuery);
+         \Log::info('leam *** $Transacciones3 -> ' . print_r($Transacciones,true));
        
        return $Transacciones;
 
