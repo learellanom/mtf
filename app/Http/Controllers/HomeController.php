@@ -61,6 +61,7 @@ class HomeController extends Controller
         // \Log::info('wallet summary -> ' . print_r($wallet_summary,true));
         $wallet_groupsummary        = app(statisticsController::class)->getWalletTransactionGroupSummary($request);
         // dd($wallet_groupsummary);
+        // \Log::info('wallet_groupsummary -> ' . print_r($wallet_groupsummary,true));
         $wallet                     = app(GroupController::class)->getWallets2();
         // dd($wallet);
 
@@ -73,7 +74,7 @@ class HomeController extends Controller
         $request3                   = clone $request;
         $request3->transaction      = 0;
         $transaction_summary        = app(statisticsController::class)->getTransactionSummary($request3);
-        \Log::info('transaction_summary -> ' . print_r($transaction_summary,true));
+        // \Log::info('transaction_summary -> ' . print_r($transaction_summary,true));
         // dd($transaction_summary  );
 
         $request4                   = clone $request;
