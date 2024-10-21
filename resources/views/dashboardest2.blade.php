@@ -333,8 +333,8 @@ $config4 = [
             $('#theWalletId').val(wallet);
             logVariables();
 
-            // alert('leam - la fecha es -> ' + $('#drCustomRanges').val());
-
+             alert('leam cambia wallet');
+            /*
             let myFechaDesde, myFechaHasta;
 
             myFechaDesde =  ($('#drCustomRanges').val()).substr(6,4) +
@@ -350,8 +350,9 @@ $config4 = [
                             '-' +
                             ($('#drCustomRanges').val()).substr(13,2)
                             ;
-            theRoute(wallet, transaccion, myFechaDesde, myFechaHasta, coin);            
-
+                            */
+            theRoute(wallet, undefined, undefined, undefined, undefined);            
+            
             
 
         });
@@ -380,7 +381,7 @@ $config4 = [
                             '-' +
                             ($('#drCustomRanges').val()).substr(13,2)
                             ;
-            theRoute(wallet, transaccion, myFechaDesde, myFechaHasta, coin);
+            theRoute(wallet, transaccion, undefined, undefined, undefined);
 
         });
 
@@ -1840,11 +1841,14 @@ $config4 = [
         let type_material = 0;
 
         if ($('#theFechaDesde').val() !=  ""){
-            alert('cambio ');
+            
+            fechaDesde = $('#theFechaDesde').val();
+            fechaHasta = $('#theFechaHasta').val(); 
+           // alert('cambio ' + fechaDesde);
             //fechaDesde = $('#drCustomRanges').data('daterangepicker').startDate.format('YYYY-MM-DD')
             //fechaHasta = $('#drCustomRanges').data('daterangepicker').endDate.format('YYYY-MM-DD')
         }
-            let myTypeTransaction = BuscaTypeTransactionDetail(typeTransactions);
+        let myTypeTransaction = BuscaTypeTransactionDetail(typeTransactions);
         // alert('leam -  myTypeTransaction ->' + myTypeTransaction + ' y el typeTransactions ->' + typeTransactions);
 
         let myRoute = "";
@@ -1881,8 +1885,26 @@ $config4 = [
             return;
         }
 
+        @php 
+            $parametros ['usuario']             = 'usuario2';
+            $parametros ['grupo']               = 'grupo2';
+            $parametros ['wallet']              = 'wallet2';
+            $parametros ['typeTransactions']    = 'typeTransactions2';
+            $parametros ['fechaDesde']          = 'fechaDesde2';
+            $parametros ['fechaHasta']          = 'fechaHasta2';
+        @endphp 
+        
+        myRoute = "{{ route('estadisticasDetalle', $parametros )}}";
+        myRoute = myRoute.replace('grupo2',grupo);
+        myRoute = myRoute.replace('usuario2',usuario);
+        myRoute = myRoute.replace('wallet2',wallet);
+        myRoute = myRoute.replace('typeTransactions2',typeTransactions);
+        myRoute = myRoute.replace('fechaDesde2',fechaDesde);
+        myRoute = myRoute.replace('fechaHasta2',fechaHasta);
+        myRoute = myRoute.replaceAll('amp;',''); 
+         // alert ('myRoute -> ' + myRoute);
 
-
+        /*
         myRoute = "{{ route('estadisticasDetalle', ['usuario' => 'usuario2', 'grupo' => 'grupo2', 'wallet' => 'wallet2', 'typeTransactions' => 'typeTransactions2','fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2']) }}";
         myRoute = myRoute.replace('grupo2',grupo);
         myRoute = myRoute.replace('usuario2',usuario);
@@ -1893,6 +1915,7 @@ $config4 = [
         myRoute = myRoute.replaceAll('amp;','');
         // console.log(myRoute);
         // alert(myRoute);
+        */
         location.href = myRoute;
 
     }
