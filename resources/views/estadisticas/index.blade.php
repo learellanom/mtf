@@ -834,7 +834,7 @@ if (isset($balance->Total)){
        // const myFechaDesde = '{!! isset($myFechaDesde) ?? 0 !!}';
         const myFechaDesde = '{{ $myFechaDesde }}';
         const myFechaHasta = '{{ $myFechaHasta }}';
-               // $('#drCustomRanges').daterangepicker({}); 
+        // $('#drCustomRanges').daterangepicker({}); 
         //BuscaFechas(myFechaDesde, myFechaHasta);
 
         BuscaFechasBlade(myFechaDesde, myFechaHasta);
