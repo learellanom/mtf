@@ -404,7 +404,7 @@ class statisticsController extends Controller
         if ($myGroup != 0){
             if($Group_roles->allGroups == 0){
                 $theGroups              = implode(",",$Group_roles->groups );
-                $busquedaGroupFilter    = " and group_id in ($theGroups)";
+                // $busquedaGroupFilter    = " and group_id in ($theGroups)";
             }
         }
         if ($myWallet != 0){
@@ -469,7 +469,7 @@ class statisticsController extends Controller
         ";
         
         // return $myQuery;
-        //  \Log::info('leam - myQuery indexall2 ->' . $myQuery);
+          \Log::info('leam - myQuery indexall2 ->' . $myQuery);
 
         $Transacciones = DB::select($myQuery);
         
@@ -1784,8 +1784,8 @@ class statisticsController extends Controller
 
         $Transacciones = DB::select($myQuery);
        // dd($Transacciones);
-         \Log::info('leam *** $myQuery getWalletTransactionGroupSummary -> ' . $myQuery);
-         \Log::info('leam *** $Transacciones3 -> ' . print_r($Transacciones,true));
+        // \Log::info('leam *** $myQuery getWalletTransactionGroupSummary -> ' . $myQuery);
+        //  \Log::info('leam *** $Transacciones3 -> ' . print_r($Transacciones,true));
        
        return $Transacciones;
 
