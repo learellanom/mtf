@@ -61,7 +61,10 @@ class HomeController extends Controller
         // \Log::info('wallet summary -> ' . print_r($wallet_summary,true));
         $wallet_groupsummary        = app(statisticsController::class)->getWalletTransactionGroupSummary($request);
         // dd($wallet_groupsummary);
-         \Log::info('wallet_groupsummary -> ' . print_r($wallet_groupsummary,true));
+       //  \Log::info('wallet_groupsummary -> ' . print_r($wallet_groupsummary,true));
+
+
+
         $wallet                     = app(GroupController::class)->getWallets2();
         // dd($wallet);
 
@@ -79,8 +82,18 @@ class HomeController extends Controller
 
         $request4                   = clone $request;
         $transaction_group_summary  = app(statisticsController::class)->getTransactionGroupSummary($request4);
-
+        
         // dd($transaction_summary);
+         \Log::info('leam -  statisticsController - transaction_group_summary -> ' . print_r($transaction_group_summary,true));
+         $myFilter = array_filter($transaction_group_summary, function ($myItem){
+            // if ($myItem->WalletName == "Caja Poz"){
+                 if ($myItem->TypeTransactionId == 12){
+                    return true;
+                 }
+            // }
+         
+         });
+         \Log::info('myFilter -> ' . print_r($myFilter,true));
 
 
         /* MANTENER VALOR BUSCADO EN EL URL */
