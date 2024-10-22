@@ -1784,12 +1784,13 @@ class statisticsController extends Controller
 
         $Transacciones = DB::select($myQuery);
        // dd($Transacciones);
-        // \Log::info('leam *** $myQuery getWalletTransactionGroupSummary -> ' . $myQuery);
+       //  \Log::info('leam *** $myQuery getWalletTransactionGroupSummary -> ' . $myQuery);
         //  \Log::info('leam *** $Transacciones3 -> ' . print_r($Transacciones,true));
        
        return $Transacciones;
 
     }
+
 
 
 
@@ -1967,8 +1968,8 @@ class statisticsController extends Controller
 
         $Transacciones = DB::select($myQuery);
         // dd($Transacciones);
-        // \Log::info('leam *** $myQUery -> ' . $myQuery);       
-        // \Log::info('leam *** $Transacciones3 -> ' . print_r($Transacciones3,true));
+         \Log::info('leam *** getTransactionGroupSummary - $myQUery -> ' . $myQuery);       
+         \Log::info('leam *** getTransactionGroupSummary - $Transacciones -> ' . print_r($Transacciones,true));
        
         return $Transacciones;
 

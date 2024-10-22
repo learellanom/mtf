@@ -443,7 +443,7 @@ $config4 = [
         
         if (!miWallet){
             calculoGeneral3();
-            calculos3();
+            calculos3();            
         }else{
             calculoGeneral2();
             calculos2();
@@ -574,10 +574,13 @@ $config4 = [
     $( document ).ready(function() {
 
     });
+
     //
-    // calculos - transaction sumarry general
+    //  cuando no vienwe el wallet
+    //  calculos
+    //  transaction sumarry
+    //  transaction group summary
     //
-    
     function calculos3(){
 
         let ctx3, myId, myobj, myChart3, ctx4, myChart4;
@@ -595,8 +598,8 @@ $config4 = [
             if (theTypeTransaction){
                 if (theTypeTransaction != 0){
                     if (myId != theTypeTransaction){
-                            myIndMuestra = 0;
-                        }
+                        myIndMuestra = 0;
+                    }
                 }
             }
 
@@ -666,16 +669,12 @@ $config4 = [
                             </div>
 
 
-        
+
                         </div>
                     </div>
                 `;
 
-
                 $("#myCanvas").append(myElement);
-
-
-
 
                 ctx3 = document.getElementById("M" + myId);
 
@@ -714,8 +713,15 @@ $config4 = [
                 let myBackGroudColor    = [];
                 let myBorderColor       = [];
 
+                let myLabel2             = [];
+                let myData2              = [];
+                let myBackGroudColor2    = [];
+                let myBorderColor2       = [];
 
-                @foreach($wallet_groupsummary as $wallet2)
+                let myLabel3             = [];
+                let myData3              = [];
+
+                @foreach($transaction_group_summary as $wallet2)
 
                     @if($wallet2->TypeTransactionId == $wallet->TypeTransactionId )
                         @if($wallet2->total_amount  > 500000)
@@ -731,7 +737,24 @@ $config4 = [
 
                             myBackGroudColor.push('rgb(0, 173, 181)');
                             myBorderColor.push('rgb(0, 173, 181)');
+
+
+
                         @endif
+
+
+                        myLabel2.push("{{$wallet2->GroupName ?? $wallet2->WalletName }}");
+                        myData2.push({{$wallet2->total_amount . ',' }});
+                        //
+                        myBackGroudColor2.push('rgb(0, 173, 181)');
+                        myBorderColor2.push('rgb(0, 173, 181)');
+                            
+                        myData3.push({{$wallet2->cant_transactions  == ""? 0 : $wallet2->cant_transactions . ',' }});
+                        myLabel3.push("{{$wallet2->GroupName ?? $wallet2->WalletName }}");               
+
+
+
+
                     @endif
 
                 @endforeach
@@ -740,7 +763,7 @@ $config4 = [
                 let myOptions = {};
                 @if ($wallet->TypeTransactionId == 48 || $wallet->TypeTransactionId == 47 )
                     myOptions = {
-                                         
+                                        
                         scales:{
                             yAxes: [
                                 {
@@ -752,7 +775,7 @@ $config4 = [
                         }
                     
                     };
-                                  
+                                
                 @endif
 
                 ctx4 = document.getElementById(
@@ -773,44 +796,7 @@ $config4 = [
                     },
                     options: myOptions
                 });
-
-
-
-                //
-                //
-                //      Barras en el modal
-                //
-                //
-                //
-                let myLabel2             = [];
-                let myData2              = [];
-                let myBackGroudColor2    = [];
-                let myBorderColor2       = [];
-
-
-                @foreach($wallet_groupsummary as $wallet2)
-
-                        @if($wallet2->TypeTransactionId == $wallet->TypeTransactionId )
-                         
-                            // alert('Aqui -> ' + "{{$wallet2->GroupName}}" + " total amount -> " + "{{$wallet2->total_amount}}");
-
-                            myLabel2.push("{{$wallet2->GroupName ?? $wallet2->WalletName }}");
-                            myData2.push({{$wallet2->total_amount . ',' }});
-                            //
-                             myBackGroudColor2.push('rgb(0, 173, 181)');
-                             myBorderColor2.push('rgb(0, 173, 181)');
-                            //
-                            // genera color distinto a cada grupo en la barra
-                            //
-                            //myColor = generarNuevoColor();
-                            //myBackGroudColor.push(myColor);
-                            //myBorderColor.push(myColor);
-                            
-                            
-
-                        @endif
-
-                @endforeach
+                /*
 
                 ctx5 = document.getElementById(
                     "M{{$wallet->TypeTransactionId. 'B' }}",
@@ -828,9 +814,38 @@ $config4 = [
                         }]
                     }
                 });    
+                */
 
-
-
+                ctx6 = document.getElementById(
+                    "M{{$wallet->TypeTransactionId. 'B' }}",
+                );
+                myChart6 = new Chart(ctx6, {
+                    type: 'scatter',
+                    data: {
+                        datasets: [
+                            {
+                                type: 'bar',
+                                label:              '',
+                                data:               myData2,
+                                backgroundColor:    myBackGroudColor2,
+                                borderColor:        myBorderColor2,
+                                borderWidth:        6
+                            },
+                            {
+                                type: 'line',
+                                label:              '',
+                                data:               myData3,
+                            },                            
+                        ]
+                    },
+                    options: {
+                        scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                        }
+                    }                    
+                });   
 
 
                 myElement = `
@@ -879,7 +894,7 @@ $config4 = [
 
                                 </thead>
 
-                                @foreach($wallet_groupsummary as $wallet2)
+                                @foreach($transaction_group_summary as $wallet2)
                                     @if($wallet2->TypeTransactionId == $wallet->TypeTransactionId)
                                         <tr class="myTr" onClick="theRoute2({{0}}, {{$wallet2->GroupId ?? 0 }}, {{0}}, {{$wallet2->TypeTransactionId}})">
                                             <td class="font-weight-bold" style="color: green;">{{ $wallet2->GroupName ?? "A cajas"}}</td>
@@ -896,7 +911,7 @@ $config4 = [
 
             }
         @endforeach
-    }
+    }    
     //
     //
     //          calculos2
