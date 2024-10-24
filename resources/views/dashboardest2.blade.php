@@ -333,7 +333,7 @@ $config4 = [
             $('#theWalletId').val(wallet);
             logVariables();
 
-             alert('leam cambia wallet');
+            // alert('leam cambia wallet');
             /*
             let myFechaDesde, myFechaHasta;
 
@@ -796,7 +796,7 @@ $config4 = [
                     },
                     options: myOptions
                 });
-                /*
+                
 
                 ctx5 = document.getElementById(
                     "M{{$wallet->TypeTransactionId. 'B' }}",
@@ -814,38 +814,9 @@ $config4 = [
                         }]
                     }
                 });    
-                */
-
-                ctx6 = document.getElementById(
-                    "M{{$wallet->TypeTransactionId. 'B' }}",
-                );
-                myChart6 = new Chart(ctx6, {
-                    type: 'scatter',
-                    data: {
-                        datasets: [
-                            {
-                                type: 'bar',
-                                label:              '',
-                                data:               myData2,
-                                backgroundColor:    myBackGroudColor2,
-                                borderColor:        myBorderColor2,
-                                borderWidth:        6
-                            },
-                            {
-                                type: 'line',
-                                label:              '',
-                                data:               myData3,
-                            },                            
-                        ]
-                    },
-                    options: {
-                        scales: {
-                        y: {
-                            beginAtZero: true
-                        }
-                        }
-                    }                    
-                });   
+                
+                
+                
 
 
                 myElement = `
@@ -2345,3 +2316,4 @@ $config4 = [
 </script>
 
 @endsection
+
