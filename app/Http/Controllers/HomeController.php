@@ -46,6 +46,12 @@ class HomeController extends Controller
         // $Transacciones2         = $this->getWalletTransactionGroupSummary($request);
 
         // return view('home', compact('wallet'));
+        // $data = Session::all();
+
+        \Log::info('leam - test -> ' . auth()->user()->name);
+        \Log::info('leam - test -> ' . auth()->user()->password);
+        // \Log::info('leam - test -> ' . session()->user() );
+
         return view('home');
     }
 
