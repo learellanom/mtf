@@ -39,13 +39,14 @@ class HomeController extends Controller
      */
     public function index(request $request)
     {
-
-        $wallet = app(statisticsController::class)->getBalanceWallet();
+        
+        // $wallet = app(statisticsController::class)->getBalanceWallet();
 
         //$this->getwalletTransactionSummary($request);
         // $Transacciones2         = $this->getWalletTransactionGroupSummary($request);
 
-        return view('home', compact('wallet'));
+        // return view('home', compact('wallet'));
+        return view('home');
     }
 
     public function graphics(request $request)
@@ -93,7 +94,7 @@ class HomeController extends Controller
             // }
          
          });
-         \Log::info('myFilter -> ' . print_r($myFilter,true));
+         // \Log::info('myFilter -> ' . print_r($myFilter,true));
 
 
         /* MANTENER VALOR BUSCADO EN EL URL */
@@ -1856,4 +1857,5 @@ class HomeController extends Controller
     }
 
 }
+
 
