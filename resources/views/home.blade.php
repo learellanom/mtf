@@ -4,6 +4,11 @@
 @section('content')
 
 <div class="container">
+    <div class="row justify-content-center">
+        <p class="text-right" style="font-size: 9px;">02-11-2024 0817</p>
+    </div>
+</div>
+<div class="container">    
     <div class="row justify-content-center  ">
             <img class="img-fluid" src="{{asset('logo.png')}}" alt="logo">
     </div>
