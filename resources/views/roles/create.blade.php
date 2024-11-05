@@ -1833,6 +1833,32 @@
                                                 </td>
                                             </tr>
 
+
+                                            <tr>
+                                                <td>Tipo de Solicitud</td>  
+                                                <td>
+                                                    @php
+                                                        $myKey          = 183;
+                                                        $myDescription  = $permisos[$myKey]->description ?? 'Sin descripcion';
+                                                        $myId           = $permisos[$myKey]->id ?? 0;
+
+
+                                                        $myName         = "permissions[]";
+
+                                                        $myChecked      = "";
+                                                        //foreach($roles->permissions as $myPermission){
+                                                        //    if ($myPermission->id == $myKey){
+                                                        //        $myChecked      = 'checked=checked';
+                                                        //    }
+                                                        //}
+                                                    
+                                                    @endphp
+                                                    <input type="checkbox" id="{{$myId}}" name="permissions[]" value="{{$myId}}" {{$myChecked}}>
+                                                    <label for="fname">{{$myDescription}}</label>
+                                                    <br><br>
+
+                                            </tr>
+
                                         </tbody>
                                     </table>
 
