@@ -285,6 +285,8 @@ Route::resource('tipo_transaccion', Type_transactionController::class)->middlewa
 Route::resource('tipo_moneda', Type_coinController::class)->middleware('auth')->except('show')->middleware('can:type_coins.index')->names('type_coins');
 Route::resource('permisos', PermissionController::class)->middleware('auth')->except('show')->names('permissions');
 Route::resource('tipo_material', Type_materialController::class)->middleware('auth')->except('show')->middleware('can:type_materials.index')->names('type_materials');
+
+Route::resource('tipo_transaction_requests', Type_transaction_requestsController::class)->middleware('auth')->except('show')->middleware('can:type_transaction_requets.index')->names('type_transaction_requests');
 //
 //
 // Estadisticas Detalle
