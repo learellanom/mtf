@@ -50,13 +50,13 @@
 
                             <td class="text-center">
 
-                            <a class="btn btn-xl text-primary mx-1 shadow" href="{{ route('type_materials.edit', $material) }}" title="Editar">
+                            <a class="btn btn-xl text-primary mx-1 shadow" href="{{ route('type_transaction_requests.edit', $item) }}" title="Editar">
                                 <i class="fa fa-lg fa-fw fa-pen"></i>
                             </a>
 
                             </td>
                             <td class="text-center">
-                                <form method="post" action="{{ route('type_materials.destroy', $material->id) }}">
+                                <form method="post" action="{{ route('type_transaction_requests.destroy', $item->id) }}">
                                     @csrf
                                     @method('delete')
                                 <button class="btn btn-xl text-danger mx-1 shadow" type="submit" title="Borrar">
