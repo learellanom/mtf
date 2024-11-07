@@ -16,6 +16,7 @@ use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\Type_transactionController;
 use App\Http\Controllers\Type_coinController;
 use App\Http\Controllers\Type_materialController;
+use App\Http\Controllers\Type_transaction_requestsController;
 
 use JeroenNoten\LaravelAdminLte\Http\Controllers\DarkModeController;
 use Illuminate\Support\Facades\Auth;
@@ -274,19 +275,22 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::match(['put', 'patch'], '/usuarios/editar/{usuario}', [UserController::class, 'update_users'])->name('users.update_users');
 
+
+
+    // Route::resource('proveedores', SupplierController::class)->middleware('auth')->except('show')->middleware('can:suppliers.index')->names('suppliers');
+    // Route::resource('clientes', ClientController::class)->middleware('auth')->except('show')->middleware('can:clients.index')->names('clients');
+    Route::resource('grupos', GroupController::class)->middleware('auth')->except('show')->middleware('can:groups.index')->names('groups');
+    Route::resource('roles', RoleController::class)->middleware('auth')->except('show')->middleware('can:roles.index')->names('roles');
+    // Route::resource('cajas', WalletController::class)->middleware('auth')->except('show')->middleware('can:wallets.index')->names('wallets');
+    Route::resource('tipo_transaccion', Type_transactionController::class)->middleware('auth')->except('show')->middleware('can:type_transactions.index')->names('type_transactions');
+    Route::resource('tipo_moneda', Type_coinController::class)->middleware('auth')->except('show')->middleware('can:type_coins.index')->names('type_coins');
+    Route::resource('permisos', PermissionController::class)->middleware('auth')->except('show')->names('permissions');
+    Route::resource('tipo_material', Type_materialController::class)->middleware('auth')->except('show')->middleware('can:type_materials.index')->names('type_materials');
+    //Route::resource('type_transaction_requests', Type_transaction_requestsController::class)->middleware('auth')->except('show')->middleware('can:type_transaction_requests.index')->names('type_transaction_requests');
+    Route::resource('type_transaction_requests', Type_transaction_requestsController::class)->except('show')->middleware('can:type_transaction_requests.index')->names('type_transaction_requests');
+
 });
 
-// Route::resource('proveedores', SupplierController::class)->middleware('auth')->except('show')->middleware('can:suppliers.index')->names('suppliers');
-// Route::resource('clientes', ClientController::class)->middleware('auth')->except('show')->middleware('can:clients.index')->names('clients');
-Route::resource('grupos', GroupController::class)->middleware('auth')->except('show')->middleware('can:groups.index')->names('groups');
-Route::resource('roles', RoleController::class)->middleware('auth')->except('show')->middleware('can:roles.index')->names('roles');
-// Route::resource('cajas', WalletController::class)->middleware('auth')->except('show')->middleware('can:wallets.index')->names('wallets');
-Route::resource('tipo_transaccion', Type_transactionController::class)->middleware('auth')->except('show')->middleware('can:type_transactions.index')->names('type_transactions');
-Route::resource('tipo_moneda', Type_coinController::class)->middleware('auth')->except('show')->middleware('can:type_coins.index')->names('type_coins');
-Route::resource('permisos', PermissionController::class)->middleware('auth')->except('show')->names('permissions');
-Route::resource('tipo_material', Type_materialController::class)->middleware('auth')->except('show')->middleware('can:type_materials.index')->names('type_materials');
-
-Route::resource('tipo_transaction_requests', Type_transaction_requestsController::class)->middleware('auth')->except('show')->middleware('can:type_transaction_requets.index')->names('type_transaction_requests');
 //
 //
 // Estadisticas Detalle
