@@ -1,11 +1,10 @@
 @extends('adminlte::page')
 
-@section('title', 'MTF| Tipo de Material')
+@section('title', 'MTF| Tipo de Solicitud')
 
 @section('content_header')
 
-    <h1 class="text-center text-dark font-weight-bold">CREAR TIPO MATERIAL <i class="fab fa-bitcoin"></i> </h1></a>
-
+    <h1 class="text-center text-dark font-weight-bold">CREAR TIPO DE SOLICITUD <i class="fab fa-bitcoin"></i> </h1></a>
 
 @stop
 
@@ -13,11 +12,11 @@
 <div class="d-flex justify-content-center">
     <div class="card col-md-4">
         <div class="card-body">
-            {!! Form::open(['route' => 'type_materials.store', 'autocomplete' => 'off', 'files' => true]) !!}
+            {!! Form::open(['route' => 'type_transaction_requests.store', 'autocomplete' => 'off', 'files' => true]) !!}
 
 
             <div class="form-group">
-                {!! Form::Label('name', "Tipo de material:") !!}
+                {!! Form::Label('name', "Tipo de solicitud:") !!}
                 {!! Form::text('name', null, ['class' => 'form-control', 'required' => true]) !!}
 
 
