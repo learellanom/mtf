@@ -1,11 +1,10 @@
 @extends('adminlte::page')
 
-@section('title', 'MTF| Tipo de Material')
+@section('title', 'MTF| Tipo de Solicitud')
 
 @section('content_header')
 
-    <h1 class="text-center text-dark font-weight-bold">EDITAR TIPO MATERIAL <i class="fab fa-bitcoin"></i> </h1></a>
-
+    <h1 class="text-center text-dark font-weight-bold">EDITAR TIPO SOLICITUD <i class="fab fa-bitcoin"></i> </h1></a>
 
 @stop
 
@@ -14,12 +13,12 @@
     <div class="card col-md-4">
         <div class="card-body">
             
-            {!! Form::model($Type_material, ['route' => ['type_materials.update', $Type_material],'method' => 'put', 'autocomplete' => 'off', 'files' => true]) !!}
+            {!! Form::model($Type_transaction_requests, ['route' => ['type_transaction_requests.update', $Type_transaction_requests],'method' => 'put', 'autocomplete' => 'off', 'files' => true]) !!}
 
-            {!! Form::hidden('id', $Type_material->id, ['class' => 'form-control']) !!}
+            {!! Form::hidden('id', $Type_transaction_requests->id, ['class' => 'form-control']) !!}
 
             <div class="form-group">
-                {!! Form::Label('name', "Tipo de Material:") !!}
+                {!! Form::Label('name', "Tipo de Solicitud:") !!}
                 {!! Form::text('name', null, ['class' => 'form-control', 'required' => true]) !!}
 
                 @error('name')

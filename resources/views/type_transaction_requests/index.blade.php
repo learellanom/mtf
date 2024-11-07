@@ -42,11 +42,11 @@
 
 
 
-                    @foreach($Type_material as $material)
+                    @foreach($Type_transaction_requests as $item)
                         <tr>
 
-                            <td>{!! $material->name !!}</td>
-                            <td>{!! $material->description !!}</td>
+                            <td>{!! $item->name !!}</td>
+                            <td>{!! $item->description !!}</td>
 
                             <td class="text-center">
 
