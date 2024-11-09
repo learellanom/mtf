@@ -1,10 +1,10 @@
 @extends('adminlte::page')
 
-@section('title', 'MTF| Tipo de Solicitud')
+@section('title', 'MTF| Tipo de Notificacion')
 
 @section('content_header')
 
-    <h1 class="text-center text-dark font-weight-bold">CREAR TIPO DE SOLICITUD <i class="fab fa-bitcoin"></i> </h1></a>
+    <h1 class="text-center text-dark font-weight-bold">CREAR TIPO DE NOTIFICACION <i class="fab fa-bitcoin"></i> </h1></a>
 
 @stop
 
@@ -12,9 +12,9 @@
 <div class="d-flex justify-content-center">
     <div class="card col-md-4">
         <div class="card-body">
-            {!! Form::open(['route' => 'type_transaction_requests.store', 'autocomplete' => 'off', 'files' => true]) !!}
+            {!! Form::open(['route' => 'type_transaction_requests_notificacion_store', 'autocomplete' => 'off', 'files' => true]) !!}
 
-            <input type="hidden" id="type_request" name="type_request" value="1">
+            <input type="hidden" id="type_request" name="type_request" value="2">
 
             <div class="form-group">
                 {!! Form::Label('name', "Tipo de solicitud:") !!}

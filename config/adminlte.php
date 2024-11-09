@@ -814,10 +814,17 @@ return [
         [
             'text'      => 'Tipo de Solicitud',
             'url'       => 'type_transaction_requests',
-            'active'    => ['type_transaction_requests*'],
+            'active'    => ['type_transaction_requests'],
             'icon'      => 'fas fa-file-invoice-dollar',
             'can'       => 'type_transaction_requests.index',
         ],
+        [
+            'text'      => 'Tipo de Notificacion',
+            'url'       => 'type_transaction_requests_notificacion',
+            'active'    => ['type_transaction_requests_notificacion*'],
+            'icon'      => 'fas fa-file-invoice-dollar',
+            // 'can'       => 'type_transaction_requests_notificaciones.index',
+        ],        
     ],
     /*
     |--------------------------------------------------------------------------
