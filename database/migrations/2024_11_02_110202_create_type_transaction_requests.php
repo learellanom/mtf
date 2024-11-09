@@ -11,10 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('type_transaction_requets', function (Blueprint $table) {
+        Schema::create('type_transaction_requests', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
-            $table->string('description');
+            $table->string('description');database/seeders/
+            $table->enum('type_request', [1, 2])->nullable()->default(1); 					//-> tipo request 1: solicitud 2: notificacion
             $table->timestamps();
         });
     }
@@ -24,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('type_transaction_requets');
+        Schema::dropIfExists('type_transaction_requests');
     }
 };
