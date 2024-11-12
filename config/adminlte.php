@@ -587,22 +587,53 @@ return [
         ],
         //
         //
-        // Estadisticas usuarios externos
+        // Estadisticas usuarios externos ********************************************
         //
         //
+         [
+             'header'   => 'FACTURADOS',
+             'classes'   =>'text-uppercase font-weight-bold text-light',
+             'can'       => [
+                 'estadisticasDetalleExterno',
+             ],
+         ],
         [
-            'header'   => 'Estadisticas ue',
+            'text' => 'Movimientos',
+            'url'  => 'estadisticasDetalleEU',
+            'icon' => 'fas fa-fw fas fa-chart-bar',
+            'can'  => 'estadisticasDetalleExterno',  
+        ],
+        [
+            'header'   => 'POR FACTURAR',
             'classes'   =>'text-uppercase font-weight-bold text-light',
             'can'       => [
                 'estadisticasDetalleExterno',
             ],
         ],
         [
-            'text' => 'Detalles de movimiento ue',
-            'url'  => 'estadisticasDetalleEU',
+            'text' => 'Resumen',
+            'url'  => '',
             'icon' => 'fas fa-fw fas fa-chart-bar',
-            'can'  => 'estadisticasDetalleExterno',  
-        ],
+            'can'  => '',  
+        ],     
+        [
+            'text' => 'Operaciones',
+            'url'  => '',
+            'icon' => 'fas fa-fw fas fa-chart-bar',
+            'can'  => '',  
+        ],      
+        [
+            'text' => 'Solicitar',
+            'url'  => '',
+            'icon' => 'fas fa-fw fas fa-chart-bar',
+            'can'  => '',  
+        ],       
+        [
+            'text' => 'Notificar',
+            'url'  => '',
+            'icon' => 'fas fa-fw fas fa-chart-bar',
+            'can'  => '',  
+        ],                 
         //
         //
         //          Menu de Operaciones

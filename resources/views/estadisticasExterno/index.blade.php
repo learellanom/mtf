@@ -1,5 +1,5 @@
 @extends('adminlte::page')
-@section('title', 'Estadistica por transacciones')
+@section('title', 'Movimientos')
 @section('content')
 {{-- Setup data for datatables --}}
 
@@ -61,7 +61,7 @@ if (isset($balance->Total)){
 
 <br>
 <br>
-<h1 class="text-center text-dark font-weight-bold text-uppercase">{{ __('Detalles de Movimientos EU') }} <i class="fas fa-chart-pie fa-spin"></i></h1>
+<h1 class="text-center text-dark font-weight-bold text-uppercase">{{ __('Movimientos') }} <i class="fas fa-chart-pie fa-spin"></i></h1>
 <br>
 <br>
 {{-- Disabled --}}
@@ -208,7 +208,7 @@ if (isset($balance->Total)){
                         <div class= "row">
                             
                             <div class="col-sm-12 col-xl-3">
-                                <p class="text-uppercase font-weight-bold">{{ __('Detalles|Movimientos') }}</p>
+                                <p class="text-uppercase font-weight-bold">{{ __('Movimientos') }}</p>
                             </div>
                             @php
                                 $indWallet = 0;
