@@ -114,7 +114,7 @@ class Type_transaction_requestsController extends Controller
     public function createNotificacion()
     {
         //
-        return view('type_transaction_requests.createNotificacion');
+        return view('type_transaction_requests_notificacion.createNotificacion');
     }
 
     /**
@@ -127,7 +127,7 @@ class Type_transaction_requestsController extends Controller
 
         flash()->addSuccess('Nuevo Tipo de Solicitud creada con exito.', 'Tipo de Solicitud', ['timeOut' => 3000]);
 
-        return Redirect::route('type_transaction_requests.index');
+        return Redirect::route('type_transaction_requests_notificacion_index');
     }
 
     /**
@@ -145,9 +145,10 @@ class Type_transaction_requestsController extends Controller
     {
         //
         $Type_transaction_requests = Type_transaction_request::find($id);
+        // $Type_transaction_requests = Type_transaction_request::where('id',$id)->get();
         
 
-        return view('type_transaction_requests.edit', compact('Type_transaction_requests'));        
+        return view('type_transaction_requests_notificacion.editNotificacion', compact('Type_transaction_requests'));        
     }
 
     /**
@@ -158,8 +159,8 @@ class Type_transaction_requestsController extends Controller
         //
         $Type_transaction_requests = Type_transaction_request::find($id);
         $Type_transaction_requests->update($request->all());
-        flash()->addInfo('Tipo de Solicitud modificada..', 'Tipo de solicitud', ['timeOut' => 3000]);
-        return Redirect::route('type_transaction_requests.index');        
+        flash()->addInfo('Tipo de Notificacion modificada..', 'Tipo de notificacion', ['timeOut' => 3000]);
+        return Redirect::route('type_transaction_requests_notificacion_index');        
     }
 
     /**
@@ -172,8 +173,8 @@ class Type_transaction_requestsController extends Controller
         
         $Type_transaction_requests->delete();
 
-        flash()->addError('Tipo de Solicitud', 'Tipo de Solicitud Eliminada: ' . $Type_transaction_requests->name,  ['timeOut' => 2000]);
-        return Redirect::route('type_transaction_requests.index');    
+        flash()->addError('Tipo de Notificacion', 'Tipo de Notificacion Eliminada: ' . $Type_transaction_requests->name,  ['timeOut' => 2000]);
+        return Redirect::route('type_transaction_requests_notificacion_index');    
 
     }    
 }

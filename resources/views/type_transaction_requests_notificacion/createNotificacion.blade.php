@@ -17,7 +17,7 @@
             <input type="hidden" id="type_request" name="type_request" value="2">
 
             <div class="form-group">
-                {!! Form::Label('name', "Tipo de solicitud:") !!}
+                {!! Form::Label('name', "Tipo de notificacion:") !!}
                 {!! Form::text('name', null, ['class' => 'form-control', 'required' => true]) !!}
 
 
