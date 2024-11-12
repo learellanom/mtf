@@ -289,12 +289,12 @@ Route::group(['middleware' => 'auth'], function () {
     
     Route::resource('type_transaction_requests', Type_transaction_requestsController::class)->except('show')->middleware('can:type_transaction_requests.index')->names('type_transaction_requests');
 
-    Route::get('type_transaction_requests_notificacion',                [Type_transaction_requestsController::class, 'indexNotificacion']   )->name('type_transaction_requests_notificacion_index');
-    Route::get('type_transaction_requests_notificacion/create',         [Type_transaction_requestsController::class, 'createNotificacion']  )->name('type_transaction_requests_notificacion_create');
-    Route::post('type_transaction_requests_notificacion/store',         [Type_transaction_requestsController::class, 'storeNotificacion']   )->name('type_transaction_requests_notificacion_store');
-    Route::get('type_transaction_requests_notificacion/edit',           [Type_transaction_requestsController::class, 'editNotificacion']    )->name('type_transaction_requests_notificacion_edit');
-    Route::put('type_transaction_requests_notificacion/update/{id}',    [Type_transaction_requestsController::class, 'updateNotificacion']  )->name('type_transaction_requests_notificacion_update');
-    Route::put('type_transaction_requests_notificacion/destroy/{id}',   [Type_transaction_requestsController::class, 'destroyNotificacion'] )->name('type_transaction_requests_notificacion_destroy');
+    Route::get('type_transaction_requests_notificacion',                    [Type_transaction_requestsController::class, 'indexNotificacion']   )->name('type_transaction_requests_notificacion_index');
+    Route::get('type_transaction_requests_notificacion/create',             [Type_transaction_requestsController::class, 'createNotificacion']  )->name('type_transaction_requests_notificacion_create');
+    Route::post('type_transaction_requests_notificacion/store',             [Type_transaction_requestsController::class, 'storeNotificacion']   )->name('type_transaction_requests_notificacion_store');
+    Route::get('type_transaction_requests_notificacion/edit/{id}',          [Type_transaction_requestsController::class, 'editNotificacion']    )->name('type_transaction_requests_notificacion_edit');
+    Route::put('type_transaction_requests_notificacion/update/{id}',        [Type_transaction_requestsController::class, 'updateNotificacion']  )->name('type_transaction_requests_notificacion_update');
+    Route::delete('type_transaction_requests_notificacion/destroy/{id}',    [Type_transaction_requestsController::class, 'destroyNotificacion'] )->name('type_transaction_requests_notificacion_destroy');
        
 });
 

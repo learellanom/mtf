@@ -823,7 +823,7 @@ return [
             'url'       => 'type_transaction_requests_notificacion',
             'active'    => ['type_transaction_requests_notificacion*'],
             'icon'      => 'fas fa-file-invoice-dollar',
-            // 'can'       => 'type_transaction_requests_notificaciones.index',
+            'can'       => 'type_transaction_requests_notificaciones.index',
         ],        
     ],
     /*
