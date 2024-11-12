@@ -12,11 +12,12 @@
 <div class="d-flex justify-content-center">
     <div class="card col-md-4">
         <div class="card-body">
-            
-            {!! Form::model($Type_transaction_requests, ['route' => ['type_transaction_requests.update', $Type_transaction_requests],'method' => 'put', 'autocomplete' => 'off', 'files' => true]) !!}
+
+            {!! Form::model($Type_transaction_requests, 
+                    ['route' => ['type_transaction_requests_notificacion_update', $Type_transaction_requests->id],'method' => 'put', 'autocomplete' => 'off', 'files' => true]) !!}
 
             {!! Form::hidden('id', $Type_transaction_requests->id, ['class' => 'form-control']) !!}
-            <input type="hidden" id="type_request" name="type_request" value="1">
+            <input type="hidden" id="type_request" name="type_request" value="2">
             
             <div class="form-group">
                 {!! Form::Label('name', "Tipo de Solicitud:") !!}

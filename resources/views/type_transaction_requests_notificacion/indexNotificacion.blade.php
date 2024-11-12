@@ -50,7 +50,7 @@
 
                             <td class="text-center">
 
-                            <a class="btn btn-xl text-primary mx-1 shadow" href="{{ route('type_transaction_requests_notificacion_edit', $item) }}" title="Editar">
+                            <a class="btn btn-xl text-primary mx-1 shadow" href="{{ route('type_transaction_requests_notificacion_edit', $item->id) }}" title="Editar">
                                 <i class="fa fa-lg fa-fw fa-pen"></i>
                             </a>
 
