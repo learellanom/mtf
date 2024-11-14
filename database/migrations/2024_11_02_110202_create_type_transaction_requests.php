@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('type_transaction_requests', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
-            $table->string('description');database/seeders/
+            $table->string('description');
             $table->enum('type_request', [1, 2])->nullable()->default(1); 					//-> tipo request 1: solicitud 2: notificacion
             $table->timestamps();
         });
