@@ -11,69 +11,42 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('table_transaction_requests', function (Blueprint $table) {
-            $table->bigIncrements('id');                            //-> Identificador de la tabla
-            $table->string('transfer_number')->nullable();          //-> Numero de referencia para transferencias entre cajas
-            $table->string('pay_number')->nullable();               //-> Numero de Referencia para pagos entre cajas
-            $table->double('amount')->nullable();                               //-> Monto en Dorales
-            $table->double('amount_foreign_currency')->nullable();  //MONTO MONEDA EXTRANJERA
-            $table->double('amount_total')->nullable();                         //MONTO TOTAL
-            $table->double('amount_commission')->nullable();        //MONTO COMISION
-            $table->double('exchange_rate')->nullable();            //TASA DE CAMBIO
-            $table->double('exchange_rate_base')->nullable();       //TASA BASE
-            $table->enum('exonerate', [1, 2, 3])->nullable()->default(2); //DESCUENTO, EXONERADO E INCLUIR COMOSIÓN
-            $table->double('percentage')->nullable();               //PORCENTAJE DE LA TRANSFERENCIA
-            $table->foreignId('type_coin_id')->nullable()->default(1)->references('id')->on('type_coins'); // TIPO DE MONEDA DE LA TRANSFERENCIA
-            $table->foreignId('type_transaction_id')->references('id')->on('type_transactions');  //TIPO DE LA TRANSFERENCIA
-            $table->foreignId('user_id')->references('id')->on('users');  // USUARIO QUE REALIZO LA TRANSFERENCIA
-            $table->foreignId('group_id')->nullable()->references('id')->on('groups'); //ORIGEN
-            $table->foreignId('wallet_id')->nullable()->references('id')->on('groups'); //DESTINO
-            $table->enum('status', ['Activo', 'Anulado'])->nullable()->default('Activo'); //ESTATUS
-            $table->string('token')->nullable();                            //TOKEN
-            $table->longText('description');                                //DESCRIPCION DE LA TRANSFERENCIA
-            $table->datetime('transaction_date');                           //FECHA DE LA TRANSACCIÓN
-            $table->enum('exonerate_base', [1, 2, 3])->nullable()->default(2); //DESCUENTO, EXONERADO E INCLUIR COMISÓN BASE
-            $table->double('percentage_base')->nullable();                  //PORCENTAJE DE LA GANANCIA
-            $table->double('amount_commission_base')->nullable();           //GANANCIA DE LA COMOSION
-            $table->double('amount_base')->nullable();                      //MONTO BASE PARA CALCULAR COMISION POR TASA
-            $table->double('amount_total_base')->nullable();                //GANANCIA DE LA COMOSION
-            $table->double('amount_commission_profit')->nullable();         //GANANCIA DE LA COMOSION
+        Schema::create('transaction_requests', function (Blueprint $table) {
+            $table->bigIncrements('id');                                //-> Identificador de la tabla
+            $table->double('amount')->nullable();                       //-> Monto en Dorales
+            $table->enum('status', 
+                    [
+                    'Pendiente', 
+                    'Procesada',
+                    'Anulada',                    
+                    'Rechazada',                    
+                    'Procesada con Ajustes',                    
+                    ])
+                    ->nullable()
+                    ->default('Pendiente');                             // Status
+            $table->longText('description');                            //DESCRIPCION DE LA TRANSFERENCIA
+            $table->datetime('transaction_date');                       //FECHA DE LA TRANSACCIÓN
+            $table->foreignId('user_id')
+                    ->references('id')
+                    ->on('users');                                      // Usuario que realiza la operacion
+            $table->foreignId('group_id')
+                    ->nullable()
+                    ->references('id')
+                    ->on('groups');                                     // Grupo que solicita transaccion
+            $table->foreignId('type_coin_id')
+                    ->nullable()
+                    ->default(1)
+                    ->references('id')
+                    ->on('type_coins');                                 //Tipo de moneda de la transferencia
+            $table->foreignId('type_transaction_requests_id')
+                    ->references('id')
+                    ->on('type_transaction_requests');                 // tipo de transaccion
+            $table->string('note');                                     // Notas del Operador
 
-            $table->foreignId('type_coin_balance_id')->default(1)->references('id')->on('type_coins');  //-> tipo de moneda en el que se llevara el balance de la transaccion
-            $table->enum('exchange_rate_orientation', [1, 2])->nullable()->default(1); 					//-> orientacion del cambio 1 de derecha a izquierda / divide -- 2 de izquierda a derecha * se multiplica
-            $table->foreignId('type_material_id')->nullable()->default(1)->references('id')->on('type_materials'); // TIPO DE MONEDA DE LA TRANSFERENCIA 
+            $table->index('transaction_date');                         // crea indice en transaction_date
 
-            $table->enum('materials_type_adquisicion', [1, 2, 3])->nullable()->default(1); 					//-> 1. Kilo / 2.Gramos / 3. Cantidad
-
-            $table->double('material_amount')->nullable();                                      //-> Monto en Dorales
-
-            $table->double('material_amount_kilos')->nullable();                                //-> Monto en Dorales
-            $table->double('material_amount_gramos')->nullable();                               //-> Monto en Dorales
-            $table->double('material_amount_cantidad')->nullable();                             //-> Monto en Dorales
-
-            $table->double('material_amount_total')->nullable();                                //-> Monto en Dorales
-
-            $table->double('material_amount_total_kilos')->nullable();                          //-> Monto en Dorales
-            $table->double('material_amount_total_gramos')->nullable();                         //-> Monto en Dorales
-            $table->double('material_amount_total_cantidad')->nullable();                       //-> Monto en Dorales
-
-            $table->double  ('material_price_kilos')->nullable();                                 //-> Monto en Dorales
-            $table->double  ('material_price_gramos')->nullable();                                //-> Monto en Dorales
-            $table->double  ('material_price_cantidad')->nullable();                              //-> Monto en Dorales
-
-            $table->double  ('material_price')->nullable();                                       //-> Monto en Dorales
-
-            $table->datetime('liquidation_date')->nullable();                                   // fecha de liquidacion
-            $table->double  ('liquidation_number')->nullable();                                   // fecha de liquidacion
-
-            $table->index('transaction_date');                                                  // crea indeice en transaction_date
             $table->timestamps();       
 
-
-
-
-
-            $table->timestamps();
         });
     }
 
@@ -82,6 +55,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('table_transaction_requests');
+        Schema::dropIfExists('transaction_requests');
     }
 };
