@@ -624,7 +624,7 @@ return [
         ],      
         [
             'text' => 'Solicitar',
-            'url'  => '',
+            'url'  => 'transaction_requests.create',
             'icon' => 'fas fa-fw fas fa-chart-bar',
             'can'  => '',  
         ],       
