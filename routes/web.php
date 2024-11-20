@@ -287,6 +287,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('permisos', PermissionController::class)->middleware('auth')->except('show')->names('permissions');
     Route::resource('tipo_material', Type_materialController::class)->middleware('auth')->except('show')->middleware('can:type_materials.index')->names('type_materials');
     
+    Route::resource('transaction_requests', Transaction_requestsController::class)->except('show')->names('transaction_requests');
     Route::resource('type_transaction_requests', Type_transaction_requestsController::class)->except('show')->middleware('can:type_transaction_requests.index')->names('type_transaction_requests');
 
     Route::get('type_transaction_requests_notificacion',                    [Type_transaction_requestsController::class, 'indexNotificacion']   )->name('type_transaction_requests_notificacion_index');
