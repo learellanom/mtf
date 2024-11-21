@@ -22,7 +22,7 @@
                         <div class="form-group">
                             <br>
                             <div class="form-group">
-                                <label for="">Nombre del archivo: </label>
+                                <label for="">Nombre del permiso: </label>
                                 <input required type="text" name="name" id="name" class="form-control" placeholder="Ejemplo: user.index">
 
 
@@ -38,7 +38,7 @@
 
                         <br>
                         <div class="form-group">
-                            <label for="">Nombre del permiso: </label>
+                            <label for="">Descripcion del permiso: </label>
                             <input required type="text" name="description" id="name" class="form-control" placeholder="Ejemplo: Lista de usuarios">
 
 

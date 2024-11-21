@@ -34,7 +34,7 @@
 
             <div class="form-group">
                 <label for=""> </label>
-                {!! Form::Label('description', 'Nombre descriptivo del permiso') !!}
+                {!! Form::Label('description', 'Descripcion del permiso') !!}
                 {!! Form::text('description', null, ['class' => 'form-control', 'required']) !!}
 
 

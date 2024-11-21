@@ -29,6 +29,7 @@
                 @enderror
 
             </div>
+
             <div class="form-group col-md-4">
                 <label for="amount">Monto:</label>
                 <div class="input-group-text">
@@ -36,6 +37,7 @@
                     <input class="form-control general" type="text" id="amount" name="amount" required>
                 </div>
             </div>
+
             <div class="form-row">
                 <div class="form-group col-xl-4">
                     <!-- {!! Form::Label('transaction_date', "Fecha:") !!} -->
@@ -49,19 +51,19 @@
                 </div>                    
             </div>
 
-
             <div class="form-group">
                 <label for="userName">Usuario:</label>
-                <input class="form-control" type="text" id="fname" name="userName">             
-
+                <label class= "form-control" id="userName" name="userName" value='{{$user->name ?? ""}}'></label>
             </div>
+
             <div class="form-group">
                 <label for="groupName">Grupo:</label>
                 <input class="form-control" type="text" id="groupName" name="groupName">             
 
             </div>
+
             <div class="form-group">
-                <label for="description">Notas:</label>
+                <label for="note">Notas:</label>
                 <input class="form-control" type="text" id="note" name="note">             
 
 
