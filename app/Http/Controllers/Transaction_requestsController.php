@@ -12,6 +12,7 @@ class Transaction_requestsController extends Controller
     public function index()
     {
         //
+        return view('transaction_requests.create');        
     }
 
     /**
@@ -20,6 +21,7 @@ class Transaction_requestsController extends Controller
     public function create()
     {
         //
+        
         return view('transaction_requests.create');        
     }
 
