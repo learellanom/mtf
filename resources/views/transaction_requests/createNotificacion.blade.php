@@ -4,7 +4,7 @@
 
 @section('content_header')
 
-    <h1 class="text-center text-dark font-weight-bold">CREAR SOLICITUD <i class="fab fa-bitcoin"></i> </h1></a>
+    <h1 class="text-center text-dark font-weight-bold">CREAR NOTIFICACION <i class="fab fa-bitcoin"></i> </h1></a>
 
 @stop
 
@@ -15,15 +15,15 @@
             {!! Form::open(['class' => "entre", 'route' => 'transaction_requests.store', 'autocomplete' => 'off', 'files' => true, 'id' => 'entre']) !!}
 
             
-            <input type="hidden" id="user_id"   name="user_id"  value="{{$user->id  ?? ''}}">
-            <input type="hidden" id="group_id"  name="group_id" value="{{$group->GroupID ?? ''}}">
+            <input type="hidden" id="user_id"           name="user_id"          value="{{$user->id  ?? ''}}">
+            <input type="hidden" id="group_id"          name="group_id"         value="{{$group->GroupID ?? ''}}">
             <input type="hidden" id="transaction_date"  name="transaction_date" value="{{$transaction_date ?? now()}}">
             
             @php
               // dd($group);
             @endphp
             <div class="form-group">
-                <label for="type_transaction_requests_id">Tipo de solicitud:</label>
+                <label for="type_transaction_requests_id">Tipo de Notificacion:</label>
                 <div class="input-group-text">
                     <i class="fa-fw fas fa-dollar-sign mr-2"></i>
                     <select class="form-control" name="type_transaction_requests_id" id="type_transaction_requests_id">
