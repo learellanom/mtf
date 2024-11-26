@@ -288,8 +288,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('permisos', PermissionController::class)->middleware('auth')->except('show')->names('permissions');
     Route::resource('tipo_material', Type_materialController::class)->middleware('auth')->except('show')->middleware('can:type_materials.index')->names('type_materials');
 
-    Route::resource('transaction_requests', Transaction_requestsController::class)->except('show')->middleware('can:transaction_requests.create')->names('transaction_requests');
-
+    Route::resource('transaction_requests',         Transaction_requestsController::class)->except('show')->middleware('can:transaction_requests.create')->names('transaction_requests');
+    
+    Route::get('transaction_requests_notification', [Transaction_requestsController::class, 'createRequestNotificacion'])->middleware('can:transaction_requests_notification.create')->name('transaction_requests_notification');
 
     Route::resource('type_transaction_requests', Type_transaction_requestsController::class)->except('show')->middleware('can:type_transaction_requests.index')->names('type_transaction_requests');
 
