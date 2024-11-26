@@ -630,9 +630,9 @@ return [
         ],                   
         [
             'text' => 'Notificar',
-            'url'  => '',
+            'url'  => 'transaction_requests_notification',
             'icon' => 'fas fa-fw fas fa-chart-bar',
-            'can'  => '',  
+            'can'  => 'transaction_requests_notification.create',  
         ],                 
         //
         //

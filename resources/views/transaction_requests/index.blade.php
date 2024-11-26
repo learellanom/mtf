@@ -4,7 +4,7 @@
 
 @section('content_header')
 
-    <h1 class="text-center text-dark font-weight-bold">{{ __('TIPO DE SOLICITUD') }} <i class="fab fa-bitcoin"></i> </h1></a>
+    <h1 class="text-center text-dark font-weight-bold">{{ __('OPERACIONES') }} <i class="fab fa-bitcoin"></i> </h1></a>
 
 
 @stop
