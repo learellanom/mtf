@@ -488,8 +488,6 @@
 </style>
 @endsection
 
-@section('js')
-
 <script>
     $( function() {
         var availableTags = [
