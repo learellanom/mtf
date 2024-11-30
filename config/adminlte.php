@@ -618,9 +618,9 @@ return [
         ],     
         [
             'text' => 'Operaciones',
-            'url'  => '',
+            'url'  => 'transaction_requests_index',
             'icon' => 'fas fa-fw fas fa-chart-bar',
-            'can'  => '',  
+            'can'  => 'transaction_requests_operations.index',  
         ],      
         [
             'text' => 'Solicitar',
