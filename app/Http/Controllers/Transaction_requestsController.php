@@ -31,7 +31,48 @@ class Transaction_requestsController extends Controller
 
         return view('transaction_requests.create', $parametros);        
     }
+    public function indexOperaciones()
+    {
+        //
 
+        $user = auth()->user();
+        
+
+        $group = $this->getGroupsByUserExterno($user->id);
+        $group = count($group) > 0 ? $group[0] : "";
+
+        $Transaction_request  = Transaction_request::
+            select(
+                'transaction_requests.id',
+                'amount',
+                'status',
+                'transaction_requests.description',
+                'transaction_date',
+                'user_id',
+                'group_id',
+                'type_coin_id',
+                'type_transaction_requests_id',
+                'note', 
+                'type_transaction_requests.name', 
+                'type_transaction_requests.description as type_description'
+                )
+            ->where('group_id',$group->GroupID)
+            ->leftjoin('type_transaction_requests','transaction_requests.type_transaction_requests_id','=','type_transaction_requests.id' )
+            ->orderBy('transaction_date','DESC')
+            ->take(10)
+            ->get()
+        ;
+
+
+
+        // dd($Transaction_request);
+        $parametros['Transaction_request']      = $Transaction_request;
+        $parametros['user']                     = $user;
+        $parametros['group']                    = $group;
+        
+
+        return view('transaction_requests.index', $parametros);        
+    }
     /**
      * Show the form for creating a new resource.
      */
