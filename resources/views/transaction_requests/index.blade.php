@@ -12,12 +12,7 @@
 @section('content')
 
 
-<a class="btn btn-dark" title="Crear Tipo de Moneda" href={{ route('type_transaction_requests.create') }}>
-    <i class="fas fa-plus-circle"></i>
-    <span class="d-none d-lg-inline-block text-uppercase font-weight-bold">{{ __('Crear') }}</span>
-    <span class="d-none d-md-inline-block text-uppercase font-weight-bold">{{ __('Tipo de Solicitud') }}</span>
-</a>
-<br><br>
+
 {{-- Compressed with style options / fill data using the plugin config --}}
 
 <div class="row">
@@ -25,49 +20,45 @@
     <div class="col-md-12">
         <div class="card mb-4">
             <div class="card-header">
-                <h3 class="card-title font-weight-bold">{{ __('TIPO DE SOLICITUD') }} <i class="fab fa-bitcoin"></i></h3>
+                {{-- <h3 class="card-title font-weight-bold">{{ __('OPERACIONES') }} <i class="fab fa-bitcoin"></i></h3> --}}
             </div>
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-12">
-                <table class="table table-bordered table-responsive-lg" id="moneda">
-                    <thead>
-                        <tr>
-                            <th>Nombre</th>
-                            <th>Descripción</th>
-                            <th class="text-center">Editar</th>
-                            <th class="text-center">Eliminar</th>
-                        </tr>
-                    </thead>
+                        <table class="table table-bordered table-responsive-lg" id="moneda">
+                            <thead>
+                                <tr>
+                                    <th>Id</th>
+                                    <th>Fecha</th>
+                                    <th>Status</th>
+                                    <th>Amount</th>
+                                    <th>Descripción</th>
+                                    <th>Name</th>
+                                    <th class="text-center">Ver</th>
+                                </tr>
+                            </thead>
+                            
+                            @foreach($Transaction_request as $item)
+                                <tr>
 
+                                    <td>{!! $item->id!!}</td>
+                                    <td>{!! $item->transaction_date!!}</td>
+                                    <td>{!! $item->status!!}</td>
+                                    <td class="text-right">{!! number_format($item->amount,2)!!}</td>
+                                    <td>{!! $item->description !!}</td>
+                                    <td>{!! $item->name !!}</td>
+                                    <td class="text-center">
+                                        <a class="btn btn-xl text-primary mx-1 shadow" href="{{ route('transaction_requests_index', $item) }}" title="Editar">
+                                            <i class="fa fa-lg fa-fw fa-eye"></i>
+                                        </a>
+                                    </td>
 
-
-                    @foreach($Type_transaction_requests as $item)
-                        <tr>
-
-                            <td>{!! $item->name !!}</td>
-                            <td>{!! $item->description !!}</td>
-
-                            <td class="text-center">
-
-                            <a class="btn btn-xl text-primary mx-1 shadow" href="{{ route('type_transaction_requests.edit', $item) }}" title="Editar">
-                                <i class="fa fa-lg fa-fw fa-pen"></i>
-                            </a>
-
-                            </td>
-                            <td class="text-center">
-                                <form method="post" action="{{ route('type_transaction_requests.destroy', $item->id) }}">
-                                    @csrf
-                                    @method('delete')
-                                <button class="btn btn-xl text-danger mx-1 shadow" type="submit" title="Borrar">
-                                    <i class="fa fa-lg fa-fw fa-trash"></i>
-                                </button>
-                                </form>
-                            </td>
-
-                        </tr>
-                    @endforeach
-                </table>
+                                </tr>
+                            @endforeach
+                            
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
