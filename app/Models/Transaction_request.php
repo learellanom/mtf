@@ -12,7 +12,7 @@ class Transaction_request extends Model
 
     //Relación uno a muchos
     public function user(){
-        return $this->belongsTo(user::class);
+        return $this->belongsTo(User::class,'user_id');
     }
     //Relación uno a muchos
     public function group(){
