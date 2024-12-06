@@ -122,6 +122,15 @@ class Transaction_requestsController extends Controller
     public function show(string $id)
     {
         //
+        $transaction_request = Transaction_request::find($id);
+        // dd($transaction_request->amount);
+        // dd($transaction_request->user->name);
+        
+        // dd($transaction_request->type_transaction_requests->name);
+        // dd($transaction_request->group->name);
+        $parametros['transaction_request'] = $transaction_request;
+
+        return view('transaction_requests.show', $parametros);
     }
 
     /**

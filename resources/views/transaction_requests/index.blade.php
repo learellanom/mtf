@@ -48,7 +48,8 @@
                                     <td>{!! $item->description !!}</td>
                                     <td>{!! $item->name !!}</td>
                                     <td class="text-center">
-                                        <a class="btn btn-xl text-primary mx-1 shadow" href="{{ route('transaction_requests_index', $item) }}" title="Editar">
+                                                                                                       
+                                        <a class="btn btn-xl text-primary mx-1 shadow" href="{{ route('transaction_requests.show', $item) }}" title="Editar">
                                             <i class="fa fa-lg fa-fw fa-eye"></i>
                                         </a>
                                     </td>
