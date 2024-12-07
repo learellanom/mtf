@@ -73,6 +73,49 @@ class Transaction_requestsController extends Controller
 
         return view('transaction_requests.index', $parametros);        
     }
+        /**
+     * Display a listing of the resource.
+     */
+    public function indexResumen()
+    {
+        //
+        $Type_transaction_request  = Type_transaction_request::where('type_request','1')->pluck('name', 'id')->toArray();
+        $user   = auth()->user();
+        $group  = $this->getGroupsByUserExterno($user->id);
+        $group  = count($group) > 0 ? $group[0] : "";
+        
+        $Transaction_request  = Transaction_request::
+            select(
+                'type_transaction_requests.type_request', 
+                DB::raw("
+                    CASE
+                        WHEN type_transaction_requests.type_request = 1 then 'Solicitud'
+                        WHEN type_transaction_requests.type_request = 2 then 'Notificacion'
+                    END
+                    as type_request_name
+                "), 
+                'transaction_requests.status',
+                DB::raw('count(transaction_requests.id)   as cantidad'),
+                DB::raw('sum(transaction_requests.amount) as monto'),
+                )
+            ->where('group_id',$group->GroupID)
+            ->whereIn('type_transaction_requests.type_request',['1','2'])
+            ->leftjoin('type_transaction_requests','transaction_requests.type_transaction_requests_id','=','type_transaction_requests.id' )
+            ->groupBy(['type_transaction_requests.type_request','type_transaction_requests.name', 'transaction_requests.status'])
+            ->orderBy('type_transaction_requests.type_request','ASC')
+            ->orderBy('transaction_requests.status','ASC')
+            ->get()
+        ;
+
+        // dd($Transaction_request);
+        $parametros['Transaction_request']      = $Transaction_request;
+        $parametros['user']                     = $user;
+        $parametros['group']                    = $group;
+
+        return view('transaction_requests.resumen', $parametros);   
+        
+
+    }
     /**
      * Show the form for creating a new resource.
      */
