@@ -612,9 +612,9 @@ return [
         ],
         [
             'text' => 'Resumen',
-            'url'  => '',
+            'url'  => 'transaction_requests_resumen',
             'icon' => 'fas fa-fw fas fa-chart-bar',
-            'can'  => '',  
+            'can'  => 'transaction_requests_resumen',
         ],     
         [
             'text' => 'Operaciones',
