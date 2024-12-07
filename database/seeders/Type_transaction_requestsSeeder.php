@@ -33,20 +33,12 @@ class Type_transaction_requestsSeeder extends Seeder
         ]);
 
         Type_transaction_request::create([
-            'name'                      => "Solicitud  de reales Brazi",
-            'description'               => "Solicitud  de reales Brazi",
+            'name'                      => "Solicitud  de reales Brazil",
+            'description'               => "Solicitud  de reales Brazil",
             'type_request'              => '1',
         ]);
 
 
-
-
-
-        Type_transaction_request::create([
-            'name'                      => "Solicitud USDT",
-            'description'               => "Solicitud USDT",
-            'type_request'              => '1',
-        ]);
         
         Type_transaction_request::create([
             'name'                      => "Notificación de Pago en Efectivo dorales",
@@ -76,7 +68,7 @@ class Type_transaction_requestsSeeder extends Seeder
             'name'                      => "Notificación de entrega de Mercancia",
             'description'               => "Notificación de entrega de Mercancia",
             'type_request'              => '2',
-        ]);       
+        ]);      
 
 
     }
