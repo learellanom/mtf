@@ -612,27 +612,27 @@ return [
         ],
         [
             'text' => 'Resumen',
-            'url'  => '',
+            'url'  => 'transaction_requests_resumen',
             'icon' => 'fas fa-fw fas fa-chart-bar',
-            'can'  => '',  
+            'can'  => 'transaction_requests_resumen',
         ],     
         [
             'text' => 'Operaciones',
-            'url'  => '',
+            'url'  => 'transaction_requests_index',
             'icon' => 'fas fa-fw fas fa-chart-bar',
-            'can'  => '',  
+            'can'  => 'transaction_requests_operations.index',  
         ],      
         [
             'text' => 'Solicitar',
-            'url'  => '',
+            'url'  => 'transaction_requests',
             'icon' => 'fas fa-fw fas fa-chart-bar',
-            'can'  => '',  
-        ],       
+            'can'  => 'transaction_requests.create',
+        ],                   
         [
             'text' => 'Notificar',
-            'url'  => '',
+            'url'  => 'transaction_requests_notification',
             'icon' => 'fas fa-fw fas fa-chart-bar',
-            'can'  => '',  
+            'can'  => 'transaction_requests_notification.create',  
         ],                 
         //
         //
@@ -782,7 +782,7 @@ return [
         //
         ['header' => 'Configuración',
          'classes' =>'text-uppercase font-weight-bold text-light', 
-         'can'  => ['users.index', 'roles.index', 'wallets.index', 'type_transactions.index', 'type_coins.index', 'groups.index']
+         'can'  => ['users.index', 'roles.index', 'wallets.index', 'type_transactions.index', 'type_coins.index', 'groups.index'],
         ],
         [
             'text'    => 'Usuarios',
@@ -810,7 +810,7 @@ return [
             'url'       => 'grupos',
             'active'    => ['grupos*'],
             'icon'      => 'fas fa-fw fa-users',
-            'can'       => 'groups.index'
+            'can'       => 'groups.index',
         ],
         // [
         //     'text'        => 'Cajas',
@@ -855,7 +855,7 @@ return [
             'active'    => ['type_transaction_requests_notificacion*'],
             'icon'      => 'fas fa-file-invoice-dollar',
             'can'       => 'type_transaction_requests_notificaciones.index',
-        ],        
+        ],     
     ],
     /*
     |--------------------------------------------------------------------------
