@@ -17,6 +17,7 @@ use App\Http\Controllers\Type_transactionController;
 use App\Http\Controllers\Type_coinController;
 use App\Http\Controllers\Type_materialController;
 use App\Http\Controllers\Type_transaction_requestsController;
+use App\Http\Controllers\Transaction_requestsController;
 
 use JeroenNoten\LaravelAdminLte\Http\Controllers\DarkModeController;
 use Illuminate\Support\Facades\Auth;
@@ -286,7 +287,14 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('tipo_moneda', Type_coinController::class)->middleware('auth')->except('show')->middleware('can:type_coins.index')->names('type_coins');
     Route::resource('permisos', PermissionController::class)->middleware('auth')->except('show')->names('permissions');
     Route::resource('tipo_material', Type_materialController::class)->middleware('auth')->except('show')->middleware('can:type_materials.index')->names('type_materials');
+
+    Route::resource('transaction_requests',         Transaction_requestsController::class)->middleware('can:transaction_requests.create')->names('transaction_requests');
+
+    Route::get('transaction_requests_index',        [Transaction_requestsController::class, 'indexOperaciones'])->middleware('can:transaction_requests.index')->name('transaction_requests_index');
+    Route::get('transaction_requests_resumen',      [Transaction_requestsController::class, 'indexResumen'])->middleware('can:transaction_requests_resumen')->name('transaction_requests_resumen');
     
+    Route::get('transaction_requests_notification', [Transaction_requestsController::class, 'createRequestNotificacion'])->middleware('can:transaction_requests_notification.create')->name('transaction_requests_notification');
+
     Route::resource('type_transaction_requests', Type_transaction_requestsController::class)->except('show')->middleware('can:type_transaction_requests.index')->names('type_transaction_requests');
 
     Route::get('type_transaction_requests_notificacion',                    [Type_transaction_requestsController::class, 'indexNotificacion']   )->name('type_transaction_requests_notificacion_index');
