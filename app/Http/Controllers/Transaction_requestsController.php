@@ -31,7 +31,7 @@ class Transaction_requestsController extends Controller
 
         return view('transaction_requests.create', $parametros);        
     }
-    public function indexOperaciones()
+    public function indexOperaciones(Request $request)
     {
         //
 
@@ -40,6 +40,26 @@ class Transaction_requestsController extends Controller
 
         $group = $this->getGroupsByUserExterno($user->id);
         $group = count($group) > 0 ? $group[0] : "";
+        
+        // $request->type_request = 2;
+
+        
+        if ($request->type_request){
+            $type_request_desde = $request->type_request;
+            $type_request_hasta = $request->type_request;
+            
+        }else{
+            $type_request_desde = 1;
+            $type_request_hasta = 2;
+        }
+        // $request->status = "Pendiente";
+        if ($request->status){
+            $status_desde = $request->status;
+            $status_hasta = $request->status;
+        }else{
+            $status_desde = "";
+            $status_hasta = "ZZZZZZZZZZ";
+        }
 
         $Transaction_request  = Transaction_request::
             select(
@@ -54,9 +74,12 @@ class Transaction_requestsController extends Controller
                 'type_transaction_requests_id',
                 'note', 
                 'type_transaction_requests.name', 
-                'type_transaction_requests.description as type_description'
+                'type_transaction_requests.description as type_description',
+                'type_transaction_requests.type_request as type_request',                
                 )
             ->where('group_id',$group->GroupID)
+            ->whereBetween('type_transaction_requests.type_request',array($type_request_desde, $type_request_hasta))
+            ->whereBetween('status',array($status_desde, $status_hasta))
             ->leftjoin('type_transaction_requests','transaction_requests.type_transaction_requests_id','=','type_transaction_requests.id' )
             ->orderBy('transaction_date','DESC')
             ->take(10)
@@ -111,7 +134,7 @@ class Transaction_requestsController extends Controller
         $parametros['Transaction_request']      = $Transaction_request;
         $parametros['user']                     = $user;
         $parametros['group']                    = $group;
-
+                
         return view('transaction_requests.resumen', $parametros);   
         
 
