@@ -14,7 +14,14 @@
 
 
 {{-- Compressed with style options / fill data using the plugin config --}}
-
+<style>
+                    .myTr {
+                        cursor: pointer;
+                    }
+                    .myTr:hover{
+                        background-color: #D7DBDD  !important;
+                    }
+                </style>
 <div class="d-flex justify-content-center">
 
         <div class="card col-md-4">
@@ -44,7 +51,7 @@
                                         @php
                                             $nroSolicitudes++;
                                         @endphp
-                                        <tr>
+                                        <tr class="myTr" onClick="theRoute({{$item->type_request}},'{{$item->status}}',{{$group->GroupID}})">
                                             <td>{!! $item->status!!}</td>
                                             <td>{!! $item->cantidad!!}</td>
                                             <td>{!! number_format($item->monto,2)!!}</td>
@@ -89,7 +96,7 @@
                                         @php
                                             $nroSolicitudes++;
                                         @endphp                                                          
-                                    <tr>
+                                    <tr class="myTr" onClick="theRoute({{$item->type_request}},'{{$item->status}}',{{$group->GroupID}})">
                                         <td>{!! $item->status!!}</td>
                                         <td>{!! $item->cantidad!!}</td>
                                         <td>{!! number_format($item->monto,2)!!}</td>
@@ -141,5 +148,24 @@ $(document).ready( function () {
     });
 
 } );
+
+function theRoute(type_request = null , status = null, grupo = null){
+
+    // transaction_requests_index
+
+    // alert("este es el item -> " + item);
+
+    let myRoute = "";
+            myRoute = "{{ route('transaction_requests_index', ['type_request' => 'type_request2', 'status' => 'status2', 'grupo' => 'grupo2']) }}";
+            myRoute = myRoute.replace('grupo2',grupo);
+            myRoute = myRoute.replace('type_request2',type_request);
+            myRoute = myRoute.replace('status2',status);
+            myRoute = myRoute.replaceAll('amp;','');
+        // console.log(myRoute);
+         // alert(myRoute);
+        location.href = myRoute;
+
+}
+
 </script>
 @endsection
