@@ -68,7 +68,7 @@ class Type_transaction_requestsSeeder extends Seeder
             'name'                      => "Notificación de entrega de Mercancia",
             'description'               => "Notificación de entrega de Mercancia",
             'type_request'              => '2',
-        ]);       
+        ]);      
 
 
     }
