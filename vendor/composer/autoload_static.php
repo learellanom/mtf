@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit58f2bf0e1252a3bdc0bb54a987bb3115
+class ComposerStaticInit785b8a83e410ca321a2f0810160a73d0
 {
     public static $files = array (
         '6e3fae29631ef280660b3cdad06f25a8' => __DIR__ . '/..' . '/symfony/deprecation-contracts/function.php',
@@ -453,8 +453,8 @@ class ComposerStaticInit58f2bf0e1252a3bdc0bb54a987bb3115
         ),
         'Psr\\Http\\Message\\' => 
         array (
-            0 => __DIR__ . '/..' . '/psr/http-factory/src',
-            1 => __DIR__ . '/..' . '/psr/http-message/src',
+            0 => __DIR__ . '/..' . '/psr/http-message/src',
+            1 => __DIR__ . '/..' . '/psr/http-factory/src',
         ),
         'Psr\\Http\\Client\\' => 
         array (
@@ -816,8 +816,11 @@ class ComposerStaticInit58f2bf0e1252a3bdc0bb54a987bb3115
         'App\\Http\\Controllers\\Auth\\ResetPasswordController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/ResetPasswordController.php',
         'App\\Http\\Controllers\\Auth\\VerificationController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/VerificationController.php',
         'App\\Http\\Controllers\\Auth\\VerifyEmailController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/VerifyEmailController.php',
+        'App\\Http\\Controllers\\CommissionUsdtController' => __DIR__ . '/../..' . '/app/Http/Controllers/CommissionUsdtController.php',
         'App\\Http\\Controllers\\Controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Controller.php',
         'App\\Http\\Controllers\\GroupController' => __DIR__ . '/../..' . '/app/Http/Controllers/GroupController.php',
+        'App\\Http\\Controllers\\GroupRoleController' => __DIR__ . '/../..' . '/app/Http/Controllers/GroupRoleController.php',
+        'App\\Http\\Controllers\\GroupUserController' => __DIR__ . '/../..' . '/app/Http/Controllers/GroupUserController.php',
         'App\\Http\\Controllers\\HomeController' => __DIR__ . '/../..' . '/app/Http/Controllers/HomeController.php',
         'App\\Http\\Controllers\\LanguageController' => __DIR__ . '/../..' . '/app/Http/Controllers/LanguageController.php',
         'App\\Http\\Controllers\\PermissionController' => __DIR__ . '/../..' . '/app/Http/Controllers/PermissionController.php',
@@ -825,6 +828,7 @@ class ComposerStaticInit58f2bf0e1252a3bdc0bb54a987bb3115
         'App\\Http\\Controllers\\RoleController' => __DIR__ . '/../..' . '/app/Http/Controllers/RoleController.php',
         'App\\Http\\Controllers\\TransactionController' => __DIR__ . '/../..' . '/app/Http/Controllers/TransactionController.php',
         'App\\Http\\Controllers\\Type_coinController' => __DIR__ . '/../..' . '/app/Http/Controllers/Type_coinController.php',
+        'App\\Http\\Controllers\\Type_materialController' => __DIR__ . '/../..' . '/app/Http/Controllers/Type_materialController.php',
         'App\\Http\\Controllers\\Type_transactionController' => __DIR__ . '/../..' . '/app/Http/Controllers/Type_transactionController.php',
         'App\\Http\\Controllers\\UserController' => __DIR__ . '/../..' . '/app/Http/Controllers/UserController.php',
         'App\\Http\\Controllers\\statisticsController' => __DIR__ . '/../..' . '/app/Http/Controllers/statisticsController.php',
@@ -848,10 +852,15 @@ class ComposerStaticInit58f2bf0e1252a3bdc0bb54a987bb3115
         'App\\Http\\Requests\\UpdateWallet_has_usersRequest' => __DIR__ . '/../..' . '/app/Http/Requests/UpdateWallet_has_usersRequest.php',
         'App\\Http\\Requests\\UpdatesuppliersRequest' => __DIR__ . '/../..' . '/app/Http/Requests/UpdatesuppliersRequest.php',
         'App\\Http\\Requests\\Updatetransaction_supplierRequest' => __DIR__ . '/../..' . '/app/Http/Requests/Updatetransaction_supplierRequest.php',
+        'App\\Models\\Commissions_usdt' => __DIR__ . '/../..' . '/app/Models/Commissions_usdt.php',
         'App\\Models\\Group' => __DIR__ . '/../..' . '/app/Models/Group.php',
+        'App\\Models\\Group_role' => __DIR__ . '/../..' . '/app/Models/Group_role.php',
+        'App\\Models\\Group_user' => __DIR__ . '/../..' . '/app/Models/Group_user.php',
         'App\\Models\\Image' => __DIR__ . '/../..' . '/app/Models/Image.php',
+        'App\\Models\\Materials_balance' => __DIR__ . '/../..' . '/app/Models/Materials_balance.php',
         'App\\Models\\Transaction' => __DIR__ . '/../..' . '/app/Models/Transaction.php',
         'App\\Models\\Type_coin' => __DIR__ . '/../..' . '/app/Models/Type_coin.php',
+        'App\\Models\\Type_material' => __DIR__ . '/../..' . '/app/Models/Type_material.php',
         'App\\Models\\Type_transaction' => __DIR__ . '/../..' . '/app/Models/Type_transaction.php',
         'App\\Models\\User' => __DIR__ . '/../..' . '/app/Models/User.php',
         'App\\Notifications\\ResetPasswordNotification' => __DIR__ . '/../..' . '/app/Notifications/ResetPasswordNotification.php',
@@ -1016,16 +1025,20 @@ class ComposerStaticInit58f2bf0e1252a3bdc0bb54a987bb3115
         'Cron\\MinutesField' => __DIR__ . '/..' . '/dragonmantank/cron-expression/src/Cron/MinutesField.php',
         'Cron\\MonthField' => __DIR__ . '/..' . '/dragonmantank/cron-expression/src/Cron/MonthField.php',
         'Database\\Factories\\ClientFactory' => __DIR__ . '/../..' . '/database/factories/ClientFactory.php',
+        'Database\\Factories\\GroupUserFactory' => __DIR__ . '/../..' . '/database/factories/GroupUserFactory.php',
         'Database\\Factories\\SupplierFactory' => __DIR__ . '/../..' . '/database/factories/SupplierFactory.php',
         'Database\\Factories\\TransactionFactory' => __DIR__ . '/../..' . '/database/factories/TransactionFactory.php',
         'Database\\Factories\\TransactionSupplierFactory' => __DIR__ . '/../..' . '/database/factories/TransactionSupplierFactory.php',
         'Database\\Factories\\Transaction_masterFactory' => __DIR__ . '/../..' . '/database/factories/Transaction_masterFactory.php',
         'Database\\Factories\\UserFactory' => __DIR__ . '/../..' . '/database/factories/UserFactory.php',
         'Database\\Seeders\\DatabaseSeeder' => __DIR__ . '/../..' . '/database/seeders/DatabaseSeeder.php',
+        'Database\\Seeders\\GroupRoleSeeder' => __DIR__ . '/../..' . '/database/seeders/GroupRoleSeeder.php',
         'Database\\Seeders\\GroupSeeder' => __DIR__ . '/../..' . '/database/seeders/GroupSeeder.php',
+        'Database\\Seeders\\GroupUserSeeder' => __DIR__ . '/../..' . '/database/seeders/GroupUserSeeder.php',
         'Database\\Seeders\\RoleSeeder' => __DIR__ . '/../..' . '/database/seeders/RoleSeeder.php',
         'Database\\Seeders\\TransactionSeeder' => __DIR__ . '/../..' . '/database/seeders/TransactionSeeder.php',
         'Database\\Seeders\\Type_coinSeeder' => __DIR__ . '/../..' . '/database/seeders/Type_coinSeeder.php',
+        'Database\\Seeders\\Type_materialSeeder' => __DIR__ . '/../..' . '/database/seeders/Type_materialSeeder.php',
         'Database\\Seeders\\Type_transactionSeeder' => __DIR__ . '/../..' . '/database/seeders/Type_transactionSeeder.php',
         'Database\\Seeders\\UserSeeder' => __DIR__ . '/../..' . '/database/seeders/UserSeeder.php',
         'DateError' => __DIR__ . '/..' . '/symfony/polyfill-php83/Resources/stubs/DateError.php',
@@ -8664,10 +8677,10 @@ class ComposerStaticInit58f2bf0e1252a3bdc0bb54a987bb3115
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit58f2bf0e1252a3bdc0bb54a987bb3115::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit58f2bf0e1252a3bdc0bb54a987bb3115::$prefixDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInit58f2bf0e1252a3bdc0bb54a987bb3115::$prefixesPsr0;
-            $loader->classMap = ComposerStaticInit58f2bf0e1252a3bdc0bb54a987bb3115::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit785b8a83e410ca321a2f0810160a73d0::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit785b8a83e410ca321a2f0810160a73d0::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInit785b8a83e410ca321a2f0810160a73d0::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInit785b8a83e410ca321a2f0810160a73d0::$classMap;
 
         }, null, ClassLoader::class);
     }
