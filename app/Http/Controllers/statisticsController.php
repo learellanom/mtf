@@ -9335,6 +9335,163 @@ class statisticsController extends Controller
 
     }
 
+    public function balancePagosCobros(request $request)
+    {
+        // $request->group = 39;
+        $groupDesde = 0;
+        $groupHasta = 99999;
+        if($request->group){
+            
+            $groupDesde = $request->group;
+            $groupHasta = $request->group;
+        }      
+
+        $fechaDesde = "2023-07-18 00:00:00";
+        $fechaHasta = "2023-07-20 23:59:59";
+
+        $fechaDesde = "2023-01-01 00:00:00";
+        $fechaHasta = "2024-12-31 23:59:59";
+        $fechaHasta = now();
+        if($request->fechaDesde){
+            $fechaDesde = $request->fechaDesde;
+        }
+        if($request->fechaHasta){
+            $fechaHasta = $request->fechaHasta;
+        }
+
+        $typeCoin       = 1;
+        $typeCoinDesde  = 1;
+        $typeCoinHasta  = 1;
+
+        $myQuery2 =
+        "
+            SELECT 
+                x.group_id,
+                transaction_date,
+                amount,
+                amount_total,
+                type_coin_id,
+                mtf.type_coins.name as coin_name,
+                type_transaction_id,
+                user_id,
+                wallet_id,
+                status,
+                x.description,
+                type_coin_balance_id,
+                TC.name as coin_balance_name,
+                mtf.type_transactions.name as type_transaction_name,
+                mtf.type_transactions.type_transaction_group,
+                (
+                    SELECT 
+                        -- group_id,
+                        sum(amount) as monto
+                    FROM mtf.transactions as T
+                    left join mtf.type_transactions as TT on TT.id = T.type_transaction_id
+                    where  
+                    TT.type_transaction_group = '2'
+                and
+                    T.group_id = x.group_id
+                and T.status = 'Activo'
+                ) as monto_cobro
+            FROM mtf.transactions as x
+            left join mtf.type_transactions on type_transactions.id = x.type_transaction_id
+            left join mtf.type_coins        on mtf.type_coins.id    = x.type_coin_id
+            left join mtf.type_coins as TC  on TC.id                = x.type_coin_balance_id
+            where 
+                mtf.type_transactions.type_transaction_group = '1'
+            and x.status = 'Activo'
+            and x.group_id            between $groupDesde     and $groupHasta
+            and transaction_date      between '$fechaDesde'   and '$fechaHasta'
+            and type_coin_balance_id  = $typeCoin
+        ";
+
+
+
+
+        $myQuery1 =
+        "
+            SELECT 
+                x.group_id,
+                g.name,
+                type_transaction_id,
+                mtf.type_transactions.name as type_transaction_name,
+                sum(amount_total) as amount_total,
+                (
+                    SELECT 
+                        -- group_id,
+                        sum(amount) as monto
+                    FROM mtf.transactions as T
+                    left join mtf.type_transactions as TT on TT.id = T.type_transaction_id
+                    where  
+                    TT.type_transaction_group = '2'
+                and
+                    T.group_id = x.group_id
+                and T.status = 'Activo'
+                ) as monto_cobro
+            FROM mtf.transactions as x
+            left join mtf.groups as g on  g.id = x.group_id
+            left join mtf.type_transactions on type_transactions.id = x.type_transaction_id
+            where 
+                mtf.type_transactions.type_transaction_group = '1'
+            and x.status = 'Activo'
+            and x.group_id            between $groupDesde     and $groupHasta
+            and transaction_date      between '$fechaDesde'   and '$fechaHasta'
+            and type_coin_balance_id  = $typeCoin
+            group by
+            x.group_id,
+            g.name,
+            type_transaction_id,
+            type_transaction_name
+        ";
+
+        
+        $myQuery1 =
+        "
+            SELECT 
+                x.group_id,
+                g.name,
+                sum(amount_total) as amount_total,
+                (
+                    SELECT 
+                        -- group_id,
+                        sum(amount) as monto
+                    FROM mtf.transactions as T
+                    left join mtf.type_transactions as TT on TT.id = T.type_transaction_id
+                    where  
+                    TT.type_transaction_group = '2'
+                and
+                    T.group_id = x.group_id
+                and T.status = 'Activo'
+                ) as monto_cobro
+            FROM mtf.transactions as x
+            left join mtf.groups as g on  g.id = x.group_id
+            left join mtf.type_transactions on type_transactions.id = x.type_transaction_id
+            where 
+                mtf.type_transactions.type_transaction_group = '1'
+            and x.status = 'Activo'
+            and x.group_id            between $groupDesde     and $groupHasta
+            and transaction_date      between '$fechaDesde'   and '$fechaHasta'
+            and type_coin_balance_id  = $typeCoin
+            group by
+              x.group_id,
+              g.name
+        ";
+
+        // dd($myQuery);
+        
+        // \Log::info('leam My query *** -> ' . $myQuery);
+
+        $Transacciones  = DB::select($myQuery1);   
+        
+        $parametros['Transacciones'] = $Transacciones;
+
+        //  dd($Transacciones);
+
+        return view('estadisticas.balancePagosCobros1', $parametros);
+        // return view('estadisticas.balancePagosCobros2', $parametros);
+
+    }
+
 }
 
 ?>

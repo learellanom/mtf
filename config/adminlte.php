@@ -583,7 +583,15 @@ return [
                     'can'           => 'materials.liquidacion_cuenta',
                     'icon_color'    => 'primary',
                 ],                                         
-            ]
+            ],
+         
+        ],
+        [
+            'text'      => 'Balance de Pagos y Cobros',
+            'url'       => 'balancePagosCobros',
+            'active'    => ['balancePagosCobros' ],
+            'icon'      => 'fas fa-fw fas fa-chart-bar',
+            'can'       => 'balancePagosCobros',
         ],
         //
         //
