@@ -303,7 +303,14 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('type_transaction_requests_notificacion/edit/{id}',          [Type_transaction_requestsController::class, 'editNotificacion']    )->name('type_transaction_requests_notificacion_edit');
     Route::put('type_transaction_requests_notificacion/update/{id}',        [Type_transaction_requestsController::class, 'updateNotificacion']  )->name('type_transaction_requests_notificacion_update');
     Route::delete('type_transaction_requests_notificacion/destroy/{id}',    [Type_transaction_requestsController::class, 'destroyNotificacion'] )->name('type_transaction_requests_notificacion_destroy');
-       
+  
+    
+    Route::get('balancePagosCobros',
+        [statisticsController::class, 'balancePagosCobros'])
+        ->middleware('can:balancePagosCobros')
+         ->name('balancePagosCobros');
+
+
 });
 
 //
