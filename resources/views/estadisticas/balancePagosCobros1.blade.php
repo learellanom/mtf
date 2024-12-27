@@ -4,9 +4,28 @@
 
 @section('content_header')
 
-    <h1 class="text-center text-dark font-weight-bold">{{ __('Balance de Pagos y Cobros') }} <i class="fab fa-bitcoin"></i> </h1></a>
+    <h1 class="text-center text-dark font-weight-bold">{{ __('Balance de Pagos y Cobros por Grupo') }} <i class="fab fa-bitcoin"></i> </h1></a>
 
 @stop
+@php
+
+$config1 =
+[
+    "allowClear" => true,
+];
+
+$config3 = [
+    "locale" => ["format" => "DD-MM-YYYY"],
+    "allowClear" => true,
+    "showDropdowns:" => "true",
+];
+
+$config4 = [
+    "placeHolder" => "selecciona...",
+    "allowClear" => true,
+];
+
+@endphp
 
 @section('content')
 
@@ -19,7 +38,71 @@
     <div class="col-md-12">
         <div class="card mb-4">
             <div class="card-header">
-                {{-- <h3 class="card-title font-weight-bold">{{ __('Balance de Pagos y Cobros') }} <i class="fab fa-bitcoin"></i></h3> --}}
+                {{-- <h3 class="card-title font-weight-bold">{{ __('Balance de Pagos y Cobros por Grupo') }} <i class="fab fa-bitcoin"></i></h3> --}}
+                <div class="row">
+                <div class="col-12 col-lg-3">
+                    <x-adminlte-select2 
+                        id="grupo"
+                        name="optionsGroups"
+                        label-class="text-lightblue"
+                        data-placeholder="Seleccione Grupo"
+                        :config="$config4"
+                    >
+                    <x-slot name="prependSlot">
+                        <div class="input-group-text bg-gradient-light">
+                            <i class="fas fa-box"></i>
+                        </div>
+                    </x-slot>
+                    <x-adminlte-options :options="$grupo" empty-option="Grupo.."/>
+                    </x-adminlte-select2>
+                </div>
+
+                <div class ="col-12 col-lg-3">
+                    <x-adminlte-date-range
+                        name="drCustomRanges"
+                        enable-default-ranges="Last 30 Days"
+                        
+                        :config="$config3">
+                        <x-slot name="prependSlot">
+                            <div class="input-group-text bg-gradient-light">
+                                <i class="fas fa-calendar-alt"></i>
+                            </div>
+                        </x-slot>
+                        <x-slot name="appendSlot">
+                            <x-adminlte-button 
+                                id="myDrClearButton"
+                                label="X" 
+                                icon="fas  fa-x"/>
+                        </x-slot>
+                    </x-adminlte-date-range>
+
+
+                </div>
+
+                <div class ="col-sm-3">
+                    <x-adminlte-select2 id="coin"
+                                        name="optionsCoin"
+                                        igroup-size="sm"
+                                        label-class="text-lightblue"
+                                        data-placeholder="MonedaGrupo ..."
+                                        :config="$config1"
+                                        >
+                        <x-slot name="prependSlot">
+                            <div class="input-group-text bg-gradient-dark">
+                                <!-- <i class="fas fa-car-side"></i> -->
+                                <!-- <i class="fas fa-user-tie"></i> -->
+                                <i class="fas fa-solid fa-dollar-sign"></i>                        
+                            </div>
+                            
+                        </x-slot>
+
+                        <x-adminlte-options :options="$Type_coin_balance" empty-option="Selecciona una moneda.."/>
+
+                    </x-adminlte-select2>
+                </div>
+
+                </div>
+                
             </div>
             <div class="card-body">
                 <div class="row">
@@ -29,7 +112,7 @@
                                 <tr>                                
                                     <th>Id</th>
                                     <th>Grupo</th>
-                                    <th>Monto</th>
+                                    <th>Monto Pagos</th>
                                     <th>Monto Cobrado</th>
                                     <th>Monto Deuda</th>
                                     {{--

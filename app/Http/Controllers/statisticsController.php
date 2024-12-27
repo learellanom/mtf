@@ -9334,6 +9334,10 @@ class statisticsController extends Controller
         return view('usdt.USDTResDiaMovimientos', $parametros);
 
     }
+    public function balancePagosCobrosMenu(request $request)
+    {
+        return view('estadisticas.balancePagosCobrosMenu');
+    }
 
     public function balancePagosCobros(request $request)
     {
@@ -9443,14 +9447,39 @@ class statisticsController extends Controller
             type_transaction_id,
             type_transaction_name
         ";
+        $request->fechaDesde = "2024-08-01";
+        if($request->fechaDesde){
+            $fechaDesdeAntes = $request->fechaDesde;
+        }else{
+            $fechaDesdeAntes     = "2023-01-01 00:00:00";
+        }
 
-        
+        $fechaHastaAntes    = strtotime($fechaDesdeAntes . "- 1 day");
+        $fechaHastaAntes    = date("Y-m-d 23:59:59", $fechaHastaAntes);
+
+        // dd($fechaHastaAntes);
+
         $myQuery1 =
         "
             SELECT 
                 x.group_id,
                 g.name,
                 sum(amount_total) as amount_total,
+                IFNULL(
+                (
+                    SELECT 
+                        -- group_id,
+                        sum(amount_total) as monto
+                    FROM mtf.transactions as T
+                    left join mtf.type_transactions as TT on TT.id = T.type_transaction_id
+                    where  
+                        TT.type_transaction_group = '1'
+                    and
+                        T.group_id = x.group_id
+                    and T.status = 'Activo'
+                    and transaction_date <= '$fechaHastaAntes'
+                ),0) as monto_pago_anterior,
+                IFNULL(
                 (
                     SELECT 
                         -- group_id,
@@ -9462,7 +9491,7 @@ class statisticsController extends Controller
                 and
                     T.group_id = x.group_id
                 and T.status = 'Activo'
-                ) as monto_cobro
+                ),0) as monto_cobro
             FROM mtf.transactions as x
             left join mtf.groups as g on  g.id = x.group_id
             left join mtf.type_transactions on type_transactions.id = x.type_transaction_id
@@ -9477,13 +9506,19 @@ class statisticsController extends Controller
               g.name
         ";
 
-        // dd($myQuery);
+        // dd($myQuery1);
         
         // \Log::info('leam My query *** -> ' . $myQuery);
 
-        $Transacciones  = DB::select($myQuery1);   
-        
-        $parametros['Transacciones'] = $Transacciones;
+        $Transacciones                      = DB::select($myQuery1);   
+        // dd($Transacciones);
+
+        $grupo                              = app(GroupController::class)->getGroups2();
+        $Type_coin_balance                  = Type_coin::pluck('name', 'id')->toArray();
+
+        $parametros['grupo']                = $grupo;
+        $parametros['Type_coin_balance']    = $Type_coin_balance;
+        $parametros['Transacciones']        = $Transacciones;
 
         //  dd($Transacciones);
 
