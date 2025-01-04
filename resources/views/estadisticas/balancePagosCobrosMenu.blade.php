@@ -53,7 +53,7 @@
                                 </tr>
                                 <tr >
                                     <td>
-                                        <a class="myLink" href="{{ route('balancePagosCobros') }}">
+                                        <a class="myLink" href="{{ route('balancePagosCobrosGrupoFecha') }}">
                                             <p>
                                                 <i class="fas fa-fw fas fa-chart-bar "></i>
                                                 Balance de Pagos y Cobros por grupo / Fecha

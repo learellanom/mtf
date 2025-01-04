@@ -310,6 +310,11 @@ Route::group(['middleware' => 'auth'], function () {
         ->middleware('can:balancePagosCobros')
          ->name('balancePagosCobros');
 
+    Route::get('balancePagosCobrosGrupoFecha',
+         [statisticsController::class, 'balancePagosCobrosGrupoFecha'])
+         ->middleware('can:balancePagosCobros')
+          ->name('balancePagosCobrosGrupoFecha');
+
     Route::get('balancePagosCobrosMenu',
     [statisticsController::class, 'balancePagosCobrosMenu'])
     ->middleware('can:balancePagosCobros')
