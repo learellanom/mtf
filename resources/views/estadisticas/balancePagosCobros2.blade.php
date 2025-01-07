@@ -117,10 +117,11 @@ $config4 = [
                                 <tr>                                
                                     <th>Grupo</th>
                                     <th>Fecha</th>
+                                    <th>Descripción</th>                                    
                                     <th>Transaccion</th>
                                     <th>Monto</th>
-                                    <th>Descripción</th>
-                                    <th>Monto Cobrado</th>
+                                    <th>Acumulado Monto pagado</th>
+                                    <th>Acumulado Monto Cobrado</th>
                                     <th class="text-center">Ver</th>
                                 </tr>
                             </thead>
@@ -130,9 +131,10 @@ $config4 = [
 
                                     <td>{!! $item->group_id . ' ' . $item->group_name !!}</td>
                                     <td>{!! $item->transaction_date!!}</td>
+                                    <td>{!! $item->description !!}</td>                                    
                                     <td>{!! $item->type_transaction_name!!}</td>
                                     <td class="text-right">{!! number_format($item->amount_total,2)!!}</td>
-                                    <td>{!! $item->description !!}</td>
+                                    <td class="text-right">{!! number_format($item->monto_pago_anterior,2)!!}</td>
                                     <td class="text-right">{!! number_format($item->monto_cobro,2)!!}</td>
                                     <td class="text-center">
                                                                                                        
@@ -205,6 +207,42 @@ $(document).ready( function () {
                 "previous": "Anterior"
             }
         },
+        'dom' : '<"row" <"col-12 col-md-6" B> <"col-12 col-md-6 text-align-right" f> >ti <"row" <"col-12 col-md-6" l> <"col-12 col-md-6" p>>',
+        'buttons':[
+            {
+                extend:  'excel',
+                exportOptions: { columns: [1, 2, 3,4,5,6] },
+                text:    '<i class="fas fa-file-excel"></i>',
+                title: `Balance de Pagos y Cobros`,
+                titleAttr: 'Exportar Excel',
+                className: 'btn btn-success',                     
+                excelStyles: [
+                    {
+                        "template": ["title_medium", "gold_medium"]
+                    },    
+                ],                                                                      
+            },
+            {
+                extend:  'pdfHtml5',
+                exportOptions: { columns: [0, 1, 2, 3,4,5,6] },
+                text:    '<i class="fas fa-file-pdf"></i>',
+                orientation: 'landscape',
+                title: 'MTF | LISTA DE TRANSACIÓNES',
+                titleAttr: 'Exportar PDF',
+                className: 'btn btn-danger',
+                defaultStyle: {
+                    fontSize: 6
+                },
+            },
+            {
+                extend:  'print',
+                exportOptions: { columns: [0, 1, 2, 3,4,5,6] },
+                text:    '<i class="fas fa-print"></i>',
+                orientation: 'landscape',
+                titleAttr: 'Capture de pantalla',
+                className: 'btn btn-info'
+            },
+        ]        
     });
 
 
