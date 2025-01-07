@@ -227,6 +227,43 @@ $(document).ready( function () {
                 "previous": "Anterior"
             }
         },
+        'dom' : '<"row" <"col-12 col-md-6" B> <"col-12 col-md-6 text-align-right" f> >ti <"row" <"col-12 col-md-6" l> <"col-12 col-md-6" p>>',
+        'buttons':[
+            {
+                extend:  'excel',
+                exportOptions: { columns: [1, 2, 3,4,5] },
+                text:    '<i class="fas fa-file-excel"></i>',
+                title: `Balance de Pagos y Cobros`,
+                titleAttr: 'Exportar Excel',
+                className: 'btn btn-success',                     
+                excelStyles: [
+                    {
+                        "template": ["title_medium", "gold_medium"]
+                    },    
+                ],                                                                      
+            },
+            {
+                extend:  'pdfHtml5',
+                exportOptions: { columns: [1, 2, 3,4,5] },
+                text:    '<i class="fas fa-file-pdf"></i>',
+                orientation: 'landscape',
+                title: 'MTF | LISTA DE TRANSACIÓNES',
+                titleAttr: 'Exportar PDF',
+                className: 'btn btn-danger',
+                defaultStyle: {
+                    fontSize: 6
+                },
+            },
+            {
+                extend:  'print',
+                exportOptions: { columns: [1, 2, 3,4,5] },
+                text:    '<i class="fas fa-print"></i>',
+                orientation: 'landscape',
+                titleAttr: 'Capture de pantalla',
+                className: 'btn btn-info'
+            },
+        ]       
+
     });
 
 
