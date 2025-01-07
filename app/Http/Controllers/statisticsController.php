@@ -9557,7 +9557,7 @@ class statisticsController extends Controller
         $groupDesde = 0;
         $groupHasta = 99999;
         $myGroup    = 0;
-        $myLimit    = "limit 5000";
+        $myLimit    = "limit 100";
         
         if($request->group){
             
@@ -9617,7 +9617,7 @@ class statisticsController extends Controller
                 x.id,
                 x.group_id,
                 g.name as group_name,
-                transaction_date,
+                x.transaction_date,
                 amount,
                 amount_total,
                 type_coin_id,
@@ -9643,7 +9643,7 @@ class statisticsController extends Controller
                     and
                         T.group_id = x.group_id
                     and T.status = 'Activo'
-                    and transaction_date <= '$fechaHastaAntes'
+                    and transaction_date <= x.transaction_date
                 ),0) as monto_pago_anterior,
                 IFNULL(
                 (
@@ -9657,6 +9657,7 @@ class statisticsController extends Controller
                 and
                     T.group_id = x.group_id
                 and T.status = 'Activo'
+                and transaction_date <= x.transaction_date
                 ),0) as monto_cobro
             FROM mtf.transactions as x
             left join mtf.groups as g on  g.id = x.group_id
@@ -9664,14 +9665,15 @@ class statisticsController extends Controller
             left join mtf.type_coins        on mtf.type_coins.id    = x.type_coin_id
             left join mtf.type_coins as TC  on TC.id                = x.type_coin_balance_id  
             where 
-                mtf.type_transactions.type_transaction_group = '1'
-            and x.status = 'Activo'
+          
+                x.status = 'Activo'
             and x.group_id            between $groupDesde     and $groupHasta
             and transaction_date      between '$fechaDesde 00:00:00'   and '$fechaHasta 23:59:59'
             and type_coin_balance_id  = $typeCoin
             order by
                x.group_id,
-               x.transaction_date
+               x.transaction_date,
+               mtf.type_transactions.type_transaction_group
             $myLimit
         ";
 
