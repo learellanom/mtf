@@ -122,6 +122,7 @@ $config4 = [
                                     <th>Monto</th>
                                     <th>Acumulado Monto pagado</th>
                                     <th>Acumulado Monto Cobrado</th>
+                                    <th>Saldo</th>
                                     <th class="text-center">Ver</th>
                                 </tr>
                             </thead>
@@ -136,12 +137,24 @@ $config4 = [
                                     <td class="text-right">{!! number_format($item->amount_total,2)!!}</td>
                                     <td class="text-right">{!! number_format($item->monto_pago_anterior,2)!!}</td>
                                     <td class="text-right">{!! number_format($item->monto_cobro,2)!!}</td>
+                                    <td class="text-right">{!! number_format($item->saldo,2)!!}</td>
                                     <td class="text-center">
                                                                                                        
-                                        <a class="btn btn-xl text-primary mx-1 shadow" href="{{ route('transaction_requests.show', $item->group_id) }}" title="Editar">
+                                        <a class="btn btn-xl text-primary mx-1 shadow" href="{{ route('transactions.show', ['movimiento'=> $item->id]) }}" title="Detalle">
                                             <i class="fa fa-lg fa-fw fa-eye"></i>
                                         </a>
                                     </td>
+
+                                    {{--
+                                    <td class="text-center">
+                                        <a
+                                            href="{{ route('transactions.show', ['movimiento'=> $row->Id]) }}"
+                                            title="Detalles"
+                                            class="btn text-dark mx-1 shadow text-center">
+                                            <i class="fa fa-lg fa-fw fa-eye"></i>
+                                        </a>
+                                    </td>
+                                    --}}
 
                                 </tr>
                             @endforeach
@@ -211,9 +224,9 @@ $(document).ready( function () {
         'buttons':[
             {
                 extend:  'excel',
-                exportOptions: { columns: [1, 2, 3,4,5,6] },
+                exportOptions: { columns: [0, 1, 2, 3,4,5,6,7] },
                 text:    '<i class="fas fa-file-excel"></i>',
-                title: `Balance de Pagos y Cobros`,
+                title: `Balance de Pagos y Cobros por Grupo y fecha`,
                 titleAttr: 'Exportar Excel',
                 className: 'btn btn-success',                     
                 excelStyles: [
@@ -224,7 +237,7 @@ $(document).ready( function () {
             },
             {
                 extend:  'pdfHtml5',
-                exportOptions: { columns: [0, 1, 2, 3,4,5,6] },
+                exportOptions: { columns: [0, 1, 2, 3,4,5,6,7] },
                 text:    '<i class="fas fa-file-pdf"></i>',
                 orientation: 'landscape',
                 title: 'MTF | LISTA DE TRANSACIÓNES',
@@ -236,7 +249,7 @@ $(document).ready( function () {
             },
             {
                 extend:  'print',
-                exportOptions: { columns: [0, 1, 2, 3,4,5,6] },
+                exportOptions: { columns: [0, 1, 2, 3,4,5,6,7] },
                 text:    '<i class="fas fa-print"></i>',
                 orientation: 'landscape',
                 titleAttr: 'Capture de pantalla',

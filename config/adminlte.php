@@ -591,7 +591,7 @@ return [
             'url'       => 'balancePagosCobrosMenu',
             'active'    => ['balancePagosCobros' ],
             'icon'      => 'fas fa-fw fas fa-chart-bar',
-            'can'       => 'balancePagosCobrosx',
+            'can'       => 'balancePagosCobros',
         ],
         //
         //
