@@ -9553,6 +9553,7 @@ class statisticsController extends Controller
     
     public function balancePagosCobrosGrupoFecha(request $request)
     {
+            
         // $request->group = 39;
         $groupDesde = 0;
         $groupHasta = 99999;
