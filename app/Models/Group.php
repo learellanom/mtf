@@ -25,6 +25,9 @@ class Group extends Model  implements Auditable
     public function transaction(){
         return $this->hasMany(Transaction::class);
     }
+    public function enterprise_wallet(){
+        return $this->hasMany(Enterprise_wallet::class);
+    }
 
 
 }
