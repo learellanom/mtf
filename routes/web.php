@@ -18,6 +18,7 @@ use App\Http\Controllers\Type_coinController;
 use App\Http\Controllers\Type_materialController;
 use App\Http\Controllers\Type_transaction_requestsController;
 use App\Http\Controllers\Transaction_requestsController;
+use App\Http\Controllers\EnterpriseController;
 
 use JeroenNoten\LaravelAdminLte\Http\Controllers\DarkModeController;
 use Illuminate\Support\Facades\Auth;
@@ -320,6 +321,8 @@ Route::group(['middleware' => 'auth'], function () {
     ->middleware('can:balancePagosCobros')
     ->name('balancePagosCobrosMenu');
 
+    // Route::resource('cajamayor', EnterpriseController::class)->middleware('auth')->except('show')->middleware('can:enterprise.index')->names('enterprise');
+    Route::resource('cajamayor', EnterpriseController::class)->middleware('auth')->names('enterprise');
 });
 
 //

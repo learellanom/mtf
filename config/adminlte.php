@@ -790,7 +790,15 @@ return [
         //
         ['header' => 'Configuración',
          'classes' =>'text-uppercase font-weight-bold text-light', 
-         'can'  => ['users.index', 'roles.index', 'wallets.index', 'type_transactions.index', 'type_coins.index', 'groups.index'],
+         'can'  => [
+                'users.index', 
+                'roles.index', 
+                'wallets.index', 
+                'type_transactions.index', 
+                'type_coins.index', 
+                'groups.index',
+                'enterprise.index'
+            ],
         ],
         [
             'text'    => 'Usuarios',
@@ -863,7 +871,14 @@ return [
             'active'    => ['type_transaction_requests_notificacion*'],
             'icon'      => 'fas fa-file-invoice-dollar',
             'can'       => 'type_transaction_requests_notificaciones.index',
-        ],     
+        ],    
+        [
+            'text'      => 'Caja Mayor',
+            'url'       => 'cajamayor',
+            'active'    => ['cajamayor*'],
+            'icon'      => 'fas fa-file-invoice-dollar',
+            
+        ],  
     ],
     /*
     |--------------------------------------------------------------------------
