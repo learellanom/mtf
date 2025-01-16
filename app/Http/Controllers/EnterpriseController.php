@@ -43,18 +43,19 @@ class EnterpriseController extends Controller
     {
         //
         
-
         $Enterprise = Enterprise::create($request->all());
+        if (isset($request['my-select'])){
+            if (count($request['my-select'])){
+                foreach($request['my-select'] as $item){
 
-        foreach($request['my-select'] as $item){
+                    $Enterprise_wallet = new Enterprise_wallet();
+                    $Enterprise_wallet->enterprise_id   = $Enterprise->id;
+                    $Enterprise_wallet->group_id        = $item;;
+                    $Enterprise_wallet->save();
 
-            $Enterprise_wallet = new Enterprise_wallet();
-            $Enterprise_wallet->enterprise_id   = $Enterprise->id;
-            $Enterprise_wallet->group_id        = $item;;
-            $Enterprise_wallet->save();
-
+                }
+            }
         }
-
         flash()->addSuccess('Nueva Caja Mayor creada con exito.', 'Caja Mayor', ['timeOut' => 3000]);
 
         return Redirect::route('enterprise.index');        
@@ -75,17 +76,15 @@ class EnterpriseController extends Controller
     {
         //
 
-        $enterprise = Enterprise::find($id);
-        $enterprise_wallet = Enterprise_wallet::
-          where('enterprise_id',$enterprise->id)
-        ->pluck('group_id');
-        $wallet             = app(GroupController::class)->getWallets2();
-        $group              = app(GroupController::class)->getGroups2();
+        $enterprise                         = Enterprise::find($id);
+        $enterprise_wallet                  = Enterprise_wallet::where('enterprise_id',$enterprise->id)->pluck('group_id');
+        $wallet                             = app(GroupController::class)->getWallets2();
+        $group                              = app(GroupController::class)->getGroups2();
 
-        $parametros['group'] = $group;
-        $parametros['wallet'] = $wallet;
-        $parametros['enterprise'] = $enterprise;
-        $parametros['enterprise_wallet'] = $enterprise_wallet;
+        $parametros['group']                = $group;
+        $parametros['wallet']               = $wallet;
+        $parametros['enterprise']           = $enterprise;
+        $parametros['enterprise_wallet']    = $enterprise_wallet;
         // dd($enterprise);
         // dd($enterprise_wallet);
          return view('enterprise.edit', $parametros);        
@@ -99,6 +98,20 @@ class EnterpriseController extends Controller
         //
         $enterprise = Enterprise::find($id);
         $enterprise->update($request->all());
+
+        Enterprise_wallet::where('enterprise_id', $enterprise->id)->delete();
+        if(isset($request['my-select'])){
+            if (count($request['my-select'])){
+                foreach($request['my-select'] as $item){
+
+                    $Enterprise_wallet = new Enterprise_wallet();
+                    $Enterprise_wallet->enterprise_id   = $enterprise->id;
+                    $Enterprise_wallet->group_id        = $item;;
+                    $Enterprise_wallet->save();
+
+                }
+            }
+        }
         flash()->addInfo('Caja Mayor modificado..', 'Caja Mayor', ['timeOut' => 3000]);
         return Redirect::route('enterprise.index');        
     }
@@ -109,8 +122,8 @@ class EnterpriseController extends Controller
     public function destroy(string $id)
     {
         //
-        $enterprise = Enterprise::find($id);
-        
+        $enterprise_wallet  = Enterprise_wallet::where('enterprise_id',$id)->delete();
+        $enterprise         = Enterprise::find($id);
         $enterprise->delete();
 
         flash()->addError('Caja Mayor', 'Caja Mayor Eliminada: ' . $enterprise->name,  ['timeOut' => 2000]);
