@@ -85,11 +85,11 @@
                 <h5>Uso de Caja</h5>
                 <br><br>
                 
-                <div class="custom-control custom-radio custom-control-inline" id="radio3">
+                <div class="custom-control custom-radio custom-control-inline">
                     {!! Form::radio('type_wallet','Efectivo', null, ['id' => 'radio5', 'class' => 'custom-control-input', 'required' => true,]) !!}
                     <label class="custom-control-label" for="radio5">Efectivo</label>
                 </div>
-                <div class="custom-control custom-radio custom-control-inline" id="radio4">
+                <div class="custom-control custom-radio custom-control-inline">
                     {!! Form::radio('type_wallet','Transacciones', null, ['id' => 'radio6', 'class' => 'custom-control-input', 'required' => true]) !!}
                     <label class="custom-control-label" for="radio6">Transferencias</label>
                 </div>
