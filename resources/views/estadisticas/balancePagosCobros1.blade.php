@@ -42,6 +42,7 @@ $config4 = [
             <div class="card-header">
                 {{-- <h3 class="card-title font-weight-bold">{{ __('Balance de Pagos y Cobros por Grupo') }} <i class="fab fa-bitcoin"></i></h3> --}}
                 <div class="row">
+                    {{--
                     <div class="form-group">
                         <div class="input-group">
                             <div class="input-group-prepend">
@@ -52,6 +53,7 @@ $config4 = [
                             <input class="form-control" type="text" name="myDateControl" id="myDateControl">
                         </div>
                     </div>
+                    --}}
                     <div class="col-12 col-lg-3">
                         <x-adminlte-select2 
                             id="grupo"
@@ -333,7 +335,7 @@ $(document).ready( function () {
     $('#myDateControl').daterangepicker({
       autoUpdateInput: false,
       locale: {
-          cancelLabel: 'Limpiar'
+        cancelLabel: 'Limpiar',
       },    
       alwaysShowCalendars: true,
       ranges: {
@@ -437,13 +439,13 @@ function BuscaFechas(FechaDesde = 0,FechaHasta = 0){
     // alert(myFechaDesde);
 
      // $('#myDateControl').daterangepicker({ startDate: myFechaDesde, endDate: myFechaHasta});
-     // $('#myDateControl').daterangepicker({ startDate: '01-01-2025', endDate: '31-01-2025'});
+     $('#myDateControl').daterangepicker({ startDate: '01-01-2025'});
+     $('#myDateControl').daterangepicker({ endDate: '01-31-2025'});
      // $('#myDateControl').val(myFechaDesde + '-' + myFechaHasta);
 
-    //$('#myDateControl').data('daterangepicker').setStartDate(myFechaDesde);
-    //$('#myDateControl').data('daterangepicker').setEndDate(myFechaHasta);
-    
-    // alert(typeof(myFechaDesde));
+    // $('#myDateControl').data('daterangepicker').setStartDate(myFechaDesde);
+    // $('#myDateControl').data('daterangepicker').setEndDate(myFechaHasta);
+       // alert(typeof(myFechaDesde));
 
     // $('#myDateControl').daterangepicker({
     //     endDate: myFechaHasta,
