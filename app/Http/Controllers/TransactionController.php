@@ -2345,13 +2345,12 @@ class TransactionController extends Controller
 
          // foreach(auth()->user()->roles as $roles)
          // {
-  
-            
+            // IF(type_transactions.name = 'Pago Efectivo', 'Destino', 'Origen') as TransferType,
             $myQuery ="
             select
                 mtf.transactions.id             as TransactionId,
-                pay_number                      as TransferNumber,
-                IF(type_transactions.name = 'Pago Efectivo', 'Destino', 'Origen') as TransferType,
+                pay_number                      as TransferNumber, 
+                IF(type_transactions.type_transaction_group = '1', 'Destino', 'Origen') as TransferType,
                 wallet_id                       as WalletIdOrigen,
                 groups2.name                    as WalletNameOrigen,
                 group_id                        as GroupIdOrigen,
