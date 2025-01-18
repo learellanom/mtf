@@ -2345,7 +2345,8 @@ class TransactionController extends Controller
 
          // foreach(auth()->user()->roles as $roles)
          // {
-            /*
+  
+            
             $myQuery ="
             select
                 mtf.transactions.id             as TransactionId,
