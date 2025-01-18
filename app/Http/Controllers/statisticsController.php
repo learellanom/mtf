@@ -9334,6 +9334,340 @@ class statisticsController extends Controller
         return view('usdt.USDTResDiaMovimientos', $parametros);
 
     }
+    public function balancePagosCobrosMenu(request $request)
+    {
+        return view('estadisticas.balancePagosCobrosMenu');
+    }
+
+    public function balancePagosCobros(request $request)
+    {
+        // $request->group = 39;
+        $groupDesde = 0;
+        $groupHasta = 99999;
+        $myGroup    = 0;
+        if($request->group){
+            
+            $groupDesde = $request->group;
+            $groupHasta = $request->group;
+
+            $myGroup = $request->group;
+        }      
+
+        $fechaDesde = "2023-07-18";
+        $fechaHasta = "2023-07-20";
+
+        $fechaDesde = "2023-01-01";
+        $fechaHasta = "2024-12-31";
+        $fechaHasta = date('Y-m-d');
+        
+        // dd(gettype($fechaHasta));
+
+        $myFechaDesde = "";
+        $myFechaHasta = "";
+        // $myFechaDesde = "2023-01-01";
+        // $myFechaHasta = "2024-12-31";
+
+        if($request->fechaDesde){
+            $fechaDesde     = $request->fechaDesde;
+            $myFechaDesde   = $request->fechaDesde;
+        }
+        if($request->fechaHasta){
+            $fechaHasta     = $request->fechaHasta;
+            $myFechaHasta   = $request->fechaHasta;            
+        }
+
+
+        //  $request->fechaDesde = "2024-08-01";
+        if($request->fechaDesde){
+            $fechaDesdeAntes    = $request->fechaDesde;
+        }else{
+            $fechaDesdeAntes    = "2023-01-01 00:00:00";
+        }
+
+        $fechaHastaAntes    = strtotime($fechaDesdeAntes . "- 1 day");
+        $fechaHastaAntes    = date("Y-m-d 23:59:59", $fechaHastaAntes);
+
+        // dd($fechaDesdeAntes . " " . $fechaHastaAntes);
+
+        $typeCoin           = 1;
+        $myTypeCoinBalance  = 1;
+        if($request->typeCoin){
+            $typeCoin           = $request->typeCoin;
+            $myTypeCoinBalance  = $request->typeCoin;
+        }
+
+        $myQuery1 =
+        "
+            SELECT 
+                x.group_id,
+                g.name,
+                sum(amount_total) as amount_total,
+                IFNULL(
+                (
+                    SELECT 
+                        -- group_id,
+                        sum(amount_total) as monto
+                    FROM mtf.transactions as T
+                    left join mtf.type_transactions as TT on TT.id = T.type_transaction_id
+                    where  
+                        TT.type_transaction_group = '1'
+                    and
+                        T.group_id = x.group_id
+                    and T.status = 'Activo'
+                    and transaction_date <= '$fechaHastaAntes'
+                ),0) as monto_pago_anterior,
+                IFNULL(
+                (
+                    SELECT 
+                        -- group_id,
+                        sum(amount) as monto
+                    FROM mtf.transactions as T
+                    left join mtf.type_transactions as TT on TT.id = T.type_transaction_id
+                    where  
+                    TT.type_transaction_group = '2'
+                and
+                    T.group_id = x.group_id
+                and T.status = 'Activo'
+                ),0) as monto_cobro
+            FROM mtf.transactions as x
+            left join mtf.groups as g       on  g.id = x.group_id
+            left join mtf.type_transactions on  type_transactions.id = x.type_transaction_id
+            where 
+                mtf.type_transactions.type_transaction_group = '1'
+            and x.status = 'Activo'
+            and x.group_id            between $groupDesde     and $groupHasta
+            and transaction_date      between '$fechaDesde 00:00:00'   and '$fechaHasta 23:59:59'
+            and type_coin_balance_id  = $typeCoin
+            group by
+              x.group_id,
+              g.name
+        ";
+
+        // dd($myQuery1);
+        
+        // \Log::info('leam My query *** -> ' . $myQuery);
+
+        $Transacciones                      = DB::select($myQuery1);   
+        // dd($Transacciones);
+
+        $grupo                              = app(GroupController::class)->getGroups2();
+        $Type_coin_balance                  = Type_coin::pluck('name', 'id')->toArray();
+
+        $parametros['myGroup']              = $myGroup;
+        $parametros['myFechaDesde']         = $myFechaDesde;
+        $parametros['myFechaHasta']         = $myFechaHasta;
+        $parametros['myTypeCoinBalance']    = $myTypeCoinBalance;
+        
+        $parametros['grupo']                = $grupo;
+        $parametros['Type_coin_balance']    = $Type_coin_balance;
+        $parametros['Transacciones']        = $Transacciones;
+
+        //  dd($Transacciones);
+
+        return view('estadisticas.balancePagosCobros1', $parametros);
+        // return view('estadisticas.balancePagosCobros2', $parametros);
+
+    }
+
+    public function balancePagosCobrosGrupoFecha(request $request)
+    {
+            
+        // $request->group = 39;
+        $groupDesde = 0;
+        $groupHasta = 99999;
+        $myGroup    = 0;
+        $myLimit    = "limit 100";
+        
+        if($request->group){
+            
+            $groupDesde = $request->group;
+            $groupHasta = $request->group;
+
+            $myGroup    = $request->group;
+            $myLimit    = "";
+        }      
+
+        $fechaDesde = "2023-07-18";
+        $fechaHasta = "2023-07-20";
+
+        $fechaDesde = "2023-01-01";
+        $fechaHasta = "2024-12-31";
+        $fechaHasta = date('Y-m-d');
+
+        
+        
+        // dd(gettype($fechaHasta));
+
+        $myFechaDesde = "";
+        $myFechaHasta = "";
+        // $myFechaDesde = "2023-01-01";
+        // $myFechaHasta = "2024-12-31";
+
+        if($request->fechaDesde){
+            $fechaDesde     = $request->fechaDesde;
+            $myFechaDesde   = $request->fechaDesde;
+        }
+        if($request->fechaHasta){
+            $fechaHasta     = $request->fechaHasta;
+            $myFechaHasta   = $request->fechaHasta;            
+        }
+
+
+        //  $request->fechaDesde = "2024-08-01";
+        if($request->fechaDesde){
+            $fechaDesdeAntes    = $request->fechaDesde;
+        }else{
+            $fechaDesdeAntes    = "2023-01-01 00:00:00";
+        }
+
+        $fechaHastaAntes    = strtotime($fechaDesdeAntes . "- 1 day");
+        $fechaHastaAntes    = date("Y-m-d 23:59:59", $fechaHastaAntes);
+
+        // dd($fechaDesdeAntes . " " . $fechaHastaAntes);
+
+        $typeCoin           = 1;
+        $myTypeCoinBalance  = 1;
+        if($request->typeCoin){
+            $typeCoin           = $request->typeCoin;
+            $myTypeCoinBalance  = $request->typeCoin;
+        }
+    
+        //
+        // 
+        //
+
+        $myQueryPagosAnterior = "
+            SELECT 
+                group_id,
+                transaction_date,
+                sum(amount_total) as monto
+            FROM mtf.transactions as T
+                left join mtf.type_transactions as TT on TT.id = T.type_transaction_id
+            where  
+                TT.type_transaction_group = '1'
+            and T.status = 'Activo'
+            and transaction_date <= '$fechaHasta 23:59:59'
+             and T.group_id is not null
+            group by
+                group_id,
+                transaction_date
+        ";
+        //  dd($myQueryPagosAnterior);
+        $PagosAnterior = DB::select($myQueryPagosAnterior);   
+        // dd($PagosAnterior);
+
+
+        $myQueryCobrosAnterior = "
+        SELECT 
+            group_id,
+            transaction_date,
+            sum(amount_total) as monto
+        FROM mtf.transactions as T
+            left join mtf.type_transactions as TT on TT.id = T.type_transaction_id
+        where  
+            TT.type_transaction_group = '2'
+        and T.status = 'Activo'
+        and transaction_date <= '$fechaHasta 23:59:59'
+        and T.group_id is not null
+        group by
+            group_id,
+            transaction_date
+    ";
+    // dd($myQueryPagosAnterior);
+    $CobrosAnterior = DB::select($myQueryCobrosAnterior);   
+    // dd($CobrosAnterior);
+        //
+        //
+
+
+        $myQuery1 =
+        "
+            SELECT 
+                x.id,
+                x.group_id,
+                g.name as group_name,
+                x.transaction_date,
+                amount,
+                amount_total,
+                type_coin_id,
+                mtf.type_coins.name as coin_name,
+                type_transaction_id,
+                user_id,
+                wallet_id,
+                status,
+                x.description,
+                type_coin_balance_id,
+                TC.name as coin_balance_name,
+                mtf.type_transactions.name as type_transaction_name,
+                mtf.type_transactions.type_transaction_group,
+                0 as monto_pago_anterior,
+                0 as monto_cobro
+            FROM mtf.transactions as x
+            left join mtf.groups as g on  g.id = x.group_id
+            left join mtf.type_transactions on type_transactions.id = x.type_transaction_id
+            left join mtf.type_coins        on mtf.type_coins.id    = x.type_coin_id
+            left join mtf.type_coins as TC  on TC.id                = x.type_coin_balance_id  
+            where 
+          
+                x.status = 'Activo'
+            and x.group_id            between $groupDesde     and $groupHasta
+            and transaction_date      between '$fechaDesde 00:00:00'   and '$fechaHasta 23:59:59'
+            and type_coin_balance_id  = $typeCoin
+            order by
+               x.group_id,
+               x.transaction_date,
+               mtf.type_transactions.type_transaction_group
+            $myLimit
+        "; 
+        // dd($myQuery1);
+        
+        // \Log::info('leam My query *** -> ' . $myQuery);
+
+        $Transacciones                      = DB::select($myQuery1);   
+        foreach($Transacciones as $item){
+            $sumaPago = 0;
+            $sumaCobro = 0;
+            foreach($PagosAnterior as $pago){
+                if ($pago->group_id == $item->group_id){
+                    if ($pago->transaction_date <= $item->transaction_date){
+                        $sumaPago += $pago->monto;                        
+                    }
+                }
+            }
+            foreach($CobrosAnterior as $cobro){
+                if ($cobro->group_id == $item->group_id){
+                    if ($cobro->transaction_date <= $item->transaction_date){
+                        $sumaCobro += $cobro->monto;                        
+                    }
+                }
+            }
+
+            $item->monto_pago_anterior = $sumaPago;
+            $item->monto_cobro = $sumaCobro;
+            $item->saldo = $sumaPago - $sumaCobro;
+
+        }
+        // dd($Transacciones);
+
+
+        $grupo                              = app(GroupController::class)->getGroups2();
+        $Type_coin_balance                  = Type_coin::pluck('name', 'id')->toArray();
+
+        $parametros['myGroup']              = $myGroup;
+        $parametros['myFechaDesde']         = $myFechaDesde;
+        $parametros['myFechaHasta']         = $myFechaHasta;
+        $parametros['myTypeCoinBalance']    = $myTypeCoinBalance;
+        
+        $parametros['grupo']                = $grupo;
+        $parametros['Type_coin_balance']    = $Type_coin_balance;
+        $parametros['Transacciones']        = $Transacciones;
+
+        //  dd($Transacciones);
+
+        
+        return view('estadisticas.balancePagosCobros2', $parametros);
+
+    }
 
 }
 

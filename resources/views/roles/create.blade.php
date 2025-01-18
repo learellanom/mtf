@@ -650,6 +650,37 @@
 
                                             </tr> 
 
+                                            <tr>
+                                                <td>Balance de Pagos y Cobros</td>  
+                                                <td>
+                                                    @for($i = 197; $i <= 197; $i++)
+                                                        @if($i == 178)
+                                                            @continue
+                                                        @endif
+                                                        @php
+                                                            $myKey          = $i;
+                                                            $myDescription  = $permisos[$myKey]->description ?? 'Sin descripcion';
+                                                            $myId           = $permisos[$myKey]->id ?? 0;
+
+
+                                                            $myName         = "permissions[]";
+
+                                                            $myChecked      = "";
+                                                            //foreach($roles->permissions as $myPermission){
+                                                            //    if ($myPermission->id == $myKey){
+                                                            //        $myChecked      = 'checked=checked';
+                                                            //    }
+                                                            //}
+                                                        
+                                                        @endphp
+                                                        <input type="checkbox" id="{{$myId}}" name="permissions[]" value="{{$myId}}" {{$myChecked}}>
+                                                        <label for="fname">{{$myDescription}}</label>
+                                                        <br><br>
+                                                    @endfor                                                    
+                                                </td>
+
+                                            </tr> 
+
                                         </tbody>
                                     </table>
 
@@ -1946,6 +1977,74 @@
 
                                                     @php
                                                         $myKey          = 188;
+                                                        $myDescription  = $permisos[$myKey]->description ?? 'Sin descripcion';
+                                                        $myId           = $permisos[$myKey]->id ?? 0;
+
+
+                                                        $myName         = "permissions[]";
+
+                                                        $myChecked      = "";
+                                                        //foreach($roles->permissions as $myPermission){
+                                                        //    if ($myPermission->id == $myKey){
+                                                        //        $myChecked      = 'checked=checked';
+                                                        //    }
+                                                        //}
+                                                    
+                                                    @endphp
+                                                    <input type="checkbox" id="{{$myId}}" name="permissions[]" value="{{$myId}}" {{$myChecked}}>
+                                                    <label for="fname">{{$myDescription}}</label>
+                                                    <br><br>
+
+
+                                            </tr>
+
+
+
+                                            <tr>
+                                                <td>Cajas Mayor</td>  
+                                                <td>
+                                                    @php
+                                                        $myKey          = 198;
+                                                        $myDescription  = $permisos[$myKey]->description ?? 'Sin descripcion';
+                                                        $myId           = $permisos[$myKey]->id ?? 0;
+
+
+                                                        $myName         = "permissions[]";
+
+                                                        $myChecked      = "";
+                                                        //foreach($roles->permissions as $myPermission){
+                                                        //    if ($myPermission->id == $myKey){
+                                                        //        $myChecked      = 'checked=checked';
+                                                        //    }
+                                                        //}
+                                                    
+                                                    @endphp
+                                                    <input type="checkbox" id="{{$myId}}" name="permissions[]" value="{{$myId}}" {{$myChecked}}>
+                                                    <label for="fname">{{$myDescription}}</label>
+                                                    <br><br>
+
+                                                    @php
+                                                        $myKey          = 199;
+                                                        $myDescription  = $permisos[$myKey]->description ?? 'Sin descripcion';
+                                                        $myId           = $permisos[$myKey]->id ?? 0;
+
+
+                                                        $myName         = "permissions[]";
+
+                                                        $myChecked      = "";
+                                                        //foreach($roles->permissions as $myPermission){
+                                                        //    if ($myPermission->id == $myKey){
+                                                        //        $myChecked      = 'checked=checked';
+                                                        //    }
+                                                        //}
+                                                    
+                                                    @endphp
+                                                    <input type="checkbox" id="{{$myId}}" name="permissions[]" value="{{$myId}}" {{$myChecked}}>
+                                                    <label for="fname">{{$myDescription}}</label>
+                                                    <br><br>
+
+                                                    @php
+                                                        $myKey          = 200;
                                                         $myDescription  = $permisos[$myKey]->description ?? 'Sin descripcion';
                                                         $myId           = $permisos[$myKey]->id ?? 0;
 
