@@ -877,7 +877,7 @@ return [
             'url'       => 'cajamayor',
             'active'    => ['cajamayor*'],
             'icon'      => 'fas fa-file-invoice-dollar',
-            
+            'can'       => 'enterprise.index',
         ],  
     ],
     /*
