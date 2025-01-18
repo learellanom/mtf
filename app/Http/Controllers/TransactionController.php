@@ -2343,14 +2343,44 @@ class TransactionController extends Controller
             $myPayNumber = "pay_number = '$request->pay_number'";
         }        
 
-         foreach(auth()->user()->roles as $roles)
-         {
-
+        //  foreach(auth()->user()->roles as $roles)
+        //  {
+            /*
             $myQuery ="
             select
                 mtf.transactions.id             as TransactionId,
                 pay_number                      as TransferNumber,
-                IF(type_transactions.name = 'Pago Efectivo', 'Destino', 'Origen') as TransferType,
+                IF(type_transactions.name like '%Pago%', 'Destino', 'Origen') as TransferType,
+                wallet_id                       as WalletIdOrigen,
+                groups2.name                    as WalletNameOrigen,
+                group_id                        as GroupIdOrigen,
+                groups.name                     as GroupNameOrigen,
+                amount_total                    as Amount,
+                transaction_date                as TransactionDate,
+                users.name                      as Agente,
+                status                          as estatus,
+                type_transaction_id             as TypeTransactionId,
+                transactions.description        as Description,
+                type_transactions.name          as TypeTransactionName,
+                transactions.amount_commission  as ComisionBase,
+                transactions.percentage         as PorcentageBase,
+                transactions.exonerate          as ExonerateBase,
+                transactions.amount_total       as TotalBase
+            from mtf.transactions
+            left join  mtf.groups  as groups2   on mtf.transactions.wallet_id = groups2.id
+            left join  mtf.groups               on mtf.transactions.group_id  = groups.id
+            left join  mtf.type_transactions    on mtf.transactions.type_transaction_id  = mtf.type_transactions.id
+            left join  mtf.users                on mtf.transactions.user_id  = mtf.users.id
+            where $myPayNumber
+            order by pay_number desc
+            ";
+            */
+            $myQuery ="
+            select
+                mtf.transactions.id             as TransactionId,
+                pay_number                      as TransferNumber,
+                mtf.type_transactions.type_transaction_group                                 as TypeTransactionGroup,
+                IF(mtf.type_transactions.type_transaction_group = '1' , 'Destino', 'Origen') as TransferType,
                 wallet_id                       as WalletIdOrigen,
                 groups2.name                    as WalletNameOrigen,
                 group_id                        as GroupIdOrigen,
@@ -2377,7 +2407,7 @@ class TransactionController extends Controller
 
             $transactiones = DB::select($myQuery);
 
-         }
+         //}
 
          //$wallet                = Group::where('type','=','2')->orderBy('name','asc')->pluck('name', 'id')->toArray();
          //$group                 = Group::where('type','=','1')->orderBy('name','asc')->pluck('name', 'id')->toArray();
