@@ -6400,11 +6400,11 @@ class statisticsController extends Controller
         // $request->wallet        = 93;   // caja usdt
         // $request->wallet        = 139;  // caja principal usdt
 
-        // $theWallets[]   = 93;
-        // $theWallets[]   = 139;
-        // $theWallets[]   = 511;
+        $theWallets[]   = 93;
+        $theWallets[]   = 139;
+        $theWallets[]   = 511;
 
-        // $myUSDTWallets  = implode(",", $theWallets);
+        $myUSDTWallets  = implode(",", $theWallets);
         // $wallets        = Group::where('type', '=', '2')->whereIn('id', $theWallets)->orderBY('name','ASC')->pluck('name', 'id')->toArray();
         // dd($wallets);
         // $wallets        = Group::where('type', '=', '2')->whereIn('id', $theWallets)->orderBY('name','ASC')->get();
@@ -6412,6 +6412,7 @@ class statisticsController extends Controller
         $myWallet       = 0;
         $myWalletDesde  = 00000;
         $myWalletHasta  = 99999;
+        // $myUSDTWallets = "";
         if ($request->wallet){
             $myWallet       = $request->wallet;
             $myUSDTWallets  = $request->wallet;
@@ -6513,6 +6514,38 @@ class statisticsController extends Controller
             where
                     status = 'Activo'
                 and group_id                in($myUSDTWallets)
+                and type_transaction_id     = 11
+                and transaction_date        between '$myFechaDesde2'             and     '$myFechaHasta2'
+            group by
+                WalletId,
+                WalletName
+            order by
+                WalletName ASC
+        ";
+
+        
+        $myQuery =
+        "
+            select
+                mtf.transactions.group_id                           as WalletId,
+                mtf.groups.name                                     as WalletName,
+                count(mtf.transactions.amount)                      as Cant,
+                sum(mtf.transactions.amount_foreign_currency)       as AmountForeignCurrency,
+                sum(mtf.transactions.amount)                        as Amount,
+                sum(mtf.transactions.amount_total)                  as AmountTotal,
+                sum(mtf.transactions.amount_commission)             as AmountCommission,
+                sum(mtf.transactions.amount_base)                   as AmountBase,
+                sum(mtf.transactions.amount_total_base)             as AmountTotalBase,
+                sum(mtf.transactions.amount_commission_base)        as AmountCommissionBase,
+                sum(mtf.transactions.amount_commission_profit)      as AmountCommissionProfit,
+                sum(mtf.transactions.amount)                        as Saldo
+            from
+                        mtf.transactions
+            left join   mtf.type_transactions   on mtf.transactions.type_transaction_id = mtf.type_transactions.id
+            left join   mtf.groups as wallets   on mtf.transactions.wallet_id           = wallets.id
+            left join   mtf.groups              on mtf.Transactions.group_id            = mtf.groups.id
+            where
+                    status = 'Activo'
                 and type_transaction_id     = 11
                 and transaction_date        between '$myFechaDesde2'             and     '$myFechaHasta2'
             group by
@@ -6841,7 +6874,7 @@ class statisticsController extends Controller
             die();
         */
 
-
+        $Transacciones4 = [];
             foreach($wallets as $key => $walletItem){
 
                 if ($myWallet != 0){

@@ -223,6 +223,7 @@ class GroupController extends Controller
             ->orderBy('groups.name')
         ->get();
         // dd($wallet);
+        $wallet2 = [];
         foreach($wallet as $wallet){
            $wallet2 [$wallet->id] =  $wallet->name;
         }
