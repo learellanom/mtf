@@ -15,6 +15,8 @@ use App\Models\Commissions_usdt;
 use App\Models\Materials_balance;
 use App\Models\Type_coin;
 use App\Models\Type_material;
+use App\Models\Enterprise;
+use App\Models\Enterprise_wallet;
 
 use Spatie\Permission\Models\Role;
 use App\Http\Controllers\Controller;
@@ -9702,6 +9704,29 @@ class statisticsController extends Controller
 
     }
 
+
+
+public function getEnterprise(Request $request){
+
+    $enterprise = Erterprise::orderBy('name','ASC')->pluck('name', 'id')->toArray();
+
+    return $enterprise;
+
+}
+public function getEnterpriseWallet(Request $request){
+
+    $id = $request->id ?? null;
+    $enterprise_wallet = Erterprise_wallet::where('id',$id)->orderBy('name','ASC')->pluck('name', 'id')->toArray();
+
+    return $enterprise_wallet;
+    
 }
 
+public function estadisticaCajaMayorMenu(request $request)
+{
+    return view('estadisticas.estadisticasCajaMayorMenu');
+}
+
+
+}
 ?>
