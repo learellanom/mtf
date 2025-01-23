@@ -53,7 +53,7 @@
                                 </tr>
                                 <tr >
                                     <td>
-                                        <a class="myLink" href="{{ route('balancePagosCobrosGrupoFecha') }}">
+                                        <a class="myLink" href="{{ route('cajaMayorCuadroMovimientos') }}">
                                             <p>
                                                 <i class="fas fa-fw fas fa-chart-bar "></i>
                                                 Cuadro de Movimientos
