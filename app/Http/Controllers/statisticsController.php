@@ -9708,15 +9708,16 @@ class statisticsController extends Controller
 
 public function getEnterprise(Request $request){
 
-    $enterprise = Erterprise::orderBy('name','ASC')->pluck('name', 'id')->toArray();
-
+    $enterprise = Enterprise::orderBy('name','ASC')->pluck('name', 'id')->toArray();
+    
     return $enterprise;
 
 }
 public function getEnterpriseWallet(Request $request){
 
     $id = $request->id ?? null;
-    $enterprise_wallet = Erterprise_wallet::where('id',$id)->orderBy('name','ASC')->pluck('name', 'id')->toArray();
+
+    $enterprise_wallet = Enterprise_wallet::where('enterprise_id',$id)->orderBy('group_id','ASC')->pluck('group_id')->toArray();
 
     return $enterprise_wallet;
     
@@ -9725,6 +9726,264 @@ public function getEnterpriseWallet(Request $request){
 public function estadisticaCajaMayorMenu(request $request)
 {
     return view('estadisticas.estadisticasCajaMayorMenu');
+}
+
+
+public function cajaMayorCuadroMovimientos(request $request)
+{
+    
+    // dd($request->fechaDesde . ' ' . $request->fechaHasta);
+    
+    // dd($wallet);
+    // if ($request->query('wallet')){
+    // };
+
+    $cajaMayor = [];
+    $cajaMayorWallets = [];
+    /* MANTENER VALOR BUSCADO EN EL URL */
+    $myWalletDesde   = 0;
+    $myWalletHasta   = 9999;
+    $myWallet        = 0;
+    if ($request->wallet){
+        $myWalletDesde   = $request->wallet;
+        $myWalletHasta   = $request->wallet;
+        $myWallet        = $request->wallet;    
+    }
+
+    $myGrupoDesde   = 0;
+    $myGrupoHasta   = 9999;
+    $myGrupo        = 0;
+    if ($request->grupo){
+        $myGrupoDesde   = $request->grupo;
+        $myGrupoHasta   = $request->grupo;
+        $myGrupo        = $request->grupo;
+    }
+
+
+    $myTypeTransaction      = 0;
+    $myTypeTransactionDesde = 0;
+    $myTypeTransactionHasta = 9999;
+    if ($request->transaction) {
+        $myTypeTransaction      = $request->transaction;
+        $myTypeTransactionDesde = $request->transaction;
+        $myTypeTransactionHasta = $request->transaction;
+
+    }
+
+    $myFechaDesde = "2001-01-01";
+    $myFechaHasta = "9999-12-31";
+
+    $myFechaDesde2 = "2001-01-01";
+    $myFechaHasta2 = "9999-12-31";
+
+    if ($request->fechaDesde){
+        $myFechaDesde = $request->fechaDesde;
+        $myFechaHasta = $request->fechaHasta;
+
+        $myFechaDesde2 = $myFechaDesde . " 00:00:00";
+        $myFechaHasta2 = $myFechaHasta . " 12:59:00";
+    }
+
+    if ($request->fechaHasta){
+        $myFechaHasta = $request->fechaHasta;
+        $myFechaHasta2 = $myFechaHasta . " 12:59:00";
+        /* MANTENER VALOR BUSCADO EN EL URL */
+    }
+   // dd($request->fechaDesde . ' ' . $request->fechaHasta);
+   // dd($myFechaDesde);
+    
+    $myFechaDesdeBefore = "2001-01-01";
+    $myFechaHastaBefore = "9999-12-31";
+    
+    
+
+    $wallet                         = $this->getWalletUSDT();
+    $wallet2                        = app(GroupController::class)->getWallets2();
+    $grupo                          = app(GroupController::class)->getGroups2();
+    $typeTransactions               = $this->getTypeTransactions();
+    $cajaMayor                      = $this->getEnterprise($request);
+    
+    $balance                        = 0;
+    $balanceBefore                  = 0;
+    
+    if ($myWallet > 0){
+        
+        $balance        = $this->getBalanceWallet($myWallet);
+        $balanceBefore  = $this->getBalanceWalletBefore($myWallet,$myFechaDesde, $myFechaHasta);
+         
+    }
+
+    $transaccionesGrupoSalida       = [];
+    $transaccionesGrupoSalida2      = [];
+    $transaccionesGrupoSalida3      = [];
+    $transaccionesWalletsSalida3    = [];
+
+    if ($myWallet != 0){
+        
+        $cajaMayorWallets           = $this->getEnterpriseWallet($myWallet);
+
+        $myJson         = file_get_contents("filtros\myUSDTResDiaMovimientosFiltro");
+        $myJsonData     = json_decode($myJson,true); 
+        // dd($myJsonData['groupsEntrada1']);
+        // dd($myJsonData);
+        $RecargasWallet             = $this->USDTResumenWallet($request);
+
+        //$temp [] = 158;
+        //$request->groups = $temp;
+
+        $request->groups = $myJsonData['groupsEntrada1'];
+        $transaccionesGrupoComision = $this->USDTResumenGrupoComision($request);
+
+        // salida yaguara
+        // $temp [] = 44;
+        // $temp [] = 43;
+        // $temp [] = 63;
+        // $temp [] = 78;
+        // $temp [] = 145;
+        // $temp [] = 35;
+        // $temp [] = 166;
+        // $temp [] = 11;
+        // $temp [] = 14;
+        // $temp [] = 239;
+        // $temp [] = 273;
+        // $temp [] = 350;
+        // $temp [] = 351;
+        // $temp [] = 60;
+        // $temp [] = 30;
+        // $temp [] = 139;
+        // $request->groups = $temp;
+
+
+        $request->groups = $myJsonData['groupsSalida1'];
+        $transaccionesGrupoSalida   = $this->USDTResumenGrupoSalida($request);
+
+        // salida por operaciones
+        // unset($temp);
+        // $temp [] = 168;
+        // $temp [] = 194;
+        // $temp [] = 195;
+        // $temp [] = 185;
+        // $temp [] = 182;
+        // $temp [] = 183;
+        // $temp [] = 174;
+        // $temp [] = 186;
+        // $temp [] = 173;
+        // $temp [] = 171;
+        // $temp [] = 169;
+        // $temp [] = 178;
+        // $temp [] = 356;
+        // $temp [] = 190;
+        // $temp [] = 184;
+        // $temp [] = 189;
+        // $temp [] = 179;
+        // $temp [] = 170;
+        // $temp [] = 172;
+        // $temp [] = 180;
+        // $temp [] = 187;
+        // $temp [] = 181;
+        // $temp [] = 196;
+        // $temp [] = 33;
+        // $temp [] = 203;
+        // $temp [] = 330;
+        // $request->groups = $temp;
+
+        $request->groups = $myJsonData['groupsSalida2'];
+        $transaccionesGrupoSalida2   = $this->USDTResumenGrupoSalida($request);
+        
+        // gastos varios
+
+        // unset($temp);
+        // $temp [] = 219;
+        // $temp [] = 188;
+        // $temp [] = 205;
+        // $temp [] = 174;
+        // $temp [] = 228;
+        // $temp [] = 204;
+        // $temp [] = 208;
+        // $temp [] = 225; // compra
+        // $temp [] = 175; // cambio brasil
+        // $temp [] = 267; // pendiente
+        // $temp [] = 227; // otros gastos
+        // $request->groups = $temp;
+
+        // dd(print_r($request->groups,true));
+        $request->groups = $myJsonData['groupsSalida3'];
+        $transaccionesGrupoSalida3   = $this->USDTResumenGrupoSalida($request);
+
+        $request->groups = $myJsonData['walletsSalida3'];
+        $transaccionesWalletsSalida3   = $this->USDTResumenGrupoSalida($request);
+        // salida gastos varios
+        //$request->groups =[44,43,63];
+        //$transaccionesGrupoSalida3   = $this->USDTResumenGrupoSalida($request);
+
+
+    }else{
+        $RecargasWallet             = [];
+        $transaccionesGrupoComision = [];
+    }
+
+    // dd('transacciones 2 ->' . print_r($Transacciones2,true));
+
+
+    $myQuery =
+    "
+        SELECT  distinct
+            group_id,
+            mtf.groups.name
+        FROM mtf.transactions
+            left join
+            mtf.groups on mtf.transactions.group_id = mtf.groups.id 
+        where
+            type_transaction_id = 11
+        and mtf.groups.type     = 1
+        order by
+            group_id
+    ";
+
+    //dd($myQuery);
+    $pagosUSDTGrupos = DB::select($myQuery);
+
+    $parametros['cajaMayor']                    = $cajaMayor;
+    $parametros['cajaMayorWallets']             = $cajaMayorWallets;
+
+    $parametros['wallet']                       = $wallet;
+    $parametros['wallet2']                      = $wallet2;
+    $parametros['grupo']                        = $grupo;
+    $parametros['typeTransactions']             = $typeTransactions;
+    $parametros['myWallet']                     = $myWallet;
+    $parametros['myGrupo']                      = $myGrupo;
+    $parametros['myTypeTransaction']            = $myTypeTransaction;
+    $parametros['myFechaDesde']                 = urlencode($myFechaDesde);
+    $parametros['myFechaHasta']                 = $myFechaHasta;
+    $parametros['myFechaDesdeBefore']           = $myFechaDesdeBefore;
+    $parametros['myFechaHastaBefore']           = $myFechaHastaBefore;
+
+    // die(urlencode($myFechaDesde));
+
+    $parametros['balance']                      = $balance;
+    $parametros['balanceBefore']                = $balanceBefore;
+
+    $parametros['RecargasWallet']               = $RecargasWallet;
+    $parametros['transaccionesGrupoComision']   = $transaccionesGrupoComision;
+    $parametros['transaccionesGrupoSalida']     = $transaccionesGrupoSalida;
+    $parametros['transaccionesGrupoSalida2']    = $transaccionesGrupoSalida2;
+    $parametros['transaccionesGrupoSalida3']    = $transaccionesGrupoSalida3;
+    $parametros['transaccionesWalletsSalida3']  = $transaccionesWalletsSalida3;
+
+    $parametros['pagosUSDTGrupos']              = $pagosUSDTGrupos;
+
+
+    // dd($RecargasWallet);
+    // dd($transaccionesGrupoComision);
+     // dd($transaccionesGrupoSalida);
+    // dd($transaccionesGrupoSalida2);
+    // dd($transaccionesGrupoSalida3);
+    // dd($transaccionesWalletsSalida3);
+    // dd($parametros);
+    // dd('leam aqui 3');
+                 
+    return view('cajaMayor.cajaMayorCuadroMovimientos', $parametros);
+
 }
 
 
