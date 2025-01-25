@@ -1985,8 +1985,8 @@ $salidaMonto    = 0;
     function theRoute(wallet = '', grupo = 0, fechaDesde = '', fechaHasta = ''){
 
         let myRoute = "";
-
-        myRoute = "{{ route('USDTResumenDiario', ['wallet' => 'wallet2' , 'fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2']) }}";
+        //  cajaMayorCuadroMovimientos
+        myRoute = "{{ route('cajaMayorCuadroMovimientos', ['wallet' => 'wallet2' , 'fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2']) }}";
         
         myRoute = myRoute.replace('wallet2',wallet);
         myRoute = myRoute.replace('grupo2',grupo);
