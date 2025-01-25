@@ -7024,7 +7024,247 @@ class statisticsController extends Controller
             return view('estadisticas.ResumenMovientosUSDT', $parametros); 
             // return $Transacciones4;
 
+    }
+
+    /*
+    *
+    *
+    *       ResumenEntradaWallet
+    *   todos los pagos que ha recibido una caja
+    *
+    */
+    function ResumenEntradaWallet($wallet = 0){
+        // \Log::info('leam - statisticsController - commissionsProfit - el wallet es ->' . $request->wallet);
+        // $request->wallet        = 89;   // abu mahmud
+        // $request->wallet        = 93;   // caja usdt
+        // $request->wallet        = 139;  // caja principal usdt
+        $recargas3 = [];
+        if ($wallet ==0) return [];
+
+
+        $myWalletDesde = 00000;
+        $myWalletHasta = 99999;
+        if ($wallet){
+            $myWalletDesde = $wallet;
+            $myWalletHasta = $wallet;
+        }
+
+        $myTransaction = 11;
+
+        $myFechaDesde = "2001-01-01";
+        $myFechaHasta = "9999-12-31";
+        if ($request->fechaDesde){
+            $myFechaDesde = $request->fechaDesde;
+        }
+        if ($request->fechaHasta){
+            $myFechaHasta = $request->fechaHasta;
+        }
+
+        $horaDesde = " 00:00:00";
+        $horaHasta = " 23:59:00";
+
+        $myFechaDesde = $myFechaDesde . $horaDesde;
+        $myFechaHasta = $myFechaHasta . $horaHasta;
+
+        $myTable = "mtf.transactions";
+
+
+
+        $myQuery =
+        "
+            select
+                mtf.transactions.wallet_id                          as WalletId,
+                wallets.name                                        as WalletName,
+                mtf.transactions.group_id                           as GroupId,
+                mtf.groups.name                                     as GroupName,
+                mtf.transactions.type_transaction_id                as TypeTransactionId,
+                type_transactions.name                              as TypeTransactionName,                
+                count(mtf.transactions.amount)                      as Cant,
+                sum(mtf.transactions.amount_foreign_currency)       as AmountForeignCurrency,
+                sum(mtf.transactions.amount)                        as Amount,
+                sum(mtf.transactions.amount_total)                  as AmountTotal,
+                sum(mtf.transactions.amount_commission)             as AmountCommission,
+                sum(mtf.transactions.amount_base)                   as AmountBase,
+                sum(mtf.transactions.amount_total_base)             as AmountTotalBase,
+                sum(mtf.transactions.amount_commission_base)        as AmountCommissionBase,
+                sum(mtf.transactions.amount_commission_profit)      as AmountCommissionProfit,
+                sum(mtf.transactions.amount)                        as Saldo
+            from
+                        mtf.transactions
+            left join   mtf.type_transactions   on mtf.transactions.type_transaction_id = mtf.type_transactions.id
+            left join   mtf.groups as wallets   on mtf.transactions.wallet_id           = wallets.id
+            left join   mtf.groups              on mtf.Transactions.group_id            = mtf.groups.id
+            where
+                    status = 'Activo'
+                and group_id                between $myWalletDesde              and     $myWalletHasta
+                and type_transaction_id     between $myTransaction              and     $myTransaction
+                and transaction_date        between '$myFechaDesde'             and     '$myFechaHasta'
+            group by
+                mtf.transactions.wallet_id,
+                wallets.name,
+                mtf.transactions.group_id,
+                mtf.groups.name,
+                mtf.transactions.type_transaction_id,
+                type_transactions.name
+            order by
+                wallets.name ASC,
+                mtf.groups.name ASC
+        ";
+
+        // dd($myQuery);
+        
+        $Recargas = DB::select($myQuery);
+        // dd($Recargas);
+
+        $myTransaction     = 13; // 13 cobros usdt
+
+        $myQuery =
+        "
+            select
+                mtf.transactions.wallet_id                          as WalletId,
+                wallets.name                                        as WalletName,
+                mtf.transactions.group_id                           as GroupId,
+                mtf.groups.name                                     as GroupName,
+                mtf.transactions.type_transaction_id                as TypeTransactionId,
+                type_transactions.name                              as TypeTransactionName,                    
+                count(mtf.transactions.amount)                      as Cant,
+                sum(mtf.transactions.amount_foreign_currency)       as AmountForeignCurrency,
+                sum(mtf.transactions.amount)                        as Amount,
+                sum(mtf.transactions.amount_total)                  as AmountTotal,
+                sum(mtf.transactions.amount_commission)             as AmountCommission,
+                sum(mtf.transactions.amount_base)                   as AmountBase,
+                sum(mtf.transactions.amount_total_base)             as AmountTotalBase,
+                sum(mtf.transactions.amount_commission_base)        as AmountCommissionBase,
+                sum(mtf.transactions.amount_commission_profit)      as AmountCommissionProfit,
+                sum(mtf.transactions.amount)                        as Saldo
+            from
+                        mtf.transactions
+            left join   mtf.type_transactions   on mtf.transactions.type_transaction_id = mtf.type_transactions.id
+            left join   mtf.groups as wallets   on mtf.transactions.wallet_id           = wallets.id
+            left join   mtf.groups              on mtf.Transactions.group_id            = mtf.groups.id
+            where
+                    status = 'Activo'
+                and wallet_id                between $myWalletDesde              and     $myWalletHasta
+                and type_transaction_id      between $myTransaction              and     $myTransaction
+                and transaction_date         between '$myFechaDesde'             and     '$myFechaHasta'
+            group by
+                mtf.transactions.wallet_id,
+                wallets.name,
+                mtf.transactions.group_id,
+                mtf.groups.name,
+                mtf.transactions.type_transaction_id,
+                type_transactions.name                
+            order by
+                wallets.name ASC,
+                mtf.groups.name ASC
+        ";
+ 
+        // dd($myQuery);
+         $Recargas2 = DB::select($myQuery);
+        // dd($Recargas2);
+
+        $Recargas3 = array_merge($Recargas, $Recargas2); // 
+        
+        // usort($Recargas3, function($a, $b) {return strcmp($a->TransactionDate, $b->TransactionDate);});
+
+
+
+        return $Recargas3;
+
+
     }    
+
+    /*
+    *
+    *
+    *       ResumenEntradaWalletComision
+    *       recibe grupos separados por comas
+    *
+    */
+    function ResumenEntradaWalletComision($wallet = 0, $groups = ""){
+
+
+
+        $myWalletDesde = $wallet;
+        $myWalletHasta = $wallet;
+
+        // $request->group = 158; // comision usdt
+        $myGroupDesde = 00000;
+        $myGroupHasta = 99999;
+        $myGroups = [];
+        if ($request->groups){
+            $myGroups = implode(",",$groups);
+
+        }
+
+        $myFechaDesde = "2001-01-01";
+        $myFechaHasta = "9999-12-31";
+        if ($request->fechaDesde){
+            $myFechaDesde = $request->fechaDesde;
+        }
+        if ($request->fechaHasta){
+            $myFechaHasta = $request->fechaHasta;
+        }
+
+        //$myFechaDesde = "2001-01-01";
+        //$myFechaHasta = "9999-12-31";
+
+        $horaDesde = " 00:00:00";
+        $horaHasta = " 23:59:00";
+
+        $myFechaDesde = $myFechaDesde . $horaDesde;
+        $myFechaHasta = $myFechaHasta . $horaHasta;
+
+        $myTable = "mtf.transactions";
+
+
+        $myQuery =
+        "
+            select
+                mtf.transactions.wallet_id                          as WalletId,
+                wallets.name                                        as WalletName,
+                mtf.transactions.group_id                           as GroupId,
+                mtf.groups.name                                     as GroupName,
+                mtf.transactions.type_transaction_id                as TypeTransactionId,
+                type_transactions.name                              as TypeTransactionName,                                    
+                count(mtf.transactions.amount)                      as Cant,
+                sum(mtf.transactions.amount_foreign_currency)       as AmountForeignCurrency,
+                sum(mtf.transactions.amount)                        as Amount,
+                sum(mtf.transactions.amount_total)                  as AmountTotal,
+                sum(mtf.transactions.amount_commission)             as AmountCommission,
+                sum(mtf.transactions.amount_base)                   as AmountBase,
+                sum(mtf.transactions.amount_total_base)             as AmountTotalBase,
+                sum(mtf.transactions.amount_commission_base)        as AmountCommissionBase,
+                sum(mtf.transactions.amount_commission_profit)      as AmountCommissionProfit,
+                sum(mtf.transactions.amount)                        as Saldo
+            from
+                        mtf.transactions
+            left join   mtf.type_transactions   on mtf.transactions.type_transaction_id = mtf.type_transactions.id
+            left join   mtf.groups as wallets   on mtf.transactions.wallet_id           = wallets.id
+            left join   mtf.groups              on mtf.Transactions.group_id            = mtf.groups.id
+            where
+                    status = 'Activo'
+                and wallet_id between       $myWalletDesde and $myWalletHasta
+                and group_id                in($myGroups)
+                and type_transaction_id     in (11,13)
+                and transaction_date        between '$myFechaDesde'             and     '$myFechaHasta'
+            group by
+                mtf.transactions.wallet_id,
+                wallets.name,
+                mtf.transactions.group_id,
+                mtf.groups.name,
+                mtf.transactions.type_transaction_id,
+                type_transactions.name                    
+            order by
+                wallets.name ASC,
+                mtf.groups.name ASC
+        ";
+        // dd($myQuery);
+        $transaccionGrupoComision = DB::select($myQuery);
+
+        return $transaccionGrupoComision;
+
+    }
     /*
     *
     *
@@ -9713,12 +9953,10 @@ public function getEnterprise(Request $request){
     return $enterprise;
 
 }
-public function getEnterpriseWallet(Request $request){
-
-    $id = $request->id ?? null;
-
-    $enterprise_wallet = Enterprise_wallet::where('enterprise_id',$id)->orderBy('group_id','ASC')->pluck('group_id')->toArray();
-
+public function getEnterpriseWallet($id){
+    
+     $enterprise_wallet = Enterprise_wallet::where('enterprise_id',$id)->pluck('group_id')->toArray();
+    
     return $enterprise_wallet;
     
 }
@@ -9821,100 +10059,28 @@ public function cajaMayorCuadroMovimientos(request $request)
     if ($myWallet != 0){
         
         $cajaMayorWallets           = $this->getEnterpriseWallet($myWallet);
-
+        // dd($cajaMayorWallets);
         $myJson         = file_get_contents("filtros\myUSDTResDiaMovimientosFiltro");
         $myJsonData     = json_decode($myJson,true); 
         // dd($myJsonData['groupsEntrada1']);
         // dd($myJsonData);
-        $RecargasWallet             = $this->USDTResumenWallet($request);
-
-        //$temp [] = 158;
-        //$request->groups = $temp;
-
-        $request->groups = $myJsonData['groupsEntrada1'];
-        $transaccionesGrupoComision = $this->USDTResumenGrupoComision($request);
-
-        // salida yaguara
-        // $temp [] = 44;
-        // $temp [] = 43;
-        // $temp [] = 63;
-        // $temp [] = 78;
-        // $temp [] = 145;
-        // $temp [] = 35;
-        // $temp [] = 166;
-        // $temp [] = 11;
-        // $temp [] = 14;
-        // $temp [] = 239;
-        // $temp [] = 273;
-        // $temp [] = 350;
-        // $temp [] = 351;
-        // $temp [] = 60;
-        // $temp [] = 30;
-        // $temp [] = 139;
-        // $request->groups = $temp;
-
-
-        $request->groups = $myJsonData['groupsSalida1'];
-        $transaccionesGrupoSalida   = $this->USDTResumenGrupoSalida($request);
-
-        // salida por operaciones
-        // unset($temp);
-        // $temp [] = 168;
-        // $temp [] = 194;
-        // $temp [] = 195;
-        // $temp [] = 185;
-        // $temp [] = 182;
-        // $temp [] = 183;
-        // $temp [] = 174;
-        // $temp [] = 186;
-        // $temp [] = 173;
-        // $temp [] = 171;
-        // $temp [] = 169;
-        // $temp [] = 178;
-        // $temp [] = 356;
-        // $temp [] = 190;
-        // $temp [] = 184;
-        // $temp [] = 189;
-        // $temp [] = 179;
-        // $temp [] = 170;
-        // $temp [] = 172;
-        // $temp [] = 180;
-        // $temp [] = 187;
-        // $temp [] = 181;
-        // $temp [] = 196;
-        // $temp [] = 33;
-        // $temp [] = 203;
-        // $temp [] = 330;
-        // $request->groups = $temp;
-
-        $request->groups = $myJsonData['groupsSalida2'];
-        $transaccionesGrupoSalida2   = $this->USDTResumenGrupoSalida($request);
+        $RecargasWallet             = $this->ResumenEntradaWallet($myWallet);
         
-        // gastos varios
+        // leam
+        $myGroups                   = $myJsonData['groupsEntrada1'];
+        $transaccionesGrupoComision = $this->ResumenEntradaWalletComision($myWallet);
+        
+        $myGroups                   = $myJsonData['groupsSalida1'];
+        $transaccionesGrupoSalida   = $this->ResumenSalidaWalletGroup($myWallet, $myGroups);
+        
+        $myGroups                   = $myJsonData['groupsSalida2'];
+        $transaccionesGrupoSalida   = $this->ResumenSalidaWalletGroup($myWallet, $myGroups);
 
-        // unset($temp);
-        // $temp [] = 219;
-        // $temp [] = 188;
-        // $temp [] = 205;
-        // $temp [] = 174;
-        // $temp [] = 228;
-        // $temp [] = 204;
-        // $temp [] = 208;
-        // $temp [] = 225; // compra
-        // $temp [] = 175; // cambio brasil
-        // $temp [] = 267; // pendiente
-        // $temp [] = 227; // otros gastos
-        // $request->groups = $temp;
-
-        // dd(print_r($request->groups,true));
-        $request->groups = $myJsonData['groupsSalida3'];
-        $transaccionesGrupoSalida3   = $this->USDTResumenGrupoSalida($request);
+        $myGroups                   = $myJsonData['groupsSalida3'];
+        $transaccionesGrupoSalida   = $this->ResumenSalidaWalletGroup($myWallet, $myGroups);
 
         $request->groups = $myJsonData['walletsSalida3'];
-        $transaccionesWalletsSalida3   = $this->USDTResumenGrupoSalida($request);
-        // salida gastos varios
-        //$request->groups =[44,43,63];
-        //$transaccionesGrupoSalida3   = $this->USDTResumenGrupoSalida($request);
+        $transaccionesGrupoSalida   = $this->ResumenSalidaWalletGroup($myWallet, $myGroups);
 
 
     }else{
@@ -9985,6 +10151,97 @@ public function cajaMayorCuadroMovimientos(request $request)
     return view('cajaMayor.cajaMayorCuadroMovimientos', $parametros);
 
 }
+
+
+
+    /*
+    *
+    *
+    * Resumen SalidaWalletGroup
+    * Pagos que ha realizado un wallet
+    * comisiones 
+    */
+    function ResumenSalidaWalletGroup($wallet = 0 , $groups = []){
+
+
+
+        $myWalletDesde = $wallet;
+        $myWalletHasta = $wallet;
+               
+		$myGroups = [];
+        if ($groups){
+            $myGroups = implode(",",$request->groups);
+        }
+
+        $myFechaDesde = "2001-01-01";
+        $myFechaHasta = "9999-12-31";
+        if ($request->fechaDesde){
+            $myFechaDesde = $request->fechaDesde;
+        }
+        if ($request->fechaHasta){
+            $myFechaHasta = $request->fechaHasta;
+        }
+
+        //$myFechaDesde = "2001-01-01";
+        //$myFechaHasta = "9999-12-31";
+
+        $horaDesde      = " 00:00:00";
+        $horaHasta      = " 23:59:00";
+
+        $myFechaDesde   = $myFechaDesde . $horaDesde;
+        $myFechaHasta   = $myFechaHasta . $horaHasta;
+
+        $myTable        = "mtf.transactions";
+
+
+        $myQuery =
+        "
+            select
+                mtf.transactions.wallet_id                          as WalletId,
+                wallets.name                                        as WalletName,
+                mtf.transactions.group_id                           as GroupId,
+                mtf.groups.name                                     as GroupName,
+                mtf.transactions.type_transaction_id                as TypeTransactionId,
+                type_transactions.name                              as TypeTransactionName,                   
+                count(mtf.transactions.amount)                      as Cant,
+                sum(mtf.transactions.amount_foreign_currency)       as AmountForeignCurrency,
+                sum(mtf.transactions.amount)                        as Amount,
+                sum(mtf.transactions.amount_total)                  as AmountTotal,
+                sum(mtf.transactions.amount_commission)             as AmountCommission,
+                sum(mtf.transactions.amount_base)                   as AmountBase,
+                sum(mtf.transactions.amount_total_base)             as AmountTotalBase,
+                sum(mtf.transactions.amount_commission_base)        as AmountCommissionBase,
+                sum(mtf.transactions.amount_commission_profit)      as AmountCommissionProfit,
+                sum(mtf.transactions.amount)                        as Saldo
+            from
+                        mtf.transactions
+            left join   mtf.type_transactions   on mtf.transactions.type_transaction_id = mtf.type_transactions.id
+            left join   mtf.groups as wallets   on mtf.transactions.wallet_id           = wallets.id
+            left join   mtf.groups              on mtf.Transactions.group_id            = mtf.groups.id
+            where
+                    status = 'Activo'
+                and wallet_id               between $myWalletDesde              and     $myWalletHasta                    
+                and group_id                in($myGroups)
+                and type_transaction_id     in (11)
+                and transaction_date        between '$myFechaDesde'             and     '$myFechaHasta'
+            group by
+                mtf.transactions.wallet_id,
+                wallets.name,
+                mtf.transactions.group_id,
+                mtf.groups.name,
+                mtf.transactions.type_transaction_id,
+                type_transactions.name                    
+            order by
+                wallets.name ASC,
+                mtf.groups.name ASC,
+                type_transactions.name ASC
+        ";
+        // dd($myQuery);
+        $transaccionGrupoComision = DB::select($myQuery);
+        // dd('leam - groups ->' . print_r($request->groups,true) . ' implode ->' . $myGroups . ' - myQuery ->' . $myQuery . '- trasaccionGrupoComision ->' . print_r($transaccionGrupoComision,true));
+        return $transaccionGrupoComision;
+
+    }
 
 
 }
