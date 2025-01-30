@@ -570,9 +570,12 @@ $salidaMonto    = 0;
         // cargaTransacciones();
 
         if (miWallet !=0 ){
+            
 
-            calculoCuadroGeneral();
-
+                calculoCuadroGeneral();
+            
+            
+            {{--
             calculaEntradaHeader();
             calculoRecargas();
             
@@ -584,7 +587,7 @@ $salidaMonto    = 0;
             calculoTransaccionesSalidaOperaciones();
             calculoTransaccionesSalidaGastos();
             calculaSalidaFooter();
-
+                --}}
             @if(count($transaccionesGrupoComision))
                 toggleBotones();
             @endif
@@ -826,90 +829,107 @@ $salidaMonto    = 0;
     * 
     */
    
-    function calculoCuadroGeneral(myFechaDesde = "", myFechaHasta =""){
+    function calculoCuadroGeneral(wallet = "", myFechaDesde = "", myFechaHasta =""){
         
+        let myTitleEntrada;
+        let myTitleSalida1;
+        let myTitleSalida2;
+        let myTitleSalida3;
+
+        @foreach($cajaMayorWallets as $wallet)
+
         @php
-        
-        $entradasUSDTCant       = 0;
-        $entradasUSDTMonto      = 0;
+            
+            $entradasUSDTCant       = 0;
+            $entradasUSDTMonto      = 0;
 
-        $comisionUSDTCant       = 0;
-        $comisionUSDTMonto      = 0;
+            $comisionUSDTCant       = 0;
+            $comisionUSDTMonto      = 0;
 
-        $totalEntradasUSDTCant  = 0;
-        $totalEntradasUSDTMonto = 0;
+            $totalEntradasUSDTCant  = 0;
+            $totalEntradasUSDTMonto = 0;
 
-        $salidasUSDTCant        = 0;
-        $salidasUSDTMonto       = 0;
+            $salidasUSDTCant        = 0;
+            $salidasUSDTMonto       = 0;
 
-        $operacionesUSDTCant    = 0;
-        $operacionesUSDTMonto   = 0;
+            $operacionesUSDTCant    = 0;
+            $operacionesUSDTMonto   = 0;
 
-        $variosUSDTCant         = 0;
-        $variosUSDTMonto        = 0;
+            $variosUSDTCant         = 0;
+            $variosUSDTMonto        = 0;
 
-        $totalSalidasUSDTCant  = 0;
-        $totalSalidasUSDTMonto = 0;
+            $totalSalidasUSDTCant  = 0;
+            $totalSalidasUSDTMonto = 0;
+
+            $WalletName = "";
+            
+            if ($wallet != ""){
+
+                foreach($RecargasWallet as $wallet2){
+
+                    if ($wallet2->WalletId != $wallet) continue;
+                    $entradasUSDTCant       += $wallet2->Cant;
+                    $entradasUSDTMonto      += $wallet2->Amount;
+
+                    $totalEntradasUSDTCant  += $wallet2->Cant;
+                    $totalEntradasUSDTMonto += $wallet2->Amount;            
+                }
+
+                foreach($transaccionesGrupoComision as $wallet2){
+                    if ($wallet2->WalletId != $wallet) continue;
+                    $comisionUSDTCant       += $wallet2->Cant;
+                    $comisionUSDTMonto      += $wallet2->Amount;
+
+                    $totalEntradasUSDTCant  += $wallet2->Cant;
+                    $totalEntradasUSDTMonto += $wallet2->Amount;            
+                }
 
 
-        
-        foreach($RecargasWallet as $wallet2){
-            $entradasUSDTCant       += $wallet2->Cant;
-            $entradasUSDTMonto      += $wallet2->Amount;
+                foreach($transaccionesGrupoSalida as $wallet2){
+                    if ($wallet2->WalletId != $wallet) continue;
+                    $salidasUSDTCant       += $wallet2->Cant;
+                    $salidasUSDTMonto      += $wallet2->Amount;
 
-            $totalEntradasUSDTCant  += $wallet2->Cant;
-            $totalEntradasUSDTMonto += $wallet2->Amount;            
-        }
+                    $totalSalidasUSDTCant  += $wallet2->Cant;
+                    $totalSalidasUSDTMonto += $wallet2->Amount;            
+                }
 
-        foreach($transaccionesGrupoComision as $wallet2){
-            $comisionUSDTCant       += $wallet2->Cant;
-            $comisionUSDTMonto      += $wallet2->Amount;
+                foreach($transaccionesGrupoSalida2 as $wallet2){
+                    if ($wallet2->WalletId != $wallet) continue;
+                    $operacionesUSDTCant       += $wallet2->Cant;
+                    $operacionesUSDTMonto      += $wallet2->Amount;
 
-            $totalEntradasUSDTCant  += $wallet2->Cant;
-            $totalEntradasUSDTMonto += $wallet2->Amount;            
-        }
+                    $totalSalidasUSDTCant  += $wallet2->Cant;
+                    $totalSalidasUSDTMonto += $wallet2->Amount;            
+                }
 
+                foreach($transaccionesGrupoSalida3 as $wallet2){
+                    if ($wallet2->WalletId != $wallet) continue;
+                    $variosUSDTCant       += $wallet2->Cant;
+                    $variosUSDTMonto      += $wallet2->Amount;
 
-        foreach($transaccionesGrupoSalida as $wallet2){
-            $salidasUSDTCant       += $wallet2->Cant;
-            $salidasUSDTMonto      += $wallet2->Amount;
+                    $totalSalidasUSDTCant  += $wallet2->Cant;
+                    $totalSalidasUSDTMonto += $wallet2->Amount;            
+                }
+                foreach($transaccionesWalletsSalida3 as $wallet2){
+                    if ($wallet2->WalletId != $wallet) continue;
+                    $variosUSDTCant       += $wallet2->Cant;
+                    $variosUSDTMonto      += $wallet2->Amount;
 
-            $totalSalidasUSDTCant  += $wallet2->Cant;
-            $totalSalidasUSDTMonto += $wallet2->Amount;            
-        }
+                    $totalSalidasUSDTCant  += $wallet2->Cant;
+                    $totalSalidasUSDTMonto += $wallet2->Amount;              
+                }
 
-        foreach($transaccionesGrupoSalida2 as $wallet2){
-            $operacionesUSDTCant       += $wallet2->Cant;
-            $operacionesUSDTMonto      += $wallet2->Amount;
-
-            $totalSalidasUSDTCant  += $wallet2->Cant;
-            $totalSalidasUSDTMonto += $wallet2->Amount;            
-        }
-
-        foreach($transaccionesGrupoSalida3 as $wallet2){
-            $variosUSDTCant       += $wallet2->Cant;
-            $variosUSDTMonto      += $wallet2->Amount;
-
-            $totalSalidasUSDTCant  += $wallet2->Cant;
-            $totalSalidasUSDTMonto += $wallet2->Amount;            
-        }
-        foreach($transaccionesWalletsSalida3 as $wallet2){
-            $variosUSDTCant       += $wallet2->Cant;
-            $variosUSDTMonto      += $wallet2->Amount;
-
-            $totalSalidasUSDTCant  += $wallet2->Cant;
-            $totalSalidasUSDTMonto += $wallet2->Amount;              
-        }
-
-        // $totalSalidasUSDTCant  += $wallet2->Cant;
-        $totalPendienteUSDTMonto  = ($balanceBefore + $totalEntradasUSDTMonto) - $totalSalidasUSDTMonto;
-
+                // $totalSalidasUSDTCant  += $wallet2->Cant;
+                $totalPendienteUSDTMonto  = ($balanceBefore + $totalEntradasUSDTMonto) - $totalSalidasUSDTMonto;
+            }
+            
         @endphp
 
-        let myTitleEntrada = $('#entrada1').val();
-        let myTitleSalida1 = $('#salida1').val();
-        let myTitleSalida2 = $('#salida2').val();
-        let myTitleSalida3 = $('#salida3').val();
+        myTitleEntrada = $('#entrada1').val();
+        myTitleSalida1 = $('#salida1').val();
+        myTitleSalida2 = $('#salida2').val();
+        myTitleSalida3 = $('#salida3').val();
 
         myElement =
         `
@@ -938,6 +958,7 @@ $salidaMonto    = 0;
             <div class ="row" style="background-color: white; margin-bottom: 6.5rem !important" data-wallet="">
                 <div class="col-12 text-center">
                     <h3>Cuadro Movimiento General  USDT</h3>
+                    <h4>Cuadro Movimiento General  USDT</h4>
                 </div>            
                 <div class="col-12 col-md-12">
                     <table class="table thead-light" style="background-color: white;">
@@ -1031,7 +1052,9 @@ $salidaMonto    = 0;
 
         $("#myCanvasGeneral").append(myElement);
         // $("#myCanvasGeneralRecarga").append(myElement);
-        
+
+        @endforeach
+
     }
 	
 	    
