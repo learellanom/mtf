@@ -2887,7 +2887,7 @@ class statisticsController extends Controller
     *
     *
     */
-    function getBalanceWallet2($wallet = 0, $fechaDesde = "2001-01-01", $fechaHasta = "9999-12-31", $myCoin = 1){
+    function getBalanceWallet2($wallets = 0, $fechaDesde = "2001-01-01", $fechaHasta = "9999-12-31", $myCoin = 1){
 
         if ($wallet === 0){
             $walletDesde = 00000;
@@ -9949,7 +9949,15 @@ public function getEnterpriseWallet($id){
     return $enterprise_wallet;
     
 }
-
+public function getEnterpriseWallesDetail($id){
+    
+    $enterprise_wallet = Enterprise_wallet::select('group_id','groups.name')
+    ->leftjoin('groups','enterprise_wallets.group_id','=','groups.id')
+    ->where('enterprise_id',$id)->orderBy('group_id')->get();
+   
+   return $enterprise_wallet;
+   
+}
 public function estadisticaCajaMayorMenu(request $request)
 {
     return view('estadisticas.estadisticasCajaMayorMenu');
@@ -9959,6 +9967,7 @@ public function estadisticaCajaMayorMenu(request $request)
 public function cajaMayorCuadroMovimientos(request $request)
 {
     
+
     // dd($request->fechaDesde . ' ' . $request->fechaHasta);
     
     // dd($wallet);
@@ -9967,6 +9976,8 @@ public function cajaMayorCuadroMovimientos(request $request)
 
     $cajaMayor = [];
     $cajaMayorWallets = [];
+    $cajaMayorWalletsDetail = [];
+
     /* MANTENER VALOR BUSCADO EN EL URL */
     $myWalletDesde   = 0;
     $myWalletHasta   = 9999;
@@ -10029,7 +10040,7 @@ public function cajaMayorCuadroMovimientos(request $request)
     $grupo                          = app(GroupController::class)->getGroups2();
     $typeTransactions               = $this->getTypeTransactions();
     $cajaMayor                      = $this->getEnterprise($request);
-    dd($wallet2);
+    
     $balance                        = 0;
     $balanceBefore                  = 0;
     
@@ -10048,7 +10059,9 @@ public function cajaMayorCuadroMovimientos(request $request)
     if ($myWallet != 0){
         
         $cajaMayorWallets           = $this->getEnterpriseWallet($myWallet);
-         
+        $cajaMayorWalletsDetail          = $this->getEnterpriseWallesDetail($myWallet);
+         // dd($cajaMayorWalletsDetail);
+
         $myJson         = file_get_contents("filtros\myUSDTResDiaMovimientosFiltro");
         $myJsonData     = json_decode($myJson,true); 
         // dd($myJsonData['groupsEntrada1']);
@@ -10104,6 +10117,7 @@ public function cajaMayorCuadroMovimientos(request $request)
 
     $parametros['cajaMayor']                    = $cajaMayor;
     $parametros['cajaMayorWallets']             = $cajaMayorWallets;
+    $parametros['cajaMayorWalletsDetail']       = $cajaMayorWalletsDetail;
 
     $parametros['wallet']                       = $wallet;
     $parametros['wallet2']                      = $wallet2;

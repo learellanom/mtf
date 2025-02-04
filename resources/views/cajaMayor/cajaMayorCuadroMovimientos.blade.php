@@ -839,7 +839,17 @@ $salidaMonto    = 0;
         @foreach($cajaMayorWallets as $wallet)
 
         @php
-            
+
+            $groupName = "";
+            foreach($cajaMayorWalletsDetail as $item){
+                if($item->group_id == $wallet){
+                    $groupName = $item->name;
+                    break;
+                }
+            }
+
+            // dd($groupName);
+
             $entradasUSDTCant       = 0;
             $entradasUSDTMonto      = 0;
 
@@ -862,7 +872,7 @@ $salidaMonto    = 0;
             $totalSalidasUSDTMonto = 0;
 
             $WalletName = "";
-            
+
             if ($wallet != ""){
 
                 foreach($RecargasWallet as $wallet2){
@@ -958,7 +968,7 @@ $salidaMonto    = 0;
             <div class ="row" style="background-color: white; margin-bottom: 6.5rem !important" data-wallet="">
                 <div class="col-12 text-center">
                     <h3>Cuadro Movimiento General  USDT</h3>
-                    <h4>Cuadro Movimiento General  USDT</h4>
+                    <h4>{{$groupName}}</h4>
                 </div>            
                 <div class="col-12 col-md-12">
                     <table class="table thead-light" style="background-color: white;">
