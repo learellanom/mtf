@@ -2728,6 +2728,18 @@ class statisticsController extends Controller
     */
     function getBalanceWallet($wallet = 0, $fechaDesde = "2001-01-01", $fechaHasta = "9999-12-31", $myCoin = 1){
 
+
+        dd('---- ' . gettype($wallet) . ' ----- '  . print_r($wallet,true));
+        $myWallets =[];
+        switch (gettype($wallet)){
+            case 'integer':
+            case 'double':                
+            case 'string':
+                break;
+            case 'array':
+                break;
+        }
+
         if ($wallet === 0){
             $walletDesde = 00000;
             $walletHasta = 99999;
@@ -2735,6 +2747,11 @@ class statisticsController extends Controller
         }else{
             $walletDesde = $wallet;
             $walletHasta = $wallet;
+        }
+        
+        if (count($cajaMayorWallets) > 0){
+            
+        
         }
         
         // \Log::info('leam  getBalanceWallet - wallet      *** -> ' . $wallet);
@@ -10043,11 +10060,12 @@ public function cajaMayorCuadroMovimientos(request $request)
     
     $balance                        = 0;
     $balanceBefore                  = 0;
-    
+
     if ($myWallet > 0){
+        // leam---
         
-        $balance        = $this->getBalanceWallet($myWallet);
-        $balanceBefore  = $this->getBalanceWalletBefore($myWallet,$myFechaDesde, $myFechaHasta);
+        // $balance        = $this->getBalanceWallet($myWallet);
+        // $balanceBefore  = $this->getBalanceWalletBefore($myWallet,$myFechaDesde, $myFechaHasta);
          
     }
 
@@ -10061,6 +10079,11 @@ public function cajaMayorCuadroMovimientos(request $request)
         $cajaMayorWallets           = $this->getEnterpriseWallet($myWallet);
         $cajaMayorWalletsDetail          = $this->getEnterpriseWallesDetail($myWallet);
          // dd($cajaMayorWalletsDetail);
+
+         $balance        = $this->getBalanceWallet($myWallet);
+        // $balance        = $this->getBalanceWallet($cajaMayorWallets);
+        $balanceBefore  = $this->getBalanceWalletBefore($myWallet,$myFechaDesde, $myFechaHasta);
+
 
         $myJson         = file_get_contents("filtros\myUSDTResDiaMovimientosFiltro");
         $myJsonData     = json_decode($myJson,true); 
