@@ -34,10 +34,11 @@
                             <thead>
                                 <tr>
                                     <th style="width:1%;">Nro transferencia</th>
-                                    <th>Fecha</th>
+                                    <th style="width:5%;">Fecha</th>
+                                    <th style="width:5%;">Creada</th>
                                     <th>Descripción</th>
                                     <th style="width:10%;">Monto Total</th>
-                                    <th style="width:5%;">Porcentaje Base</th>
+                                    <th style="width:5%;">% Base</th>
                                     <th style="width:10%;">Comisión Base</th>
                                     <th style="width:10%;">Monto Total Base</th>
                                     <th class="no-exportar">Agente</th>
@@ -45,7 +46,7 @@
                                     <th>Tipo de Movimiento</th>
                                     <th style="width:10%;">Cliente </th>
                                     @can('transactions.update_status')
-                                    <th style="width:1%;">Activo/Anulado</th>
+                                    <th style="width:1%;">Activo <br> /Anulado</th>
                                     @endcan
                                     <th style="width:1%;" class="no-exportar">Comisión</th>
                                     <th style="width:1%;" class="no-exportar">Ver <i class="fas fa-search"></i></th>
@@ -60,7 +61,7 @@
 
 
                                     <td class="font-weight-bold" style="min-width: 80px;">{!! $transferencias->TransactionDate !!}</td>
-
+                                    <td class="font-weight-bold" style="min-width: 80px;">{!! $transferencias->TransactionCreated !!}</td>
                                     <td class="font-weight-bold"><div style='width:60px; height:60px; overflow:hidden;'>{!!  $transferencias->Description !!}</div></td>
 
                                     <td class="font-weight-bold">{!! number_format($transferencias->Amount) !!} <i class="fas fa-dollar-sign"></i></td>
@@ -154,7 +155,7 @@ $(document).ready(function () {
             "previous": "Anterior"
         }
     },
-    //"order": [[ 2, 'desc' ]],
+          "order": [],
     'dom' : 'Bfrtilp',
     'buttons':[
         {
