@@ -681,6 +681,39 @@
 
                                             </tr> 
 
+
+                                            <tr>
+                                                <td>Estadisticas Caja Mayor</td>  
+                                                <td>
+                                                    @for($i = 201; $i <= 201; $i++)
+                                                        @if($i == 178)
+                                                            @continue
+                                                        @endif
+                                                        @php
+                                                            $myKey          = $i;
+                                                            $myDescription  = $permisos[$myKey]->description ?? 'Sin descripcion';
+                                                            $myId           = $permisos[$myKey]->id ?? 0;
+
+
+                                                            $myName         = "permissions[]";
+
+                                                            $myChecked      = "";
+                                                            //foreach($roles->permissions as $myPermission){
+                                                            //    if ($myPermission->id == $myKey){
+                                                            //        $myChecked      = 'checked=checked';
+                                                            //    }
+                                                            //}
+                                                        
+                                                        @endphp
+                                                        <input type="checkbox" id="{{$myId}}" name="permissions[]" value="{{$myId}}" {{$myChecked}}>
+                                                        <label for="fname">{{$myDescription}}</label>
+                                                        <br><br>
+                                                    @endfor                                                    
+                                                </td>
+
+                                            </tr> 
+
+
                                         </tbody>
                                     </table>
 

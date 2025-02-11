@@ -777,10 +777,10 @@ class HomeController extends Controller
              
         }
 
-        $transaccionesGrupoSalida = [];
-        $transaccionesGrupoSalida2 = [];
-        $transaccionesGrupoSalida3 = [];
-        $transaccionesWalletsSalida3 = [];
+        $transaccionesGrupoSalida       = [];
+        $transaccionesGrupoSalida2      = [];
+        $transaccionesGrupoSalida3      = [];
+        $transaccionesWalletsSalida3    = [];
 
         if ($myWallet != 0){
             
