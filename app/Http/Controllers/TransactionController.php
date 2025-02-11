@@ -2356,7 +2356,8 @@ class TransactionController extends Controller
                 group_id                        as GroupIdOrigen,
                 groups.name                     as GroupNameOrigen,
                 amount_total                    as Amount,
-                transaction_date                as TransactionDate,
+                date_format(transaction_date,'%Y-%m-%d')                as TransactionDate,
+                date_format(transactions.created_at,'%Y-%m-%d')                      as TransactionCreated,
                 users.name                      as Agente,
                 status                          as estatus,
                 type_transaction_id             as TypeTransactionId,
@@ -2372,9 +2373,12 @@ class TransactionController extends Controller
             left join  mtf.type_transactions    on mtf.transactions.type_transaction_id  = mtf.type_transactions.id
             left join  mtf.users                on mtf.transactions.user_id  = mtf.users.id
             where $myPayNumber
-            order by pay_number desc
+            and user_id = 12
+            order by 
+                transaction_date DESC,
+                pay_number ASC
             ";
-
+            
             $transactiones = DB::select($myQuery);
 
          // }
@@ -2386,7 +2390,7 @@ class TransactionController extends Controller
          //$user                  = User::pluck('name', 'id')->toArray();
 
          $parametros['transactiones'] = $transactiones;
-
+        
          return view('transactions.index_pagoclientes', $parametros);
 
     }
