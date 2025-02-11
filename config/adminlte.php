@@ -593,13 +593,13 @@ return [
             'icon'      => 'fas fa-fw fas fa-chart-bar',
             'can'       => 'balancePagosCobros',
         ],
-        [
-            'text'      => 'Caja Mayor',
-            'url'       => 'estadisticasCajaMayor',
-            'active'    => ['estadisticasCajaMayor' ],
-            'icon'      => 'fas fa-fw fas fa-chart-bar',
-            'can'       => 'estadisticaCajaMayor',
-        ],
+        // [
+        //     'text'      => 'Caja Mayor',
+        //     'url'       => 'estadisticasCajaMayor',
+        //     'active'    => ['estadisticasCajaMayor' ],
+        //     'icon'      => 'fas fa-fw fas fa-chart-bar',
+        //     'can'       => 'estadisticaCajaMayor',
+        // ],
 
         //
         //

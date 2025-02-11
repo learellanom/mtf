@@ -2729,7 +2729,7 @@ class statisticsController extends Controller
     function getBalanceWallet($wallet = 0, $fechaDesde = "2001-01-01", $fechaHasta = "9999-12-31", $myCoin = 1){
 
 
-        dd('---- ' . gettype($wallet) . ' ----- '  . print_r($wallet,true));
+        // dd('---- ' . gettype($wallet) . ' ----- '  . print_r($wallet,true));
         $myWallets =[];
         switch (gettype($wallet)){
             case 'integer':
