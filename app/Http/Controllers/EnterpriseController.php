@@ -129,4 +129,6 @@ class EnterpriseController extends Controller
         flash()->addError('Caja Mayor', 'Caja Mayor Eliminada: ' . $enterprise->name,  ['timeOut' => 2000]);
         return Redirect::route('enterprise.index');        
     }
+
+
 }

@@ -321,6 +321,16 @@ Route::group(['middleware' => 'auth'], function () {
     ->middleware('can:balancePagosCobros')
     ->name('balancePagosCobrosMenu');
 
+    Route::get('estadisticasCajaMayor',
+    [statisticsController::class, 'estadisticaCajaMayorMenu'])
+    ->middleware('can:estadisticaCajaMayor')
+    ->name('estadisticasCajaMayor');
+
+    Route::get('cajaMayorCuadroMovimientos',
+    [statisticsController::class, 'cajaMayorCuadroMovimientos'])
+    ->middleware('can:estadisticaCajaMayor')
+    ->name('cajaMayorCuadroMovimientos');
+
     // Route::resource('cajamayor', EnterpriseController::class)->middleware('auth')->except('show')->middleware('can:enterprise.index')->names('enterprise');
     Route::resource('cajamayor', EnterpriseController::class)->middleware('auth')->names('enterprise');
 });
