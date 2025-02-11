@@ -2749,10 +2749,10 @@ class statisticsController extends Controller
             $walletHasta = $wallet;
         }
         
-        if (count($cajaMayorWallets) > 0){
+        // if (count($cajaMayorWallets) > 0){
             
         
-        }
+        // }
         
         // \Log::info('leam  getBalanceWallet - wallet      *** -> ' . $wallet);
          /*
