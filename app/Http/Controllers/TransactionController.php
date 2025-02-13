@@ -2338,10 +2338,30 @@ class TransactionController extends Controller
 
         $myPayNumber = "pay_number LIKE '%T-C' != '' ";
 
+        // $request->group_id = 272;
+        $myGroupFilter = "";
+        if ($request->grupo){
+            
+            $groupTransaction = Transaction::select('pay_number')->where('group_id',$request->grupo)->where('pay_number','like','%T-C')->pluck('pay_number')->toArray();
+            // dd($groupTransaction);
+            foreach($groupTransaction as $item){
+                $myGroupFilter = $myGroupFilter . "'$item'";
+                $myGroupFilter = $myGroupFilter . ",";
+            }
+            $myGroupFilter = rtrim($myGroupFilter,",");
+            // dd($myGroupFilter);
+            $myGroupFilter = "and pay_number in($myGroupFilter)";
+            // dd($myGroupFilter);
+        }
+
         if ($request->pay_number){
             // die('aqui llego');
             $myPayNumber = "pay_number = '$request->pay_number'";
         }        
+
+
+        $group = Group::where('type','=',1)->pluck('name', 'id')->toArray();
+        // dd($group);
 
          // foreach(auth()->user()->roles as $roles)
          // {
@@ -2374,11 +2394,12 @@ class TransactionController extends Controller
             left join  mtf.users                on mtf.transactions.user_id  = mtf.users.id
             where $myPayNumber
             and user_id = 12
+            $myGroupFilter
             order by 
                 transaction_date DESC,
                 pay_number ASC
             ";
-            
+            // dd($myQuery);
             $transactiones = DB::select($myQuery);
 
          // }
@@ -2389,6 +2410,7 @@ class TransactionController extends Controller
          //$Type_coin_balance     = Type_coin::pluck('name', 'id')->toArray();   
          //$user                  = User::pluck('name', 'id')->toArray();
 
+         $parametros['group'] = $group;
          $parametros['transactiones'] = $transactiones;
         
          return view('transactions.index_pagoclientes', $parametros);
