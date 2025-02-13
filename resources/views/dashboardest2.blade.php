@@ -2249,9 +2249,11 @@ $config4 = [
 
         console.log('myFechaDesde2 ->' + myFechaDesde2);
         console.log('myFechaHasta2 ->' + myFechaHasta2);
-
-        //$('#drCustomRanges').data('daterangepicker').setStartDate(myFechaDesde2);
-        // $('#drCustomRanges').data('daterangepicker').setEndDate(myFechaHasta2);
+        
+        if (myFechaHasta2 != '31-12-9999'){
+            $('#drCustomRanges').data('daterangepicker').setStartDate(myFechaDesde2);
+            $('#drCustomRanges').data('daterangepicker').setEndDate(myFechaHasta2);
+        }
 
     }
     
