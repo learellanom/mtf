@@ -417,8 +417,8 @@
         let myFechaDesde = '{!! $myFechaDesde !!}';
         let myFechaHasta = '{!! $myFechaHasta !!}';
 
-        console.log('myFechaDesde -> ' + myFechaDesde);
-        console.log('myFechaHasta -> ' + myFechaHasta);
+        // console.log('myFechaDesde -> ' + myFechaDesde);
+        // console.log('myFechaHasta -> ' + myFechaHasta);
 
         // 
         InicializaMultiselects();
@@ -1906,8 +1906,8 @@
 
         let myRoute = "";
         
-        fechaDesde = '{!! $myFechaDesde !!}';
-        fechaHasta = '{!! $myFechaHasta !!}';
+        // fechaDesde = '{!! $myFechaDesde !!}';
+        // fechaHasta = '{!! $myFechaHasta !!}';
 
         myRoute = "{{ route('dashboardSaldos', ['fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2', 'coin' => 'coin2']) }}";
         
@@ -1915,6 +1915,8 @@
         myRoute = myRoute.replace('fechaHasta2',fechaHasta);
         myRoute = myRoute.replace('coin2',coin);
         myRoute = myRoute.replaceAll('amp;','');
+
+        // alert('myRoute -> ' + myRoute);
         location.href = myRoute;
 
     }
@@ -1934,8 +1936,8 @@
         fechaDesde = '{!! $myFechaDesde !!}';
         fechaHasta = '{!! $myFechaHasta !!}';
         
-        console.log('leam - fecha desde -> ' + fechaDesde);
-        console.log('leam - fecha Hasta -> ' + fechaHasta);
+        // console.log('leam - fecha desde -> ' + fechaDesde);
+        // console.log('leam - fecha Hasta -> ' + fechaHasta);
 
         let myRoute = "";
             myRoute = "{{ route('estadisticasDetalle', ['usuario' => 'usuario2', 'grupo' => 'grupo2', 'wallet' => 'wallet2', 'typeTransactions' => 'typeTransactions2','fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2']) }}";
@@ -1947,7 +1949,7 @@
             myRoute = myRoute.replace('fechaHasta2',fechaHasta);
             myRoute = myRoute.replaceAll('amp;','');
         // console.log(myRoute);
-        // alert(myRoute);
+         // alert(myRoute);
         location.href = myRoute;
 
     }
@@ -2014,10 +2016,10 @@
             myFechaHasta = FechaHasta.toString().substr(8,2)  + '-' + FechaHasta.toString().substr(5,2) + '-' + FechaHasta.toString().substr(0,4);
 
             myFecha = myFechaDesde.toString()  + ' - ' + myFechaHasta.toString();
-
-            $('#drCustomRanges').data('daterangepicker').setStartDate(myFechaDesde);
-            $('#drCustomRanges').data('daterangepicker').setEndDate(myFechaHasta);
-
+            if (myFechaHasta != '31-12-9999'){
+                $('#drCustomRanges').data('daterangepicker').setStartDate(myFechaDesde);
+                $('#drCustomRanges').data('daterangepicker').setEndDate(myFechaHasta);
+            }
     }
 
     document.querySelectorAll('.imprimir').forEach(function(element) {
