@@ -2335,7 +2335,7 @@ class TransactionController extends Controller
     }
     public function index_pagoclientes(Request $request, transaction $transaction)
     {
-
+        $myGroup = null;
         $myPayNumber = "pay_number LIKE '%T-C' != '' ";
 
         // $request->group_id = 272;
@@ -2352,16 +2352,36 @@ class TransactionController extends Controller
             // dd($myGroupFilter);
             $myGroupFilter = "and pay_number in($myGroupFilter)";
             // dd($myGroupFilter);
+            $myGroup = $request->grupo;
         }
 
         if ($request->pay_number){
             // die('aqui llego');
             $myPayNumber = "pay_number = '$request->pay_number'";
         }        
-
-
+        $fechaDesde = null;
+        $fechaHasta = null;
+        $fechaFiltro = null;
+        if ($request->fechaDesde){
+            $fechaDesde = $request->fechaDesde;
+            $fechaHasta = $request->fechaHasta;
+        }
+        if ($request->fechaHasta){
+            $fechaDesde = $request->fechaDesde;
+            $fechaHasta = $request->fechaHasta;
+            $fechaFiltro = "and transaction_date between '$fechaDesde 00:00:00' and '$fechaHasta 23:59:59'";
+        }
         $group = Group::where('type','=',1)->pluck('name', 'id')->toArray();
+        $user = User::pluck('name', 'id')->toArray();
+
+        $myUser = null;
+        $myUserFiltro = null;
+        if ($request->user){
+            $myUser = $request->user;
+            $myUserFiltro = "and user_id = $myUser";
+        }
         // dd($group);
+
 
          // foreach(auth()->user()->roles as $roles)
          // {
@@ -2377,7 +2397,7 @@ class TransactionController extends Controller
                 groups.name                     as GroupNameOrigen,
                 amount_total                    as Amount,
                 date_format(transaction_date,'%Y-%m-%d')                as TransactionDate,
-                date_format(transactions.created_at,'%Y-%m-%d')                      as TransactionCreated,
+                date_format(transactions.created_at,'%Y-%m-%d')  as TransactionCreated,
                 users.name                      as Agente,
                 status                          as estatus,
                 type_transaction_id             as TypeTransactionId,
@@ -2392,9 +2412,11 @@ class TransactionController extends Controller
             left join  mtf.groups               on mtf.transactions.group_id  = groups.id
             left join  mtf.type_transactions    on mtf.transactions.type_transaction_id  = mtf.type_transactions.id
             left join  mtf.users                on mtf.transactions.user_id  = mtf.users.id
-            where $myPayNumber
-            and user_id = 12
+            where 
+            $myPayNumber
+            $myUserFiltro
             $myGroupFilter
+            $fechaFiltro 
             order by 
                 transaction_date DESC,
                 pay_number ASC
@@ -2410,7 +2432,13 @@ class TransactionController extends Controller
          //$Type_coin_balance     = Type_coin::pluck('name', 'id')->toArray();   
          //$user                  = User::pluck('name', 'id')->toArray();
 
+
+         $parametros['myUser'] = $myUser;
+         $parametros['myGroup'] = $myGroup;
          $parametros['group'] = $group;
+         $parametros['user'] = $user;
+         $parametros['myFechaDesde'] = $fechaDesde;
+         $parametros['myFechaHasta'] = $fechaHasta;
          $parametros['transactiones'] = $transactiones;
         
          return view('transactions.index_pagoclientes', $parametros);
