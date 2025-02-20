@@ -4,6 +4,14 @@ $config2 =
 [
     "allowClear" => true,
 ];
+
+$config3 = [
+    "locale" => ["format" => "DD-MM-YYYY"],
+    "allowClear" => true,
+    "showDropdowns:" => "true",
+];
+
+
 @endphp
 
 @section('title', 'Pago entre clientes')
@@ -28,19 +36,61 @@ $config2 =
 <br><br>
 
 <div class="row">
-    <div class="col-md-12">
+
+    <div class="col-12">
         <div class="card mb-4">
             <div class="card-header">
                 <h3 class="card-title text-uppercase font-weight-bold">{{ __('Pago entre clientes') }}</h3>
             </div>
+            <div class="row">
+            <div class ="col-12 col-md-4 col-xl-3">
+                <x-adminlte-date-range
+                    name="drCustomRanges"
+                    enable-default-ranges="Last 30 Days"
+                    
+                    :config="$config3">
+                    <x-slot name="prependSlot">
+                        <div class="input-group-text bg-gradient-light">
+                            <i class="fas fa-calendar-alt"></i>
+                        </div>
+                    </x-slot>
+                    <x-slot name="appendSlot">
+                        <x-adminlte-button 
+                            id="myDrClearButton"
+                            label="X" 
+                            icon="fas  fa-x"/>
+                    </x-slot>
+                </x-adminlte-date-range>
 
-        <div class ="col-xl-2 col-sm-6">
-            <x-adminlte-select2 id="group"
-                                name="optionsGroup"
+
+            </div>
+
+            <div class ="col-12 col-md-4 col-xl-3">
+                <x-adminlte-select2 id="group"
+                                    name="group"
+
+                                    label-class="text-lightblue"
+                                    data-placeholder="Grupo ..."
+                                    :config="$config2"
+                                    >
+                    <x-slot name="prependSlot">
+                        <div class="input-group-text bg-gradient-dark">
+                            <!-- <i class="fas fa-car-side"></i> -->
+                            <i class="fas fa-user-tie"></i>
+                        </div>
+                    </x-slot>
+
+                    <x-adminlte-options :options="$group" empty-option="Selecciona un Grupo.."/>
+                </x-adminlte-select2>
+            </div>
+            <div class ="col-xl-2 col-sm-6">
+            <x-adminlte-select2 id="user"
+                                class="mySelect"
+                                name="optionsUsers"
 
                                 label-class="text-lightblue"
-                                data-placeholder="Grupo ..."
-                                :config="$config2"
+                                data-placeholder="Agente..."
+
                                 >
                 <x-slot name="prependSlot">
                     <div class="input-group-text bg-gradient-dark">
@@ -48,11 +98,31 @@ $config2 =
                         <i class="fas fa-user-tie"></i>
                     </div>
                 </x-slot>
-
-                <x-adminlte-options :options="$group" empty-option="Selecciona un Grupo.."/>
+                <!-- <x-adminlte-options :options="['Car', 'Truck', 'Motorcycle']" empty-option/> -->
+                <x-adminlte-options :options="$user" empty-option="Selecciona un Agente.."/>
             </x-adminlte-select2>
-        </div>
-</div>
+        </div>            
+            </div>
+        {{--
+        <select name="group2" id="group2">
+
+            @foreach( $group as $key => $item)
+                <option value="{{$key}}">{{$item}}</option>
+            @endforeach
+
+        </select>
+        --}}
+        {{-- 
+        <select name="group3" id="group3">
+
+            @foreach( $group as $key => $item)
+                <option value="{{$key}}">{{$item}}</option>
+            @endforeach
+
+        </select>
+        --}}
+    </div>
+
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-12">
@@ -158,7 +228,18 @@ $config2 =
 @endsection
 @section('js')
 <script>
+
+let myGroup = '{{$myGroup}}';
+const miUsuario             = {!! $myUser !!};
+
+buscaGrupo(myGroup);
+BuscaUsuario(miUsuario);
+
 $(document).ready(function () {
+    @php
+        // dd(json_decode(json_encode($group)));
+    @endphp
+    // console.log(@json($group));
     $('#table').DataTable( {
 
         language: {
@@ -360,10 +441,10 @@ $(document).ready(function () {
 
     
     $('#group').on('change', function (){
-
-        
+        const fechaDesde = '{{$myFechaDesde ?? null}}';
+        const fechaHasta = '{{$myFechaHasta ?? null}}';
         const grupo             = $('#group').val();
-        theRoute(grupo);
+        theRoute(grupo, fechaDesde, fechaHasta);
 
 
     })
@@ -372,23 +453,129 @@ $(document).ready(function () {
     }); 
 
 
+    $('#group2').select2({
+        placeholder: 'Select an option',
+        allowClear: true,
+        theme: "classic"
+    });
+
+
+    
+    $('#drCustomRanges').on('change', function () {
+        
+        let myFechaDesde, myFechaHasta;
+        myFechaDesde =  ($('#drCustomRanges').val()).substr(6,4) +
+                        '-' +
+                        ($('#drCustomRanges').val()).substr(3,2) +
+                        '-' +
+                        ($('#drCustomRanges').val()).substr(0,2)
+                        ;
+
+        myFechaHasta =  ($('#drCustomRanges').val()).substr(19,4) +
+                        '-' +
+                        ($('#drCustomRanges').val()).substr(16,2) +
+                        '-' +
+                        ($('#drCustomRanges').val()).substr(13,2)
+                        ;
+
+            
+            const grupo         = $('#group').val()     == "" ? 0 : $('#group').val();
+            theRoute(grupo, myFechaDesde,myFechaHasta);
+
+    });
+
+
+    $('#user').on('change', function (){
+
+        const user           = $('#user').val() == "" ? null : $('#user').val();
+        const grupo         = $('#group').val()     == "" ? null : $('#group').val();       
+        const fechaDesde    = '{{$myFechaDesde ?? null}}';
+        const fechaHasta = '{{$myFechaHasta ?? null}}';
+   
+        theRoute(grupo, fechaDesde, fechaHasta, user);
+
+    })
+        .on('select2:open', () => {
+        document.querySelector('.select2-search__field').focus();
+    });        
+
 });
 
 
-function theRoute(grupo = null){
+function theRoute(grupo = 0, fechaDesde = null, fechaHasta = null, user = null){
 
-    if (!grupo) return;
+    // if (!grupo) return;
 
     let myRoute = "";
 
-    myRoute = "{{ route('transactions.index_pagoclientes', ['grupo' => 'grupo2']) }}";
-    myRoute = myRoute.replace('grupo2',grupo);
+    myRoute = "{{ route('transactions.index_pagoclientes', ['grupo' => 'grupo2', 'fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2','user' => 'user2']) }}";
+    // alert(myRoute);
+    if (grupo && grupo != 0){
+        myRoute = myRoute.replace('grupo2',grupo);
+    }else{
+        myRoute = myRoute.replace('grupo=grupo2&amp;','');
+    }
+    //alert('Grupo -> ' + myRoute);
+    if ((fechaDesde) && fechaDesde != "") {
+        myRoute = myRoute.replace('fechaDesde2',fechaDesde);
+    }else{
+
+        myRoute = myRoute.replace('&amp;fechaDesde=fechaDesde2','');
+        myRoute = myRoute.replace('fechaDesde=fechaDesde2','');
+    }
+    //alert('fecha desde =-> ' + myRoute);
+    if (fechaHasta) {
+        myRoute = myRoute.replace('fechaHasta2',fechaHasta);
+    }else{
+
+        myRoute = myRoute.replace('&amp;fechaHasta=fechaHasta2','');
+        myRoute = myRoute.replace('fechaHasta=fechaHasta2','');
+    }
+    //alert(myRoute);
+    if (user) {
+        myRoute = myRoute.replace('user2',user);
+    }else{
+        myRoute = myRoute.replace('&amp;user=user2','');
+    }
+
     myRoute = myRoute.replaceAll('amp;','');
 
-    // alert(myRoute);
+
     location.href = myRoute;
 
 }
 
+function buscaGrupo(myGroup){
+        // alert("BuscaGrupo - miGrupo -> " + myGroup);
+        $('#group').each( function(index, element){
+            //alert ("Buscagrupo -> " + $(this).val() + " text -> " + $(this).text()+ " y con index -> " + $(this).prop('selectedIndex'));
+            $(this).children("option").each(function(){
+                if ($(this).val() === myGroup.toString()){
+                    //alert('Buscagrupo - encontro');
+                // $("#group option[value="+ $(this).val() +"]").attr("selected",true);
+                    $(this).attr("selected",true);
+                }
+                //alert("BuscaGrupoaqui ->  the val " + $(this).val() + " text -> " + $(this).text());
+            });
+        });
+        //
+}
+
+
+function BuscaUsuario(miUsuario){
+        if (miUsuario===0){
+            return;
+        }
+        $('#user').each( function(index, element){
+            $(this).children("option").each(function(){
+                if ($(this).val() === miUsuario.toString()){
+                    $("#user option[value="+ miUsuario +"]").attr("selected",true);
+                }
+            });
+        });
+    }
+
+
 </script>
 @endsection
+
