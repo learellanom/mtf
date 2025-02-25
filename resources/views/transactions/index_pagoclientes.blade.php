@@ -230,12 +230,19 @@ $config3 = [
 <script>
 
 let myGroup = '{{$myGroup}}';
-const miUsuario             = {!! $myUser !!};
+const miUsuario             = {{ $myUser ?? 0}};
 
 buscaGrupo(myGroup);
 BuscaUsuario(miUsuario);
 
+
+
 $(document).ready(function () {
+
+        const myFechaDesde = '{{ $myFechaDesde }}';
+    const myFechaHasta = '{{ $myFechaHasta }}';
+
+    BuscaFechasBlade(myFechaDesde, myFechaHasta);
     @php
         // dd(json_decode(json_encode($group)));
     @endphp
@@ -444,7 +451,8 @@ $(document).ready(function () {
         const fechaDesde = '{{$myFechaDesde ?? null}}';
         const fechaHasta = '{{$myFechaHasta ?? null}}';
         const grupo             = $('#group').val();
-        theRoute(grupo, fechaDesde, fechaHasta);
+        const user       = $('#user').val() == "" ? null : $('#user').val();
+        theRoute(grupo, fechaDesde, fechaHasta, user);
 
 
     })
@@ -566,6 +574,10 @@ function BuscaUsuario(miUsuario){
         if (miUsuario===0){
             return;
         }
+        if (miUsuario===null){
+            return;
+        }
+
         $('#user').each( function(index, element){
             $(this).children("option").each(function(){
                 if ($(this).val() === miUsuario.toString()){
@@ -573,6 +585,55 @@ function BuscaUsuario(miUsuario){
                 }
             });
         });
+    }
+
+
+    function BuscaFechasBlade(){
+
+        let myFechaDesdeInicial = "{{ $myFechaDesde }}";
+        let myFechaHastaInicial = "{{ $myFechaHasta }}";
+        // console.log('leam - aqui ' + "{{ $myFechaDesde }}");
+        if (myFechaDesdeInicial == "2001-01-01"){
+            return;
+        }
+        if (myFechaDesdeInicial == ""){
+            return;
+        }
+
+        if (myFechaDesdeInicial == null){
+            return;
+        }
+
+
+
+
+        let myFechaAnio  = myFechaDesdeInicial.substring(0,4);
+        let myFechaMes   = myFechaDesdeInicial.substring(5,7);
+        let myFechaDia   = myFechaDesdeInicial.substring(8,10);
+
+
+        myFechaMes       = myFechaMes.toString().length == 1 ? '0' + myFechaMes.toString() : myFechaMes;
+        myFechaDia       = myFechaDia.toString().length == 1 ? '0' + myFechaDia.toString() : myFechaDia;
+
+        let myFechaDesde2 = myFechaDia.toString().concat('-', myFechaMes, '-', myFechaAnio)
+
+
+
+        myFechaAnio  = myFechaHastaInicial.substring(0,4);
+        myFechaMes   = myFechaHastaInicial.substring(5,7);
+        myFechaDia   = myFechaHastaInicial.substring(8,10);
+
+        myFechaMes       = myFechaMes.toString().length == 1 ? '0' + myFechaMes.toString() : myFechaMes;
+        myFechaDia       = myFechaDia.toString().length == 1 ? '0' + myFechaDia.toString() : myFechaDia;
+
+        let myFechaHasta2 = myFechaDia.toString().concat('-', myFechaMes, '-', myFechaAnio);
+
+
+        console.log('myFechaDesde2 ->' + myFechaDesde2);
+        console.log('myFechaHasta2 ->' + myFechaHasta2);
+
+        $('#drCustomRanges').data('daterangepicker').setStartDate(myFechaDesde2);
+        $('#drCustomRanges').data('daterangepicker').setEndDate(myFechaHasta2);
     }
 
 
