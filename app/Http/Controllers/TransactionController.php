@@ -2344,15 +2344,17 @@ class TransactionController extends Controller
             
             $groupTransaction = Transaction::select('pay_number')->where('group_id',$request->grupo)->where('pay_number','like','%T-C')->pluck('pay_number')->toArray();
             // dd($groupTransaction);
-            foreach($groupTransaction as $item){
-                $myGroupFilter = $myGroupFilter . "'$item'";
-                $myGroupFilter = $myGroupFilter . ",";
+            if (count($groupTransaction)){
+                foreach($groupTransaction as $item){
+                    $myGroupFilter = $myGroupFilter . "'$item'";
+                    $myGroupFilter = $myGroupFilter . ",";
+                }
+                $myGroupFilter = rtrim($myGroupFilter,",");
+                // dd($myGroupFilter);
+                $myGroupFilter = "and pay_number in($myGroupFilter)";
+                // dd($myGroupFilter);
+                $myGroup = $request->grupo;
             }
-            $myGroupFilter = rtrim($myGroupFilter,",");
-            // dd($myGroupFilter);
-            $myGroupFilter = "and pay_number in($myGroupFilter)";
-            // dd($myGroupFilter);
-            $myGroup = $request->grupo;
         }
 
         if ($request->pay_number){
@@ -2419,7 +2421,8 @@ class TransactionController extends Controller
             $fechaFiltro 
             order by 
                 transaction_date DESC,
-                pay_number ASC
+                pay_number ASC,
+                type_transactions.type_transaction_group DESC
             ";
             // dd($myQuery);
             $transactiones = DB::select($myQuery);
