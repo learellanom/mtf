@@ -87,10 +87,9 @@ $config3 = [
             <x-adminlte-select2 id="user"
                                 class="mySelect"
                                 name="optionsUsers"
-
                                 label-class="text-lightblue"
                                 data-placeholder="Agente..."
-
+                                :config="$config2"
                                 >
                 <x-slot name="prependSlot">
                     <div class="input-group-text bg-gradient-dark">
@@ -269,12 +268,13 @@ $(document).ready(function () {
             "previous": "Anterior"
         }
     },
-          "order": [],
-    'dom' : 'Bfrtilp',
+    "order": [],
+    'dom' : '<"row" <"col-12 col-md-6" B> <"col-12 col-md-6 text-align-right" f> >ti <"row" <"col-12 col-md-6" l> <"col-12 col-md-6" p>>',          
+    // 'dom' : 'Bfrtilp',
     'buttons':[
         {
             extend:  'excelHtml5',
-            exportOptions: { columns: [ 1, 2, 3,4,5,6,8,9,10 ] },
+            exportOptions: { columns: [ 0, 1, 2, 3,4,5,6,7, 8,9,10,11, 12 ] },
             text:    '<i class="fas fa-file-excel"></i>',
             titleAttr: 'Exportar Excel',
             className: 'btn btn-success',
@@ -315,66 +315,53 @@ $(document).ready(function () {
                     }
                 }
             },
+            {
+                "cells": "A",
+                "width": "30",
+            },
+            {
+                "cells": "B",
+                "width": "23",
+            },
+            {
+                "cells": "C",
+                "width": "23",
+            },
+            {
+                "cells": "D",
+                "width": "50",
+            },
+            {
+                "cells": "E",
+                "width": "23",
+            },
+            {
+                "cells": "F",
+                "width": "12",
+                "style": {
+                    "numFmt": "#,##0;(#,##0)"
+                }
+            },
+            {
+                "cells": "G",
+                "width": "24",
+            },
+            {
+                "cells": "H",
+                "width": "30",
+            },
+            {
+                "cells": "I",
+                "width": "30",
+                "style": {
+                    "font": {                 // Style the font
+                            "b": true,
+                            "size" : "14"
+                            },
+                    },
 
-                {
-                    'cells': "sA",
-                    'template': "date_long",
-                },
-                {
-                    'cells': "1I",
-                    "font": {
-                        "size": "20",
-                        "color": "FFFFFF"
-                    },
-                },
-                    {
-                        "cells": "A",
-                        "width": "19",
-                    },
-                    {
-                        "cells": "B",
-                        "width": "50",
-                    },
-                    {
-                        "cells": "C",
-                        "width": "20",
-                    },
-                    {
-                        "cells": "D",
-                        "width": "23.43",
-                    },
-                    {
-                        "cells": "E",
-                        "width": "22.14",
-                    },
-                    {
-                    "cells": "F",
-                    "width": "25.86",
-                    "style": {
-                        "numFmt": "#,##0;(#,##0)"
-                    }
-                   },
-                    {
-                        "cells": "G",
-                        "width": "30",
-                    },
-                    {
-                        "cells": "H",
-                        "width": "30",
-                    },
-                    {
-                        "cells": "I",
-                        "width": "30",
-                        "style": {
-                            "font": {                 // Style the font
-                                    "b": true,
-                                    "size" : "14"
-                                    },
-                         },
-
-                    },
-           ]
-
+            },
+            ]
         },
         {
             extend:  'pdfHtml5',
@@ -492,6 +479,19 @@ $(document).ready(function () {
 
     });
 
+    $('#myDrClearButton').on('click', function () {
+
+        const fechaDesde = null;
+        const fechaHasta = null;
+        const grupo      = $('#group').val()  =="" ? null  : $('#group').val();
+        const user       = $('#user').val()   == "" ? null : $('#user').val();
+
+        // $('#drCustomRanges').data('daterangepicker').setStartDate(null);
+        // $('#drCustomRanges').data('daterangepicker').setEndDate(null);
+
+
+        theRoute(grupo, fechaDesde, fechaHasta, user);
+    });
 
     $('#user').on('change', function (){
 
@@ -507,6 +507,7 @@ $(document).ready(function () {
         document.querySelector('.select2-search__field').focus();
     });        
 
+
 });
 
 
@@ -515,13 +516,14 @@ function theRoute(grupo = 0, fechaDesde = null, fechaHasta = null, user = null){
     // if (!grupo) return;
 
     let myRoute = "";
-
+    let indVacio = false;
     myRoute = "{{ route('transactions.index_pagoclientes', ['grupo' => 'grupo2', 'fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2','user' => 'user2']) }}";
     // alert(myRoute);
     if (grupo && grupo != 0){
         myRoute = myRoute.replace('grupo2',grupo);
     }else{
         myRoute = myRoute.replace('grupo=grupo2&amp;','');
+
     }
     //alert('Grupo -> ' + myRoute);
     if ((fechaDesde) && fechaDesde != "") {
@@ -547,7 +549,23 @@ function theRoute(grupo = 0, fechaDesde = null, fechaHasta = null, user = null){
     }
 
     myRoute = myRoute.replaceAll('amp;','');
+    
+    if(grupo == 0){
+        
+        if (!fechaDesde){
 
+            if (!fechaHasta){
+
+                if (!user){
+                    myRoute = myRoute.replaceAll('?',''); 
+                }
+
+            } 
+
+        }
+
+    }
+    
 
     location.href = myRoute;
 
