@@ -478,19 +478,23 @@ $salidaMonto    = 0;
 
     $(() => {
 
-        const myFechaDesde = {!! substr($myFechaDesde,0,4) !!} + '-' + {!! substr($myFechaDesde,5,2) !!} + '-' + {!! substr($myFechaDesde,8,2) !!} ;
-        const myFechaHasta = {!! substr($myFechaHasta,0,4) !!} + '-' + {!! substr($myFechaHasta,5,2) !!} + '-' + {!! substr($myFechaHasta,8,2) !!} ;
+        const myFechaDesde = '{!! substr($myFechaDesde,0,4) !!}' + '-' + '{!! substr($myFechaDesde,5,2) !!}' + '-' + '{!! substr($myFechaDesde,8,2) !!}' ;
+        const myFechaHasta = '{!! substr($myFechaHasta,0,4) !!}' + '-' + '{!! substr($myFechaHasta,5,2) !!}' + '-' + '{!! substr($myFechaHasta,8,2) !!}' ;
 
         //
         
         console.log('myFechaDesde ->  {{ $myFechaDesde }}'); 
+        console.log('myFechaHasta ->  {{ $myFechaHasta }}'); 
         console.log('myFechaDesde -> ' + myFechaDesde);
         console.log('myFechaHasta -> ' + myFechaHasta);
 
-        InicializaFechas();
+         if (myFechaDesde != '2001-01-01'){
 
-        BuscaFechas(myFechaDesde, myFechaHasta);
+        
+            InicializaFechas(myFechaDesde, myFechaHasta);
 
+           // BuscaFechas(myFechaDesde, myFechaHasta);
+         }
         $('#wallet2').on('change', function (){
             
             let myFechaDesde, myFechaHasta;
@@ -830,251 +834,274 @@ $salidaMonto    = 0;
     */
    
     function calculoCuadroGeneral(wallet = "", myFechaDesde = "", myFechaHasta =""){
+        // try{
+            let myTitleEntrada;
+            let myTitleSalida1;
+            let myTitleSalida2;
+            let myTitleSalida3;
+
+            @foreach($cajaMayorWallets as $wallet)
+
+                @php
+
+                    $groupName = "";
+                    foreach($cajaMayorWalletsDetail as $item){
+                        if($item->group_id == $wallet){
+                            $groupName = $item->name;
+                            break;
+                        }
+                    }
+
+                    // dd($groupName);
+                    $balanceBeforeMayor     = 0;
+
+                    $entradasUSDTCant       = 0;
+                    $entradasUSDTMonto      = 0;
+
+                    $comisionUSDTCant       = 0;
+                    $comisionUSDTMonto      = 0;
+
+                    $totalEntradasUSDTCant  = 0;
+                    $totalEntradasUSDTMonto = 0;
+
+                    $salidasUSDTCant        = 0;
+                    $salidasUSDTMonto       = 0;
+
+                    $operacionesUSDTCant    = 0;
+                    $operacionesUSDTMonto   = 0;
+
+                    $variosUSDTCant         = 0;
+                    $variosUSDTMonto        = 0;
+
+                    $totalSalidasUSDTCant  = 0;
+                    $totalSalidasUSDTMonto = 0;
+
+                    $totalPendienteUSDTMonto = 0;
+
+                    $WalletName = "";
+
+                    // foreach($balanceBefore as $wallet3){
+                    //     if ($wallet3->IdWallet != $wallet) continue;
+                    //     $balanceBeforeMayor = $wallet3->Total;
+                    //     break;
+                    // }
+                    //dd($balanceBeforeMayor);
+                    if ($wallet != ""){
+
+                        
+                        foreach($RecargasWallet as $wallet2){
+
+                            if ($wallet2->WalletId != $wallet) continue;
+                            $entradasUSDTCant       += $wallet2->Cant;
+                            $entradasUSDTMonto      += $wallet2->Amount;
+
+                            $totalEntradasUSDTCant  += $wallet2->Cant;
+                            $totalEntradasUSDTMonto += $wallet2->Amount;            
+                        }
+
+                        foreach($transaccionesGrupoComision as $wallet2){
+                            if ($wallet2->WalletId != $wallet) continue;
+                            $comisionUSDTCant       += $wallet2->Cant;
+                            $comisionUSDTMonto      += $wallet2->Amount;
+
+                            $totalEntradasUSDTCant  += $wallet2->Cant;
+                            $totalEntradasUSDTMonto += $wallet2->Amount;            
+                        }
+
+
+                        foreach($transaccionesGrupoSalida as $wallet2){
+                            if ($wallet2->WalletId != $wallet) continue;
+                            $salidasUSDTCant       += $wallet2->Cant;
+                            $salidasUSDTMonto      += $wallet2->Amount;
+
+                            $totalSalidasUSDTCant  += $wallet2->Cant;
+                            $totalSalidasUSDTMonto += $wallet2->Amount;            
+                        }
+                        //  dd($transaccionesGrupoSalida2);
+                        
+                        // foreach($transaccionesGrupoSalida2 as $wallet2){
+                        //     if ($wallet2->WalletId != $wallet) continue;
+                        //     \Log::info('mi log Cant   -> ' . gettype($wallet2->Cant)); 
+                        //     \Log::info('mi log Amount -> ' . gettype($wallet2->Amount)); 
+                        // }
+                        // dd('aqui');
+
+                        foreach($transaccionesGrupoSalida2 as $wallet2){
+                            if ($wallet2->WalletId != $wallet) continue;
+                            // \Log::info(print_r($wallet2,true)); 
+                            $operacionesUSDTCant       += $wallet2->Cant;
+                            $operacionesUSDTMonto      += $wallet2->Amount;
+
+                            $totalSalidasUSDTCant  += $wallet2->Cant;
+                            $totalSalidasUSDTMonto += $wallet2->Amount;            
+
+                        }
+
+                        foreach($transaccionesGrupoSalida3 as $wallet2){
+                            if ($wallet2->WalletId != $wallet) continue;
+                            $variosUSDTCant       += $wallet2->Cant;
+                            $variosUSDTMonto      += $wallet2->Amount;
+
+                            $totalSalidasUSDTCant  += $wallet2->Cant;
+                            $totalSalidasUSDTMonto += $wallet2->Amount;            
+                        }
+                        // foreach($transaccionesWalletsSalida3 as $wallet2){
+                        //     if ($wallet2->WalletId != $wallet) continue;
+                        //     $variosUSDTCant       += $wallet2->Cant;
+                        //     $variosUSDTMonto      += $wallet2->Amount;
+
+                        //     $totalSalidasUSDTCant  += $wallet2->Cant;
+                        //     $totalSalidasUSDTMonto += $wallet2->Amount;     
+                        // }
+
+                        // $totalSalidasUSDTCant  += $wallet2->Cant;
+
+                        // $totalPendienteUSDTMonto  = ($balanceBefore + $totalEntradasUSDTMonto) - $totalSalidasUSDTMonto;
+                        
+                        $totalPendienteUSDTMonto  = ($balanceBeforeMayor + $totalEntradasUSDTMonto) - $totalSalidasUSDTMonto;
+                    }
+                    
+                @endphp
+
+                myTitleEntrada = $('#entrada1').val();
+                myTitleSalida1 = $('#salida1').val();
+                myTitleSalida2 = $('#salida2').val();
+                myTitleSalida3 = $('#salida3').val();
+
+                myElement =
+                `
+                    <style>
+                        .myTr {
+                            cursor: pointer;
+                        }
+                        .myTr:hover{
+                            background-color: #D7DBDD  !important;
+                        }
+                        .myTable th {
+                            width: 20% !important;
+                            min-wdth: 20% !important;
+                            max-wdth: 20% !important;
+                            background-color: orange !important;
+                        }
+                        .myWidth2{
+                            width: 12%;
+                            min-width: 12%;
+                            max-width: 12%;
+                        }
+                    </style>
+
+                    {{-- dd($balanceDetail . ' ' . $myFechaDesdeBefore . ' ' . $myFechaHastaBefore) --}}
         
-        let myTitleEntrada;
-        let myTitleSalida1;
-        let myTitleSalida2;
-        let myTitleSalida3;
+                    <div class ="row" style="background-color: white; margin-bottom: 6.5rem !important" data-wallet="">
+                        <div class="col-12 text-center">
+                            <h3>Cuadro Movimiento General  USDT</h3>
+                            <h4>{{$groupName}}</h4>
+                        </div>            
+                        <div class="col-12 col-md-12">
+                            <table class="table thead-light" style="background-color: white;">
 
-        @foreach($cajaMayorWallets as $wallet)
+                                <tr style="height: 30px; background-color: black; color: white;">
+                                    <td>Saldo Anterior</td>
+                                    <td></td>
+                                    <td>{{ number_format($balanceBeforeMayor ,2) }}</td>
+                                </tr>
 
-        @php
+                                <tr style="height: 30px;">
+                                </tr>
 
-            $groupName = "";
-            foreach($cajaMayorWalletsDetail as $item){
-                if($item->group_id == $wallet){
-                    $groupName = $item->name;
-                    break;
-                }
-            }
+                                <tr class="myTr" style="background-color: silver; color: black;">
+                                    <td>Entradas USDT</td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
 
-            // dd($groupName);
+                                <tr class="myTr" onclick="javascript:window.location.href='#laEntrada1'">
+                                    <td>Entradas USDT  </td>
+                                    <td>{{ number_format($entradasUSDTCant) }}</td>
+                                    <td>{{ number_format($entradasUSDTMonto ,2) }}</td>
+                                </tr>
 
-            $entradasUSDTCant       = 0;
-            $entradasUSDTMonto      = 0;
+                                <tr class="myTr" onclick="javascript:window.location.href='#laEntrada2'">
+                                    <td>${myTitleEntrada}</td>
+                                    <td>{{ number_format($comisionUSDTCant) }}</td>
+                                    <td>{{ number_format($comisionUSDTMonto ,2) }}</td>
+                                </tr>
 
-            $comisionUSDTCant       = 0;
-            $comisionUSDTMonto      = 0;
-
-            $totalEntradasUSDTCant  = 0;
-            $totalEntradasUSDTMonto = 0;
-
-            $salidasUSDTCant        = 0;
-            $salidasUSDTMonto       = 0;
-
-            $operacionesUSDTCant    = 0;
-            $operacionesUSDTMonto   = 0;
-
-            $variosUSDTCant         = 0;
-            $variosUSDTMonto        = 0;
-
-            $totalSalidasUSDTCant  = 0;
-            $totalSalidasUSDTMonto = 0;
-
-            $WalletName = "";
-
-            if ($wallet != ""){
-
-                foreach($RecargasWallet as $wallet2){
-
-                    if ($wallet2->WalletId != $wallet) continue;
-                    $entradasUSDTCant       += $wallet2->Cant;
-                    $entradasUSDTMonto      += $wallet2->Amount;
-
-                    $totalEntradasUSDTCant  += $wallet2->Cant;
-                    $totalEntradasUSDTMonto += $wallet2->Amount;            
-                }
-
-                foreach($transaccionesGrupoComision as $wallet2){
-                    if ($wallet2->WalletId != $wallet) continue;
-                    $comisionUSDTCant       += $wallet2->Cant;
-                    $comisionUSDTMonto      += $wallet2->Amount;
-
-                    $totalEntradasUSDTCant  += $wallet2->Cant;
-                    $totalEntradasUSDTMonto += $wallet2->Amount;            
-                }
-
-
-                foreach($transaccionesGrupoSalida as $wallet2){
-                    if ($wallet2->WalletId != $wallet) continue;
-                    $salidasUSDTCant       += $wallet2->Cant;
-                    $salidasUSDTMonto      += $wallet2->Amount;
-
-                    $totalSalidasUSDTCant  += $wallet2->Cant;
-                    $totalSalidasUSDTMonto += $wallet2->Amount;            
-                }
-
-                foreach($transaccionesGrupoSalida2 as $wallet2){
-                    if ($wallet2->WalletId != $wallet) continue;
-                    $operacionesUSDTCant       += $wallet2->Cant;
-                    $operacionesUSDTMonto      += $wallet2->Amount;
-
-                    $totalSalidasUSDTCant  += $wallet2->Cant;
-                    $totalSalidasUSDTMonto += $wallet2->Amount;            
-                }
-
-                foreach($transaccionesGrupoSalida3 as $wallet2){
-                    if ($wallet2->WalletId != $wallet) continue;
-                    $variosUSDTCant       += $wallet2->Cant;
-                    $variosUSDTMonto      += $wallet2->Amount;
-
-                    $totalSalidasUSDTCant  += $wallet2->Cant;
-                    $totalSalidasUSDTMonto += $wallet2->Amount;            
-                }
-                foreach($transaccionesWalletsSalida3 as $wallet2){
-                    if ($wallet2->WalletId != $wallet) continue;
-                    $variosUSDTCant       += $wallet2->Cant;
-                    $variosUSDTMonto      += $wallet2->Amount;
-
-                    $totalSalidasUSDTCant  += $wallet2->Cant;
-                    $totalSalidasUSDTMonto += $wallet2->Amount;              
-                }
-
-                // $totalSalidasUSDTCant  += $wallet2->Cant;
-                $totalPendienteUSDTMonto  = ($balanceBefore + $totalEntradasUSDTMonto) - $totalSalidasUSDTMonto;
-            }
-            
-        @endphp
-
-        myTitleEntrada = $('#entrada1').val();
-        myTitleSalida1 = $('#salida1').val();
-        myTitleSalida2 = $('#salida2').val();
-        myTitleSalida3 = $('#salida3').val();
-
-        myElement =
-        `
-            <style>
-                .myTr {
-                    cursor: pointer;
-                }
-                .myTr:hover{
-                    background-color: #D7DBDD  !important;
-                }
-                .myTable th {
-                    width: 20% !important;
-                    min-wdth: 20% !important;
-                    max-wdth: 20% !important;
-                    background-color: orange !important;
-                }
-                .myWidth2{
-                    width: 12%;
-                    min-width: 12%;
-                    max-width: 12%;
-                }
-            </style>
-
-            {{-- dd($balanceDetail . ' ' . $myFechaDesdeBefore . ' ' . $myFechaHastaBefore) --}}
-  
-            <div class ="row" style="background-color: white; margin-bottom: 6.5rem !important" data-wallet="">
-                <div class="col-12 text-center">
-                    <h3>Cuadro Movimiento General  USDT</h3>
-                    <h4>{{$groupName}}</h4>
-                </div>            
-                <div class="col-12 col-md-12">
-                    <table class="table thead-light" style="background-color: white;">
-
-                        <tr style="height: 30px; background-color: black; color: white;">
-                            <td>Saldo Anterior</td>
-                            <td></td>
-                            <td>{{ number_format($balanceBefore ,2) }}</td>
-                        </tr>
-
-                        <tr style="height: 30px;">
-                        </tr>
-
-                        <tr class="myTr" style="background-color: silver; color: black;">
-                            <td>Entradas USDT</td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-
-                        <tr class="myTr" onclick="javascript:window.location.href='#laEntrada1'">
-                            <td>Entradas USDT  </td>
-                            <td>{{ number_format($entradasUSDTCant) }}</td>
-                            <td>{{ number_format($entradasUSDTMonto ,2) }}</td>
-                        </tr>
-
-                        <tr class="myTr" onclick="javascript:window.location.href='#laEntrada2'">
-                            <td>${myTitleEntrada}</td>
-                            <td>{{ number_format($comisionUSDTCant) }}</td>
-                            <td>{{ number_format($comisionUSDTMonto ,2) }}</td>
-                        </tr>
-
-                        <tr class="myTr" style="background-color: silver; color: black;">
-                            <td>Total Entradas USDT</td>
-                            <td>{{ number_format($totalEntradasUSDTCant) }}</td>
-                            <td>{{ number_format($totalEntradasUSDTMonto ,2) }}</td>
-                        </tr>
+                                <tr class="myTr" style="background-color: silver; color: black;">
+                                    <td>Total Entradas USDT</td>
+                                    <td>{{ number_format($totalEntradasUSDTCant) }}</td>
+                                    <td>{{ number_format($totalEntradasUSDTMonto ,2) }}</td>
+                                </tr>
 
 
 
 
-                        <tr style="height: 30px;">
-                        </tr>
+                                <tr style="height: 30px;">
+                                </tr>
 
-                        <tr class="myTr" style="background-color: silver; color: black;">
-                            <td>Salidas USDT</td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-
-
-
-                        <tr class="myTr" onclick="javascript:window.location.href='#laSalida1'">
-                            <td>${myTitleSalida1}</td>
-                            <td>{{ number_format($salidasUSDTCant) }}</td>
-                            <td>{{ number_format($salidasUSDTMonto ,2) }}</td>
-                        </tr>
-
-                        <tr class="myTr" onclick="javascript:window.location.href='#laSalida2'">
-                            <td>${myTitleSalida2}</td>
-                            <td>{{ number_format($operacionesUSDTCant) }}</td>
-                            <td>{{ number_format($operacionesUSDTMonto ,2) }}</td>
-                        </tr>
-
-                        <tr class="myTr" onclick="javascript:window.location.href='#laSalida3'">
-                            <td>${myTitleSalida3}</td>
-                            <td>{{ number_format($variosUSDTCant) }}</td>
-                            <td>{{ number_format($variosUSDTMonto ,2) }}</td>
-                        </tr>
-
-                        <tr class="myTr" style="background-color: silver; color: black;">
-                            <td>Total Salidas USDT</td>
-                            <td>{{ number_format($totalSalidasUSDTCant) }}</td>
-                            <td>{{ number_format($totalSalidasUSDTMonto ,2) }}</td>
-                        </tr>
-
-                        <tr style="height: 30px;">
-                        </tr>
-
-                        <tr style="height: 30px; background-color: black; color: white;">
-                            <td>Saldo Pendiente</td>
-                            <td></td>
-                            <td>{{ number_format($totalPendienteUSDTMonto ,2) }}</td>
-                        </tr>
-
-                    </table>
-                </div>
-
-            </div>
-        `;
+                                <tr class="myTr" style="background-color: silver; color: black;">
+                                    <td>Salidas USDT</td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
 
 
-        $("#myCanvasGeneral").append(myElement);
-        // $("#myCanvasGeneralRecarga").append(myElement);
 
-        @endforeach
+                                <tr class="myTr" onclick="javascript:window.location.href='#laSalida1'">
+                                    <td>${myTitleSalida1}</td>
+                                    <td>{{ number_format($salidasUSDTCant) }}</td>
+                                    <td>{{ number_format($salidasUSDTMonto ,2) }}</td>
+                                </tr>
 
+                                <tr class="myTr" onclick="javascript:window.location.href='#laSalida2'">
+                                    <td>${myTitleSalida2}</td>
+                                    <td>{{ number_format($operacionesUSDTCant) }}</td>
+                                    <td>{{ number_format($operacionesUSDTMonto ,2) }}</td>
+                                </tr>
+
+                                <tr class="myTr" onclick="javascript:window.location.href='#laSalida3'">
+                                    <td>${myTitleSalida3}</td>
+                                    <td>{{ number_format($variosUSDTCant) }}</td>
+                                    <td>{{ number_format($variosUSDTMonto ,2) }}</td>
+                                </tr>
+
+                                <tr class="myTr" style="background-color: silver; color: black;">
+                                    <td>Total Salidas USDT</td>
+                                    <td>{{ number_format($totalSalidasUSDTCant) }}</td>
+                                    <td>{{ number_format($totalSalidasUSDTMonto ,2) }}</td>
+                                </tr>
+
+                                <tr style="height: 30px;">
+                                </tr>
+
+                                <tr style="height: 30px; background-color: black; color: white;">
+                                    <td>Saldo Pendiente</td>
+                                    <td></td>
+                                    <td>{{ number_format($totalPendienteUSDTMonto ,2) }}</td>
+                                </tr>
+
+                            </table>
+                        </div>
+
+                    </div>
+                `;
+
+
+                $("#myCanvasGeneral").append(myElement);
+                // $("#myCanvasGeneralRecarga").append(myElement);
+
+            @endforeach
+        // } catch(Exception $e){
+        //     \Log::info('Aqui paso');
+        // }
     }
 	
 	    
 
     function calculaEntradaHeader(){
 
-
         myElement =
         `
-
         <div class ="row mb-4" style="background-color: white;" data-wallet="">
             <div class="col-12 text-center" style="background-color: #2874A6; color: white">
                 <h3>Entradas USDT</h3>
@@ -1116,8 +1143,6 @@ $salidaMonto    = 0;
             </div>
         </div>
         `;
-
-
 
         $("#myCanvasGeneral").append(myElement);
     }
@@ -2073,41 +2098,20 @@ $salidaMonto    = 0;
         });
     }
 
-    function InicializaFechas(){
-         $('#drCustomRanges').data('daterangepicker').setStartDate('01-01-2001');
-
-    }
-    function BuscaFechas(FechaDesde = 0,FechaHasta = 0){
-        
-        myLocation  = window.location.toString();
-
-        myArray     = myLocation.split("/");
-
-        
-        console.log('myArray ->' + myArray + ' length ->' + myArray.length);
-        
-
-        if (myArray.length > 5){
-            FechaDesde = myArray[5];
-            FechaHasta = myArray[6];
-        }else{
-            FechaDesde = '2001-01-01';
-            FechaHasta = '9999-12-31';
-        }
-
-        if (FechaDesde == 0) return;
-
-
-        let myFechaDesde, myFechaHasta, myFecha;
-
-        myFechaDesde = FechaDesde.toString().substr(8,2)  + '-' + FechaDesde.toString().substr(5,2) + '-' + FechaDesde.toString().substr(0,4);
-        myFechaHasta = FechaHasta.toString().substr(8,2)  + '-' + FechaHasta.toString().substr(5,2) + '-' + FechaHasta.toString().substr(0,4);
-
-        myFecha = myFechaDesde.toString()  + ' - ' + myFechaHasta.toString();
-
-
+    function InicializaFechas(myFechaDesde = null, myFechaHasta = null){
+        console.log('recibe la fechadesde -> ' + myFechaDesde);
+        // 0123456789
+        // 2001-01-01
+        myFechaDesde = myFechaDesde.substr(8,2) + '-' + myFechaDesde.substr(5,2) + '-' + myFechaDesde.substr(0,4);
+        myFechaHasta = myFechaHasta.substr(8,2) + '-' + myFechaHasta.substr(5,2) + '-' + myFechaHasta.substr(0,4);
+        console.log('myFechaDesde en InicializaFechas -> ' + myFechaDesde);
+        console.log('myFechaHasta en InicializaFechas -> ' + myFechaHasta);
         $('#drCustomRanges').data('daterangepicker').setStartDate(myFechaDesde);
         $('#drCustomRanges').data('daterangepicker').setEndDate(myFechaHasta);
+
+
+ //        $('#drCustomRanges').data('daterangepicker').setStartDate('02-01-2001');
+ //       $('#drCustomRanges').data('daterangepicker').setEndDate('03-01-2001');
     }
 
     document.querySelectorAll('.imprimir').forEach(function(element) {
