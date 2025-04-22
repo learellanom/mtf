@@ -2337,11 +2337,12 @@ class TransactionController extends Controller
     {
         $myGroup = null;
         $myPayNumber = "pay_number LIKE '%T-C' != '' ";
+        
 
         // $request->group_id = 272;
         $myGroupFilter = "";
         if ($request->grupo){
-            
+            $myGroup = $request->grupo;
             $groupTransaction = Transaction::select('pay_number')->where('group_id',$request->grupo)->where('pay_number','like','%T-C')->pluck('pay_number')->toArray();
             // dd($groupTransaction);
             if (count($groupTransaction)){
@@ -2353,7 +2354,7 @@ class TransactionController extends Controller
                 // dd($myGroupFilter);
                 $myGroupFilter = "and pay_number in($myGroupFilter)";
                 // dd($myGroupFilter);
-                $myGroup = $request->grupo;
+                
             }
         }
 
@@ -2378,10 +2379,24 @@ class TransactionController extends Controller
 
         $myUser = null;
         $myUserFiltro = null;
-        if ($request->user){
-            $myUser = $request->user;
-            $myUserFiltro = "and user_id = $myUser";
-        }
+
+ 
+            if ($request->user){
+                $myUser = $request->user;
+                $myUserFiltro = "and user_id = $myUser";
+            }else{
+                // si es dminstrado no limita las transacciones al un usuario
+                if($this->isAdministrator()){
+            
+                }else{
+                    $myUser = auth()->user()->id;
+                    $myUserFiltro = "and user_id = $myUser";          
+                }
+            }
+    
+        
+
+
         // dd($group);
 
 
