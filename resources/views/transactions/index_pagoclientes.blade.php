@@ -549,15 +549,16 @@ function theRoute(grupo = 0, fechaDesde = null, fechaHasta = null, user = null){
     }
 
     myRoute = myRoute.replaceAll('amp;','');
-    
-    if(grupo == 0){
+ 
+    if(grupo == 0 || grupo == null || grupo ==""){
         
-        if (!fechaDesde){
+        if (fechaDesde == "" || fechaDesde == null){
 
-            if (!fechaHasta){
+            if (fechaHasta == "" || fechaHasta == null){
 
-                if (!user){
-                    myRoute = myRoute.replaceAll('?',''); 
+                if (user == "" || user == null){
+                    // alert('myroute -> ' + myRoute);
+                    myRoute = myRoute.replaceAll("?",''); 
                 }
 
             } 
@@ -566,7 +567,14 @@ function theRoute(grupo = 0, fechaDesde = null, fechaHasta = null, user = null){
 
     }
     
-
+    // myRoute2 = "route('transactions.index_pagoclientes',";
+    // myRoute2 = myRoute2 + `[`;
+    // myRoute2 += `"grupo" => "grupo2",`;
+    // myRoute2 += `'fechaDesde' => 'fechaDesde2',`;
+    // myRoute2 += `'fechaHasta' => 'fechaHasta2',`;
+    // myRoute2 += `'user' => 'user2'`;
+    // myRoute2 += `])`;
+    // alert("alert2 -> " + myRoute2);
     location.href = myRoute;
 
 }

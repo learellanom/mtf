@@ -34,6 +34,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Config;
 use App\Http\Controllers\RoleController;
 
+use \stdClass;
 
 class statisticsController extends Controller
 {
@@ -2719,6 +2720,52 @@ class statisticsController extends Controller
 
         }        
     }
+        /*
+    *
+    *
+    *       getBalanceWalletMatorBefore
+    *
+    *
+    */
+    function getBalanceWalletMayorBefore($myWallet = [], $myFechaDesde = "2001-01-01", $myFechaHasta = "9999-12-31", $myCoin = 1){
+
+        $myFechaDesdeBefore = "2001-01-01";
+        $myFechaHastaBefore = "9999-12-31";
+        $balance3 = 0;
+
+        // dd($myWallet);
+        /*
+        \Log::info('leam getBalanceBefore -> $myWallet      ' . $myWallet);
+        \Log::info('leam getBalanceBefore -> $myFechaDesde  ' . $myFechaDesde);
+        \Log::info('leam getBalanceBefore -> $myFechaHasta  ' . $myFechaHasta);
+        \Log::info('leam getBalanceBefore -> $myCoin        ' . $myCoin);
+        */
+
+        // if ($myFechaDesde === "2001-01-01"){
+        //     return $balanceDetail;
+        // }
+        if (count($myWallet) > 0){
+
+            
+                // dd($indRecibeFecha);                
+                if ($myFechaDesde != "2001-01-01"){
+
+                    $myFechaHastaBefore = $this->getDayBefore($myFechaDesde);
+
+                }
+                $balance3           = $this->getBalanceWalletMayor($myWallet, $myFechaDesdeBefore, $myFechaHastaBefore, $myCoin);
+                return $balance3;
+
+                if(isset($balance3->Total)){
+                    $balanceDetail  = $balance3->Total;
+                }else{
+                    $balanceDetail->total = 0;
+                }
+                return $balanceDetail;
+
+            
+        }
+    }
     /*
     *
     *
@@ -2726,10 +2773,11 @@ class statisticsController extends Controller
     *
     *
     */
-    function getBalanceWallet($wallet = 0, $fechaDesde = "2001-01-01", $fechaHasta = "9999-12-31", $myCoin = 1){
+    function getBalanceWallet($wallet = null, $fechaDesde = "2001-01-01", $fechaHasta = "9999-12-31", $myCoin = 1){
 
 
         // dd('---- ' . gettype($wallet) . ' ----- '  . print_r($wallet,true));
+
         $myWallets =[];
         switch (gettype($wallet)){
             case 'integer':
@@ -2900,20 +2948,21 @@ class statisticsController extends Controller
     /*
     *
     *
-    *       getBalanceWallet2
+    *       getBalanceWalletMayor
     *
     *
     */
-    function getBalanceWallet2($wallets = 0, $fechaDesde = "2001-01-01", $fechaHasta = "9999-12-31", $myCoin = 1){
+    function getBalanceWalletMayor($wallets =[], $fechaDesde = "2001-01-01", $fechaHasta = "9999-12-31", $myCoin = 1){
 
-        if ($wallet === 0){
-            $walletDesde = 00000;
-            $walletHasta = 99999;
-
+        $myFiltroWallet = "";
+        
+        if (count($wallets) > 0){
+            $myWallets      = implode(',',$wallets);
+            $myFiltroWallet = "and wallet_id in ($myWallets)";
         }else{
-            $walletDesde = $wallet;
-            $walletHasta = $wallet;
+            $myFiltroWallet = "and wallet_id in between 0 and 99999";
         }
+
         /*
          \Log::info('leam wallet      getBalanceWallet2 *** -> ' . $wallet);
          \Log::info('leam fecha Desde getBalanceWallet2 *** -> ' . $fechaDesde);
@@ -2979,8 +3028,7 @@ class statisticsController extends Controller
                 type_transaction_id in ($myTempDebits)
                 and
                 transaction_date            between '$myFechaDesde' and '$myFechaHasta'
-                and
-                wallet_id                   between $walletDesde and $walletHasta
+                $myFiltroWallet
                 and status                  <> 'Anulado'
                 and type_coin_balance_id    = $myCoin
             group by
@@ -3003,8 +3051,7 @@ class statisticsController extends Controller
                 type_transaction_id in ($myTempCredits)
                 and
                 transaction_date between '$myFechaDesde' and '$myFechaHasta'
-                and
-                wallet_id between $walletDesde and $walletHasta
+                $myFiltroWallet
                 and status <> 'Anulado'
                 and type_coin_balance_id = $myCoin                
             group by
@@ -3022,23 +3069,20 @@ class statisticsController extends Controller
         // dd($myQuery);
         $Transacciones = DB::select($myQuery);
 
-          \Log::info('leam - getBalanceWallet2 *** -> ' . print_r($myQuery,true));
-         // \Log::info('leam grupo transacciones  getBalanceWallet *** -> ' . print_r($Transacciones,true));
+        // dd('leam - getBalanceWalletMayor *** -> ' . print_r($myQuery,true));
+        // dd('leam grupo transacciones  getBalanceWalletMayor *** -> ' . print_r($Transacciones,true));
 
         if (empty($Transacciones)) {
             // \Log::info('leam vacio *** -> ' . print_r($Transacciones,true));
             return $Transacciones;
         }else {
             // \Log::info('*** leam gettype -> ' . gettype($Transacciones));
-            if ($walletDesde === $walletHasta){
-                return $Transacciones[0];
-            };
+            // if ($walletDesde === $walletHasta){
+            //     return $Transacciones[0];
+            // };
             return $Transacciones;
         }
     }
-
-
-
     /*
     *
     *
@@ -10077,14 +10121,16 @@ public function cajaMayorCuadroMovimientos(request $request)
     if ($myWallet != 0){
         
         $cajaMayorWallets           = $this->getEnterpriseWallet($myWallet);
-        $cajaMayorWalletsDetail          = $this->getEnterpriseWallesDetail($myWallet);
-         // dd($cajaMayorWalletsDetail);
+        $cajaMayorWalletsDetail     = $this->getEnterpriseWallesDetail($myWallet);
+        // dd($cajaMayorWalletsDetail);
 
-         $balance        = $this->getBalanceWallet($myWallet);
-        // $balance        = $this->getBalanceWallet($cajaMayorWallets);
-        $balanceBefore  = $this->getBalanceWalletBefore($myWallet,$myFechaDesde, $myFechaHasta);
+        $balance                    = $this->getBalanceWallet($myWallet);
+        $balanceBefore              = $this->getBalanceWalletBefore($myWallet,$myFechaDesde, $myFechaHasta);
 
-
+        // esta esta lista
+         $balance                    = $this->getBalanceWalletMayor($cajaMayorWallets); 
+         $balanceBefore              = $this->getBalanceWalletMayorBefore($cajaMayorWallets,$myFechaDesde, $myFechaHasta);
+        // dd($balanceBefore);
         $myJson         = file_get_contents("filtros\myUSDTResDiaMovimientosFiltro");
         $myJsonData     = json_decode($myJson,true); 
         // dd($myJsonData['groupsEntrada1']);
@@ -10101,15 +10147,15 @@ public function cajaMayorCuadroMovimientos(request $request)
         
         $myGroups                   = $myJsonData['groupsSalida2'];
         // $transaccionesGrupoSalida   = $this->ResumenSalidaWalletGroup($myWallet, $myGroups);
-        $transaccionesGrupoSalida   = $this->ResumenSalidaWalletGroup($cajaMayorWallets);        
+        $transaccionesGrupoSalida2   = $this->ResumenSalidaWalletGroup($cajaMayorWallets);        
 
         $myGroups                   = $myJsonData['groupsSalida3'];
-        // $transaccionesGrupoSalida   = $this->ResumenSalidaWalletGroup($myWallet, $myGroups);
-        $transaccionesGrupoSalida   = $this->ResumenSalidaWalletGroup($cajaMayorWallets);
+        // $transaccionesGrupoSalida3   = $this->ResumenSalidaWalletGroup($myWallet, $myGroups);
+        $transaccionesGrupoSalida3   = $this->ResumenSalidaWalletGroup($cajaMayorWallets);
 
         $request->groups = $myJsonData['walletsSalida3'];
         // $transaccionesGrupoSalida   = $this->ResumenSalidaWalletGroup($myWallet, $myGroups);
-        $transaccionesGrupoSalida   = $this->ResumenSalidaWalletGroup($cajaMayorWallets);
+        $transaccionesWalletsSalida3   = $this->ResumenSalidaWalletGroup($cajaMayorWallets);
 
 
     }else{
