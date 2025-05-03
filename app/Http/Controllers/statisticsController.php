@@ -8818,6 +8818,50 @@ class statisticsController extends Controller
     }
 
     
+    public function filtroCajaMayorWalletsLee(){
+
+        $myJson         = file_get_contents("filtros\myCajaMayorWalletsFiltros");
+        $myJsonData     = json_decode($myJson,true); 
+
+        \Log::info('leam - lee Caja Mayor Wallets  filtro -> ' . print_r($myJsonData,true));
+
+
+        $myResponse = 
+        [
+            'success' => true,
+            'data' => $myJsonData,
+            'message' => 'mi mensaje de leer'
+        ];
+
+        return response()->json($myResponse);
+    }
+
+
+    public function filtroCajaMayorWalletsGraba(Request $request){
+
+        // dd($request);
+
+
+        $json = json_encode($request->data);
+        
+        \Log::info('leam - Graba Caja Mayor Wallets filtro -  filtroCajaMayorWalletsGraba ->' . $json);
+
+        file_put_contents("filtros\myCajaMayorWalletsFiltros", $json);
+
+
+        // dd($request);
+
+        $myResponse = 
+        [
+            'success' => true,
+            'data' => '',
+            'message' => 'filtros guardados exitosamente'
+        ];
+
+        return response()->json($myResponse);
+    }   
+
+    
     public function filtroUSDTResDiaMovimientosLee(){
 
         $myJson         = file_get_contents("filtros\myUSDTResDiaMovimientosFiltro");
