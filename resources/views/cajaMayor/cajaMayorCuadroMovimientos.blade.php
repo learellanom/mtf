@@ -203,7 +203,7 @@ $salidaMonto    = 0;
             </div>
         </div>
     </div>
-
+    <input id="filtros" name="filtros" type="hidden" value="" />
     <nav>
         <div class="nav nav-tabs" id="nav-tab" role="tablist">
 
@@ -448,8 +448,210 @@ $salidaMonto    = 0;
         </div>
         @endcan
     </div>
+
+
 </div>
 
+
+    <!-- aqui modal -->
+
+    <!-- Modal -->
+    <div class="modal fade" 
+        id="exampleModalLong" 
+        tabindex="-1" 
+        role="dialog" 
+        aria-labelledby="exampleModalLongTitle" 
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <!--
+                    @for($i = 0; $i < 200; $i++)
+                        ...
+                        <br>
+                    @endfor
+                    -->
+
+                    <div class="card mb-4">
+                        <div class="card-header" style="background-color: #2874A6; color: white">
+                            <h3 class="card-title text-uppercase font-weight-bold">Filtros Entradas USDT</h3>
+                        </div>
+                        <div class="card-body">    
+
+                            <div class="row justify-content-center text-center align-items-center">
+
+                                <div class="col-12 col-md-6 col-lg-6 col-xl-4 justify-content-center text-center align-items-center">
+                                    <div class="mt-4 mb-4">
+                                        <label>Nombre Seccion</label>
+                                        <input type="text" id="entrada1" size=20/>
+                                    </div>
+                                    <select multiple="multiple" id="my-select1" class="my-select1" name="my-select[]">
+                                    </select>   
+                                </div>  
+
+                            </div>     
+                            <br>
+                            <br>
+                            <div class="row justify-content-center text-center align-items-center">
+                                <div class="col-12 col-sm-2 mt-2">
+                                    <button id="myButtonAplicar" type="button" class="btn btn-outline-primary btn-sm ">Aplicar</button>
+
+                                </div>
+
+                                <div class="col-12 col-sm-2 mt-2">
+                                    <button id="myButtonLimpiar" type="button" class="btn btn-outline-primary btn-sm ">Limpiar</button>
+                                </div>                    
+                            </div>
+                        </div>
+                    </div>
+                <!-- 
+                    <div class="card mb-4">
+                        <div class="card-header" style="background-color: #BB8FCE; color: white">
+                            <h3 class="card-title text-uppercase font-weight-bold">Filtros Salidas USDT Grupo A </h3>
+                        </div>
+                        <div class="card-body">    
+                            <div class="row justify-content-center text-center align-items-center">
+                                <div class="col-12 col-md-6 col-lg-6 col-xl-4 justify-content-center text-center align-items-center">
+                                    <div class="mt-4 mb-4">
+                                        <label>Nombre Seccion</label>
+                                        <input type="text" id="salida1" size=20/>
+                                    </div>                            
+                                    <select multiple="multiple" id="my-select2" name="my-select[]">
+                                    </select>   
+                                </div>  
+
+                            </div>     
+                            <br>
+                            <br>
+                            <div class="row justify-content-center text-center align-items-center">
+                                <div class="col-12 col-sm-2 mt-2">
+                                    <button id="myButtonAplicar2" type="button" class="btn btn-outline-primary btn-sm ">Aplicar</button>
+
+                                </div>
+
+                                <div class="col-12 col-sm-2 mt-2">
+                                    <button id="myButtonLimpiar2" type="button" class="btn btn-outline-primary btn-sm ">Limpiar</button>
+                                </div>                    
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card mb-4">
+                        <div class="card-header" style="background-color: #BB8FCE; color: white">
+                            <h3 class="card-title text-uppercase font-weight-bold">Filtros Salidas USDT Grupo B </h3>
+                        </div>
+                        <div class="card-body">    
+                            <div class="row justify-content-center text-center align-items-center">
+
+                                <div class="col-12 col-md-6 col-lg-6 col-xl-4 justify-content-center text-center align-items-center">
+                                    <div class="mt-4 mb-4">
+                                        <label>Nombre Seccion</label>
+                                        <input type="text" id="salida2" size=20/>
+                                    </div>                            
+                                    <select multiple="multiple" id="my-select3" name="my-select[]">
+                                    </select>   
+                                </div>  
+
+                            </div>     
+                            <br>
+                            <br>
+                            <div class="row justify-content-center text-center align-items-center">
+                                <div class="col-12 col-sm-2 mt-2">
+                                    <button id="myButtonAplicar3" type="button" class="btn btn-outline-primary btn-sm ">Aplicar</button>
+
+                                </div>
+
+                                <div class="col-12 col-sm-2 mt-2">
+                                    <button id="myButtonLimpiar3" type="button" class="btn btn-outline-primary btn-sm ">Limpiar</button>
+                                </div>                    
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card mb-4">
+                        <div class="card-header" style="background-color: #BB8FCE; color: white">
+                            <h3 class="card-title text-uppercase font-weight-bold">Filtros Salidas USDT Grupo C </h3>
+                        </div>
+                        <div class="card-body">    
+
+                            <div class="row justify-content-center text-center align-items-center">
+                                <div class="col-12 col-md-6 col-lg-6 col-xl-4 justify-content-center text-center align-items-center">
+                                    <div class="mt-4 mb-4">
+                                        <label>Nombre Seccion</label>
+                                        <input type="text" id="salida3" size=20/>
+                                    </div>           
+                                    <label>Grupos de la seccion</label>                 
+                                    <select multiple="multiple" id="my-select4" name="my-select[]">
+                                    </select>   
+                                </div>  
+
+                            </div>     
+
+                            <br>
+                            <br>
+                            <div class="row justify-content-center text-center align-items-center">
+                                <div class="col-12 col-md-6 col-lg-6 col-xl-4 justify-content-center text-center align-items-center">
+                                    <div class="mt-4 mb-4">
+                                        <label>Wallets de la seccion</label>
+                                    </div>                            
+                                    <select multiple="multiple" id="my-select5" name="my-select[]">
+                                    </select>   
+                                </div>  
+
+                            </div>  
+                            <br>
+                            <br>                  
+                            <div class="row justify-content-center text-center align-items-center">
+                                <div class="col-12 col-sm-2 mt-2">
+                                    <button id="myButtonAplicar4" type="button" class="btn btn-outline-primary btn-sm ">Aplicar</button>
+
+                                </div>
+
+                                <div class="col-12 col-sm-2 mt-2">
+                                    <button id="myButtonLimpiar4" type="button" class="btn btn-outline-primary btn-sm ">Limpiar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card mb-4">
+                        <div class="card-header" style="background-color: red; color: white">
+                            <h3 class="card-title text-uppercase font-weight-bold">Grupos con pagos USDT sin asignar en filtro</h3>
+                        </div>
+                        <div class="card-body">
+
+                            <br>
+                            <br>
+                            <div class="row justify-content-center text-center align-items-center">
+                                <div class="col-12 col-md-6 col-lg-6 col-xl-4 justify-content-center text-center align-items-center">
+                                    <div class="mt-4 mb-4">
+                                        <label>Grupos con pagos USDT sin asignar</label>
+                                    </div>                            
+                                    <select multiple="multiple" id="my-select6" name="" style="width:50%; height: 250px;"></select>
+                                </div>  
+
+                            </div>  
+                            <br>
+                            <br>
+
+                        </div>
+                    </div>       -->
+                </div>          
+            
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>    
 @endsection
 @section('js')
 
@@ -569,6 +771,7 @@ $salidaMonto    = 0;
 
         InicializaMultiselects();
         leeFiltros();  
+        leeFiltrosCajaMayor();  
         // grabaFiltros();
 
         // cargaTransacciones();
@@ -697,8 +900,143 @@ $salidaMonto    = 0;
         });
 
     });
-    
+    // leamxx
     $( document ).ready(function() {
+
+        $('#exampleModalLong').on('show.bs.modal', function (event) {
+
+            button = $(event.relatedTarget);
+            wallet =  String(button.data('wallet'));
+            walletName = button.data('walletname');
+            modal = $(this);
+
+
+
+            console.log('el wallet recibido -> ' + typeof wallet);
+            myData = JSON.parse($('#filtros').val());
+
+            myData.forEach( function (item, index) {
+                console.log('el item es -> ' + JSON.stringify(item));
+                if (item.wallet  === wallet){
+                    console.log(' item encontrado -> ' + item);
+                    myData2 = item;
+                }
+            });
+
+            console.log('myData2  en el show.bs.modal -> ' + JSON.stringify(myData2));
+            console.log('entrada1 en el show.bs.modal -> ' + myData2.entrada1);
+
+            modal.find('#entrada1').val(myData2.entrada1);
+            
+
+            // $('#salida1').val(myData2.salida1);
+            // $('#salida2').val(myData2.salida2);
+            // $('#salida3').val(myData2.salida3);
+
+            // myData2.groupsEntrada1.map( function (valor) {
+            //     $("#my-select1 option").each(function(){
+                    
+            //         if (valor == $(this).attr('value')){
+            //             $('#my-select1').multiSelect('select', valor.toString());
+            //         }
+            //     });
+            // });
+            // myData2.groupsEntrada1.map( function (valor) {
+            //     $("#myModal-select1 option").each(function(){
+                    
+            //         if (valor == $(this).attr('value')){
+            //             $('#myModal-select1').multiSelect('select', valor.toString());
+            //         }
+            //     });
+            // });
+
+            // myData2.groupsSalida1.map( function (valor) {
+            //     $("#my-select2 option").each(function(){
+            //         if (valor == $(this).attr('value')){
+            //             $('#my-select2').multiSelect('select', valor.toString());
+            //         }
+            //     });
+            // });
+
+            // myData2.groupsSalida2.map( function (valor) {
+            //     $("#my-select3 option").each(function(){
+            //         if (valor == $(this).attr('value')){
+            //             $('#my-select3').multiSelect('select', valor.toString());
+            //         }
+            //     });
+            // });
+
+            // myData2.groupsSalida3.map( function (valor) {
+            //     $("#my-select4 option").each(function(){
+            //         if (valor == $(this).attr('value')){
+            //             $('#my-select4').multiSelect('select', valor.toString());
+            //         }
+            //     });
+            // });
+            // if (myData2.walletsSalida3){
+            //     myData2.walletsSalida3.map( function (valor) {
+            //         $("#my-select5 option").each(function(){
+            //             if (valor == $(this).attr('value')){
+            //                 $('#my-select5').multiSelect('select', valor.toString());
+            //             }
+            //         });
+            //     });
+            // }
+
+
+            
+            // let myGroup;
+            // @foreach($pagosUSDTGrupos as $key => $group2)
+            //     myGroup = {{ $group2->group_id }};
+
+
+            //     indExiste = 0;
+            //     for(let i = 1; i<= 5; i++){
+            //         $("#my-select" + i + " option:selected").each(function(){
+            //             if (myGroup == $(this).attr('value')){
+            //                 indExiste = 1;
+            //                 return false;
+            //             }
+            //         }); 
+            //         if (indExiste == 1){
+            //             break;
+            //         }
+            //     }
+            //     if (indExiste == 0){
+            //         $('#my-select6').append($('<option>', {value: myGroup, text: '{{$group2->name}}'}));
+            //     }
+
+            // @endforeach
+
+
+
+
+
+
+
+
+
+            modal.find('.modal-title').text('New message to ' + wallet + ' ' + walletName)
+            // modal.find('.modal-body input').val(recipient)
+
+
+            alert('aqui en el show modeal **** ' + $('#my-select1').val());
+            // leeFiltros();  
+
+ 
+
+            myData2 = $('#filtros').val();
+            myData2 = JSON.parse(myData2);
+            alert('tpeof -> ' + typeof myData2);
+            alert('leam - leefiltros val ->' + JSON.stringify($('#filtros').val()));
+
+            alert('leam - leefiltros show.bs.modal ->' + JSON.stringify(myData2));
+            
+            myData2.forEach( function(item){
+                console.log ('valid cada item -> ' + item.wallet);
+            });
+
+        });
 
     });
     
@@ -723,7 +1061,23 @@ $salidaMonto    = 0;
                                     </div>
                                 </div>`
         });
-
+        $('#myModal-select1').multiSelect({
+            selectableHeader: `<div class='custom-header' style='background-color: black; color:white'>
+                                    No Visibles    
+                                    <br><br> 
+                                    <div>
+                                        <i class='fas fa-circle' style='color: red;'></i>
+                                    </div>
+                                </div>`,
+            selectionHeader:  `<div class='custom-header' style='background-color: black; color:white'>
+                                    Visibles 
+                                    <br>
+                                    <br> 
+                                    <div>
+                                        <i class='fas fa-circle' style='color: green;'>  </i>
+                                    </div>
+                                </div>`
+        });
         $('#my-select2').multiSelect({
             selectableHeader:  `<div class='custom-header' style='background-color: black; color:white'>
                                     No Visibles
@@ -880,11 +1234,11 @@ $salidaMonto    = 0;
 
                     $WalletName = "";
 
-                    // foreach($balanceBefore as $wallet3){
-                    //     if ($wallet3->IdWallet != $wallet) continue;
-                    //     $balanceBeforeMayor = $wallet3->Total;
-                    //     break;
-                    // }
+                    foreach($balanceBefore as $wallet3){
+                        if ($wallet3->IdWallet != $wallet) continue;
+                        $balanceBeforeMayor = $wallet3->Total;
+                        break;
+                    }
                     //dd($balanceBeforeMayor);
                     if ($wallet != ""){
 
@@ -992,11 +1346,36 @@ $salidaMonto    = 0;
 
                     {{-- dd($balanceDetail . ' ' . $myFechaDesdeBefore . ' ' . $myFechaHastaBefore) --}}
         
-                    <div class ="row" style="background-color: white; margin-bottom: 6.5rem !important" data-wallet="">
-                        <div class="col-12 text-center">
-                            <h3>Cuadro Movimiento General  USDT</h3>
-                            <h4>{{$groupName}}</h4>
-                        </div>            
+                    <div class ="row" style="background-color: white; margin-bottom: 6.5rem !important" >
+                        <div class="row col-12">
+                        
+                            <!--
+                            <div>
+                                <h3>Cuadro Movimiento General  USDT</h3>
+                            </div>
+                            -->
+                            
+                            <div class="col-10">
+                                <h4>{{$groupName}}</h4>
+                            </div>
+                            
+                            <div class="col-2 text-right"> 
+                                
+                                <!-- Button trigger modal -->
+                                <button type="button" class="btn btn-primary" 
+                                    data-toggle="modal" 
+                                    data-target="#exampleModalLong" 
+                                    data-wallet="{{ $wallet }}"
+                                    data-walletName="{{ $groupName }}"
+                                    >
+                                    <i class="fas fa-solid fa-filter"></i>
+                                </button> 
+                                <button type="button" class="btn btn-primary" onclick="muestraModelFiltros({{ $wallet}})">
+                                    <i class="fas fa-solid fa-filter"></i>
+                                </button> 
+                            </div>
+                        </div>
+
                         <div class="col-12 col-md-12">
                             <table class="table thead-light" style="background-color: white;">
 
@@ -2212,7 +2591,7 @@ $salidaMonto    = 0;
 
 
     function leeFiltros(){
-
+ 
         $.ajax(
             {
                 url: "{{route('filtroUSDTResDiaMovimientosLee')}}",
@@ -2224,7 +2603,16 @@ $salidaMonto    = 0;
 
         });
 
-        // console.log('leam - leefiltros ->' + JSON.stringify(myData2));
+        /*
+         alert('leam - leefiltros ->' + JSON.stringify(myData2));
+
+         myData2.forEach( function(item){
+            console.log ('valid cada item -> ' + item.wallet);
+         });
+
+        $('#filtros').val(myData2);
+        */
+
         // console.log('leam - leefiltros ->' + myData2.entrada1);
         // console.log('leam - leefiltros ->' + myData2.groupsEntrada1);
 
@@ -2238,6 +2626,14 @@ $salidaMonto    = 0;
                 
                 if (valor == $(this).attr('value')){
                     $('#my-select1').multiSelect('select', valor.toString());
+                }
+            });
+        });
+        myData2.groupsEntrada1.map( function (valor) {
+            $("#myModal-select1 option").each(function(){
+                
+                if (valor == $(this).attr('value')){
+                    $('#myModal-select1').multiSelect('select', valor.toString());
                 }
             });
         });
@@ -2303,6 +2699,22 @@ $salidaMonto    = 0;
 
     }
 
+    function leeFiltrosCajaMayor(){
+ 
+        $.ajax(
+            {
+                url: "{{route('filtroCajaMayorWalletsLee')}}",
+                async: false,
+            }
+        ).done (function(myData) {
+            
+            myData2 = myData.data;
+
+        });   
+        
+       $('#filtros').val(JSON.stringify(myData2));
+
+    }
 
     function aplicaFiltros(){
 
@@ -2418,6 +2830,13 @@ $salidaMonto    = 0;
         });
     }
 
+    function muestraModelFiltros( myWallet = null) {
+        
+        alert('myWallet -> ' + myWallet);
+        leeFiltros();  
+        $('#exampleModalLong').modal('show');
+
+    }
 </script>
 
 @endsection
