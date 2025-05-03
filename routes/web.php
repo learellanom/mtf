@@ -149,6 +149,10 @@ Route::get('dashboard_saldos/exportSaldosPDF/{fechaDesde?}/{fechaHasta?}/{filtro
 Route::get('filtroUSDTResDiaMovimientosLee', [App\Http\Controllers\statisticsController::class, 'filtroUSDTResDiaMovimientosLee'])->name('filtroUSDTResDiaMovimientosLee');
 Route::post('filtroUSDTResDiaMovimientosGraba', [App\Http\Controllers\statisticsController::class, 'filtroUSDTResDiaMovimientosGraba'])->name('filtroUSDTResDiaMovimientosGraba');
 
+Route::get('filtroCajaMayorWalletsLee',     [App\Http\Controllers\statisticsController::class, 'filtroCajaMayorWalletsLee'])->name('filtroCajaMayorWalletsLee');
+Route::post('filtroCajaMayorWalletsGraba',  [App\Http\Controllers\statisticsController::class, 'filtroCajaMayorWalletsGraba'])->name('filtroCajaMayorWalletsGraba');
+
+
 Route::get('filtrosLeeWallet', [App\Http\Controllers\statisticsController::class, 'filtrosLeeWallet'])->name('filtrosLeeWallet'); // Lee filtros
 Route::get('filtrosLeeGroup', [App\Http\Controllers\statisticsController::class, 'filtrosLeeGroup'])->name('filtrosLeeGroup'); // Lee filtros
 
