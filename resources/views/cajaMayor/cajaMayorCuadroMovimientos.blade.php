@@ -511,7 +511,7 @@ $salidaMonto    = 0;
                             </div>
                         </div>
                     </div>
-                <!-- 
+                
                     <div class="card mb-4">
                         <div class="card-header" style="background-color: #BB8FCE; color: white">
                             <h3 class="card-title text-uppercase font-weight-bold">Filtros Salidas USDT Grupo A </h3>
@@ -642,7 +642,7 @@ $salidaMonto    = 0;
                             <br>
 
                         </div>
-                    </div>       -->
+                    </div>
                 </div>          
             
                 <div class="modal-footer">
@@ -911,14 +911,12 @@ $salidaMonto    = 0;
             modal = $(this);
 
 
-
-            console.log('el wallet recibido -> ' + typeof wallet);
+            console.log('el wallet recibido      -> ' + wallet);
+            console.log('el wallet recibido tipo -> ' + typeof wallet);
             myData = JSON.parse($('#filtros').val());
 
             myData.forEach( function (item, index) {
-                console.log('el item es -> ' + JSON.stringify(item));
                 if (item.wallet  === wallet){
-                    console.log(' item encontrado -> ' + item);
                     myData2 = item;
                 }
             });
@@ -927,20 +925,22 @@ $salidaMonto    = 0;
             console.log('entrada1 en el show.bs.modal -> ' + myData2.entrada1);
 
             modal.find('#entrada1').val(myData2.entrada1);
-            
+            modal.find('#salida1').val(myData2.salida1);
+            modal.find('#salida2').val(myData2.salida2);
+            modal.find('#salida3').val(myData2.salida3);
 
-            // $('#salida1').val(myData2.salida1);
-            // $('#salida2').val(myData2.salida2);
-            // $('#salida3').val(myData2.salida3);
+        
 
-            // myData2.groupsEntrada1.map( function (valor) {
-            //     $("#my-select1 option").each(function(){
-                    
-            //         if (valor == $(this).attr('value')){
-            //             $('#my-select1').multiSelect('select', valor.toString());
-            //         }
-            //     });
-            // });
+            myData2.groupsEntrada1.map( function (valor) {
+                console.log('aqui ... 1 ->' + valor);
+                modal.find("#my-select1 option").each(function(){  
+                    console.log('aqui ...');      
+                    if (valor == $(this).attr('value')){
+                        modal.find('#my-select1').multiSelect('select', valor.toString());
+                    }
+                });
+            });
+
             // myData2.groupsEntrada1.map( function (valor) {
             //     $("#myModal-select1 option").each(function(){
                     
@@ -2832,7 +2832,7 @@ $salidaMonto    = 0;
 
     function muestraModelFiltros( myWallet = null) {
         
-        alert('myWallet -> ' + myWallet);
+
         leeFiltros();  
         $('#exampleModalLong').modal('show');
 

@@ -825,7 +825,8 @@
                     $totalCreditos          = 0;
                     $totalDebitos           = 0;
                     $totalTotal             = 0 ;       
-                    $myTotal = 0;         
+                    $myTotal = 0;   
+                    $totalCant = 0;      
                 @endphp
                 <div class="col-12 col-md-12">
                     <table class="table thead-light" style="background-color: white;" id="myTableGroup">
@@ -852,6 +853,7 @@
                             @endif
 
                             @php
+                                $totalCant++;
                                 switch($group2->IdGrupo){
                                     case 43:
                                     case 44:
@@ -865,7 +867,7 @@
                                         $totalTotal             += $myTotal ;     
                                         break;                                      
                                 }
-
+                            
                             @endphp
 
                             <tr class="myTr" onClick="theRoute2({{0}}, {{ $group2->IdGrupo }}, {{0}}, {{0}})" data-id="{{$group2->IdGrupo}}">
@@ -878,7 +880,7 @@
                         @endforeach
                         <tfoot>
                             <tr style="background-color: black; color:white;">
-                                <td >{{ ' ' }}</td>
+                                <td >Total Grupos: {{ number_format($totalCant) }}</td>
                                 <td >{{ number_format($totalBalanceAnterior,2) }}</td>
                                 <td >{{ number_format($totalCreditos,2) }}</td>
                                 <td >{{ number_format($totalDebitos,2) }}</td>
@@ -971,7 +973,8 @@
                         </thead>
                         @php
                             $myTotal = 0;
-                            $myTotalTotal = 0;                            
+                            $myTotalTotal = 0;    
+                            $totalCant = 0;                        
                         @endphp                        
                         @foreach($group_summary as $group2)
                             @php
@@ -986,6 +989,7 @@
                                 @continue
                             @endif
                             @php
+                                $totalCant++;
                                 switch($group2->IdGrupo){
                                     case 43: // abu joder
                                     case 44: // Revilla
@@ -1004,7 +1008,7 @@
                         @endforeach
                         <tfoot>
                             <tr style="background-color: black; color: white;">
-                                <td > </td>
+                                <td >Total Grupos: {{ number_format($totalCant) }}</td>
                                 <td >{{ number_format($myTotalTotal ,2)}}</td>
                             </tr>  
                         </tfoot>                      
@@ -1122,7 +1126,7 @@
             <div class ="row mb-4" style="background-color: white;">
 
                 <div class="col-12 col-md-12 justify-content-center text-center align-items-center mb-4 mt-4">
-                    <h4>Resumen por Grupo</h4>
+                    <h4>Resumen por Grupos</h4>
                 </div>
                 @php
                     $totalBalanceAnterior   = 0;
@@ -1130,6 +1134,7 @@
                     $totalDebitos           = 0;
                     $totalTotal             = 0 ;       
                     $myTotal = 0;         
+                    $totalCant = 0;
                 @endphp
                 <div class="col-12 col-md-12">
                     <table class="table thead-light" style="background-color: white;" id="myTableGroupB">
@@ -1176,6 +1181,7 @@
                                 $totalCreditos          += $group2->Creditos;
                                 $totalDebitos           += $group2->Debitos;
                                 $totalTotal             += $myTotal ;     
+                                $totalCant++;
                             @endphp
 
                             <tr class="myTr" onClick="theRoute2({{0}}, {{ $group2->IdGrupo }}, {{0}}, {{0}})" data-id="{{$group2->IdGrupo}}">
@@ -1188,7 +1194,7 @@
                         @endforeach
                         <tfoot>
                             <tr style="background-color: #5DADE2 !important; color:white">
-                                <td >{{ ' ' }}</td>
+                                <td >Total Grupos : {{ number_format($totalCant) }}</td>
                                 <td >{{ number_format($totalBalanceAnterior,2) }}</td>
                                 <td >{{ number_format($totalCreditos,2) }}</td>
                                 <td >{{ number_format($totalDebitos,2) }}</td>
@@ -1232,7 +1238,8 @@
                         </thead>
                         @php
                             $myTotal = 0;
-                            $myTotalTotal = 0;                            
+                            $myTotalTotal = 0;    
+                            $totalCant = 0;                        
                         @endphp                        
                         @foreach($group_summary as $group2)
                             @php
@@ -1260,7 +1267,8 @@
                                 }
                                 */
                                 $myTotal = ($group2->BalanceAnterior + $group2->Creditos ) - $group2->Debitos; 
-                                        $myTotalTotal += $myTotal;                                
+                                        $myTotalTotal += $myTotal;   
+                                $totalCant++;                             
                             @endphp
                             <tr class="myTr" onClick="theRoute2({{0}}, {{ $group2->IdGrupo }}, {{0}}, {{0}})" data-id="{{$group2->IdGrupo}}">
                                 <td >{{ $group2->NombreGrupo}}</td>
@@ -1269,7 +1277,7 @@
                         @endforeach
                         <tfoot>
                             <tr style="background-color: #5DADE2 !important; color:white">
-                                <td > </td>
+                                <td >Total Grupos: {{ number_format($totalCant) }} </td>
                                 <td >{{ number_format($myTotalTotal ,2)}}</td>
                             </tr>  
                         </tfoot>                      
@@ -1288,7 +1296,7 @@
     *
     */
     function calculoGeneral3(){
-
+        
         let myElement;
 
         const myCount = {{ count($wallet_summary) }} ? {{ count($wallet_summary) }} : 0;
@@ -1384,6 +1392,7 @@
                             $totalDebitos   = 0;
 
                             $total = 0;
+                            $totalCant =0;
                         @endphp
                         
                         @foreach($wallet_summary as $wallet2)
@@ -1410,7 +1419,8 @@
                                     $totalDebitos  += $wallet2->Debitos;
 
                                     $myTotal = ($wallet2->BalanceAnterior + $wallet2->Creditos ) - $wallet2->Debitos;
-                                    $total  += $myTotal;  
+                                    $total  += $myTotal; 
+                                    $totalCant++;
                                 @endphp
                                 <td >{{ $wallet2->NombreWallet}}</td>
                                 <td >{{ number_format($wallet2->BalanceAnterior,2)}}</td>                                
@@ -1423,7 +1433,7 @@
                         @endforeach
                         <tfoot>
                             <tr style="background-color: black; color:white;">
-                                <td >{{ ' ' }}</td>
+                                <td >Total Cajas: {{ number_format($totalCant) }}</td>
                                 <td >{{ number_format($totalSaldoAnterior,2) }}</td>
                                 <td >{{ number_format($totalCreditos,2) }}</td>
                                 <td >{{ number_format($totalDebitos,2) }}</td>
@@ -1521,7 +1531,6 @@
                     <div class="col-12 col-md-12 justify-content-center text-center align-items-center mb-4 mt-4">
                         <h4>Resumen por Wallet</h4>
                     </div>
-
                     <div class="col-12 col-md-12">
                         <table id="myTableWallet" class="table thead-light" style="background-color: white;">
                             <thead class="" style="background-color: #5DADE2 !important; color:white">
@@ -1591,6 +1600,7 @@
                             $totalDebitos   = 0;
 
                             $total = 0;
+                            $totalCant = 0;
                         @endphp
                         
                         @foreach($wallet_summary as $wallet2)
@@ -1618,6 +1628,7 @@
 
                                     $myTotal = ($wallet2->BalanceAnterior + $wallet2->Creditos ) - $wallet2->Debitos;
                                     $total  += $myTotal;  
+                                    $totalCant++;
                                 @endphp
                                 <td >{{ $wallet2->NombreWallet}}</td>
                                 <td >{{ number_format($wallet2->BalanceAnterior,2)}}</td>                                
@@ -1630,7 +1641,7 @@
                         @endforeach
                         <tfoot>
                             <tr style="background-color: #5DADE2 !important; color:white">
-                                <td >{{ ' ' }}</td>
+                                <td >Total Cajas: {{ number_format($totalCant) }}</td>
                                 <td >{{ number_format($totalSaldoAnterior,2) }}</td>
                                 <td >{{ number_format($totalCreditos,2) }}</td>
                                 <td >{{ number_format($totalDebitos,2) }}</td>
@@ -1694,6 +1705,7 @@
                             $totalDebitos   = 0;
 
                             $total = 0;
+                            $totalCant = 0;
                         @endphp
                         
                         @foreach($wallet_summary as $wallet2)
@@ -1720,6 +1732,7 @@
 
                                     $myTotal = ($wallet2->BalanceAnterior + $wallet2->Creditos ) - $wallet2->Debitos;
                                     $total  += $myTotal; 
+                                    $totalCant++;
                                 @endphp
                                 
                                 <td >{{ $wallet2->NombreWallet}}</td>
@@ -1731,7 +1744,7 @@
                         @endforeach
                         <tfoot>
                             <tr style="background-color: #5DADE2 !important; color:white">
-                                <td >{{ ' ' }}</td>
+                                <td >Total Cajas: {{ number_format($totalCant) }}</td>
                                 <td >{{ number_format($total,2) }}</td>
                             </tr>
                         </tfoot>
@@ -1780,7 +1793,7 @@
 
 
                     <div class="col-12 col-md-12 justify-content-center text-center align-items-center mb-4 mt-4">
-                        <h4>Resumen por Wallet</h4>
+                        <h4>Resumen por Walleta</h4>
                     </div>
 
                     <div class="col-12 col-md-12">
@@ -1840,7 +1853,7 @@
                             $totalSaldoAnterior  = 0;
                             $totalCreditos  = 0;
                             $totalDebitos   = 0;
-
+                            $totalCant = 0;
                             $total = 0;
                         @endphp
                         
@@ -1868,6 +1881,7 @@
 
                                     $myTotal = ($wallet2->BalanceAnterior + $wallet2->Creditos ) - $wallet2->Debitos;
                                     $total  += $myTotal; 
+                                    $totalCant++;
                                 @endphp
                                 
                                 <td >{{ $wallet2->NombreWallet}}</td>
@@ -1879,7 +1893,7 @@
                         @endforeach
                         <tfoot>
                             <tr style="background-color: black; color:white;">
-                                <td >{{ ' ' }}</td>
+                                <td >Total Cajas: {{ number_format($totalCant) }}</td>
                                 <td >{{ number_format($total,2) }}</td>
                             </tr>
                         </tfoot>
