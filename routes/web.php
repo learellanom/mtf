@@ -339,20 +339,32 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('cajamayor', EnterpriseController::class)->middleware('auth')->names('enterprise');
 });
 
-//
-//
-// Estadisticas Detalle
-//
-//
-Route::get('estadisticasDetalle',
-            [App\Http\Controllers\statisticsController::class, 'index_all2'])
-            ->middleware('can:estadisticasDetalle.index')
-            ->name('estadisticasDetalle');
-//
-Route::get('estadisticasDetalleEU',
-            [App\Http\Controllers\statisticsController::class, 'index_allExterno'])
-            ->name('estadisticasDetalleEU');
- 
+Route::group(['middleware' => 'auth'], function () {
+    //
+    //
+    // Estadisticas Detalle
+    //
+    //
+    Route::get('estadisticasDetalle',
+                [App\Http\Controllers\statisticsController::class, 'index_all2'])
+                ->middleware('can:estadisticasDetalle.index')
+                ->name('estadisticasDetalle');
+    //
+    Route::get('movimientosME',
+    [App\Http\Controllers\statisticsController::class, 'indexME'])
+    ->middleware('can:estadisticasDetalle.index')
+    ->name('movimientosME');
+    //
+    Route::get('estadisticasDetalleEU',
+                [App\Http\Controllers\statisticsController::class, 'index_allExterno'])
+                ->name('estadisticasDetalleEU');
+    
+                Route::get('estadisticasDetalle',
+                [App\Http\Controllers\statisticsController::class, 'index_all2'])
+                ->middleware('can:estadisticasDetalle.index')
+                ->name('estadisticasDetalle');
+    //
+});
 
 // Route::get('estadisticasDetalleUsuario',[App\Http\Controllers\statisticsController::class, 'userDetail'])->name('estadisticasDetalleUsuario');
 // Route::get('estadisticasDetalleUsuario/{usuario}/{fechaDesde?}/{fechaHasta?}',[App\Http\Controllers\statisticsController::class, 'userDetail'])->name('estadisticasDetalleUsuario');
