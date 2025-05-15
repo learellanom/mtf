@@ -208,7 +208,7 @@ if (isset($balance->Total)){
                         <div class= "row">
                             
                             <div class="col-sm-12 col-xl-3">
-                                <p class="text-uppercase font-weight-bold">{{ __('Detalles|Movimientos') }}</p>
+                                <p class="text-uppercase font-weight-bold">{{ __('Detalles|Movimientos ME') }}</p>
                             </div>
                             @php
                                 $indWallet = 0;
