@@ -273,10 +273,10 @@ $salidaMonto    = 0;
 
         </div>
         {{-- Filtros --}}
-        @can('USDTResumenDiarioFiltro')     
-        <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">Filtros
-
-
+        @can('USDTResumenDiarioFiltro') 
+        
+        <div class="tab-pane fade" id="nav-profile{{ $item->group_id}}" role="tabpanel" aria-labelledby="nav-profile-tab{{$item->group_id}}">
+            Filtrosx
             <div class="card mb-4">
                 <div class="card-header" style="background-color: #2874A6; color: white">
                     <h3 class="card-title text-uppercase font-weight-bold">Filtros Entradas USDT</h3>
@@ -446,6 +446,7 @@ $salidaMonto    = 0;
             </div>
 
         </div>
+        
         @endcan
     </div>
 
@@ -492,7 +493,7 @@ $salidaMonto    = 0;
                                         <label>Nombre Seccion</label>
                                         <input type="text" id="entrada1" size=20/>
                                     </div>
-                                    <select multiple="multiple" id="my-select1" class="my-select1" name="my-select[]">
+                                    <select multiple="multiple" id="mmy-select1" class="my-select1" name="my-select[]">
                                     </select>   
                                 </div>  
 
@@ -929,7 +930,36 @@ $salidaMonto    = 0;
             modal.find('#salida2').val(myData2.salida2);
             modal.find('#salida3').val(myData2.salida3);
 
-        
+            $('#mmy-select1').multiSelect({
+            selectableHeader: `<div class='custom-header' style='background-color: black; color:white'>
+                                    No Visibles    
+                                    <br><br> 
+                                    <div>
+                                        <i class='fas fa-circle' style='color: red;'></i>
+                                    </div>
+                                </div>`,
+            selectionHeader:  `<div class='custom-header' style='background-color: black; color:white'>
+                                    Visibles 
+                                    <br>
+                                    <br> 
+                                    <div>
+                                        <i class='fas fa-circle' style='color: green;'>  </i>
+                                    </div>
+                                </div>`
+             });
+             
+            @foreach($grupo as $key => $group2)
+             console.log('el grupo con key {!! $key !!} es {!! $group2 !!}');
+                modal.find('#mmy-select1').multiSelect('addOption', { value: '{!! $key !!}', text: '{!! $group2 !!}' });
+                modal.find('#my-select2').multiSelect('addOption', { value: '{!! $key !!}', text: '{!! $group2 !!}' });
+                modal.find('#my-select3').multiSelect('addOption', { value: '{!! $key !!}', text: '{!! $group2 !!}' });
+                modal.find('#my-select4').multiSelect('addOption', { value: '{!! $key !!}', text: '{!! $group2 !!}' });
+             @endforeach
+
+
+            @foreach($wallet2 as $key => $wallet22)
+                $('#my-select5').multiSelect('addOption', { value: '{!! $key !!}', text: '{!! $wallet22 !!}' });
+            @endforeach
 
             myData2.groupsEntrada1.map( function (valor) {
                 console.log('aqui ... 1 ->' + valor);
@@ -1027,10 +1057,10 @@ $salidaMonto    = 0;
 
             myData2 = $('#filtros').val();
             myData2 = JSON.parse(myData2);
-            alert('tpeof -> ' + typeof myData2);
-            alert('leam - leefiltros val ->' + JSON.stringify($('#filtros').val()));
+            
+            
 
-            alert('leam - leefiltros show.bs.modal ->' + JSON.stringify(myData2));
+            console.log('leam - leefiltros show.bs.modal ->' + JSON.stringify(myData2));
             
             myData2.forEach( function(item){
                 console.log ('valid cada item -> ' + item.wallet);
@@ -2833,7 +2863,7 @@ $salidaMonto    = 0;
     function muestraModelFiltros( myWallet = null) {
         
 
-        leeFiltros();  
+        // leeFiltros();  
         $('#exampleModalLong').modal('show');
 
     }
