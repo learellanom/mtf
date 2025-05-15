@@ -390,6 +390,28 @@ return [
             'can'  => ['estadisticasDetalle.index']
         ],
         [
+            'text'          => 'Detalles de Movimientos',
+            'icon'          => 'fas fa-fw fa-share',
+            'icon_color'    => 'primary',
+            'can'           => ['estadisticasDetalle.index'],
+            'submenu'   => [
+                [
+                    'text' => 'Movimientos en $',
+                    'url'  => 'estadisticasDetalle',
+                    'classes'   =>  'ml-4',              
+                    'can'  => 'estadisticasDetalle.index',
+                    'icon_color' => 'primary',                    
+                ],                 
+                [
+                    'text' => 'Moneda Extranjera',
+                    'url' => 'movimientosME',
+                    'classes' =>  'ml-4',                    
+                    'can'  => 'estadisticasDetalle.index',
+                    'icon_color' => 'primary',                    
+                ],  
+            ]
+        ],
+        [
             'text'          => 'Comisiones',
             'icon'          => 'fas fa-fw fa-share',
             'icon_color'    => 'primary',
@@ -593,13 +615,13 @@ return [
             'icon'      => 'fas fa-fw fas fa-chart-bar',
             'can'       => 'balancePagosCobros',
         ],
-        // [
-        //     'text'      => 'Caja Mayor',
-        //     'url'       => 'estadisticasCajaMayor',
-        //     'active'    => ['estadisticasCajaMayor' ],
-        //     'icon'      => 'fas fa-fw fas fa-chart-bar',
-        //     'can'       => 'estadisticaCajaMayor',
-        // ],
+        [
+            'text'      => 'Caja Mayor',
+            'url'       => 'estadisticasCajaMayor',
+            'active'    => ['estadisticasCajaMayor' ],
+            'icon'      => 'fas fa-fw fas fa-chart-bar',
+            'can'       => 'estadisticaCajaMayor',
+        ],
 
         //
         //
