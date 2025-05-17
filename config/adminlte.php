@@ -382,13 +382,13 @@ return [
         //     'icon' => 'fas fa-fw fas fa-chart-line',
         //     'can'  => 'dashboardComisionesGrupo2',
         // ],          
-        [
-            'text' => 'Detalles de movimiento',
-            'url'  => 'estadisticasDetalle',
-            'active' => ['estadisticasDetalle', 'regex:@^estadisticasDetalle/[0-9]+/*@'],
-            'icon' => 'fas fa-fw fas fa-chart-bar',
-            'can'  => ['estadisticasDetalle.index']
-        ],
+        // [
+        //     'text' => 'Detalles de movimiento',
+        //     'url'  => 'estadisticasDetalle',
+        //     'active' => ['estadisticasDetalle', 'regex:@^estadisticasDetalle/[0-9]+/*@'],
+        //     'icon' => 'fas fa-fw fas fa-chart-bar',
+        //     'can'  => ['estadisticasDetalle.index']
+        // ],
         [
             'text'          => 'Detalles de Movimientos',
             'icon'          => 'fas fa-fw fa-share',
