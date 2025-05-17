@@ -16,12 +16,6 @@ $config = [
 ];
 
 
-// $config = [
-//   'data' => $Transacciones,
-//    'order' => [[1, 'desc']],
-//    'columns' => [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, ['orderable' => false]],
-// ];
-
 $config['dom'] = '<"row" <"col-sm-7" B> <"col-sm-5 d-flex justify-content-end" i> >
                   <"row" <"col-12" tr> >
                   <"row" <"col-sm-12 d-flex justify-content-start" f> >';
@@ -61,7 +55,7 @@ if (isset($balance->Total)){
 
 <br>
 <br>
-<h1 class="text-center text-dark font-weight-bold ">{{ __('Detalles de Movimientos Moneda Extranjera 12') }} <i class="fas fa-chart-pie fa-spin"></i></h1>
+<h1 class="text-center text-dark font-weight-bold ">{{ __('Detalles de Movimientos Moneda Extranjera') }} <i class="fas fa-chart-pie fa-spin"></i></h1>
 <br>
 <br>
 {{-- Disabled --}}
@@ -170,7 +164,7 @@ if (isset($balance->Total)){
 								name="optionsCoin"
 
 								label-class="text-lightblue"
-								data-placeholder="MonedaGrupo ..."
+								data-placeholder="Moneda ..."
 								:config="$config1"
 								>
 				<x-slot name="prependSlot">
@@ -182,7 +176,7 @@ if (isset($balance->Total)){
 					
 				</x-slot>
 
-				<x-adminlte-options :options="$Type_coin_balance" empty-option="Selecciona una moneda.."/>
+				<x-adminlte-options :options="$Type_coin" empty-option="Selecciona una moneda.."/>
 
 			</x-adminlte-select2>
 		</div>
@@ -197,6 +191,13 @@ if (isset($balance->Total)){
     </div>
 </div>
 
+<input type="hidden" name="theUser"                 id="theUser"        value="">
+<input type="hidden" name="theWallet"               id="theWallet"      value="">
+<input type="hidden" name="theGroup"                id="theGroup"       value="">
+<input type="hidden" name="theFechaDesde"           id="theFechaDesde"  value="">
+<input type="hidden" name="theFechaHasta"           id="theFechaHasta"  value="">
+<input type="hidden" name="theTypeCoin"             id="theTypeCoin"    value="">
+<input type="hidden" name="theTypeTransactions"     id="theTypeTransactions"    value="">
 
 <div class="row">
     <div class="col-md-12">
@@ -279,16 +280,16 @@ if (isset($balance->Total)){
                                     {{-- <th style="width:10%; display: none">Id</th> --}}
                                     <th style="width:7%;">Fecha</th>
                                     <th style="width:1%;">Transacción</th>
-                                    <th style="width:10%;">Descripción</th>
-                                    <th style="width:1%;"><p style="display:none;">P - %</p>Moneda</th>
-                                    <th style="width:6%;">Monto Moneda </th>
+                                    <th style="width:8%;">Descripción</th>
+                                    <th style="width:1%;">Moneda</th>
+                                    <th style="width:3%;">Monto Moneda </th>
                                     <th style="width:1%;">Tasa</th>
                                     <th style="width:1%;">Moneda Balance</th>
                                     <th style="width:1%;">Monto $ </th>
                                     <th style="width:1%;">Saldo <i class="fas fa-dolar"></i></th>
-                                    <th style="width:1%;">Grupo</th>
+                                    <th style="width:4%;">Grupo</th>
                                     <th style="width:1%;">Agente</th>
-                                    <th style="width:1%;">Caja</th>
+                                    <th style="width:4%;">Caja</th>
                                     <th style="width:1%;">Ver <i class="fas fa-search"></i></th>
                                     <th style="width:1%;" class="no-exportar">Historico</th>
 
@@ -524,7 +525,38 @@ if (isset($balance->Total)){
     const miWallet              = {!! $myWallet !!};
     const miTypeTransactions    = {!! $myTypeTransactions !!};
     const miTotal               = {!! $myTotal !!};   
-     
+    const myTypeCoin            = '{!! $myTypeCoin !!}';
+    const myFechaDesde = '{{ $myFechaDesde }}';
+    const myFechaHasta = '{{ $myFechaHasta }}';
+
+    $(() => {
+        if (miUsuario != 0 && miUsuario != ''){
+            $('#theUser').val({{ $myUser}});
+        }        
+        if (miWallet != 0 && miWallet != ''){
+            $('#theWallet').val({{ $myWallet}});
+        }
+        if (miGrupo != 0 && miGrupo != ''){
+
+            $('#theGroup').val({{ $myGroup}});
+        }
+        if (myFechaDesde != 0 && myFechaDesde != ''){
+            $('#theFechaDesde').val(myFechaDesde);
+        }
+        if (myFechaHasta != 0 && myFechaHasta != ''){
+            $('#theFechaHasta').val(myFechaHasta);
+        }
+        if (myTypeCoin != 0 && myTypeCoin != ''){
+            $('#theTypeCoin').val(myTypeCoin);
+        }
+        if (miTypeTransactions != 0 && miTypeTransactions != ''){
+            $('#theTypeTransactions').val(miTypeTransactions);
+        }        
+    }
+    );
+
+
+
     // alert ('myTotal ->' +);
     // console.log(miCliente);
     
@@ -541,8 +573,8 @@ if (isset($balance->Total)){
     BuscaWallet(miWallet);
     BuscaTypeTransactions(miTypeTransactions); 
     
-    const myTypeCoinBalance = {!! $myTypeCoinBalance !!};
-    BuscaMoneda(myTypeCoinBalance);    
+
+    BuscaMoneda(myTypeCoin);    
 
     $('#table').DataTable( {
 
@@ -597,15 +629,14 @@ if (isset($balance->Total)){
         ],  
         responsive: true,
         */
-        "order": [[ 0, 'desc' ]],
         'dom' : '<"row" <"col-12 col-md-6" B> <"col-12 col-md-6 text-align-right" f> >ti <"row" <"col-12 col-md-6" l> <"col-12 col-md-6" p>>',
         'pageLength' : 7, 
         'buttons':[
             {
                 extend:  'excelHtml5',
-                exportOptions: { columns: [1, 2, 3,4,5,6,7,8,9,10,11,12,13] },
+                exportOptions: { columns: [0, 1, 2, 3,4,5,6,7,8,9,10,11] },
                 text:    '<i class="fas fa-file-excel"></i>',
-                title: `Detalle de Movimientos`,
+                title: `Detalle de Movimientos Moneda Extranjera`,
                 titleAttr: 'Exportar Excel',
                 className: 'btn btn-success',
                 excelStyles: [
@@ -628,15 +659,20 @@ if (isset($balance->Total)){
             },
             {
                 extend:  'pdfHtml5',
+                exportOptions: { columns: [0, 1, 2, 3,4,5,6,7,8,9,10,11] },
                 text:    '<i class="fas fa-file-pdf"></i>',
                 orientation: 'landscape',
-                title: 'MTF | LISTA DE TRANSACIÓNES',
+                title: 'Detalle de movimientos moneda extranjera',
                 titleAttr: 'Exportar PDF',
                 className: 'btn btn-danger',
 
             },
             {
                 extend:  'print',
+                exportOptions: { columns: [0, 1, 2, 3,4,5,6,7,8,9,10,11] },
+                styles: { 
+					fullWidth: { fontSize: 8, bold: true, alignment: 'right', margin: [0,0,0,0] }
+		        },
                 text:    '<i class="fas fa-print"></i>',
                 titleAttr: 'Capture de pantalla',
                 className: 'btn btn-info'
@@ -647,8 +683,7 @@ if (isset($balance->Total)){
     $(() => {
 
        // const myFechaDesde = '{!! isset($myFechaDesde) ?? 0 !!}';
-        const myFechaDesde = '{{ $myFechaDesde }}';
-        const myFechaHasta = '{{ $myFechaHasta }}';
+
         // $('#drCustomRanges').daterangepicker({}); 
         //BuscaFechas(myFechaDesde, myFechaHasta);
 
@@ -656,27 +691,11 @@ if (isset($balance->Total)){
 
         $('#wallet').on('change', function (){
 
-            const usuario           = $('#userole').val();
-            const grupo             = $('#group').val();
             const wallet            = $('#wallet').val();
-            const typeTransactions  = $('#typeTransactions').val();
-            const coin              = ($('#coin').val()) ? $('#coin').val() : 1;          
-            let myFechaDesde, myFechaHasta;
 
-            myFechaDesde =  ($('#drCustomRanges').val()).substr(6,4) +
-                            '-' +
-                            ($('#drCustomRanges').val()).substr(3,2) +
-                            '-' +
-                            ($('#drCustomRanges').val()).substr(0,2)
-                            ;
+            $('#theWallet').val(wallet);
 
-            myFechaHasta =  ($('#drCustomRanges').val()).substr(19,4) +
-                            '-' +
-                            ($('#drCustomRanges').val()).substr(16,2) +
-                            '-' +
-                            ($('#drCustomRanges').val()).substr(13,2)
-                            ;
-            theRoute(usuario, grupo, wallet, typeTransactions, myFechaDesde, myFechaHasta, coin);
+            theRoute();
 
         })
         .on('select2:open', () => {
@@ -685,30 +704,10 @@ if (isset($balance->Total)){
 
         $('#group').on('change', function (){
 
-            const usuario           = $('#userole').val();
             const grupo             = $('#group').val();
-            const wallet            = $('#wallet').val();
-            const seleccionado      = $('#group').prop('selectedIndex');
-            const typeTransactions  = $('#typeTransactions').val();
-            const coin              = ($('#coin').val()) ? $('#coin').val() : 1;          
+            $('#theGroup').val(grupo);
 
-            let myFechaDesde, myFechaHasta;
-
-            myFechaDesde =  ($('#drCustomRanges').val()).substr(6,4) +
-                            '-' +
-                            ($('#drCustomRanges').val()).substr(3,2) +
-                            '-' +
-                            ($('#drCustomRanges').val()).substr(0,2)
-                            ;
-
-            myFechaHasta =  ($('#drCustomRanges').val()).substr(19,4) +
-                            '-' +
-                            ($('#drCustomRanges').val()).substr(16,2) +
-                            '-' +
-                            ($('#drCustomRanges').val()).substr(13,2)
-                            ;
-
-            theRoute(usuario, grupo, wallet, typeTransactions, myFechaDesde, myFechaHasta, coin);
+            theRoute();
             
 
         })
@@ -718,32 +717,11 @@ if (isset($balance->Total)){
 
         $('#typeTransactions').on('change', function (){
 
-            const usuario           = $('#userole').val();
-            const grupo             = $('#group').val();
-            const wallet            = $('#wallet').val();
             const typeTransactions  = $('#typeTransactions').val();
-            const coin              = ($('#coin').val()) ? $('#coin').val() : 1;            
-            let myFechaDesde, myFechaHasta;
 
-            myFechaDesde =  ($('#drCustomRanges').val()).substr(6,4) +
-                            '-' +
-                            ($('#drCustomRanges').val()).substr(3,2) +
-                            '-' +
-                            ($('#drCustomRanges').val()).substr(0,2)
-                            ;
+            $('#theTypeTransactions').val(typeTransactions);
 
-            myFechaHasta =  ($('#drCustomRanges').val()).substr(19,4) +
-                            '-' +
-                            ($('#drCustomRanges').val()).substr(16,2) +
-                            '-' +
-                            ($('#drCustomRanges').val()).substr(13,2)
-                            ;
-
-            myFechaDesde = $('#drCustomRanges').data('daterangepicker').startDate.format('YYYY-MM-DD');
-            myFechaHasta = $('#drCustomRanges').data('daterangepicker').endDate.format('YYYY-MM-DD');
-            // alert('aqui -> ' + typeTransactions + ` fechaDesde ${myFechaDesde}`);
-            // theRoute(usuario, grupo, wallet,typeTransactions,myFechaDesde,myFechaHasta);
-            theRoute(usuario, grupo, wallet, typeTransactions, myFechaDesde, myFechaHasta, coin);
+            theRoute();
 
         })
             .on('select2:open', () => {
@@ -753,27 +731,9 @@ if (isset($balance->Total)){
         $('#userole').on('change', function (){
 
             const usuario           = $('#userole').val();
-            const grupo             = $('#group').val();
-            const wallet            = $('#wallet').val();
-            const typeTransactions  = $('#typeTransactions').val();
-            const coin              = ($('#coin').val()) ? $('#coin').val() : 1;          
-            let myFechaDesde, myFechaHasta;
+            $('#theUser').val(usuario);
 
-            myFechaDesde =  ($('#drCustomRanges').val()).substr(6,4) +
-                            '-' +
-                            ($('#drCustomRanges').val()).substr(3,2) +
-                            '-' +
-                            ($('#drCustomRanges').val()).substr(0,2)
-                            ;
-
-            myFechaHasta =  ($('#drCustomRanges').val()).substr(19,4) +
-                            '-' +
-                            ($('#drCustomRanges').val()).substr(16,2) +
-                            '-' +
-                            ($('#drCustomRanges').val()).substr(13,2)
-                            ;
-
-            theRoute(usuario, grupo, wallet, typeTransactions, myFechaDesde, myFechaHasta, coin);
+            theRoute();
 
         })
         .on('select2:open', () => {
@@ -783,62 +743,23 @@ if (isset($balance->Total)){
        
 
         $('#drCustomRanges').on('change', function () {
-            // alert('Fechas rnagos -> ' + $('#drCustomRanges').val());
+
             let myFechaDesde, myFechaHasta;
-
-            myFechaDesde =  ($('#drCustomRanges').val()).substr(6,4) +
-                            '-' +
-                            ($('#drCustomRanges').val()).substr(3,2) +
-                            '-' +
-                            ($('#drCustomRanges').val()).substr(0,2)
-                            ;
-
-            myFechaHasta =  ($('#drCustomRanges').val()).substr(19,4) +
-                            '-' +
-                            ($('#drCustomRanges').val()).substr(16,2) +
-                            '-' +
-                            ($('#drCustomRanges').val()).substr(13,2)
-                            ;
 
             myFechaDesde = $('#drCustomRanges').data('daterangepicker').startDate.format('YYYY-MM-DD');
             myFechaHasta = $('#drCustomRanges').data('daterangepicker').endDate.format('YYYY-MM-DD');
 
-            // alert('Fecha Desde -> ' + myFechaDesde + ' Fecha Hasta -> ' + myFechaHasta);
-            const usuario           = $('#userole').val();
-            const grupo             = $('#group').val();
-            const wallet            = $('#wallet').val();
-            const typeTransactions  = $('#typeTransactions').val();
-            const coin              = ($('#coin').val()) ? $('#coin').val() : 1;          
-            theRoute(usuario,grupo,wallet,typeTransactions, myFechaDesde,myFechaHasta, coin);
+            $('#theFechaDesde').val(myFechaDesde);
+            $('#theFechaHasta').val(myFechaHasta);
+            
+            theRoute();
         });
 
 
 		$('#coin').on('change', function (){
-
-            const usuario           = $('#userole').val();
-            const grupo             = $('#group').val();
-            const wallet            = $('#wallet').val();
-            const typeTransactions  = $('#typeTransactions').val();
-            const coin              = ($('#coin').val()) ? $('#coin').val() : 1;          
-
-            let myFechaDesde, myFechaHasta;
-
-            myFechaDesde =  ($('#drCustomRanges').val()).substr(6,4) +
-                            '-' +
-                            ($('#drCustomRanges').val()).substr(3,2) +
-                            '-' +
-                            ($('#drCustomRanges').val()).substr(0,2)
-                            ;
-
-            myFechaHasta =  ($('#drCustomRanges').val()).substr(19,4) +
-                            '-' +
-                            ($('#drCustomRanges').val()).substr(16,2) +
-                            '-' +
-                            ($('#drCustomRanges').val()).substr(13,2)
-                            ;
-
-            theRoute(usuario,grupo,wallet,typeTransactions, myFechaDesde,myFechaHasta, coin);
-
+            const coin              = $('#coin').val();    
+            $('#theTypeCoin').val(coin);
+            theRoute();
         })
         .on('select2:open', () => {
             document.querySelector('.select2-search__field').focus();
@@ -850,23 +771,93 @@ if (isset($balance->Total)){
         allowClear: true
     });
 
-    function theRoute(usuario = 0, grupo = 0, wallet = 0, typeTransactions = 0, fechaDesde = 0, fechaHasta = 0, coin = 1){
+    function theRoute(usuario = null, grupo = null, wallet = null, typeTransactions = null, fechaDesde = null, fechaHasta = null, coin = null){
 
-        if (usuario === "") usuario = 0;
-        if (grupo   === "") grupo = 0;
-        if (wallet  === "") wallet  = 0;
-        if (typeTransactions  === "") typeTransactions  = 0;
+        if ($('#theUser').val() != ''){
+            usuario = $('#theUser').val();
+        }
+
+        if ($('#theGroup').val() != ''){
+            grupo = $('#theGroup').val();
+        }
+
+        if ($('#theWallet').val() != ''){
+            wallet = $('#theWallet').val();
+        }
+
+        if ($('#theTypeTransactions').val() != ''){
+            typeTransactions = $('#theTypeTransactions').val();
+        }
+
+        if ($('#theFechaDesde').val() != ''){
+            fechaDesde = $('#theFechaDesde').val();
+        }
+
+        if ($('#theFechaHasta').val() != ''){
+            fechaHasta = $('#theFechaHasta').val();
+        }
+
+        if ($('#theTypeCoin').val() != ''){
+            coin = $('#theTypeCoin').val();
+        }
 
         let myRoute = "";
 
-        myRoute = "{{ route('estadisticasDetalle', ['usuario' => 'usuario2', 'grupo' => 'grupo2', 'wallet' => 'wallet2' , 'typeTransactions' => 'typeTransactions2', 'fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2', 'coin' => 'coin2']) }}";
-        myRoute = myRoute.replace('grupo2',grupo);
-        myRoute = myRoute.replace('usuario2',usuario);
-        myRoute = myRoute.replace('wallet2',wallet);
-        myRoute = myRoute.replace('typeTransactions2',typeTransactions);                
-        myRoute = myRoute.replace('fechaDesde2',fechaDesde);
-        myRoute = myRoute.replace('fechaHasta2',fechaHasta);
-        myRoute = myRoute.replace('coin2',coin);
+        myRoute = "{{ route('movimientosME', ['usuario' => 'usuario2', 'grupo' => 'grupo2', 'wallet' => 'wallet2' , 'typeTransactions' => 'typeTransactions2', 'fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2', 'coin' => 'coin2']) }}";
+        // alert('ruta base -> ' + myRoute);
+                       
+        
+        if (usuario){
+            myRoute = myRoute.replace('usuario2',usuario);
+        }else{
+            myRoute = myRoute.replace('&amp;usuario=usuario2','');
+            myRoute = myRoute.replace('&usuario=usuario2','');
+            myRoute = myRoute.replace('usuario=usuario2','');
+        }
+        if (grupo){
+            myRoute = myRoute.replace('grupo2',grupo);
+        }else{
+            myRoute = myRoute.replace('&amp;grupo=grupo2','');
+            myRoute = myRoute.replace('&grupo=grupo2','');
+        }
+
+        if (wallet){
+            myRoute = myRoute.replace('wallet2',wallet);
+        }else{
+            myRoute = myRoute.replace('&amp;wallet=wallet2','');
+            myRoute = myRoute.replace('&wallet=wallet2','');
+        }
+
+        if (typeTransactions){
+            myRoute = myRoute.replace('typeTransactions2',typeTransactions);
+        }else{
+            
+            myRoute = myRoute.replace('&amp;typeTransactions=typeTransactions2','');
+            
+            myRoute = myRoute.replace('&typeTransactions=typeTransactions2','');
+        }
+
+        if (fechaDesde){
+            myRoute = myRoute.replace('fechaDesde2',fechaDesde);
+        }else{
+            myRoute = myRoute.replace('&amp;fechaDesde=fechaDesde2','');
+            myRoute = myRoute.replace('&fechaDesde=fechaDesde2','');
+        }
+
+        if (fechaHasta){
+            myRoute = myRoute.replace('fechaHasta2',fechaHasta);
+        }else{
+            myRoute = myRoute.replace('&amp;fechaHasta=fechaHasta2','');
+            myRoute = myRoute.replace('&fechaHasta=fechaHasta2','');
+        }
+
+        if (coin){
+            myRoute = myRoute.replace('coin2',coin);
+        }else{
+            myRoute = myRoute.replace('&amp;coin=coin2','');
+            myRoute = myRoute.replace('&coin=coin2','');
+        }
+        // alert('la ruta despues -> ' + myRoute);
         myRoute = myRoute.replaceAll('amp;','');
 
         // alert(myRoute);
@@ -986,14 +977,15 @@ if (isset($balance->Total)){
 
     }
 
-    function BuscaMoneda(myTypeCoinBalance){
+    function BuscaMoneda(myTypeCoin){
+        if (myTypeCoin == '')  return;
         //alert("BuscaGrupo - miGrupo -> " + miGrupo);
         $('#coin').each( function(index, element){
             //alert ("Buscagrupo -> " + $(this).val() + " text -> " + $(this).text()+ " y con index -> " + $(this).prop('selectedIndex'));
             $(this).children("option").each(function(){
-                if ($(this).val() === myTypeCoinBalance.toString()){
+                if ($(this).val() === myTypeCoin.toString()){
                     //alert('Buscagrupo - encontro');
-                    $("#coin option[value="+ myTypeCoinBalance +"]").attr("selected",true);
+                    $("#coin option[value="+ myTypeCoin +"]").attr("selected",true);
                 }
                 //alert("BuscaGrupoaqui ->  the val " + $(this).val() + " text -> " + $(this).text());
             });
@@ -1004,23 +996,26 @@ if (isset($balance->Total)){
     function BuscaFechasBlade(){
 
         let myFechaDesdeInicial = "{{ $myFechaDesde }}";
-        // console.log('leam - aqui ' + "{{ $myFechaDesde }}");
         if (myFechaDesdeInicial == "2001-01-01"){
             return;
         }
+        if (myFechaDesdeInicial == ""){
+            return;
+        }
+        // alert('myFechaDesdeInicial -> ' + myFechaDesdeInicial);
 
-        let myFechaAnio  = {{ substr($myFechaDesde,0,4) }};
-        let myFechaMes   = {{ substr($myFechaDesde,5,2) }};
-        let myFechaDia   = {{ substr($myFechaDesde,8,2) }};
+        let myFechaAnio  = '{{ substr($myFechaDesde,0,4) }}';
+        let myFechaMes   = '{{ substr($myFechaDesde,5,2) }}';
+        let myFechaDia   = '{{ substr($myFechaDesde,8,2) }}';
 
         myFechaMes       = myFechaMes.toString().length == 1 ? '0' + myFechaMes.toString() : myFechaMes;
         myFechaDia       = myFechaDia.toString().length == 1 ? '0' + myFechaDia.toString() : myFechaDia;
 
         let myFechaDesde2 = myFechaDia.toString().concat('-', myFechaMes, '-', myFechaAnio)
 
-        myFechaAnio  = {{ substr($myFechaHasta,0,4) }};
-        myFechaMes   = {{ substr($myFechaHasta,5,2) }};
-        myFechaDia   = {{ substr($myFechaHasta,8,2) }};
+        myFechaAnio  = '{{ substr($myFechaHasta,0,4) }}';
+        myFechaMes   = '{{ substr($myFechaHasta,5,2) }}';
+        myFechaDia   = '{{ substr($myFechaHasta,8,2) }}';
 
         myFechaMes       = myFechaMes.toString().length == 1 ? '0' + myFechaMes.toString() : myFechaMes;
         myFechaDia       = myFechaDia.toString().length == 1 ? '0' + myFechaDia.toString() : myFechaDia;
@@ -1038,8 +1033,3 @@ if (isset($balance->Total)){
 
 </script>
 @endsection
-@php
-    function show(){
-        // dd('aqui');
-    }
-@endphp
