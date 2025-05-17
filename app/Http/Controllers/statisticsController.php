@@ -565,13 +565,13 @@ class statisticsController extends Controller
         return view('estadisticas.index', $parametros);
 
     }    
-    /*
+    /* 
+    * ---------------------------------------------------------------
     *
+    *   indexME
     *
-    *   index_all
-    *
-    *
-    */
+    * ---------------------------------------------------------------
+    */ 
     public function indexME(Request $request)
     {
         // \Log::info('Inicio index_all2');
@@ -599,24 +599,27 @@ class statisticsController extends Controller
             $myWalletHasta  = $request->wallet;
         }
         // dd('myWalletDesde -> ' . $myWalletDesde . 'myWalletDesde ->  ' . $myWalletHasta);
-        $myHoraDesde    = "00:00:00";
-        $myHoraHasta    = "23:59:00";
-
-        $myFechaDesde   = "2001-01-01";
-        $myFechaHasta   = "9999-12-31";
+        $myFechaDesde   = "";
+        $myFechaHasta   = "";
+        $fechaDesde   = "2001-01-01";
+        $fechaHasta   = "9999-12-31";        
         if ($request->fechaDesde){
             $myFechaDesde = $request->fechaDesde;
             $myFechaHasta = $request->fechaHasta;
 
-            $myFechaDesde = $myFechaDesde;
-            $myFechaHasta = $myFechaHasta;
-
+            $fechaDesde = $myFechaDesde;
+            $fechaHasta = $myFechaHasta;
 
         }
 
         if ($request->fechaHasta){
             $myFechaHasta = $request->fechaHasta;
             $myFechaHasta = $myFechaHasta;           
+
+            
+            $fechaDesde = $myFechaDesde;
+            $fechaHasta = $myFechaHasta;
+
         }
 
         $myTypeTransactions         = 0;
@@ -646,25 +649,33 @@ class statisticsController extends Controller
         $balance        = "";
         $balanceBefore  = 0;
 
+        $myCoin = null;
+        $busquedaTypeCoin   = "";
+        
+        if (isset($request->coin)){
+            $myCoin             = $request->coin;
+            $busquedaTypeCoin   = 'and type_coin_id = ' . $myCoin;
+        }
 
-        $myCoin             = ($request->coin) ? $request->coin : 1;
-     
-        $myTypeCoinBalance  = $myCoin; // dorales siempre por ahora
-        $Type_coin_balance  = Type_coin::pluck('name', 'id')->toArray();   
+        \Log::info('el coin es   ->' . $request->coin . '<-');
+        \Log::info('el coin type ->' . gettype($request->coin) . '<-');
+
+        $myTypeCoin = $myCoin; // dorales siempre por ahora
+        $Type_coin  = Type_coin::pluck('name', 'id')->toArray();   
 
 
         if ($myGroup > 0){
 
-            $balance            = $this->getBalance($myGroup, "2001-01-01" , "9999-12-31" ,$myCoin);
-            $balanceBefore      = $this->getBalanceBefore($myGroup,$myFechaDesde, $myFechaHasta, $myCoin);
+            $balance            = $this->getBalanceME($myGroup, "2001-01-01" , "9999-12-31" ,$myCoin);
+            $balanceBefore      = $this->getBalanceBeforeME($myGroup,$myFechaDesde, $myFechaHasta, $myCoin);
 
         }
         else
         {
             if ($myWallet > 0){
                 
-                $balance        = $this->getBalanceWallet($myWallet, "2001-01-01", "9999-12-31", $myCoin);
-                $balanceBefore  = $this->getBalanceWalletBefore($myWallet,$myFechaDesde, $myFechaHasta, $myCoin);
+                $balance        = $this->getBalanceWalletME($myWallet, "2001-01-01", "9999-12-31", $myCoin);
+                $balanceBefore  = $this->getBalanceWalletBeforeME($myWallet,$myFechaDesde, $myFechaHasta, $myCoin);
 
             }
         };
@@ -680,12 +691,6 @@ class statisticsController extends Controller
             $myUserDesde = $myUser;
             $myUserHasta = $myUser;            
         }
-        // \Log::info('leam - usuario    ->' . $request->usuario);
-        // \Log::info('leam - user desde ->' . $myUserDesde);
-        // \Log::info('leam - user hasta ->' . $myUserHasta);
-
-        //  print_r($myGroup);
-         // dd($myGroup);
         $Transacciones      = [];
 
         $myLimit            = 0;
@@ -694,9 +699,6 @@ class statisticsController extends Controller
 
         $myLimitCondition   = "limit 1000";
 
-        // \Log::info('leam - el user id es -> ' . $request->user()->id);
-        // $Group_roles = app(RoleController::class)->getRoleWallets($request->user()->id);
-        // $Group_roles = $this->getGroupRole($request->user()->id);
         $Group_roles = $this->getGroupRole(auth()->id());
         // \Log::info('leam - el user id es -> ' . print_r($Group_roles,true));
        
@@ -726,34 +728,6 @@ class statisticsController extends Controller
         }
         */
         
-        //\Log::info('leam usuario desde       ***    -> ' . $myUserDesde);
-        //\Log::info('leam usuario hasta       ***    -> ' . $myUserHasta);
-
-        // \Log::info('leam wallet desde   44444     ***    -> ' . $myWallet);
-        //\Log::info('leam wallet desde        ***    -> ' . $myWalletDesde);
-        //\Log::info('leam wallet hasta        ***    -> ' . $myWalletHasta);        
-
-        //\Log::info('leam myGroup             ***    -> ' . $myGroup);        
-        //\Log::info('leam group  desde        ***    -> ' . $myGroupDesde);
-        //\Log::info('leam group  Hasta        ***    -> ' . $myGroupHasta);     
-
-        //\Log::info('leam transaction         ***    -> ' . $myTypeTransactions);
-        //\Log::info('leam transaction  desde  ***    -> ' . $myTypeTransactionsDesde);
-        //\Log::info('leam transaction  Hasta  ***    -> ' . $myTypeTransactionsHasta);              
-        
-
-        // \Log::info('leam token desde         ***    -> ' . $myTokenDesde);
-        // \Log::info('leam token hasta         ***    -> ' . $myTokenHasta);
-        
-        // \Log::info('leam fecha desde         ***    -> ' . $myFechaDesde);
-        // \Log::info('leam fecha hasta         ***    -> ' . $myFechaHasta);
-        
-        // \Log::info('leam fecha desde request ***    -> ' . $request->fechaDesde);
-        // \Log::info('leam fecha hasta request ***    -> ' . $request->fechaHasta);
-        
-        // \Log::info('leam Lmit                ***    -> ' . $myLimit);
-
-        // \Log::info('leam - pasa sin  grupo');
         
         $busquedaGroup  = "";
         $busquedaWallet = "";
@@ -788,7 +762,7 @@ class statisticsController extends Controller
         }
     
 
-        $myQuery =
+        $myQuery2 =
         "
             select
                 Transactions.id                        as Id,
@@ -829,8 +803,8 @@ class statisticsController extends Controller
                     status = 'Activo'
                 and user_id             between $myUserDesde                and $myUserHasta 
                 and type_transaction_id between $myTypeTransactionsDesde    and $myTypeTransactionsHasta 
-                and transaction_date    between '$myFechaDesde  00:00:00'   and '$myFechaHasta 23:59:00' 
-                and     type_coin_balance_id  = $myCoin
+                and transaction_date    between '$fechaDesde  00:00:00'     and '$fechaHasta 23:59:00' 
+                $busquedaTypeCoin
                 $busquedaWallet 
                 $busquedaGroup 
                 $myTokenCondition
@@ -840,12 +814,9 @@ class statisticsController extends Controller
                 Transactions.transaction_date desc
             $myLimitCondition
         ";
-        
-        // return $myQuery;
-          \Log::info('leam - myQuery indexall2 ->' . $myQuery);
-
-        $Transacciones = DB::select($myQuery);
-        
+    
+        $Transacciones = DB::select($myQuery2);
+            
         // }
 
         //  dd($Transacciones);
@@ -912,8 +883,8 @@ class statisticsController extends Controller
             $myFechadesdeInvertida  = substr($myFechaDesdeBefore,8,2) . "-" . substr($myFechaDesdeBefore,5,2) . "-" . substr($myFechaDesdeBefore,0,4);
         }
 
-        $parametros['myTypeCoinBalance']        = $myTypeCoinBalance;
-        $parametros['Type_coin_balance']        = $Type_coin_balance;
+        $parametros['myTypeCoin']               = $myTypeCoin;
+        $parametros['Type_coin']                = $Type_coin;
 
         $parametros['userole']                  = $userole;
         $parametros['wallet']                   = $wallet;
@@ -2904,6 +2875,117 @@ class statisticsController extends Controller
     /*
     *
     *
+    *       getBalanceME
+    *
+    *
+    */
+    function getBalanceME($grupo = 0, $myFechaDesde = "2001-01-01", $myFechaHasta = "9999-12-31", $typeCoin = null){
+
+        if ($grupo === 0){
+            $grupoDesde = 00000;
+            $grupoHasta = 99999;
+
+        }else{
+            $grupoDesde = $grupo;
+            $grupoHasta = $grupo;
+        }
+        //\Log::info('leam getBalance grupo        *** -> ' . $grupo);
+        //\Log::info('leam getBalance grupoDesde   *** -> ' . $grupoDesde);
+        //\Log::info('leam getBalance grupoHasta   *** -> ' . $grupoHasta);
+        //\Log::info('leam getBalance myFechaDesde *** -> ' . $myFechaDesde);
+        //\Log::info('leam getBalance myFechaHasta *** -> ' . $myFechaHasta);
+
+
+        $myTempCredits  = $this->getCredits();
+        $myTempDebits   = $this->getDebits();
+
+        $busquedaTypeCoin = "";
+        if ($typeCoin){
+            $busquedaTypeCoin = "and type_coin_id = " . $typeCoin;
+        }
+
+        $myQuery =
+        "
+        select
+            IdGrupo             as IdGrupo,
+            NombreGrupo         as NombreGrupo,
+            sum(Cant)   as Cant,
+            sum(MontoCreditos)  as Creditos,
+            sum(MontoDebitos)   as Debitos,
+            (sum(MontoCreditos) - sum(MontoDebitos) ) as Total
+        from(
+            SELECT
+                group_id                            as IdGrupo,
+                mtf.groups.name                     as NombreGrupo,
+                count(amount_foreign_currency)      as Cant,
+                0 				                    as MontoCreditos,
+                sum(amount_foreign_currency)        as MontoDebitos
+            FROM mtf.transactions
+            left join  mtf.groups on mtf.transactions.group_id  = mtf.groups.id
+            where
+                type_transaction_id in ($myTempDebits)
+                and
+                transaction_date between '$myFechaDesde 00:00:00' and '$myFechaHasta 23:59:00'
+                and
+                group_id between $grupoDesde and $grupoHasta
+                and status           <> 'Anulado'
+                and mtf.groups.type  = 1
+                $busquedaTypeCoin
+            group by
+                IdGrupo,
+                NombreGrupo
+        union
+            SELECT
+                group_id            as IdGrupo,
+                mtf.groups.name     as NombreGrupo,
+                count(amount_foreign_currency)     as Cant,
+                sum(amount_foreign_currency)   as MontoCreditos,
+                0                   as MontoDebitos
+            FROM mtf.transactions
+            left join  mtf.groups on mtf.transactions.group_id  = mtf.groups.id
+            where
+                type_transaction_id in($myTempCredits)
+                and
+                transaction_date between '$myFechaDesde 00:00:00' and '$myFechaHasta 23:59:00'
+                and
+                group_id between $grupoDesde and $grupoHasta
+                and status <> 'Anulado'
+                and mtf.groups.type = 1   
+                $busquedaTypeCoin      
+            group by
+                IdGrupo,
+                NombreGrupo
+
+        )
+        as t
+        group by
+            IdGrupo,
+            NombreGrupo
+        order by 
+            NombreGrupo
+        ";
+
+        //  dd($myQuery);
+        // \Log::info($myQuery);
+        
+
+        $Transacciones = DB::select($myQuery);
+
+        // dd($Transacciones);
+        // \Log::info($Transacciones);
+
+        if (empty($Transacciones)) {
+            return $Transacciones;
+        }else {
+            if ($grupoDesde === $grupoHasta){
+                return $Transacciones[0];
+            };
+            return $Transacciones;
+        }
+    }    
+    /*
+    *
+    *
     *       getBalance2
     *
     *
@@ -2990,7 +3072,7 @@ class statisticsController extends Controller
             };
             return $Transacciones;
         }
-    }    
+    }
     /*
     *
     *
@@ -3048,6 +3130,64 @@ class statisticsController extends Controller
         
         return $balanceDetail;   
     }    
+
+    /*
+    *
+    *
+    *       getBalanceWalletBeforeME
+    *
+    *
+    */
+    function getBalanceBeforeME($myGroup = 0, $myFechaDesde = "2001-01-01", $myFechaHasta = "9999-12-31", $myCoin = 1){
+
+        /*
+        \Log::info('paso en before ');
+        \Log::info('paso en before - myGroup      ->' . $myGroup);
+        \Log::info('paso en before - myFechaDesde ->' . $myFechaDesde);
+        \Log::info('paso en before - myFechaHasta ->' . $myFechaHasta);
+        \Log::info('paso en before - myCoin       ->' . $myCoin);
+        */
+
+        $myFechaDesdeBefore = "2001-01-01";
+        $myFechaHastaBefore = "9999-12-31";
+        $balance3           = 0;
+        $balanceDetail      = 0;
+
+        if ($myFechaDesde === "2001-01-01"){
+            
+            return $balanceDetail;
+        }
+
+        if ($myGroup > 0){
+            // dd($indRecibeFecha);      
+            if ($myFechaDesde != "2001-01-01"){
+                // $myFechaDesdeBefore = $myFechaDesde;
+                $myFechaHastaBefore = $this->getDayBefore($myFechaDesde);
+
+            }
+            /*
+            \Log::info('paso en before - calcula antes ');
+            \Log::info('paso en before - calcula antes myGroup      ->' . $myGroup);
+            \Log::info('paso en before - calcula antes myFechaDesde ->' . $myFechaDesdeBefore);
+            \Log::info('paso en before - calcula antes myFechaHasta ->' . $myFechaHastaBefore);
+            \Log::info('paso en before - calcula antes myCoin       ->' . $myCoin);
+        */
+
+            $balance3           = $this->getBalanceME($myGroup, $myFechaDesdeBefore, $myFechaHastaBefore, $myCoin);
+
+
+            // dd('las fechas - ' . $balance3->Total . ' grupo ' . $myGroup . 'fecha desde -> ' . $myFechaDesdeBefore . ' fecha hasta -> ' . $myFechaHastaBefore);
+            if(isset($balance3->Total)){
+                $balanceDetail  = $balance3->Total;
+            }else{
+                $balanceDetail = 0;
+            }
+        }
+        
+        // \Log::info('Balance detail -> ' . $balanceDetail);
+        
+        return $balanceDetail;   
+    }       
     /*
     *
     *
@@ -3090,7 +3230,49 @@ class statisticsController extends Controller
 
         }        
     }
+    /*
+    *
+    *
+    *       getBalanceWalletBefore
+    *
+    *
+    */
+    function getBalanceWalletBeforeME($myWallet = 0, $myFechaDesde = "2001-01-01", $myFechaHasta = "9999-12-31", $myCoin = 1){
+
+        $myFechaDesdeBefore = "2001-01-01";
+        $myFechaHastaBefore = "9999-12-31";
+        $balance3 = 0;
+
+        $balanceDetail = 0;
         /*
+        \Log::info('leam getBalanceBefore -> $myWallet      ' . $myWallet);
+        \Log::info('leam getBalanceBefore -> $myFechaDesde  ' . $myFechaDesde);
+        \Log::info('leam getBalanceBefore -> $myFechaHasta  ' . $myFechaHasta);
+        \Log::info('leam getBalanceBefore -> $myCoin        ' . $myCoin);
+        */
+
+        if ($myFechaDesde === "2001-01-01"){
+            return $balanceDetail;
+        }
+
+        if ($myWallet > 0){
+            // dd($indRecibeFecha);                
+            if ($myFechaDesde != "2001-01-01"){
+
+                $myFechaHastaBefore = $this->getDayBefore($myFechaDesde);
+
+            }
+            $balance3           = $this->getBalanceWalletME($myWallet, $myFechaDesdeBefore, $myFechaHastaBefore, $myCoin);
+            if(isset($balance3->Total)){
+                $balanceDetail  = $balance3->Total;
+            }else{
+                $balanceDetail = 0;
+            }
+            return $balanceDetail;
+
+        }        
+    }
+    /*
     *
     *
     *       getBalanceWalletMatorBefore
@@ -3284,6 +3466,188 @@ class statisticsController extends Controller
                 wallet_id between $walletDesde and $walletHasta
                 and status <> 'Anulado'
                 and type_coin_balance_id = $myCoin 
+                $busquedaWalletFilter         
+            group by
+                IdWallet,
+                NombreWallet
+        )
+        as t
+        group by
+            IdWallet,
+            NombreWallet
+        order by 
+            NombreWallet
+        ";
+
+        // dd($myQuery);
+         $Transacciones = array();
+
+        $Transacciones = DB::select($myQuery);
+
+        // \Log::info('leam getBalanceWallet - query        *** -> ' . print_r($myQuery,true));
+
+        //\Log::info('leam getBalanceWallet - transacciones *** -> ' . print_r($Transacciones,true));
+        
+        if (empty($Transacciones)) {    
+            return $Transacciones;
+        }else {
+            if ($walletDesde === $walletHasta){
+                return $Transacciones[0];
+            };
+            return $Transacciones;
+        }
+    }
+        /*
+    *
+    *
+    *       getBalanceWalletME
+    *
+    *
+    */
+    function getBalanceWalletME($wallet = null, $fechaDesde = "2001-01-01", $fechaHasta = "9999-12-31", $myCoin = null){
+
+
+        // dd('---- ' . gettype($wallet) . ' ----- '  . print_r($wallet,true));
+
+        $myWallets =[];
+        switch (gettype($wallet)){
+            case 'integer':
+            case 'double':                
+            case 'string':
+                break;
+            case 'array':
+                break;
+        }
+
+        if ($wallet === 0){
+            $walletDesde = 00000;
+            $walletHasta = 99999;
+
+        }else{
+            $walletDesde = $wallet;
+            $walletHasta = $wallet;
+        }
+        
+        // if (count($cajaMayorWallets) > 0){
+            
+        
+        // }
+        
+        // \Log::info('leam  getBalanceWallet - wallet      *** -> ' . $wallet);
+         /*
+         \Log::info('leam  getBalanceWallet - fecha Desde *** -> ' . $fechaDesde);
+         \Log::info('leam  getBalanceWallet - fecha Hasta *** -> ' . $fechaHasta);
+         \Log::info('leam  getBalanceWallet - coin        *** -> ' . $myCoin);
+        */
+        $horaDesde      = " 00:00:00";
+        $horaHasta      = " 23:59:00";
+
+        $myFechaDesde   = $fechaDesde . $horaDesde;
+        $myFechaHasta   = $fechaHasta . $horaHasta;
+
+        $myTable        = "mtf.transactions";
+
+
+
+        $myTempCredits  = $this->getWalletCredits();
+        $myTempDebits   = $this->getWalletDebits();
+
+        $Group_roles    = $this->getGroupRole(auth()->id());
+
+        //\Log::info('leam ddd - statisticsController - print_r -> ' . print_r($Group_roles,true));
+        //\Log::info('leam ddd - statisticsController - Count (group_roles_wallets) ->' . count($Group_roles->wallets));
+
+        $busquedaWalletFilter     = "";
+
+        if($Group_roles->allWallets == 0){
+            if (count($Group_roles->wallets) > 0){ 
+                $theWallets             = implode(",", $Group_roles->wallets);
+                $busquedaWalletFilter   = " and wallet_id in ($theWallets)";
+            }
+        }
+
+        $busquedaTypeCoin = "";
+        if ($myCoin){
+            $busquedaTypeCoin = "and type_coin_id = " . $myCoin;
+        }
+         // dd("wallet debits ->" . $myTempDebits . " wallet credits ->" . $myTempCredits ); // ajuax
+         
+        //
+        // 26-04-2023
+        //
+        // Debitos
+        //  4 cobro en efectivo
+        //  8 Nota de debito
+        //  2 cobro transferencia
+        //  6 Nota de credito a caja
+        //
+        // Creditos
+        //  1 transferencia
+        //  3 pago en efectivo
+        //  5 mercancia
+        //  7 notas de credito
+        //  9 switft
+        //  11 pago usdt
+        //
+        $myQuery =
+        "
+        select
+            IdWallet                                        as IdWallet,
+            NombreWallet                                    as NombreWallet,
+            sum(Cant)                                       as Cant,
+            sum(Monto)                                      as Monto,        
+            sum(MontoCreditos)                              as Creditos,
+            sum(MontoDebitos)                               as Debitos,
+            sum(MontoComision)                              as Comision,
+            sum(MontoComisionBase)                          as ComisionBase,
+            (sum(MontoCreditos) - sum(MontoDebitos) )       as Total,
+            sum(MontoComisionProfit)                        as ComisionGanancia
+        from(
+            SELECT
+                wallet_id                       as IdWallet,
+                mtf.groups.name                 as NombreWallet,
+                count(*)                        as Cant,
+                sum(amount_foreign_currency)    as Monto,
+                0 				                as MontoCreditos,
+                sum(amount_foreign_currency)    as MontoDebitos,
+                sum(amount_commission)          as MontoComision,
+                sum(amount_commission_base)     as MontoComisionBase,
+                sum(amount_commission_profit)   as MontoComisionProfit
+            FROM $myTable
+            left join  mtf.groups on mtf.transactions.wallet_id  = mtf.groups.id
+            where
+                type_transaction_id in ($myTempDebits)
+                and
+                transaction_date            between '$myFechaDesde' and '$myFechaHasta'
+                and
+                wallet_id                   between $walletDesde and $walletHasta
+                and status                  <> 'Anulado'
+                $busquedaTypeCoin 
+                $busquedaWalletFilter 
+            group by
+                IdWallet,
+                NombreWallet
+        union
+            SELECT
+                wallet_id                       as IdWallet,
+                mtf.groups.name                 as NombreWallet,
+                count(*)                        as Cant,   
+                sum(amount_foreign_currency)    as Monto,                        
+                sum(amount_foreign_currency)    as MontoCreditos,
+                0                               as MontoDebitos,
+                sum(amount_commission)          as MontoComision,
+                sum(amount_commission_base)     as MontoComisionBase,
+                sum(amount_commission_profit)   as MontoComisionProfit
+            FROM $myTable
+            left join  mtf.groups on mtf.transactions.wallet_id  = mtf.groups.id
+            where
+                type_transaction_id in ($myTempCredits)
+                and
+                transaction_date between '$myFechaDesde' and '$myFechaHasta'
+                and
+                wallet_id between $walletDesde and $walletHasta
+                and status <> 'Anulado'
+                $busquedaTypeCoin 
                 $busquedaWalletFilter         
             group by
                 IdWallet,
