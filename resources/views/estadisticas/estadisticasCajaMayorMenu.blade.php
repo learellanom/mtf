@@ -51,7 +51,7 @@
                                         </a>
                                     </td>
                                 </tr>
-                                <tr >
+                                <tr>
                                     <td>
                                         <a class="myLink" href="{{ route('cajaMayorCuadroMovimientos') }}">
                                             <p>

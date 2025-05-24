@@ -275,7 +275,7 @@ $salidaMonto    = 0;
         {{-- Filtros --}}
         @can('USDTResumenDiarioFiltro') 
         
-        <div class="tab-pane fade" id="nav-profile{{ $item->group_id}}" role="tabpanel" aria-labelledby="nav-profile-tab{{$item->group_id}}">
+        <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
             Filtrosx
             <div class="card mb-4">
                 <div class="card-header" style="background-color: #2874A6; color: white">
@@ -931,23 +931,77 @@ $salidaMonto    = 0;
             modal.find('#salida3').val(myData2.salida3);
 
             $('#mmy-select1').multiSelect({
-            selectableHeader: `<div class='custom-header' style='background-color: black; color:white'>
-                                    No Visibles    
-                                    <br><br> 
-                                    <div>
-                                        <i class='fas fa-circle' style='color: red;'></i>
-                                    </div>
-                                </div>`,
-            selectionHeader:  `<div class='custom-header' style='background-color: black; color:white'>
-                                    Visibles 
-                                    <br>
-                                    <br> 
-                                    <div>
-                                        <i class='fas fa-circle' style='color: green;'>  </i>
-                                    </div>
-                                </div>`
+                selectableHeader: `<div class='custom-header' style='background-color: black; color:white'>
+                                        No Visibles    
+                                        <br><br> 
+                                        <div>
+                                            <i class='fas fa-circle' style='color: red;'></i>
+                                        </div>
+                                    </div>`,
+                selectionHeader:  `<div class='custom-header' style='background-color: black; color:white'>
+                                        Visibles 
+                                        <br>
+                                        <br> 
+                                        <div>
+                                            <i class='fas fa-circle' style='color: green;'>  </i>
+                                        </div>
+                                    </div>`
              });
-             
+    
+             modal.find('#my-select2').multiSelect({
+                selectableHeader: `<div class='custom-header' style='background-color: black; color:white'>
+                                        No Visibles    
+                                        <br><br> 
+                                        <div>
+                                            <i class='fas fa-circle' style='color: red;'></i>
+                                        </div>
+                                    </div>`,
+                selectionHeader:  `<div class='custom-header' style='background-color: black; color:white'>
+                                        Visibles 
+                                        <br>
+                                        <br> 
+                                        <div>
+                                            <i class='fas fa-circle' style='color: green;'>  </i>
+                                        </div>
+                                    </div>`
+             });
+
+             modal.find('#my-select3').multiSelect({
+                selectableHeader: `<div class='custom-header' style='background-color: black; color:white'>
+                                        No Visibles    
+                                        <br><br> 
+                                        <div>
+                                            <i class='fas fa-circle' style='color: red;'></i>
+                                        </div>
+                                    </div>`,
+                selectionHeader:  `<div class='custom-header' style='background-color: black; color:white'>
+                                        Visibles 
+                                        <br>
+                                        <br> 
+                                        <div>
+                                            <i class='fas fa-circle' style='color: green;'>  </i>
+                                        </div>
+                                    </div>`
+             });
+
+             modal.find('#my-select4').multiSelect({
+                selectableHeader: `<div class='custom-header' style='background-color: black; color:white'>
+                                        No Visibles    
+                                        <br><br> 
+                                        <div>
+                                            <i class='fas fa-circle' style='color: red;'></i>
+                                        </div>
+                                    </div>`,
+                selectionHeader:  `<div class='custom-header' style='background-color: black; color:white'>
+                                        Visibles 
+                                        <br>
+                                        <br> 
+                                        <div>
+                                            <i class='fas fa-circle' style='color: green;'>  </i>
+                                        </div>
+                                    </div>`
+             });
+
             @foreach($grupo as $key => $group2)
              console.log('el grupo con key {!! $key !!} es {!! $group2 !!}');
                 modal.find('#mmy-select1').multiSelect('addOption', { value: '{!! $key !!}', text: '{!! $group2 !!}' });
