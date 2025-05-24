@@ -43,13 +43,20 @@ $config4 = [
     "allowClear" => true,
 ];
 
-$myTotal = 0;
+$myTotal        = 0;
+$myTotalBefore  = 0;
+$myTotalDolar   = 0;
+$myTotalDolarBefore = 0;
 if (isset($balance->Total)){
-    //echo "ajua";
-    //var_dump($balance);
-    $myTotal = $balance->Total;
+    $myTotal        = $balance->Total;
+    $myTotalBefore  = $balanceBefore->Total;
 }
-
+if (isset($balanceBefore->TotalDolar)){
+    $myTotalDolar       = $balanceBefore->TotalDolar;
+    $myTotalDolarBefore = $balanceBefore->TotalDolar;
+}
+    // dd($myTotalDolar);
+ // dd($balance);
 @endphp
 
 
@@ -201,72 +208,127 @@ if (isset($balance->Total)){
 
 <div class="row">
     <div class="col-md-12">
+
+
+    <div class="card-title col-md-12" style="">
+              
+
+
         <div class="card mb-4">
 
-            <div class="card-header">
-                <div class="card-title col-md-12" style="">
-                    <div class="">
-                        <div class= "row">
-                            
-                            <div class="col-sm-12 col-xl-3">
-                                <p class="text-uppercase font-weight-bold">{{ __('Detalles|Movimientos ME') }}</p>
-                            </div>
-                            @php
-                                $indWallet = 0;
-                                if ($myWallet != 0){
-                                    if ($myGroup == 0){
-                                        $indWallet = 1;
-                                    }
-                                }
-                            @endphp
-
-                            @if($indWallet == 1)
-                                <div class="col-sm-12 col-xl-3">
-                                    @if($myTotal< 0)
-                                        <p class='font-weight-bold'>{{__('Saldo a Favor' )}}: {{ number_format(0,2,",",".") }} $</p>
-                                    @else
-                                        <p class='font-weight-bold'>{{__('Saldo a Favor' )}}: {{ number_format(abs($myTotal),2,",",".") }} $</p>
-                                    @endif
-                                </div>
-                                <div class="col-sm-12 col-xl-3">
-                                    @if($myTotal< 0)
-                                        <p class='font-weight-bold'>{{__('Saldo Pendiente' )}}: {{ number_format(abs($myTotal),2,",",".") }} $</p>                                    
-                                    @else
-                                        <p class='font-weight-bold'>{{__('Saldo Pendiente' )}}: {{ number_format(0,2,",",".") }} $</p>
-                                    @endif
-                                </div>
-                                <div class="col-sm-12 col-xl-3">
-                                    <p class="font-weight-bold">Saldo al Corte <span id="myFecha"> {{$myFechadesdeInvertida}} </span> : {{ number_format($balanceBefore,2,",",".") }} $</p>
-                                </div>
-                            @else
-                                <div class="col-sm-12 col-xl-3">
-
-                                    @if($myTotal< 0)
-                                        <p class='font-weight-bold'>{{__('Saldo A favor' )}}: {{ number_format(abs($myTotal),2,",",".") }} $</p>
-                                    @else
-                                        <p class='font-weight-bold'>{{__('Saldo A favor' )}}: {{ number_format(0,2,",",".") }} $</p>
-                                    @endif
-
-                                </div>
-                                <div class="col-sm-12 col-xl-3">
-
-                                    @if($myTotal< 0)
-                                        <p class='font-weight-bold'>{{__('Saldo Pendiente' )}}: {{ number_format(0,2,",",".") }} $</p>
-                                    @else
-                                        <p class='font-weight-bold'>{{__('Saldo Pendiente' )}}: {{ number_format($myTotal,2,",",".") }} $</p>
-                                    @endif
-                                </div>
-                                <div class="col-sm-12 col-xl-3">
-
-                                    <p class="font-weight-bold">Saldo al Corte <span id="myFecha"> {{ $myFechadesdeInvertida }}</span> : {{ number_format($balanceBefore,2,",",".") }} $</p>
-
-                                </div>
-                            @endif
+            <div class="card-header ">
+                <div class="rounded" style="border: solid 1px black; padding: 5px">
+                    
+                    <div class= "row p-1 mt-3" style="font-size:1rem">
+                        
+                        <div class="col-sm-12 col-xl-3">
+                            <p class="">
+                                <span class="font-weight-bold">
+                                    Saldo Moneda Extranjera
+                                </span>
+                            </p>
                         </div>
+                        @php
+                            $indWallet = 0;
+                            if ($myWallet != 0){
+                                if ($myGroup == 0){
+                                    $indWallet = 1;
+                                }
+                            }
+                        @endphp
+                        
+                        <div class="col-sm-12 col-xl-2">
+                            <p class=''>
+                                <span class="font-weight-bold">
+                                    Entrada:
+                                </span> 
+                                {{ number_format($balance->Creditos ?? 0,2,",",".") }} 
+                            </p>
+                        </div>
+
+                        <div class="col-sm-12 col-xl-2">
+                            <p class=''>
+                                <span class="font-weight-bold">
+                                    Salida: 
+                                </span>
+                                {{ number_format($balance->Debitos ?? 0,2,",",".") }} 
+                            </p>
+                        </div>
+
+                        <div class="col-sm-12 col-xl-2">
+                                <p class=''>
+                                    <span class="font-weight-bold">
+                                        Saldo: 
+                                    </span>
+                                    {{ number_format($myTotal,2,",",".") }} 
+                                </p>
+                        </div>
+
+                        <div class="col-sm-12 col-xl-3">
+                            <p class="">
+                                <span class="font-weight-bold">
+                                    Saldo al Corte <span id="myFecha"> {{$myFechadesdeInvertida}} </span> : 
+                                </span>
+                                {{ number_format($myTotalBefore,2,",",".") }} 
+                            </p>
+                        </div>
+
                     </div>
+                    <hr style="background-color: gray;">
+                    <div class= "row p-1" style="font-size:1rem">
+                        
+                        <div class="col-sm-12 col-xl-3">
+                            <p class="">
+                                <span class="font-weight-bold">
+                                    Saldo en Dolares
+                                </span>
+                            </p>
+                        </div>
+                        @php
+                            $indWallet = 0;
+                            if ($myWallet != 0){
+                                if ($myGroup == 0){
+                                    $indWallet = 1;
+                                }
+                            }
+                        @endphp
+
+                        <div class="col-sm-12 col-xl-2">
+                            <p class=''>
+                                <span class="font-weight-bold">
+                                    Entrada: 
+                                </span>
+                                {{ number_format($balance->MontoCreditosME ?? 0,2,",",".") }} $
+                            </p>
+                        </div>
+                        <div class="col-sm-12 col-xl-2">
+                            <p class=''>
+                                <span class="font-weight-bold">
+                                    Salida: 
+                                </span>
+                                {{ number_format($balance->MontoDebitosME ?? 0,2,",",".") }} $
+                            </p>
+                        </div>
+                        <div class="col-sm-12 col-xl-2">
+                            <p class=''>
+                                <span class="font-weight-bold">
+                                    {{__('Saldo' )}}: 
+                                </span>
+                                {{ number_format($myTotalDolar,2,",",".") }} $
+                            </p>
+                        </div>
+                        <div class="col-sm-12 col-xl-3">
+                            <p class="">
+                                <span class="font-weight-bold">
+                                    Saldo al Corte <span id="myFecha"> {{$myFechadesdeInvertida}} </span> : 
+                                </span>
+                                {{ number_format($myTotalDolarBefore,2,",",".") }} $
+                            </p>
+                        </div>
+  
+                    </div> 
                 </div>
             </div>
-
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-12">
@@ -286,7 +348,7 @@ if (isset($balance->Total)){
                                     <th style="width:1%;">Tasa</th>
                                     <th style="width:1%;">Moneda Balance</th>
                                     <th style="width:1%;">Monto $ </th>
-                                    <th style="width:1%;">Saldo <i class="fas fa-dolar"></i></th>
+                                    {{-- <th style="width:1%;">Saldo <i class="fas fa-dolar"></i></th> --}}
                                     <th style="width:4%;">Grupo</th>
                                     <th style="width:1%;">Agente</th>
                                     <th style="width:4%;">Caja</th>
@@ -297,8 +359,8 @@ if (isset($balance->Total)){
                             </thead>
                             @php
                                 $myTotal = 0;
-                                $myTotal = $balanceBefore; // asigna el saldo al corte para que calcule desde ahi
-                                // \Log::info('leam - balanceBefore -> ' . $balanceBefore);
+                                $myTotal = $balanceBefore->Total ?? 0; // asigna el saldo al corte para que calcule desde ahi
+                                // \Log::info('leam - balanceBefore->Total -> ' . $balanceBefore->Total);
                             @endphp
                           
                             @foreach($config['data'] as $row)
@@ -429,7 +491,7 @@ if (isset($balance->Total)){
                                     <td class="text-left"   >{!! $row->TipoMonedaBalance!!} </td>
                                     <td class="text-right"  >{!! number_format($Monto,2) !!}</td>
 
-                                    <td class="text-right">{!! number_format($myTotal,2) !!}</td>
+                                    {{-- <td class="text-right">{!! number_format($myTotal,2) !!}</td> --}}
 
 
                                     <td>{!! $row->ClientName !!}</td>

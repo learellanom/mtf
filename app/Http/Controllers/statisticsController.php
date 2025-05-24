@@ -646,8 +646,7 @@ class statisticsController extends Controller
             }
         }
 
-        $balance        = "";
-        $balanceBefore  = 0;
+
 
         $myCoin = null;
         $busquedaTypeCoin   = "";
@@ -663,7 +662,8 @@ class statisticsController extends Controller
         $myTypeCoin = $myCoin; // dorales siempre por ahora
         $Type_coin  = Type_coin::pluck('name', 'id')->toArray();   
 
-
+        $balance        = "";
+        $balanceBefore  = 0;
         if ($myGroup > 0){
 
             $balance            = $this->getBalanceME($myGroup, "2001-01-01" , "9999-12-31" ,$myCoin);
@@ -680,7 +680,7 @@ class statisticsController extends Controller
             }
         };
         // dd($balance);
-        // dd($balanceBefore);
+       //  dd($balanceBefore);
 
         $myUser         = 0;
         $myUserDesde    = 0;
@@ -875,6 +875,7 @@ class statisticsController extends Controller
             }
         }
 
+        // dd($myFechaDesde);
 
         if ($myFechaDesde === "2001-01-01"){
             $myFechadesdeInvertida = "";
@@ -882,6 +883,8 @@ class statisticsController extends Controller
             $myFechaDesdeBefore     = $this->getDayBefore($myFechaDesde);
             $myFechadesdeInvertida  = substr($myFechaDesdeBefore,8,2) . "-" . substr($myFechaDesdeBefore,5,2) . "-" . substr($myFechaDesdeBefore,0,4);
         }
+
+        
 
         $parametros['myTypeCoin']               = $myTypeCoin;
         $parametros['Type_coin']                = $Type_coin;
@@ -2907,19 +2910,24 @@ class statisticsController extends Controller
         $myQuery =
         "
         select
-            IdGrupo             as IdGrupo,
-            NombreGrupo         as NombreGrupo,
-            sum(Cant)   as Cant,
-            sum(MontoCreditos)  as Creditos,
-            sum(MontoDebitos)   as Debitos,
-            (sum(MontoCreditos) - sum(MontoDebitos) ) as Total
+            IdGrupo                                     as IdGrupo,
+            NombreGrupo                                 as NombreGrupo,
+            sum(Cant)                                   as Cant,
+            sum(MontoCreditos)                          as Creditos,
+            sum(MontoDebitos)                           as Debitos,
+            (sum(MontoCreditos) - sum(MontoDebitos) )   as Total,
+            sum(MontoCreditosDolar)                     as MontoCreditosME,
+            sum(MontoDebitosDolar)                      as MontoDebitosME,
+            (sum(MontoCreditosDolar) - sum(MontoDebitosDolar) )   as TotalDolar            
         from(
             SELECT
                 group_id                            as IdGrupo,
                 mtf.groups.name                     as NombreGrupo,
                 count(amount_foreign_currency)      as Cant,
                 0 				                    as MontoCreditos,
-                sum(amount_foreign_currency)        as MontoDebitos
+                sum(amount_foreign_currency)        as MontoDebitos,
+                0 				                    as MontoCreditosDolar,
+                sum(amount)                         as MontoDebitosDolar
             FROM mtf.transactions
             left join  mtf.groups on mtf.transactions.group_id  = mtf.groups.id
             where
@@ -2936,11 +2944,13 @@ class statisticsController extends Controller
                 NombreGrupo
         union
             SELECT
-                group_id            as IdGrupo,
-                mtf.groups.name     as NombreGrupo,
-                count(amount_foreign_currency)     as Cant,
-                sum(amount_foreign_currency)   as MontoCreditos,
-                0                   as MontoDebitos
+                group_id                        as IdGrupo,
+                mtf.groups.name                 as NombreGrupo,
+                count(amount_foreign_currency)  as Cant,
+                sum(amount_foreign_currency)    as MontoCreditos,
+                0                               as MontoDebitos,
+                sum(amount)                     as MontoCreditosDolar,
+                0                               as MontoDebitosDolar
             FROM mtf.transactions
             left join  mtf.groups on mtf.transactions.group_id  = mtf.groups.id
             where
@@ -3177,11 +3187,12 @@ class statisticsController extends Controller
 
 
             // dd('las fechas - ' . $balance3->Total . ' grupo ' . $myGroup . 'fecha desde -> ' . $myFechaDesdeBefore . ' fecha hasta -> ' . $myFechaHastaBefore);
-            if(isset($balance3->Total)){
-                $balanceDetail  = $balance3->Total;
-            }else{
-                $balanceDetail = 0;
-            }
+            // if(isset($balance3->Total)){
+            //     $balanceDetail  = $balance3->Total;
+            // }else{
+            //     $balanceDetail = 0;
+            // }
+            $balanceDetail = $balance3;
         }
         
         // \Log::info('Balance detail -> ' . $balanceDetail);
@@ -3263,11 +3274,13 @@ class statisticsController extends Controller
 
             }
             $balance3           = $this->getBalanceWalletME($myWallet, $myFechaDesdeBefore, $myFechaHastaBefore, $myCoin);
-            if(isset($balance3->Total)){
-                $balanceDetail  = $balance3->Total;
-            }else{
-                $balanceDetail = 0;
-            }
+            // if(isset($balance3->Total)){
+            //     $balanceDetail  = $balance3->TotalDolar;
+            // }else{
+            //     $balanceDetail = 0;
+            // }
+
+            $balanceDetail = $balance3;
             return $balanceDetail;
 
         }        
@@ -3558,13 +3571,13 @@ class statisticsController extends Controller
         //\Log::info('leam ddd - statisticsController - Count (group_roles_wallets) ->' . count($Group_roles->wallets));
 
         $busquedaWalletFilter     = "";
-
-        if($Group_roles->allWallets == 0){
-            if (count($Group_roles->wallets) > 0){ 
-                $theWallets             = implode(",", $Group_roles->wallets);
-                $busquedaWalletFilter   = " and wallet_id in ($theWallets)";
-            }
-        }
+        // comentado 20-05-205 para valdiar
+        // if($Group_roles->allWallets == 0){
+        //     if (count($Group_roles->wallets) > 0){ 
+        //         $theWallets             = implode(",", $Group_roles->wallets);
+        //         $busquedaWalletFilter   = " and wallet_id in ($theWallets)";
+        //     }
+        // }
 
         $busquedaTypeCoin = "";
         if ($myCoin){
@@ -3601,7 +3614,11 @@ class statisticsController extends Controller
             sum(MontoComision)                              as Comision,
             sum(MontoComisionBase)                          as ComisionBase,
             (sum(MontoCreditos) - sum(MontoDebitos) )       as Total,
-            sum(MontoComisionProfit)                        as ComisionGanancia
+            sum(MontoComisionProfit)                        as ComisionGanancia,
+            sum(MontoDolar)                                 as MontoME,
+            sum(MontoCreditosDolar)                         as MontoCreditosME,
+            sum(MontoDebitosDolar)                            as MontoDebitosME,
+            (sum(MontoCreditosDolar) - sum(MontoDebitosDolar) )  as TotalDolar
         from(
             SELECT
                 wallet_id                       as IdWallet,
@@ -3612,7 +3629,10 @@ class statisticsController extends Controller
                 sum(amount_foreign_currency)    as MontoDebitos,
                 sum(amount_commission)          as MontoComision,
                 sum(amount_commission_base)     as MontoComisionBase,
-                sum(amount_commission_profit)   as MontoComisionProfit
+                sum(amount_commission_profit)   as MontoComisionProfit,
+                0                               as MontoDolar,
+                0 				                as MontoCreditosDolar,
+                sum(amount)                     as MontoDebitosDolar              
             FROM $myTable
             left join  mtf.groups on mtf.transactions.wallet_id  = mtf.groups.id
             where
@@ -3637,7 +3657,10 @@ class statisticsController extends Controller
                 0                               as MontoDebitos,
                 sum(amount_commission)          as MontoComision,
                 sum(amount_commission_base)     as MontoComisionBase,
-                sum(amount_commission_profit)   as MontoComisionProfit
+                sum(amount_commission_profit)   as MontoComisionProfit,
+                0                               as MontoDolar,
+                sum(amount) 				    as MontoCreditosDolar,
+                0                               as MontoDebitosDolar  
             FROM $myTable
             left join  mtf.groups on mtf.transactions.wallet_id  = mtf.groups.id
             where
@@ -3661,11 +3684,18 @@ class statisticsController extends Controller
             NombreWallet
         ";
 
-        // dd($myQuery);
+         // dd($myQuery);
          $Transacciones = array();
 
         $Transacciones = DB::select($myQuery);
+        // dd($Transacciones);
 
+        foreach($Transacciones as $Item){
+                $Item->TotalDolar = $Item->MontoDebitosME - 
+                                    $Item->MontoCreditosME;
+                $Item = abs($Item->TotalDolar);
+        }
+        // dd($Transacciones);
         // \Log::info('leam getBalanceWallet - query        *** -> ' . print_r($myQuery,true));
 
         //\Log::info('leam getBalanceWallet - transacciones *** -> ' . print_r($Transacciones,true));
