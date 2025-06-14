@@ -49,7 +49,8 @@ class PermissionController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update($request, $permission)
+    public function update(Request $request, $permission)
+    
     {
         $permisos = Permission::find($permission);
 

@@ -884,7 +884,6 @@ class statisticsController extends Controller
             $myFechadesdeInvertida  = substr($myFechaDesdeBefore,8,2) . "-" . substr($myFechaDesdeBefore,5,2) . "-" . substr($myFechaDesdeBefore,0,4);
         }
 
-        
 
         $parametros['myTypeCoin']               = $myTypeCoin;
         $parametros['Type_coin']                = $Type_coin;
@@ -7856,20 +7855,15 @@ class statisticsController extends Controller
     *   todos los pagos que ha recibido una caja
     *
     */
-    function ResumenEntradaWallet($cajaMayorWallets = "", $myFechaDesde2 = "", $myFechaHasta2 = ""){
+    function ResumenEntradaWallet($theWallet = null, $myFechaDesde2 = "", $myFechaHasta2 = ""){
         // \Log::info('leam - statisticsController - commissionsProfit - el wallet es ->' . $request->wallet);
         // $request->wallet        = 89;   // abu mahmud
         // $request->wallet        = 93;   // caja usdt
         // $request->wallet        = 139;  // caja principal usdt
+        
         $recargas3 = [];
-        if ($cajaMayorWallets == "") return $recargas3;
+        if ($theWallet == "") return $recargas3;
 
-        $myWallets = [];
-        if ($cajaMayorWallets){
-            $myWallets = implode(",",$cajaMayorWallets);
-
-        }
-        // dd($myWallets);
 
         $myFechaDesde = "2001-01-01";
         $myFechaHasta = "9999-12-31";
@@ -7912,7 +7906,7 @@ class statisticsController extends Controller
             left join   mtf.groups              on mtf.Transactions.group_id            = mtf.groups.id
             where
                     status = 'Activo'
-                and group_id                in($myWallets)
+                and group_id                = $theWallet
                 and type_transaction_id     between $myTransaction           and $myTransaction
                 and transaction_date        between '$myFechaDesde 00:00:00' and '$myFechaHasta 23:59:00'
             group by
@@ -7960,7 +7954,7 @@ class statisticsController extends Controller
             left join   mtf.groups              on mtf.Transactions.group_id            = mtf.groups.id
             where
                     status = 'Activo'
-                and wallet_id                in($myWallets)
+                and wallet_id                = $theWallet
                 and type_transaction_id      between $myTransaction              and     $myTransaction
                 and transaction_date         between '$myFechaDesde'             and     '$myFechaHasta'
             group by
@@ -7995,20 +7989,11 @@ class statisticsController extends Controller
     *       recibe grupos separados por comas
     *
     */
-    function ResumenEntradaWalletComision($cajaMayorWallets = "", $groups = "", $fechaDesde = "", $fechaHasta = ""){
-
-        $myWallets = [];
-        if ($cajaMayorWallets != ""){
-            $myWallets = implode(",",$cajaMayorWallets);
-        }
+    function ResumenEntradaWalletComision($theWallet, $groups = "", $fechaDesde = "", $fechaHasta = ""){
 
         // $request->group = 158; // comision usdt
 
-        $myGroups = [];
-        if ($groups != ""){
-            $myGroups = implode(",",$groups);
 
-        }
 
         $myFechaDesde = "2001-01-01";
         $myFechaHasta = "9999-12-31";
@@ -8024,10 +8009,18 @@ class statisticsController extends Controller
 
         $myTable = "mtf.transactions";
 
+
+        $myGroups = [];
+        if ($groups != ""){
+            $myGroups = implode(",",$groups);
+
+        }
         $myFiltroGrupos = "";
         if ($groups != ""){
             $myFiltroGrupos = "and group_id                in($myGroups)";
         }
+
+
         //
         // todos los 11 pago hechos por el wallet con comision
         // todos los 13 cobros hechos por el wallet con comision
@@ -8058,7 +8051,7 @@ class statisticsController extends Controller
             left join   mtf.groups              on mtf.Transactions.group_id            = mtf.groups.id
             where
                     status = 'Activo'
-                and wallet_id in ($myWallets)
+                and wallet_id  = $theWallet
                 $myFiltroGrupos
                 and type_transaction_id     in (11,13)
                 and transaction_date        between '$myFechaDesde 00:00:00' and '$myFechaHasta 23:59:00'
@@ -9587,7 +9580,7 @@ class statisticsController extends Controller
         $myJson         = file_get_contents("filtros\myCajaMayorWalletsFiltros");
         $myJsonData     = json_decode($myJson,true); 
 
-        \Log::info('leam - lee Caja Mayor Wallets  filtro -> ' . print_r($myJsonData,true));
+        // \Log::info('leam - lee Caja Mayor Wallets  filtro -> ' . print_r($myJsonData,true));
 
 
         $myResponse = 
@@ -9631,7 +9624,7 @@ class statisticsController extends Controller
         $myJson         = file_get_contents("filtros\myUSDTResDiaMovimientosFiltro");
         $myJsonData     = json_decode($myJson,true); 
 
-        \Log::info('leam - lee USDT filtro -> ' . print_r($myJsonData,true));
+        // \Log::info('leam - lee USDT filtro -> ' . print_r($myJsonData,true));
 
 
         $myResponse = 
@@ -10836,18 +10829,10 @@ public function estadisticaCajaMayorMenu(request $request)
 public function cajaMayorCuadroMovimientos(request $request)
 {
     
-
-    // dd($request->fechaDesde . ' ' . $request->fechaHasta);
-    
-    // dd($wallet);
-    // if ($request->query('wallet')){
-    // };
-
     $cajaMayor = [];
     $cajaMayorWallets = [];
     $cajaMayorWalletsDetail = [];
 
-    /* MANTENER VALOR BUSCADO EN EL URL */
     $myWalletDesde   = 0;
     $myWalletHasta   = 9999;
     $myWallet        = 0;
@@ -10943,27 +10928,79 @@ public function cajaMayorCuadroMovimientos(request $request)
         $myJsonData     = json_decode($myJson,true); 
         // dd($myJsonData['groupsEntrada1']);
         // dd($myJsonData);
-        $RecargasWallet             = $this->ResumenEntradaWallet($cajaMayorWallets, $myFechaDesde, $myFechaHasta);
+
+        $myJson2         = file_get_contents("filtros\myCajaMayorWalletsFiltros");
+        $myJsonData2     = json_decode($myJson2,true);
+        //  dd($myJsonData2);
+
+        // dd($cajaMayorWallets);
+        
+        $RecargasWallet = collect([]);
+        $transaccionesGrupoComision = collect([]);
+        $transaccionesGrupoSalida = collect([]);
+        $transaccionesGrupoSalida2 = collect([]);
+        $transaccionesGrupoSalida3 = collect ([]);
+        $transaccionesWalletsSalida3 = collect([]);
+
+        foreach($cajaMayorWallets as $cajaMayorItem){
+
+            $Recargas             = $this->ResumenEntradaWallet($cajaMayorItem, $myFechaDesde, $myFechaHasta);
+
+            $indFiltro = false;
+            $transaccionesGrupoComisionTemp = collect([]);
+            $transaccionesGrupoSalidaTemp = collect([]);
+            $transaccionesGrupoSalida2Temp = collect([]);
+            $transaccionesGrupoSalida3Temp = collect ([]);
+            $transaccionesWalletsSalida3Temp = collect([]);
+
+            foreach($myJsonData2 as $item){
+                if ($item['wallet'] == $cajaMayorItem){
+                    \Log::info("Si tiene filtro el wallet -> $cajaMayorItem -> " . print_r($item,true));
+
+                    $myGroups                   = $item['groupsEntrada1'] ;
+                    $transaccionesGrupoComisionTemp = $this->ResumenEntradaWalletComision($cajaMayorItem, $myGroups, $myFechaDesde, $myFechaHasta);
+
+                    $myGroups                   = $item['groupsSalida1'];
+                    $transaccionesGrupoSalidaTemp   = $this->ResumenSalidaWalletGroup($cajaMayorItem, $myGroups);
+
+                    $myGroups                   = $item['groupsSalida2'];
+                    $transaccionesGrupoSalida2Temp   = $this->ResumenSalidaWalletGroup($cajaMayorItem, $myGroups);        
+            
+                    $myGroups                   = $myJsonData['groupsSalida3'];
+                    $transaccionesGrupoSalida3Temp   = $this->ResumenSalidaWalletGroup($cajaMayorItem, $myGroups);
+
+                    $myGroups = $myJsonData['walletsSalida3'];
+                    $transaccionesWalletsSalida3Temp   = $this->ResumenSalidaWalletGroup($cajaMayorItem, $myGroups);
+
+                    $indFiltro = true;
+
+                    break;
+                }
+                // \Log::info('jsonData2 -> wallet -> ' . print_r($item['wallet'],true));
+                // \Log::info('jsonData2 -> wallet -> ' . print_r($var,true));
+                
+            }
+            if ($indFiltro == false){
+                $transaccionesGrupoComisionTemp = $this->ResumenEntradaWalletComision($cajaMayorItem, null, $myFechaDesde, $myFechaHasta);
+                $transaccionesGrupoSalidaTemp   = $this->ResumenSalidaWalletGroup($cajaMayorItem, null);
+                $transaccionesWalletsSalida3Temp   = $this->ResumenSalidaWalletGroup($cajaMayorItem, null);
+            }
+            
+            // \Log::info( "leam *** statisticsController -> los groups  -> del wallet $cajaMayorItem -> " . print_r($myGroups,true));
+            
+            \Log::info( "leam *** statisticsController -> recargas  -> del wallet $cajaMayorItem -> " . print_r($Recargas,true));
+
+            $RecargasWallet = $RecargasWallet->concat($Recargas);
+            $transaccionesGrupoComision = $transaccionesGrupoComision->concat($transaccionesGrupoComisionTemp);
+            $transaccionesGrupoSalida = $transaccionesGrupoSalida->concat($transaccionesGrupoSalidaTemp);
+            $transaccionesGrupoSalida2 = $transaccionesGrupoSalida2->concat($transaccionesGrupoSalida2Temp);
+            $transaccionesGrupoSalida3 = $transaccionesGrupoSalida3->concat($transaccionesGrupoSalida3Temp);
+            $transaccionesWalletsSalida3 = $transaccionesWalletsSalida3->concat($transaccionesWalletsSalida3Temp);
+
+        }
         // dd($RecargasWallet);
-        // leam
-        $myGroups                   = $myJsonData['groupsEntrada1'];
-        $transaccionesGrupoComision = $this->ResumenEntradaWalletComision($cajaMayorWallets, null, $myFechaDesde, $myFechaHasta);
-        
-        $myGroups                   = $myJsonData['groupsSalida1'];
-        // $transaccionesGrupoSalida   = $this->ResumenSalidaWalletGroup($myWallet, $myGroups);
-        $transaccionesGrupoSalida   = $this->ResumenSalidaWalletGroup($cajaMayorWallets);
-        
-        $myGroups                   = $myJsonData['groupsSalida2'];
-        // $transaccionesGrupoSalida   = $this->ResumenSalidaWalletGroup($myWallet, $myGroups);
-        $transaccionesGrupoSalida2   = $this->ResumenSalidaWalletGroup($cajaMayorWallets);        
-
-        $myGroups                   = $myJsonData['groupsSalida3'];
-        // $transaccionesGrupoSalida3   = $this->ResumenSalidaWalletGroup($myWallet, $myGroups);
-        $transaccionesGrupoSalida3   = $this->ResumenSalidaWalletGroup($cajaMayorWallets);
-
-        $request->groups = $myJsonData['walletsSalida3'];
-        // $transaccionesGrupoSalida   = $this->ResumenSalidaWalletGroup($myWallet, $myGroups);
-        $transaccionesWalletsSalida3   = $this->ResumenSalidaWalletGroup($cajaMayorWallets);
+        // dd($RecargasWallet);
+        // leamxxx
 
 
     }else{
@@ -10973,12 +11010,14 @@ public function cajaMayorCuadroMovimientos(request $request)
 
     // dd('transacciones 2 ->' . print_r($Transacciones2,true));
 
-
+    // dd($RecargasWallet);
+    // dd($transaccionesGrupoComision);
     $myQuery =
     "
         SELECT  distinct
             group_id,
-            mtf.groups.name
+            mtf.groups.name,
+            wallet_id
         FROM mtf.transactions
             left join
             mtf.groups on mtf.transactions.group_id = mtf.groups.id 
@@ -10991,7 +11030,7 @@ public function cajaMayorCuadroMovimientos(request $request)
 
     //dd($myQuery);
     $pagosUSDTGrupos = DB::select($myQuery);
-
+    
     $parametros['cajaMayor']                    = $cajaMayor;
     $parametros['cajaMayorWallets']             = $cajaMayorWallets;
     $parametros['cajaMayorWalletsDetail']       = $cajaMayorWalletsDetail;
@@ -11045,19 +11084,13 @@ public function cajaMayorCuadroMovimientos(request $request)
     * Pagos que ha realizado un wallet de la caja mayor
     * comisiones 
     */
-    function ResumenSalidaWalletGroup($cajaMayorWallets = "", $groups ="", $fechaDesde = "", $fechaHasta=""){
+    function ResumenSalidaWalletGroup($theWallet = "", $groups ="", $fechaDesde = "", $fechaHasta=""){
 
-        if ($cajaMayorWallets == "") return $recargas3;
-
-        $myWallets = [];
-        if ($cajaMayorWallets != ""){
-            $myWallets = implode(",",$cajaMayorWallets);
-
-        }
+        if ($theWallet == "") return $recargas3;
 
 		$myGroups = [];
         if ($groups != ""){
-            $myGroups = implode(",",$request->groups);
+            $myGroups = implode(",",$groups);
         }
 
         $myFechaDesde = "2001-01-01";
@@ -11104,7 +11137,7 @@ public function cajaMayorCuadroMovimientos(request $request)
             left join   mtf.groups              on mtf.Transactions.group_id            = mtf.groups.id
             where
                     status = 'Activo'
-                and wallet_id               in($myWallets)
+                and wallet_id               = $theWallet
                 $myFiltroGrupos
                 and type_transaction_id     in (11)
                 and transaction_date        between '$myFechaDesde 00:00:00'             and     '$myFechaHasta 23:59:00'
