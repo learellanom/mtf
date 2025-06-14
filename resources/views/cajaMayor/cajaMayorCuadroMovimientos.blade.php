@@ -276,7 +276,7 @@ $salidaMonto    = 0;
         @can('USDTResumenDiarioFiltro') 
         
         <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
-            Filtrosx
+            Filtros
             <div class="card mb-4">
                 <div class="card-header" style="background-color: #2874A6; color: white">
                     <h3 class="card-title text-uppercase font-weight-bold">Filtros Entradas USDT</h3>
@@ -471,6 +471,7 @@ $salidaMonto    = 0;
                     
                     <span aria-hidden="true">&times;</span>
                     </button>
+                    <input type="hidden" id="theWallet" name="theWallet" value="">
                 </div>
                 <div class="modal-body">
                     <!--
@@ -491,9 +492,9 @@ $salidaMonto    = 0;
                                 <div class="col-12 col-md-6 col-lg-6 col-xl-4 justify-content-center text-center align-items-center">
                                     <div class="mt-4 mb-4">
                                         <label>Nombre Seccion</label>
-                                        <input type="text" id="entrada1" size=20/>
+                                        <input type="text" id="entrada11" size=20/>
                                     </div>
-                                    <select multiple="multiple" id="mmy-select1" class="my-select1" name="my-select[]">
+                                    <select multiple="multiple" id="my-select11" class="my-select11" name="my-select[]">
                                     </select>   
                                 </div>  
 
@@ -502,7 +503,7 @@ $salidaMonto    = 0;
                             <br>
                             <div class="row justify-content-center text-center align-items-center">
                                 <div class="col-12 col-sm-2 mt-2">
-                                    <button id="myButtonAplicar" type="button" class="btn btn-outline-primary btn-sm ">Aplicar</button>
+                                    <button id="myButtonAplicar" type="button" class="btn btn-outline-primary btn-sm " onclick="grabaFiltrosCajaMayor()" >Aplicar</button>
 
                                 </div>
 
@@ -522,9 +523,9 @@ $salidaMonto    = 0;
                                 <div class="col-12 col-md-6 col-lg-6 col-xl-4 justify-content-center text-center align-items-center">
                                     <div class="mt-4 mb-4">
                                         <label>Nombre Seccion</label>
-                                        <input type="text" id="salida1" size=20/>
+                                        <input type="text" id="salida11" size=20/>
                                     </div>                            
-                                    <select multiple="multiple" id="my-select2" name="my-select[]">
+                                    <select multiple="multiple" id="my-select21" name="my-select[]">
                                     </select>   
                                 </div>  
 
@@ -554,9 +555,9 @@ $salidaMonto    = 0;
                                 <div class="col-12 col-md-6 col-lg-6 col-xl-4 justify-content-center text-center align-items-center">
                                     <div class="mt-4 mb-4">
                                         <label>Nombre Seccion</label>
-                                        <input type="text" id="salida2" size=20/>
+                                        <input type="text" id="salida21" size=20/>
                                     </div>                            
-                                    <select multiple="multiple" id="my-select3" name="my-select[]">
+                                    <select multiple="multiple" id="my-select31" name="my-select[]">
                                     </select>   
                                 </div>  
 
@@ -586,10 +587,10 @@ $salidaMonto    = 0;
                                 <div class="col-12 col-md-6 col-lg-6 col-xl-4 justify-content-center text-center align-items-center">
                                     <div class="mt-4 mb-4">
                                         <label>Nombre Seccion</label>
-                                        <input type="text" id="salida3" size=20/>
+                                        <input type="text" id="salida31" size=20/>
                                     </div>           
                                     <label>Grupos de la seccion</label>                 
-                                    <select multiple="multiple" id="my-select4" name="my-select[]">
+                                    <select multiple="multiple" id="my-select41" name="my-select[]">
                                     </select>   
                                 </div>  
 
@@ -602,7 +603,7 @@ $salidaMonto    = 0;
                                     <div class="mt-4 mb-4">
                                         <label>Wallets de la seccion</label>
                                     </div>                            
-                                    <select multiple="multiple" id="my-select5" name="my-select[]">
+                                    <select multiple="multiple" id="my-select51" name="my-select[]">
                                     </select>   
                                 </div>  
 
@@ -635,7 +636,7 @@ $salidaMonto    = 0;
                                     <div class="mt-4 mb-4">
                                         <label>Grupos con pagos USDT sin asignar</label>
                                     </div>                            
-                                    <select multiple="multiple" id="my-select6" name="" style="width:50%; height: 250px;"></select>
+                                    <select multiple="multiple" id="my-select61" name="" style="width:50%; height: 250px;"></select>
                                 </div>  
 
                             </div>  
@@ -780,22 +781,22 @@ $salidaMonto    = 0;
         if (miWallet !=0 ){
             
 
-                calculoCuadroGeneral();
+            calculoCuadroGeneral();
             
             
             {{--
-            calculaEntradaHeader();
-            calculoRecargas();
-            
-            calculoTransacciones();
-            calculaEntradaFooter();
-            
-            calculaSalidaHeader();
-            calculoTransaccionesSalida();
-            calculoTransaccionesSalidaOperaciones();
-            calculoTransaccionesSalidaGastos();
-            calculaSalidaFooter();
-                --}}
+                calculaEntradaHeader();
+                calculoRecargas();
+                
+                calculoTransacciones();
+                calculaEntradaFooter();
+                
+                calculaSalidaHeader();
+                calculoTransaccionesSalida();
+                calculoTransaccionesSalidaOperaciones();
+                calculoTransaccionesSalidaGastos();
+                calculaSalidaFooter();
+            --}}
             @if(count($transaccionesGrupoComision))
                 toggleBotones();
             @endif
@@ -841,59 +842,59 @@ $salidaMonto    = 0;
         });
 
         $('#myButtonAplicar, #myButtonAplicar2, #myButtonAplicar3, #myButtonAplicar4').on('click', function (){
-            
-            $("#myCanvas div").each(function(){
-                $(this).removeAttr("hidden");
-            });
+            alert ('aqui en el bton aplicar ');
+            // $("#myCanvas div").each(function(){
+            //     $(this).removeAttr("hidden");
+            // });
 
-            $("#my-select option:selected").each(function(){
+            // $("#my-select option:selected").each(function(){
                 
-                seleccionado = $(this).attr('value');
+            //     seleccionado = $(this).attr('value');
 
-                $("#myCanvas div").each(function(){
-                    if($(this).data("id")){
+            //     $("#myCanvas div").each(function(){
+            //         if($(this).data("id")){
                                                 
-                        if ($(this).data("id") == seleccionado){
+            //             if ($(this).data("id") == seleccionado){
                             
-                            $(this).attr("hidden",true);
-                        }
-                    }
-                });
+            //                 $(this).attr("hidden",true);
+            //             }
+            //         }
+            //     });
 
 
-            });
+            // });
             
-            grabaFiltros();
+            // grabaFiltros();
             
-            Swal.fire({
-                position: 'top-end',
-                icon: 'success',
-                title: 'Filtro aplicado satisfactoriamente',
-                showConfirmButton: false,
-                timerProgressBar: true,
-                timer: 3000
-                });
+            // Swal.fire({
+            //     position: 'top-end',
+            //     icon: 'success',
+            //     title: 'Filtro aplicado satisfactoriamente',
+            //     showConfirmButton: false,
+            //     timerProgressBar: true,
+            //     timer: 3000
+            //     });
 
-            let myFechaDesde, myFechaHasta;
-            myFechaDesde =  ($('#drCustomRanges').val()).substr(6,4) +
-                            '-' +
-                            ($('#drCustomRanges').val()).substr(3,2) +
-                            '-' +
-                            ($('#drCustomRanges').val()).substr(0,2)
-                            ;
+            // let myFechaDesde, myFechaHasta;
+            // myFechaDesde =  ($('#drCustomRanges').val()).substr(6,4) +
+            //                 '-' +
+            //                 ($('#drCustomRanges').val()).substr(3,2) +
+            //                 '-' +
+            //                 ($('#drCustomRanges').val()).substr(0,2)
+            //                 ;
 
-            myFechaHasta =  ($('#drCustomRanges').val()).substr(19,4) +
-                            '-' +
-                            ($('#drCustomRanges').val()).substr(16,2) +
-                            '-' +
-                            ($('#drCustomRanges').val()).substr(13,2)
-                            ;
+            // myFechaHasta =  ($('#drCustomRanges').val()).substr(19,4) +
+            //                 '-' +
+            //                 ($('#drCustomRanges').val()).substr(16,2) +
+            //                 '-' +
+            //                 ($('#drCustomRanges').val()).substr(13,2)
+            //                 ;
 
                 
-            const wallet       = $('#wallet2').val();
-            const grupo         = $('#grupo').val()     == "" ? 0 : $('#grupo').val();
-            const transaccion   = $('#typeTransactions').val();
-            theRoute(wallet, grupo, myFechaDesde,myFechaHasta);
+            // const wallet       = $('#wallet2').val();
+            // const grupo         = $('#grupo').val()     == "" ? 0 : $('#grupo').val();
+            // const transaccion   = $('#typeTransactions').val();
+            // theRoute(wallet, grupo, myFechaDesde,myFechaHasta);
 
 
 
@@ -906,11 +907,12 @@ $salidaMonto    = 0;
 
         $('#exampleModalLong').on('show.bs.modal', function (event) {
 
-            button = $(event.relatedTarget);
-            wallet =  String(button.data('wallet'));
-            walletName = button.data('walletname');
-            modal = $(this);
+            button      = $(event.relatedTarget);
+            wallet      =  String(button.data('wallet'));
+            walletName  = button.data('walletname');
+            modal       = $(this);
 
+            $('#theWallet').val(wallet);
 
             console.log('el wallet recibido      -> ' + wallet);
             console.log('el wallet recibido tipo -> ' + typeof wallet);
@@ -925,12 +927,12 @@ $salidaMonto    = 0;
             console.log('myData2  en el show.bs.modal -> ' + JSON.stringify(myData2));
             console.log('entrada1 en el show.bs.modal -> ' + myData2.entrada1);
 
-            modal.find('#entrada1').val(myData2.entrada1);
-            modal.find('#salida1').val(myData2.salida1);
-            modal.find('#salida2').val(myData2.salida2);
-            modal.find('#salida3').val(myData2.salida3);
-
-            $('#mmy-select1').multiSelect({
+            $('#entrada11').val(myData2.entrada1??'');
+            $('#salida11').val(myData2.salida1??'');
+            $('#salida21').val(myData2.salida2??'');
+            $('#salida31').val(myData2.salida3??'');
+            // inicio inicializa
+            $('#my-select11').multiSelect({
                 selectableHeader: `<div class='custom-header' style='background-color: black; color:white'>
                                         No Visibles    
                                         <br><br> 
@@ -948,7 +950,7 @@ $salidaMonto    = 0;
                                     </div>`
              });
     
-             modal.find('#my-select2').multiSelect({
+             $('#my-select21').multiSelect({
                 selectableHeader: `<div class='custom-header' style='background-color: black; color:white'>
                                         No Visibles    
                                         <br><br> 
@@ -966,7 +968,7 @@ $salidaMonto    = 0;
                                     </div>`
              });
 
-             modal.find('#my-select3').multiSelect({
+             $('#my-select31').multiSelect({
                 selectableHeader: `<div class='custom-header' style='background-color: black; color:white'>
                                         No Visibles    
                                         <br><br> 
@@ -984,7 +986,7 @@ $salidaMonto    = 0;
                                     </div>`
              });
 
-             modal.find('#my-select4').multiSelect({
+             $('#my-select41').multiSelect({
                 selectableHeader: `<div class='custom-header' style='background-color: black; color:white'>
                                         No Visibles    
                                         <br><br> 
@@ -1001,119 +1003,151 @@ $salidaMonto    = 0;
                                         </div>
                                     </div>`
              });
+
+             $('#my-select51').multiSelect({
+                selectableHeader: `<div class='custom-header' style='background-color: black; color:white'>
+                                        No Visibles    
+                                        <br><br> 
+                                        <div>
+                                            <i class='fas fa-circle' style='color: red;'></i>
+                                        </div>
+                                    </div>`,
+                selectionHeader:  `<div class='custom-header' style='background-color: black; color:white'>
+                                        Visibles 
+                                        <br>
+                                        <br> 
+                                        <div>
+                                            <i class='fas fa-circle' style='color: green;'>  </i>
+                                        </div>
+                                    </div>`
+             });
+
+             // console.log('#my-select11 cantidad antes -> ' + $('#my-select11 option').length);
+
+            $('#my-select11').multiSelect('deselect_all');
+            $('#my-select11').empty();
+
+            $('#my-select21').multiSelect('deselect_all');
+            $('#my-select21').empty();
+
+            $('#my-select31').multiSelect('deselect_all');
+            $('#my-select31').empty();
+
+            $('#my-select41').multiSelect('deselect_all');
+            $('#my-select41').empty();
+
+            $('#my-select51').multiSelect('deselect_all');
+            $('#my-select51').empty();
+
+            console.log('antes');
+            $("#my-select11 option").each(function(){  
+                    console.log('el valor es -> ' + $(this).attr('value'));
+            });
+
+             console.log('#my-select11 cantidad despues -> ' + $('#my-select11 option').length);
 
             @foreach($grupo as $key => $group2)
-             console.log('el grupo con key {!! $key !!} es {!! $group2 !!}');
-                modal.find('#mmy-select1').multiSelect('addOption', { value: '{!! $key !!}', text: '{!! $group2 !!}' });
-                modal.find('#my-select2').multiSelect('addOption', { value: '{!! $key !!}', text: '{!! $group2 !!}' });
-                modal.find('#my-select3').multiSelect('addOption', { value: '{!! $key !!}', text: '{!! $group2 !!}' });
-                modal.find('#my-select4').multiSelect('addOption', { value: '{!! $key !!}', text: '{!! $group2 !!}' });
+             // console.log('el grupo con key {!! $key !!} es {!! $group2 !!}');
+                $('#my-select11').multiSelect('addOption', { value: '{!! $key !!}', text: '{!! $group2 !!}' });
+                $('#my-select21').multiSelect('addOption', { value: '{!! $key !!}', text: '{!! $group2 !!}' });
+                $('#my-select31').multiSelect('addOption', { value: '{!! $key !!}', text: '{!! $group2 !!}' });
+                $('#my-select41').multiSelect('addOption', { value: '{!! $key !!}', text: '{!! $group2 !!}' });
              @endforeach
 
 
-            @foreach($wallet2 as $key => $wallet22)
-                $('#my-select5').multiSelect('addOption', { value: '{!! $key !!}', text: '{!! $wallet22 !!}' });
-            @endforeach
+             console.log('El select 11 -> ' + $('#my-select11'));
 
-            myData2.groupsEntrada1.map( function (valor) {
-                console.log('aqui ... 1 ->' + valor);
-                modal.find("#my-select1 option").each(function(){  
-                    console.log('aqui ...');      
+            @foreach($wallet2 as $key => $wallet22)
+                $('#my-select51').multiSelect('addOption', { value: '{!! $key !!}', text: '{!! $wallet22 !!}' });
+            @endforeach
+            // fin inicializa
+            $('#my-select11').multiSelect('deselect_all');
+            console.log('groupsNEtrada11 - > ' + myData2.groupsEntrada1);
+            myData2.groupsEntrada1?.map( function (valor) {
+                console.log('El valor' + valor);
+                $("#my-select11 option").each(function(){  
                     if (valor == $(this).attr('value')){
-                        modal.find('#my-select1').multiSelect('select', valor.toString());
+                        $('#my-select11').multiSelect('select', valor);
                     }
                 });
             });
+            $('#my-select11').multiSelect('refresh');
 
-            // myData2.groupsEntrada1.map( function (valor) {
-            //     $("#myModal-select1 option").each(function(){
+            myData2.groupsSalida1?.map( function (valor) {
+                $("#my-select21 option").each(function(){
+                     if (valor == $(this).attr('value')){
+                        $('#my-select21').multiSelect('select', valor.toString());
+                    }
+                });
+            });
+            $('#my-select21').multiSelect('refresh');
+
+            myData2.groupsSalida2?.map( function (valor) {
+                $("#my-select31 option").each(function(){
+                    if (valor == $(this).attr('value')){
+                        $('#my-select31').multiSelect('select', valor.toString());
+                    }
+                });
+            });
+            $('#my-select31').multiSelect('refresh');
+
+            myData2.groupsSalida3?.map( function (valor) {
+                $("#my-select41 option").each(function(){
+                    if (valor == $(this).attr('value')){
+                        $('#my-select41').multiSelect('select', valor.toString());
+                    }
+                });
+            });
+            $('#my-select41').multiSelect('refresh');
+
+
+            if (myData2.walletsSalida3){
+                myData2.walletsSalida3?.map( function (valor) {
+                    $("#my-select51 option").each(function(){
+                        if (valor == $(this).attr('value')){
+                            $('#my-select51').multiSelect('select', valor.toString());
+                        }
+                    });
+                });
+            }
+            $('#my-select51').multiSelect('refresh');
+
+            let myGroup;
+            @foreach($pagosUSDTGrupos as $key => $group2)
+                myWallet = {{ $group2->wallet_id }};
+                if (myWallet == wallet){    
                     
-            //         if (valor == $(this).attr('value')){
-            //             $('#myModal-select1').multiSelect('select', valor.toString());
-            //         }
-            //     });
-            // });
-
-            // myData2.groupsSalida1.map( function (valor) {
-            //     $("#my-select2 option").each(function(){
-            //         if (valor == $(this).attr('value')){
-            //             $('#my-select2').multiSelect('select', valor.toString());
-            //         }
-            //     });
-            // });
-
-            // myData2.groupsSalida2.map( function (valor) {
-            //     $("#my-select3 option").each(function(){
-            //         if (valor == $(this).attr('value')){
-            //             $('#my-select3').multiSelect('select', valor.toString());
-            //         }
-            //     });
-            // });
-
-            // myData2.groupsSalida3.map( function (valor) {
-            //     $("#my-select4 option").each(function(){
-            //         if (valor == $(this).attr('value')){
-            //             $('#my-select4').multiSelect('select', valor.toString());
-            //         }
-            //     });
-            // });
-            // if (myData2.walletsSalida3){
-            //     myData2.walletsSalida3.map( function (valor) {
-            //         $("#my-select5 option").each(function(){
-            //             if (valor == $(this).attr('value')){
-            //                 $('#my-select5').multiSelect('select', valor.toString());
-            //             }
-            //         });
-            //     });
-            // }
+                    myGroup = {{ $group2->group_id }};
 
 
-            
-            // let myGroup;
-            // @foreach($pagosUSDTGrupos as $key => $group2)
-            //     myGroup = {{ $group2->group_id }};
+                    indExiste = 0;
+                    for(let i = 1; i<= 5; i++){
+                        $("#my-select" + i + "1" + " option:selected").each(function(){
+                            if (myGroup == $(this).attr('value')){
+                                indExiste = 1;
+                                return false;
+                            }
+                        }); 
+                        if (indExiste == 1){
+                            break;
+                        }
+                    }
+                    if (indExiste == 0){
+                        $('#my-select61').append($('<option>', {value: myGroup, text: '{{$group2->name}}'}));
+                    }
+                }
+            @endforeach
+            // $('#my-select61').multiSelect('refresh');
 
-
-            //     indExiste = 0;
-            //     for(let i = 1; i<= 5; i++){
-            //         $("#my-select" + i + " option:selected").each(function(){
-            //             if (myGroup == $(this).attr('value')){
-            //                 indExiste = 1;
-            //                 return false;
-            //             }
-            //         }); 
-            //         if (indExiste == 1){
-            //             break;
-            //         }
-            //     }
-            //     if (indExiste == 0){
-            //         $('#my-select6').append($('<option>', {value: myGroup, text: '{{$group2->name}}'}));
-            //     }
-
-            // @endforeach
-
-
-
-
-
-
-
-
-
-            modal.find('.modal-title').text('New message to ' + wallet + ' ' + walletName)
+            $('.modal-title').text(wallet + '-' + walletName)
             // modal.find('.modal-body input').val(recipient)
 
-
-            alert('aqui en el show modeal **** ' + $('#my-select1').val());
+            // alert('aqui en el show modeal **** ' + $('#my-select1').val());
             // leeFiltros();  
-
- 
 
             myData2 = $('#filtros').val();
             myData2 = JSON.parse(myData2);
             
-            
-
             console.log('leam - leefiltros show.bs.modal ->' + JSON.stringify(myData2));
             
             myData2.forEach( function(item){
@@ -1277,9 +1311,10 @@ $salidaMonto    = 0;
             let myTitleSalida1;
             let myTitleSalida2;
             let myTitleSalida3;
+            
 
             @foreach($cajaMayorWallets as $wallet)
-
+                wallet = {{ $wallet }};
                 @php
 
                     $groupName = "";
@@ -1401,10 +1436,32 @@ $salidaMonto    = 0;
                     
                 @endphp
 
-                myTitleEntrada = $('#entrada1').val();
-                myTitleSalida1 = $('#salida1').val();
-                myTitleSalida2 = $('#salida2').val();
-                myTitleSalida3 = $('#salida3').val();
+                myTitleEntrada = '';
+                myTitleSalida1 = '';
+                myTitleSalida2 = '';
+                myTitleSalida3 = '';
+
+                myData2 ='';
+                myData = JSON.parse($('#filtros').val());
+
+                for(data2 of myData){
+                   // console.log('la data2 - sale -> ' + data2.wallet + ' y el wallet es -> ' + wallet);
+                    if (data2.wallet == wallet){
+                        myData2 = data2;
+                        console.log('la data2 - sale -> ' + data2.wallet);
+
+                        myTitleEntrada = data2.entrada1;
+                        myTitleSalida1 = data2.salida1;
+                        myTitleSalida2 = data2.salida2;
+                        myTitleSalida3 = data2.salida3;
+
+                        break;
+                    }
+                }
+                // console.log('myTitleEntrada ->' + myTitleEntrada );
+                // console.log('myTitleSalida1 ->' + myTitleSalida1 );
+                // console.log('myTitleSalida2 ->' + myTitleSalida2 );
+                // console.log('myTitleSalida3 ->' + myTitleSalida3 );
 
                 myElement =
                 `
@@ -1446,15 +1503,12 @@ $salidaMonto    = 0;
                             <div class="col-2 text-right"> 
                                 
                                 <!-- Button trigger modal -->
-                                <button type="button" class="btn btn-primary" 
+                                <button type="button" class="btn-sm btn-primary" 
                                     data-toggle="modal" 
                                     data-target="#exampleModalLong" 
                                     data-wallet="{{ $wallet }}"
                                     data-walletName="{{ $groupName }}"
                                     >
-                                    <i class="fas fa-solid fa-filter"></i>
-                                </button> 
-                                <button type="button" class="btn btn-primary" onclick="muestraModelFiltros({{ $wallet}})">
                                     <i class="fas fa-solid fa-filter"></i>
                                 </button> 
                             </div>
@@ -2658,6 +2712,87 @@ $salidaMonto    = 0;
         return;
     }
     
+    /*
+    *
+    *
+    * grabaFiltros
+    * graba los filtros generales
+    * 
+    * 
+    */
+    function grabaFiltrosCajaMayor(){
+
+        
+
+        let wallet          = $('#theWallet').val();
+
+
+        // let myDataTransactions          = buscaFiltros("my-select1");
+        
+        let entrada1        = $('#entrada11').val();
+        let gruposEntrada1  = buscaFiltros("my-select11");
+
+        let salida1         = $('#salida11').val();
+        let gruposSalida1   = buscaFiltros("my-select21");
+
+        let salida2         = $('#salida21').val();
+        let gruposSalida2   = buscaFiltros("my-select31");
+
+        let salida3         = $('#salida31').val();
+        let gruposSalida3   = buscaFiltros("my-select41");
+        let walletsSalida3  = buscaFiltros("my-select51");
+
+        const data = {
+                entrada1: entrada1,
+                groupsEntrada1: gruposEntrada1,
+                salida1: salida1,
+                groupsSalida1: gruposSalida1,
+                salida2: salida2,
+                groupsSalida2: gruposSalida2,
+                salida3: salida3,
+                groupsSalida3: gruposSalida3,
+                walletsSalida3: walletsSalida3,
+                wallet: wallet,
+        }
+        
+        let filtros = JSON.parse($('#filtros').val());
+        let filtros2 = [];
+        let indAsigna = false;
+        for(data2 of filtros){
+            // console.log('la data2 - sale -> ' + data2.wallet + ' y el wallet es -> ' + wallet);
+            if (data2.wallet == wallet){
+                indAsigna = true;
+                filtros2.push(data);
+            }else{
+                filtros2.push(data2);
+            }
+        }
+        if (indAsigna == false){
+            filtros2.push(data);
+        }
+
+        console.log('la data al grabar  grabaFiltrosCajaMayor -> ' + JSON.stringify(filtros2));
+        alert('grabaFiltrosCajaMayor -> ' + JSON.stringify(filtros2));
+        // $.ajax(
+        //     {
+        //         headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+        //         method: "POST",
+        //         url: "{{route('filtroCajaMayorWalletsGraba')}}",
+        //         async: false,
+        //         data: {
+        //                 data: { 
+        //                     filtros2,
+        //             }
+        //         },
+        //     }
+        // ).done (function(myData) {
+
+        // // alert('vino');
+
+        // });
+
+        return;
+    }
 
 
     function buscaFiltros(myFilter = ""){
@@ -2914,13 +3049,13 @@ $salidaMonto    = 0;
         });
     }
 
-    function muestraModelFiltros( myWallet = null) {
+    // function muestraModelFiltros( myWallet = null) {
         
 
-        // leeFiltros();  
-        $('#exampleModalLong').modal('show');
+    //     // leeFiltros();  
+    //     $('#exampleModalLong').modal('show');
 
-    }
+    // }
 </script>
 
 @endsection
