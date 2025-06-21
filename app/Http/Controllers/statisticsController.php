@@ -10954,7 +10954,9 @@ public function cajaMayorCuadroMovimientos(request $request)
             $transaccionesWalletsSalida3Temp = collect([]);
 
             foreach($myJsonData2 as $item){
+                \Log::info('el item es -> ' . print_r($item,true));
                 if ($item['wallet'] == $cajaMayorItem){
+
                     \Log::info("Si tiene filtro el wallet -> $cajaMayorItem -> " . print_r($item,true));
 
                     $myGroups                   = $item['groupsEntrada1'] ;

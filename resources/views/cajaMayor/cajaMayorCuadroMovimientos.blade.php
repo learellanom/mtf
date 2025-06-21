@@ -105,26 +105,25 @@ $salidaMonto    = 0;
             <div class="row">
 
                 <div class="col-12 col-lg-3">
-                    <x-adminlte-select2 id="wallet2"
-                    name="optionsWallets2"
-                    
-                    label-class="text-lightblue"
-                    data-placeholder="Seleccione una caja USDT"
-
-                    :config="$config4"
+                    <x-adminlte-select2 
+                        id="wallet2"
+                        name="optionsWallets2"
+                        label-class="text-lightblue"
+                        data-placeholder="Seleccione una caja USDT"
+                        :config="$config4"
                     >
-                    <x-slot name="prependSlot">
-                        
-                        <div class="input-group-text bg-gradient-light">
-                        
-                            <i class="fas fa-box"></i>
-                        </div>
-                    </x-slot>
-                    {{-- <x-adminlte-options :options="$wallet" empty-option="Wallet.."/> --}}
-                    <x-adminlte-options :options="$cajaMayor" empty-option="Wallet.."/>
+                        <x-slot name="prependSlot">
+                            <div class="input-group-text bg-gradient-light">
+                                <i class="fas fa-box"></i>
+                            </div>
+                        </x-slot>
+                        {{-- <x-adminlte-options :options="$wallet" empty-option="Wallet.."/> --}}
+                        <x-adminlte-options :options="$cajaMayor" empty-option="Wallet.."/>
                     </x-adminlte-select2>
                 </div>
+
                 {{--
+
                 <div class="col-12 col-lg-3">
                     <x-adminlte-select2 
                         id="grupo"
@@ -141,8 +140,10 @@ $salidaMonto    = 0;
                     <x-adminlte-options :options="$grupo" empty-option="Grupo.."/>
                     </x-adminlte-select2>
                 </div>
+
                 --}}
                 {{--
+
                 <div class="col col-md-3">
                     <x-adminlte-select2 id="typeTransactions"
                     name="optionstypeTransactions"
@@ -161,6 +162,7 @@ $salidaMonto    = 0;
                     <x-adminlte-options :options="$typeTransactions" empty-option="Selecciona Transaccion.."/>
                     </x-adminlte-select2>
                 </div>
+                
                 --}}
 
 
@@ -508,7 +510,7 @@ $salidaMonto    = 0;
                                 </div>
 
                                 <div class="col-12 col-sm-2 mt-2">
-                                    <button id="myButtonLimpiar" type="button" class="btn btn-outline-primary btn-sm ">Limpiar</button>
+                                    <button id="myButtonLimpiar11" type="button" class="btn btn-outline-primary btn-sm ">Limpiar</button>
                                 </div>                    
                             </div>
                         </div>
@@ -534,12 +536,12 @@ $salidaMonto    = 0;
                             <br>
                             <div class="row justify-content-center text-center align-items-center">
                                 <div class="col-12 col-sm-2 mt-2">
-                                    <button id="myButtonAplicar2" type="button" class="btn btn-outline-primary btn-sm ">Aplicar</button>
+                                    <button id="myButtonAplicar2" type="button" class="btn btn-outline-primary btn-sm " onclick="grabaFiltrosCajaMayor()" >Aplicar</button>
 
                                 </div>
 
                                 <div class="col-12 col-sm-2 mt-2">
-                                    <button id="myButtonLimpiar2" type="button" class="btn btn-outline-primary btn-sm ">Limpiar</button>
+                                    <button id="myButtonLimpiar21" type="button" class="btn btn-outline-primary btn-sm ">Limpiar</button>
                                 </div>                    
                             </div>
                         </div>
@@ -566,12 +568,12 @@ $salidaMonto    = 0;
                             <br>
                             <div class="row justify-content-center text-center align-items-center">
                                 <div class="col-12 col-sm-2 mt-2">
-                                    <button id="myButtonAplicar3" type="button" class="btn btn-outline-primary btn-sm ">Aplicar</button>
+                                    <button id="myButtonAplicar3" type="button" class="btn btn-outline-primary btn-sm " onclick="grabaFiltrosCajaMayor()" >Aplicar</button>
 
                                 </div>
 
                                 <div class="col-12 col-sm-2 mt-2">
-                                    <button id="myButtonLimpiar3" type="button" class="btn btn-outline-primary btn-sm ">Limpiar</button>
+                                    <button id="myButtonLimpiar31" type="button" class="btn btn-outline-primary btn-sm ">Limpiar</button>
                                 </div>                    
                             </div>
                         </div>
@@ -612,12 +614,12 @@ $salidaMonto    = 0;
                             <br>                  
                             <div class="row justify-content-center text-center align-items-center">
                                 <div class="col-12 col-sm-2 mt-2">
-                                    <button id="myButtonAplicar4" type="button" class="btn btn-outline-primary btn-sm ">Aplicar</button>
+                                    <button id="myButtonAplicar4" type="button" class="btn btn-outline-primary btn-sm " onclick="grabaFiltrosCajaMayor()" >Aplicar</button>
 
                                 </div>
 
                                 <div class="col-12 col-sm-2 mt-2">
-                                    <button id="myButtonLimpiar4" type="button" class="btn btn-outline-primary btn-sm ">Limpiar</button>
+                                    <button id="myButtonLimpiar41" type="button" class="btn btn-outline-primary btn-sm ">Limpiar</button>
                                 </div>
                             </div>
                         </div>
@@ -692,13 +694,13 @@ $salidaMonto    = 0;
         console.log('myFechaDesde -> ' + myFechaDesde);
         console.log('myFechaHasta -> ' + myFechaHasta);
 
-         if (myFechaDesde != '2001-01-01'){
+        if (myFechaDesde != '2001-01-01'){
 
-        
             InicializaFechas(myFechaDesde, myFechaHasta);
 
-           // BuscaFechas(myFechaDesde, myFechaHasta);
-         }
+            // BuscaFechas(myFechaDesde, myFechaHasta);
+        }
+
         $('#wallet2').on('change', function (){
             
             let myFechaDesde, myFechaHasta;
@@ -716,10 +718,9 @@ $salidaMonto    = 0;
                             ($('#drCustomRanges').val()).substr(13,2)
                             ;
 
-            const wallet        = $('#wallet2').val()   == "" ? 0 : $('#wallet2').val();
-            const grupo         = $('#grupo').val()     == "" ? 0 : $('#grupo').val();
+            const wallet = $('#wallet2').val()   == "" ? 0 : $('#wallet2').val();
 
-             theRoute(wallet, grupo, myFechaDesde,myFechaHasta);
+            theRoute(wallet, myFechaDesde,myFechaHasta);
 
         });
 
@@ -763,11 +764,10 @@ $salidaMonto    = 0;
                             ($('#drCustomRanges').val()).substr(13,2)
                             ;
 
-                
-                const wallet       = $('#wallet2').val();
-                const grupo         = $('#grupo').val()     == "" ? 0 : $('#grupo').val();
-                const transaccion   = $('#typeTransactions').val();
-                theRoute(wallet, grupo, myFechaDesde,myFechaHasta);
+            const wallet       = $('#wallet2').val();
+            const grupo         = $('#grupo').val()     == "" ? 0 : $('#grupo').val();
+            const transaccion   = $('#typeTransactions').val();
+            theRoute(wallet, grupo, myFechaDesde,myFechaHasta);
 
         });
 
@@ -814,11 +814,30 @@ $salidaMonto    = 0;
         });
 
 
+        // inicio botones limpiar del modal
+
+        $('#myButtonLimpiar11').on('click', function (){
+            $('#my-select11').multiSelect('deselect_all');
+        });
+        $('#myButtonLimpiar21').on('click', function (){
+            $('#my-select21').multiSelect('deselect_all');
+        });
+
+        $('#myButtonLimpiar31').on('click', function (){
+            $('#my-select31').multiSelect('deselect_all');
+        });
+
+        $('#myButtonLimpiar41').on('click', function (){
+            $('#my-select41').multiSelect('deselect_all');
+            $('#my-select51').multiSelect('deselect_all');
+        });
+
+        // fin botones limpiar del modal
 
 
 
         $('#myButtonLimpiar').on('click', function (){
-            
+
             $('#my-select1').multiSelect('deselect_all');
 
         });
@@ -836,13 +855,14 @@ $salidaMonto    = 0;
         });
 
         $('#myButtonLimpiar4').on('click', function (){
-
+            
             $('#my-select4').multiSelect('deselect_all');
+            $('#my-select5').multiSelect('deselect_all');
 
         });
 
         $('#myButtonAplicar, #myButtonAplicar2, #myButtonAplicar3, #myButtonAplicar4').on('click', function (){
-            alert ('aqui en el bton aplicar ');
+            
             // $("#myCanvas div").each(function(){
             //     $(this).removeAttr("hidden");
             // });
@@ -890,14 +910,10 @@ $salidaMonto    = 0;
             //                 ($('#drCustomRanges').val()).substr(13,2)
             //                 ;
 
-                
-            // const wallet       = $('#wallet2').val();
+            // const wallet        = $('#wallet2').val();
             // const grupo         = $('#grupo').val()     == "" ? 0 : $('#grupo').val();
             // const transaccion   = $('#typeTransactions').val();
             // theRoute(wallet, grupo, myFechaDesde,myFechaHasta);
-
-
-
             
         });
 
@@ -2557,14 +2573,13 @@ $salidaMonto    = 0;
 
     }
 
-    function theRoute(wallet = '', grupo = 0, fechaDesde = '', fechaHasta = ''){
+    function theRoute(wallet = '', fechaDesde = '', fechaHasta = ''){
 
         let myRoute = "";
         //  cajaMayorCuadroMovimientos
         myRoute = "{{ route('cajaMayorCuadroMovimientos', ['wallet' => 'wallet2' , 'fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2']) }}";
         
         myRoute = myRoute.replace('wallet2',wallet);
-        myRoute = myRoute.replace('grupo2',grupo);
         myRoute = myRoute.replace('fechaDesde2',fechaDesde);
         myRoute = myRoute.replace('fechaHasta2',fechaHasta);
         
@@ -2771,25 +2786,40 @@ $salidaMonto    = 0;
             filtros2.push(data);
         }
 
-        console.log('la data al grabar  grabaFiltrosCajaMayor -> ' + JSON.stringify(filtros2));
+        console.log('la data al grabar  grabaFiltrosCajaMayor  -> ' + JSON.stringify(filtros2));
+
+
+        let data3 =  JSON.stringify(filtros2);
+
+        console.log('data 3 ->' + JSON.stringify(data3));
+
         alert('grabaFiltrosCajaMayor -> ' + JSON.stringify(filtros2));
-        // $.ajax(
-        //     {
-        //         headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
-        //         method: "POST",
-        //         url: "{{route('filtroCajaMayorWalletsGraba')}}",
-        //         async: false,
-        //         data: {
-        //                 data: { 
-        //                     filtros2,
-        //             }
-        //         },
-        //     }
-        // ).done (function(myData) {
+        $.ajax(
+            {
+                headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+                method: "POST",
+                url: "{{route('filtroCajaMayorWalletsGraba')}}",
+                async: false,
+                data: {
+                    data: { 
+                        ...filtros2
+                    }
+                },
+            }
+        ).done (function(myData) {
 
-        // // alert('vino');
+        // alert('vino');
 
-        // });
+            Swal.fire({
+                position: 'center',
+                icon: 'success',
+                title: 'Filtro aplicado satisfactoriamente',
+                showConfirmButton: false,
+                timerProgressBar: true,
+                timer: 3000
+                });
+
+        });
 
         return;
     }
