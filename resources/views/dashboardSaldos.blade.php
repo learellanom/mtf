@@ -866,8 +866,16 @@
                                         $totalDebitos           += $group2->Debitos;
                                         $totalTotal             += $myTotal ;     
                                         break;                                      
-                                }
-                            
+                                }   
+                                //
+                                // 21-06-2025 solicitud de fady
+                                // se invierte el signo del total
+                                // negativo que el cliente debe
+                                // positivo es que le debemos
+                                //
+
+                                $myTotal *= -1
+
                             @endphp
 
                             <tr class="myTr" onClick="theRoute2({{0}}, {{ $group2->IdGrupo }}, {{0}}, {{0}})" data-id="{{$group2->IdGrupo}}">
@@ -1176,7 +1184,18 @@
                                         break;                                      
                                 }
                                 */
-                                $myTotal = ($group2->BalanceAnterior + $group2->Creditos ) - $group2->Debitos;                             
+                                $myTotal = ($group2->BalanceAnterior + $group2->Creditos ) - $group2->Debitos;             
+                                
+                                
+                                    /*
+                                     21-06-2025 solicitud de fady
+                                     se invierte el signo del total
+                                     negativo que el cliente debe
+                                     positivo es que le debemos
+                                    */
+
+                                    $myTotal *= -1;
+
                                 $totalBalanceAnterior   += $group2->BalanceAnterior;
                                 $totalCreditos          += $group2->Creditos;
                                 $totalDebitos           += $group2->Debitos;
@@ -1882,6 +1901,9 @@
                                     $myTotal = ($wallet2->BalanceAnterior + $wallet2->Creditos ) - $wallet2->Debitos;
                                     $total  += $myTotal; 
                                     $totalCant++;
+
+
+
                                 @endphp
                                 
                                 <td >{{ $wallet2->NombreWallet}}</td>
