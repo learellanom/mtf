@@ -322,9 +322,10 @@ if (isset($balance->Total)){
                                             $TasaCambio             = $row->TasaCambioBase;
                                             $Monto                  = $row->MontoBase;
                                             
+                                            // 21-06-2025
                                             // cuando es nota de debito o credito no aparece el monto por eso se asigna monto
-                                            
-                                            $Monto                  = $row->Monto;
+                                            // temporal
+                                            // $Monto                  = $row->Monto;
                                         }else{
                                             
                                             $myPorcentajeComision   = $row->PorcentajeComision;
