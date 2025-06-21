@@ -321,7 +321,10 @@ if (isset($balance->Total)){
 
                                             $TasaCambio             = $row->TasaCambioBase;
                                             $Monto                  = $row->MontoBase;
-                                            // $Monto                  = $row->Monto;
+                                            
+                                            // cuando es nota de debito o credito no aparece el monto por eso se asigna monto
+                                            
+                                            $Monto                  = $row->Monto;
                                         }else{
                                             
                                             $myPorcentajeComision   = $row->PorcentajeComision;

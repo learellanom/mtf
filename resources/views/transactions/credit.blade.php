@@ -345,12 +345,12 @@ $(document).ready(function() {
         let myDays = config('transactions.transaction_days',30);
         //let myDays;
         //myDays = 30;
-        alert();
+        // alert();
         return false;
 
         let myDateBefore = new Date();
             myDateBefore.setDate(myDateBefore.getDate() - myDays);
-        alert(" myDays -> " + myDays + " myDateBefore -> " + myDateBefore);
+        // alert(" myDays -> " + myDays + " myDateBefore -> " + myDateBefore);
         if (myDate <= myDateBefore){
             Swal.fire({
                 position: 'left',
