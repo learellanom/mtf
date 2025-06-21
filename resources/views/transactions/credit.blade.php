@@ -101,12 +101,13 @@
                             </div>
                         </div>
                     </div>
+                    <input type="hidden" id="montototal" name="amount_total">
+                    <input type="hidden" id="monto_base" name="amount_total_base">
+                    <input type="hidden" id="status"     name="status"             value="Activo">
 
-                    {!! Form::hidden('type_coin_balance_id',null, ['class' => 'form-control montototal', 'required' => true, 'min' => 0, 'id' => 'type_coin_balance_id', 'readonly' => true]) !!}
-                    {!! Form::hidden('amount_total',null, ['class' => 'form-control montototal', 'required' => true, 'min' => 0, 'id' => 'montototal', 'readonly' => true]) !!}
-                    {!! Form::hidden('amount_total_base',null, ['class' => 'form-control monto_base', 'required' => true, 'min' => 0, 'id' => 'monto_base', 'readonly' => true]) !!}
-                    {!! Form::hidden('amount_base',null, ['class' => 'form-control monto_base', 'required' => true, 'min' => 0, 'id' => 'monto_base_extranjera', 'readonly' => true]) !!}
-                    {!! Form::hidden('status', 'Activo', null, ['class' => 'form-control']) !!}
+                    {!! Form::hidden('type_coin_balance_id',null, ['class' => 'form-control ', 'required' => true, 'min' => 0, 'id' => 'type_coin_balance_id', 'readonly' => true]) !!}
+                    {!! Form::hidden('amount_base',null    , ['class' => 'form-control monto_base', 'required' => true, 'min' => 0, 'id' => 'monto_base_extranjera', 'readonly' => true]) !!}
+                    
                     {{-- {{ dd($type_transaction) }} --}}
 
                     <div class="form-group col-md-12">
@@ -438,13 +439,15 @@ $(document).ready(function() {
         calcula();
     });
 
-
+    $('#monto_dolares').on("input", function() {
+        calcula2();
+    });
 });//CIERRE DEL READY
 
 
 function calcula(){
     
-
+    
     tasa    = $('#tasa').val()  ? $('#tasa').val()  : 0;
     monto   = $('#monto').val() ? $('#monto').val() : 0;
 
@@ -456,7 +459,22 @@ function calcula(){
     monto_total = monto_total.toFixed(2);
     
     $('#monto_dolares').val(monto_total);
-    $('#montotal').val(monto_total);
+    $('#montototal').val(monto_total);
+    $('#monto_base').val(monto_total);
+    $('#monto_base_extranjera').val(monto_total);
+
+}
+
+function calcula2(){
+    
+    //  alert('aqui');
+
+    monto_total   = $('#monto_dolares').val() ? $('#monto_dolares').val() : 0;
+
+    // monto_total = monto_total.toFixed(2);
+    
+    //  $('#monto_dolares').val(monto_total);
+    $('#montototal').val(monto_total);
     $('#monto_base').val(monto_total);
     $('#monto_base_extranjera').val(monto_total);
 
