@@ -367,6 +367,11 @@ return [
             'can'  => 'dashboardtest',
             'classes' => '',
         ],
+        //
+        //
+        // Consolidado de saldos
+        //
+        //
         [
             'text' => 'Consolidado de Saldos',
             'url'  => 'dashboardSaldos',
@@ -374,7 +379,29 @@ return [
             'icon' => 'fas fa-fw fas fa-chart-line',
             'can'  => 'dashboardSaldos',
         ],
-     
+        // [
+        //     'text'          => 'Consolidado de Saldos',
+        //     'icon'          => 'fas fa-fw fa-share',
+        //     'icon_color'    => 'primary',
+        //     'can'           => ['dashboardSaldos'],
+        //     'submenu'   => [
+        //         [
+        //             'text' => 'Saldos en $',
+        //             'url'  => 'dashboardSaldos',
+        //             'classes'   =>  'ml-4',              
+        //             'can'  => 'dashboardSaldos',
+        //             'icon_color' => 'primary',                    
+        //         ],                 
+        //         [
+        //             'text' => 'Moneda Extranjera',
+        //             'url' => 'dashboardSaldosME',
+        //             'classes' =>  'ml-4',                    
+        //             'can'  => 'dashboardSaldos',
+        //             'icon_color' => 'primary',                    
+        //         ],  
+        //     ]
+        // ],
+
         // [
         //     'text' => 'Detalles de comision USDT',
         //     'url'  => 'dashboardComisionesGrupo2',

@@ -679,7 +679,7 @@ class statisticsController extends Controller
 
             }
         };
-        // dd($balance);
+       // dd($balance);
        //  dd($balanceBefore);
 
         $myUser         = 0;
@@ -1465,6 +1465,37 @@ class statisticsController extends Controller
 
         // dd($fechaDesde . " - " . $fechaHasta);
         $Transacciones  = $this->getBalanceWallet($myWallet, $fechaDesde, $fechaHasta, $myCoin);
+        // dd($Transacciones);
+
+        //
+        // si es un solo grupo devuelve un objeto y debe convertirse a array de 1
+        //
+        if (gettype($Transacciones) == "object"){
+            $Transacciones = [$Transacciones];
+        }
+
+        return $Transacciones;
+    }
+
+    
+   /*
+    *
+    *
+    *   getwalletSummaryME
+    *   moneda extranjera
+    *   totales por amount_foreign_currency
+    *
+    *
+    */
+    function getWalletSummaryME(Request $request) {
+
+        $myWallet       = ($request->wallet)        ? $request->wallet      : 0;
+        $fechaDesde     = ($request->fechaDesde)    ? $request->fechaDesde  : '2001-01-01';  
+        $fechaHasta     = ($request->fechaHasta)    ? $request->fechaHasta  : '9999-12-31';
+        $myCoin         = ($request->coin)          ? $request->coin        : 1;
+
+        // dd($fechaDesde . " - " . $fechaHasta);
+        $Transacciones  = $this->getBalanceWalletME($myWallet, $fechaDesde, $fechaHasta);
         // dd($Transacciones);
 
         //
@@ -2553,6 +2584,172 @@ class statisticsController extends Controller
         return $Transacciones;
 
     }
+
+
+
+    /*
+    *
+    *
+    *  getGroupSummaryME
+    *  saldos de grupos de moneda extranjera
+    *  amount_foreign_currency
+    *
+    *
+    */
+    function getWalletGroupSummaryME(Request $request){
+
+        $myFiltroWallet = "";
+        if ($request->wallet) {
+            $myFiltroWallet = "and wallet_id = " . $request->wallet;
+        }
+
+
+        $myGroup = 0;
+        $myFiltroGroup = "";
+        if ($request->grupo) {
+            $myGroup = $request->grupo;
+            $myFiltroGroup = "and group_id = " . $request->grupo;
+        }
+
+        $myHoraDesde = "00:00:00";
+        $myHoraHasta = "23:59:00";
+
+        $myFechaDesde = "2001-01-01";
+        $myFechaHasta = "9999-12-31";
+        $myFechaHasta = date('Y-m-d');
+
+        if ($request->fechaDesde){
+            $myFechaDesde = $request->fechaDesde;
+            $myFechaHasta = $request->fechaHasta;
+
+            $myFechaDesde = $myFechaDesde;
+            $myFechaHasta = $myFechaHasta;
+        }
+
+        if ($request->fechaHasta){
+            $myFechaHasta = $request->fechaHasta;
+            $myFechaHasta = $myFechaHasta;           
+        }
+        
+
+        // leam
+        // dd('leam - aqui -> ' . $request->query('coin'));
+
+        //\Log::info('leam getBalance grupo        *** -> ' . $grupo);
+        //\Log::info('leam getBalance grupoDesde   *** -> ' . $grupoDesde);
+        //\Log::info('leam getBalance grupoHasta   *** -> ' . $grupoHasta);
+        //\Log::info('leam getBalance myFechaDesde *** -> ' . $myFechaDesde);
+        //\Log::info('leam getBalance myFechaHasta *** -> ' . $myFechaHasta);
+
+
+        $myTempCredits  = $this->getCredits();
+        $myTempDebits   = $this->getDebits();
+
+        $myCoin = 0;
+        $myFiltroCoin = "";
+        if($request->coin){
+            $myCoin = $request->coin;
+            $myFiltroCoin = "and type_coin_id = " . $request->coin;
+        }
+
+        $busquedaTypeCoin = "";
+        if ($request->coin){
+            $busquedaTypeCoin = "and type_coin_id = " . $request->coin;
+        }
+
+        $myQuery =
+        "
+        select
+            IdGrupo                                     as IdGrupo,
+            NombreGrupo                                 as NombreGrupo,
+            sum(Cant)                                   as Cant,
+            sum(MontoCreditos)                          as Creditos,
+            sum(MontoDebitos)                           as Debitos,
+            (sum(MontoCreditos) - sum(MontoDebitos) )   as Total,
+            sum(MontoCreditosDolar)                     as MontoCreditosME,
+            sum(MontoDebitosDolar)                      as MontoDebitosME,
+            (sum(MontoCreditosDolar) - sum(MontoDebitosDolar) )   as TotalDolar            
+        from(
+            SELECT
+                group_id                            as IdGrupo,
+                mtf.groups.name                     as NombreGrupo,
+                count(amount_foreign_currency)      as Cant,
+                0 				                    as MontoCreditos,
+                sum(amount_foreign_currency)        as MontoDebitos,
+                0 				                    as MontoCreditosDolar,
+                sum(amount)                         as MontoDebitosDolar
+            FROM mtf.transactions
+            left join  mtf.groups on mtf.transactions.group_id  = mtf.groups.id
+            where
+                type_transaction_id in ($myTempDebits)
+                and
+                transaction_date between '$myFechaDesde 00:00:00' and '$myFechaHasta 23:59:00'
+                $myFiltroWallet
+                $myFiltroGroup
+                and status           <> 'Anulado'
+                and mtf.groups.type  = 1
+                $busquedaTypeCoin
+            group by
+                IdGrupo,
+                NombreGrupo
+        union
+            SELECT
+                group_id                        as IdGrupo,
+                mtf.groups.name                 as NombreGrupo,
+                count(amount_foreign_currency)  as Cant,
+                sum(amount_foreign_currency)    as MontoCreditos,
+                0                               as MontoDebitos,
+                sum(amount)                     as MontoCreditosDolar,
+                0                               as MontoDebitosDolar
+            FROM mtf.transactions
+            left join  mtf.groups on mtf.transactions.group_id  = mtf.groups.id
+            where
+                type_transaction_id in($myTempCredits)
+                and
+                transaction_date between '$myFechaDesde 00:00:00' and '$myFechaHasta 23:59:00'
+                $myFiltroWallet
+                $myFiltroGroup
+                and status <> 'Anulado'
+                and mtf.groups.type = 1   
+                $busquedaTypeCoin      
+            group by
+                IdGrupo,
+                NombreGrupo
+
+        )
+        as t
+        group by
+            IdGrupo,
+            NombreGrupo
+        order by 
+            NombreGrupo
+        ";
+
+        //  dd($myQuery);
+        // \Log::info($myQuery);
+        
+
+        $Transacciones = DB::select($myQuery);
+
+        // dd($Transacciones);
+        // \Log::info($Transacciones);
+
+        //
+        // esta no se llamara
+        // $Transacciones      = $this->getBalanceME($myGroup, $myFechaDesde, $myFechaHasta);
+        //
+        //
+        // si es un solo grupo devuelve un objeto y debe convertirse a array de 1
+        //
+        if (gettype($Transacciones) == "object"){
+            $Transacciones = [$Transacciones];
+        }       
+            
+        return $Transacciones;
+
+    }
+
+
 
     /*
     *
