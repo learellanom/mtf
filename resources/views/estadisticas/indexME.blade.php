@@ -49,7 +49,9 @@ $myTotalDolar   = 0;
 $myTotalDolarBefore = 0;
 if (isset($balance->Total)){
     $myTotal        = $balance->Total;
-    $myTotalBefore  = $balanceBefore->Total;
+    if (isset($balanceBefore->Total)){
+        $myTotalBefore  = $balanceBefore->Total;
+    }
 }
 if (isset($balanceBefore->TotalDolar)){
     $myTotalDolar       = $balanceBefore->TotalDolar;
