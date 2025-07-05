@@ -188,10 +188,6 @@ BuscaMoneda(myTypeCoinBalance);
 
 
 $(document).ready( function () {
-
-
-
-
     
     const myFechaDesde = '{{$myFechaDesde}}';
     const myFechaHasta = '{{$myFechaHasta}}';

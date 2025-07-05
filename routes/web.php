@@ -5,7 +5,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\TransactionController;
-use App\Http\Controllers\StatisticsController;
+use App\Http\Controllers\statisticsController;
 use App\Http\Controllers\TransactionMasterController;
 use App\Http\Controllers\TransactionSupplierController;
 use App\Http\Controllers\ClientController;
@@ -13,6 +13,7 @@ use App\Http\Controllers\GroupController;
 use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\WalletController;
 use App\Http\Controllers\SupplierController;
+
 use App\Http\Controllers\Type_transactionController;
 use App\Http\Controllers\Type_coinController;
 use App\Http\Controllers\Type_materialController;
@@ -68,6 +69,7 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->midd
 Route::get('dashboardest', [App\Http\Controllers\HomeController::class, 'graphics'])->name('dashboardest');
 
 Route::get('dashboardSaldos', [App\Http\Controllers\HomeController::class, 'saldos'])->name('dashboardSaldos');
+Route::get('dashboardSaldosME', [App\Http\Controllers\HomeController::class, 'saldosME'])->name('dashboardSaldosME');
 
 Route::get('dashboardComisiones', [App\Http\Controllers\HomeController::class, 'comisiones'])->name('dashboardComisiones');
 Route::get('dashboardComisiones/{wallet}/{transaction?}', [App\Http\Controllers\HomeController::class, 'comisiones'])->name('dashboardComisiones');
@@ -351,9 +353,9 @@ Route::group(['middleware' => 'auth'], function () {
                 ->name('estadisticasDetalle');
     //
     Route::get('movimientosME',
-    [App\Http\Controllers\statisticsController::class, 'indexME'])
-    ->middleware('can:estadisticasDetalle.index')
-    ->name('movimientosME');
+        [statisticsController::class, 'indexME'])
+        ->middleware('can:estadisticasDetalle.index')
+        ->name('movimientosME');
     //
     Route::get('estadisticasDetalleEU',
                 [App\Http\Controllers\statisticsController::class, 'index_allExterno'])
