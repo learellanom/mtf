@@ -165,6 +165,10 @@ Route::get('filtrosLeeGroupB', [App\Http\Controllers\statisticsController::class
 Route::post('filtrosGrabaWallet', [App\Http\Controllers\statisticsController::class, 'filtrosGrabaWallet'])->name('filtrosGrabaWallet'); // Lee filtros
 Route::post('filtrosGrabaGroup', [App\Http\Controllers\statisticsController::class, 'filtrosGrabaGroup'])->name('filtrosGrabaGroup'); // Lee filtros
 
+Route::post('filtrosGrabaGruposDashboardSaldosME', [App\Http\Controllers\statisticsController::class, 'filtrosGrabaGruposDashboardSaldosME'])->name('filtrosGrabaGruposDashboardSaldosME'); // Lee filtros
+Route::get('filtrosLeeGruposDashboardSaldosME', [App\Http\Controllers\statisticsController::class, 'filtrosLeeGruposDashboardSaldosME2'])->name('filtrosLeeGruposDashboardSaldosME'); // Lee filtros
+
+
 
 Route::post('filtrosRolesGraba',        [App\Http\Controllers\statisticsController::class, 'filtrosRolesGraba'])->name('filtrosRolesGraba'); // Lee filtros
 Route::post('filtrosRolesWalletsLee',    [App\Http\Controllers\statisticsController::class, 'filtrosRolesWalletLee'])->name('filtrosRolesWalletLee'); // Lee filtros

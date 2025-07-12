@@ -36,7 +36,7 @@
 
 <div class="container">
     <div class="row col-12 col-md-12 justify-content-center text-center align-items-center" style="min-height: 5rem !important">
-        <h4>Consolidado de Saldos</h4>
+        <h4>Consolidado de Saldos Moneda Origen</h4>
     </div>
     <div class="row">
 
@@ -74,13 +74,14 @@
         </div>
 
         <div class ="col-sm-3">
-            <x-adminlte-select2 id="coin"
-                                name="optionsCoin"
-                                igroup-size="md"
-                                label-class="text-lightblue"
-                                data-placeholder="Moneda ..."
-                                :config="$config1"
-                                >
+            <x-adminlte-select2 
+                id="coin"
+                name="optionsCoin"
+                igroup-size="md"
+                label-class="text-lightblue"
+                data-placeholder="Moneda ..."
+                :config="$config1"
+            >
                 <x-slot name="prependSlot">
                     <div class="input-group-text bg-gradient-dark">
                         <!-- <i class="fas fa-car-side"></i> -->
@@ -240,7 +241,7 @@
         @can('dashboardSaldosFiltros')
             <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">Filtros
 
-                <div class="row card-deck">
+                <!-- <div class="row card-deck">
                     <div class="card mb-4 col-12 col-sm-6">
                         <div class="card-header">   
                             <h3 class="card-title text-uppercase font-weight-bold">Filtros Wallet</h3>
@@ -263,10 +264,10 @@
                                 </div>                    
                             </div>
                         </div>
-                    </div>
+                    </div> -->
 
-                    <div class="card mb-4 col-12 col-sm-6 lm-2">
-                        <div class="card-header">
+                    <div class="card mb-4 col-12 col-sm-12 lm-2">
+                        <div class="card-header text-center">
                             <h3 class="card-title text-uppercase font-weight-bold">Filtros Grupos</h3>
                         </div>
                         <div class="card-body">    
@@ -357,29 +358,28 @@
 
 <script>
 
-    // const miWallet = {!! $myWallet !!};
+    const miWallet = {!! $myWallet !!};
 
-    // BuscaWallet(miWallet);
+    BuscaWallet(miWallet);
+    if (miWallet != 0){
+        $('#theWallet').val(miWallet);
+    }
 
-    //const miTypeTransaction= {!! $myTypeTransaction !!};
-
-    //BuscaTransaccion(miTypeTransaction);
-
-     // const myTypeCoinBalance = {!! $myTypeCoinBalance !!} ? {!! $myTypeCoinBalance !!} : null;
     const myTypeCoinBalance = {!! $myTypeCoinBalance  ? $myTypeCoinBalance : "null" !!};
     
     BuscaMoneda(myTypeCoinBalance);
 
 
+
     @php
 
-        $myArrayWallets     = app(statisticsController::class)->filtrosLeeWallet2();
+        // $myArrayWallets     = app(statisticsController::class)->filtrosLeeWallet2();
 
-        $myArrayGroups      = app(statisticsController::class)->filtrosLeeGroup2();
+        $myArrayGroups      = app(statisticsController::class)->filtrosLeeGruposDasboardSaldosME();
+    //  dd($myArrayGroups);
+        // $myArrayWalletsB    = app(statisticsController::class)->filtrosLeeWallet2B();
 
-        $myArrayWalletsB    = app(statisticsController::class)->filtrosLeeWallet2B();
-
-        $myArrayGroupsB     = app(statisticsController::class)->filtrosLeeGroup2B();
+        // $myArrayGroupsB     = app(statisticsController::class)->filtrosLeeGroup2B();
 
     @endphp
 
@@ -393,6 +393,7 @@
 
         let myFechaDesde = '{!! $myFechaDesde !!}';
         let myFechaHasta = '{!! $myFechaHasta !!}';
+
         let myWallet     = '{!! $myWallet !!}';
 
 
@@ -485,7 +486,7 @@
 		$('#coin').on('change', function (){
             
             const wallet    = $('#wallet').val();
-            const coin      = ($('#coin').val()) ? $('#coin').val() : 1;
+            const coin      = ($('#coin').val()) ? $('#coin').val() : null;
 
             let myFechaDesde, myFechaHasta;
 
@@ -1005,16 +1006,14 @@
                         @endphp                        
                         @foreach($group_summary as $group2)
                             @php
-                                $indMuestra = 0;
-                                foreach($myArrayGroups as $value){
-                                    if ($value == $group2->IdGrupo){
-                                        $indMuestra = 1;
-                                    }
-                                }
+                                // $indMuestra = 0;
+                                // foreach($myArrayGroups as $value){
+                                //     if ($value == $group2->IdGrupo){
+                                //         $indMuestra = 1;
+                                //     }
+                                // }
                             @endphp
-                            @if($indMuestra == 0)
-                                @continue
-                            @endif
+
                             @php
                                 $totalCant++;
                                 switch($group2->IdGrupo){
@@ -1028,7 +1027,7 @@
                                         break;
                                 }
                             @endphp
-                            <tr class="myTr" onClick="theRoute2({{0}}, {{ $group2->IdGrupo }}, {{0}}, {{0}})" data-id="{{$group2->IdGrupo}}">
+                            <tr class="myTr" onClick="theRoute2({{0}}, {{ $group2->IdGrupo }}, {{ $myWallet }}, {{0}})" data-id="{{$group2->IdGrupo}}">
                                 <td >{{ $group2->NombreGrupo}}</td>
                                 <td >{{ number_format($myTotal ,2)}}</td>
                             </tr>
@@ -1175,17 +1174,7 @@
                             </tr>
                         </thead>
                         @foreach($group_summary as $group2)
-                            @php
-                                $indMuestra = 0;
-                                foreach($myArrayGroupsB as $value){
-                                    if ($value == $group2->IdGrupo){
-                                        $indMuestra = 1;
-                                    }
-                                }
-                            @endphp
-                            @if($indMuestra == 0)
-                                @continue
-                            @endif
+
 
                             @php
                                 /*
@@ -1280,17 +1269,7 @@
                             $totalCant = 0;                        
                         @endphp                        
                         @foreach($group_summary as $group2)
-                            @php
-                                $indMuestra = 0;
-                                foreach($myArrayGroupsB as $value){
-                                    if ($value == $group2->IdGrupo){
-                                        $indMuestra = 1;
-                                    }
-                                }
-                            @endphp
-                            @if($indMuestra == 0)
-                                @continue
-                            @endif
+
                             @php
                                 /*
                                 switch($group2->IdGrupo){
@@ -1633,20 +1612,6 @@
                             <tr class="myTr" onClick="theRoute2({{0}}, {{0}}, {{$wallet2->IdWallet}}, {{0}})" data-id="{{$wallet2->IdWallet}}">
 
                                 @php
-
-                                    $indMuestra = 1;
-                                    foreach($myArrayWalletsB as $value){
-                                        if ($value == $wallet2->IdWallet){
-                                            $indMuestra = 0;
-                                        }
-                                    }
-
-                                
-                                @endphp
-                                @if($indMuestra == 0)
-                                    @continue
-                                @endif
-                                @php
                                     $cantCreditos ++;
                                     $totalCreditos += $wallet2->Creditos;
                                     $totalDebitos  += $wallet2->Debitos;
@@ -1736,19 +1701,6 @@
                         @foreach($wallet_summary as $wallet2)
 
                             <tr class="myTr" onClick="theRoute2({{0}}, {{0}}, {{$wallet2->IdWallet}}, {{0}})" data-id="{{$wallet2->IdWallet}}">
-
-                                @php
-                                    $indMuestra = 1;
-                                    foreach($myArrayWalletsB as $value){
-                                        if ($value == $wallet2->IdWallet){
-                                            $indMuestra = 0;
-                                        }
-                                    }
-                                @endphp
-
-                                @if($indMuestra == 0)
-                                    @continue
-                                @endif
 
                                 @php
                                     $cantCreditos ++;
@@ -1886,18 +1838,7 @@
 
                             <tr class="myTr" onClick="theRoute2({{0}}, {{0}}, {{$wallet2->IdWallet}}, {{0}})" data-id="{{$wallet2->IdWallet}}">
 
-                                @php
-                                    $indMuestra = 1;
-                                    foreach($myArrayWallets as $value){
-                                        if ($value == $wallet2->IdWallet){
-                                            $indMuestra = 0;
-                                        }
-                                    }
-                                @endphp
 
-                                @if($indMuestra == 0)
-                                    @continue
-                                @endif
 
                                 @php
                                     $cantCreditos ++;
@@ -1953,14 +1894,14 @@
 
         myRoute = "{{ route('dashboardSaldosME', ['wallet' => 'wallet2', 'fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2', 'coin' => 'coin2']) }}";
 
-        alert('myRoute -> ' + myRoute);
+
         myRoute = myRoute.replaceAll('amp;','');
-        
+        // alert(myRoute);
         let myWallet     = $('#theWallet').val();
-        let myFechaDesde = $('#theFechaDesde').val();
+        let myFechaDesde = ($('#theFechaDesde').val()).trim();
         let myFechaHasta = $('#theFechaHasta').val();
         let myCoin       = $('#theCoin').val();
-        
+
         if (myWallet != ""){
             myRoute = myRoute.replace('wallet2',myWallet);
         }else{
@@ -1968,9 +1909,10 @@
         }
 
         if (myFechaDesde != ""){
+            // alert('entro ');
             myRoute = myRoute.replace('fechaDesde2',myFechaDesde);
         }else{
-            myRoute = myRoute.replace("&fechaDesde=fechaDesde2&","");            
+            myRoute = myRoute.replace("fechaDesde=fechaDesde2&","");            
             // myRoute = myRoute.replace("fechaDesde=fechaDesde2&","");    
         }
 
@@ -1983,75 +1925,62 @@
         if (myCoin != ""){
             myRoute = myRoute.replace('coin2',myCoin);
         }else{
-            myRoute = myRoute.replace("coin=coin2","");
+            myRoute = myRoute.replace("&coin=coin2","");
             // myRoute = myRoute.replace("?","");
         }
-
-        myRoute = myRoute.replace('fechaDesde2',fechaDesde);
-        myRoute = myRoute.replace('fechaHasta2',fechaHasta);
-        myRoute = myRoute.replace('coin2',coin);
-
-
-        alert('myRoute after -> ' + myRoute);
-         location.href = myRoute;
+        // alert(myRoute);
+        location.href = myRoute;
 
     }
 
 
-    function theRoute2(usuario = 0, grupo = 0, wallet = 0, typeTransactions = 0, fechaDesde = 0, fechaHasta = 0){
+    function theRoute2(usuario = 0, grupo = 0, wallet = 0, typeTransactions = 0, fechaDesde = 0, fechaHasta = 0, coin = 0){
 
 
-        fechaDesde = $('#drCustomRanges').data('daterangepicker').startDate.format('YYYY-MM-DD')
-        fechaHasta = $('#drCustomRanges').data('daterangepicker').endDate.format('YYYY-MM-DD')
-
-
-        fechaDesde = '{!! $myFechaDesde !!}';
-        fechaHasta = '{!! $myFechaHasta !!}';
         
         fechaDesde = $('#theFechaDesde').val();
         fechaHasta = $('#theFechaHasta').val();
-        // console.log('leam - fecha desde -> ' + fechaDesde);
-        // console.log('leam - fecha Hasta -> ' + fechaHasta);
+        coin = $('#theCoin').val() != "" ? $('#theCoin').val() : 0;
 
         let myRoute = "";
-        // myRoute = "{{ route('movimientosME', ['usuario' => 'usuario2', 'grupo' => 'grupo2', 'wallet' => 'wallet2', 'typeTransactions' => 'typeTransactions2','fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2']) }}";
-        myRoute += "{{route('movimientosME')}}";
-        myRoute += "?";
-        if (usuario != 0){
-            myRoute += "usuario=usuario2";
-        }
-        if (grupo != 0 ){
-            myRoute += "grupo=grupo2";
-        }
-        if (wallet !=0 ){
-            myRoute += "wallet=wallet2";
-        }
-        if (typeTransactions !=0 ){
-            myRoute += "typeTransactions=typeTransactions2";
-        }
-        if (fechaDesde != ""){
-            myRoute += "fechaDesde=fechaDesde2";
-        }
-        if (fechaHasta != ""){
-            myRoute += "fechaHasta=fechaHasta2";
-        }
+        myRoute = "{{ route('movimientosME', ['usuario' => 'usuario2', 'grupo' => 'grupo2', 'wallet' => 'wallet2', 'typeTransactions' => 'typeTransactions2','fechaDesde' => 'fechaDesde2', 'fechaHasta' => 'fechaHasta2', 'coin' => 'coin2']) }}";
+        myRoute = myRoute.replaceAll('amp;','');
 
+         if (usuario == 0){
+            myRoute = myRoute.replace("usuario=usuario2","");
+        }
+        if (grupo == 0){
+            myRoute = myRoute.replace("&grupo=grupo2","");
+        }    
+        if (wallet == 0){
+            myRoute = myRoute.replace("&wallet=wallet2","");
+        }         
+        if (typeTransactions === 0){
+            myRoute = myRoute.replace("&typeTransactions=typeTransactions2","");
+        }      
+        if (fechaDesde == ""){    
+            myRoute = myRoute.replace("&fechaDesde=fechaDesde2","");    
+        }
+        if (fechaHasta == ""){    
+            myRoute = myRoute.replace("&fechaHasta=fechaHasta2","");    
+        }
+        if (coin == 0){    
+            myRoute = myRoute.replace("&coin=coin2","");    
+        }
         myRoute = myRoute.replace('grupo2',grupo);
         myRoute = myRoute.replace('usuario2',usuario);
         myRoute = myRoute.replace('wallet2',wallet);
         myRoute = myRoute.replace('typeTransactions2',typeTransactions);
         myRoute = myRoute.replace('fechaDesde2',fechaDesde);
         myRoute = myRoute.replace('fechaHasta2',fechaHasta);
-        myRoute = myRoute.replaceAll('amp;','');
-        // alert(myRoute);
-        // return;
-        // console.log(myRoute);
-        // alert(myRoute);
+        myRoute = myRoute.replace('coin2',coin);
+
         location.href = myRoute;
 
     }
-    /*
+    
     function BuscaWallet(miWallet){
+        
         if (miWallet===0){
             return;
         }
@@ -2060,14 +1989,13 @@
 
             $(this).children("option").each(function(){
                 if ($(this).val() === miWallet.toString()){
-
-                    $("#wallet option[value="+ miWallet +"]").attr("selected",true);
+                    $("#wallet option[value="+ miWallet +"]").attr("selected",'selected');
                 }
 
             });
         });
     }
-    */
+    
    /*
     function BuscaTransaccion(miTypeTransaction){
         if (miTypeTransaction===0){
@@ -2087,25 +2015,17 @@
     }
     */
     function InicializaFechas(){
+    
         // $('#drCustomRanges').data('daterangepicker').setStartDate('01-01-2001');
     }
 
     function BuscaFechas(FechaDesde = 0,FechaHasta = 0){
 
-            myLocation  = window.location.toString();
-
-            myArray     = myLocation.split("/");
-            // alert('myArray ->' + myArray);
-            if (myArray.length > 4){
-                FechaDesde = myArray[4];
-                FechaHasta = myArray[5];
-            }else{
-                FechaDesde = 0;
-                FechaHasta = 0;
-            }
-
             if (FechaDesde == 0) return;
+            if (FechaDesde == "2001-01-01") return;
 
+            $('#theFechaDesde').val(FechaDesde);
+            $('#theFechaHasta').val(FechaHasta);
 
             let myFechaDesde, myFechaHasta, myFecha;
 
@@ -2205,6 +2125,7 @@
         let filtrosSeleccionado = [];
         filtrosSeleccionado.push(0);
         $("#" + myMultiSelect + " option:selected").each(function(){
+            console.log('encontro el grupo -> ' + $(this).attr('value'));
             filtrosSeleccionado.push($(this).attr('value'));
         });  
         // alert ("filtros de grupos ->" + filtrosSeleccionado.toString());
@@ -2213,70 +2134,45 @@
 
     
     function leeFiltros(){
-        
-        $.ajax(
-            {
-                url: "{{route('filtrosLeeWallet')}}",
-                async: false,
-            }
-        ).done (function(myData) {
+
+        // $.ajax(
+        //     {
+        //         url: "{{route('filtrosLeeWallet')}}",
+        //         async: false,
+        //     }
+        // ).done (function(myData) {
             
-            myData2 = myData.data;
+        //     myData2 = myData.data;
 
-        });
+        // });
 
-        myData2.map( function (valor) {
+        // myData2.map( function (valor) {
 
-            $("#my-select option").each(function(){
-                 if (valor == $(this).attr('value')){
-                    $('#my-select').multiSelect('select', valor.toString());
+        //     $("#my-select option").each(function(){
+        //          if (valor == $(this).attr('value')){
+        //             $('#my-select').multiSelect('select', valor.toString());
 
-                 }
-            });
+        //          }
+        //     });
 
-        });      
-
-        
-        
-        $.ajax(
-            {
-                url: "{{route('filtrosLeeWalletB')}}",
-                async: false,
-            }
-        ).done (function(myData) {
-            
-            myData2 = myData.data;
-
-        });
-
-        myData2.map( function (valor) {
-
-            $("#my-select3 option").each(function(){
-                 if (valor == $(this).attr('value')){
-                    $('#my-select3').multiSelect('select', valor.toString());
-
-                 }
-            });
-
-        });      
-      
-
-
+        // });      
 
         // grupos
         
+        let myData2 = "";
         $.ajax(
             {
-                url: "{{route('filtrosLeeGroup')}}",
+                url: "{{route('filtrosLeeGruposDashboardSaldosME')}}",
                 async: false,
             }
         ).done (function(myData) {
 
-            myData2 = JSON.stringify(myData.data);
+//             myData2 = JSON.stringify(myData.data);
             myData2 = myData.data;
 
         });
-
+        // 
+        // console.log('llego con la data ->' + myData2 );
         myData2.map( function (valor) {
             
             $("#my-select2 option").each(function(){
@@ -2289,58 +2185,26 @@
         });            
 
 
-
-        // gruposB
-        
-        $.ajax(
-            {
-                url: "{{route('filtrosLeeGroupB')}}",
-                async: false,
-            }
-        ).done (function(myData) {
-
-            myData2 = JSON.stringify(myData.data);
-            myData2 = myData.data;
-
-        });
-
-        myData2.map( function (valor) {
-            
-            $("#my-select4 option").each(function(){
-                 if (valor == $(this).attr('value')){
-                    $('#my-select4').multiSelect('select', valor.toString());
-                     
-                 }
-            });
-
-        });     
-
-
-
     }
 
     function grabaFiltros(){
 
-        let myDataWallet    = buscaFiltrosWallet('my-select');
+        // let myDataWallet    = buscaFiltrosWallet('my-select');
         let myDataGroup     = buscaFiltrosGroup('my-select2');
-        let myDataWalletB   = buscaFiltrosWallet('my-select3');
-        let myDataGroupB    = buscaFiltrosGroup('my-select4');
+        // let myDataWalletB   = buscaFiltrosWallet('my-select3');
+        // let myDataGroupB    = buscaFiltrosGroup('my-select4');
+        console.log('aqui en grabaFIltros -> ' + myDataGroup);
         $.ajax(
             {
                 headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
                 method: "POST",
-                url: "{{route('filtrosGrabaWallet')}}",
+                url: "{{route('filtrosGrabaGruposDashboardSaldosME')}}",
                 async: false,
                 data: {
-                    myDataWallet: myDataWallet,
                     myDataGroup: myDataGroup,
-                    myDataWalletB: myDataWalletB,
-                    myDataGroupB: myDataGroupB,
                  },
             }
         ).done (function(myData) {
-
-           // alert('vino');
 
         });
         return;
@@ -2377,6 +2241,9 @@
 
         if (myTypeCoinBalance == null) { return; }
         //alert("BuscaGrupo - miGrupo -> " + miGrupo);
+
+        $('#theCoin').val(myTypeCoinBalance);
+
         $('#coin').each( function(index, element){
             //alert ("Buscagrupo -> " + $(this).val() + " text -> " + $(this).text()+ " y con index -> " + $(this).prop('selectedIndex'));
             $(this).children("option").each(function(){
