@@ -1492,10 +1492,10 @@ class statisticsController extends Controller
         $myWallet       = ($request->wallet)        ? $request->wallet      : 0;
         $fechaDesde     = ($request->fechaDesde)    ? $request->fechaDesde  : '2001-01-01';  
         $fechaHasta     = ($request->fechaHasta)    ? $request->fechaHasta  : '9999-12-31';
-        $myCoin         = ($request->coin)          ? $request->coin        : 1;
+        $myCoin         = ($request->coin)          ? $request->coin        : null;
 
         // dd($fechaDesde . " - " . $fechaHasta);
-        $Transacciones  = $this->getBalanceWalletME($myWallet, $fechaDesde, $fechaHasta);
+        $Transacciones  = $this->getBalanceWalletME($myWallet, $fechaDesde, $fechaHasta, $myCoin);
         // dd($Transacciones);
 
         //
@@ -10380,6 +10380,93 @@ class statisticsController extends Controller
 
         return response()->json($myResponse);
     }    
+
+    function filtrosLeeGruposDasboardSaldosME(){
+
+        $myfile = fopen("./filtros/myDashboardSaldosME", "r") or die("Unable to open file!");
+
+
+        //myWallets = fgets($myfile);
+        
+        $myGroups  = fgets($myfile);
+
+        // dd('aqui en filtrosLeeGruposDasboardSaldosME -> ' . $myGroups);
+
+        fclose($myfile);        
+
+        // $myWallets = json_decode($myWallets,true);
+         $myGroups = json_decode($myGroups,true);
+
+        // \Log::info('lee myWallets -> ' . print_r($myWallets,true));
+        // \Log::info('lee myGroups  -> ' . print_r($myGroups,true));
+        
+        return $myGroups['groups'];
+
+    }
+             
+    function filtrosLeeGruposDashboardSaldosME2(){
+
+        $myfile = fopen("./filtros/myDashboardSaldosME", "r") or die("Unable to open file!");
+
+
+        //myWallets = fgets($myfile);
+        
+        $myGroups  = fgets($myfile);
+
+
+        fclose($myfile);        
+
+        // $myWallets = json_decode($myWallets,true);
+         $myGroups = json_decode($myGroups,true);
+
+        // \Log::info('lee myWallets -> ' . print_r($myWallets,true));
+        // \Log::info('lee myGroups  -> ' . print_r($myGroups,true));
+        
+
+        $myResponse = 
+        [
+            'success' => true,
+            'data' => $myGroups['groups'],
+            'message' => 'filtros guardados exitosamente'
+        ];
+
+        return response()->json($myResponse);
+
+
+        
+        
+    }
+
+    public function filtrosGrabaGruposDashboardSaldosME(Request $request){
+
+        $myfile = fopen("./filtros/myDashboardSaldosME", "w") or die("Unable to open file!");
+
+
+
+        $myLine = '{"groups" : [' .implode(",",$request->myDataGroup) . "]}" . PHP_EOL;
+        fwrite($myfile, $myLine);
+
+
+
+        fclose($myfile);   
+
+
+
+        // dd($request);
+         \Log::info(' llega por filtro group  ->' . print_r($request->myDataGroup,true));
+
+        $myResponse = 
+        [
+            'success' => true,
+            'data' => '',
+            'message' => 'filtros guardados exitosamente'
+        ];
+
+         return response()->json($myResponse);
+    }
+
+
+
     public function update_status(Request $request, $transaction)
     {
         $transactions = Transaction::find($transaction);
