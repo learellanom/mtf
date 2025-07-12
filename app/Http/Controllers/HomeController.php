@@ -1297,18 +1297,19 @@ class HomeController extends Controller
     public function saldosME(request $request)
     {
 
-        
+
         $wallet                     = app(GroupController::class)->getWallets2();
         $group                      = app(GroupController::class)->getGroups2();
         $typeTransactions           = app(statisticsController::class)->getTypeTransactions();
         //$myCoin                     = ($request->coin) ? $request->coin : 1;
-        $myTypeCoinBalance          = null;
+        $myTypeCoinBalance          =  ($request->coin) ? $request->coin : null;
 		$Type_coin_balance          = Type_coin::pluck('name', 'id')->toArray();
 
         /* MANTENER VALOR BUSCADO EN EL URL */
         $myWalletDesde   = 0;
         $myWalletHasta   = 9999;
         $myWallet        = 0;
+        
         if ($request->wallet){
             $myWalletDesde   = $request->wallet;
             $myWalletHasta   = $request->wallet;
