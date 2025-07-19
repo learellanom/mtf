@@ -3177,10 +3177,23 @@ class statisticsController extends Controller
 
         $Transacciones = DB::select($myQuery);
 
-        // dd($Transacciones);
+          // dd($Transacciones);
+        //  dd($Transacciones[0]->Cant);
         // \Log::info($Transacciones);
 
         if (empty($Transacciones)) {
+            
+            $theTransaction = new stdClass();
+            $theTransaction->IdGrupo = $grupo;
+            $theTransaction->NombreGrupo = '';
+            $theTransaction->Cant = 0;
+            $theTransaction->Creditos = 0;
+            $theTransaction->Debitos = 0;
+            $theTransaction->Total = 0;
+            $theTransaction->MontoCreditosME = 0;
+            $theTransaction->MontoDebitosME = 0;
+            $theTransaction->TotalDolar = 0;
+            $Transacciones[0]= $theTransaction;
             return $Transacciones;
         }else {
             if ($grupoDesde === $grupoHasta){
@@ -3340,7 +3353,7 @@ class statisticsController extends Controller
     /*
     *
     *
-    *       getBalanceWalletBeforeME
+    *       getBalanceBeforeME
     *
     *
     */
@@ -3383,12 +3396,12 @@ class statisticsController extends Controller
 
 
             // dd('las fechas - ' . $balance3->Total . ' grupo ' . $myGroup . 'fecha desde -> ' . $myFechaDesdeBefore . ' fecha hasta -> ' . $myFechaHastaBefore);
-            // if(isset($balance3->Total)){
-            //     $balanceDetail  = $balance3->Total;
-            // }else{
-            //     $balanceDetail = 0;
-            // }
-            $balanceDetail = $balance3;
+            if(isset($balance3->TotalDolar)){
+                $balanceDetail  = $balance3->TotalDolar;
+            }else{
+                $balanceDetail = 0;
+            }
+            // $balanceDetail = $balance3;
         }
         
         // \Log::info('Balance detail -> ' . $balanceDetail);
@@ -3449,7 +3462,6 @@ class statisticsController extends Controller
         $myFechaDesdeBefore = "2001-01-01";
         $myFechaHastaBefore = "9999-12-31";
         $balance3 = 0;
-
         $balanceDetail = 0;
         /*
         \Log::info('leam getBalanceBefore -> $myWallet      ' . $myWallet);
@@ -3470,13 +3482,14 @@ class statisticsController extends Controller
 
             }
             $balance3           = $this->getBalanceWalletME($myWallet, $myFechaDesdeBefore, $myFechaHastaBefore, $myCoin);
-            // if(isset($balance3->Total)){
-            //     $balanceDetail  = $balance3->TotalDolar;
-            // }else{
-            //     $balanceDetail = 0;
-            // }
 
-            $balanceDetail = $balance3;
+            if(isset($balance3->Total)){
+                $balanceDetail  = $balance3->TotalDolar;
+            }else{
+                $balanceDetail = 0;
+            }
+
+           // $balanceDetail = $balance3;
             return $balanceDetail;
 
         }        
@@ -3889,7 +3902,7 @@ class statisticsController extends Controller
         foreach($Transacciones as $Item){
                 $Item->TotalDolar = $Item->MontoDebitosME - 
                                     $Item->MontoCreditosME;
-                $Item = abs($Item->TotalDolar);
+                $Item->TotalDolar = abs($Item->TotalDolar);
         }
         // dd($Transacciones);
         // \Log::info('leam getBalanceWallet - query        *** -> ' . print_r($myQuery,true));
@@ -3897,6 +3910,26 @@ class statisticsController extends Controller
         //\Log::info('leam getBalanceWallet - transacciones *** -> ' . print_r($Transacciones,true));
         
         if (empty($Transacciones)) {    
+
+            $theTransaction = new stdClass();
+            $theTransaction->IdWallet = $wallet;
+            $theTransaction->NombreWallet = '';
+            $theTransaction->Cant = 0;
+            $theTransaction->Monto = 0;
+            $theTransaction->Creditos = 0;
+            $theTransaction->Debitos = 0;
+            $theTransaction->Comision = 0;
+            $theTransaction->ComisionBase = 0;
+            $theTransaction->Total = 0;
+            $theTransaction->ComisionGanancia= 0;
+            $theTransaction->MontoME= 0;
+            $theTransaction->MontoCreditosME = 0;
+            $theTransaction->MontoDebitosME = 0;
+            $theTransaction->TotalDolar = 0;
+
+
+            $Transacciones[0]= $theTransaction;
+
             return $Transacciones;
         }else {
             if ($walletDesde === $walletHasta){
