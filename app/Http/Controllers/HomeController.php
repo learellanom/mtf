@@ -1368,7 +1368,7 @@ class HomeController extends Controller
             $balanceDetail           = app(statisticsController::class)->getBalanceWalletBeforeME($wallet3->IdWallet, $myFechaDesde, $myFechaHasta);
             
             $wallet3->BalanceAnterior = $balanceDetail;
-        }
+        }   
 
         // dd($wallet_summary);
         //

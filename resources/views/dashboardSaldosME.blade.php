@@ -877,6 +877,7 @@
 
 
                             @php
+                                // dd($group_summary);
                                 $totalCant++;
                                 switch($group2->IdGrupo){
                                     default:
