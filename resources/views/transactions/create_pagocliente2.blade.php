@@ -5,7 +5,7 @@
 @section('title', 'Pagos entre clientes')
 @section('content_header')
 
-    <h1 class="text-center text-dark font-weight-bold">{{ __('PAGOS ENTRE CLIENTES 2') }}<i class="fas fa-donate"></i> </h1></a>
+    <h1 class="text-center text-dark font-weight-bold">{{ __('Pagos entre clientes') }} <i class="fas fa-donate"></i> </h1></a>
 
 
 @stop
@@ -42,14 +42,17 @@
 
                     <div class="form-row">                
                         <div class="form-group col-md-6">
-                            {!! Form::Label('typetrasnferencia2Debit', "Tipo de Movimiento Origen:") !!}
+                            
+                            
+                            <label for="typetrasnferencia2Debit">Tipo de Movimiento Origen:</label>
                             <div class="input-group-text col-md-12">
                                 <i class="fa-fw fas fa-random mr-2"></i>
-                            {!! Form::select('type_transaction_id',$type_transaction_debit, null, ['class' => 'form-control typetrasnferencia', 'required' => true, 'id'=>'typetrasnferencia2Debit', 'readonly' => false]) !!}
+                                {!! Form::select('type_transaction_id',$type_transaction_debit, null, ['class' => 'form-control typetrasnferencia', 'required' => true, 'id'=>'typetrasnferencia2Debit', 'readonly' => false]) !!}
                             </div>
                         </div>      
                         <div class="form-group col-md-6">
-                            {!! Form::Label('typetrasnferencia2Credit', "Tipo de Movimiento Destino:") !!}
+                            
+                            <label for="typetrasnferencia2Credit">Tipo de Movimiento Destino:</label>
                             <div class="input-group-text col-md-12">
                                 <i class="fa-fw fas fa-random mr-2"></i>
                             {!! Form::select('type_transaction_id2',$type_transaction_credit, null, ['class' => 'form-control typetrasnferencia', 'required' => true, 'id'=>'typetrasnferencia2Credit', 'readonly' => false]) !!}
@@ -60,7 +63,8 @@
                     <div class="form-row">
 
                         <div class="form-group col-md-6">
-                            {!! Form::Label('group_id', "Cliente de origen:") !!}
+                            
+                            <label for="group_id">Cliente de origen:</label>
                             <div class="input-group-text col-md-12">
                                 <i class="fa-fw fas fa-random mr-2"></i>
                             {!! Form::select('group_id', $group, null, ['class' => 'form-control wallet', 'required' => true, 'id'=>'wallet', 'readonly' => false]) !!}
@@ -68,7 +72,8 @@
                         </div>
 
                         <div class="form-group col-md-6">
-                            {!! Form::Label('group2_id', "Cliente destino:") !!}
+                            
+                            <label for="group2_id">Cliente destino:</label>
                             <div class="input-group-text col-md-12">
                                 <i class="fa-fw fas fa-random mr-2"></i>
                             {!! Form::select('group2_id', $group, null, ['class' => 'form-control wallet2', 'required' => true, 'id'=>'wallet2', 'readonly' => false]) !!}
@@ -80,29 +85,30 @@
                     @foreach($wallet as $wallet2)
                         {!! Form::hidden('wallet_id', $wallet2, null, ['class' => 'form-control transaccion']) !!}
                         {!! Form::hidden('wallet2_id', $wallet2, null, ['class' => 'form-control transaccion']) !!}
+
+                        
                     @endforeach
 
                     <div class="form-row">
                         <div class="form-group col-md-6">
-                            {!! Form::Label('amount', "Monto en dolares:") !!}
+                            <label for="amount">Monto en dolares:</label>
                             <div class="input-group-text">
                                 <i class="fa-fw fas fas fa-funnel-dollar mr-2"></i>
-                            {!! Form::text('amount', null, ['class' => 'form-control general', 'required' => true, 'id' => 'monto_dolares']) !!}
+                                <input class="form-control general" required id="monto_dolares" name="amount" type="text" inputmode="decimal">
                             </div>
                         </div>
                         <div class="form-group col-md-6">
-                            {!! Form::Label('transaction_date', "Fecha:") !!}
+                            
+                            <label for="transaction_date">Fecha:</label>
                             <div class="input-group-text">
                                 <i class="fa-fw fas fas fa-calendar-week mr-2"></i>
-                            {!! Form::datetimeLocal('transaction_date', $fecha, ['class' => 'form-control', 'required' => true, 'id' => 'fecha']) !!}
+                                <input class="form-control" required id="fecha" name="transaction_date" type="datetime-local" value="{{ $fecha }}">
                             </div>
                         </div>
                     </div>
-
-                    {!! Form::hidden('amount_total_2',null, ['class' => 'form-control montototal', 'required' => true, 'min' => 0, 'id' => 'montototal2']) !!}
-
-                    {!! Form::hidden('status', 'Activo', null, ['class' => 'form-control']) !!}
         
+                    <input type="hidden" name="amount_total_2" id="montototal2"  >
+                    <input type="hidden" name="status"         value="Activo">
 
                     <div class="form-group">
                         {{-- {!! Form::hidden('pay_number', $number,['class' => 'form-control', 'required' => true, 'readonly' => true]) !!} --}}
@@ -118,34 +124,28 @@
                     <div class="form-row esconder comi">
 
                         <div class="form-group col-md-4">
-                            {!! Form::Label('percentage_base', "Porcentaje Origen:") !!}
+                            <label for="percentage_base">Porcentaje Origen:</label>
                             <div class="input-group-text">
                                 <i class="fa-fw fas fa-percentage mr-2"></i>
-                                {!! Form::text('percentage',null, ['class' => 'form-control percentage rateMasks',  'min' => 0, 'id' => 'percentage_base']) !!}
+                                <input type="text" id="percentage_base" name="percentage" class="form-control percentage rateMasks" min="0">
                             </div>
                         </div>
 
                         <div class="form-group col-md-4">
-
-                            {!! Form::Label('comision_base', "Monto Comisión Origen:") !!}
+                            <label for="comision_base">Monto Comisión Origen:</label>
                             <div class="input-group-text">
                                 <i class="fa-fw fas fa-coins mr-2"></i>
-                                {!! Form::text('commission',null, ['class' => 'form-control comision_base general', 'min' => 0, 'readonly' => true, 'id' => 'comision_base']) !!}
+                                <input type="text" id="comision_base" name="commission" class="form-control comision_base general" min="0" readonly> </input>
                             </div>
 
                         </div>
 
                         <div class="form-group col-md-4 ">
-
-
                             {{-- Monto total Origen --}}
-
-
-
-                            {!! Form::Label('montototal', "Monto total Origen:") !!}
+                            <label for="montototal">Monto total Origen:</label>
                             <div class="input-group-text">
                                 <i class="fa-fw fas fas fa-coins mr-2"></i>
-                            {!! Form::text('amount_total', null, ['class' => 'form-control general', 'id' => 'monto_base', 'readonly' => true ]) !!}
+                                <input type="text" name="amount_total" id="monto_base" class="form-control general" readonly></input>
                             </div>
                         </div>
 
@@ -190,19 +190,20 @@
                     <div class="form-row esconder comi">
 
                         <div class="form-group col-md-4">
-                            {!! Form::Label('percentage_base2', "Porcentaje Destino:") !!}
+
+                            <label for="percentage_base2">Porcentaje Destino:</label>
                             <div class="input-group-text">
                                 <i class="fa-fw fas fa-percentage mr-2"></i>
-                                {!! Form::text('percentage2',null, ['class' => 'form-control  rateMasks',  'min' => 0, 'id' => 'percentage_base2']) !!}
+                                <input type="text" name="percentage2" id="percentage_base2" min="0" class="form-control  rateMasks"></input>
                             </div>
                         </div>
 
                         <div class="form-group col-md-4">
 
-                            {!! Form::Label('comision_base2', "Monto Comisión Destino:") !!}
+                            <label for="comision_base2">Monto Comisión Destino:</label>
                             <div class="input-group-text">
                                 <i class="fa-fw fas fa-coins mr-2"></i>
-                                {!! Form::text('commission2',null, ['class' => 'form-control general', 'min' => 0, 'readonly' => true, 'id' => 'comision_base2']) !!}
+                                <input type="text" name="commission2" id="comision_base2" readonly min="0" class="form-control general"></input>
                             </div>
 
                         </div>
@@ -210,10 +211,11 @@
                         {{-- Monto total Destino --}}
 
                         <div class="form-group col-md-4">
-                            {!! Form::Label('montototal', "Monto total Destino:") !!}
+                            
+                            <label for="monto_base2">Monto total Destino:</label>
                             <div class="input-group-text">
                                 <i class="fa-fw fas fas fa-coins mr-2"></i>
-                                {!! Form::text('amount_total2', null, ['class' => 'form-control general', 'id' => 'monto_base2', 'readonly' => true ]) !!}
+                                <input type="text" name="amount_total2" id="monto_base2" readonly class='form-control general'></input>
                             </div>
                         </div>
 
@@ -223,48 +225,50 @@
 
                         <label class="form-check-label mx-auto esconder comi" for="radio1_base2">
                             {!! Form::radio('exonerate2',2, null, ['id' => 'radio1_base2', 'class' => 'exonerar_base2']) !!}
-                            Exonerar comisión origen
+                            Exonerar comisión destino
                         </label>
 
                         <label class="form-check-label mx-auto esconder comi" for="radio3_base2">
                             {!! Form::radio('exonerate2',1, null, ['id' => 'radio3_base2', 'class' => 'incluir_base2']) !!}
-                            Incluir comisión origen
+                            Incluir comisión destino
                         </label>
 
 
                         <label class="form-check-label mx-auto esconder comi" for="radio2_base2">
-                            Descontar comisión origen
+                            Descontar comisión destino
                             {!! Form::radio('exonerate2',3, null, ['id' => 'radio2_base2', 'class' => 'descontar_base']) !!}
                         </label>
 
                     </div>
-
-                    {!! Form::hidden('amount_commission_profit', null, ['class' => 'form-control general', 'id' => 'amount_commission_profit', 'readonly' => true ]) !!}
-                    {!! Form::hidden('amount_commission_profit2', null, ['class' => 'form-control general', 'id' => 'amount_commission_profit2', 'readonly' => true ]) !!}
+                    <input type="hidden" id="amount_commission_profit"  name="amount_commission_profit"  value="">
+                    <input type="hidden" id="amount_commission_profit2" name="amount_commission_profit2" value="">
 
                     <hr class="bg-dark esconder comi" style="height:1px;">
 
                     <div class="form-group">
-                        {!! Form::Label('observacion', "Observaciones:") !!}
-                            <div class="input-group-text">
-                                <i class="fa-fw fas fa-text-width mr-2"></i>
-                            {!! Form::text('observacion', null, ['id' => 'observacion', 'class' => 'form-control', 'readonly' => false, 'required' => false]) !!}
-                            </div>
+                        
+                        <label for="observacion">Observaciones:</label>
+                        <div class="input-group-text">
+                            <i class="fa-fw fas fa-text-width mr-2"></i>
+                            <input type="text" name="observacion" id="observacion" class="form-control"></input>
+                        </div>
                     </div>
 
                     <div class="form-group">
-                        {!! Form::Label('description', "Descripción origen:") !!}
-                            <div class="input-group-text">
-                                <i class="fa-fw fas fa-text-width mr-2"></i>
-                            {!! Form::text('description','Entregado a cliente', ['id' => 'descripcion', 'class' => 'form-control', 'readonly' => true, 'required' => true, 'value' => 'Recibido de cliente']) !!}
-                            </div>
+                        
+                        <label for="descripcion">Descripción origen:</label>
+                        <div class="input-group-text">
+                            <i class="fa-fw fas fa-text-width mr-2"></i>
+                            <input id="descripcion" class="form-control" readonly="" required="" value="Entregado a cliente" name="description" type="text">
+                        </div>
                     </div>
                     <div class="form-group">
-                        {!! Form::Label('description2', "Descripción destino:") !!}
-                            <div class="input-group-text">
+                        
+                        <label for="descripcion2">Descripción destino:</label>
+                        <div class="input-group-text">
                                 <i class="fa-fw fas fa-text-width mr-2"></i>
-                            {!! Form::text('description2','Recibido de cliente', ['id' => 'descripcion2','class' => 'form-control', 'readonly' => true, 'required' => true]) !!}
-                            </div>
+                            <input id="descripcion2" class="form-control" readonly="" required="" name="description2" type="text" value="Recibido de cliente"></input>
+                        </div>
                     </div>
 
                     {!! Form::Submit('GUARDAR', ['class' => 'btn btn-primary btn-block font-weight-bold', 'style' => "max-height: 400px;" , 'id' => 'publish']) !!}

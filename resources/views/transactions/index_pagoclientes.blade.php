@@ -238,7 +238,7 @@ BuscaUsuario(miUsuario);
 
 $(document).ready(function () {
 
-        const myFechaDesde = '{{ $myFechaDesde }}';
+    const myFechaDesde = '{{ $myFechaDesde }}';
     const myFechaHasta = '{{ $myFechaHasta }}';
 
     BuscaFechasBlade(myFechaDesde, myFechaHasta);
