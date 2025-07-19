@@ -655,20 +655,20 @@ class statisticsController extends Controller
             $myCoin             = $request->coin;
             $busquedaTypeCoin   = 'and type_coin_id = ' . $myCoin;
         }
-
+        
         \Log::info('el coin es   ->' . $request->coin . '<-');
         \Log::info('el coin type ->' . gettype($request->coin) . '<-');
 
-        $myTypeCoin = $myCoin; // dorales siempre por ahora
+        $myTypeCoin = $myCoin; //
         $Type_coin  = Type_coin::pluck('name', 'id')->toArray();   
 
         $balance        = "";
         $balanceBefore  = 0;
         if ($myGroup > 0){
-
-            $balance            = $this->getBalanceME($myGroup, "2001-01-01" , "9999-12-31" ,$myCoin);
+            
+            $balance            = $this->getBalanceME($myGroup, $myFechaDesde , $myFechaHasta ,$myCoin);
             $balanceBefore      = $this->getBalanceBeforeME($myGroup,$myFechaDesde, $myFechaHasta, $myCoin);
-
+            // dd($balance);
         }
         else
         {
@@ -2617,7 +2617,7 @@ class statisticsController extends Controller
         $myFechaDesde = "2001-01-01";
         $myFechaHasta = "9999-12-31";
         $myFechaHasta = date('Y-m-d');
-
+        
         if ($request->fechaDesde){
             $myFechaDesde = $request->fechaDesde;
             $myFechaHasta = $request->fechaHasta;
@@ -2725,7 +2725,7 @@ class statisticsController extends Controller
             NombreGrupo
         ";
 
-        //  dd($myQuery);
+        //   dd($myQuery);
         // \Log::info($myQuery);
         
 
