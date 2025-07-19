@@ -2475,8 +2475,8 @@ class TransactionController extends Controller
         //$group                                  = Group::where('type','=','1')->pluck('name', 'id');
         //$group2                                 = Group::where('type','=','1')->pluck('name', 'id');
 
-        $group              = app(GroupController::class)->getGroups();
-        $group2             = app(GroupController::class)->getGroups();
+        $group                                  = app(GroupController::class)->getGroups();
+        $group2                                 = app(GroupController::class)->getGroups();
 
         $user                                   = User::pluck('name', 'id');
         $fecha                                  = Carbon::now();
