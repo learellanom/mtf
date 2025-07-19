@@ -53,8 +53,12 @@ if (isset($balance->Total)){
         $myTotalBefore  = $balanceBefore->Total;
     }
 }
+if (isset($balance->TotalDolar)){
+    $myTotalDolar        = $balance->TotalDolar;
+}
+// dd($balance);
 if (isset($balanceBefore->TotalDolar)){
-    $myTotalDolar       = $balanceBefore->TotalDolar;
+    // $myTotalDolar       = $balanceBefore->TotalDolar;
     $myTotalDolarBefore = $balanceBefore->TotalDolar;
 }
     // dd($myTotalDolar);
@@ -75,13 +79,14 @@ if (isset($balanceBefore->TotalDolar)){
 
         {{-- dd($wallet) --}}
         <div class ="col-xl-2 col-sm-6">
-            <x-adminlte-select2 id="wallet"
-                                name="optionsWallets"
+            <x-adminlte-select2 
+                id="wallet"
+                name="optionsWallets"
 
-                                label-class="text-lightblue"
-                                data-placeholder="Wallet..."
-                                :config="$config4"
-                                >
+                label-class="text-lightblue"
+                data-placeholder="Wallet..."
+                :config="$config4"
+            >
                 <x-slot name="prependSlot">
                     <div class="input-group-text bg-gradient-dark">
                         <!-- <i class="fas fa-car-side"></i> -->
@@ -280,7 +285,7 @@ if (isset($balanceBefore->TotalDolar)){
                     <div class= "row p-1" style="font-size:1rem">
                         
                         <div class="col-sm-12 col-xl-3">
-                            <p class="">
+                            <p class=""> 
                                 <span class="font-weight-bold">
                                     Saldo en Dolares
                                 </span>
