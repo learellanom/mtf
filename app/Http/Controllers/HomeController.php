@@ -1303,6 +1303,7 @@ class HomeController extends Controller
         $typeTransactions           = app(statisticsController::class)->getTypeTransactions();
         //$myCoin                     = ($request->coin) ? $request->coin : 1;
         $myTypeCoinBalance          =  ($request->coin) ? $request->coin : null;
+        
 		$Type_coin_balance          = Type_coin::pluck('name', 'id')->toArray();
 
         /* MANTENER VALOR BUSCADO EN EL URL */
@@ -1365,7 +1366,7 @@ class HomeController extends Controller
             $myFechaHastaBefore = app(statisticsController::class)->getDayBefore($myFechaDesde);
         }
         foreach($wallet_summary as $wallet3){            
-            $balanceDetail           = app(statisticsController::class)->getBalanceWalletBeforeME($wallet3->IdWallet, $myFechaDesde, $myFechaHasta);
+            $balanceDetail           = app(statisticsController::class)->getBalanceWalletBeforeME($wallet3->IdWallet, $myFechaDesdeBefore, $myFechaHastaBefore, $myTypeCoinBalance );
             
             $wallet3->BalanceAnterior = $balanceDetail;
         }   
