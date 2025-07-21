@@ -1420,6 +1420,7 @@
   
                                 @php
                                     $cantCreditos ++;
+                                    $totalSaldoAnterior += $wallet2->BalanceAnterior;
                                     $totalCreditos += $wallet2->Creditos;
                                     $totalDebitos  += $wallet2->Debitos;
 
