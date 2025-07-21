@@ -1297,7 +1297,6 @@ class HomeController extends Controller
     public function saldosME(request $request)
     {
 
-
         $wallet                     = app(GroupController::class)->getWallets2();
         $group                      = app(GroupController::class)->getGroups2();
         $typeTransactions           = app(statisticsController::class)->getTypeTransactions();
@@ -1360,14 +1359,14 @@ class HomeController extends Controller
         // obtiene saldo anterior wallets
         // 
         $balanceDetail      = 0;
-        $myFechaDesdeBefore = "2001-01-01";
-        $myFechaHastaBefore = "9999-12-31";
-        if ($myFechaDesde != "2001-01-01"){
-            $myFechaHastaBefore = app(statisticsController::class)->getDayBefore($myFechaDesde);
-        }
+        // $myFechaDesdeBefore = "2001-01-01";
+        // $myFechaHastaBefore = "9999-12-31";
+        // if ($myFechaDesde != "2001-01-01"){
+        //     $myFechaHastaBefore = app(statisticsController::class)->getDayBefore($myFechaDesde);
+        // }
         foreach($wallet_summary as $wallet3){            
-            $balanceDetail           = app(statisticsController::class)->getBalanceWalletBeforeME($wallet3->IdWallet, $myFechaDesdeBefore, $myFechaHastaBefore, $myTypeCoinBalance );
-            
+            $balanceDetail           = app(statisticsController::class)->getBalanceWalletBeforeME($wallet3->IdWallet, $myFechaDesde, $myFechaHasta, $myTypeCoinBalance );
+            // dd('balancedetail -> ' . $balanceDetail);
             $wallet3->BalanceAnterior = $balanceDetail;
         }   
 
