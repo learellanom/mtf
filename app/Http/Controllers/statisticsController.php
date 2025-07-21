@@ -3470,7 +3470,7 @@ class statisticsController extends Controller
         \Log::info('leam getBalanceBefore -> $myCoin        ' . $myCoin);
         */
 
-        if ($myFechaDesde === "2001-01-01"){
+        if ($myFechaHasta === "9999-12-31"){
             return $balanceDetail;
         }
 
