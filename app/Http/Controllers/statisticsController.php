@@ -3459,10 +3459,12 @@ class statisticsController extends Controller
     */
     function getBalanceWalletBeforeME($myWallet = 0, $myFechaDesde = "2001-01-01", $myFechaHasta = "9999-12-31", $myCoin = 1){
 
-        $myFechaDesdeBefore = "2001-01-01";
-        $myFechaHastaBefore = "9999-12-31";
+        // $myFechaDesdeBefore = "2001-01-01";
+        // $myFechaHastaBefore = "9999-12-31";
         $balance3 = 0;
         $balanceDetail = 0;
+        // dd($myFechaHasta);
+        // dd($myCoin);
         /*
         \Log::info('leam getBalanceBefore -> $myWallet      ' . $myWallet);
         \Log::info('leam getBalanceBefore -> $myFechaDesde  ' . $myFechaDesde);
@@ -3470,29 +3472,34 @@ class statisticsController extends Controller
         \Log::info('leam getBalanceBefore -> $myCoin        ' . $myCoin);
         */
 
-        if ($myFechaHasta === "9999-12-31"){
+        //
+        // Si l afecha desde es 2001-01-01 sale porque antes de eso no habia nada
+        //
+        if ($myFechaHasta === "2001-01-01"){
             return $balanceDetail;
         }
 
         if ($myWallet > 0){
-            // dd($indRecibeFecha);                
+            // dd($indRecibeFecha);       
+            $myFechaDesdeBefore = $myFechaDesde;         
             if ($myFechaDesde != "2001-01-01"){
 
+                $myFechaDesdeBefore = "2001-01-01";
                 $myFechaHastaBefore = $this->getDayBefore($myFechaDesde);
 
             }
             $balance3           = $this->getBalanceWalletME($myWallet, $myFechaDesdeBefore, $myFechaHastaBefore, $myCoin);
-
+            // dd($balance3);
             if(isset($balance3->Total)){
-                $balanceDetail  = $balance3->TotalDolar;
-            }else{
-                $balanceDetail = 0;
+                $balanceDetail  = $balance3->Total;
             }
 
            // $balanceDetail = $balance3;
             return $balanceDetail;
 
-        }        
+        }      
+        
+        return $balanceDetail;
     }
     /*
     *
@@ -3823,10 +3830,10 @@ class statisticsController extends Controller
             sum(MontoComision)                              as Comision,
             sum(MontoComisionBase)                          as ComisionBase,
             (sum(MontoCreditos) - sum(MontoDebitos) )       as Total,
-            sum(MontoComisionProfit)                        as ComisionGanancia,
-            sum(MontoDolar)                                 as MontoME,
-            sum(MontoCreditosDolar)                         as MontoCreditosME,
-            sum(MontoDebitosDolar)                            as MontoDebitosME,
+            sum(MontoComisionProfit)                             as ComisionGanancia,
+            sum(MontoDolar)                                      as MontoME,
+            sum(MontoCreditosDolar)                              as MontoCreditosME,
+            sum(MontoDebitosDolar)                               as MontoDebitosME,
             (sum(MontoCreditosDolar) - sum(MontoDebitosDolar) )  as TotalDolar
         from(
             SELECT
@@ -3892,7 +3899,6 @@ class statisticsController extends Controller
         order by 
             NombreWallet
         ";
-
          // dd($myQuery);
          $Transacciones = array();
 
