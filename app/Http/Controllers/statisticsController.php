@@ -599,8 +599,9 @@ class statisticsController extends Controller
             $myWalletHasta  = $request->wallet;
         }
         // dd('myWalletDesde -> ' . $myWalletDesde . 'myWalletDesde ->  ' . $myWalletHasta);
-        $myFechaDesde   = "";
-        $myFechaHasta   = "";
+        $myFechaDesde   = "2001-01-01";
+        $myFechaHasta   = "9999-12-31";
+
         $fechaDesde   = "2001-01-01";
         $fechaHasta   = "9999-12-31";        
         if ($request->fechaDesde){
@@ -674,7 +675,7 @@ class statisticsController extends Controller
         {
             if ($myWallet > 0){
                 
-                $balance        = $this->getBalanceWalletME($myWallet, "2001-01-01", "9999-12-31", $myCoin);
+                $balance        = $this->getBalanceWalletME($myWallet, $myFechaDesde, $myFechaHasta, $myCoin);
                 $balanceBefore  = $this->getBalanceWalletBeforeME($myWallet,$myFechaDesde, $myFechaHasta, $myCoin);
 
             }
@@ -3475,9 +3476,12 @@ class statisticsController extends Controller
         //
         // Si l afecha desde es 2001-01-01 sale porque antes de eso no habia nada
         //
-        if ($myFechaHasta === "2001-01-01"){
+
+        if ($myFechaDesde == "2001-01-01"){
+            
             return $balanceDetail;
         }
+
 
         if ($myWallet > 0){
             // dd($indRecibeFecha);       
