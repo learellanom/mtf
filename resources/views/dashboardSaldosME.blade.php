@@ -900,7 +900,7 @@
                             @endphp
 
                             <tr class="myTr" onClick="theRoute2({{0}}, {{ $group2->IdGrupo }}, {{$myWallet}}, {{0}})" data-id="{{$group2->IdGrupo}}">
-                                <td >{{ $group2->NombreGrupo}}</td>
+                                <td >{{ $group2->NombreGrupo}}ddd</td>
                                 <td >{{ number_format($group2->BalanceAnterior,2) }}</td>                                
                                 <td >{{ number_format($group2->Creditos,2) }}</td>
                                 <td >{{ number_format($group2->Debitos,2)}}</td>
