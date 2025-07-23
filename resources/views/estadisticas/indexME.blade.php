@@ -44,14 +44,13 @@ $config4 = [
 ];
 
 $myTotal        = 0;
-$myTotalBefore  = 0;
+$myTotalBefore  = $balanceBefore;;
 $myTotalDolar   = 0;
 $myTotalDolarBefore = 0;
+
 if (isset($balance->Total)){
     $myTotal        = $balance->Total;
-    if (isset($balanceBefore->Total)){
-        $myTotalBefore  = $balanceBefore->Total;
-    }
+
 }
 if (isset($balance->TotalDolar)){
     $myTotalDolar        = $balance->TotalDolar;
@@ -385,7 +384,7 @@ if (isset($balanceBefore->TotalDolar)){
                                             $myMontoComision        = $row->MontoComisionBase;
                                             $myTotal2               = $row->MontoTotalBase;
 
-                                            $TasaCambio             = $row->TasaCambioBase;
+                                            $TasaCambio             = $row->TasaCambio;
                                             $Monto                  = $row->MontoBase;
                                             // $Monto                  = $row->Monto;
                                         }else{
@@ -494,7 +493,7 @@ if (isset($balanceBefore->TotalDolar)){
                                     <td>{!! $row->Descripcion !!}</td>
                                     <td>{!! $row->TipoMoneda !!}</td>
                                     <td class="text-right"  >{!! number_format($row->MontoMoneda,2) !!}</td>
-                                    <td class="text-left"   >{!! number_format($TasaCambio,2) !!}</td>
+                                    <td class="text-left"   >{!! number_format($TasaCambio,2) !!}oo</td>
                                     <td class="text-left"   >{!! $row->TipoMonedaBalance!!} </td>
                                     <td class="text-right"  >{!! number_format($Monto,2) !!}</td>
 
