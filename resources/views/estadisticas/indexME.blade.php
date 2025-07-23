@@ -493,7 +493,7 @@ if (isset($balanceBefore->TotalDolar)){
                                     <td>{!! $row->Descripcion !!}</td>
                                     <td>{!! $row->TipoMoneda !!}</td>
                                     <td class="text-right"  >{!! number_format($row->MontoMoneda,2) !!}</td>
-                                    <td class="text-left"   >{!! number_format($TasaCambio,2) !!}oo</td>
+                                    <td class="text-left"   >{!! number_format($TasaCambio,2) !!}</td>
                                     <td class="text-left"   >{!! $row->TipoMonedaBalance!!} </td>
                                     <td class="text-right"  >{!! number_format($Monto,2) !!}</td>
 
