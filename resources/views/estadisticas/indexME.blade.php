@@ -65,8 +65,8 @@ $saldoTotalDolar = 0;
 if (isset($balance[0]->Total)){
 
 
-  // dd($balance);
-  // dd($balanceBefore);
+ //  dd($balance);
+ //  dd($balanceBefore);
 
     $Creditos      = $balance[0]->Creditos;
     $Debitos       = $balance[0]->Debitos;
