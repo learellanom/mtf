@@ -1297,7 +1297,7 @@ class HomeController extends Controller
         $myTypeCoinBalance          =  ($request->coin) ? $request->coin : null;
         
 		$Type_coin_balance          = Type_coin::pluck('name', 'id')->toArray();
-
+        // dd($myTypeCoinBalance  );
         /* MANTENER VALOR BUSCADO EN EL URL */
         $myWalletDesde   = 0;
         $myWalletHasta   = 9999;
@@ -1357,13 +1357,23 @@ class HomeController extends Controller
 
         foreach($wallet_summary as $wallet3){
 
-            $myFechaDesdeBefore = "2001-01-01";
-            $myFechaHastaBefore = "9999-12-31";
-            $myFechaHastaBefore = app(statisticsController::class)->getDayBefore($myFechaDesde);   
-            $balanceBeforeME    = app(statisticsController::class)->getBalanceWalletME($wallet3->IdWallet, $myFechaDesdeBefore, $myFechaHastaBefore, $myTypeCoinBalance);
-             // dd($balanceBeforeME );
-            $balanceDetail      = ($balanceBeforeME[0]->Total) ? ($balanceBeforeME[0]->Total) : 0;
+            // $myFechaDesdeBefore = "2001-01-01";
+            // $myFechaHastaBefore = "9999-12-31";
+            // $myFechaHastaBefore = app(statisticsController::class)->getDayBefore($myFechaDesde);   
+            // $balanceBeforeME    =  app(statisticsController::class)->getBalanceWalletME($wallet3->IdWallet, $myFechaDesdeBefore, $myFechaHastaBefore, $myTypeCoinBalance);
+
+
+
+
+            $balanceBeforeME    =  app(statisticsController::class)->getBalanceWalletBeforeME($wallet3->IdWallet,$myFechaDesde, $myFechaHasta, $myTypeCoinBalance);
+
+
+            //  dd($balanceBeforeME );
+            $balanceDetail      = $balanceBeforeME[0]->Total;
             $wallet3->BalanceAnterior = $balanceDetail;
+
+
+
         }   
 
         // dd($wallet_summary);
@@ -1371,9 +1381,9 @@ class HomeController extends Controller
         // obtiene saldo anterior groups
         //
         foreach($group_summary as $group3){            
-            $balanceDetail           = app(statisticsController::class)->getBalanceBeforeME($group3->IdGrupo, $myFechaDesde, $myFechaHasta, $myTypeCoinBalance);
+            $balanceDetail           = app(statisticsController::class)->getBalanceBeforeME($group3->IdGrupo, $myFechaDesde, $myFechaHasta, $myTypeCoinBalance, $myWallet);
             
-            $group3->BalanceAnterior = $balanceDetail;
+            $group3->BalanceAnterior = $balanceDetail[0]->Total;
         }
 
         // dd($group_summary);
