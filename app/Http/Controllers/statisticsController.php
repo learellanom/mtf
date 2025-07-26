@@ -668,21 +668,12 @@ class statisticsController extends Controller
         $balanceBefore  = 0;
         if ($myGroup > 0){
             
-            $balance            = $this->getBalanceME($myGroup, $fechaDesde , $fechaHasta ,$myCoin);
+            $balance            = $this->getBalanceME($myGroup, $fechaDesde , $fechaHasta ,$myCoin ,$myWallet);
 
-            // $balanceBefore      = $this->getBalanceBeforeME($myGroup,$fechaDesde, $fechaHasta, $myCoin);
-             
-            $myFechaDesdeBefore = "2001-01-01";
-            $myFechaHastaBefore = "9999-12-31";
-            if ($fechaDesde != "2001-01-01"){
-                // $myFechaDesdeBefore = $myFechaDesde;
-                $myFechaHastaBefore = $this->getDayBefore($fechaDesde);
-
-            }
-            $balanceBefore = $this->getBalanceME($myGroup, $myFechaDesdeBefore , $myFechaHastaBefore, $myCoin);
-            
-             // dd($balanceBefore);
-            // dd('myGroup -> ' . $myGroup . 'Fecha desde Before -> ' . $myFechaDesdeBefore . ' - Fecha hasta before -> ' . $myFechaHastaBefore . '  myCoin -> ' . $myCoin);
+             $balanceBefore      = $this->getBalanceBeforeME($myGroup,$fechaDesde, $fechaHasta, $myCoin, $myWallet);
+            //  dd($balance);
+            // dd($balanceBefore);
+            // dd('myGroup -> ' . $myGroup . 'Fecha desde Before -> ' . $fechaDesde . ' - Fecha hasta before -> ' . $fechaHasta . '  myCoin -> ' . $myCoin);
         }
         else
         {
@@ -690,24 +681,13 @@ class statisticsController extends Controller
                 
                 $balance        = $this->getBalanceWalletME($myWallet, $fechaDesde, $fechaHasta, $myCoin);
 
-
-
-                $myFechaDesdeBefore = "2001-01-01";
-                $myFechaHastaBefore = "9999-12-31";
-                if ($fechaDesde != "2001-01-01"){
-                    // $myFechaDesdeBefore = $myFechaDesde;
-                    $myFechaHastaBefore = $this->getDayBefore($fechaDesde);
-    
-                }
-                $balanceBefore           = $this->getBalanceWalletME($myWallet, $myFechaDesdeBefore, $myFechaHastaBefore, $myCoin);        
-
-                // $balanceBefore  = $this->getBalanceWalletBeforeME($myWallet,$fechaDesde, $fechaHasta, $myCoin);
-                // dd($balanceBefore);
+                $balanceBefore  = $this->getBalanceWalletBeforeME($myWallet,$fechaDesde, $fechaHasta, $myCoin);
+                
             }
         };
-       // dd($balance);
-       // dd($balanceBefore);
-
+        // dd($balance);
+        // dd($balanceBefore);
+        // dd('fechaDesde -> ' . $fechaDesde . ' - fechaHasta ->' . $fechaHasta);
         $myUser         = 0;
         $myUserDesde    = 0;
         $myUserHasta    = 9999;
@@ -727,7 +707,7 @@ class statisticsController extends Controller
 
         $Group_roles = $this->getGroupRole(auth()->id());
         // \Log::info('leam - el user id es -> ' . print_r($Group_roles,true));
-       
+        
         
         //if ($myWallet == 0 and $myGroup == 0) {
         //    $myLimit            = 1000;
@@ -771,21 +751,23 @@ class statisticsController extends Controller
             $busquedaGroup = " and group_id between $myGroupDesde and $myGroupHasta ";
             $busquedaWallet  = " and wallet_id between $myWalletDesde and $myWalletHasta ";
         }
-        
-        $busquedaGroupFilter      = "";
-        $busquedaWalletFilter     = "";
-        if ($myGroup != 0){
-            if($Group_roles->allGroups == 0){
-                $theGroups              = implode(",",$Group_roles->groups );
-                // $busquedaGroupFilter    = " and group_id in ($theGroups)";
-            }
-        }
-        if ($myWallet != 0){
-            if($Group_roles->allWallets == 0){
-                $theWallets             = implode(",", $Group_roles->wallets);
-                $busquedaWalletFilter   = " and wallet_id in ($theWallets)";
-            }
-        }
+        //
+        // Filtra bsqueda segun lo que el role tiene asignado para ver en cajas y grupos
+        //
+         $busquedaGroupFilter      = "";
+         $busquedaWalletFilter     = "";
+        // if ($myGroup != 0){
+        //     if($Group_roles->allGroups == 0){
+        //         $theGroups              = implode(",",$Group_roles->groups );
+        //         // $busquedaGroupFilter    = " and group_id in ($theGroups)";
+        //     }
+        // }
+        // if ($myWallet != 0){
+        //     if($Group_roles->allWallets == 0){
+        //         $theWallets             = implode(",", $Group_roles->wallets);
+        //         $busquedaWalletFilter   = " and wallet_id in ($theWallets)";
+        //     }
+        // }
     
 
         $myQuery2 =
@@ -844,10 +826,10 @@ class statisticsController extends Controller
         $Transacciones = DB::select($myQuery2);
             
         // }
-
+        //  dd($myQuery2);
         //  dd($Transacciones);
-        // \Log::info('index transacciones -> ' . print_r($Transacciones,true));
-        // die();
+        //  \Log::info('index transacciones -> ' . print_r($Transacciones,true));
+        //  die();
 
         $userole            = $this->getUser();
         $wallet             = app(GroupController::class)->getWallets2($Group_roles);
@@ -1517,8 +1499,9 @@ class statisticsController extends Controller
         $myCoin         = ($request->coin)          ? $request->coin        : null;
             
         // dd($fechaDesde . " - " . $fechaHasta);
+        // dd('getWalletSummaryME - con ->  ' . $myCoin);
         $Transacciones  = $this->getBalanceWalletME($myWallet, $fechaDesde, $fechaHasta, $myCoin);
-        // dd($Transacciones);
+         // dd($Transacciones);
 
         //
         // si es un solo grupo devuelve un objeto y debe convertirse a array de 1
@@ -3100,7 +3083,22 @@ class statisticsController extends Controller
     *
     *
     */
-    function getBalanceME($grupo = 0, $myFechaDesde = "2001-01-01", $myFechaHasta = "9999-12-31", $typeCoin = null){
+    function getBalanceME($grupo = 0, $myFechaDesde = "2001-01-01", $myFechaHasta = "9999-12-31", $typeCoin = null, $wallet = null){
+
+        $busquedaFiltroWallet = "";
+        if ($wallet){
+            $busquedaFiltroWallet = "and wallet_id = " . $wallet;
+            $walletDesde = $grupo;
+            $walletHasta = $grupo;
+
+        }else{
+            
+            $walletDesde = 00000;
+            $walletHasta = 99999;
+
+        }
+
+
 
         if ($grupo === 0){
             $grupoDesde = 00000;
@@ -3157,6 +3155,7 @@ class statisticsController extends Controller
                 and status           <> 'Anulado'
                 and mtf.groups.type  = 1
                 $busquedaTypeCoin
+                $busquedaFiltroWallet
             group by
                 IdGrupo,
                 NombreGrupo
@@ -3180,6 +3179,7 @@ class statisticsController extends Controller
                 and status <> 'Anulado'
                 and mtf.groups.type = 1   
                 $busquedaTypeCoin      
+                $busquedaFiltroWallet
             group by
                 IdGrupo,
                 NombreGrupo
@@ -3193,7 +3193,7 @@ class statisticsController extends Controller
             NombreGrupo
         ";
 
-    //  dd($myQuery);
+      // dd($myQuery);
         // \Log::info($myQuery);
         
 
@@ -3379,7 +3379,7 @@ class statisticsController extends Controller
     *
     *
     */
-    function getBalanceBeforeME($myGroup = 0, $myFechaDesde = "2001-01-01", $myFechaHasta = "9999-12-31", $myCoin = 1){
+    function getBalanceBeforeME($myGroup = 0, $myFechaDesde = "2001-01-01", $myFechaHasta = "9999-12-31", $myCoin = 1, $wallet = null){
 
         /*
         \Log::info('paso en before ');
@@ -3392,10 +3392,20 @@ class statisticsController extends Controller
         $myFechaDesdeBefore = "2001-01-01";
         $myFechaHastaBefore = "9999-12-31";
         $balance3           = 0;
-        $balanceDetail      = 0;
+        $balanceDetail      = [];
 
         if ($myFechaDesde === "2001-01-01"){
-            
+            $theTransaction = new stdClass();
+            $theTransaction->IdGrupo = $myGroup;
+            $theTransaction->NombreGrupo = '';
+            $theTransaction->Cant = 0;
+            $theTransaction->Creditos = 0;
+            $theTransaction->Debitos = 0;
+            $theTransaction->Total = 0;
+            $theTransaction->MontoCreditosME = 0;
+            $theTransaction->MontoDebitosME = 0;
+            $theTransaction->TotalDolar = 0;
+            $balanceDetail[]= $theTransaction; 
             return $balanceDetail;
         }
 
@@ -3414,18 +3424,18 @@ class statisticsController extends Controller
             \Log::info('paso en before - calcula antes myCoin       ->' . $myCoin);
         */
             // dd('myFechaDesdeBefore -> ' . $myFechaDesdeBefore . ' - myFechaHastaBefore -> ' . $myFechaHastaBefore);
-            $balance3           = $this->getBalanceME($myGroup, $myFechaDesdeBefore, $myFechaHastaBefore, $myCoin);
+            $balance3           = $this->getBalanceME($myGroup, $myFechaDesdeBefore, $myFechaHastaBefore, $myCoin, $wallet);
              // dd($balance3);
             // if ($myGroup == 17)  dd($balance3);
 
             // dd('las fechas - ' . $balance3->Total . ' grupo ' . $myGroup . 'fecha desde -> ' . $myFechaDesdeBefore . ' fecha hasta -> ' . $myFechaHastaBefore . ' - coin -> ' . $myCoin);
-            if(isset($balance3->TotalDolar)){
-                // $balanceDetail  = $balance3->TotalDolar;
-                $balanceDetail  = $balance3->Total;
-            }else{
-                $balanceDetail = 0;
-            }
-            // $balanceDetail = $balance3;
+            // if(isset($balance3->TotalDolar)){
+                
+            //     $balanceDetail  = $balance3->Total;
+            // }else{
+            //     $balanceDetail = 0;
+            // }
+             $balanceDetail = $balance3;
         }
         
         // \Log::info('Balance detail -> ' . $balanceDetail);
@@ -3486,7 +3496,26 @@ class statisticsController extends Controller
         // $myFechaDesdeBefore = "2001-01-01";
         // $myFechaHastaBefore = "9999-12-31";
         $balance3 = 0;
-        $balanceDetail = 0;
+        $balanceDetail = [];
+
+        $theTransaction = new stdClass();
+        $theTransaction->IdWallet = $myWallet;
+        $theTransaction->NombreWallet = '';
+        $theTransaction->Cant = 0;
+        $theTransaction->Monto = 0;
+        $theTransaction->Creditos = 0;
+        $theTransaction->Debitos = 0;
+        $theTransaction->Comision = 0;
+        $theTransaction->ComisionBase = 0;
+        $theTransaction->Total = 0;
+        $theTransaction->ComisionGanancia= 0;
+        $theTransaction->MontoME= 0;
+        $theTransaction->MontoCreditosME = 0;
+        $theTransaction->MontoDebitosME = 0;
+        $theTransaction->TotalDolar = 0;
+
+        $balanceDetail[] = $theTransaction;
+
         // dd($myFechaHasta);
         // dd($myCoin);
         /*
@@ -3519,11 +3548,11 @@ class statisticsController extends Controller
             // dd('Wallet ' . $myWallet . ' - Fecha desde Before -> ' . $myFechaDesdeBefore .  ' - Fecha Hasta Before -> ' . $myFechaHastaBefore . ' - Coin -> ' . $myCoin);
             $balance3           = $this->getBalanceWalletME($myWallet, $myFechaDesdeBefore, $myFechaHastaBefore, $myCoin);
             // dd($balance3);
-            foreach($balance3 as $item){
-                $balanceDetail  += $item->Total;
-            }
+            // foreach($balance3 as $item){
+            //     $balanceDetail  += $item->Total;
+            // }
 
-           // $balanceDetail = $balance3;
+            $balanceDetail = $balance3;
             return $balanceDetail;
 
         }      
@@ -3928,7 +3957,7 @@ class statisticsController extends Controller
         order by 
             NombreWallet
         ";
-         // dd($myQuery);
+        //  dd($myQuery);
          $Transacciones = array();
 
         $Transacciones = DB::select($myQuery);
