@@ -1147,13 +1147,6 @@ class HomeController extends Controller
     {
         
         $wallet_summary             = app(statisticsController::class)->getWalletSummary($request);
-        
-
-
-        //$request2                   = clone $request;
-        //$request2->transaction      = 0;
-        // $wallet_summary             = app(statisticsController::class)->getwalletTransactionSummary($request2);
-
         $group_summary              = app(statisticsController::class)->getGroupSummary($request);
 
         // dd($group_summary);
@@ -1348,6 +1341,7 @@ class HomeController extends Controller
         $wallet_summary             = [];
         $group_summary              = [];
         if ($myWallet > 0){
+            
             $wallet_summary = app(statisticsController::class)->getWalletSummaryME($request);
             $group_summary  = app(statisticsController::class)->getWalletGroupSummaryME($request);
         }
@@ -1358,15 +1352,17 @@ class HomeController extends Controller
         //
         // obtiene saldo anterior wallets
         // 
-        $balanceDetail      = 0;
-        // $myFechaDesdeBefore = "2001-01-01";
-        // $myFechaHastaBefore = "9999-12-31";
-        // if ($myFechaDesde != "2001-01-01"){
-        //     $myFechaHastaBefore = app(statisticsController::class)->getDayBefore($myFechaDesde);
-        // }
-        foreach($wallet_summary as $wallet3){            
-            $balanceDetail           = app(statisticsController::class)->getBalanceWalletBeforeME($wallet3->IdWallet, $myFechaDesde, $myFechaHasta, $myTypeCoinBalance );
-            // dd('balancedetail -> ' . $balanceDetail);
+        $balanceDetail   = 0;
+        $balanceBeforeME = 0;
+
+        foreach($wallet_summary as $wallet3){
+
+            $myFechaDesdeBefore = "2001-01-01";
+            $myFechaHastaBefore = "9999-12-31";
+            $myFechaHastaBefore = app(statisticsController::class)->getDayBefore($myFechaDesde);   
+            $balanceBeforeME    = app(statisticsController::class)->getBalanceWalletME($wallet3->IdWallet, $myFechaDesdeBefore, $myFechaHastaBefore, $myTypeCoinBalance);
+             // dd($balanceBeforeME );
+            $balanceDetail      = ($balanceBeforeME[0]->Total) ? ($balanceBeforeME[0]->Total) : 0;
             $wallet3->BalanceAnterior = $balanceDetail;
         }   
 
@@ -1375,7 +1371,7 @@ class HomeController extends Controller
         // obtiene saldo anterior groups
         //
         foreach($group_summary as $group3){            
-            $balanceDetail           = app(statisticsController::class)->getBalanceBeforeME($group3->IdGrupo, $myFechaDesde, $myFechaHasta);
+            $balanceDetail           = app(statisticsController::class)->getBalanceBeforeME($group3->IdGrupo, $myFechaDesde, $myFechaHasta, $myTypeCoinBalance);
             
             $group3->BalanceAnterior = $balanceDetail;
         }
@@ -1384,13 +1380,13 @@ class HomeController extends Controller
 
         $balance = 0;
 
-        if ($myWallet > 0){
-            $balance2 = app(statisticsController::class)->getBalanceWalletME($myWallet);
-            if(isset($balance2->Total)){
-                $balance  = $balance2->Total;
-            }
-            // $balance = $this->getBalancemyWallet($myWallet, $myFechaDesde, $myFechaHasta);
-        };
+        // if ($myWallet > 0){
+        //     $balance2 = app(statisticsController::class)->getBalanceWalletME($myWallet);
+        //     if(isset($balance2->Total)){
+        //         $balance  = $balance2->Total;
+        //     }
+            
+        // };
 
 
        // dd($myFechaDesde);
@@ -1400,13 +1396,13 @@ class HomeController extends Controller
         $balance3 = 0;
 
         $balanceDetail = 0;
-        if ($myWallet > 0){
-            // dd($indRecibeFecha);
-            if ($myFechaDesde != "2001-01-01"){
-                $myFechaHastaBefore = app(statisticsController::class)->getDayBefore($myFechaDesde);
-            }
-            $balanceDetail           = app(statisticsController::class)->getBalanceWalletBeforeME($myWallet, $myFechaDesde, $myFechaHasta);
-        };
+        // if ($myWallet > 0){
+        //     // dd($indRecibeFecha);
+        //     if ($myFechaDesde != "2001-01-01"){
+        //         $myFechaHastaBefore = app(statisticsController::class)->getDayBefore($myFechaDesde);
+        //     }
+        //     $balanceDetail           = app(statisticsController::class)->getBalanceWalletBeforeME($myWallet, $myFechaDesde, $myFechaHasta);
+        // };
 
         $myParameters['myTypeCoinBalance']  = $myTypeCoinBalance;
         $myParameters['Type_coin_balance']  = $Type_coin_balance;
