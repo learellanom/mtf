@@ -142,7 +142,9 @@ Route::get('dashboardest/exportcomisionespdf/{wallet?}/{transaction?}/{fechaDesd
 
 
 Route::get('dashboard_saldos/export/', [App\Http\Controllers\HomeController::class, 'exportSaldos'])->name('exports.saldos'); //EXPORTACIÓN DE EXCEL
-Route::get('dashboard_saldos/export/{fechaDesde?}/{fechaHasta?}/{filtroWallet?}/{filtroGroup?}/{filtroWalletB?}/{filtroGroupB?}/{resumen?}', [App\Http\Controllers\HomeController::class, 'exportSaldos'])->name('exports.saldos'); //EXPORTACIÓN DE EXCEL
+Route::get('dashboard_saldos/export/{fechaDesde?}/{fechaHasta?}/{filtroWallet?}/{filtroGroup?}/{filtroWalletB?}/{filtroGroupB?}/{resumen?}', 
+            [App\Http\Controllers\HomeController::class, 'exportSaldos']
+            )->name('exports.saldos'); //EXPORTACIÓN DE EXCEL
 
 Route::get('dashboard_saldos/exportSaldosPDF/', [App\Http\Controllers\HomeController::class, 'exportSaldosPDF'])->name('exports.SaldosPDF'); //EXPORTACIÓN DE EXCEL
 Route::get('dashboard_saldos/exportSaldosPDF/{fechaDesde?}/{fechaHasta?}/{filtroWallet?}/{filtroGroup?}/{filtroWalletB?}/{filtroGroupB?}/{resumen?}', [App\Http\Controllers\HomeController::class, 'exportSaldosPDF'])->name('exports.SaldosPDF'); //EXPORTACIÓN DE EXCEL
@@ -220,6 +222,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('movimientos/pago_clientes',         [TransactionController::class, 'create_pagoclientes'])->middleware('can:transactions.create_pagoclientes')->name('transactions.create_pagoclientes');
     Route::post('movimientos/pgo',                  [TransactionController::class, 'store_pagocliente'])->name('transactions.store_pagocliente');
     Route::post('movimientos/pgo2',                 [TransactionController::class, 'store_pagocliente2'])->name('transactions.store_pagocliente2');
+    Route::get('movimientos/pago_clientes/edit',    [TransactionController::class, 'edit_pagoclientes'])->name('PagoClientes.edit');
+    
 
     Route::match(['put', 'patch'], 'movimientos/{movimiento}/estatus_pagos_cajas',  [TransactionController::class, 'updatestatus_pago'])->name('transactions.updatestatus_pago');
     Route::match(['put', 'patch'], 'movimientos/{movimiento}/estatus_cajas',        [TransactionController::class, 'updatestatus_transfer'])->name('transactions.updatestatus_transfer');

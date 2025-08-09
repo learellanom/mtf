@@ -144,6 +144,7 @@ $config3 = [
                                     <th style="width:1%;">Activo <br> /Anulado</th>
                                     @endcan
                                     <th style="width:1%;" class="no-exportar">Comisión</th>
+                                    <th style="width:1%;" class="no-exportar">Editar <i class="fas fa-search"></i></th>
                                     <th style="width:1%;" class="no-exportar">Ver <i class="fas fa-search"></i></th>
 
                                 </tr>
@@ -202,7 +203,9 @@ $config3 = [
                                         @endif
                                     </td>
 
-
+                                    <td>
+                                        <a href="{{ route('PagoClientes.edit',  ['TransferNumber' => $transferencias->TransferNumber] ) }}" class="btn btn-xl text-dark mx-1 shadow text-center"><i class="fa fa-lg fa-fw fas fa-edit"></i></a>
+                                    </td>
 
                                     <td>
                                         <a href="{{ route('transactions.show', $transferencias->TransactionId) }}" class="btn btn-xl text-dark mx-1 shadow text-center"><i class="fa fa-lg fa-fw fas fa-search"></i></a>

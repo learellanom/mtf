@@ -1434,7 +1434,71 @@ class HomeController extends Controller
 
     }
     
+    public function exportSaldosME(request $request)
+    {
 
+
+        $myFechaDesde = "2001-01-01";
+        $myFechaHasta = "9999-12-31";
+
+        if ($request->fechaDesde){
+            $myFechaDesde = $request->fechaDesde;
+            $myFechaHasta = $request->fechaHasta;
+        }
+
+        if ($request->fechaHasta){
+            $myFechaHasta = $request->fechaHasta;
+        }
+
+
+        $wallet_summary             = [];
+        $group_summary              = [];
+        if ($myWallet > 0){
+            
+            $wallet_summary = app(statisticsController::class)->getWalletSummaryME($request);
+            $group_summary  = app(statisticsController::class)->getWalletGroupSummaryME($request);
+        }
+        // dd($wallet_summary);
+        // dd($group_summary);
+
+
+        //
+        // obtiene saldo anterior wallets
+        // 
+        $balanceDetail   = 0;
+        $balanceBeforeME = 0;
+
+        foreach($wallet_summary as $wallet3){
+            $balanceBeforeME    =  app(statisticsController::class)->getBalanceWalletBeforeME($wallet3->IdWallet,$myFechaDesde, $myFechaHasta, $myTypeCoinBalance);
+            //  dd($balanceBeforeME );
+            $balanceDetail      = $balanceBeforeME[0]->Total;
+            $wallet3->BalanceAnterior = $balanceDetail;
+        }   
+
+
+        //
+        // obtiene saldo anterior groups
+        //
+        foreach($group_summary as $group3){            
+            $balanceDetail           = app(statisticsController::class)->getBalanceBeforeME($group3->IdGrupo, $myFechaDesde, $myFechaHasta, $myTypeCoinBalance, $myWallet);
+            
+            $group3->BalanceAnterior = $balanceDetail[0]->Total;
+        }
+
+
+        // dd($wallet_summary);
+        // dd($group_summary);
+        // dd($myFechaDesde);
+
+
+        $myParameters['wallet_summary']     = $wallet_summary;
+        $myParameters['group_summary']      = $group_summary;
+        $myParameters['myFechaDesde']       = $myFechaDesde;
+        $myParameters['myFechaHasta']       = $myFechaHasta;
+
+        return view('dashboardSaldosME', $myParameters);
+
+    }
 
     public function export(request $request)
     {
