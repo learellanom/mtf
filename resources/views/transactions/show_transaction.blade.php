@@ -35,7 +35,7 @@
                                 if ($transactions->status == 'Activo') {
                                     $myColor = "btn btn-xl text-success mx-1 shadow text-center";
                                     $myIcon = "fa fa-lg fa-fw fas fa-check";
-                                    $myText = "Anular";                        
+                                    $myText = "Anular";
                                 }else{
                                     $myColor = "btn btn-xl text-danger mx-1 shadow text-center";
                                     $myIcon = "fa fa-lg fa-fw fas fa-times ";

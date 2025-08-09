@@ -18,7 +18,7 @@ use App\Models\User;
 use App\Models\Type_material;
 use Carbon\Carbon;
 
-
+use \stdClass;
 
 class TransactionController extends Controller
 {
@@ -2622,6 +2622,146 @@ class TransactionController extends Controller
 
          return Redirect::back()->withInput();
     }
+
+    public function edit_pagoclientes(Request $request){
+
+        $myPayNumber = "";
+        if ($request->TransferNumber){
+            $myPayNumber = "pay_number = '" . $request->TransferNumber . "'";
+        }else{
+            return;
+        }
+        $nroTransferencia = $request->TransferNumber;
+
+        $type_coin                              = Type_coin::pluck('name', 'id');
+
+        $type_transaction                       = Type_transaction::whereIn('name', ['Cobro en efectivo'])->pluck('id');
+        $type_transaction2                      = Type_transaction::whereIn('name', ['Pago Efectivo'])->pluck('id');
+
+        $wallet                                 = Group::where('type','=','2')->whereIn('name', ['Caja Puente'])->pluck('id');
+        //$group                                  = Group::where('type','=','1')->pluck('name', 'id');
+        //$group2                                 = Group::where('type','=','1')->pluck('name', 'id');
+
+        $group                                  = app(GroupController::class)->getGroups();
+        $group2                                 = app(GroupController::class)->getGroups();
+
+        $user                                   = User::pluck('name', 'id');
+        $fecha                                  = Carbon::now();
+
+        $type_transaction_debit                 = Type_transaction::where('type_transaction_group', '2')->pluck('name', 'id');
+        $type_transaction_credit                = Type_transaction::where('type_transaction_group', '1')->pluck('name', 'id');
+
+
+        // dd($type_transaction_debit);
+
+         // dd('aqui ->' . $myPayNumber . '<-');
+        $myQuery ="
+        select 
+            mtf.transactions.id                              as TransactionId,
+            pay_number                                       as PayNumber, 
+            type_transactions.type_transaction_group         as TypeTransactionGroup,
+            IF(type_transactions.type_transaction_group = '1', 'Destino', 'Origen') as TypeTransactionGroupName,
+            wallet_id                                        as WalletIdOrigen,
+            groups2.name                                     as WalletNameOrigen,
+            group_id                                         as GroupIdOrigen,
+            groups.name                                      as GroupNameOrigen,
+            amount                                           as Amount,
+            date_format(transaction_date,'%Y-%m-%d')         as TransactionDate,
+            date_format(transactions.created_at,'%Y-%m-%d')  as TransactionCreated,
+            user_id                                          as AgenteId,
+            users.name                                       as Agente,
+            status                                           as estatus,
+            type_transaction_id                              as TypeTransactionId,
+            transactions.description                         as Description,
+            type_transactions.name                           as TypeTransactionName,
+            transactions.amount_commission                   as AmountCommission,
+            transactions.percentage                          as Porcentage,
+            transactions.exonerate                           as Exonerate,
+            transactions.amount_total                        as AmountTotal
+        from mtf.transactions
+        left join  mtf.groups  as groups2   on mtf.transactions.wallet_id = groups2.id
+        left join  mtf.groups               on mtf.transactions.group_id  = groups.id
+        left join  mtf.type_transactions    on mtf.transactions.type_transaction_id  = mtf.type_transactions.id
+        left join  mtf.users                on mtf.transactions.user_id  = mtf.users.id
+        where 
+        $myPayNumber
+        order by 
+            transaction_date DESC,
+            pay_number ASC,
+            type_transactions.type_transaction_group DESC
+        ";
+
+
+        // dd($myQuery);
+        $transactions = DB::select($myQuery);
+        // dd($transactions);
+
+
+        $transaction = new stdClass();
+        $transaction->TransactionId = "";
+        $transaction->PayNumber ="";
+        $transaction->TypeTransactionGroup = "";
+        $transaction->Destino = "";
+        $transaction->WalletIdOrigen = "";
+        $transaction->WalletNameOrigen = "";
+        $transaction->GroupIdOrigen = "";
+        $transaction->GroupNameOrigen = "";
+        $transaction->Amount = "";
+        $transaction->TransactionDate = "";
+        $transaction->TransactionCreated = "";
+        $transaction->AgenteId = "";
+        $transaction->Agente = "";
+        $transaction->estatus = "";
+        $transaction->TypeTransactionId = "";
+        $transaction->Description = "";
+        $transaction->TypeTransactionName = "";
+        $transaction->AmountComision = "";
+        $transaction->Porcentage = "";
+        $transaction->Exonerate = "";
+        $transaction->AmounTotal = "";   
+
+        $transactionOrigen   = $transaction;
+        $transactionDerstino = $transaction;
+
+        foreach($transactions as $item){
+            switch ($item->TypeTransactionGroup){
+                case '2':
+                    $transactionOrigen = $item;
+                    break;
+                case '1':
+                    $transactionDestino = $item;
+                    break;
+            }            
+        }
+        // dd($transactionOrigen);
+        // dd($transactionDestino);
+        // dd($transaction);     
+    
+        // $parametros['transactionOrigen'] = $tansactionOrigen;
+        // $parametros['transactionDestino'] = $transactionDestino;
+
+        $fecha                                  = Carbon::now();
+        
+        $parametros['nroTransferencia']         = $nroTransferencia;
+        $parametros['type_coin']                = $type_coin;
+        $parametros['type_transaction']         = $type_transaction;
+        $parametros['type_transaction2']        = $type_transaction2;
+        $parametros['wallet']                   = $wallet;
+        $parametros['group']                    = $group;
+        $parametros['group2']                   = $group2;
+        $parametros['user']                     = $user;
+        $parametros['type_transaction_debit']   = $type_transaction_debit;
+        $parametros['type_transaction_credit']  = $type_transaction_credit;
+        $parametros['fecha']                    = $fecha;
+        $parametros['fecha']                    = $fecha;
+        $parametros['transactionOrigen']       = $transactionOrigen;
+        $parametros['transactionDestino']       = $transactionDestino;
+
+        return view('PagoClientes.Edit_pagoclientes', $parametros);
+        
+
+    }
+
     public function index_cobrowallet(Request $request, transaction $transaction)
     {
 
