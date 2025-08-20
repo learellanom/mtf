@@ -12,7 +12,9 @@ use Illuminate\Support\Facades\Redirect;
 class PermissionController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display a listing of the resourceendfor
+     *
+     * 
      */
     public function index()
     {
