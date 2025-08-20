@@ -2494,6 +2494,8 @@ class TransactionController extends Controller
         $parametros['fecha']                    = $fecha;
         $parametros['type_transaction_debit']   = $type_transaction_debit;
         $parametros['type_transaction_credit']  = $type_transaction_credit;
+
+        
         //$number = date('YmdHis').'T-C';
         // dd($wallet);
         /*
@@ -2622,6 +2624,112 @@ class TransactionController extends Controller
 
          return Redirect::back()->withInput();
     }
+
+
+    public function update_pagoclientes(Request $request)
+    {
+            
+        $user           = Auth::id();
+        $nroTransferencia = $request->input('nroTransferencia');
+
+
+        
+        $myPayNumber = "";
+        if ($nroTransferencia){
+            $myPayNumber = "pay_number = '" . $nroTransferencia . "'";
+        }else{
+            return;
+        }
+
+        
+        $myQuery ="
+        select 
+            mtf.transactions.id                              as TransactionId,
+            pay_number                                       as PayNumber, 
+            type_transactions.type_transaction_group         as TypeTransactionGroup,
+            IF(type_transactions.type_transaction_group = '1', 'Destino', 'Origen') as TypeTransactionGroupName,
+            wallet_id                                        as WalletIdOrigen,
+            groups2.name                                     as WalletNameOrigen,
+            group_id                                         as GroupIdOrigen,
+            groups.name                                      as GroupNameOrigen,
+            amount                                           as Amount,
+            date_format(transaction_date,'%Y-%m-%d')         as TransactionDate,
+            date_format(transactions.created_at,'%Y-%m-%d')  as TransactionCreated,
+            user_id                                          as AgenteId,
+            users.name                                       as Agente,
+            status                                           as estatus,
+            type_transaction_id                              as TypeTransactionId,
+            transactions.description                         as Description,
+            type_transactions.name                           as TypeTransactionName,
+            transactions.amount_commission                   as AmountCommission,
+            transactions.percentage                          as Porcentage,
+            transactions.exonerate                           as Exonerate,
+            transactions.amount_total                        as AmountTotal
+        from mtf.transactions
+        left join  mtf.groups  as groups2   on mtf.transactions.wallet_id = groups2.id
+        left join  mtf.groups               on mtf.transactions.group_id  = groups.id
+        left join  mtf.type_transactions    on mtf.transactions.type_transaction_id  = mtf.type_transactions.id
+        left join  mtf.users                on mtf.transactions.user_id  = mtf.users.id
+        where 
+        $myPayNumber
+        order by 
+            transaction_date DESC,
+            pay_number ASC,
+            type_transactions.type_transaction_group DESC
+        ";
+
+
+        // dd($myQuery);
+        $transactions = DB::select($myQuery);
+
+        foreach($transactions as $item){
+            switch ($item->TypeTransactionGroup){
+                case '2':
+                    $theTransaction = Transaction::find($item->TransactionId);
+
+                    $theTransaction->group_id                     = $request->input('group_id');
+                    $theTransaction->amount                       = $request->input('amount');
+                    $theTransaction->amount_total_base            = $request->input('amount');
+                    $theTransaction->amount_base                  = $request->input('amount');
+                    $theTransaction->transaction_date             = $request->input('transaction_date');
+                    $theTransaction->description                  = $request->input('description');
+                    $theTransaction->amount_commission            = $request->input('commission');
+                    $theTransaction->percentage                   = $request->input('percentage');
+                    $theTransaction->exonerate                    = $request->input('exonerate');
+                    $theTransaction->amount_total                 = $request->input('amount_total');
+                    $theTransaction->amount_commission_profit     = $request->input('amount_commission_profit');
+                    $theTransaction->user_id                      = $user;
+                    $theTransaction->update();
+                    break;
+                case '1':
+
+                    $theTransaction = Transaction::find($item->TransactionId);
+                    $theTransaction->group_id                     = $request->input('group2_id');
+                    $theTransaction->amount                       = $request->input('amount');
+                    $theTransaction->amount_total_base            = $request->input('amount');
+                    $theTransaction->amount_base                  = $request->input('amount');
+                    $theTransaction->transaction_date             = $request->input('transaction_date');
+                    $theTransaction->description                  = $request->input('description2');
+                    $theTransaction->amount_commission            = $request->input('commission2');
+                    $theTransaction->percentage                   = $request->input('percentage2');
+                    $theTransaction->exonerate                    = $request->input('exonerate2');
+                    $theTransaction->amount_total                 = $request->input('amount_total2');
+                    $theTransaction->amount_commission_profit     = $request->input('amount_commission_profit2');
+                    $theTransaction->user_id                      = $user;
+                    $theTransaction->update();
+                    break;
+            }            
+        }
+
+        dd($transactions);
+
+         flash()->addSuccess('Movimiento actualizado', 'Transacción entre clientes :D', ['timeOut' => 3000]);
+
+         return Redirect::back()->withInput();
+    }
+
+
+
 
     public function edit_pagoclientes(Request $request){
 
@@ -2756,7 +2864,7 @@ class TransactionController extends Controller
         $parametros['fecha']                    = $fecha;
         $parametros['transactionOrigen']       = $transactionOrigen;
         $parametros['transactionDestino']       = $transactionDestino;
-
+        
         return view('PagoClientes.Edit_pagoclientes', $parametros);
         
 

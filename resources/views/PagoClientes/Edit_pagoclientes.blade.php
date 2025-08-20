@@ -23,65 +23,66 @@
 @section('content')
 
 <div class="d-flex justify-content-center">
-    <div class="card col-md-5" style="min-height:500px !important; max-height:100%; height:100%; widht:100%;">
+    <div class="card col-md-8" style="min-height:500px !important; max-height:100%; height:100%; widht:100%;">
         <div class="card-body">
 
-            {!! Form::open(['route' => 'transactions.store_pagocliente2', 'autocomplete' => 'off', 'files' => true, 'enctype' =>'multipart/form-data', 'id' => 'entre']) !!}
+            {!! Form::open(['route' => 'PagoClientes.update', 'autocomplete' => 'off', 'files' => true, 'enctype' =>'multipart/form-data', 'id' => 'entre', 'method' => 'PUT']) !!}
 
 
-            <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
-                <li class="nav-item" role="presentation">
-                    <button 
-                        class="nav-link active text-uppercase font-weight-bold" 
-                        id="pills-home-tab" 
-                        data-toggle="pill" 
-                        data-target="#pills-home" 
-                        type="button" 
-                        role="tab" 
-                        aria-controls="pills-home" 
-                        aria-selected="true">{{ __('PAGOS') }}</button>
-                </li>
-                <p>Numero Transferencia: {{ $nroTransferencia }}</p>
-            </ul>
+
+            <div class="form-row">                  
+                <div class="form-group col-md-12">
+                    
+                    
+                    <label for="nroTransferencia">Nro Transferencia:</label>
+                    <div class="input-group-text"  >
+                        <label id="nroTransferencia" name="nroTransferencia" style="border-color: #007bff">{{ $nroTransferencia }}</label>
+                        <input type="hidden" id="nroTransferencia" name="nroTransferencia" readonly value="{{ $nroTransferencia }}">
+                    </div>
+                </div>      
+                     
+            </div>  
 
             <div class="tab-content" id="pills-tabContent">
                 <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
 
                     <div class="form-row">                
-                        <div class="form-group col-md-6">
-                            
-                            
+                        <div class="form-group col-xl-6">
                             <label for="type_transaction_id">Tipo de Movimiento Origen:</label>
-                            <div class="input-group-text col-md-12">
+                            <div class="input-group-text">
                                 <i class="fa-fw fas fa-random mr-2"></i>
-                                {!! Form::select('type_transaction_id',$type_transaction_debit, null, ['class' => 'form-control typetrasnferencia', 'required' => true, 'id'=>'type_transaction_id', 'readonly' => false]) !!}
+                                <select id="type_transaction_id" name="type_transaction_id" class='form-control' required>
+                                    @foreach($type_transaction_debit as $key => $item)
+                                        <option value="{{$key}}">{{$item}}</option>
+                                    @endforeach
+                                </select>
                             </div>
                         </div>      
-                        <div class="form-group col-md-6">
+                        <div class="form-group col-xl-6">
                             
                             <label for="type_transaction_id2">Tipo de Movimiento Destino:</label>
                             <div class="input-group-text col-md-12">
                                 <i class="fa-fw fas fa-random mr-2"></i>
-                            {!! Form::select('type_transaction_id2',$type_transaction_credit, null, ['class' => 'form-control typetrasnferencia', 'required' => true, 'id'=>'type_transaction_id2', 'readonly' => false]) !!}
+                                {!! Form::select('type_transaction_id2',$type_transaction_credit, null, ['class' => 'form-control typetrasnferencia', 'required' => true, 'id'=>'type_transaction_id2', 'readonly' => false]) !!}
                             </div>
                         </div>                        
                     </div>  
 
                     <div class="form-row">
 
-                        <div class="form-group col-md-6">
+                        <div class="form-group col-xl-6">
                             
                             <label for="group_id">Cliente de origen:</label>
-                            <div class="input-group-text col-md-12">
+                            <div class="input-group-text">
                                 <i class="fa-fw fas fa-random mr-2"></i>
                             {!! Form::select('group_id', $group, null, ['class' => 'form-control wallet', 'required' => true, 'id'=>'group_id', 'readonly' => false]) !!}
                             </div>
                         </div>
 
-                        <div class="form-group col-md-6">
+                        <div class="form-group col-xl-6">
                             
                             <label for="group2_id">Cliente destino:</label>
-                            <div class="input-group-text col-md-12">
+                            <div class="input-group-text">
                                 <i class="fa-fw fas fa-random mr-2"></i>
                             {!! Form::select('group2_id', $group, null, ['class' => 'form-control wallet2', 'required' => true, 'id'=>'group2_id', 'readonly' => false]) !!}
                             </div>
@@ -95,14 +96,14 @@
                     @endforeach
 
                     <div class="form-row">
-                        <div class="form-group col-md-6">
+                        <div class="form-group col-xl-6">
                             <label for="amount">Monto en dolares:</label>
                             <div class="input-group-text">
                                 <i class="fa-fw fas fas fa-funnel-dollar mr-2"></i>
                                 <input class="form-control general" name="amount" required id="amount" type="text" inputmode="decimal">
                             </div>
                         </div>
-                        <div class="form-group col-md-6">
+                        <div class="form-group col-xl-6">
                             
                             <label for="transaction_date">Fecha:</label>
                             <div class="input-group-text">
@@ -125,7 +126,7 @@
                     <h4 class="text-uppercase font-weight-bold text-center esconder comi">Comisión Origen  </h4>
                     <div class="form-row esconder comi">
 
-                        <div class="form-group col-md-4">
+                        <div class="form-group col-xl-4">
                             <label for="percentage">Porcentaje Origen:</label>
                             <div class="input-group-text">
                                 <i class="fa-fw fas fa-percentage mr-2"></i>
@@ -133,7 +134,7 @@
                             </div>
                         </div>
 
-                        <div class="form-group col-md-4">
+                        <div class="form-group col-xl-4">
                             <label for="commission">Monto Comisión Origen:</label>
                             <div class="input-group-text">
                                 <i class="fa-fw fas fa-coins mr-2"></i>
@@ -142,7 +143,7 @@
 
                         </div>
 
-                        <div class="form-group col-md-4 ">
+                        <div class="form-group col-xl-4 ">
                             {{-- Monto total Origen --}}
                             <label for="amount_total">Monto total Origen:</label>
                             <div class="input-group-text">
@@ -152,32 +153,29 @@
                         </div>
 
                     </div>
-                    
 
-                    <div class="form-group col-md-12 d-flex justify-content-center">
+                    <div class="form-row form-group">
 
-                        <label class="form-check-label mx-auto esconder comi" for="radio1_base">
-                            <input type="radio" name="exonerate" id="radio1_base" class="exonerar_base" value="2">
-                            Exonerar comisión origen
-                        </label>
-
-                        <label class="form-check-label mx-auto esconder comi" for="radio3_base">
-                            <input type="radio" name="exonerate" id="radio3_base" class="incluir_base" value="1">
-                            Incluir comisión origen
-                        </label>
-
-
-                        <label class="form-check-label mx-auto esconder comi" for="radio2_base">
-                            <input type="radio" name="exonerate" id="radio2_base" class="descontar_base" value="3">
-                            Descontar comisión origen
-                        </label>
+                        <div class="col-xl-4 mt-2">
+                            <label class="form-check-label mx-auto esconder comi" for="radio1_base">
+                                <input type="radio" name="exonerate" id="radio1_base" class="exonerar_base" value="2">
+                                Exonerar comisión origen
+                            </label>
+                        </div>
+                        <div class="col-xl-4 mt-2">
+                            <label class="form-check-label mx-auto esconder comi" for="radio3_base">
+                                <input type="radio" name="exonerate" id="radio3_base" class="incluir_base" value="1">
+                                Incluir comisión origen
+                            </label>
+                        </div>
+                        <div class="col-xl-4 mt-2">
+                            <label class="form-check-label mx-auto esconder comi" for="radio2_base">
+                                <input type="radio" name="exonerate" id="radio2_base" class="descontar_base" value="3">
+                                Descontar comisión origen
+                            </label>
+                        </div>
 
                     </div>
-
-
-
-
-
 
                     {{-- Comision destino --}}
 
@@ -190,7 +188,7 @@
 
                     <div class="form-row esconder comi">
 
-                        <div class="form-group col-md-4">
+                        <div class="form-group col-xl-4">
 
                             <label for="percentage2">Porcentaje Destino:</label>
                             <div class="input-group-text">
@@ -199,7 +197,7 @@
                             </div>
                         </div>
 
-                        <div class="form-group col-md-4">
+                        <div class="form-group col-xl-4">
 
                             <label for="commission2">Monto Comisión Destino:</label>
                             <div class="input-group-text">
@@ -211,7 +209,7 @@
 
                         {{-- Monto total Destino --}}
 
-                        <div class="form-group col-md-4">
+                        <div class="form-group col-xl-4">
                             
                             <label for="amount_total2">Monto total Destino:</label>
                             <div class="input-group-text">
@@ -222,30 +220,32 @@
 
                     </div>
 
-                    <div class="form-group col-md-12 d-flex justify-content-center">
-
-                        <label class="form-check-label mx-auto esconder comi" for="radio1_base2">
-                            <input type="radio" name="exonerate2" id="radio1_base2" class="exonerar_base2" value="2">
-                            Exonerar comisión destino
-                        </label>
-
-                        <label class="form-check-label mx-auto esconder comi" for="radio3_base2">
-                            <input type="radio" name="exonerate2" id="radio3_base2" class="incluir_base2" value="1">  
-                            Incluir comisión destino
-                        </label>
-
-
-                        <label class="form-check-label mx-auto esconder comi" for="radio2_base2">
-                            <input type="radio" name="exonerate2" id="radio2_base2" class="descontar_base" value="3">
-                            Descontar comisión destino
-                        </label>
-
+                    <div class="form-row form-group">
+                        <div class="form-group col-xl-4">
+                            <label class="form-check-label mx-auto esconder comi" for="radio1_base2">
+                                <input type="radio" name="exonerate2" id="radio1_base2" class="exonerar_base2" value="2">
+                                Exonerar comisión destino
+                            </label>                            
+                        </div>
+                        <div class="form-group col-xl-4">
+                            <label class="form-check-label mx-auto esconder comi" for="radio3_base2">
+                                <input type="radio" name="exonerate2" id="radio3_base2" class="incluir_base2" value="1">  
+                                Incluir comisión destino
+                            </label>                            
+                        </div>
+                        <div class="form-group col-xl-4">
+                            <label class="form-check-label mx-auto esconder comi" for="radio2_base2">
+                                <input type="radio" name="exonerate2" id="radio2_base2" class="descontar_base" value="3">
+                                Descontar comisión destino
+                            </label>                            
+                        </div>
                     </div>
+
                     <input type="hidden" id="amount_commission_profit"  name="amount_commission_profit"  value="">
                     <input type="hidden" id="amount_commission_profit2" name="amount_commission_profit2" value="">
 
                     <hr class="bg-dark esconder comi" style="height:1px;">
-
+                    {{--
                     <div class="form-group">
                         
                         <label for="observacion">Observaciones:</label>
@@ -254,7 +254,7 @@
                             <input type="text" name="observacion" id="observacion" class="form-control"></input>
                         </div>
                     </div>
-
+                    --}}
                     <div class="form-group">
                         
                         <label for="description">Descripción origen:</label>
@@ -307,6 +307,27 @@
     //$("#typetransaccion").val("")
     //$("#typetransaccion").trigger("change");
 
+    $("#group_id").select2({
+        placeholder: "Selecciona cliente origen",
+        theme: 'bootstrap4',
+        search: false,
+        width: '100%',
+        allowClear: true,
+    })
+    .on('select2:open', () => {
+        document.querySelector('.select2-search__field').focus();
+    });
+
+    $("#group2_id").select2({
+        placeholder: "Selecciona cliente destino",
+        theme: 'bootstrap4',
+        search: false,
+        width: '100%',
+        allowClear: true,
+    })
+    .on('select2:open', () => {
+        document.querySelector('.select2-search__field').focus();
+    });
     $("#type_transaction_id").select2({
         placeholder: "Selecciona tipo transferencia Origen",
         theme: 'bootstrap4',
@@ -318,8 +339,7 @@
         document.querySelector('.select2-search__field').focus();
     });
 
-    // $("#type_transaction_id").val("")
-    // $("#type_transaction_id").trigger("change");
+
     //
     // transaccion destino
     //
@@ -334,6 +354,8 @@
         document.querySelector('.select2-search__field').focus();
     });
 
+    // $("#type_transaction_id").val("")
+    // $("#type_transaction_id").trigger("change");
     // $("#type_transaction_id2").val("")
     // $("#type_transaction_id2").trigger("change");
     //
@@ -371,26 +393,6 @@
         digits: 7,
         insertMode:true,
     });
-
-    $('#amount').on('input', function() {
-        var dolar = $('#amount').val();
-        $('#amount').val(dolar).inputmask({
-                alias: 'decimal',
-                allowMinus: false,
-                autoUnmask:true,
-                removeMaskOnSubmit:true,
-                rightAlign: true,
-                groupSeparator:".",
-                undoOnEscape:true,
-                insertMode:false,
-                clearIncomplete:true,
-                digits: 2,
-                insertMode:true,
-            });
-
-        $('#amount').val(dolar);
-    });
-
   
     $('#entre').on('submit', function() {
 
@@ -529,54 +531,16 @@
         $('#percentage2').attr("readonly", false);
     });
 
-
-
-
-
     $('#amount, #percentage, #percentage2').on('input', function() {
-
         updateMontorealBase();
-
     });
 
     $('#radio1_base, #radio2_base, #radio3_base, #radio1_base2, #radio2_base2, #radio3_base2').on('click', function() {
-
         updateMontorealBase();
     });
 
-    $("#type_transaction_id, #group_id").change(function() {
-
-        var type_transaction_id   = $(this).val(); // Capturamos el valor del select
-        var type_transaction_name = $("#type_transaction_id option:selected").text(); // Capturamos el texto del option seleccionado
-
-        var group_id   = $('#group_id').val(); // Capturamos el valor del select
-        var group_name = $("#group_id option:selected").text(); // Capturamos el texto del option seleccionado
-
-        var group2_id   = $('#group2_id').val(); // Capturamos el valor del select
-        var group2_name = $("#group2_id option:selected").text(); // Capturamos el texto del option seleccionado
-
-
-        //alert(tipo);
-
-        $("#description").val('Entregado a ' + group2_name + '/' + type_trasnsaction_name);
-
-    });
-
-
-    $("#type_transaction_id2, #group2_id").change(function() {
-        
-        var type_transaction_id2    = $(this).val(); // Capturamos el valor del select
-        var type_transaction_name2  = $("#type_transaction_id2 option:selected").text(); // Capturamos el texto del option seleccionado
-
-        var group_id                = $('#group_id').val(); // Capturamos el valor del select
-        var group_name              = $("#group_id option:selected").text(); // Capturamos el texto del option seleccionado
-
-        var group2_id               = $('#group2_id').val(); // Capturamos el valor del select
-        var group2_name             = $("#group2_id option:selected").text(); // Capturamos el texto del option seleccionado
-
-
-        $("#descripcion2").val('Recibido de cliente ' + group2_name + "/" + type_transaction_name2);
-
+    $("#type_transaction_id, #group_id, #type_transaction_id2, #group2_id").change(function() {
+        updateTransactionClient();
     });
 
     function updateMontorealBase() {
@@ -683,9 +647,10 @@
 
 
     function cargaData(){
-        // console.log({{number_format($transactionOrigen->Amount,2)}});
-        
-        $('#amount').val( {{ number_format($transactionOrigen->Amount,2,",",".")  }});
+
+
+         $('#amount').val({{$transactionOrigen->Amount}});
+        // $('#amount').val("{{number_format($transactionOrigen->Amount,2)}}");
         $('#transactoin_date').val('{{$fecha}}');
 
         //
@@ -759,32 +724,56 @@
         BuscaElemento('type_transaction_id', type_transaction_id);
         BuscaElemento('type_transaction_id2', type_transaction_id2);
 
+        $("#group_id").trigger("change");
+        $("#group2_id").trigger("change");
+        $("#type_transaction_id").trigger("change");
+        $("#type_transaction_id2").trigger("change");
+
 
     }
 
 
     function BuscaElemento(myControl, myElement){
-        console.log('llega ->' + myControl + ' con el elemento -> ' + myElement);
+        // console.log('llega ->' + myControl + ' con el elemento -> ' + myElement);
         let mySelect = myControl;
         let myValue  = myElement;
 
         $('#' + mySelect).each( function(index, element){
             $(this).children("option").each(function(){
 
-                console.log ("Busca-> " + myValue + ' con ' + $(this).val() + " text -> " + $(this).text()+ " y con index -> " + $(this).prop('selectedIndex'));
+                // console.log ("Busca-> " + myValue + ' con ' + $(this).val() + " text -> " + $(this).text()+ " y con index -> " + $(this).prop('selectedIndex'));
 
                 // alert();
                 if ($(this).val() === myValue.toString()){
-                    console.log('Busca Material - encontro');
-                    $("#" + mySelect + " option[value="+ myValue +"]").attr("selected",true);
+                    // console.log('encontro -> ' + $(this).val());
+                     $("#" + mySelect + " option[value='"+ myValue +"']").attr("selected",true);
                 }
-                //alert("BuscaGrupoaqui ->  the val " + $(this).val() + " text -> " + $(this).text());
             });
         });
         //
     }
 
 
+    function  updateTransactionClient(){
+
+        var type_transaction_id     = $("#type_transaction_id").val();                      // Capturamos el valor del select
+        var type_transaction_name   = $("#type_transaction_id option:selected").text();     // Capturamos el texto del option seleccionado
+       
+        var type_transaction_id2    = $("#type_transaction_id2").val();                     // Capturamos el valor del select
+        var type_transaction_name2  = $("#type_transaction_id2 option:selected").text();    // Capturamos el texto del option seleccionado
+
+        var group_id                = $('#group_id').val();                                 // Capturamos el valor del select
+        var group_name              = $("#group_id option:selected").text(); // Capturamos el texto del option seleccionado
+
+        var group2_id               = $('#group2_id').val(); // Capturamos el valor del select
+        var group2_name             = $("#group2_id option:selected").text(); // Capturamos el texto del option seleccionado
+
+        // alert(type_transaction_name );
+        //$("#description2").val('Recibido de cliente ' + group_name + "/" + type_transaction_name);
+
+        $("#description").val('Entregado a ' + group2_name + '/' + type_transaction_name2);
+        $("#description2").val('Recibido de cliente ' + group_name + "/" + type_transaction_name);
+    }
 </script>
 
 

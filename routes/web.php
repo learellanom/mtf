@@ -223,7 +223,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('movimientos/pgo',                  [TransactionController::class, 'store_pagocliente'])->name('transactions.store_pagocliente');
     Route::post('movimientos/pgo2',                 [TransactionController::class, 'store_pagocliente2'])->name('transactions.store_pagocliente2');
     Route::get('movimientos/pago_clientes/edit',    [TransactionController::class, 'edit_pagoclientes'])->name('PagoClientes.edit');
-    
+    Route::put('movimientos/pago_clientes',         [TransactionController::class, 'update_pagoclientes'])->name('PagoClientes.update');
 
     Route::match(['put', 'patch'], 'movimientos/{movimiento}/estatus_pagos_cajas',  [TransactionController::class, 'updatestatus_pago'])->name('transactions.updatestatus_pago');
     Route::match(['put', 'patch'], 'movimientos/{movimiento}/estatus_cajas',        [TransactionController::class, 'updatestatus_transfer'])->name('transactions.updatestatus_transfer');
