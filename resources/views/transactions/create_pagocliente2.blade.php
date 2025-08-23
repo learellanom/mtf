@@ -17,7 +17,7 @@
 @section('content')
 
 <div class="d-flex justify-content-center">
-    <div class="card col-md-5" style="min-height:500px !important; max-height:100%; height:100%; widht:100%;">
+    <div class="card col-md-8" style="min-height:500px !important; max-height:100%; height:100%; widht:100%;">
         <div class="card-body">
 
             {!! Form::open(['route' => 'transactions.store_pagocliente2', 'autocomplete' => 'off', 'files' => true, 'enctype' =>'multipart/form-data', 'id' => 'entre']) !!}
@@ -41,19 +41,18 @@
                 <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
 
                     <div class="form-row">                
-                        <div class="form-group col-md-6">
-                            
-                            
+                        <div class="form-group col-xl-6">
                             <label for="typetrasnferencia2Debit">Tipo de Movimiento Origen:</label>
-                            <div class="input-group-text col-md-12">
+                            <div class="input-group-text">
                                 <i class="fa-fw fas fa-random mr-2"></i>
                                 {!! Form::select('type_transaction_id',$type_transaction_debit, null, ['class' => 'form-control typetrasnferencia', 'required' => true, 'id'=>'typetrasnferencia2Debit', 'readonly' => false]) !!}
                             </div>
+
                         </div>      
-                        <div class="form-group col-md-6">
+                        <div class="form-group col-xl-6">
                             
                             <label for="typetrasnferencia2Credit">Tipo de Movimiento Destino:</label>
-                            <div class="input-group-text col-md-12">
+                            <div class="input-group-text">
                                 <i class="fa-fw fas fa-random mr-2"></i>
                             {!! Form::select('type_transaction_id2',$type_transaction_credit, null, ['class' => 'form-control typetrasnferencia', 'required' => true, 'id'=>'typetrasnferencia2Credit', 'readonly' => false]) !!}
                             </div>
@@ -62,19 +61,19 @@
 
                     <div class="form-row">
 
-                        <div class="form-group col-md-6">
+                        <div class="form-group col-xl-6">
                             
                             <label for="group_id">Cliente de origen:</label>
-                            <div class="input-group-text col-md-12">
+                            <div class="input-group-text">
                                 <i class="fa-fw fas fa-random mr-2"></i>
                             {!! Form::select('group_id', $group, null, ['class' => 'form-control wallet', 'required' => true, 'id'=>'wallet', 'readonly' => false]) !!}
                             </div>
                         </div>
 
-                        <div class="form-group col-md-6">
+                        <div class="form-group col-xl-6">
                             
                             <label for="group2_id">Cliente destino:</label>
-                            <div class="input-group-text col-md-12">
+                            <div class="input-group-text">
                                 <i class="fa-fw fas fa-random mr-2"></i>
                             {!! Form::select('group2_id', $group, null, ['class' => 'form-control wallet2', 'required' => true, 'id'=>'wallet2', 'readonly' => false]) !!}
                             </div>
@@ -90,57 +89,125 @@
                     @endforeach
 
                     <div class="form-row">
-                        <div class="form-group col-md-6">
-                            <label for="amount">Monto en dolares:</label>
+                        <div class="form-group col-xl-6">
+                            <label for="type_coin_id">Tipo de moneda:</label>
+                            <div class="input-group-text">
+                                <i class="fa-fw fas fa-random mr-2"></i>
+                                <select id="type_coin_id" name="type_coin_id" class='form-control' required>
+                                    @foreach($type_coin as $key => $item)
+                                        <option value="{{$key}}">{{$item}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+                        </div>     
+
+                        <div class="form-group col-xl-6">
+                            <label for="amount">Monto:</label>
                             <div class="input-group-text">
                                 <i class="fa-fw fas fas fa-funnel-dollar mr-2"></i>
-                                <input class="form-control general" required id="monto_dolares" name="amount" type="text" inputmode="decimal">
+                                <input class="form-control general" required id="amount_foreign_currency" name="amount_foreign_currency" type="text" inputmode="decimal">
                             </div>
                         </div>
-                        <div class="form-group col-md-6">
-                            
+
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-xl-6">
                             <label for="transaction_date">Fecha:</label>
                             <div class="input-group-text">
                                 <i class="fa-fw fas fas fa-calendar-week mr-2"></i>
                                 <input class="form-control" required id="fecha" name="transaction_date" type="datetime-local" value="{{ $fecha }}">
                             </div>
-                        </div>
+                        </div>                        
                     </div>
-        
+
+                    
                     <input type="hidden" name="amount_total_2" id="montototal2"  >
                     <input type="hidden" name="status"         value="Activo">
 
-                    <div class="form-group">
-                        {{-- {!! Form::hidden('pay_number', $number,['class' => 'form-control', 'required' => true, 'readonly' => true]) !!} --}}
-                    </div>
-
-
-
                     {{-- Comision Origen --}}
-
 
                     <hr class="bg-dark esconder comi" style="height:1px;">
                     <h4 class="text-uppercase font-weight-bold text-center esconder comi">Comisión Origen  </h4>
-                    <div class="form-row esconder comi">
 
-                        <div class="form-group col-md-4">
-                            <label for="percentage_base">Porcentaje Origen:</label>
-                            <div class="input-group-text">
+                    <div class="form-row">
+                        <div class="col-12 col-xl-7 mt-4 mb-2 d-flex">
+                            
+                            <label class="form-check-label mt-4 esconder comi" for="radioComision1">
+                                <input type="radio" name="tipoComision" id="radioComision1" class="exonerar_base2" value="1">
+                                Porcentaje
+                            </label>
+                            
+                            <div class="input-group-text ml-2 mt-2 col-6 d-flex" style="height: 3rem">
                                 <i class="fa-fw fas fa-percentage mr-2"></i>
                                 <input type="text" id="percentage_base" name="percentage" class="form-control percentage rateMasks" min="0">
-                            </div>
-                        </div>
+                            </div>                        
 
-                        <div class="form-group col-md-4">
+                        </div>
+                        
+                        <div class="form-group col-xl-4  mt-2">
                             <label for="comision_base">Monto Comisión Origen:</label>
                             <div class="input-group-text">
                                 <i class="fa-fw fas fa-coins mr-2"></i>
                                 <input type="text" id="comision_base" name="commission" class="form-control comision_base general" min="0" readonly> </input>
                             </div>
+                        </div>  
+                    </div>
+                    <div class="form-row">
+                        <div class="col-12 col-xl-7 mt-2 d-flex">
+                        </div>
+                        <div class="form-group col-xl-4">
+                            <div class="mt-2">
+                                    <label class="form-check-label mx-auto esconder comi" for="radio1_base">
+                                        <input type="radio" name="exonerate" id="radio1_base" class="exonerar_base" value="2">                                
+                                        Exonerar comisión origen
+                                    </label>
+                                </div>
+                                <div class="mt-2">
+                                    <label class="form-check-label mx-auto esconder comi" for="radio3_base">
+                                        <input type="radio" name="exonerate" id="radio3_base" class="incluir_base" value="1">
+                                        Incluir comisión origen
+                                    </label>
+                                </div>
+                                <div class="mt-2">
+                                    <label class="form-check-label mx-auto esconder comi" for="radio2_base">
+                                        <input type="radio" name="exonerate" id="radio2_base" class="descontar_base" value="3">
+                                        Descontar comisión origen
+                                    </label>
+                                </div>
+                            </div>    
+                        </div>                    
+                    </div>
+
+                    <div class="form-row">
+                        <div class="col-12 col-xl-7 mt-2 d-flex">
+                            
+                            <label class="form-check-label mt2" for="radioComision2">
+                                <input type="radio" name="tipoComision" id="radioComision2" class="incluir_base2" value="2">  
+                                Tasa
+                            </label>
+                            
+                            <div class="input-group-text col-6" style="margin-left: 3.5rem !important; height: 3rem">
+                                <i class="fa-fw fas fa-percentage mr-2"></i>
+                                <input type="text" id="exchange" name="exchange" class="form-control percentage rateMasks" min="0">
+                            </div>    
 
                         </div>
+                        <div class="form-group col-xl-4  mt-2">
+                            <label for="comision_base">Monto:</label>
+                            <div class="input-group-text" >
+                                <i class="fa-fw fas fa-coins mr-2"></i>
+                                <input type="text" id="monto_dolares" name="amount" class="form-control comision_base general" min="0" readonly> </input>
+                            </div>
+                        </div>                          
+                    </div>
+                    <div class="form-row esconder comi mt-4">
 
-                        <div class="form-group col-md-4 ">
+                        <div class="form-group col-xl-7">
+
+                        </div>
+                        <div class="form-group col-xl-4 ">
                             {{-- Monto total Origen --}}
                             <label for="montototal">Monto total Origen:</label>
                             <div class="input-group-text">
@@ -150,36 +217,10 @@
                         </div>
 
                     </div>
-
-                    <div class="form-group col-md-12 d-flex justify-content-center">
-
-                        <label class="form-check-label mx-auto esconder comi" for="radio1_base">
-                            {!! Form::radio('exonerate',2, null, ['id' => 'radio1_base', 'class' => 'exonerar_base']) !!}
-                            Exonerar comisión origen
-                        </label>
-
-                        <label class="form-check-label mx-auto esconder comi" for="radio3_base">
-                            {!! Form::radio('exonerate',1, null, ['id' => 'radio3_base', 'class' => 'incluir_base']) !!}
-                            Incluir comisión origen
-                        </label>
-
-
-                        <label class="form-check-label mx-auto esconder comi" for="radio2_base">
-                            Descontar comisión origen
-                            {!! Form::radio('exonerate',3, null, ['id' => 'radio2_base', 'class' => 'descontar_base']) !!}
-                        </label>
-
-                    </div>
                     
-                    <div class="form-row justify-content-end">
-
-                    </div>
-
-
 
 
                     {{-- Comision destino --}}
-
 
 
 
@@ -187,31 +228,91 @@
                     <h4 class="text-uppercase font-weight-bold text-center esconder comi">Comisión Destino</h4>
                     <hr class="bg-dark esconder comi" style="height:1px;">
 
-                    <div class="form-row esconder comi">
 
-                        <div class="form-group col-md-4">
-
-                            <label for="percentage_base2">Porcentaje Destino:</label>
-                            <div class="input-group-text">
+                    <div class="form-row">
+                        <div class="col-12 col-xl-7 mt-4 mb-2 d-flex">
+                            
+                            <label class="form-check-label mt-4 esconder comi" for="radioComisionDestino1">
+                                <input type="radio" name="tipoComisionDestino" id="radioComisionDestino1" class="exonerar_base2" value="1">
+                                Porcentaje
+                            </label>
+                            
+                            <div class="input-group-text ml-2 mt-2 col-6 d-flex" style="height: 3rem">
                                 <i class="fa-fw fas fa-percentage mr-2"></i>
-                                <input type="text" name="percentage2" id="percentage_base2" min="0" class="form-control  rateMasks"></input>
-                            </div>
+                                <input type="text" id="percentage_base2" name="percentage2" class="form-control percentage rateMasks" min="0">
+                            </div>                        
+
                         </div>
-
-                        <div class="form-group col-md-4">
-
-                            <label for="comision_base2">Monto Comisión Destino:</label>
+                        
+                        <div class="form-group col-xl-4  mt-2">
+                            <label for="comision_base">Monto Comisión Destino:</label>
                             <div class="input-group-text">
                                 <i class="fa-fw fas fa-coins mr-2"></i>
-                                <input type="text" name="commission2" id="comision_base2" readonly min="0" class="form-control general"></input>
+                                <input type="text" id="comision_base2" name="commission2" class="form-control comision_base general" min="0" readonly> </input>
                             </div>
+
+
+                        </div>  
+                    </div>   
+
+                    <div class="form-row">
+                        <div class="col-12 col-xl-7 mt-2 d-flex">
+                        </div>
+                        <div class="form-group col-xl-4">
+                            <div class="mt-2">
+                                    <label class="form-check-label mx-auto esconder comi" for="radio1_base2">
+                                        <input type="radio" name="exonerate2" id="radio1_base2" class="exonerar_base" value="2">                                
+                                        Exonerar comisión origen
+                                    </label>
+                                </div>
+                                <div class="mt-2">
+                                    <label class="form-check-label mx-auto esconder comi" for="radio3_base2">
+                                        <input type="radio" name="exonerate2" id="radio3_base2" class="incluir_base" value="1">
+                                        Incluir comisión origen
+                                    </label>
+                                </div>
+                                <div class="mt-2">
+                                    <label class="form-check-label mx-auto esconder comi" for="radio2_base2">
+                                        <input type="radio" name="exonerate2" id="radio2_base2" class="descontar_base" value="3">
+                                        Descontar comisión origen
+                                    </label>
+                                </div>
+                            </div>    
+                        </div>                    
+                    </div>
+
+
+                    <div class="form-row">
+                        <div class="col-12 col-xl-7 mt-2 d-flex">
+                            
+                            <label class="form-check-label mt2" for="radioComisionDestino2">
+                                <input type="radio" name="tipoComisionDestino" id="radioComisionDestino2" class="incluir_base2" value="2">  
+                                Tasa
+                            </label>
+                            
+                            <div class="input-group-text col-6" style="margin-left: 3.5rem !important; height: 3rem">
+                                <i class="fa-fw fas fa-percentage mr-2"></i>
+                                <input type="text" id="exchange2" name="exchange2" class="form-control percentage rateMasks" min="0">
+                            </div>    
+
+                        </div>
+                        <div class="form-group col-xl-4  mt-2">
+                            <label for="comision_base">Monto:</label>
+                            <div class="input-group-text" >
+                                <i class="fa-fw fas fa-coins mr-2"></i>
+                                <input type="text" id="monto_dolares2" name="amount2" class="form-control comision_base general" min="0" readonly> </input>
+                            </div>
+                        </div>                          
+                    </div>
+                    <div class="form-row esconder comi">
+
+                        <div class="form-group col-xl-7">
 
                         </div>
 
                         {{-- Monto total Destino --}}
 
-                        <div class="form-group col-md-4">
-                            
+                        <div class="form-group col-xl-4">
                             <label for="monto_base2">Monto total Destino:</label>
                             <div class="input-group-text">
                                 <i class="fa-fw fas fas fa-coins mr-2"></i>
@@ -221,25 +322,29 @@
 
                     </div>
 
-                    <div class="form-group col-md-12 d-flex justify-content-center">
-
-                        <label class="form-check-label mx-auto esconder comi" for="radio1_base2">
-                            {!! Form::radio('exonerate2',2, null, ['id' => 'radio1_base2', 'class' => 'exonerar_base2']) !!}
-                            Exonerar comisión destino
-                        </label>
-
-                        <label class="form-check-label mx-auto esconder comi" for="radio3_base2">
-                            {!! Form::radio('exonerate2',1, null, ['id' => 'radio3_base2', 'class' => 'incluir_base2']) !!}
-                            Incluir comisión destino
-                        </label>
-
-
-                        <label class="form-check-label mx-auto esconder comi" for="radio2_base2">
-                            Descontar comisión destino
-                            {!! Form::radio('exonerate2',3, null, ['id' => 'radio2_base2', 'class' => 'descontar_base']) !!}
-                        </label>
-
+                    {{--
+                    <div class="form-row  form-group ">
+                        <div class="col-xl-4 mt-2">
+                            <label class="form-check-label mx-auto esconder comi" for="radio1_base2">
+                                <input type="radio" name="exonerate2" id="radio1_base2" class="exonerar_base2" value="2">                                
+                                Exonerar comisión destino
+                            </label>
+                        </div>
+                        <div class="col-xl-4 mt-2">
+                            <label class="form-check-label mx-auto esconder comi" for="radio3_base2">
+                                <input type="radio" name="exonerate2" id="radio3_base2" class="incluir_base2" value="1">  
+                                Incluir comisión destino
+                            </label>
+                        </div>
+                        <div class="col-xl-4 mt-2">
+                            <label class="form-check-label mx-auto esconder comi" for="radio2_base2">
+                                <input type="radio" name="exonerate2" id="radio2_base2" class="descontar_base" value="3">
+                                Descontar comisión destino
+                            </label>
+                        </div>
                     </div>
+                    --}}
+
                     <input type="hidden" id="amount_commission_profit"  name="amount_commission_profit"  value="">
                     <input type="hidden" id="amount_commission_profit2" name="amount_commission_profit2" value="">
 
@@ -299,6 +404,8 @@
 
 <script>
 
+    inicializa();
+
     $(".typecoin").select2({
         placeholder: "Seleccionar Moneda",
         theme: 'bootstrap4',
@@ -324,7 +431,7 @@
 
 
     $("#typetrasnferencia2Debit").select2({
-        placeholder: "Selecciona tipo transferencia Origen",
+        placeholder: "Transferencia Origen",
         theme: 'bootstrap4',
         search: false,
         width: '100%',
@@ -338,7 +445,7 @@
     $("#typetrasnferencia2Debit").trigger("change");
 
     $("#typetrasnferencia2Credit").select2({
-        placeholder: "Selecciona tipo transferencia Origen",
+        placeholder: "Transferencia Destino",
         theme: 'bootstrap4',
         search: false,
         width: '100%',
@@ -350,6 +457,22 @@
 
     $("#typetrasnferencia2Credit").val("")
     $("#typetrasnferencia2Credit").trigger("change");
+
+
+    $("#type_coin_id").select2({
+        placeholder: "Moneda",
+        theme: 'bootstrap4',
+        search: false,
+        width: '100%',
+        allowClear: true,
+    })
+    .on('select2:open', () => {
+        document.querySelector('.select2-search__field').focus();
+    });
+
+    $("#type_coin_id").val("")
+    $("#type_coin_id").trigger("change");
+
 
     $('.general').inputmask({
         alias: 'decimal',
@@ -384,8 +507,8 @@
         insertMode:true,
     });
 
-    $('#monto_dolares').on('input', function() {
-        var dolar = $('#monto_dolares').val();
+    $('#amount_foreign_currency').on('input', function() {
+        var dolar = $('#amount_foreign_currency').val();
         $('#montototal').val(dolar).inputmask({
                 alias: 'decimal',
                 allowMinus: false,
@@ -400,7 +523,8 @@
                 insertMode:true,
             });
 
-        $('#montototal').val(dolar);
+        $('#monto_base').val(dolar);
+        $('#monto_dolares').val(dolar);
     });
 
   
@@ -432,6 +556,7 @@
     $("#wallet2").val("")
     $("#wallet2").trigger("change");
 
+
     $('#entre').on('submit', function() {
 
         let myDays = {{ $myDays ?? 0}};
@@ -447,7 +572,7 @@
         // myDays = 240;
 
         // alert("myDays ->" + myDays);
-
+        // alert($('#amount_foreign_currency').val());
         let myDateBefore = new Date();
             myDateBefore.setDate(myDateBefore.getDate() - myDays);
 
@@ -490,42 +615,227 @@
         }
 
         if ($('#monto_dolares').val() <= 0) {
-            Swal.fire('Monto en dolares, no puede ser cero o menor a cero. :(');
+            Swal.fire('Monto, no puede ser cero o menor a cero. :(');
             return false;
         }
 
-        if(!exonerar_base){
-            if ($('#percentage_base').val() <= 0) {
-            Swal.fire('Porcentage origen, no puede ser cero o menor a cero. :(');
-            return false;
+        let radioComision1 = $('#radioComision1').is(':checked');
+        let radioComision2 = $('#radioComision2').is(':checked');
+
+        let radioComisionDestino1 = $('#radioComisionDestino1').is(':checked');
+        let radioComisionDestino2 = $('#radioComisionDestino2').is(':checked');
+
+        //
+        // Valida 
+        //   Porcentaje se permita solo a dolares
+        //   Tasa solo se permita si no es dolares
+        //
+        let type_coin_id = $('#type_coin_id').val() == "" ? 0 : $('#type_coin_id').val();
+
+        if (type_coin_id == 0){
+            Swal.fire('Debe seleccionar el tipo de moneda');
+            return false; 
+        }
+
+        if (radioComision1) {
+            if (type_coin_id != 1){
+                Swal.fire('Porcentage origen solo se permite sobre transacciones en dolares');
+                return false;                
+            }
+        }
+        if (radioComision2) {
+            
+            if (type_coin_id == 1){
+                
+                Swal.fire('Tasa origen solo se permite sobre transacciones que no sean dolares');
+                return false;                
             }
         }
 
-        let exonerar_base     = $('#radio1_base').is(':checked');
-        let descontar_base    = $('#radio2_base').is(':checked');
-        let incluir_base      = $('#radio3_base').is(':checked');
-
-        if(!exonerar_base && !descontar_base && !incluir_base){
-            Swal.fire('Error: Marcar si comision origen esta exonerada, incluida o descontada');
-            return false;            
+        if (radioComisionDestino1) {
+            if (type_coin_id != 1){
+                Swal.fire('Porcentage Destino solo se permite sobre transacciones en dolares');
+                return false;                
+            }
+        }
+        if (radioComisionDestino2) {
+            
+            if (type_coin_id == 1){
+                
+                Swal.fire('Tasa Destino solo se permite sobre transacciones que no sean en dolares');
+                return false;                
+            }
         }
 
-        let exonerar_base2     = $('#radio1_base2').is(':checked');
-        let descontar_base2    = $('#radio2_base2').is(':checked');
-        let incluir_base2      = $('#radio3_base2').is(':checked');
+        if (type_coin_id != 1){
+            if(!radioComision2){
+                Swal.fire('Debe Introducir Tasa origen  para transacciones en moneda que no sean en dolares');
+                return false;
+            }
+ 
+            let exchange = $('#exchange').val() == "" ? 0 : $('#exchange').val();
+            if(exchange == 0){
+                Swal.fire('La Tasa origen no puedo ser cero o vacia para transacciones que no sean en dolares');
+                return false;
+            }
+
+            if(!radioComisionDestino2){
+                Swal.fire('Debe Introducir Tasa Destino  para transacciones en moneda que no sean en dolares');
+                return false;
+            }
 
 
-        if(!exonerar_base2 && !descontar_base2 && !incluir_base2){
-            Swal.fire('Error: Marcar si comision origen esta exonerada, incluida o descontada');
-            return false;            
+            let exchange2 = $('#exchange2').val() == "" ? 0 : $('#exchange2').val();
+            if(exchange2 == 0){
+                Swal.fire('La Tasa Destino  no puedo ser cero o vacia para transacciones que no sean en dolares');
+                return false;
+            }
         }
 
-        //  return false; // no envia submit
+
+        if (radioComision1) {
+
+            let exonerar_base     = $('#radio1_base').is(':checked');
+            let descontar_base    = $('#radio2_base').is(':checked');
+            let incluir_base      = $('#radio3_base').is(':checked');
+
+            if(!exonerar_base){
+                if ($('#percentage_base').val() <= 0) {
+                    Swal.fire('Porcentage origen, no puede ser cero o menor a cero. :(');
+                    return false;
+                }
+            }
+
+            if(!exonerar_base && !descontar_base && !incluir_base){
+                Swal.fire('Error: Marcar si comision origen esta exonerada, incluida o descontada');
+                return false;            
+            }
+
+        }
+        if (radioComision2){
+            
+            if ($('#exchange').val() <= 0) {
+                Swal.fire('Tasa de cambio origen, no puede ser cero o menor a cero.');
+                return false;
+            }
+            
+        }
+
+
+        if (radioComisionDestino1){
+
+            if ($('#percentage_base2').val() <= 0) {
+                Swal.fire('Porcentage destino, no puede ser cero o menor a cero. :(');
+                return false;
+            }
+
+            let exonerar_base2     = $('#radio1_base2').is(':checked');
+            let descontar_base2    = $('#radio2_base2').is(':checked');
+            let incluir_base2      = $('#radio3_base2').is(':checked');
+
+
+            if(!exonerar_base2 && !descontar_base2 && !incluir_base2){
+                Swal.fire('Error: Marcar si comision origen esta exonerada, incluida o descontada');
+                return false;            
+            }
+        }
+        if (radioComisionDestino2){
+            if ($('#exchange2').val() <= 0) {
+                Swal.fire('Tasa de cambio destino, no puede ser cero o menor a cero.');
+                return false;
+            }            
+        }
+         // return false; // no envia submit
 
     });
 
     //
-    
+    $('#radioComision1').on('click', function() {
+        $('#exchange').val('');
+        $('#exchange').attr('readonly',true);
+
+        $('#percentage_base').attr('readonly',false);
+        $('#radio1_base').attr('readonly',false);
+        $('#radio2_base').attr('readonly',false);
+        $('#radio3_base').attr('readonly',false);
+
+        $('#comision_base').val('');
+
+        $('#monto_dolares').val($('#amount_foreign_currency').val());
+        $('#monto_base').val($('#amount_foreign_currency').val());
+    }
+    );
+
+    $('#radioComision2').on('click', function() {
+        $('#percentage_base').val('');
+        $('#percentage_base').attr('readonly',true);
+
+        $('#comision_base').val('');
+
+        $('#radioComision1').prop('checked',false);
+        $('#radio1_base').prop('checked',false);
+        $('#radio2_base').prop('checked',false);
+        $('#radio3_base').prop('checked',false);
+
+
+        $('#radio1_base').attr('readonly',true);
+        $('#radio2_base').attr('readonly',true);
+        $('#radio3_base').attr('readonly',true);
+
+        $('#exchange').attr('readonly',false);
+
+        $('#monto_dolares').val($('#amount_foreign_currency').val());
+        $('#monto_base').val($('#amount_foreign_currency').val());
+
+    }
+    );
+    //
+    //
+    //
+    $('#radioComisionDestino1').on('click', function() {
+        $('#exchange2').val('');
+        $('#exchange2').attr('readonly',true);
+
+        $('#percentage_base2').attr('readonly',false);
+        $('#radio1_base2').attr('readonly',false);
+        $('#radio2_base2').attr('readonly',false);
+        $('#radio3_base2').attr('readonly',false);
+
+        $('#comision_base2').val('');
+
+        $('#monto_dolares2').val($('#amount_foreign_currency').val());
+        $('#monto_base2').val($('#amount_foreign_currency').val());
+    }
+    );
+
+    $('#radioComisionDestino2').on('click', function() {
+        $('#percentage_base2').val('');
+        $('#percentage_base2').attr('readonly',true);
+
+        $('#comision_base2').val('');
+        $('#radioComisionDestino1').prop('checked',false);
+
+        $('#radio1_base2').prop('checked',false);
+        $('#radio2_base2').prop('checked',false);
+        $('#radio3_base2').prop('checked',false);
+
+
+        $('#radio1_base2').attr('readonly',true);
+        $('#radio2_base2').attr('readonly',true);
+        $('#radio3_base2').attr('readonly',true);
+
+        $('#exchange2').attr('readonly',false);
+
+        $('#monto_dolares2').val($('#amount_foreign_currency').val());
+        $('#monto_base2').val($('#amount_foreign_currency').val());
+        
+    }
+    );
+
+
+    //
+    //
+    //
     $('#radio1_base').on('click', function() {
         $('#percentage_base').val("");
         $('#comision_base').val("");
@@ -542,7 +852,9 @@
     $('#radio3_base').on('click', function() {
         $('#percentage_base').attr("readonly", false);
     });
-
+    //
+    //
+    //
     $('#radio1_base2').on('click', function() {
         $('#percentage_base2').val("");
         $('#comision_base2').val("");
@@ -551,7 +863,7 @@
     });
 
     $('#radio2_base2').on('click', function() {
-        alert('aqui');
+
         $('#percentage_base2').attr("readonly", false);
     });
 
@@ -559,23 +871,18 @@
 
         $('#percentage_base2').attr("readonly", false);
     });
-
+    //
+    //
     /* OCULTAR LA CAJA SELECCIONADA */
-
-    tasa            = document.getElementById("tasa");
-    monto           = document.getElementById("monto");
-    monto_dolares   = document.getElementById("monto_dolares");
+    //
+    //
+    // tasa            = document.getElementById("tasa");
+    // monto           = document.getElementById("monto");
+    // monto_dolares   = document.getElementById("monto_dolares");
     //const log = document.getElementById("montototal");
 
-    $('#monto_dolares, #percentage_base, #percentage_base2').on('input', function() {
+    $('#amount_foreign_currency, monto_dolares, #exchange, #exchange2, #percentage_base, #percentage_base2').on('input', function() {
 
-        let comision_base     = $('#comision_base').val() == ""     ? 0 : parseFloat($('#comision_base').val());
-        let porcentage_base   = $('#percentage_base').val() == ""   ? 0 : parseFloat($('#percentage_base').val());
-        let montoreal_base    = $('#monto_base').val() == ""        ? 0 : parseFloat($('#monto_base').val());
-
-        let exonerar_base     = $('#radio1_base').is(':checked');
-        let descontar_base    = $('#radio2_base').is(':checked');
-        let incluir_base      = $('#radio3_base').is(':checked');
         
         updateMontorealBase();
 
@@ -586,6 +893,13 @@
     $('#radio1_base, #radio2_base, #radio3_base, #radio1_base2, #radio2_base2, #radio3_base2').on('click', function() {
 
         updateMontorealBase();
+    });
+
+    $("#type_coin_id").change(function() {
+        if ($('#type_coin_id').val() == 1){
+            // $('#amount_foreign_currency').val($('#monto_dolares').val());
+        }
+        actualizaTypeCoin();   
     });
 
     $("#wallet2, #typetrasnferencia2Debit").change(function() {
@@ -628,12 +942,34 @@
     });
 
     function updateMontorealBase() {
-
         
+        let monto_dolares           = 0;
+        let monto_dolares2          = 0;
+
+        let monto_base              = 0;
+        let monto_base2             = 0;
+
+        let amount_foreign_currency = 0;
+        let type_coin_id = $('#type_coin_id').val() == "" ? 0 : $('#type_coin_id').val();
+
+        amount_foreign_currency = $('#amount_foreign_currency').val() == "" ? 0 : parseFloat($('#amount_foreign_currency').val());
+
+        monto_dolares           = parseFloat($('#amount_foreign_currency').val());
+        monto_base              = parseFloat($('#amount_foreign_currency').val());
+
+        monto_dolares2          = parseFloat($('#amount_foreign_currency').val());
+        monto_base2             = parseFloat($('#amount_foreign_currency').val());
+        
+
+        $('#monto_dolares').val(amount_foreign_currency);
+        $('#monto_dolares2').val(amount_foreign_currency);
+        
+        $('#monto_base').val(amount_foreign_currency);
+        $('#monto_base2').val(amount_foreign_currency);
 
         let comision_base     = $('#comision_base').val() == ""     ? 0 : parseFloat($('#comision_base').val());
         let porcentage_base   = $('#percentage_base').val() == ""   ? 0 : parseFloat($('#percentage_base').val());
-        let montoreal_base    = $('#monto_base').val() == ""        ? 0 : parseFloat($('#monto_base').val());
+        
 
         let exonerar_base     = $('#radio1_base').is(':checked');
         let descontar_base    = $('#radio2_base').is(':checked');
@@ -641,23 +977,44 @@
 
         let comision_base2     = $('#comision_base2').val() == ""     ? 0 : parseFloat($('#comision_base2').val());
         let porcentage_base2   = $('#percentage_base2').val() == ""   ? 0 : parseFloat($('#percentage_base2').val());
-        let montoreal_base2    = $('#monto_base2').val() == ""        ? 0 : parseFloat($('#monto_base2').val());
+        
 
         let exonerar_base2     = $('#radio1_base2').is(':checked');
         let descontar_base2    = $('#radio2_base2').is(':checked');
         let incluir_base2      = $('#radio3_base2').is(':checked');
 
 
-        let monto_dolares               = $('#monto_dolares').val() == "" ? 0 : parseFloat($('#monto_dolares').val());
+        
         let amount_commission_profit    = 0;
         let amount_commission_profit2   = 0;
+
+        let radioComision1 = $('#radioComision1').is(':checked');
+        let radioComision2 = $('#radioComision2').is(':checked');
+        let myTypeComision = 0;
+
+        let exchange = $('#exchange').val() == "" ? 0 : parseFloat($('#exchange').val());
+        let exchange2 = $('#exchange2').val() == "" ? 0 : parseFloat($('#exchange2').val());
+
+        if (radioComision1){
+            myTypeComision = 1;
+        }else if(radioComision2){
+            myTypeComision = 2;
+        }
+
+
+        $('#monto_dolares').val(monto_dolares );
+        $('#monto_dolares2').val(monto_dolares );
+        
+        $('#monto_base').val(monto_dolares );
+        $('#monto_base2').val(monto_dolares );
 
         if(porcentage_base > 0){
             
             $('#comision_base').val((monto_dolares * (porcentage_base / 100)));
             comision_base = (monto_dolares * (porcentage_base / 100));
-            //alert(comision);
+            // alert(comision);
         }
+
 
         if (comision_base == 0) {
             amount_commission_profit = 0;
@@ -669,21 +1026,30 @@
 
         if(!exonerar_base) {
             if(incluir_base) {
-                montoreal_base = (monto_dolares + comision_base).toFixed(2);
-                $('#monto_base').val((monto_dolares + comision_base));
-                //alert(montoreal);
+                monto_base = (monto_dolares + comision_base);
+                $('#monto_dolares').val((monto_base));
+                $('#monto_base').val((monto_base));
+                
             } else if(descontar_base) {
-                montoreal_base = (monto_dolares - comision_base).toFixed(2);
-                $('#monto_base').val((monto_dolares - comision_base));
+                monto_base = (monto_dolares - comision_base);
+                $('#monto_base').val((monto_base));
+                $('#monto_dolares').val((monto_base));
             }
         }
         else {
             $('#percentage_base').val('');
             $('#comision_base').val('');
-            montoreal_base = monto_dolares.toFixed(2);
-            $('#monto_base').val(monto_dolares);
+            monto_base = monto_dolares;
+            $('#monto_base').val(monto_base);
+            $('#monto_dolares').val(monto_base);
         }
 
+        if(exchange > 0){
+            monto_dolares = amount_foreign_currency / exchange;
+
+            $('#monto_dolares').val(monto_dolares);
+            $('#monto_base').val(monto_dolares);
+        }
 
 
         // comision destino
@@ -706,22 +1072,33 @@
 
         if(!exonerar_base2) {
             if(incluir_base2) {
-                montoreal_base2 = (monto_dolares + comision_base2).toFixed(2);
-                $('#monto_base2').val((monto_dolares + comision_base2));
+                monto_base2 = (monto_dolares + comision_base2).toFixed(2);
+                $('#monto_dolares2').val(monto_base2);
+                $('#monto_base2').val(monto_base2);
                 //alert(montoreal);
             } else if(descontar_base2) {
-                montoreal_base2 = (monto_dolares - comision_base2).toFixed(2);
+                monto_base2 = (monto_dolares - comision_base2).toFixed(2);
                 $('#monto_base2').val((monto_dolares - comision_base2));
+                $('#monto_dolares2').val((monto_dolares - comision_base2));
             }
         }
         else {
             $('#percentage_base2').val('');
             $('#comision_base2').val('');
-            montoreal_base2 = monto_dolares.toFixed(2);
+            monto_base2 = monto_dolares.toFixed(2);
             $('#monto_base2').val(monto_dolares);
+            $('#monto_dolares2').val(monto_dolares);
         }
 
 
+
+        if(exchange2 > 0){
+            
+            monto_base2 = amount_foreign_currency / exchange2;
+            $('#monto_base2').val(monto_base2);
+            $('#monto_dolares2').val(monto_base2);
+            
+        }
 
         // comision destino
 
@@ -729,6 +1106,171 @@
 
         $('#amount_commission_profit').val(amount_commission_profit);
         $('#amount_commission_profit2').val(amount_commission_profit2);
+
+    }
+
+    function inicializa() {
+        $('#radioComision1').prop('checked',false);
+        $('#percentage_base').val('');
+        $('#percentage_base').attr('readonly', true);
+        $('#comision_base').val('');
+        $('#radio1_base').prop('checked',false);
+        $('#radio2_base').prop('checked',false);
+        $('#radio3_base').prop('checked',false);
+
+        $('#radioComision2').prop('checked',false);
+        $('#echange').val('');
+        $('#exchange').attr('readonly', true);
+
+        $('#radioComisionDestino1').prop('checked',false);
+        $('#percentage_base2').val('');
+        $('#percentage_base2').attr('readonly', true);
+        $('#comision_base2').val('');
+        $('#radio1_base2').prop('checked',false);
+        $('#radio2_base2').prop('checked',false);
+        $('#radio3_base2').prop('checked',false);
+
+        $('#radioComisionDestino2').prop('checked',false);
+        $('#echange2').val('');
+        $('#exchange2').attr('readonly', true);      
+        
+        actualizaTypeCoin();
+
+    }
+
+
+    function actualizaTypeCoin(){
+        
+        let type_coin_id = $('#type_coin_id').val() == "" ? 0 : $('#type_coin_id').val();
+
+        if (type_coin_id == 0){
+            $('#radioComision1').prop('checked',false);
+            // $('#radioComision1').attr('readonly', true);
+            $('#radioComision1').prop('disabled', 'disabled');
+
+            $('#percentage_base').val('');
+            $('#comision_base').val('');
+
+            $('#radio1_base').prop('checked',false);
+            $('#radio2_base').prop('checked',false);
+            $('#radio3_base').prop('checked',false);
+            
+            $('#radio1_base').prop('readonly',true);
+            $('#radio2_base').prop('readonly',true);
+            $('#radio3_base').prop('readonly',true);
+
+
+            $('#radioComision2').prop('checked',false);
+            $('#radioComision2').attr('readonly', true);
+
+            $('#echange').val('');
+            $('#exchange').attr('readonly', true);
+
+            //
+            //
+            //
+
+            $('#radioComisionDestino1').prop('checked',false);
+            $('#radioComisionDestino1').prop('readonly',true);
+
+            $('#percentage_base2').val('');
+            $('#comision_base2').val('');
+
+            $('#radio1_base2').prop('checked',false);
+            $('#radio2_base2').prop('checked',false);
+            $('#radio3_base2').prop('checked',false);
+
+            $('#radio1_base2').prop('readonly',true);
+            $('#radio2_base2').prop('readonly',true);
+            $('#radio3_base2').prop('readonly',true);
+
+
+            $('#radioComisionDestino2').prop('checked',false);
+            $('#radioComisionDestino2').prop('readonly',true);
+
+            $('#echange2').val('');
+            $('#exchange2').attr('readonly', true);  
+
+            return;
+        }
+
+        if (type_coin_id = 1){
+            $('#radioComision1').prop('checked',false);
+            $('#radioComision1').attr('readonly', false);
+
+            $('#percentage_base').val('');
+            $('#comision_base').val('');
+
+            $('#radio1_base').prop('checked',false);
+            $('#radio2_base').prop('checked',false);
+            $('#radio3_base').prop('checked',false);
+
+            $('#radioComision2').prop('checked',false);
+            $('#radioComision2').attr('readonly', true);
+
+            $('#echange').val('');
+            $('#exchange').attr('readonly', true);
+
+            //
+            //
+            //
+
+            $('#radioComisionDestino1').prop('checked',false);
+            $('#radioComisionDestino1').prop('readonly',false);
+
+            $('#percentage_base2').val('');
+            $('#comision_base2').val('');
+
+            $('#radio1_base2').prop('checked',false);
+            $('#radio2_base2').prop('checked',false);
+            $('#radio3_base2').prop('checked',false);
+
+            $('#radioComisionDestino2').prop('checked',false);
+            $('#radioComisionDestino2').prop('readonly',true);
+
+            $('#echange2').val('');
+            $('#exchange2').attr('readonly', true);        
+        }else{
+            $('#radioComision1').prop('checked',false);
+            $('#radioComision1').attr('readonly', true);
+
+            $('#percentage_base').val('');
+            $('#comision_base').val('');
+
+            $('#radio1_base').prop('checked',false);
+            $('#radio2_base').prop('checked',false);
+            $('#radio3_base').prop('checked',false);
+
+            $('#radioComision2').prop('checked',false);
+            $('#radioComision2').attr('readonly', false);
+
+            $('#echange').val('');
+            $('#exchange').attr('readonly', true);
+
+            //
+            //
+            //
+
+            $('#radioComisionDestino1').prop('checked',false);
+            $('#radioComisionDestino1').prop('readonly',true);
+
+            $('#percentage_base2').val('');
+            $('#comision_base2').val('');
+
+            $('#radio1_base2').prop('checked',false);
+            $('#radio2_base2').prop('checked',false);
+            $('#radio3_base2').prop('checked',false);
+            
+            $('#radio1_base2').prop('readonly',true);
+            $('#radio2_base2').prop('readonly',true);
+            $('#radio3_base2').prop('readonly',true);
+
+            $('#radioComisionDestino2').prop('checked',false);
+            $('#radioComisionDestino2').prop('readonly',false);
+
+            $('#echange2').val('');
+            $('#exchange2').attr('readonly', false);          
+        }
 
     }
 

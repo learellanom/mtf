@@ -2335,6 +2335,7 @@ class TransactionController extends Controller
     }
     public function index_pagoclientes(Request $request, transaction $transaction)
     {
+        
         $myGroup = null;
         $myPayNumber = "pay_number LIKE '%T-C' != '' ";
         
@@ -2380,14 +2381,15 @@ class TransactionController extends Controller
         $myUser = null;
         $myUserFiltro = null;
 
- 
+        $myAdministratorFilter = "";
+
             if ($request->user){
                 $myUser = $request->user;
                 $myUserFiltro = "and user_id = $myUser";
             }else{
-                // si es dminstrado no limita las transacciones al un usuario
+                // si es administrador no limita las transacciones al un usuario
                 if($this->isAdministrator()){
-            
+                    $myAdministratorFilter = "limit 300";
                 }else{
                     $myUser = auth()->user()->id;
                     $myUserFiltro = "and user_id = $myUser";          
@@ -2412,7 +2414,9 @@ class TransactionController extends Controller
                 groups2.name                    as WalletNameOrigen,
                 group_id                        as GroupIdOrigen,
                 groups.name                     as GroupNameOrigen,
-                amount_total                    as Amount,
+                amount                          as Amount,
+                amount_total                    as AmountTotal,
+                exchange_rate                   as ExchangeRate,
                 date_format(transaction_date,'%Y-%m-%d')                as TransactionDate,
                 date_format(transactions.created_at,'%Y-%m-%d')  as TransactionCreated,
                 users.name                      as Agente,
@@ -2438,6 +2442,7 @@ class TransactionController extends Controller
                 transaction_date DESC,
                 pay_number ASC,
                 type_transactions.type_transaction_group DESC
+            $myAdministratorFilter
             ";
             // dd($myQuery);
             $transactiones = DB::select($myQuery);
@@ -2514,10 +2519,13 @@ class TransactionController extends Controller
         $transactions   = new Transaction;
         $number         = date('YmdHis'). rand(100,200). 'T-C';
 
+
         $transactions->type_transaction_id          = $request->input('typetrasnferencia2Debit');
         $transactions->group_id                     = $request->input('group_id');
         $transactions->wallet_id                    = $request->input('wallet_id');
-        $transactions->amount                       = $request->input('amount');
+        $transactions->amount_foreign_current       = $request->input('amount_foreign_current');
+        $transactions->amount                       = $request->input('amount_foreign_current');
+        $transactions->amount_total                 = $request->input('amount');
         $transactions->amount_total_base            = $request->input('amount');
         $transactions->amount_base                  = $request->input('amount');
         $transactions->transaction_date             = $request->input('transaction_date');
@@ -2539,6 +2547,7 @@ class TransactionController extends Controller
         $transactions2->type_transaction_id         = $request->input('typetrasnferencia2Credit');
         $transactions2->group_id                    = $request->input('group2_id');
         $transactions2->wallet_id                   = $request->input('wallet2_id');
+        $transactions2->amount_foreign_current      = $request->input('amount_foreign_current');
         $transactions2->amount                      = $request->input('amount');
         $transactions2->amount_total_base           = $request->input('amount');
         $transactions2->amount_base                 = $request->input('amount');
@@ -2560,9 +2569,33 @@ class TransactionController extends Controller
 
     public function store_pagocliente2(Request $request)
     {
+
+        // return Redirect::back()->withInput();
+
         $user           = Auth::id();
         $transactions   = new Transaction;
         $number         = date('YmdHis'). rand(100,200). 'T-C';
+ 
+        $type_coin_id               = $request->input('type_coin_id');
+
+        if ($type_coin_id == 1){
+            $amount_foreign_currency    = $request->input('amount_foreign_currency');
+            $amount                     = $request->input('amount_foreign_currency');
+            $amount_total               = $request->input('amount');
+
+            $amount2                    = $request->input('amount_foreign_currency');
+            $amount_total2              = $request->input('amount2');
+        }else{
+            $amount_foreign_currency    = $request->input('amount_foreign_currency');
+            $amount                     = $request->input('amount');
+            $amount_total               = $request->input('amount');
+    
+            $amount2                    = $request->input('amount');
+            $amount_total2              = $request->input('amount2');            
+        }
+
+        // dd('amount -> ' . $amount);
+        // dd('amount_total -> ' . $amount_total);
 
         /*
         \Log::info('store_pagocliente2 type_transaction_id     -> ' . $request->input('type_transaction_id'));
@@ -2581,18 +2614,21 @@ class TransactionController extends Controller
         
 
         $transactions->type_transaction_id          = $request->input('type_transaction_id');
+        $transactions->type_coin_id                 = $request->input('type_coin_id');
         $transactions->group_id                     = $request->input('group_id');
         $transactions->wallet_id                    = $request->input('wallet_id');
-        $transactions->amount                       = $request->input('amount');
-        $transactions->amount_total_base            = $request->input('amount');
-        $transactions->amount_base                  = $request->input('amount');
+        $transactions->amount                       = $amount;
+        $transactions->amount_foreign_currency      = $amount_foreign_currency;
+        $transactions->amount_total_base            = $amount;
+        $transactions->amount_base                  = $amount;
         $transactions->transaction_date             = $request->input('transaction_date');
         $transactions->description                  = $request->input('description');
         $transactions->pay_number                   = $number;
         $transactions->amount_commission            = $request->input('commission');
+        $transactions->exchange_rate                = $request->input('exchange');
         $transactions->percentage                   = $request->input('percentage');
         $transactions->exonerate                    = $request->input('exonerate');
-        $transactions->amount_total                 = $request->input('amount_total');
+        $transactions->amount_total                 = $amount_total;
         $transactions->amount_commission_profit     = $request->input('amount_commission_profit');
         $transactions->user_id                      = $user;
 
@@ -2602,27 +2638,30 @@ class TransactionController extends Controller
 
         $transactions2 = new Transaction;
 
-        $transactions2->type_transaction_id         = $request->input('type_transaction_id2');
-        $transactions2->group_id                    = $request->input('group2_id');
-        $transactions2->wallet_id                   = $request->input('wallet2_id');
-        $transactions2->amount                      = $request->input('amount');
-        $transactions2->amount_total_base           = $request->input('amount');
-        $transactions2->amount_base                 = $request->input('amount');
-        $transactions2->transaction_date            = $request->input('transaction_date');
-        $transactions2->description                 = $request->input('description2');
-        $transactions2->pay_number                  = $number;
-        $transactions2->amount_commission           = $request->input('commission2');
-        $transactions2->percentage                  = $request->input('percentage2');
-        $transactions2->exonerate                   = $request->input('exonerate2');
-        $transactions2->amount_total                = $request->input('amount_total2');
+        $transactions2->type_transaction_id          = $request->input('type_transaction_id2');
+        $transactions2->type_coin_id                 = $request->input('type_coin_id');
+        $transactions2->group_id                     = $request->input('group2_id');
+        $transactions2->wallet_id                    = $request->input('wallet2_id');
+        $transactions2->amount                       = $amount2;
+        $transactions2->amount_foreign_currency      = $amount_foreign_currency;
+        $transactions2->amount_total_base            = $amount2;
+        $transactions2->amount_base                  = $amount2;
+        $transactions2->transaction_date             = $request->input('transaction_date');
+        $transactions2->description                  = $request->input('description2');
+        $transactions2->pay_number                   = $number;
+        $transactions2->amount_commission            = $request->input('commission2');
+        $transactions2->exchange_rate                = $request->input('exchange2');
+        $transactions2->percentage                   = $request->input('percentage2');
+        $transactions2->exonerate                    = $request->input('exonerate2');
+        $transactions2->amount_total                 = $amount_total2;
         $transactions2->amount_commission_profit     = $request->input('amount_commission_profit2');        
-        $transactions2->user_id                     = $user;
+        $transactions2->user_id                      = $user;
 
         $transactions2->save();
 
-         flash()->addSuccess('Movimiento guardado', 'Transacción entre clientes :D', ['timeOut' => 3000]);
+        flash()->addSuccess('Movimiento guardado', 'Transacción entre clientes :D', ['timeOut' => 3000]);
 
-         return Redirect::back()->withInput();
+        return Redirect::back()->withInput();
     }
 
 

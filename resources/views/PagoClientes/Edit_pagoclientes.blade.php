@@ -75,7 +75,7 @@
                             <label for="group_id">Cliente de origen:</label>
                             <div class="input-group-text">
                                 <i class="fa-fw fas fa-random mr-2"></i>
-                            {!! Form::select('group_id', $group, null, ['class' => 'form-control wallet', 'required' => true, 'id'=>'group_id', 'readonly' => false]) !!}
+                                {!! Form::select('group_id', $group, null, ['class' => 'form-control wallet', 'required' => true, 'id'=>'group_id', 'readonly' => false]) !!}
                             </div>
                         </div>
 
@@ -84,7 +84,7 @@
                             <label for="group2_id">Cliente destino:</label>
                             <div class="input-group-text">
                                 <i class="fa-fw fas fa-random mr-2"></i>
-                            {!! Form::select('group2_id', $group, null, ['class' => 'form-control wallet2', 'required' => true, 'id'=>'group2_id', 'readonly' => false]) !!}
+                                {!! Form::select('group2_id', $group, null, ['class' => 'form-control wallet2', 'required' => true, 'id'=>'group2_id', 'readonly' => false]) !!}
                             </div>
                         </div>
 
