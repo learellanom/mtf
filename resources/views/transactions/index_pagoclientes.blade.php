@@ -135,6 +135,7 @@ $config3 = [
                                     <th style="width:10%;">Monto Total</th>
                                     <th style="width:5%;">% Base</th>
                                     <th style="width:10%;">Comisión Base</th>
+                                    <th style="width:10%;">Tasa</th>
                                     <th style="width:10%;">Monto Total Base</th>
                                     <th class="no-exportar">Agente</th>
                                     <th style="width:10%;">Caja <i class="fas fa-box"></i></th>
@@ -160,12 +161,12 @@ $config3 = [
                                     <td class="font-weight-bold" style="min-width: 80px;">{!! $transferencias->TransactionCreated !!}</td>
                                     <td class="font-weight-bold"><div style='width:60px; height:60px; overflow:hidden;'>{!!  $transferencias->Description !!}</div></td>
 
-                                    <td class="font-weight-bold">{!! number_format($transferencias->Amount) !!} <i class="fas fa-dollar-sign"></i></td>
+                                    <td class="font-weight-bold">{!! number_format($transferencias->AmountTotal) !!} <i class="fas fa-dollar-sign"></i></td>
 
                                     <td class="font-weight-bold">{!! number_format($transferencias->PorcentageBase) !!}</td>
 
                                     <td class="font-weight-bold">{!! number_format($transferencias->ComisionBase) !!} <i class="fas fa-dollar-sign"></i></td>
-
+                                    <td class="font-weight-bold">{!! number_format($transferencias->ExchangeRate) !!} <i class="fas fa-dollar-sign"></i></td>
                                     <td class="font-weight-bold">{!! number_format($transferencias->TotalBase) !!} <i class="fas fa-dollar-sign"></i></td>
 
 
