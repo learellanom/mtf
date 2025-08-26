@@ -132,14 +132,16 @@ $config3 = [
                                     <th style="width:5%;">Fecha</th>
                                     <th style="width:5%;">Creada</th>
                                     <th>Descripción</th>
-                                    <th style="width:10%;">Monto Total</th>
+                                    <th>Moneda</th>
+                                    <th style="width:10%;">Monto</th>
                                     <th style="width:5%;">% Base</th>
                                     <th style="width:10%;">Comisión Base</th>
                                     <th style="width:10%;">Tasa</th>
-                                    <th style="width:10%;">Monto Total Base</th>
+                                    <th style="width:10%;">Monto $</th>
+                                    <th style="width:10%;">Monto Total $</th>
                                     <th class="no-exportar">Agente</th>
                                     <th style="width:10%;">Caja <i class="fas fa-box"></i></th>
-                                    <th>Tipo de Movimiento</th>
+                                    <th>Mov.</th>
                                     <th style="width:10%;">Cliente </th>
                                     @can('transactions.update_status')
                                     <th style="width:1%;">Activo <br> /Anulado</th>
@@ -160,13 +162,14 @@ $config3 = [
                                     <td class="font-weight-bold" style="min-width: 80px;">{!! $transferencias->TransactionDate !!}</td>
                                     <td class="font-weight-bold" style="min-width: 80px;">{!! $transferencias->TransactionCreated !!}</td>
                                     <td class="font-weight-bold"><div style='width:60px; height:60px; overflow:hidden;'>{!!  $transferencias->Description !!}</div></td>
-
-                                    <td class="font-weight-bold">{!! number_format($transferencias->AmountTotal) !!} <i class="fas fa-dollar-sign"></i></td>
-
+                                    <td class="font-weight-bold">{!! $transferencias->TypeCoinName !!} </td>
+                                    <td class="font-weight-bold">{!! number_format($transferencias->AmountForeignCurrency) !!} <i class="fas fa-dollar-sign"></i></td>
+                                                                                                    
                                     <td class="font-weight-bold">{!! number_format($transferencias->PorcentageBase) !!}</td>
 
                                     <td class="font-weight-bold">{!! number_format($transferencias->ComisionBase) !!} <i class="fas fa-dollar-sign"></i></td>
                                     <td class="font-weight-bold">{!! number_format($transferencias->ExchangeRate) !!} <i class="fas fa-dollar-sign"></i></td>
+                                    <td class="font-weight-bold">{!! number_format($transferencias->Amount) !!} <i class="fas fa-dollar-sign"></i></td>
                                     <td class="font-weight-bold">{!! number_format($transferencias->TotalBase) !!} <i class="fas fa-dollar-sign"></i></td>
 
 
@@ -205,7 +208,8 @@ $config3 = [
                                     </td>
 
                                     <td>
-                                        <a href="{{ route('PagoClientes.edit',  ['TransferNumber' => $transferencias->TransferNumber] ) }}" class="btn btn-xl text-dark mx-1 shadow text-center"><i class="fa fa-lg fa-fw fas fa-edit"></i></a>
+                                        {{-- <a href="{{ route('PagoClientes.edit',  ['TransferNumber' => $transferencias->TransferNumber] ) }}" class="btn btn-xl text-dark mx-1 shadow text-center"><i class="fa fa-lg fa-fw fas fa-edit"></i></a> --}}
+                                        <i class="fa fa-lg fa-fw fas fa-edit"></i>
                                     </td>
 
                                     <td>
