@@ -2427,12 +2427,16 @@ class TransactionController extends Controller
                 transactions.amount_commission  as ComisionBase,
                 transactions.percentage         as PorcentageBase,
                 transactions.exonerate          as ExonerateBase,
-                transactions.amount_total       as TotalBase
+                transactions.amount_total       as TotalBase,
+                transactions.type_coin_id       as TypeCoinID,
+                type_coins.name                 as TypeCoinName,
+                transactions.amount_foreign_currency         as AmountForeignCurrency
             from mtf.transactions
             left join  mtf.groups  as groups2   on mtf.transactions.wallet_id = groups2.id
             left join  mtf.groups               on mtf.transactions.group_id  = groups.id
             left join  mtf.type_transactions    on mtf.transactions.type_transaction_id  = mtf.type_transactions.id
             left join  mtf.users                on mtf.transactions.user_id  = mtf.users.id
+            left join  mtf.type_coins            on mtf.transactions.type_coin_id  = mtf.type_coins.id 
             where 
             $myPayNumber
             $myUserFiltro
@@ -2446,7 +2450,7 @@ class TransactionController extends Controller
             ";
             // dd($myQuery);
             $transactiones = DB::select($myQuery);
-
+            // dd($transactiones);
          // }
          //}
 
@@ -2590,7 +2594,7 @@ class TransactionController extends Controller
             $amount                     = $request->input('amount');
             $amount_total               = $request->input('amount');
     
-            $amount2                    = $request->input('amount');
+            $amount2                    = $request->input('amount2');
             $amount_total2              = $request->input('amount2');            
         }
 
