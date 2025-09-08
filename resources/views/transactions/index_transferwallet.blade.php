@@ -8,6 +8,18 @@
 
 
 @stop
+@php
+    $config2 =
+    [
+        "allowClear" => true,
+    ];
+
+    $config3 = [
+        "locale" => ["format" => "DD-MM-YYYY"],
+        "allowClear" => true,
+        "showDropdowns:" => "true",
+    ];
+@endphp
 
 @section('content')
 
@@ -27,6 +39,78 @@
             <div class="card-header">
                 <h3 class="card-title text-uppercase font-weight-bold">{{ __('Transferencias entre cajas en efectivo') }}</h3>
             </div>
+            <div class="row">
+                <div class ="col-12 col-md-4 col-xl-3">
+                    <x-adminlte-date-range
+                        name="drCustomRanges"
+                        enable-default-ranges="Last 30 Days"
+                        
+                        :config="$config3">
+                        <x-slot name="prependSlot">
+                            <div class="input-group-text bg-gradient-light">
+                                <i class="fas fa-calendar-alt"></i>
+                            </div>
+                        </x-slot>
+                        <x-slot name="appendSlot">
+                            <x-adminlte-button 
+                                id="myDrClearButton"
+                                label="X" 
+                                icon="fas  fa-x"/>
+                        </x-slot>
+                    </x-adminlte-date-range>
+
+
+                </div>
+
+                <div class ="col-12 col-md-4 col-xl-3">
+                    <x-adminlte-select2 id="group"
+                                        name="group"
+
+                                        label-class="text-lightblue"
+                                        data-placeholder="Grupo ..."
+                                        :config="$config2"
+                                        >
+                        <x-slot name="prependSlot">
+                            <div class="input-group-text bg-gradient-dark">
+                                <!-- <i class="fas fa-car-side"></i> -->
+                                <i class="fas fa-user-tie"></i>
+                            </div>
+                        </x-slot>
+
+                        <x-adminlte-options :options="$group" empty-option="Selecciona un Grupo.."/>
+                    </x-adminlte-select2>
+                </div>
+
+                <div class ="col-12 col-md-4 col-xl-3">
+                     <div class="d-flex">
+                        <i class="fas fa-user-tie my-auto mx-2"></i>
+                        <select id="type_coin_id" name="type_coin_id" class='form-control' required>
+                            @foreach($group as $key => $item)
+                                <option value="{{$key}}">{{$item}}</option>
+                            @endforeach
+                        </select>
+                    </div>                    
+                </div>
+
+                <div class ="col-xl-2 col-sm-6">
+                    <x-adminlte-select2 id="user"
+                                        class="mySelect"
+                                        name="optionsUsers"
+                                        label-class="text-lightblue"
+                                        data-placeholder="Agente..."
+                                        :config="$config2"
+                                        >
+                        <x-slot name="prependSlot">
+                            <div class="input-group-text bg-gradient-dark">
+                                <!-- <i class="fas fa-car-side"></i> -->
+                                <i class="fas fa-user-tie"></i>
+                            </div>
+                        </x-slot>
+                        <!-- <x-adminlte-options :options="['Car', 'Truck', 'Motorcycle']" empty-option/> -->
+                        <x-adminlte-options :options="$user" empty-option="Selecciona un Agente.."/>
+                    </x-adminlte-select2>
+                </div>            
+            </div>            
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-12">
@@ -50,7 +134,7 @@
                                 </tr>
                             </thead>
 
-                            @foreach($transactiones as $transferencias)
+                            @foreach($transacciones as $transferencias)
 
                                 <tr>
                                     <td class="font-weight-bold">{{ $transferencias->TransactionId }}</td>                                    

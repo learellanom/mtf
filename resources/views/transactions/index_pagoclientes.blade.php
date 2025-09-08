@@ -43,73 +43,73 @@ $config3 = [
                 <h3 class="card-title text-uppercase font-weight-bold">{{ __('Pago entre clientes') }}</h3>
             </div>
             <div class="row">
-            <div class ="col-12 col-md-4 col-xl-3">
-                <x-adminlte-date-range
-                    name="drCustomRanges"
-                    enable-default-ranges="Last 30 Days"
-                    
-                    :config="$config3">
-                    <x-slot name="prependSlot">
-                        <div class="input-group-text bg-gradient-light">
-                            <i class="fas fa-calendar-alt"></i>
-                        </div>
-                    </x-slot>
-                    <x-slot name="appendSlot">
-                        <x-adminlte-button 
-                            id="myDrClearButton"
-                            label="X" 
-                            icon="fas  fa-x"/>
-                    </x-slot>
-                </x-adminlte-date-range>
+                <div class ="col-12 col-md-4 col-xl-3">
+                    <x-adminlte-date-range
+                        name="drCustomRanges"
+                        enable-default-ranges="Last 30 Days"
+                        
+                        :config="$config3">
+                        <x-slot name="prependSlot">
+                            <div class="input-group-text bg-gradient-light">
+                                <i class="fas fa-calendar-alt"></i>
+                            </div>
+                        </x-slot>
+                        <x-slot name="appendSlot">
+                            <x-adminlte-button 
+                                id="myDrClearButton"
+                                label="X" 
+                                icon="fas  fa-x"/>
+                        </x-slot>
+                    </x-adminlte-date-range>
 
 
-            </div>
+                </div>
 
-            <div class ="col-12 col-md-4 col-xl-3">
-                <x-adminlte-select2 id="group"
-                                    name="group"
+                <div class ="col-12 col-md-4 col-xl-3">
+                    <x-adminlte-select2 id="group"
+                                        name="group"
 
-                                    label-class="text-lightblue"
-                                    data-placeholder="Grupo ..."
-                                    :config="$config2"
-                                    >
-                    <x-slot name="prependSlot">
-                        <div class="input-group-text bg-gradient-dark">
-                            <!-- <i class="fas fa-car-side"></i> -->
-                            <i class="fas fa-user-tie"></i>
-                        </div>
-                    </x-slot>
+                                        label-class="text-lightblue"
+                                        data-placeholder="Grupo ..."
+                                        :config="$config2"
+                                        >
+                        <x-slot name="prependSlot">
+                            <div class="input-group-text bg-gradient-dark">
+                                <!-- <i class="fas fa-car-side"></i> -->
+                                <i class="fas fa-user-tie"></i>
+                            </div>
+                        </x-slot>
 
-                    <x-adminlte-options :options="$group" empty-option="Selecciona un Grupo.."/>
-                </x-adminlte-select2>
-            </div>
-            <div class ="col-xl-2 col-sm-6">
-            <x-adminlte-select2 id="user"
-                                class="mySelect"
-                                name="optionsUsers"
-                                label-class="text-lightblue"
-                                data-placeholder="Agente..."
-                                :config="$config2"
-                                >
-                <x-slot name="prependSlot">
-                    <div class="input-group-text bg-gradient-dark">
-                        <!-- <i class="fas fa-car-side"></i> -->
-                        <i class="fas fa-user-tie"></i>
-                    </div>
-                </x-slot>
-                <!-- <x-adminlte-options :options="['Car', 'Truck', 'Motorcycle']" empty-option/> -->
-                <x-adminlte-options :options="$user" empty-option="Selecciona un Agente.."/>
-            </x-adminlte-select2>
-        </div>            
+                        <x-adminlte-options :options="$group" empty-option="Selecciona un Grupo.."/>
+                    </x-adminlte-select2>
+                </div>
+                <div class ="col-xl-2 col-sm-6">
+                    <x-adminlte-select2 id="user"
+                                        class="mySelect"
+                                        name="optionsUsers"
+                                        label-class="text-lightblue"
+                                        data-placeholder="Agente..."
+                                        :config="$config2"
+                                        >
+                        <x-slot name="prependSlot">
+                            <div class="input-group-text bg-gradient-dark">
+                                <!-- <i class="fas fa-car-side"></i> -->
+                                <i class="fas fa-user-tie"></i>
+                            </div>
+                        </x-slot>
+                        <!-- <x-adminlte-options :options="['Car', 'Truck', 'Motorcycle']" empty-option/> -->
+                        <x-adminlte-options :options="$user" empty-option="Selecciona un Agente.."/>
+                    </x-adminlte-select2>
+                </div>            
             </div>
         {{--
-        <select name="group2" id="group2">
+            <select name="group2" id="group2">
 
-            @foreach( $group as $key => $item)
-                <option value="{{$key}}">{{$item}}</option>
-            @endforeach
+                @foreach( $group as $key => $item)
+                    <option value="{{$key}}">{{$item}}</option>
+                @endforeach
 
-        </select>
+            </select>
         --}}
         {{-- 
         <select name="group3" id="group3">
@@ -208,8 +208,8 @@ $config3 = [
                                     </td>
 
                                     <td>
-                                        {{-- <a href="{{ route('PagoClientes.edit',  ['TransferNumber' => $transferencias->TransferNumber] ) }}" class="btn btn-xl text-dark mx-1 shadow text-center"><i class="fa fa-lg fa-fw fas fa-edit"></i></a> --}}
-                                        <i class="fa fa-lg fa-fw fas fa-edit"></i>
+                                        <a href="{{ route('PagoClientes.edit',  ['TransferNumber' => $transferencias->TransferNumber] ) }}" class="btn btn-xl text-dark mx-1 shadow text-center"><i class="fa fa-lg fa-fw fas fa-edit"></i></a>
+                                        {{-- <i class="fa fa-lg fa-fw fas fa-edit"></i> --}}
                                     </td>
 
                                     <td>
