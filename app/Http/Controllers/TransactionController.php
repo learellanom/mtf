@@ -1549,38 +1549,72 @@ class TransactionController extends Controller
             $myTransferNumber = "transfer_number = '$request->transfer_number'";
         } 
 
-         foreach(auth()->user()->roles as $roles)
-         {
+        $group = Group::where('type','=',1)->pluck('name', 'id')->toArray();
+        $user = User::pluck('name', 'id')->toArray();
+
+        $myLimit = "limit 1000";
+        $isAdministrator = $this->isAdministrator();
+        
+        $userFiltro = "";
+        $myUser     = "";
+        $myGroup    = "";
+
+        if ($request->user){
+            $userFiltro = "and user_id = " . $request->user;
+            $myUser = $request->user;
+        }else{
+            if (!$isAdministrator){
+                $userFiltro = "and user_id = " . auth()->user()->id;
+            }
+        }
+
+        if ($request->group){
+            $myGroup    = $request->group;
+        }
+
+        // dd($myUser); 
+
+
             $myQuery = "
                 select
-                    mtf.transactions.id as TransactionId,
-                    transfer_number as TransferNumber,
-                    IF(type_transactions.name = 'Nota de Credito a Caja de efectivo', 'Destino', 'Origen') as TransferType,
-                    wallet_id as WalletIdOrigen,
-                    groups.name as WalletNameOrigen,
-                    amount_total as Amount,
-                    transaction_date as TransactionDate,
-                    users.name as Agente,
-                    status as estatus,
-                    type_transaction_id as TypeTransactionId,
+                    mtf.transactions.id      as TransactionId,
+                    transfer_number          as TransferNumber,
+                    IF(type_transactions.type_transaction_wallet = '1', 'Destino', 'Origen') as TransferType,
+                    wallet_id                as WalletIdOrigen,
+                    groups.name              as WalletNameOrigen,
+                    amount_total             as Amount,
+                    transaction_date         as TransactionDate,
+                    users.name               as Agente,
+                    status                   as estatus,
+                    type_transaction_id      as TypeTransactionId,
                     transactions.description as Description,
-                    type_transactions.name as TypeTransactionName
+                    type_transactions.name   as TypeTransactionName,
+                    transactions.type_coin_id       as TypeCoinID,
+                    type_coins.name                 as TypeCoinName                   
                 from mtf.transactions
-                left join  mtf.groups on mtf.transactions.wallet_id = groups.id
+                left join  mtf.groups            on mtf.transactions.wallet_id = groups.id
                 left join  mtf.type_transactions on mtf.transactions.type_transaction_id  = mtf.type_transactions.id
-                left join  mtf.users on mtf.transactions.user_id  = mtf.users.id
+                left join  mtf.users             on mtf.transactions.user_id  = mtf.users.id
+                left join  mtf.type_coins        on mtf.transactions.type_coin_id  = mtf.type_coins.id 
                 where $myTransferNumber
+                $myUser
                 order by 
+                    transaction_date desc,
                     transfer_number, 
-                    TransferType desc";
+                    TransferType desc
+                $myLimit    
+                ";
 
             // dd($myQuery);
-            $transactiones = DB::select($myQuery);
+            $transacciones = DB::select($myQuery);
 
-         }
+         $parametros['myUser']          = $myUser;
+         $parametros['myGroup']         = $myGroup;
+         $parametros['group']           = $group;
+         $parametros['user']            = $user;
+         $parametros['transacciones']   = $transacciones;
 
-         
-         return view('transactions.index_transferwallet', compact('transactiones'));
+         return view('transactions.index_transferwallet', $parametros);
 
     }
 
@@ -2816,6 +2850,7 @@ class TransactionController extends Controller
             groups2.name                                     as WalletNameOrigen,
             group_id                                         as GroupIdOrigen,
             groups.name                                      as GroupNameOrigen,
+            amount_foreign_currency                          as AmountForeignCurrency,
             amount                                           as Amount,
             date_format(transaction_date,'%Y-%m-%d')         as TransactionDate,
             date_format(transactions.created_at,'%Y-%m-%d')  as TransactionCreated,
@@ -2828,7 +2863,9 @@ class TransactionController extends Controller
             transactions.amount_commission                   as AmountCommission,
             transactions.percentage                          as Porcentage,
             transactions.exonerate                           as Exonerate,
-            transactions.amount_total                        as AmountTotal
+            transactions.amount_total                        as AmountTotal,
+            mtf.transactions.exchange_rate                   as Exchange,
+            mtf.transactions.type_coin_id                    as TypeCoinId
         from mtf.transactions
         left join  mtf.groups  as groups2   on mtf.transactions.wallet_id = groups2.id
         left join  mtf.groups               on mtf.transactions.group_id  = groups.id
@@ -2858,6 +2895,7 @@ class TransactionController extends Controller
         $transaction->GroupIdOrigen = "";
         $transaction->GroupNameOrigen = "";
         $transaction->Amount = "";
+        $transaction->AmountForeignCurrency = "";
         $transaction->TransactionDate = "";
         $transaction->TransactionCreated = "";
         $transaction->AgenteId = "";
@@ -2866,13 +2904,15 @@ class TransactionController extends Controller
         $transaction->TypeTransactionId = "";
         $transaction->Description = "";
         $transaction->TypeTransactionName = "";
-        $transaction->AmountComision = "";
+        $transaction->AmountCommission = "";
         $transaction->Porcentage = "";
         $transaction->Exonerate = "";
         $transaction->AmounTotal = "";   
+        $transaction->Exchange = "";  
+        $transaction->TypeCoinId = "";  
 
         $transactionOrigen   = $transaction;
-        $transactionDerstino = $transaction;
+        $transactionDestino = $transaction;
 
         foreach($transactions as $item){
             switch ($item->TypeTransactionGroup){
