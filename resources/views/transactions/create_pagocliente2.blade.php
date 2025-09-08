@@ -154,6 +154,7 @@
                             </div>
                         </div>  
                     </div>
+
                     <div class="form-row">
                         <div class="col-12 col-xl-7 mt-2 d-flex">
                         </div>
@@ -262,19 +263,19 @@
                             <div class="mt-2">
                                     <label class="form-check-label mx-auto esconder comi" for="radio1_base2">
                                         <input type="radio" name="exonerate2" id="radio1_base2" class="exonerar_base" value="2">                                
-                                        Exonerar comisión origen
+                                        Exonerar comisión destino
                                     </label>
                                 </div>
                                 <div class="mt-2">
                                     <label class="form-check-label mx-auto esconder comi" for="radio3_base2">
                                         <input type="radio" name="exonerate2" id="radio3_base2" class="incluir_base" value="1">
-                                        Incluir comisión origen
+                                        Incluir comisión destino
                                     </label>
                                 </div>
                                 <div class="mt-2">
                                     <label class="form-check-label mx-auto esconder comi" for="radio2_base2">
                                         <input type="radio" name="exonerate2" id="radio2_base2" class="descontar_base" value="3">
-                                        Descontar comisión origen
+                                        Descontar comisión destino
                                     </label>
                                 </div>
                             </div>    
@@ -322,28 +323,6 @@
 
                     </div>
 
-                    {{--
-                    <div class="form-row  form-group ">
-                        <div class="col-xl-4 mt-2">
-                            <label class="form-check-label mx-auto esconder comi" for="radio1_base2">
-                                <input type="radio" name="exonerate2" id="radio1_base2" class="exonerar_base2" value="2">                                
-                                Exonerar comisión destino
-                            </label>
-                        </div>
-                        <div class="col-xl-4 mt-2">
-                            <label class="form-check-label mx-auto esconder comi" for="radio3_base2">
-                                <input type="radio" name="exonerate2" id="radio3_base2" class="incluir_base2" value="1">  
-                                Incluir comisión destino
-                            </label>
-                        </div>
-                        <div class="col-xl-4 mt-2">
-                            <label class="form-check-label mx-auto esconder comi" for="radio2_base2">
-                                <input type="radio" name="exonerate2" id="radio2_base2" class="descontar_base" value="3">
-                                Descontar comisión destino
-                            </label>
-                        </div>
-                    </div>
-                    --}}
 
                     <input type="hidden" id="amount_commission_profit"  name="amount_commission_profit"  value="">
                     <input type="hidden" id="amount_commission_profit2" name="amount_commission_profit2" value="">
