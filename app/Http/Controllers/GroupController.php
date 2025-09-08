@@ -134,8 +134,17 @@ class GroupController extends Controller
 
     function getWallets2($Group_roles = null){
 
-        //    \Log::info('leam -  Group_roles -> ' . print_r($Group_roles,true));
-       
+        
+        //
+        // Devuelve todas las cajas tipo 2 y 3
+        //
+        $wallet2 = Group::whereIn('type', ['2','3'])->whereBetween('id', [0, 9999])->orderBY('name','ASC')->pluck('name', 'id')->toArray();
+        return $wallet2;
+
+
+        //
+        // Devuelve las cajas segun lo asignado al usuario
+        //
         if (isset($Group_roles->allWallets)){
             switch ($Group_roles->allWallets){
                 case 1:
@@ -173,7 +182,8 @@ class GroupController extends Controller
         // }
         // return $group2;
 
-
+        $group2 = Group::whereIn('type', ['1','3'])->whereBetween('id', [0, 9999])->orderBY('name','ASC')->pluck('name', 'id')->toArray();
+        return $group2;
 
         if (isset($Group_roles->allGroups)){
             switch ($Group_roles->allGroups){
