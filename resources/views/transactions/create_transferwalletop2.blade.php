@@ -43,384 +43,391 @@
 
             </ul>
 
-            <div class="tab-content" id="pills-tabContent">
-                <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
 
-                    <div class="form-row">
+            <div class="form-row">
 
-                        <div class="form-group col-xl-4">
-                            {!! Form::Label('type_transaction_id', "Tipo de transacción:") !!}
-                            <div class="input-group-text col-md-12">
-                                <i class="fa-fw fa fas fa-exchange-alt mr-2"></i>
-                                {!! Form::select('type_transaction_id', $type_transaction, null, ['class' => 'form-control ', 'required' => true, 'id' => 'typetransaccion']) !!}
-                            </div>
-                        </div>
-
-                        <div class="form-group col-xl-4" >
-                            {!! Form::Label('wallet_id', "Caja de origen (Proveedor):") !!}
-                            <div class="input-group-text col-md-12">
-                                <i class="fa-fw fas fa-random mr-2"></i>
-                                {!! Form::select('wallet_id', $wallet, null, ['class' => 'form-control ', 'required' => true, 'id'=>'wallet', 'readonly' => false]) !!}
-                            </div>
-                        </div>
-
-                        <div class="form-group col-xl-4">
-                            {!! Form::Label('wallet2_id', "Caja destino:") !!}
-                            <div class="input-group-text col-md-12">
-                                <i class="fa-fw fas fa-random mr-2"></i>
-                                {!! Form::select('wallet2_id', $wallet2, null, ['class' => 'form-control ', 'required' => true, 'id'=>'wallet2', 'readonly' => false]) !!}
-                            </div>
-                        </div>
-
+                <!-- <div class="form-group col-xl-4">
+                    {!! Form::Label('type_transaction_id', "Tipo de transacción:") !!}
+                    <div class="input-group-text col-md-12">
+                        <i class="fa-fw fa fas fa-exchange-alt mr-2"></i>
+                        {!! Form::select('type_transaction_id', $type_transaction, null, ['class' => 'form-control ', 'required' => true, 'id' => 'typetransaccion']) !!}
                     </div>
+                </div> -->
 
-
-
-                    {{-- Transacion Origen --}}
-
-
-
-                    <hr class="bg-dark esconder comi" style="height:1px;">
-                    <h4 class="text-uppercase font-weight-bold text-center esconder comi">Transaccion Origen</h4>
-
-                    <div class="form-row ">
-                        <div class="form-group col-xl-4">
-                            {!! Form::Label('type_coin_id', "Tipo de moneda:") !!}
-                            <div class="input-group-text">
-                                <i class="fa-fw fas fa-dollar-sign mr-2"></i>
-                                {!! Form::select('type_coin_id',$type_coin, null, ['class' => 'form-control entrada ', 'required' => true, 'id' => 'type_coin_id', 'readonly' => false]) !!}
-                            </div>
-                        </div>
-                        <div class="form-group col-xl-4">
-                            {!! Form::Label('exchange_rate', "Tasa:") !!}
-                            <div class="input-group-text">
-                                <i class="fa-fw fas fa-random mr-2"></i>
-                                {!! Form::text('exchange_rate',null, ['class' => 'form-control percentage rateMasks entrada', 'required' => true, 'id' => 'exchange_rate',  'minlength' => 9]) !!}
-                            
-                            </div>
-                        </div>
-
-
-                        <div class="form-group col-xl-4">
-
-                            {!! Form::Label('amount_foreign_currency', "Monto en moneda extranjera:") !!}
-                            <div class="input-group-text">
-                                <i class="fa-fw fas fa-coins mr-2"></i>
-                            {!! Form::text('amount_foreign_currency',null, ['class' => 'form-control general entrada', 'required' => true, 'id' => 'amount_foreign_currency']) !!}
-                            </div>
-
-                        </div>
-
+                <div class="form-group col-xl-4">
+                    <label for="typetransaccion">Tipo de transacción:</label>
+                    <div class="input-group-text">
+                        <i class="fa-fw fas fa-random mr-2"></i>
+                        <select id="typetransaccion" name="type_transaction_id" class='form-control' required>
+                            @foreach($type_transaction as $key => $item)
+                                <option value="{{$key}}">{{$item}}</option>
+                            @endforeach
+                        </select>
                     </div>
+                </div>    
 
-
-
-                    <div class="form-group row d-flex mt-4 mb-4">
-
-                        <label class="form-check-label mx-auto  col-md-2">
-                            {!! Form::Label('', "Orientacion del Cambio:") !!}
-                        </label>
-
-                        <label class="form-check-label mx-auto esconder comi col-md-3" for="exchange_rate_orientation_radio1">
-                            {!! Form::radio('exchange_rate_orientation',1, 1, ['id' => 'exchange_rate_orientation_radio1', 'class' => 'entrada','required' => true, ]) !!}
-                            De tipo Moneda Balance -> Tipo de Moneda
-                        </label>
-                        <label class="form-check-label mx-auto esconder comi col-md-3" for="exchange_rate_orientation_radio2">
-                            {!! Form::radio('exchange_rate_orientation',2, null, ['id' => 'exchange_rate_orientation_radio2', 'class' => 'entrada', 'required' => true,]) !!}
-                            De tipo Moneda  -> Tipo de Moneda Balance
-                        </label>
-                        <label class="form-check-label mx-auto esconder comi col-md-2">
-                        </label>
+                <div class="form-group col-xl-4" >
+                    {!! Form::Label('wallet_id', "Caja de origen (Proveedor):") !!}
+                    <div class="input-group-text col-md-12">
+                        <i class="fa-fw fas fa-random mr-2"></i>
+                        {!! Form::select('wallet_id', $wallet, null, ['class' => 'form-control ', 'required' => true, 'id'=>'wallet', 'readonly' => false]) !!}
                     </div>
+                </div>
 
-                    <div class="form-row">
-                        <div class="form-group col-xl-4">
-                            {!! Form::Label('type_coin_balance_id', "Tipo de moneda Balance:") !!}
-                            <div class="input-group-text">
-                                <i class="fa-fw fas fa-dollar-sign mr-2"></i>
-                            {!! Form::select('type_coin_balance_id',$type_coin, null, ['class' => 'form-control entrada ', 'required' => true, 'id' => 'type_coin_balance_id', 'readonly' => false]) !!}
-                            </div>
-                        </div>
-                        <div class="form-group col-xl-8">
-                            {!! Form::Label('amount', "Monto en moneda Balance:") !!}
-                            <div class="input-group-text">
-                                <i class="fa-fw fas fas fa-funnel-dollar mr-2"></i>
-                                {!! Form::text('amount', null, ['class' => 'form-control general entrada', 'required' => true, 'id' => 'amount', 'readonly' => true, ]) !!}
-                            </div>
-                        </div>
+                <div class="form-group col-xl-4">
+                    {!! Form::Label('wallet2_id', "Caja destino:") !!}
+                    <div class="input-group-text col-md-12">
+                        <i class="fa-fw fas fa-random mr-2"></i>
+                        {!! Form::select('wallet2_id', $wallet2, null, ['class' => 'form-control ', 'required' => true, 'id'=>'wallet2', 'readonly' => false]) !!}
                     </div>
+                </div>
+
+            </div>
 
 
 
-                    {{-- Transaccion Destino --}}
+            {{-- Transacion Origen --}}
 
 
-                    <hr class="bg-dark esconder comi" style="height:1px;">
-                    <h4 class="text-uppercase font-weight-bold text-center ">Transaccion Destino</h4>
 
+            <hr class="bg-dark esconder comi" style="height:1px;">
+            <h4 class="text-uppercase font-weight-bold text-center esconder comi">Transaccion Origen</h4>
 
-                    <div class="form-row ">
-                        <div class="form-group col-xl-4">
-                            {!! Form::Label('type_coin_id2', "Tipo de moneda:") !!}
-                            <div class="input-group-text">
-                                <i class="fa-fw fas fa-dollar-sign mr-2"></i>
-                                {!! Form::select('type_coin_id2',$type_coin, null, ['class' => 'form-control',  'id' => 'type_coin_id2', 'readonly' => true, 'disabled' => true]) !!}
-                                
-                            </div>
-                        </div>
-                        <div class="form-group col-xl-4">
-                            {!! Form::Label('exchange_rate2', "Tasa:") !!}
-                            <div class="input-group-text">
-                                <i class="fa-fw fas fa-random mr-2"></i>
-                            {!! Form::text('exchange_rate2',null, ['class' => 'form-control rateMasks entrada', 'required' => true, 'id' => 'exchange_rate2',  'minlength' => 9]) !!}
-                            
-                            </div>
-                        </div>
-
-
-                        <div class="form-group col-xl-4">
-
-                            {!! Form::Label('amount_foreign_currency2', "Monto en moneda extranjera:") !!}
-                            <div class="input-group-text">
-                                <i class="fa-fw fas fa-coins mr-2"></i>
-                            {!! Form::text('amount_foreign_currency2',null, ['class' => 'form-control general entrada', 'required' => true, 'id' => 'amount_foreign_currency2', 'readonly' => true]) !!}
-                            </div>
-
-                        </div>
-
+            <div class="form-row ">
+                <div class="form-group col-xl-4">
+                    <label for="type_coin_id">Tipo de moneda:</label>
+                    <div class="input-group-text">
+                        <i class="fa-fw fas fa-dollar-sign mr-2"></i>
+                        {!! Form::select('type_coin_id',$type_coin, null, ['class' => 'form-control entrada ', 'required' => true, 'id' => 'type_coin_id', 'readonly' => false]) !!}
                     </div>
-
-                    <div class="form-group row d-flex mt-4 mb-4">
-
-                        <label class="form-check-label mx-auto  col-md-2">
-                            {!! Form::Label('', "Orientacion del Cambio:") !!}
-                        </label>
-
-                        <label class="form-check-label mx-auto esconder comi col-md-3" for="exchange_rate_orientation2_radio1">
-                            {!! Form::radio('exchange_rate_orientation2',1, 1, ['id' => 'exchange_rate_orientation2_radio1', 'class' => 'entrada','required' => true,]) !!}
-                            De tipo Moneda Balance -> Tipo de Moneda
-                        </label>
-                        <label class="form-check-label mx-auto esconder comi col-md-3" for="exchange_rate_orientation2_radio2">
-                            {!! Form::radio('exchange_rate_orientation2',2, null, ['id' => 'exchange_rate_orientation2_radio2', 'class' => 'entrada', 'required' => true,]) !!}
-                            De tipo Moneda  -> Tipo de Moneda Balance
-                        </label>
-                        <label class="form-check-label mx-auto esconder comi col-md-2">
-                        </label>
-                    </div>
-
-                    <div class="form-row">
-
-                        <div class="form-group col-xl-4">
-                            {!! Form::Label('type_coin_balance_id2', "Tipo de moneda Balance:") !!}
-                            <div class="input-group-text">
-                                <i class="fa-fw fas fa-dollar-sign mr-2"></i>
-                                {!! Form::select('type_coin_balance_id2',$type_coin, null, ['class' => 'form-control entrada ', 'required' => true, 'id' => 'type_coin_balance_id2', 'readonly' => false]) !!}
-                            </div>
-                        </div>
-                        <div class="form-group col-xl-8">
-                            {!! Form::Label('amount2', "Monto en monda Balance:") !!}
-                            <div class="input-group-text">
-                                <i class="fa-fw fas fas fa-funnel-dollar mr-2"></i>
-                                {!! Form::text('amount2', null, ['class' => 'form-control general entrada', 'required' => true, 'id' => 'amount2', 'readonly' => 'true']) !!}
-                            </div>
-                        </div>
-
-                    </div>
-
-
-
-                    <hr class="bg-dark esconder comi" style="height:1px;">
-
-                    {!! Form::hidden('status', 'Activo', null, ['class' => 'form-control']) !!}
-
-                    <div class="form-row">
-
-                        <div class="form-group col-md-6">
-                            {!! Form::Label('token', "Token:") !!}
-                            <div class="input-group-text">
-                                <i class="fa-fw fas fa-lock mr-2"></i>
-                                {!! Form::text('token',null, ['class' => 'form-control', 'placeholder' => 'Numero del Token']) !!}
-                            </div>
-                            <small class="form-text text-muted mr-4 text-right">Token no es obligatorio.</small>
-
-                        </div>
-
-
-                        <div class="form-group col-md-6">
-                            {!! Form::Label('transaction_date', "Fecha:") !!}
-                            <div class="input-group-text col-md-12 ">
-                                <i class="fa-fw fas fas fa-calendar-week mr-2"></i>
-                                {!! Form::datetimeLocal('transaction_date', $fecha, ['class' => 'form-control', 'required' => true, 'id' => 'fecha']) !!}
-                            </div>
-                        </div>
-
-                        {!! Form::hidden('type_transaction2_id', null, ['class' => 'form-control','required' => true, 'id' => 'typetransaccion2']) !!}
-                        
-                        </div>
-
-                    </div>
-
-                    <div class="form-group">
-
-                        {{--  {!! Form::hidden('pay_number', $number,['class' => 'form-control', 'required' => true, 'readonly' => true]) !!} --}}
-
-                    </div>
-
-
-                    {{-- Comision --}}
-
-
-                    <br>
-                    <hr class="bg-dark esconder" style="height:1px;">                
-                    <h4 class="text-uppercase font-weight-bold text-center esconder comi">Comisiones  </h4>
-
-                    <div class="form-row esconder comi">
-
-
-                        {{-- Porcentaje --}}
-
+                </div>
+                <div class="form-group col-xl-4">
+                    <label for="exchange_rate">Tasa:</label>
+                    <div class="input-group-text">
+                        <i class="fa-fw fas fa-random mr-2"></i>
+                        {!! Form::text('exchange_rate',null, ['class' => 'form-control percentage rateMasks entrada', 'required' => true, 'id' => 'exchange_rate',  'minlength' => 9]) !!}
                     
-                        <div class="form-group col-md-6">
-                            {!! Form::Label('percentage', "Porcentaje:") !!}
-                            <div class="input-group-text">
-                                <i class="fa-fw fas fa-percentage mr-2"></i>
-                                {!! Form::text('percentage',null, ['class' => 'form-control rateMasks entrada', 'required' => true, 'id' => 'percentage']) !!}
-                            </div>
-                        </div>
-
-
-                        {{-- Comision --}}
-
-
-                        <div class="form-group col-md-6">
-
-                            {!! Form::Label('comision', "Monto Comisión:") !!}
-                            <div class="input-group-text">
-                                <i class="fa-fw fas fa-coins mr-2"></i>
-                                {!! Form::text('amount_commission',null, ['class' => 'form-control comision general', 'required' => true, 'readonly' => true, 'id' => 'comision']) !!}
-                            </div>
-                        </div>
-
                     </div>
-
-                    <div class="form-group row d-flex justify-content-center">
-
-                        <label class="form-check-label mx-auto esconder comi col-md-4" for="radio1">
-                            {!! Form::radio('exonerate',2, null, ['id' => 'radio1', 'class' => 'exonerar entrada', 'required' => true,]) !!}
-                            Exonerar comisión
-                        </label>
-
-                        <label class="form-check-label mx-auto esconder comi col-md-4" for="radio3">
-                            {!! Form::radio('exonerate',1, null, ['id' => 'radio3', 'class' => 'incluir entrada','required' => true,]) !!}
-                            Incluir comisión
-                        </label>
+                </div>
 
 
-                        <label class="form-check-label mx-auto esconder comi col-md-4" for="radio2">
-                            {!! Form::radio('exonerate',3, null, ['id' => 'radio2', 'class' => 'descontar entrada', 'required' => true,]) !!}
-                            Descontar comisión
-                        </label>
-
+                <div class="form-group col-xl-4">
+                    <label for="amount_foreign_currency">Monto en moneda extranjera:</label>
+                    <div class="input-group-text">
+                        <i class="fa-fw fas fa-coins mr-2"></i>
+                    {!! Form::text('amount_foreign_currency',null, ['class' => 'form-control general entrada', 'required' => true, 'id' => 'amount_foreign_currency']) !!}
                     </div>
-
-                    <div class="form-group col-md esconder">
-                        {!! Form::Label('amount_total', "Monto Total:") !!}
-                        <div class="input-group-text">
-                            <i class="fa-fw fas fa-coins mr-2"></i>
-                            {!! Form::text('amount_total',null, ['class' => 'form-control  general', 'required' => true, "minlength" => "3", 'id' => 'amount_total', 'readonly' => true]) !!}
-                        </div>
-                    </div>
-
-
-
-
-
-                    {{-- Comision Base --}}
-
-                    <hr class="bg-dark esconder comi" style="height:1px;">
-                    <h4 class="text-uppercase font-weight-bold text-center esconder comi">Comisión Base  </h4>
-                    <div class="form-row esconder comi">
-
-                        <div class="form-group col-md-6">
-                            {!! Form::Label('percentage_base', "Porcentaje Base:") !!}
-                            <div class="input-group-text">
-                                <i class="fa-fw fas fa-percentage mr-2"></i>
-                                {!! Form::text('percentage_base',null, ['class' => 'form-control percentage_base rateMasks entrada',  'min' => 0, 'id' => 'percentage_base']) !!}
-                            </div>
-                        </div>
-
-                        <div class="form-group col-md-6">
-
-                            {!! Form::Label('amount_commission_base', "Monto Comisión Base:") !!}
-                            <div class="input-group-text">
-                                <i class="fa-fw fas fa-coins mr-2"></i>
-                                {!! Form::text('amount_commission_base',null, ['class' => 'form-control comision_base general', 'readonly' => true, 'id' => 'comision_base']) !!}
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="form-group row d-flex justify-content-center">
-                        
-                        <label class="form-check-label mx-auto esconder comi col-md-4" for="radio1_base">
-                            {!! Form::radio('exonerate_base',2, null, ['id' => 'radio1_base', 'required' => true, 'class' => 'exonerar_base entrada']) !!}
-                            Exonerar comisión base
-                        </label>
-                        
-                        <label class="form-check-label mx-auto esconder comi col-md-4" for="radio3_base">
-                            {!! Form::radio('exonerate_base',1, null, ['id' => 'radio3_base', 'required' => true, 'class' => 'incluir_base entrada']) !!}
-                            Incluir comisión base
-                        </label>
-
-
-                        <label class="form-check-label mx-auto esconder comi col-md-4" for="radio2_base">
-                            {!! Form::radio('exonerate_base',3, null, ['id' => 'radio2_base', 'required' => true, 'class' => 'descontar_base entrada']) !!}
-                            Descontar comisión base
-                        </label>
-
-                    </div>
-                    
-                    {{-- Monto total base --}}
-
-                    <div class="form-group col-md">
-                        {!! Form::Label('amount_total_base', "Monto total Base:") !!}
-                        <div class="input-group-text">
-                            <i class="fa-fw fas fas fa-coins mr-2"></i>
-                            {!! Form::text('amount_total_base', null, ['class' => 'form-control general', 'id' => 'amount_total_base', 'readonly' => true]) !!}
-                        </div>
-                    </div>
-
-                    <hr class="bg-dark esconder comi" style="height:1px;">
-
-
-
-                    {!! Form::hidden('amount_commission_profit', null, ['class' => 'form-control', 'required' => true, 'id' => 'amount_commission_profit','readonly']) !!}
-
-
-
-                    <div class="form-group">
-                        {!! Form::Label('description', "Descripción origen:") !!}
-                        <div class="input-group-text">
-                            <i class="fa-fw fas fa-text-width mr-2"></i>
-                            {!! Form::text('description','Transferido a caja', ['id' => 'descripcion', 'class' => 'form-control', 'readonly' => false, 'required' => true, 'value' => 'Recibido de cliente']) !!}
-                        </div>
-                    </div>
-                    
-                    <div class="form-group">
-                        {!! Form::Label('description2', "Descripción destino:") !!}
-                        <div class="input-group-text">
-                            <i class="fa-fw fas fa-text-width mr-2"></i>
-                            {!! Form::text('description2','Transferido de la caja', ['id' => 'descripcion2', 'class' => 'form-control', 'readonly' => false, 'required' => true]) !!}
-                        </div>
-                    </div>
-
-                    
-                    <div class="row justify-content-center">
-                        {!! Form::Submit('GUARDAR', ['class' => 'btn btn-primary btn-block font-weight-bold', 'style' => "max-height: 400px; max-width: 130px;" , 'id' => 'publish']) !!}
-                    </div>
-                    
 
                 </div>
+
             </div>
+
+
+
+            <div class="form-group row d-flex mt-4 mb-4">
+
+                <label class="form-check-label mx-auto  col-md-2 font-weight-bold">Orientacion del Cambio:</label>
+
+                <label for="exchange_rate_orientation_radio1" class="form-check-label mx-auto esconder comi col-md-3">
+                    <input type="radio" id="exchange_rate_orientation_radio1" name="exchange_rate_orientation" value="1" class="entrada">
+                    De tipo Moneda Balance -> Tipo de Moneda
+                </label>
+
+                <!-- <label class="form-check-label mx-auto esconder comi col-md-3" for="exchange_rate_orientation_radio1">
+                    {!! Form::radio('exchange_rate_orientation',1, 1, ['id' => 'exchange_rate_orientation_radio1', 'class' => 'entrada','required' => true, ]) !!}
+                    De tipo Moneda Balance -> Tipo de Moneda
+                </label> -->
+                <label class="form-check-label mx-auto esconder comi col-md-3" for="exchange_rate_orientation_radio2">
+                    {!! Form::radio('exchange_rate_orientation',2, null, ['id' => 'exchange_rate_orientation_radio2', 'class' => 'entrada', 'required' => true,]) !!}
+                    De tipo Moneda  -> Tipo de Moneda Balance
+                </label>
+                <label class="form-check-label mx-auto esconder comi col-md-2">
+                </label>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group col-xl-4">
+                    {!! Form::Label('type_coin_balance_id', "Tipo de moneda Balance:") !!}
+                    <div class="input-group-text">
+                        <i class="fa-fw fas fa-dollar-sign mr-2"></i>
+                    {!! Form::select('type_coin_balance_id',$type_coin, null, ['class' => 'form-control entrada ', 'required' => true, 'id' => 'type_coin_balance_id', 'readonly' => false]) !!}
+                    </div>
+                </div>
+                <div class="form-group col-xl-8">
+                    {!! Form::Label('amount', "Monto en moneda Balance:") !!}
+                    <div class="input-group-text">
+                        <i class="fa-fw fas fas fa-funnel-dollar mr-2"></i>
+                        {!! Form::text('amount', null, ['class' => 'form-control general entrada', 'required' => true, 'id' => 'amount', 'readonly' => true, ]) !!}
+                    </div>
+                </div>
+            </div>
+
+
+
+            {{-- Transaccion Destino --}}
+
+
+            <hr class="bg-dark esconder comi" style="height:1px;">
+            <h4 class="text-uppercase font-weight-bold text-center ">Transaccion Destino</h4>
+
+
+            <div class="form-row ">
+                <div class="form-group col-xl-4">
+                    {!! Form::Label('type_coin_id2', "Tipo de moneda:") !!}
+                    <div class="input-group-text">
+                        <i class="fa-fw fas fa-dollar-sign mr-2"></i>
+                        {!! Form::select('type_coin_id2',$type_coin, null, ['class' => 'form-control',  'id' => 'type_coin_id2', 'readonly' => true, 'disabled' => true]) !!}
+                        
+                    </div>
+                </div>
+                <div class="form-group col-xl-4">
+                    {!! Form::Label('exchange_rate2', "Tasa:") !!}
+                    <div class="input-group-text">
+                        <i class="fa-fw fas fa-random mr-2"></i>
+                    {!! Form::text('exchange_rate2',null, ['class' => 'form-control rateMasks entrada', 'required' => true, 'id' => 'exchange_rate2',  'minlength' => 9]) !!}
+                    
+                    </div>
+                </div>
+
+
+                <div class="form-group col-xl-4">
+
+                    {!! Form::Label('amount_foreign_currency2', "Monto en moneda extranjera:") !!}
+                    <div class="input-group-text">
+                        <i class="fa-fw fas fa-coins mr-2"></i>
+                    {!! Form::text('amount_foreign_currency2',null, ['class' => 'form-control general entrada', 'required' => true, 'id' => 'amount_foreign_currency2', 'readonly' => true]) !!}
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="form-group row d-flex mt-4 mb-4">
+
+                <label class="form-check-label mx-auto  col-md-2">
+                    {!! Form::Label('', "Orientacion del Cambio:") !!}
+                </label>
+
+                <label class="form-check-label mx-auto esconder comi col-md-3" for="exchange_rate_orientation2_radio1">
+                    {!! Form::radio('exchange_rate_orientation2',1, 1, ['id' => 'exchange_rate_orientation2_radio1', 'class' => 'entrada','required' => true,]) !!}
+                    De tipo Moneda Balance -> Tipo de Moneda
+                </label>
+                <label class="form-check-label mx-auto esconder comi col-md-3" for="exchange_rate_orientation2_radio2">
+                    {!! Form::radio('exchange_rate_orientation2',2, null, ['id' => 'exchange_rate_orientation2_radio2', 'class' => 'entrada', 'required' => true,]) !!}
+                    De tipo Moneda  -> Tipo de Moneda Balance
+                </label>
+                <label class="form-check-label mx-auto esconder comi col-md-2">
+                </label>
+            </div>
+
+            <div class="form-row">
+
+                <div class="form-group col-xl-4">
+                    {!! Form::Label('type_coin_balance_id2', "Tipo de moneda Balance:") !!}
+                    <div class="input-group-text">
+                        <i class="fa-fw fas fa-dollar-sign mr-2"></i>
+                        {!! Form::select('type_coin_balance_id2',$type_coin, null, ['class' => 'form-control entrada ', 'required' => true, 'id' => 'type_coin_balance_id2', 'readonly' => false]) !!}
+                    </div>
+                </div>
+                <div class="form-group col-xl-8">
+                    {!! Form::Label('amount2', "Monto en monda Balance:") !!}
+                    <div class="input-group-text">
+                        <i class="fa-fw fas fas fa-funnel-dollar mr-2"></i>
+                        {!! Form::text('amount2', null, ['class' => 'form-control general entrada', 'required' => true, 'id' => 'amount2', 'readonly' => 'true']) !!}
+                    </div>
+                </div>
+
+            </div>
+
+
+
+            <hr class="bg-dark esconder comi" style="height:1px;">
+
+            {!! Form::hidden('status', 'Activo', null, ['class' => 'form-control']) !!}
+
+            <div class="form-row">
+
+                <div class="form-group col-md-6">
+                    {!! Form::Label('token', "Token:") !!}
+                    <div class="input-group-text">
+                        <i class="fa-fw fas fa-lock mr-2"></i>
+                        {!! Form::text('token',null, ['class' => 'form-control', 'placeholder' => 'Numero del Token']) !!}
+                    </div>
+                    <small class="form-text text-muted mr-4 text-right">Token no es obligatorio.</small>
+
+                </div>
+
+
+                <div class="form-group col-md-6">
+                    {!! Form::Label('transaction_date', "Fecha:") !!}
+                    <div class="input-group-text col-md-12 ">
+                        <i class="fa-fw fas fas fa-calendar-week mr-2"></i>
+                        {!! Form::datetimeLocal('transaction_date', $fecha, ['class' => 'form-control', 'required' => true, 'id' => 'fecha']) !!}
+                    </div>
+                </div>
+
+                {!! Form::hidden('type_transaction2_id', null, ['class' => 'form-control','required' => true, 'id' => 'typetransaccion2']) !!}
+                
+                </div>
+
+            </div>
+
+            <div class="form-group">
+
+                {{--  {!! Form::hidden('pay_number', $number,['class' => 'form-control', 'required' => true, 'readonly' => true]) !!} --}}
+
+            </div>
+
+
+            {{-- Comision --}}
+
+
+            <br>
+            <hr class="bg-dark esconder" style="height:1px;">                
+            <h4 class="text-uppercase font-weight-bold text-center esconder comi">Comisiones  </h4>
+
+            <div class="form-row esconder comi">
+
+
+                {{-- Porcentaje --}}
+
+            
+                <div class="form-group col-md-6">
+                    {!! Form::Label('percentage', "Porcentaje:") !!}
+                    <div class="input-group-text">
+                        <i class="fa-fw fas fa-percentage mr-2"></i>
+                        {!! Form::text('percentage',null, ['class' => 'form-control rateMasks entrada', 'required' => true, 'id' => 'percentage']) !!}
+                    </div>
+                </div>
+
+
+                {{-- Comision --}}
+
+
+                <div class="form-group col-md-6">
+
+                    {!! Form::Label('comision', "Monto Comisión:") !!}
+                    <div class="input-group-text">
+                        <i class="fa-fw fas fa-coins mr-2"></i>
+                        {!! Form::text('amount_commission',null, ['class' => 'form-control comision general', 'required' => true, 'readonly' => true, 'id' => 'comision']) !!}
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="form-group row d-flex justify-content-center">
+
+                <label class="form-check-label mx-auto esconder comi col-md-4" for="radio1">
+                    {!! Form::radio('exonerate',2, null, ['id' => 'radio1', 'class' => 'exonerar entrada', 'required' => true,]) !!}
+                    Exonerar comisión
+                </label>
+
+                <label class="form-check-label mx-auto esconder comi col-md-4" for="radio3">
+                    {!! Form::radio('exonerate',1, null, ['id' => 'radio3', 'class' => 'incluir entrada','required' => true,]) !!}
+                    Incluir comisión
+                </label>
+
+
+                <label class="form-check-label mx-auto esconder comi col-md-4" for="radio2">
+                    {!! Form::radio('exonerate',3, null, ['id' => 'radio2', 'class' => 'descontar entrada', 'required' => true,]) !!}
+                    Descontar comisión
+                </label>
+
+            </div>
+
+            <div class="form-group col-md esconder">
+                {!! Form::Label('amount_total', "Monto Total:") !!}
+                <div class="input-group-text">
+                    <i class="fa-fw fas fa-coins mr-2"></i>
+                    {!! Form::text('amount_total',null, ['class' => 'form-control  general', 'required' => true, "minlength" => "3", 'id' => 'amount_total', 'readonly' => true]) !!}
+                </div>
+            </div>
+
+
+
+
+
+            {{-- Comision Base --}}
+
+            <hr class="bg-dark esconder comi" style="height:1px;">
+            <h4 class="text-uppercase font-weight-bold text-center esconder comi">Comisión Base  </h4>
+            <div class="form-row esconder comi">
+
+                <div class="form-group col-md-6">
+                    {!! Form::Label('percentage_base', "Porcentaje Base:") !!}
+                    <div class="input-group-text">
+                        <i class="fa-fw fas fa-percentage mr-2"></i>
+                        {!! Form::text('percentage_base',null, ['class' => 'form-control percentage_base rateMasks entrada',  'min' => 0, 'id' => 'percentage_base']) !!}
+                    </div>
+                </div>
+
+                <div class="form-group col-md-6">
+
+                    {!! Form::Label('amount_commission_base', "Monto Comisión Base:") !!}
+                    <div class="input-group-text">
+                        <i class="fa-fw fas fa-coins mr-2"></i>
+                        {!! Form::text('amount_commission_base',null, ['class' => 'form-control comision_base general', 'readonly' => true, 'id' => 'comision_base']) !!}
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group row d-flex justify-content-center">
+                        
+                <label class="form-check-label mx-auto esconder comi col-md-4" for="radio1_base">
+                    {!! Form::radio('exonerate_base',2, null, ['id' => 'radio1_base', 'required' => true, 'class' => 'exonerar_base entrada']) !!}
+                    Exonerar comisión base
+                </label>
+                
+                <label class="form-check-label mx-auto esconder comi col-md-4" for="radio3_base">
+                    {!! Form::radio('exonerate_base',1, null, ['id' => 'radio3_base', 'required' => true, 'class' => 'incluir_base entrada']) !!}
+                    Incluir comisión base
+                </label>
+
+
+                <label class="form-check-label mx-auto esconder comi col-md-4" for="radio2_base">
+                    {!! Form::radio('exonerate_base',3, null, ['id' => 'radio2_base', 'required' => true, 'class' => 'descontar_base entrada']) !!}
+                    Descontar comisión base
+                </label>
+
+            </div>
+                    
+            {{-- Monto total base --}}
+
+            <div class="form-group col-md">
+                {!! Form::Label('amount_total_base', "Monto total Base:") !!}
+                <div class="input-group-text">
+                    <i class="fa-fw fas fas fa-coins mr-2"></i>
+                    {!! Form::text('amount_total_base', null, ['class' => 'form-control general', 'id' => 'amount_total_base', 'readonly' => true]) !!}
+                </div>
+            </div>
+
+            <hr class="bg-dark esconder comi" style="height:1px;">
+
+            {!! Form::hidden('amount_commission_profit', null, ['class' => 'form-control', 'required' => true, 'id' => 'amount_commission_profit','readonly']) !!}
+
+
+
+            <div class="form-group">
+                {!! Form::Label('description', "Descripción origen:") !!}
+                <div class="input-group-text">
+                    <i class="fa-fw fas fa-text-width mr-2"></i>
+                    {!! Form::text('description','Transferido a caja', ['id' => 'descripcion', 'class' => 'form-control', 'readonly' => false, 'required' => true, 'value' => 'Recibido de cliente']) !!}
+                </div>
+            </div>
+                    
+            <div class="form-group">
+                {!! Form::Label('description2', "Descripción destino:") !!}
+                <div class="input-group-text">
+                    <i class="fa-fw fas fa-text-width mr-2"></i>
+                    {!! Form::text('description2','Transferido de la caja', ['id' => 'descripcion2', 'class' => 'form-control', 'readonly' => false, 'required' => true]) !!}
+                </div>
+            </div>
+
+                    
+            <div class="row justify-content-center">
+                {!! Form::Submit('GUARDAR', ['class' => 'btn btn-primary btn-block font-weight-bold', 'style' => "max-height: 400px; max-width: 130px;" , 'id' => 'publish']) !!}
+            </div>
+            
             {!! Form::close() !!}
         </div>
     </div>
