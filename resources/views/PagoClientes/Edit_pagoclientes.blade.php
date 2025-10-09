@@ -124,7 +124,7 @@
                             <label for="transaction_date">Fecha:</label>
                             <div class="input-group-text">
                                 <i class="fa-fw fas fas fa-calendar-week mr-2"></i>
-                                <input class="form-control" required id="transaction_date" name="transaction_date" type="datetime-local" value="{{ $fecha }}">
+                                <input class="form-control"  id="transaction_date" name="transaction_date" type="datetime-local" >
                             </div>
                         </div>                        
                     </div>
@@ -677,6 +677,7 @@
 
         //  return false; // no envia submit
 
+
     });
 
     $('#radioComision1').on('click', function() {
@@ -687,6 +688,8 @@
         $('#radio1_base').attr('readonly',false);
         $('#radio2_base').attr('readonly',false);
         $('#radio3_base').attr('readonly',false);
+
+        $('#radio3_base').prop('checked',true);
 
         $('#comision').val('');
 
@@ -730,6 +733,8 @@
         $('#radio1_base2').attr('readonly',false);
         $('#radio2_base2').attr('readonly',false);
         $('#radio3_base2').attr('readonly',false);
+        
+        $('#radio3_base2').prop('checked',true);
 
         $('#comision2').val('');
 
@@ -929,7 +934,13 @@
          $('#amount').val({{$transactionOrigen->Amount}});
          $('#amount2').val({{$transactionDestino->Amount}});
         // $('#amount').val("{{number_format($transactionOrigen->Amount,2)}}");
-        $('#transaction_date').val('{{$fecha}}');
+
+        $('#transaction_date').val('{{$transactionOrigen->TransactionDate}}');
+        
+
+        //$('#transaction_date').val('{{$fecha}}');
+        //
+        
 
         //
         // Origen
@@ -939,7 +950,7 @@
         $('#commission').val({{$transactionOrigen->AmountCommission}});
         $('#amount_total').val({{$transactionOrigen->AmountTotal}});
 
-        myExonerate = {{$transactionOrigen->Exonerate}};
+        myExonerate = {{$transactionOrigen->Exonerate ?? 0}};
         $('#radio1_base').prop('checked',  false);
         $('#radio2_base').prop('checked',  false);
         $('#radio3_base').prop('checked',  false);
@@ -955,6 +966,7 @@
                 $('#radio3_base').prop('checked',  true);
                 break;
         };
+
         $('#exchange').val('{{$transactionOrigen->Exchange}}');
 
 
@@ -972,7 +984,7 @@
         $('#commission2').val({{$transactionDestino->AmountCommission}});
         $('#amount_total2').val({{$transactionDestino->AmountTotal}});
         
-        myExonerate2 = {{$transactionDestino->Exonerate}};
+        myExonerate2 = {{$transactionDestino->Exonerate ?? 0}};
         $('#radio1_base2').prop('checked',  false);
         $('#radio2_base2').prop('checked',  false);
         $('#radio3_base2').prop('checked',  false);
@@ -988,6 +1000,7 @@
                 $('#radio3_base2').prop('checked',  true);
                 break;
         };
+        {{-- dd($transactionDestino)--}}
         $('#exchange2').val('{{$transactionDestino->Exchange}}');
 
         if ($('#percentage2').val() != ''){
