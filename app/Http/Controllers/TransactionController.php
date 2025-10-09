@@ -1677,8 +1677,7 @@ class TransactionController extends Controller
         //     return Redirect::route('home');
         // }
 
-        foreach(auth()->user()->roles as $roles)
-        {
+
 
             $myLimit = "limit 1000";
 
@@ -1720,7 +1719,7 @@ class TransactionController extends Controller
 
             $transactiones = DB::select($myQuery);
 
-        }
+        
         // dd($transactiones);
 
          return view('transactions.index_transferwalletop2', compact('transactiones'));
@@ -2010,14 +2009,8 @@ class TransactionController extends Controller
         $myTransactions [] = 37;
 
         $type_coin          = Type_coin::pluck('name', 'id')->toArray();
-        // $type_transaction   = Type_transaction::whereIn('name', ['Pago Efectivo', 'Pago en Transferencia', 'Pago Mercancia','Pago USDT','Swift'])->pluck('name','id');
         $type_transaction   = Type_transaction::whereIn('id', $myTransactions)->pluck('name','id');
-
         $type_transaction2  = Type_transaction::whereIn('id', [7])->pluck('name','id');
-        //$type_transaction2  = Type_transaction::whereIn('id', [6])->pluck('name','id');
-
-        //$wallet             = Group::whereIn('type_wallet', ['transacciones', 'efectivo'])->where('type','=','2')->pluck('name', 'id')->toArray();
-        //$wallet2            = Group::whereIn('type_wallet', ['transacciones', 'efectivo'])->where('type','=','2')->pluck('name', 'id')->toArray();
 
         $wallet             = app(GroupController::class)->getWallets()->toArray();
         $wallet2            = app(GroupController::class)->getWallets()->toArray();
@@ -2759,50 +2752,62 @@ class TransactionController extends Controller
         // dd($myQuery);
         $transactions = DB::select($myQuery);
 
+        $myFecha = date('Y-m-d h:i:s', strtotime($request->input('transaction_date')));
+        
+
         foreach($transactions as $item){
             switch ($item->TypeTransactionGroup){
                 case '2':
                     $theTransaction = Transaction::find($item->TransactionId);
-
+                    $theTransaction->type_transaction_id          = $request->input('type_transaction_id');
+                    $theTransaction->group_id                     = $request->input('group_id');
+                    $theTransaction->type_coin_id                 = $request->input('type_coin_id');
                     $theTransaction->group_id                     = $request->input('group_id');
                     $theTransaction->amount                       = $request->input('amount');
                     $theTransaction->amount_total_base            = $request->input('amount');
                     $theTransaction->amount_base                  = $request->input('amount');
-                    $theTransaction->transaction_date             = $request->input('transaction_date');
+                    $theTransaction->transaction_date             = $myFecha;
                     $theTransaction->description                  = $request->input('description');
                     $theTransaction->amount_commission            = $request->input('commission');
                     $theTransaction->percentage                   = $request->input('percentage');
                     $theTransaction->exonerate                    = $request->input('exonerate');
                     $theTransaction->amount_total                 = $request->input('amount_total');
                     $theTransaction->amount_commission_profit     = $request->input('amount_commission_profit');
+                    $theTransaction->exchange_rate                = $request->input('exchange');
                     $theTransaction->user_id                      = $user;
                     $theTransaction->update();
                     break;
                 case '1':
 
                     $theTransaction = Transaction::find($item->TransactionId);
+                    $theTransaction->type_transaction_id          = $request->input('type_transaction_id2');                    
+                    $theTransaction->group_id                     = $request->input('group2_id');                    
+                    $theTransaction->type_coin_id                 = $request->input('type_coin_id');
                     $theTransaction->group_id                     = $request->input('group2_id');
                     $theTransaction->amount                       = $request->input('amount');
                     $theTransaction->amount_total_base            = $request->input('amount');
                     $theTransaction->amount_base                  = $request->input('amount');
-                    $theTransaction->transaction_date             = $request->input('transaction_date');
+                    $theTransaction->transaction_date             = $myFecha;
                     $theTransaction->description                  = $request->input('description2');
                     $theTransaction->amount_commission            = $request->input('commission2');
                     $theTransaction->percentage                   = $request->input('percentage2');
                     $theTransaction->exonerate                    = $request->input('exonerate2');
                     $theTransaction->amount_total                 = $request->input('amount_total2');
                     $theTransaction->amount_commission_profit     = $request->input('amount_commission_profit2');
+                    $theTransaction->exchange_rate                = $request->input('exchange2');
                     $theTransaction->user_id                      = $user;
                     $theTransaction->update();
                     break;
             }            
         }
 
-        dd($transactions);
+        // dd($transactions);
 
          flash()->addSuccess('Movimiento actualizado', 'Transacción entre clientes :D', ['timeOut' => 3000]);
+         
 
-         return Redirect::back()->withInput();
+          return Redirect::back()->withInput();
+          // transactions.index_pagoclientes
     }
 
 
@@ -2852,7 +2857,7 @@ class TransactionController extends Controller
             groups.name                                      as GroupNameOrigen,
             amount_foreign_currency                          as AmountForeignCurrency,
             amount                                           as Amount,
-            date_format(transaction_date,'%Y-%m-%d')         as TransactionDate,
+            date_format(transaction_date, '%Y-%m-%d %H:%i')  as TransactionDate,
             date_format(transactions.created_at,'%Y-%m-%d')  as TransactionCreated,
             user_id                                          as AgenteId,
             users.name                                       as Agente,
@@ -2949,7 +2954,7 @@ class TransactionController extends Controller
         $parametros['transactionDestino']       = $transactionDestino;
         
         return view('PagoClientes.Edit_pagoclientes', $parametros);
-        
+
 
     }
 

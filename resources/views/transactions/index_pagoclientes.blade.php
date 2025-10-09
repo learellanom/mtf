@@ -208,8 +208,12 @@ $config3 = [
                                     </td>
 
                                     <td>
-                                        <a href="{{ route('PagoClientes.edit',  ['TransferNumber' => $transferencias->TransferNumber] ) }}" class="btn btn-xl text-dark mx-1 shadow text-center"><i class="fa fa-lg fa-fw fas fa-edit"></i></a>
-                                        {{-- <i class="fa fa-lg fa-fw fas fa-edit"></i> --}}
+                                        @if($transferencias->estatus == 'Activo')
+                                            <a href="{{ route('PagoClientes.edit',  ['TransferNumber' => $transferencias->TransferNumber] ) }}" class="btn btn-xl text-dark mx-1 shadow text-center"><i class="fa fa-lg fa-fw fas fa-edit"></i></a>
+                                        @elseif($transferencias->estatus == 'Anulado')
+                                          <a  class="btn btn-xl text-dark mx-1 shadow text-center" ><i class="fa fa-lg fa-fw fas fa-edit" style="color: lightgray"></i></a>
+                                        @endif
+
                                     </td>
 
                                     <td>
