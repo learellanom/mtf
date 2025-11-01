@@ -149,7 +149,8 @@
 
 
     function editTransaction(){
-        
+
+        let myRoute = "";
         let myVar               = "{{ $transactions->pay_number }}";
         let myStatus            = "{{$transactions->status}}";
         let myTransferNumber    = "{{$transactions->transfer_number}}";
@@ -164,16 +165,7 @@
             return;
         }
 
-        if (myVar != ""){
-            
-            Swal.fire({
-                position: 'center',
-                type: 'error',
-                title: 'No se puede editar un Pago del proveedor , debe anularse',
-                showConfirmButton: true
-            });             
-            return;    
-        }
+
 
         if (myTransferNumber != ""){
             Swal.fire({
@@ -186,11 +178,20 @@
         }
 
 
-        let myRoute = "";
-
-        myRoute = "{{route('transactions.edit2', $transactions->id)}}";
-        location.href = myRoute;
-        
+        if (myVar != ""){  
+            myRoute = "{{route('PagoClientes.edit', ['TransferNumber' =>  $transactions->pay_number] )}}";    
+            location.href = myRoute;        
+            // Swal.fire({
+            //     position: 'center',
+            //     type: 'error',
+            //     title: 'No se puede editar un Pago del proveedor , debe anularse',
+            //     showConfirmButton: true
+            // });             
+            // return;    
+        }else{
+            myRoute = "{{route('transactions.edit2', $transactions->id)}}";
+            location.href = myRoute;
+        }
     }
 
 
