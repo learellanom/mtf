@@ -64,17 +64,11 @@ class HomeController extends Controller
         $request2                   = clone $request;
         $request2->transaction      = 0;
         $wallet_summary             = app(statisticsController::class)->getwalletTransactionSummary($request2);
-        //dd($wallet_summary );
-        // \Log::info('wallet summary -> ' . print_r($wallet_summary,true));
         $wallet_groupsummary        = app(statisticsController::class)->getWalletTransactionGroupSummary($request);
-        // dd($wallet_groupsummary);
-       //  \Log::info('wallet_groupsummary -> ' . print_r($wallet_groupsummary,true));
-
-
-
+        //
+        //
+        //
         $wallet                     = app(GroupController::class)->getWallets2();
-        // dd($wallet);
-
         $typeTransactions           = Type_transaction::orderBY('name','ASC')->pluck('name', 'id')->toArray();
         // $typeTransactionsDetail     = app(statisticsController::class)->getTypeTransactionsDetail();
         $typeTransactionsDetail     = Type_transaction::all();

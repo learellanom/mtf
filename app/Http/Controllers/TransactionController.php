@@ -311,11 +311,7 @@ class TransactionController extends Controller
         // $myFechaDesde = $this->get07DayBefore($myFechaHasta);
 
         //   dd(auth()->user()->roles);
-        //  \Log::info('leam - transaction index - aqui');
-        //  \Log::info('leam - transaction index - fecha desde - ' . $myFechaDesde . ' -- myFecha Hasta ->' . $myFechaHasta);
-        //  \Log::info('leam - transaction index - request fecha desde - ' . $request->fechaDesde . ' -- request myFecha Hasta ->' . $request->fechaHasta);
-        //  \Log::info('leam - transaction index - user  - ' . $myUser );
-        //  \Log::info('leam - transaction index - request  - ' . $request );
+
         // dd($request);
         $myLimit = 0;
         /*
@@ -489,11 +485,7 @@ class TransactionController extends Controller
         // $myFechaDesde = $this->get07DayBefore($myFechaHasta);
 
         //   dd(auth()->user()->roles);
-        //  \Log::info('leam - transaction index - aqui');
-        //  \Log::info('leam - transaction index - fecha desde - ' . $myFechaDesde . ' -- myFecha Hasta ->' . $myFechaHasta);
-        //  \Log::info('leam - transaction index - request fecha desde - ' . $request->fechaDesde . ' -- request myFecha Hasta ->' . $request->fechaHasta);
-        //  \Log::info('leam - transaction index - user  - ' . $myUser );
-        //  \Log::info('leam - transaction index - request  - ' . $request );
+
         // dd($request);
         $myLimit = 0;
         /*
@@ -734,11 +726,7 @@ class TransactionController extends Controller
          };
 
         //   dd(auth()->user()->roles);
-        //  \Log::info('leam - transaction index - aqui');
-        //  \Log::info('leam - transaction index - fecha desde - ' . $myFechaDesde . ' -- myFecha Hasta ->' . $myFechaHasta);
-        //  \Log::info('leam - transaction index - request fecha desde - ' . $request->fechaDesde . ' -- request myFecha Hasta ->' . $request->fechaHasta);
-        //  \Log::info('leam - transaction index - user  - ' . $myUser );
-        //  \Log::info('leam - transaction index - request  - ' . $request );
+
         // dd($request);
         $myLimit = "";
         /*
@@ -900,11 +888,7 @@ class TransactionController extends Controller
          };
 
         //   dd(auth()->user()->roles);
-        //  \Log::info('leam - transaction index - aqui');
-        //  \Log::info('leam - transaction index - fecha desde - ' . $myFechaDesde . ' -- myFecha Hasta ->' . $myFechaHasta);
-        //  \Log::info('leam - transaction index - request fecha desde - ' . $request->fechaDesde . ' -- request myFecha Hasta ->' . $request->fechaHasta);
-        //  \Log::info('leam - transaction index - user  - ' . $myUser );
-        //  \Log::info('leam - transaction index - request  - ' . $request );
+
         // dd($request);
         $myLimit = "";
         /*
@@ -1087,11 +1071,7 @@ class TransactionController extends Controller
             $myFechaHasta = $request->fechaHasta;
          };
          //   dd(auth()->user()->roles);
-        //  \Log::info('leam - transaction index - aqui');
-        //  \Log::info('leam - transaction index - fecha desde - ' . $myFechaDesde . ' -- myFecha Hasta ->' . $myFechaHasta);
-        //  \Log::info('leam - transaction index - request fecha desde - ' . $request->fechaDesde . ' -- request myFecha Hasta ->' . $request->fechaHasta);
-        //  \Log::info('leam - transaction index - user  - ' . $myUser );
-        //  \Log::info('leam - transaction index - request  - ' . $request );
+
          // dd($request);
         $myLimit = 0;
         if($this->isAdministrator()){
@@ -2486,7 +2466,6 @@ class TransactionController extends Controller
          //$Type_coin_balance     = Type_coin::pluck('name', 'id')->toArray();   
          //$user                  = User::pluck('name', 'id')->toArray();
 
-
          $parametros['myUser'] = $myUser;
          $parametros['myGroup'] = $myGroup;
          $parametros['group'] = $group;
@@ -2595,7 +2574,8 @@ class TransactionController extends Controller
 
          flash()->addSuccess('Movimiento guardado', 'Transacción entre clientes :D', ['timeOut' => 3000]);
 
-         return Redirect::back()->withInput();
+         // return Redirect::back()->withInput();
+         return view('transactions.index_pagoclientes');
     }
 
     public function store_pagocliente2(Request $request)
@@ -2752,9 +2732,9 @@ class TransactionController extends Controller
         // dd($myQuery);
         $transactions = DB::select($myQuery);
 
-        $myFecha = date('Y-m-d h:i:s', strtotime($request->input('transaction_date')));
+        $myFecha = date('Y-m-d H:i:s', strtotime($request->input('transaction_date')));
         
-
+        // dd($request->input('amount_foreign_currency'));
         foreach($transactions as $item){
             switch ($item->TypeTransactionGroup){
                 case '2':
@@ -2763,6 +2743,7 @@ class TransactionController extends Controller
                     $theTransaction->group_id                     = $request->input('group_id');
                     $theTransaction->type_coin_id                 = $request->input('type_coin_id');
                     $theTransaction->group_id                     = $request->input('group_id');
+                    $theTransaction->amount_foreign_currency      = $request->input('amount_foreign_currency');
                     $theTransaction->amount                       = $request->input('amount');
                     $theTransaction->amount_total_base            = $request->input('amount');
                     $theTransaction->amount_base                  = $request->input('amount');
@@ -2784,6 +2765,7 @@ class TransactionController extends Controller
                     $theTransaction->group_id                     = $request->input('group2_id');                    
                     $theTransaction->type_coin_id                 = $request->input('type_coin_id');
                     $theTransaction->group_id                     = $request->input('group2_id');
+                    $theTransaction->amount_foreign_currency      = $request->input('amount_foreign_currency');
                     $theTransaction->amount                       = $request->input('amount');
                     $theTransaction->amount_total_base            = $request->input('amount');
                     $theTransaction->amount_base                  = $request->input('amount');
@@ -2805,9 +2787,10 @@ class TransactionController extends Controller
 
          flash()->addSuccess('Movimiento actualizado', 'Transacción entre clientes :D', ['timeOut' => 3000]);
          
-
-          return Redirect::back()->withInput();
-          // transactions.index_pagoclientes
+        
+          // return Redirect::back()->withInput(); leam
+          return to_route('transactions.index_pagoclientes');
+        
     }
 
 
