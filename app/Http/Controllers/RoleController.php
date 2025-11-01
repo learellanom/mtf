@@ -216,24 +216,38 @@ class RoleController extends Controller
      */
     public function update(Request $request, $role)
     {
-
+        try{
         // dd($request->permissions);
+        // dd($role);
+        
 
         Role::findOrFail($role)->update($request->all());
 
+        //
+        //
+        // Busca el role y actualiza todos sus permisos sincronizandolos
+        //
+        //
         $roles = Role::find($role);
         $roles->permissions()->sync($request->permissions);
 
 
         // dd($request->myselect);
-        //dd($roles->id);
+        // dd($roles->id);
         
         //\Log::info("leam - role - update - roles->id $roles->id");
 
+        //
+        //
+        // Borra todAs las cajas y grupos del role
+        //
+        //
         $delete = Group_role::where('role_id', '=', $roles->id)->delete();
-        
-        \Log::info(' RoleController - update - Delete groups role -> ' . $delete);
-        // dd($delete);
+        //
+        //
+        // actualiza las cajas del role
+        //
+        //
         if (!$request->myselect){
            // echo "todas las cajas con el role id ->" . $role->id; 
 
@@ -265,8 +279,11 @@ class RoleController extends Controller
                 $Group_role->save();
             }        
         }
-        
-
+        //
+        //
+        // actualiza los grupos del role
+        //
+        //        
         if (!$request->myselect2){
             // echo "todas los grupos con el role id ->" . $role->id; 
             
@@ -297,7 +314,10 @@ class RoleController extends Controller
                 $Group_role->save();
             }        
         }
-
+        } catch (\Exception $e) {
+            flash()->addError('Error al modificar el Role ..', 'Roles', ['timeOut' => 3000]);
+            return Redirect::back()->with('update', 'Error al actualizar');
+        }
         flash()->addInfo('Role modificado..', 'Roles', ['timeOut' => 3000]);
 
         return Redirect::route('roles.index')->with('update', 'ok');

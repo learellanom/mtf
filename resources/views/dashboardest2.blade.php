@@ -1052,7 +1052,7 @@ $config4 = [
                     }
                 @endphp 
                 
-                 console.log('aqui ->' + {{ $myPromedio}} + ' ' + {{ $wallet->TypeTransactionId }} + ' ' + {{ $wallet2->TypeTransactionId }});
+                 // console.log('aqui ->' + {{ $myPromedio}} + ' ' + {{ $wallet->TypeTransactionId }} + ' ' + {{ $wallet2->TypeTransactionId }});
                 // \Log::info('myPromedio -> ' . $myPromedio);
                 //
                 //
@@ -1227,7 +1227,7 @@ $config4 = [
     function calculoGeneral2(){
 
         let myCount = {{ count($wallet_summary) }};
-        console.log('leam - myCount ->' + myCount);
+        //console.log('leam - myCount ->' + myCount);
 
         if (myCount == 0){
 
@@ -1493,9 +1493,16 @@ $config4 = [
         let myColor2Count = {{ count($wallet_summary) ? count($wallet_summary) : 0}};
         for(let i=0; i<myColor2Count; i++){
             myColor2.push(generarNuevoColorRGB());
-            // console.log('color rgb -> ' + generarNuevoColorRGB());
         }
         
+        // let myColor2 = [];
+        // let myColor2Count = {{ count($transaction_summary) ? count($transaction_summary) : 0}};
+        // for(let i=0; i<myColor2Count; i++){
+        //     myColor2.push(generarNuevoColorRGB());
+        //     // console.log('color rgb -> ' + generarNuevoColorRGB());
+        // }
+
+
         /*
         @foreach($wallet_summary as $wallet) 
             //myColor2 = generarNuevoColor();
@@ -1523,8 +1530,6 @@ $config4 = [
 
         const ctx = document.getElementById('myChart');
 
-        const DATA_COUNT2 = 1600;
-        const NUMBER_CFG = {count: DATA_COUNT2, min: 0, max: 1500};
         const ctx2 = document.getElementById('myChartDoughnut');
         const myChart2 = new Chart(ctx2, {
             type: 'doughnut',
@@ -1533,9 +1538,9 @@ $config4 = [
                 datasets: [
                     {
                     label: 'Dataset 1',
-                    data: [@foreach($wallet_summary as $wallet) {{$wallet->total. ',' }} @endforeach],
+                    data: [@foreach($transaction_summary as $wallet) {{$wallet->total. ',' }} @endforeach],
                     // backgroundColor:COLORS.slice(0, DATA_COUNT2),
-                     backgroundColor:myColor2,
+                    backgroundColor:myColor2,
                     hoverOffset: 4
                 }]
             },

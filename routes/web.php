@@ -66,6 +66,9 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->middleware('can:home')->name('home');
 
+/* TRANSACCIONES A CLIENTES */
+Route::group(['middleware' => 'auth'], function () {
+    
 Route::get('dashboardest', [App\Http\Controllers\HomeController::class, 'graphics'])->name('dashboardest');
 
 Route::get('dashboardSaldos', [App\Http\Controllers\HomeController::class, 'saldos'])->name('dashboardSaldos');
@@ -184,8 +187,7 @@ Route::post('filtrosGrabaComisionesGrupo', [App\Http\Controllers\statisticsContr
 
 
 
-/* TRANSACCIONES A CLIENTES */
-Route::group(['middleware' => 'auth'], function () {
+
     Route::get('movimientos/efectivo', [TransactionController::class, 'create_efectivo'])->middleware('can:transactions.create_efectivo')->name('transactions.create_efectivo');
     Route::get('movimientos/{movimiento}/editar_efectivo', [TransactionController::class, 'edit_efectivo'])->middleware('can:transactions.edit_efectivo')->name('transactions.edit_efectivo');
     Route::post('movimientos/crear_efectivo', [TransactionController::class, 'store_efectivo'])->name('transactions.store_efectivo');
@@ -374,46 +376,48 @@ Route::group(['middleware' => 'auth'], function () {
                 ->middleware('can:estadisticasDetalle.index')
                 ->name('estadisticasDetalle');
     //
+
+
+    // Route::get('estadisticasDetalleUsuario',[App\Http\Controllers\statisticsController::class, 'userDetail'])->name('estadisticasDetalleUsuario');
+    // Route::get('estadisticasDetalleUsuario/{usuario}/{fechaDesde?}/{fechaHasta?}',[App\Http\Controllers\statisticsController::class, 'userDetail'])->name('estadisticasDetalleUsuario');
+
+
+    // Route::get('estadisticasResumenUsuario',[App\Http\Controllers\statisticsController::class, 'userSummary'])->middleware('can:estadisticasDetalle.statisticsResumenUsuario')->name('estadisticasResumenUsuario');
+    // Route::get('estadisticasResumenUsuario/{usuario}/{fechaDesde?}/{fechaHasta?}',[App\Http\Controllers\statisticsController::class, 'userSummary'])->name('estadisticasResumenUsuario');
+
+    // Route::get('estadisticasResumenCliente',[App\Http\Controllers\statisticsController::class, 'clientSummary'])->middleware('can:estadisticasDetalle.statisticsResumenCliente')->name('estadisticasResumenCliente');
+    // Route::get('estadisticasResumenCliente/{cliente}/{fechaDesde?}/{fechaHasta?}',[App\Http\Controllers\statisticsController::class, 'clientSummary'])->name('estadisticasResumenCliente');
+
+
+    // moneda
+    Route::get('estadisticasResumenGrupo',[App\Http\Controllers\statisticsController::class, 'groupSummary2'])->name('estadisticasResumenGrupo');
+
+    //
+    // Resumen Wallet Transaccion
+    //
+    Route::get('estadisticasResumenWalletTran',[App\Http\Controllers\statisticsController::class, 'walletTransactionSummary'])->name('estadisticasResumenWalletTran');
+    //
+    // Resumen Wallet Transaccion grupo
+    //
+    Route::get('estadisticasResumenWalletTranGroup',[App\Http\Controllers\statisticsController::class, 'walletTransactionGroupSummary'])->name('estadisticasResumenWalletTranGroup');
+    //
+    // Resumen Fecha Tokens
+    //
+    Route::get('estadisticasFechaTokens',[App\Http\Controllers\statisticsController::class, 'fechaTokensSummary'])->name('estadisticasFechaTokens');
+    //
+    //
+    Route::get('estadisticasResumenWallet',[App\Http\Controllers\statisticsController::class, 'walletSummary'])->middleware('can:estadisticasDetalle.statisticsResumenWallet')->name('estadisticasResumenWallet');
+
+    Route::get('materialsAdquisicionConsolidado',[App\Http\Controllers\statisticsController::class, 'materials_adquisicion_consolidado2'])->name('materialsAdquisicionConsolidado');
+
+    Route::get('materialsAdquisicionResumenGrupo',[App\Http\Controllers\statisticsController::class, 'materialsAdquisicionResumenGrupo'])->name('materialsAdquisicionResumenGrupo');
+
+    Route::get('materialPosicionConsolidadaGrupo',[App\Http\Controllers\statisticsController::class, 'materialPosicionConsolidadaGrupo'])->name('materialPosicionConsolidadaGrupo');
+
+    Route::get('materialsLiquidacionCuentaGrupo',[App\Http\Controllers\statisticsController::class, 'materialsLiquidacionCuentaGrupo'])->name('materialsLiquidacionCuentaGrupo');
+
+    Route::get('materialsLiquidacionCuentaGrupoProcess',[App\Http\Controllers\statisticsController::class, 'materialsLiquidacionCuentaGrupoProcess'])->name('materialsLiquidacionCuentaGrupoProcess');
+
 });
-
-// Route::get('estadisticasDetalleUsuario',[App\Http\Controllers\statisticsController::class, 'userDetail'])->name('estadisticasDetalleUsuario');
-// Route::get('estadisticasDetalleUsuario/{usuario}/{fechaDesde?}/{fechaHasta?}',[App\Http\Controllers\statisticsController::class, 'userDetail'])->name('estadisticasDetalleUsuario');
-
-
-// Route::get('estadisticasResumenUsuario',[App\Http\Controllers\statisticsController::class, 'userSummary'])->middleware('can:estadisticasDetalle.statisticsResumenUsuario')->name('estadisticasResumenUsuario');
-// Route::get('estadisticasResumenUsuario/{usuario}/{fechaDesde?}/{fechaHasta?}',[App\Http\Controllers\statisticsController::class, 'userSummary'])->name('estadisticasResumenUsuario');
-
-// Route::get('estadisticasResumenCliente',[App\Http\Controllers\statisticsController::class, 'clientSummary'])->middleware('can:estadisticasDetalle.statisticsResumenCliente')->name('estadisticasResumenCliente');
-// Route::get('estadisticasResumenCliente/{cliente}/{fechaDesde?}/{fechaHasta?}',[App\Http\Controllers\statisticsController::class, 'clientSummary'])->name('estadisticasResumenCliente');
-
-
-// moneda
-Route::get('estadisticasResumenGrupo',[App\Http\Controllers\statisticsController::class, 'groupSummary2'])->name('estadisticasResumenGrupo');
-
-//
-// Resumen Wallet Transaccion
-//
-Route::get('estadisticasResumenWalletTran',[App\Http\Controllers\statisticsController::class, 'walletTransactionSummary'])->name('estadisticasResumenWalletTran');
-//
-// Resumen Wallet Transaccion grupo
-//
-Route::get('estadisticasResumenWalletTranGroup',[App\Http\Controllers\statisticsController::class, 'walletTransactionGroupSummary'])->name('estadisticasResumenWalletTranGroup');
-//
-// Resumen Fecha Tokens
-//
-Route::get('estadisticasFechaTokens',[App\Http\Controllers\statisticsController::class, 'fechaTokensSummary'])->name('estadisticasFechaTokens');
-//
-//
-Route::get('estadisticasResumenWallet',[App\Http\Controllers\statisticsController::class, 'walletSummary'])->middleware('can:estadisticasDetalle.statisticsResumenWallet')->name('estadisticasResumenWallet');
-
-Route::get('materialsAdquisicionConsolidado',[App\Http\Controllers\statisticsController::class, 'materials_adquisicion_consolidado2'])->name('materialsAdquisicionConsolidado');
-
-Route::get('materialsAdquisicionResumenGrupo',[App\Http\Controllers\statisticsController::class, 'materialsAdquisicionResumenGrupo'])->name('materialsAdquisicionResumenGrupo');
-
-Route::get('materialPosicionConsolidadaGrupo',[App\Http\Controllers\statisticsController::class, 'materialPosicionConsolidadaGrupo'])->name('materialPosicionConsolidadaGrupo');
-
-Route::get('materialsLiquidacionCuentaGrupo',[App\Http\Controllers\statisticsController::class, 'materialsLiquidacionCuentaGrupo'])->name('materialsLiquidacionCuentaGrupo');
-
-Route::get('materialsLiquidacionCuentaGrupoProcess',[App\Http\Controllers\statisticsController::class, 'materialsLiquidacionCuentaGrupoProcess'])->name('materialsLiquidacionCuentaGrupoProcess');
 
 ?>

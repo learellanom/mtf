@@ -16,18 +16,19 @@
 
 <div class="row">
 
-    <div class="col-md-12">
-        <div class="card mb-4">
+    <div class="col-md-6 container">
+        <div class="card mb-4 shadow">
             <div class="card-header">
-                {{-- <h3 class="card-title font-weight-bold">{{ __('Estaditica Caja Mayor') }} <i class="fab fa-bitcoin"></i></h3> --}}
+                <h3 class="card-title font-weight-bold">{{ __('Estaditica Caja Mayor') }} <i class="fab fa-bitcoin"></i></h3>
             </div>
             <div class="card-body">
                 <div class="row">
-                    <div class="col-md-12">
+                    <div class="col-md-8">
                         <style>
                             .myLink {
                                 text-decoration: none;
-                                color: black
+                                color: black;
+                                font-size: 1rem
                             }
                             .myLink:hover{
                                 color:gray;
@@ -37,7 +38,26 @@
                                 background-color: black;
                             }
                             </style>
-                        <table class="table table-bordered table-responsive-lg" id="moneda">
+                            <ul class="list-group" style="list-style-type: none">
+                                <li class="mt-4">
+                                        <a class="myLink" href="{{ route('balancePagosCobros') }}">
+                                            <p>
+                                                <i class="fas fa-fw fas fa-chart-bar "></i>
+                                                Detalle de movimientos
+                                            </p>
+                                        </a>
+                                </li>
+                                <li class="mt-4">
+                                        <a class="myLink" href="{{ route('cajaMayorCuadroMovimientos') }}">
+                                            <p>
+                                                <i class="fas fa-fw fas fa-chart-bar "></i>
+                                                Cuadro de Movimientos
+                                            </p>
+                                        </a>                                    
+                                </li>
+                            </ul>
+                            {{--
+                        <table class="table table-responsive-lg" id="moneda" style="border: none">
                             <thead>
                             </thead>
                             <tbody>
@@ -63,6 +83,7 @@
                                 </tr> 
                             </tbody>
                         </table>
+                        --}}
                     </div>
                 </div>
             </div>

@@ -374,7 +374,7 @@ $(document).ready(function () {
 
             },
             ]
-        },
+        },   
         {
             extend:  'pdfHtml5',
             text:    '<i class="fas fa-file-pdf"></i>',
