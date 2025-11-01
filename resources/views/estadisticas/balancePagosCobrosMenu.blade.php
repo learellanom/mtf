@@ -16,14 +16,14 @@
 
 <div class="row">
 
-    <div class="col-md-12">
-        <div class="card mb-4">
+    <div class="col-md-6 container">
+        <div class="card mb-4 shadow">
             <div class="card-header">
-                {{-- <h3 class="card-title font-weight-bold">{{ __('Balance de Pagos y Cobros') }} <i class="fab fa-bitcoin"></i></h3> --}}
+                <h3 class="card-title font-weight-bold">{{ __('Balance de Pagos y Cobros') }} <i class="fab fa-bitcoin"></i></h3>
             </div>
             <div class="card-body">
                 <div class="row">
-                    <div class="col-md-12">
+                    <div class="col-md-8">
                         <style>
                             .myLink {
                                 text-decoration: none;
@@ -37,32 +37,28 @@
                                 background-color: black;
                             }
                             </style>
-                        <table class="table table-bordered table-responsive-lg" id="moneda">
-                            <thead>
-                            </thead>
-                            <tbody>
-                                <tr >
-                                    <td>
-                                        <a class="myLink" href="{{ route('balancePagosCobros') }}">
-                                            <p>
-                                                <i class="fas fa-fw fas fa-chart-bar "></i>
-                                                Balance de Pagos y Cobros por grupo
-                                            </p>
-                                        </a>
-                                    </td>
-                                </tr>
-                                <tr >
-                                    <td>
-                                        <a class="myLink" href="{{ route('balancePagosCobrosGrupoFecha') }}">
-                                            <p>
-                                                <i class="fas fa-fw fas fa-chart-bar "></i>
-                                                Balance de Pagos y Cobros por grupo / Fecha
-                                            </p>
-                                        </a>
-                                    </td>
-                                </tr> 
-                            </tbody>
-                        </table>
+
+                            <ul class="list-group" style="list-style-type: none">
+                                <li class="mt-4">
+                                    <a class="myLink" href="{{ route('balancePagosCobros') }}">
+                                        <p>
+                                            <i class="fas fa-fw fas fa-chart-bar "></i>
+                                            Balance de Pagos y Cobros por grupo
+                                        </p>
+                                    </a>
+                                </li>
+                                <li class="mt-4">
+                                    <a class="myLink" href="{{ route('balancePagosCobrosGrupoFecha') }}">
+                                        <p>
+                                            <i class="fas fa-fw fas fa-chart-bar "></i>
+                                            Balance de Pagos y Cobros por grupo / Fecha
+                                        </p>
+                                    </a>                                 
+                                </li>
+                            </ul>
+
+
+
                     </div>
                 </div>
             </div>
