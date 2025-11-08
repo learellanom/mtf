@@ -225,17 +225,16 @@ class GroupController extends Controller
     *
     */
     function getWalletUSDT2(){
-        $wallet = Group::select('groups.id', 'groups.name')
-            ->where('type','=','2')
-            ->where('type','=','3')
-            ->where('name','like','%USDT%')
-            ->where('name','like','%usdt%')
-            ->orderBy('groups.name')
+        
+        $wallet = Group::selectRaw('id, LOWER(name) as lower_name')
+        ->whereIn('type',['2','3,'])
+        ->having('lower_name','like','%usdt%')
+        ->orderBy('lower_name')
         ->get();
-        // dd($wallet);
+
         $wallet2 = [];
         foreach($wallet as $wallet){
-           $wallet2 [$wallet->id] =  $wallet->name;
+           $wallet2 [$wallet->id] =  $wallet->lower_name;
         }
         return $wallet2;
 

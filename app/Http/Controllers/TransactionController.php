@@ -2672,7 +2672,8 @@ class TransactionController extends Controller
 
         flash()->addSuccess('Movimiento guardado', 'Transacción entre clientes :D', ['timeOut' => 3000]);
 
-        return Redirect::back()->withInput();
+        //return Redirect::back()->withInput();
+        return to_route('transactions.index_pagoclientes');
     }
 
 
