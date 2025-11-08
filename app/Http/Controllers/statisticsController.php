@@ -3598,6 +3598,7 @@ class statisticsController extends Controller
                 break;
         }
 
+        $walletName = '';
         if ($wallet === 0){
             $walletDesde = 00000;
             $walletHasta = 99999;
@@ -3605,6 +3606,9 @@ class statisticsController extends Controller
         }else{
             $walletDesde = $wallet;
             $walletHasta = $wallet;
+
+            $walletName = Group::select('name')->find($wallet);
+            $walletName = $walletName->name ? $walletName->name : '';
         }
         
         $horaDesde      = " 00:00:00";
@@ -3616,6 +3620,9 @@ class statisticsController extends Controller
         $myTable        = "mtf.transactions";
         $myTempCredits  = $this->getWalletCredits();
         $myTempDebits   = $this->getWalletDebits();
+
+
+        
 
         $Group_roles    = $this->getGroupRole(auth()->id());
 
@@ -3728,8 +3735,22 @@ class statisticsController extends Controller
         $Transacciones = DB::select($myQuery);
         // dd($Transacciones[0]);
 
+
+        $theTransaction = new stdClass();
+        $theTransaction->IdWallet = $wallet;
+        $theTransaction->NombreWallet = $walletName;
+        $theTransaction->Cant = 0;
+        $theTransaction->Monto = 0;
+        $theTransaction->Creditos = 0;
+        $theTransaction->Debitos = 0;
+        $theTransaction->Comision = 0;
+        $theTransaction->ComisionBase = 0;
+        $theTransaction->Total = 0;
+        $theTransaction->ComisionGanancia = 0;
+
+
         if (empty($Transacciones)){
-            return $Transacciones;
+            return $theTransaction;
         }
         if ($walletDesde === $walletHasta){
 
@@ -3738,7 +3759,7 @@ class statisticsController extends Controller
              return $Transacciones;
         };
     }
-        /*
+    /*
     *
     *
     *       getBalanceWalletME
@@ -7496,7 +7517,7 @@ class statisticsController extends Controller
         $wallet2            = app(GroupController::class)->getWallets2();
         $grupo              = app(GroupController::class)->getGroups2();
         
-        // dd($wallets);
+         // dd($wallets);
         // dd($myUSDTWallets);
 
         $myGroupDesde = 00000;
@@ -7556,7 +7577,7 @@ class statisticsController extends Controller
         //dd($myUSDTWallets);
         //
         //
-        //  pagos que se hacen a la caja (groupid debe ser la caja)
+        //  pagos usdt que se hacen a la caja (groupid debe ser la caja)
         //
         //
 
@@ -7591,7 +7612,7 @@ class statisticsController extends Controller
             order by
                 WalletName ASC
         ";
-
+        // dd($myQuery);
         
         $myQuery =
         "
@@ -7633,7 +7654,7 @@ class statisticsController extends Controller
         $myTransactionHasta     = 13;
         //
         //
-        // cobros que haga la caja (el wallet_id debe ser igual a la caja)
+        // cobros usdt - que haga la caja (el wallet_id debe ser igual a la caja)
         //
         //
         $myQuery =
@@ -7942,21 +7963,28 @@ class statisticsController extends Controller
             echo "</pre>";
             die();
         */
-
+        
         $Transacciones4 = [];
             foreach($wallets as $key => $walletItem){
-
+                // dd($key);
                 if ($myWallet != 0){
                     if ($key != $myWallet){
                         continue;
                     }
                 }
+                
+                \Log::info("el wallet item es $walletItem");
 
                 $balance        = 0;
                 $balanceBefore  = 0;
                 if ($key > 0){
-                    // 
+                    //  aquix
                     $balance        = $this->getBalanceWallet($key);
+                    // if(empty($balance)){
+                    //     dd('vacio');
+                    // }
+    
+
                     $balance        = $balance->Total;
 
                     $balanceBefore  = $this->getBalanceWalletBefore($key, $myFechaDesde, $myFechaHasta);
@@ -8076,7 +8104,7 @@ class statisticsController extends Controller
              echo "</pre>";
              die();
              */
-
+            // dd($Transacciones4);
             $parametros['Transacciones']    = $Transacciones4;
             $parametros['wallet']           = $wallets;
             $parametros['myWallet']         = $myWallet;

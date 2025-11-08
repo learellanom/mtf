@@ -455,6 +455,17 @@
         document.querySelector('.select2-search__field').focus();
     });
 
+    $("#type_coin_id").select2({
+        placeholder: "Selecciona Tipo Moneda",
+        theme: 'bootstrap4',
+        search: false,
+        width: '100%',
+        allowClear: true,
+    })
+    .on('select2:open', () => {
+        document.querySelector('.select2-search__field').focus();
+    });
+
     // $("#type_transaction_id").val("")
     // $("#type_transaction_id").trigger("change");
     // $("#type_transaction_id2").val("")
