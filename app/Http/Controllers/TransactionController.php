@@ -3353,7 +3353,7 @@ class TransactionController extends Controller
             }
         }
         $transactions->group_name = $myName;
-
+        
         $parametros['transactions']     = $transactions;
         $parametros['imagen']           = $imagen;
         $parametros['type_coin']        = $type_coin;
@@ -3610,7 +3610,7 @@ class TransactionController extends Controller
     {
 
         // dd($request->percentage);
-
+        // dd('aqui en update');
         Transaction::find($transaction)->update($request->all());
 
         $myTransaccion = Transaction::find($transaction);
@@ -3626,34 +3626,32 @@ class TransactionController extends Controller
         if($request->file('file')){
            foreach($request->file('file') as $files){
 
-              $url = Storage::put('public/Transactions/'.$transaction, $files); 
+                $url = Storage::put('public/Transactions/'.$transaction, $files); 
 
+                if($request->file('file')){
 
+                    $file= new Image();
+                    $file->file = $file;
 
-         if($request->file('file')){
+                    $movimientos->image()->create([
+                        'url' => $url
+                    ]);
 
-             $file= new Image();
-             $file->file = $file;
+                }
 
-              $movimientos->image()->create([
-                'url' => $url
-            ]);
+                else{
 
-         }
+                    $files= new Image();
+                    $files->file = $files;
 
-        else{
+                    $movimientos->image()->create([
+                        'url' => $url
+                    ]);
 
-            $files= new Image();
-            $files->file = $files;
+                }
 
-            $movimientos->image()->create([
-                'url' => $url
-            ]);
-
-          }
-
+            }
         }
-      }
 
 
 
