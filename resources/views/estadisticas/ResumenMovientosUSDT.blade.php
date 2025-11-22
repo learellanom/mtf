@@ -45,7 +45,7 @@
         </div>
         <div class="row">
             
-            <div class ="col-12 col-lg-2 float-right" >
+            <div class ="col-12 col-lg-3 float-right" >
                 <x-adminlte-date-range
                     id="drCustomRanges"
                     name="drCustomRanges"
@@ -60,118 +60,28 @@
                 </x-adminlte-date-range>
             </div>
             
+            <div class="col-lg-3 col-12">
+                
+                <div class='d-flex align-items-center'>
 
-            <div class ="col-12 col-sm-2">
-                <x-adminlte-select2 id="wallet"
-                                    name="optionsCliente"
-                                    igroup-size="sm"
-                                    label-class="text-lightblue"
-                                    data-placeholder="Wallet ..."
-                                    :config="$config1"
-                                    >
-                    <x-slot name="prependSlot">
-                        <div class="input-group-text bg-gradient-dark">
-                            <!-- <i class="fas fa-car-side"></i> -->
-                            <i class="fas fa-box"></i>
-                        </div>
-                    </x-slot>
+                    <div class="input-group-text bg-gradient-dark">
+                        <i class="fas fa-box"></i>
+                    </div>
 
-                    <x-adminlte-options :options="$wallet" empty-option="Selecciona un Wallet.."/>
-                </x-adminlte-select2>
-            </div>
+                    <select id="wallet" name="wallet" class='form-control' required>
+                        <option value="" disabled selected>Wallet...</option>
+                        @foreach($wallet as $key => $item)
+                            <option value="{{$key}}">{{$item}}</option>
+                        @endforeach
+                    </select>
 
-            {{--
-            <div class ="col-12 col-sm-2">
-                <x-adminlte-select2 id="group"
-                                    name="optionsGroup"
-                                    igroup-size="sm"
-                                    label-class="text-lightblue"
-                                    data-placeholder="Grupo ..."
-                                    :config="$config2"
-                                    disabled
-                                    >
-                    <x-slot name="prependSlot">
-                        <div class="input-group-text bg-gradient-dark">
-                            <!-- <i class="fas fa-car-side"></i> -->
-                            <i class="fas fa-user-tie"></i>
-                        </div>
-                    </x-slot>
-
-                    <x-adminlte-options :options="$group" empty-option="Selecciona un Grupo.."/>
-                </x-adminlte-select2>
-            </div>
-            --}}
-
-            {{--
-            @if($myAdministrator == true)
-                <div class ="col-12 col-lg-2">
-                    <x-adminlte-select2 id="usuario"
-                                        name="optionsUsuario"
-                                        igroup-size="sm"
-                                        label-class="text-lightblue"
-                                        data-placeholder="Usuario ..."
-                                        :config="$config2"
-                                        >
-                        <x-slot name="prependSlot">
-                            <div class="input-group-text bg-gradient-dark">
-                                <!-- <i class="fas fa-car-side"></i> -->
-                                <i class="fas fa-user-tie"></i>
-                            </div>
-                        </x-slot>
-
-                        <x-adminlte-options :options="$user" empty-option="Selecciona un Usuario.."/>
-                    </x-adminlte-select2>
                 </div>
-            @endif
-            --}}
+                
+            </div>   
 
-            {{--
-            <div class ="col-lg-2">
-                <x-adminlte-select2 id="coin"
-                                    name="optionsCoin"
-                                    igroup-size="sm"
-                                    label-class="text-lightblue"
-                                    data-placeholder="Moneda ..."
-                                    :config="$config1"
-                                    >
-                    <x-slot name="prependSlot">
-                        <div class="input-group-text bg-gradient-dark">
-                            <!-- <i class="fas fa-car-side"></i> -->
-                            <!-- <i class="fas fa-user-tie"></i> -->
-                            <i class="fas fa-solid fa-dollar-sign"></i>                        
-                        </div>
-                        
-                    </x-slot>
 
-                    <x-adminlte-options :options="$Type_coin_balance" empty-option="Selecciona una moneda.."/>
 
-                </x-adminlte-select2>
-            </div>
-            --}}
 
-            {{--
-            <div class ="col-lg-2">
-                <x-adminlte-select2 id="type_material_id"
-                                    name="type_material_id"
-                                    igroup-size="sm"
-                                    label-class="text-lightblue"
-                                    data-placeholder="Material ..."
-                                    :config="$config1"
-                                    >
-                    <x-slot name="prependSlot">
-                        <div class="input-group-text bg-gradient-dark">
-                            <!-- <i class="fas fa-car-side"></i> -->
-                            <!-- <i class="fas fa-user-tie"></i> -->
-                            <i class="fas fa-solid fa-dollar-sign"></i>                        
-                        </div>
-                        
-                    </x-slot>
-
-                    <x-adminlte-options :options="$Type_material" empty-option="Selecciona un material.."/>
-
-                </x-adminlte-select2>
-            </div>
-            --}}
         </div>
     </div>
 
@@ -575,12 +485,35 @@
 
         });
 
+        $("#wallet").select2({
+            placeholder: "Wallet",
+            theme: 'bootstrap4',
+            search: false,
+            width: '100%',
+            allowClear: true,
+        })
+        .on('select2:open', () => {
+            document.querySelector('.select2-search__field').focus();
+        });         
+
+
         $('#wallet, #group').on('change', function () {
             theRoute();
         })
         .on('select2:open', () => {
             document.querySelector('.select2-search__field').focus();
         });        
+
+
+
+        $('#wallet2').on('change', function () {
+            // theRoute();
+        })
+        .on('select2:open', () => {
+            document.querySelector('.select2-search__field').focus();
+        });  
+
+
 
         $('#usuario').on('change', function () {
             theRoute();
@@ -699,9 +632,9 @@
 
     function theRoute(fechaDesde = 0, fechaHasta = 0){
 
-        let wallet  = $('#wallet').val() == ""  ? 0 : $('#wallet').val();
+        let wallet  = ($('#wallet').val() == "" ||  $('#wallet').val() == null)  ? 0 : $('#wallet').val();
 
-
+        alert('el wallet es -> ' + wallet);
         // let user = "";
         let Route ="";
 

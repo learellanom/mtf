@@ -2,7 +2,7 @@
 @section('title', 'Transacciones')
 @section('content_header')
 
-<h1 class="text-center text-dark font-weight-bold">MODIFICAR TASA|COMISIÓN<i class="fas fa-coins"></i> </h1></a>
+<h1 class="text-center text-dark font-weight-bold">Modificar Tasa|Comision<i class="fas fa-coins"></i> </h1></a>
 
 @stop
 
@@ -10,12 +10,13 @@
 @section('content')
 
 <div class="d-flex justify-content-center">
-    <div class="card col-md-6" style="min-height:400px; !important; max-height:100%; height:100%; widht:100%">
+    <!-- <div class="card col col-md-10" style="min-height:400px; !important; max-height:100%; height:100%; widht:100%"> -->
+    <div class="card col-12 col-md-10" style="min-height:400px; !important; max-height:100%; height:100%; width:100%">
         <div class="card-body">
 
             {!! Form::model($transactions, ['route' => ['transactions.update', $transactions],'method' => 'put', 'autocomplete' => 'off', 'files' => true, 'enctype' =>'multipart/form-data', 'id' => 'myForm']) !!}
-            <div class="row">
-                <div class="col-md-4">
+            <div class="row justify-content-between">
+                <div class="col-8 col-md-4">
                     <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
                         <li class="nav-item" role="presentation">
                             <button 
@@ -44,9 +45,9 @@
                         </li>
                     </ul>
                 </div>
-                <div class="col-md-4 justify-content-start float-right">
-                    <span class="badge badge-primary text-lg text-uppercase">
-                        <h6 class="font-weight-bold text-uppercase"> Transacción numero # - {{ $transactions->id }}</h6>
+                <div class="col-12 col-md-6 col-xl-4 justify-content-end">
+                    <span class="badge badge-primary   col-12">
+                        <h6 class="font-weight-bold"> Transacción numero # - {{ $transactions->id }}</h6>
                     </span>
                 </div>
             </div>
@@ -78,34 +79,99 @@
                         <style>
                             .myStyle { background-color: #e9ecef; color: #495057; font-weight: 400 !important; height: 50px;}
                         </style>
-                        <div class="form-row">
-                            <div class="form-group col">
+                        @php
+                            $myReadOnly         = true;
 
-                                {!! Form::label('$transactionstype_transaction_name', 'Transaccion: '); !!}
-                                {!! Form::label('$transactionstype_transaction_name', $transactions->type_transaction_name, ['class' => 'form-control myStyle']); !!}
-
+                        @endphp                       
+                        
+                        @if($myReadOnly)                         
+                            <div class="form-row">
+                                <div class="form-group col-12 col-xl-4">
+                                    <label for=""                             >Transaccion:</label>
+                                    <label for="" class='form-control myStyle'>{{$transactions->type_transaction_name}}</label>
+                                </div>
+                                <div class="form-group col-12 col-xl-4">
+                                    <label for=""                             >Caja:</label>
+                                    <label for="" class='form-control myStyle'>{{$transactions->wallet_name}}</label>
+                                </div>
+                                <div class="form-group col-12 col-xl-4">
+                                    <label for=""                             >Caja:</label>
+                                    <label for="" class='form-control myStyle'>{{$transactions->group_name}}</label>
+                                </div>
+                                
                             </div>
-                            <div class="form-group col">
+                        
+                        @else 
 
-                                {!! Form::label('wallet_name', 'Caja: '); !!}
-                                {!! Form::label('wallet_name', $transactions->wallet_name, ['class' => 'form-control myStyle']); !!}
+                            <div class="form-row justify-content-around">
+                                <div class="form-group col-12 col-xl-4">
+                                    <div class=' align-items-center'>
+                                        <label for="">Transaccion:</label>
+                                        <div class="input-group-text">
+                                            <select 
+                                                id="type_transaction" 
+                                                name="type_transaction" 
+                                                class='form-control myStyle' 
+                                                required 
+                                                disabled
+                                            >
+                                                <option value="" disabled selected>Transaccion...</option>
+                                                @foreach($type_transaction as $key => $item)
+                                                    <option value="{{$key}}">{{$item}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>                                     
+                                </div>                           
+                                <div class="form-group col-12 col-xl-4">
+                                    <div class=' align-items-center'>
+                                        <label for="">Caja:</label>
+                                        <div class="input-group-text">
+                                            <select 
+                                                id="wallet" 
+                                                name="wallet" 
+                                                class='form-control myStyle' 
+                                                required 
+                                                
+                                            >
+                                                <option value="" disabled selected>Caja...</option>
+                                                @foreach($wallet as $key => $item)
+                                                    <option value="{{$key}}">{{$item}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>                                
+                                </div>   
 
+                                <div class="form-group col-12 col-xl-4">
+                                    <div class=' align-items-center'>
+
+                                        <label for="">Grupo:</label> 
+                                        <div class="input-group-text">
+                                            <select 
+                                                id="group" 
+                                                name="group" 
+                                                class='form-control myStyle' 
+                                                required 
+                                                
+                                            >
+                                                <option value="" disabled selected>Grupo...</option>
+                                                @foreach($group as $key => $item)
+                                                    <option value="{{$key}}">{{$item}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>                              
                             </div>
-                            <div class="form-group col">
 
-                                {!! Form::label('group_name', 'Grupo: '); !!}
-                                {!! Form::label('group_name', $transactions->group_name, ['class' => 'form-control myStyle']); !!}
-
-                            </div>
-                                                 
-                        </div>
+                        @endif
 
                         <div class="row">
-                            <div class="form-group col">
 
-                            {!! Form::label('Tipo de Moneda', 'Tipo de Moneda: '); !!}
-                            {!! Form::label('', $transactions->type_coin_name, ['class' => 'form-control myStyle']); !!}
-
+                            <div class="form-group col-12 col-xl-4">
+                                <label for="type_coin_name"                                   >Tipo de Moneda:</label>
+                                <label id="type_coin_name" for="" class='form-control myStyle'>{{ $transactions->type_coin_name }}</label>
                             </div>
                             @php
                               $myReadOnly         = false;
@@ -117,43 +183,65 @@
                             @endphp
 
                             {{-- Tasa de cambio --}}
-
+                              
                             @if(!$myReadOnly) 
-                              <div class="form-group col">
-                                  {!! Form::Label('tasa', "Tasa:") !!}
-                                  <div class="input-group-text">
-                                      <i class="fa-fw fas fa-random mr-2"></i>
-                                      {!! Form::text('exchange_rate',null, ['class' => 'rateMasks form-control', 'required' => true, 'id' => 'tasa',]) !!}
-                                  </div>
-                              </div>
+                                <div class="form-group col-12 col-xl-4">
+                                  
+                                    <label for="tasa">Tasa:</label>
+                                    <div class="input-group-text">
+                                        <i class="fa-fw fas fa-random mr-2"></i>
+                                        <input type="text" id='tasa' name='exchange_rate'  class='rateMasks form-control' value={{$transactions->exchange_rate}}>
+                                    </div>
+                                </div>
+                            
                             @else 
-                              <div class="form-group col">
-                                  {!! Form::Label('tasa', "Tasa:") !!}
-                                  <div class="input-group-text">
-                                      <i class="fa-fw fas fa-random mr-2"></i>
-                                      {!! Form::text('exchange_rate',null, ['class' => 'rateMasks form-control', 'required' => true, 'readonly']) !!}
-                                  </div>
+                              
+                              <div class="form-group col-12 col-xl-4">
+                                    <label for="">Tasa:</label>
+                                    <div class="d-flex align-items-center myStyle">
+                                        <i class="fa-fw fas fa-random mr-2"></i>
+                                        <label id='tasa' for="" class=''>{{$transactions->exchange_rate}}</label>
+                                    </div>
                               </div>                                                     
+                              
                             @endif
 
                             {{-- Monto en moneda extranjera --}}
                             
                             @if(!$myReadOnly) 
-                                <div class="form-group col">
-                                    {!! Form::Label('monto', "Monto en moneda extranjera:") !!}
+                                <div class="form-group col-12 col-xl-4">
+                                    <label for="">Monto en moneda extranjera:</label>                                    
                                     <div class="input-group-text">
                                         <i class="fa-fw fas fa-coins mr-2"></i>
-                                        {!! Form::text('amount_foreign_currency',null, ['class' => 'form-control general', 'required' => true,  'id' => 'monto']) !!}
+                                        <input 
+                                            type="text" 
+                                            id='amount_foreign_currency' 
+                                            name='amount_foreign_currency' 
+                                            class='form-control general' 
+                                            required 
+                                            value={{ $transactions->amount_foreign_currency}}
+                                            
+                                        >
                                     </div>
-                                </div>
+                                </div>   
                             @else
-                                <div class="form-group col">
-                                    {!! Form::Label('monto', "Monto en moneda extranjera:") !!}
-                                    <div class="input-group-text">
-                                        <i class="fa-fw fas fa-coins mr-2"></i>
-                                        {!! Form::text('amount_foreign_currency',null, ['class' => 'form-control general', 'required' => true,  'readonly']) !!}
+                                
+                                
+                                <div class="form-group col-12 col-xl-4">
+                                    <label for="">Monto en moneda extranjera:</label>
+
+                                    <div class="input-group-text justify-content-between myStyle">
+                                        <i class="fa-fw fas fa-coins mr-2"></i>    
+                                        <label 
+                                            id='tasa' 
+                                            for="" 
+                                            class='text-right '
+                                        >
+                                            {{number_format($transactions->amount_foreign_currency,2)}}
+                                        </label>
                                     </div>
-                                </div>                            
+                                </div>    
+                                  
                             @endif
                         </div>
 
@@ -162,7 +250,7 @@
                         <div class="form-row">
                             @if(!$myReadOnlyAmount) 
                                 
-                                <div class="form-group col-md-4">
+                                <div class="form-group col-12 col-xl-4">
                                     {!! Form::Label('', "Monto en dolare:") !!} 
                                     <div class="input-group-text">
                                         <i class="fa-fw fas fa-coins mr-2"></i>
@@ -172,7 +260,7 @@
                                 </div>
                             @else
                             
-                                <div class="form-group col-md-4">
+                                <div class="form-group col-12 col-xl-4">
                                     {!! Form::Label('', "Monto en dolares:") !!} 
                                     <div class="input-group-text">
                                         <i class="fa-fw fas fa-coins mr-2"></i>
@@ -182,7 +270,7 @@
 
                             @endif
                             
-                            <div class="form-group col-md-4">
+                            <div class="form-group col-12 col-xl-4">
                                 {!! Form::Label('', "Fecha:") !!}
                                 <div class="input-group-text">
                                     <i class="fa-fw fas fas fa-calendar-week mr-2"></i>
@@ -210,8 +298,8 @@
 
                                 
                                 <div class="form-group col-md-6">
-                                    {!! Form::Label('', "Porcentaje:") !!} 
                                     
+                                    <label for="">Porcentaje:</label>
                                     <div class="input-group-text">
                                         <i class="fa-fw fas fa-percentage mr-2"></i>
                                         <!-- aqui -->
@@ -227,8 +315,8 @@
 
                                     {{-- Comision --}}
 
-
-                                    {!! Form::Label('comision', "Monto Comisión:") !!}
+                                    <label for="">Monto Comisión:</label>
+                                    
                                     <div class="input-group-text">
                                         <i class="fa-fw fas fa-coins mr-2"></i>
                                         {!! Form::text('amount_commission',null, ['class' => 'form-control comision general', 'required' => true, 'min' => 0, 'readonly' => true, 'id' => 'comision']) !!}
@@ -242,8 +330,7 @@
 
                         @if($transactions->exchange_rate_base == NULL)
 
-
-
+                              
                           <div class="form-group col-md-12 d-flex justify-content-center">
 
                               <label class="form-check-label mx-auto" for="radio1">
@@ -264,6 +351,59 @@
                               </label>
 
                           </div>
+                              {{--
+                            <div class="form-row">
+
+                                <div class='form-group d-flex  col-md-4 col-12'>
+                                    <input 
+                                    type="radio" 
+                                    id ="radio1"
+                                    name="exonerate"
+                                    required
+                                    class='exonerar mr-2'
+                                    value="2"
+                                    >
+
+                                    <label class="form-check-label" for="radio1">
+                                        Exonerar comisión
+                                    </label>
+
+                                </div>
+
+                                <div class='form-group d-flex col-md-4 col-12'>
+                                <input 
+                                    type="radio" 
+                                    id ="radio3"
+                                    name="exonerate"
+                                    required
+                                    class='incluir mr-2'
+                                    value="1"
+                                >
+                                <label class="form-check-label" for="radio3">
+                                    
+                                    Incluir comisión
+                                </label>
+                                </div>
+
+                                
+                                <div class='form-group d-flex col-md-4 col-12'>
+                                <input 
+                                    type="radio" 
+                                    id ="radio2"
+                                    name="exonerate"
+                                    required
+                                    class='descontar mr-2'
+                                    value="3"
+                                >
+
+                                <label class="form-check-label" for="radio2">
+                                    Descontar comisión
+                                    
+                                </label>
+
+                                </div>
+                            </div>
+                            --}}
                         @else
 
                         @endif
@@ -276,17 +416,19 @@
 
                             @if($transactions->exchange_rate_base == NULL)
                               <div class="form-group col-md-6">
-                                  {!! Form::Label('', "Porcentaje Base:") !!}
+                                  
+                                  <label for="">Porcentaje Base:</label>
                                   <div class="input-group-text">
                                       <i class="fa-fw fas fa-percentage mr-2"></i>                                                                     
-                                      <!-- aqui -->
+                                      
                                     {!! Form::text('percentage_base',null, ['class' => 'form-control rateMasks', 'id' => 'percentage_base']) !!}
                                     
                                   </div>
                               </div>
                             @else
                                 <div class="form-group col-md-6">
-                                    {!! Form::Label('tasa_base', "Tasa base:") !!}
+                                    
+                                    <label for="">Tasa base:</label>
                                     <div class="input-group-text">
                                         <i class="fa-fw fas fa-percentage mr-2"></i>
                                         {!! Form::text('exchange_rate_base',null, ['class' => 'form-control  rateMasks', 'id' => 'tasa_base']) !!}
@@ -297,7 +439,8 @@
 
                             <div class="form-group col-md-6">
 
-                                {!! Form::Label('comision_base', "Monto Comisión Base:") !!}
+                                
+                                <label for="">Monto Comisión Base:</label>
                                 <div class="input-group-text">
                                     <i class="fa-fw fas fa-coins mr-2"></i>
                                 {!! Form::text('amount_commission_base',null, ['class' => 'form-control comision_base general', 'min' => 0, 'readonly' => true, 'id' => 'comision_base']) !!}
@@ -331,18 +474,17 @@
 
                         <hr class="bg-dark" style="height:1px;">
 
-
-                        {!! Form::Label('montototal', "Monto total:") !!}
+                        <label for="montototal">Monto total:</label>
                         {!! Form::text('amount_total',null, ['class' => 'form-control montototal general font-weight-bold h1', 'required' => true, 'min' => 0, 'id' => 'montototal', 'readonly' => true]) !!}
 
 
-                        {!! Form::Label('monto_base', "Monto total base:") !!}
+                        <label for="monto_base">Monto total base:</label>
                         {!! Form::text('amount_total_base',null, ['class' => 'form-control montototal general font-weight-bold', 'required' => true, 'min' => 0, 'id' => 'monto_base', 'readonly' => true]) !!}
                         <br>
                         <br>
                         <div class="form-group form-row">
                             <div class="input-group-text">
-                                {!! Form::Label('description', "Descripcion:") !!}
+                                <label for="description">Descripcion:</label>
                                 {!! Form::text('description',null, ['class' => 'form-control', 'required' => false, 'id' => 'description', 'readonly' => false]) !!}
                             </div>
                         </div>
@@ -356,7 +498,7 @@
                         {!! Form::hidden('amount_commission_profit', null,  ['class' => 'form-control', 'id' => 'amount_commission_profit']) !!}
 
 
-                        {!! Form::Submit('GUARDAR', ['class' => 'btn btn-primary btn-block font-weight-bold', 'style' => "max-height: 300px;" , 'id' => 'publish']) !!}
+                        {!! Form::Submit('Guardar', ['class' => 'btn btn-primary  font-weight-bold', 'style' => "max-height: 300px;" , 'id' => 'publish']) !!}
 
                     </div>
 
@@ -364,7 +506,8 @@
 
                       <div class="form-group">
                           <div class="custom-file col-md-12">
-                              {!! Form::label('file', 'Referencia:') !!}
+                              
+                              <label for="file">Referencia:</label>
                               <div class="file-loading">
                               @foreach($imagen as $image)
                                   @if($image->url == null)
@@ -385,7 +528,7 @@
                   </div>
               </div>
 
-              {!! Form::Submit('GUARDAR', ['class' => 'btn btn-primary btn-block font-weight-bold', 'style' => "max-height: 400px;" , 'id' => 'publish']) !!}
+              {!! Form::Submit('Guardar', ['class' => 'btn btn-primary  font-weight-bold', 'style' => "max-height: 400px;" , 'id' => 'publish']) !!}
 
           </div>
 
@@ -540,8 +683,28 @@
         insertMode:true,
     });
 
+                            
+    BuscaElemento('group', {{ $transactions->group_id }})
+    BuscaElemento('wallet', {{ $transactions->wallet_id }})
+    BuscaElemento('type_transaction', {{ $transactions->type_transaction_id }})
 
+    
     $(document).ready(function() {
+
+
+        $("#wallet, #type_transaction, #group").select2({
+            placeholder: "Selecciona Caja",
+            theme: 'bootstrap4',
+            search: false,
+            width: '100%',
+            allowClear: true,
+        })
+        .on('select2:open', () => {
+            document.querySelector('.select2-search__field').focus();
+        });
+
+
+
 
         // alert(" " + {{ $transactions->type_transaction_id}});
         if ({{ $transactions->type_coin_id}} == 1) {
@@ -1087,6 +1250,23 @@
 
         // alert('amount commission ->' + amount_commission_profit);
 
+    }
+
+
+    function BuscaElemento(myControl, myElement){
+        // console.log ("BuscaElemento -> " + myElement + " control -> " + myControl);
+
+        $('#' + myControl).each( function(index, element){
+             
+            $(this).children("option").each(function(){
+                if ($(this).val() === myElement.toString()){
+                    // alert('Busca Material - encontro');
+                    $("#" + myControl + " option[value="+ myElement +"]").attr("selected",true);
+                }
+                //alert("BuscaGrupoaqui ->  the val " + $(this).val() + " text -> " + $(this).text());
+            });
+        });
+        //
     }
 
 </script>
